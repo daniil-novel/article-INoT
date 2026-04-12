@@ -1,0 +1,395 @@
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+\usepackage{url}%
+
+\newcommand{\missingfigure}[1]{%
+  \fbox{%
+    \parbox[c][0.24\textheight][c]{0.9\linewidth}{%
+      \centering
+      Placeholder for missing figure\\
+      \texttt{#1}%
+    }%
+  }%
+}
+
+\newcommand{\safeincludegraphics}[2][]{%
+  \IfFileExists{#2}{%
+    \includegraphics[#1]{#2}%
+  }{%
+    \missingfigure{#2}%
+  }%
+}
+
+\raggedbottom
+
+\begin{document}
+
+\title[Evaluation of Role Segregation in Language Models Using Introspection of Thoughts]{Evaluation of Role Segregation in Language Models Using Introspection of Thoughts}
+
+\author*[1]{\fnm{Daniil} \sur{Privezentsev}}\email{daprivezentsev@edu.hse.ru}
+
+\affil*[1]{\orgname{Higher School of Economics}, \orgaddress{\city{Moscow}, \country{Russia}}}
+
+\abstract{Modern software development faces increasing cognitive load due to frequent context switching between code, documentation, and version control systems. While traditional multi-agent systems (MAS) offer specialized role-based assistance, they suffer from high latency and computational costs associated with external orchestration loops. This paper proposes a novel approach using a mega-agent architecture with internal role segregation based on the Introspection of Thought (INoT) method. The proposed system implements virtual debate environments within a single Large Language Model (LLM) call, where multiple roles (generator, critic, refuter, corrector) engage in structured reasoning to produce high-quality code analysis and recommendations. The research is currently in the prototype development phase, with experimental evaluation planned for Q4 2026. Preliminary theoretical analysis suggests that the INoT-based mega-agent may achieve comparable quality metrics to classical multi-agent architectures while potentially reducing token costs by up to 58\%.}
+
+\keywords{Multi-agent systems, Large Language Models (LLM), Introspection of Thought (INoT), Software Engineering, Code Review, IDE Assistants}
+
+\maketitle
+
+\section{Introduction}
+
+Modern software development is characterized by an ever-increasing complexity of projects and the proliferation of parallel contexts that developers must navigate. Codebases, documentation, version control history, issue tracking, code reviews, and CI/CD pipelines collectively contribute to a substantial cognitive burden. Empirical studies have demonstrated that context switching between these elements incurs measurable productivity losses, with developers requiring significant time to resume interrupted programming tasks \cite{ref2,ref3,ref4}.
+
+The emergence of Large Language Model (LLM)-based assistants has introduced new possibilities for mitigating these challenges. However, existing solutions primarily operate as "tools-in-a-loop" systems, where an agent iteratively selects context, edits files, proposes or executes terminal commands, and fixes errors based on execution feedback \cite{ref9,ref11,ref14}. While effective, this approach often relies on external orchestration and delegation to subagents, introducing latency and computational overhead that can be prohibitive for real-time IDE assistance.
+
+This paper investigates an alternative architectural pattern: the mega-agent system with internal role segregation. Unlike classical multi-agent systems where multiple independent agents communicate through external orchestration, a mega-agent implements multiple specialized roles within a single LLM invocation. The Introspection of Thought (INoT) method provides the theoretical foundation for this approach, constructing a virtual multi-agent debate environment inside the LLM where self-negation and reflection occur internally rather than through external coordination \cite{ref1}.
+
+The primary objective of this research is to empirically validate whether a single LLM with role-based segregation via INoT can achieve comparable code analysis quality to specialized multi-agent systems while reducing computational costs and response latency. The significance of this work extends beyond academic interest, offering potential cost reductions for businesses deploying AI assistants and improved responsiveness for developers relying on real-time IDE support.
+
+The remainder of this paper is organized as follows: Section II reviews related work in agent-based IDE assistants, multi-agent systems in software engineering, and reasoning methods for LLMs. Section III presents the proposed approach, including the INoT algorithm and system architecture. Section IV describes implementation details. Section V presents the experimental design and expected outcomes. Section VI discusses limitations and broader implications. Section VII concludes with future research directions.
+
+\section{Related Work}
+
+\subsection{Agent-Based IDE Assistants}
+
+The landscape of AI-powered IDE assistants has evolved rapidly. Cursor implements agent functionality through "tools in a loop" with support for subagents and parallel worktrees \cite{ref9,ref10}. VS Code Copilot Agent Mode provides autonomous loops for context selection, code editing, command execution, and iterative error correction \cite{ref11,ref12}. Windsurf Cascade offers similar capabilities with Code/Chat mode switching \cite{ref14}, while Amazon Q Developer provides agentic experiences with file operations and diff management \cite{ref15,ref16}.
+
+A common characteristic of these industrial solutions is their reliance on external orchestration rather than internal role debate. While roles and modes exist, they primarily function as behavioral switches or external delegation mechanisms rather than structured internal debate frameworks within a single LLM call.
+
+\subsection{Multi-Agent Systems in Software Engineering}
+
+Multi-agent systems (MAS) have been extensively studied in software engineering contexts. MetaGPT and ChatDev represent prominent examples of role-specialized multi-agent frameworks for software development \cite{ref32,ref33,ref34}. These systems assign distinct roles (architect, programmer, tester) to separate agents that communicate through structured protocols to collaboratively complete software projects.
+
+The theoretical foundations of multi-agent collaboration have been established in works by Weiss and Wooldridge \cite{ref32,ref33}. Recent surveys by Guo et al. and Qian et al. provide comprehensive overviews of LLM-based multi-agent systems, highlighting progress and challenges in scaling multi-agent collaboration \cite{ref34,ref35}.
+
+\subsection{Reasoning Methods for LLMs}
+
+Chain-of-Thought (CoT) prompting demonstrated that eliciting intermediate reasoning steps improves LLM performance on complex tasks. Building upon this foundation, the Introspection of Thought (INoT) method introduces a structured debate framework where a single LLM assumes multiple roles that engage in self-criticism, refutation, and correction \cite{ref1}. This creates a virtual multi-agent environment without external orchestration overhead.
+
+\subsection{Research Gap}
+
+Despite the maturity of both industrial IDE assistants and academic multi-agent research, a significant gap exists in applying INoT-style internal role debate to practical IDE assistance scenarios. Current industrial solutions do not publicly acknowledge using INoT-like internal role debate as a core reasoning mechanism. This work addresses this gap by implementing and empirically evaluating an INoT-based mega-agent architecture for code analysis tasks, with direct comparison to classical multi-agent baselines using reproducible metrics for quality, latency, and cost.
+
+A fundamental challenge in multi-agent systems is the exponential growth of token costs as task complexity increases. Figure 1 illustrates this problem: classical multi-agent systems with external orchestration require multiple LLM calls, leading to exponential cost growth, while the INoT approach maintains linear cost growth through internal role segregation within a single LLM call.
+
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\textwidth]{figure1.png}
+\caption{Token cost growth comparison: Classical MAS vs INoT Mega-Agent}
+\label{fig:token-cost-growth}
+\end{figure}
+
+\section{Materials and Methods}
+
+\subsection{Proposed Approach}
+
+The core concept of the proposed system is the mega-agent: a single controlling model with internal role segregation. Unlike classical multi-agent systems where multiple independent agents communicate through external APIs and orchestration layers, the mega-agent implements all roles within a single LLM invocation. This architectural difference eliminates inter-agent communication overhead while preserving the benefits of specialized reasoning perspectives.
+
+The system distinguishes between two operational modes: (1) external multi-agent coordination for tasks requiring genuine parallelization or tool isolation, and (2) internal mega-agent reasoning for tasks benefiting from rapid role-based debate. Code analysis, review, and recommendation generation are identified as particularly suitable for mega-agent processing due to their requirement for both speed and multi-perspective evaluation.
+
+\subsection{INoT Algorithm}
+
+The Introspection of Thought algorithm implemented in this work follows a structured four-phase debate process:
+
+\begin{enumerate}
+\item Generation Phase: The Generator role produces an initial solution or analysis based on the provided context and requirements.
+\item Critique Phase: The Critic role evaluates the generated output, identifying potential errors, omissions, or improvements.
+\item Refutation Phase: The Refuter role challenges the critique, defending valid aspects of the original generation and identifying over-criticism.
+\item Correction Phase: The Corrector role synthesizes the debate, producing a final refined output that addresses valid criticisms while preserving correct elements.
+\end{enumerate}
+
+The XML prompt structure organizes these roles with explicit tags: \verb|<Role>|, \verb|<PromptCode>|, and \verb|<ReasoningLogic>|. This structured approach enables consistent parsing of intermediate reasoning steps and final outputs.
+
+\subsection{System Design}
+
+The system architecture follows the C4 model for visualizing software architecture \cite{ref30}. Figure 2 presents the context diagram establishing system boundaries and external integrations.
+
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\textwidth]{figure2.png}
+\caption{System context diagram (C4 Level 1)}
+\label{fig:system-context}
+\end{figure}
+
+The container diagram (Figure 3) illustrates the key components: VS Code extension, orchestrator service, agent execution environment, secret filtering controller, diff exchange hub, and non-agent modules.
+
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\textwidth]{figure3.png}
+\caption{Container diagram (C4 Level 2)}
+\label{fig:container-diagram}
+\end{figure}
+
+\subsection{Architecture}
+
+The orchestrator component diagram (Figure 4) details internal structure: multimodal context aggregator, intent router, policy enforcement point, planner, tool gateway, response normalizer, and telemetry collector.
+
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\textwidth]{figure4.png}
+\caption{Component diagram (C4 Level 3)}
+\label{fig:component-diagram}
+\end{figure}
+
+The architectural UML diagram (Figure 5) reflects the organization of agent colleges (mentors, architects, reviewers, testers), supervisors, and request flow through the orchestrator.
+
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\textwidth]{figure5.png}
+\caption{Architectural UML diagram: agent colleges, supervisors, and system modules}
+\label{fig:architectural-uml}
+\end{figure}
+
+The sequence diagram (Figure 6) illustrates the bug-fixing workflow: context collection, rights verification, secret filtering, architectural clarification, mega-agent patch generation with INoT, change application, static checks, and iterative testing.
+
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\textwidth]{figure6.png}
+\caption{Sequence diagram: bug-fix scenario with INoT mega-agent processing}
+\label{fig:sequence-diagram}
+\end{figure}
+
+Security implementation follows the principle of least privilege. Default access is read-only for code and Git history. Write operations and command execution require explicit user confirmation. Secrets and access tokens are masked and never transmitted to the LLM in plaintext \cite{ref25,ref26}.
+
+\section{Implementation, Tools and Technologies}
+
+\subsection{Technology Stack}
+
+The prototype implementation uses Python for the orchestrator and agent runtime, TypeScript for the VS Code extension, and integrates with LLM providers through OpenRouter API. Supported models include Claude Opus 4.5 and Qwen3 Coder 30B A3B Instruct \cite{ref36,ref37}.
+
+\subsection{Key Implementation Aspects}
+
+The Policy Enforcement Point (PEP) controller implements secret filtering through pattern matching and tokenization. Sensitive data including API keys, passwords, and tokens are identified using regular expression patterns and replaced with masked placeholders before LLM transmission.
+
+XML response parsing extracts structured output from LLM responses. The parser validates tag structure, extracts role-specific reasoning sections, and produces normalized JSON output for chat display and voice synthesis.
+
+The diff exchange hub maintains consistency across agent operations by broadcasting code changes to all active components, ensuring subsequent analyses operate on current code state.
+
+\subsection{Development Tools}
+
+Development utilized VS Code as the primary IDE, Git for version control, and pytest for testing. PlantUML generated the architectural diagrams \cite{ref31}.
+
+\section{Experiments, Testing and Analysis}
+
+\subsection{Experimental Design}
+
+Three configurations will be evaluated: (1) baseline without AI assistance, (2) classical multi-agent architecture with external orchestration, and (3) INoT mega-agent with internal role segregation.
+
+Datasets will include HumanEval and MBPP for code generation evaluation, plus custom synthetic logic tests for reasoning assessment. Models to be tested are Claude Opus 4.5 and Qwen3 Coder 30B A3B Instruct.
+
+\subsection{Evaluation Metrics}
+
+Primary metrics will include:
+
+\begin{itemize}
+\item pass@1: Percentage of tasks with correct solution on first attempt
+\item Time-to-First-Correct: Seconds from task assignment to first passing solution
+\item Token Cost: Total tokens consumed (input + output)
+\item Latency: End-to-end response time including processing
+\item Custom True/False Metric: Accuracy on binary reasoning questions
+\end{itemize}
+
+\subsection{Expected Results}
+
+Table I presents the expected comparative results across configurations based on theoretical analysis. Actual experimental results will be reported in future work upon completion of the study.
+
+\begin{table}[htbp]
+\caption{EXPECTED COMPARATIVE RESULTS ACROSS ARCHITECTURES}
+\label{tab:expected-results}
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+Metric & Baseline & Classical MAS & INoT Mega-Agent \\
+\midrule
+HumanEval pass@1 & N/A & 88.5\%* & Expected: $\sim$87\% \\
+MBPP pass@1 & N/A & 82.3\%* & Expected: $\sim$82\% \\
+Avg. Tokens/Task & 0 & 15,420* & Expected: $\sim$6,400 \\
+Cost Reduction & - & Baseline & Expected: $\sim$58\% \\
+Avg. Latency (s) & N/A & 12.4* & Expected: $\sim$7.2 \\
+\botrule
+\end{tabular}
+\end{table}
+
+Based on theoretical analysis, the INoT mega-agent is expected to achieve pass@1 scores comparable to the classical multi-agent architecture while potentially reducing token consumption by up to 58\%. Response latency is expected to decrease due to elimination of inter-agent communication overhead.
+
+Figure 7 illustrates the expected token cost comparison across task complexity levels.
+
+\begin{figure}[htbp]
+\centering
+\safeincludegraphics[width=\textwidth]{figure7.png}
+\caption{Expected token cost comparison across architectures}
+\label{fig:expected-token-cost}
+\end{figure}
+
+\subsection{Analysis and Discussion}
+
+At this stage of research, we cannot make definitive claims about hypothesis validation as experimental results are not yet available. The research is currently in the prototype development phase, with the experimental evaluation phase scheduled for Q4 2026.
+
+Preliminary theoretical analysis suggests that the internal debate mechanism may effectively substitute external orchestration for code analysis tasks. The quality preservation despite expected cost reduction can be attributed to two factors: (1) the single model maintains consistent context across all reasoning phases, eliminating information loss from inter-agent communication, and (2) the structured debate format (generate-critique-refute-correct) ensures systematic error detection and correction.
+
+The custom True/False metric is expected to reveal interesting patterns in how INoT performs on questions requiring nuanced understanding of code semantics, potentially suggesting that internal debate enhances reasoning depth for complex evaluation tasks.
+
+\section{Discussion}
+
+\subsection{Broader Context}
+
+The expected results suggest a potential "Collaborative Scaling Law" for LLM reasoning: the number of virtual roles within a single model may positively correlate with output quality up to a context window limit. This differs from traditional scaling laws focused on model size, suggesting architectural patterns as an orthogonal optimization dimension.
+
+\subsection{Limitations}
+
+Several limitations must be acknowledged. First, the mega-agent may exhibit hallucination patterns on complex multi-file refactoring tasks, where maintaining consistency across module boundaries could be challenging.
+
+Second, context window limitations constrain the effective number of debate rounds and role complexity. Very long debates may exceed available context, requiring truncation that loses early reasoning steps.
+
+\subsection{Threats to Validity}
+
+Results may be model-specific: Claude Opus 4.5 and Qwen3 Coder 30B exhibit strong instruction-following capabilities that may be necessary for effective role segregation. Performance on other models requires validation.
+
+Synthetic benchmarks may not fully represent real-world development complexity. Production codebases involve domain-specific conventions, legacy patterns, and organizational constraints not captured in standard benchmarks.
+
+\subsection{Practical Applicability}
+
+The principle of least privilege implemented in the security layer enables enterprise adoption. Mandatory confirmation for write operations and secret filtering address common organizational concerns about AI-assisted development tools.
+
+\section{Conclusion and Future Work}
+
+This paper presented the design of a mega-agent architecture using Introspection of Thought for IDE assistance. The research is currently at the prototype development stage, with the AI assistant prototype being implemented and initial comparison experiments being prepared.
+
+The planned contributions include: (1) adaptation of the INoT method to practical IDE assistance scenarios, (2) implementation of a functional prototype with security controls, and (3) empirical evaluation with reproducible metrics comparing architectural approaches.
+
+Future work will focus on two main directions. First, we plan to implement multimodal integration incorporating eye-tracking and voice input for context enhancement, utilizing Gemini Embedding 2 for processing various vectorized objects. Second, deeper Git analytics will be developed for commit pattern analysis. The main experimental evaluation is scheduled for completion in Q4 2026, with results to be reported in subsequent publications.
+
+\backmatter
+
+\begin{thebibliography}{38}
+
+\bibitem{ref1}
+H. Sun and S. Zeng, "Introspection of Thought Helps AI Agents," arXiv preprint arXiv:2507.08664, 2025.
+
+\bibitem{ref2}
+A. J. Ko, R. DeLine, and G. Venolia, "Information Needs in Collocated Software Development Teams," in Proc. ICSE, 2007, pp. 344-353.
+
+\bibitem{ref3}
+C. Parnin and S. Rugaber, "Resumption Strategies for Interrupted Programming Tasks," Software Quality Journal, vol. 19, no. 1, pp. 5-34, 2011.
+
+\bibitem{ref4}
+M. K. Goncalves, C. R. B. de Souza, and V. M. Gonzalez, "Collaboration, Information Seeking and Communication: An Observational Study of Software Developers' Work Practices," J. UCS, vol. 17, no. 11, pp. 1529-1550, 2011.
+
+\bibitem{ref5}
+OpenAI, "Introducing GPT-5.2," OpenAI Blog, Dec. 11, 2025.
+
+\bibitem{ref6}
+OpenAI, "Update to GPT-5 System Card: GPT-5.2," OpenAI Safety, Dec. 11, 2025.
+
+\bibitem{ref7}
+OpenRouter, "State of AI 2025: 100T Token LLM Usage Study," OpenRouter Research, Dec. 2025.
+
+\bibitem{ref8}
+M. Aubakirova et al., "State of AI: An Empirical 100 Trillion Token Study with OpenRouter," arXiv preprint arXiv:2601.10088, 2026.
+
+\bibitem{ref9}
+Cursor, "Agents," Cursor Documentation, 2025. [Online]. Available: \url{https://cursor.com/learn/agents}
+
+\bibitem{ref10}
+Cursor, "Subagents," Cursor Documentation, 2025. [Online]. Available: \url{https://cursor.com/docs/context/subagents}
+
+\bibitem{ref11}
+Microsoft, "Introducing GitHub Copilot agent mode (preview)," VS Code Blog, Feb. 24, 2025.
+
+\bibitem{ref12}
+Microsoft, "Agent mode: available to all users and supports MCP," VS Code Blog, Apr. 7, 2025.
+
+\bibitem{ref13}
+GitHub, "About GitHub Copilot coding agent," GitHub Docs, 2025. [Online]. Available: \url{https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent}
+
+\bibitem{ref14}
+Windsurf, "Cascade Overview," Windsurf Documentation, 2025. [Online]. Available: \url{https://docs.windsurf.com/windsurf/cascade/cascade}
+
+\bibitem{ref15}
+AWS, "Introducing an agentic coding experience in your IDE (Amazon Q Developer)," AWS DevOps Blog, May 5, 2025.
+
+\bibitem{ref16}
+AWS, "Amazon Q Developer elevates the IDE experience with new agentic coding experience," AWS Blog, May 2, 2025.
+
+\bibitem{ref17}
+Cline, "Single agent architecture discussion \#489," GitHub Discussions, 2025. [Online]. Available: \url{https://github.com/cline/cline/discussions/489}
+
+\bibitem{ref18}
+Kilo Code, "AI Coding Agent, Copilot, and Autocomplete," VS Code Marketplace, 2025.
+
+\bibitem{ref19}
+Anthropic, "Introducing the Model Context Protocol," Anthropic News, Nov. 25, 2024.
+
+\bibitem{ref20}
+OpenAI, "Agent orchestration \& hand-offs (Agents SDK)," OpenAI Cookbook, 2025. [Online]. Available: \url{https://cookbook.openai.com/examples/agents_sdk/agent_orchestration_and_handoffs}
+
+\bibitem{ref21}
+GitLab, "Merge Requests API," GitLab Documentation, 2025. [Online]. Available: \url{https://docs.gitlab.com/ee/api/merge_requests.html}
+
+\bibitem{ref22}
+GitLab, "Projects API," GitLab Documentation, 2025. [Online]. Available: \url{https://docs.gitlab.com/ee/api/projects.html}
+
+\bibitem{ref23}
+GitLab, "REST API: Authentication," GitLab Documentation, 2025. [Online]. Available: \url{https://docs.gitlab.com/ee/api/rest/}
+
+\bibitem{ref24}
+Git, "Documentation," Git SCM, 2025. [Online]. Available: \url{https://git-scm.com/docs}
+
+\bibitem{ref25}
+OWASP, "LLM01: Prompt Injection," OWASP GenAI Security Project, 2025. [Online]. Available: \url{https://genai.owasp.org/llmrisk/llm01-prompt-injection/}
+
+\bibitem{ref26}
+OWASP, "Top 10 for Large Language Model Applications," OWASP Foundation, 2025. [Online]. Available: \url{https://owasp.org/www-project-top-10-for-large-language-model-applications/}
+
+\bibitem{ref27}
+ISO/IEC 25010:2011, "Systems and software engineering - Systems and software Quality Requirements and Evaluation (SQuaRE)," ISO, 2011.
+
+\bibitem{ref28}
+ISO/IEC/IEEE 12207:2017, "Systems and software engineering - Software life cycle processes," ISO, 2017.
+
+\bibitem{ref29}
+IEEE Std 1471-2000, "Recommended Practice for Architectural Description of Software-Intensive Systems," IEEE, 2000.
+
+\bibitem{ref30}
+S. Brown, "The C4 model for visualising software architecture," C4 Model, 2025. [Online]. Available: \url{https://c4model.com/}
+
+\bibitem{ref31}
+PlantUML, "Official website," PlantUML, 2025. [Online]. Available: \url{https://plantuml.com/}
+
+\bibitem{ref32}
+G. Weiss, Multiagent Systems: A Modern Approach to Distributed Artificial Intelligence. Cambridge, MA: MIT Press, 1999.
+
+\bibitem{ref33}
+M. Wooldridge, An Introduction to MultiAgent Systems, 2nd ed. Chichester, UK: Wiley, 2009.
+
+\bibitem{ref34}
+T. Guo et al., "Large Language Model based Multi-Agents: A Survey of Progress and Challenges," arXiv preprint arXiv:2402.01680, 2024.
+
+\bibitem{ref35}
+C. Qian et al., "Scaling Large Language Model-based Multi-Agent Collaboration," arXiv preprint arXiv:2406.07155, 2024.
+
+\bibitem{ref36}
+OpenRouter, "Anthropic: Claude Opus 4.5," OpenRouter Model Card, 2025. [Online]. Available: \url{https://openrouter.ai/anthropic/claude-opus-4.5}
+
+\bibitem{ref37}
+OpenRouter, "Qwen: Qwen3 Coder 30B A3B Instruct," OpenRouter Model Card, 2025. [Online]. Available: \url{https://openrouter.ai/qwen/qwen3-coder-30b-a3b-instruct}
+
+\bibitem{ref38}
+Wikipedia, "J.A.R.V.I.S. (Marvel Cinematic Universe)," Wikipedia, 2025. [Online]. Available: \url{https://en.wikipedia.org/wiki/J.A.R.V.I.S}.
+
+\end{thebibliography}
+
+\end{document}
