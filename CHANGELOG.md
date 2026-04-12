@@ -15,6 +15,8 @@
 - Добавлена английская рабочая версия статьи `converted_article_springer.tex`.
 - Добавлена русская рабочая версия статьи `converted_article_springer_ru.tex`.
 - Добавлены настройки `.vscode/settings.json` для сборки через MiKTeX и LaTeX Workshop.
+- Добавлен единый скрипт `build.ps1` для сборки и очистки.
+- Добавлен alias `ab` в профиль PowerShell для быстрого запуска сборки.
 - Добавлен `.gitignore` для артефактов сборки LaTeX.
 - Добавлен `README.md` с описанием структуры и процесса работы.
 - Добавлен `CHANGELOG.md` для ведения истории проекта.
