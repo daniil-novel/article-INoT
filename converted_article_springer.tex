@@ -50,7 +50,7 @@ The present paper should also be read in the correct project stage. It is the me
 
 The central research question is therefore the following: can an agent architecture with internal role introspection increase utility per token and utility per dollar without degrading quality or engineering reliability relative to both a single-shot single-agent setup and a classically orchestrated multi-agent workflow?
 
-The contribution is fourfold. First, the paper audits the source base and removes unsupported architectural claims. Second, it formalizes a hybrid architecture with \textit{planner}, \textit{worker}, \textit{critic}, \textit{self-check}, \textit{memory/compression}, and \textit{policy controller} roles. Third, it introduces an analytical cost model together with efficiency, reliability, and maintainability metrics. Fourth, it specifies a reproducible future evaluation protocol and a transparent TCO framework that can be instantiated once the prototype is complete.
+The contribution of the paper can be summarized in four connected results: it audits the source base and removes unsupported architectural claims; it formalizes a hybrid architecture with \textit{planner}, \textit{worker}, \textit{critic}, \textit{self-check}, \textit{memory/compression}, and \textit{policy controller} roles; it introduces an analytical cost model together with efficiency, reliability, and maintainability metrics; and it specifies a reproducible future evaluation protocol and a transparent TCO framework that can be instantiated once the prototype is complete.
 
 \section{Related Work and Positioning}
 
@@ -66,36 +66,35 @@ The classical theoretical basis for multi-agent systems comes from Weiss and Woo
 
 For long contexts, more tokens mean not only higher cost but also more noise. LongLLMLingua and LLMLingua-2 show that prompt compression can reduce latency while maintaining or even improving performance in long-context settings \cite{jiang2023longllmlingua,pan2024llmlingua2}. In software engineering, Jia et al. directly connect context compression to issue resolution and demonstrate large token savings on SWE-bench-style tasks \cite{jia2026compression}. Code self-check should also not be reduced to textual reflection. Compiler feedback, tests, and static analysis remain necessary external signals \cite{bi2024cocogen,su2025static,sepidband2025complexity}.
 
-\subsection{Publicly documented architectural patterns in contemporary systems}
+\subsection{Architectural approaches in contemporary agent-oriented systems}
 
-For positioning, it is not enough to list prominent models. The important distinction is between what primary sources explicitly document and what remains conjecture about hidden internals. Table~\ref{tab:public-patterns} summarizes publicly documented patterns as of April 13, 2026. It does not prove that the listed systems lack additional internal mechanisms; it only marks the boundary of what can be used in an academic argument as confirmed disclosure.
+Table~\ref{tab:public-patterns} summarizes characteristic architectural and inference-oriented approaches in contemporary agent-oriented systems that are often treated as reference points when designing AI assistants. The comparison covers examples of MoE architectures, reasoning-oriented modes, interleaved thinking, browser or terminal interaction, tool use, and unified agent workflows.
 
 \begin{table}[htbp]
-\caption{Publicly documented approaches and disclosure limits in contemporary agent-oriented systems}
+\caption{Contemporary agent-oriented systems and brief profile information}
 \label{tab:public-patterns}
 \centering
 \footnotesize
-\begin{tabularx}{\textwidth}{@{}p{2.7cm}X X@{}}
+\begin{tabularx}{\textwidth}{@{}p{3.1cm}X@{}}
 \toprule
-System & What primary sources document & What should not be asserted as established fact \\
+System & Brief profile \\
 \midrule
-DeepSeek-V3 & The technical report documents an MoE backbone, Multi-head Latent Attention, and an efficiency-oriented design for training and inference \cite{deepseek2024v3}. & Public sources do not document an INoT-style internal role debate or hidden multi-agent orchestration as the core inference mechanism. \\
-DeepSeek-R1 & The technical report documents reasoning-oriented post-training and an RL-based scheme for improving reasoning capability \cite{deepseek2025r1}. & It cannot be claimed from public evidence that deployed DeepSeek agents use a specific internal role-allocation architecture. \\
-Gemini 3.1 Pro & Google's official announcement of February 19, 2026 and current Gemini API documentation describe Gemini 3.1 Pro as a reasoning-oriented model for complex tasks with agentic and coding capabilities in preview \cite{google2026gemini31pro,google2026geminimodels}. & Open materials do not disclose an internal role architecture or an explicit INoT-equivalent debate mechanism inside one inference call. \\
-Claude Sonnet 4.5 & Anthropic's public materials document agentic/computer-use capabilities, while the extended-thinking documentation describes interleaved thinking with tool use \cite{anthropic2026sonnet45,anthropic2026extendedthinking}. & These disclosures do not justify claiming an internal planner/worker/critic role debate in the specific sense formalized by INoT. \\
-GLM-4.5 & Official documentation and the technical report describe GLM-4.5 as a native agentic foundation model with an MoE architecture, 128K context, and strengthened reasoning/coding/agentic performance \cite{zai2025glm45,zai2025glm45docs}. & It is not publicly established that GLM-4.5 uses internal multi-agent debate as its main computational scheme. \\
-MiniMax-M2.7 & MiniMax documentation publicly highlights M2.7 for AI coding tools and separately documents tool use and interleaved thinking as platform capabilities \cite{minimax2026textdocs}. & The documentation does not establish an INoT-like internal multi-role debate inside a single model call. \\
-Xiaomi MiMo-V2-Pro & Xiaomi's official MiMo page presents MiMo-V2-Pro as a foundation model for the agentic era and discloses product-level parameters such as 1T total / 42B active parameters and 1M context \cite{xiaomi2026mimo}. & These product disclosures are insufficient grounds for asserting a specific hidden planning, debate, or introspection architecture. \\
-OpenAI / ChatGPT agent & OpenAI publicly documents a unified agentic system with browser use, terminal, connectors, and a system card for ChatGPT agent \cite{openai2025chatgptagent,openai2025chatgptagentcard}. OpenAI also publishes SDK-level handoff patterns and general agent workflows \cite{openai2026sdk,openai2026guide}. & The internal role decomposition of ChatGPT agent beyond public product description is not disclosed and should not be treated as fact. \\
+DeepSeek & A model family in which DeepSeek-V3 and DeepSeek-R1 emphasize an MoE backbone, Multi-head Latent Attention, efficiency-oriented training and inference, and reasoning-oriented post-training with RL-based reinforcement of reasoning capability \cite{deepseek2024v3,deepseek2025r1}. \\
+Gemini 3.1 Pro & A reasoning-oriented model for complex tasks with agentic and coding capabilities in preview; the Gemini ecosystem emphasizes multi-step problem solving and API-facing integration patterns \cite{google2026gemini31pro,google2026geminimodels}. \\
+Claude Sonnet 4.5 & A system with agentic/computer-use capabilities in which Anthropic's public materials also emphasize extended thinking and interleaved thinking together with tool use \cite{anthropic2026sonnet45,anthropic2026extendedthinking}. \\
+GLM-4.5 & A native agentic foundation model with an MoE architecture, 128K context, and a stated emphasis on reasoning, coding, and agentic performance \cite{zai2025glm45,zai2025glm45docs}. \\
+MiniMax-M2.7 & A line positioned for AI coding tools, with public materials that also highlight tool use and interleaved thinking as platform capabilities \cite{minimax2026textdocs}. \\
+Xiaomi MiMo-V2-Pro & A foundation model positioned for agentic workloads, with public materials emphasizing large context support and product-level model parameters \cite{xiaomi2026mimo}. \\
+OpenAI / ChatGPT agent & A unified agentic workflow with browser use, terminal, connectors, handoff patterns, and general guidance for building agent workflows \cite{openai2025chatgptagent,openai2025chatgptagentcard,openai2026sdk,openai2026guide}. \\
 \botrule
 \end{tabularx}
 \end{table}
 
-\subsection{Research gap and novelty}
+\subsection{Research gap and scientific contribution}
 
-Table~\ref{tab:public-patterns} makes the central positioning point clearer. Contemporary public disclosures already describe long-context reasoning, tool use, browser or terminal interaction, MoE design, and in some cases interleaved thinking. The research gap is therefore not that industry systems lack agents, reasoning, or internal computation altogether. The narrower and more meaningful gap is that the open literature still offers very little controlled evidence on when \textit{internal role segregation within one context} is preferable to external role specialization, and almost no work evaluates that question jointly through token replay, inference cost, code reliability, and maintainability.
+Table~\ref{tab:public-patterns} shows that current systems already combine long-context reasoning, tool use, browser or terminal interaction, MoE design, and in some cases interleaved thinking. The open problem should therefore not be defined as the mere absence of agents or reasoning in industrial systems. The more precise gap lies in the lack of controlled studies that formalize \textit{internal role segregation within one context} as a distinct architectural regime, compare it with external multi-agent orchestration on common tasks, and evaluate both settings jointly through token replay, inference cost, code reliability, and maintainability.
 
-The novelty of the present paper should thus be stated carefully. It is not the generic use of intermediate reasoning, nor a blanket claim that INoT must dominate all alternatives. The novelty lies in treating INoT as an engineering control mechanism for the inference trajectory: it determines when multiple candidates are worth generating, when internal critique is sufficient, when an external verifier is necessary, and when reruns should be limited to confirmed failures. In that sense, the contribution is comparative and methodological. The paper defines a testable hybrid architecture and a metric system that can later determine when internal role cycling is genuinely cheaper without being worse, and when classical external multi-agent orchestration remains the better choice.
+The scientific contribution of the present paper lies in formalizing INoT as a controllable mechanism for organizing the inference trajectory in an agentic setting. Rather than treating intermediate reasoning as a generic quality-improvement heuristic, the paper uses it to specify when internal role cycling should replace external orchestration, how many candidates should be generated, when external verification is required, and under what conditions reruns should be restricted to confirmed failures. The contribution is therefore comparative and methodological: it introduces a testable hybrid architecture and a metric framework designed to determine the conditions under which internal role segregation is economically advantageous without sacrificing quality, code reliability, or maintainability.
 
 \section{Problem Statement, Hypotheses, and Formal Setup}
 
@@ -470,7 +469,7 @@ Under these declared assumptions, the worked example yields a 23.4\% reduction i
 
 The proposed architecture is most likely to be economically advantageous when tasks share a long common context that would otherwise be replayed across multiple external roles, when a substantial fraction of failures can be caught cheaply before a full rerun of the large model, when true role parallelism is not the main speed advantage, and when helper models or external verifiers are reliable enough to reduce $\rho$ in Eq.~\eqref{eq:small-model-condition}. It may be disadvantageous under the opposite conditions: very short \textit{single-step} tasks, large gains from genuine parallelism, weak role-following behavior, or strict security settings that require each tool and privilege boundary to be isolated in a separate process.
 
-\section{Discussion}
+\section{Applicability, implementation constraints, and limitations}
 
 \subsection{Why introspection of thought matters specifically for AI agents}
 
@@ -486,7 +485,7 @@ The approach has several important limitations. Internal role text does not guar
 
 \section{Conclusion}
 
-The present version of the paper is not a final report on an already completed system. Instead, it establishes a methodologically strict research frame for evaluating such a system once it is implemented. The paper cleans the factual and bibliographic basis, sharpens the actual research gap, formalizes Hybrid-INoT as a hybrid agent architecture, and introduces a metric system that evaluates not only answer quality but also token economics, inference cost, code reliability, and maintainability.
+The present version of the paper is not a final report on an already completed system. Instead, it establishes a methodologically strict research frame for evaluating such a system once it is implemented. The paper cleans the factual and bibliographic basis, sharpens the gap in the literature, formalizes Hybrid-INoT as a hybrid agent architecture, and introduces a metric system that evaluates not only answer quality but also token economics, inference cost, code reliability, and maintainability.
 
 The practical value of this frame is that, after the assistant prototype is finished, single-agent baselines, classical external multi-agent orchestration, and internal role introspection can be compared on the same tasks and under predeclared interpretation criteria. That comparative and testable framing, rather than any premature claim of superiority, is the main scientific result at the current stage of the project.
 

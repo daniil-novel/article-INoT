@@ -28,20 +28,20 @@
 \node[decision, below=of update] (budget) {Iterations\\ left?};
 \node[terminator, right=20mm of budget] (fallback) {FallbackBestCandidate};
 
-\draw[line] (input) -- (sanitize);
-\draw[line] (sanitize) -- (compress);
-\draw[line] (compress) -- (route);
-\draw[line] (route) -- (external);
+\draw[line] (input.south) -- (sanitize.north);
+\draw[line] (sanitize.south) -- (compress.north);
+\draw[line] (compress.south) -- (route.north);
+\draw[line] (route.south) -- (external.north);
 \draw[line] (external.east) -- node[above, font=\scriptsize] {yes} (extreturn.west);
-\draw[line] (external) -- node[right, font=\scriptsize] {no} (planner);
-\draw[line] (planner) -- (generate);
-\draw[line] (generate) -- (critic);
-\draw[line] (critic) -- (select);
-\draw[line] (select) -- (check);
-\draw[line] (check) -- (pass);
+\draw[line] (external.south) -- node[right, font=\scriptsize] {no} (planner.north);
+\draw[line] (planner.south) -- (generate.north);
+\draw[line] (generate.south) -- (critic.north);
+\draw[line] (critic.south) -- (select.north);
+\draw[line] (select.south) -- (check.north);
+\draw[line] (check.south) -- (pass.north);
 \draw[line] (pass.east) -- node[above, font=\scriptsize] {yes} (success.west);
-\draw[line] (pass) -- node[right, font=\scriptsize] {no} (update);
-\draw[line] (update) -- (budget);
+\draw[line] (pass.south) -- node[right, font=\scriptsize] {no} (update.north);
+\draw[line] (update.south) -- (budget.north);
 \draw[line] (budget.east) -- node[above, font=\scriptsize] {no} (fallback.west);
 \draw[line] (budget.west) -| ++(-21mm,0) |- node[pos=0.25, left, font=\scriptsize] {yes} (planner.west);
 \end{tikzpicture}

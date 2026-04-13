@@ -18,12 +18,12 @@
 \node[action, below=of pass] (report) {Сформировать отчет\\об ошибках};
 \node[terminator, right=22mm of report] (rerun) {Вернуть feedback\\для selective rerun};
 
-\draw[line] (input) -- (tests);
-\draw[line] (tests) -- (static);
-\draw[line] (static) -- (maint);
-\draw[line] (maint) -- (aggregate);
-\draw[line] (aggregate) -- (pass);
+\draw[line] (input.south) -- (tests.north);
+\draw[line] (tests.south) -- (static.north);
+\draw[line] (static.south) -- (maint.north);
+\draw[line] (maint.south) -- (aggregate.north);
+\draw[line] (aggregate.south) -- (pass.north);
 \draw[line] (pass.east) -- node[above, font=\scriptsize] {да} (accept.west);
-\draw[line] (pass) -- node[right, font=\scriptsize] {нет} (report);
+\draw[line] (pass.south) -- node[right, font=\scriptsize] {нет} (report.north);
 \draw[line] (report.east) -- (rerun.west);
 \end{tikzpicture}

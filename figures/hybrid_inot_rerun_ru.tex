@@ -20,16 +20,16 @@
 \node[action, below=of prompt] (regen) {Сгенерировать заново\\и переоценить};
 \node[terminator, right=21mm of budget] (fallback) {Возврат fallback\\с максимальным score};
 
-\draw[line] (input) -- (sort);
-\draw[line] (sort) -- (keep);
-\draw[line] (keep) -- (verify);
-\draw[line] (verify) -- (pass);
+\draw[line] (input.south) -- (sort.north);
+\draw[line] (sort.south) -- (keep.north);
+\draw[line] (keep.south) -- (verify.north);
+\draw[line] (verify.south) -- (pass.north);
 \draw[line] (pass.east) -- node[above, font=\scriptsize] {да} (accept.west);
-\draw[line] (pass) -- node[right, font=\scriptsize] {нет} (more);
+\draw[line] (pass.south) -- node[right, font=\scriptsize] {нет} (more.north);
 \draw[line] (more.west) -| ++(-21mm,0) |- node[pos=0.25, left, font=\scriptsize] {да} (verify.west);
-\draw[line] (more) -- node[right, font=\scriptsize] {нет} (budget);
+\draw[line] (more.south) -- node[right, font=\scriptsize] {нет} (budget.north);
 \draw[line] (budget.east) -- node[above, font=\scriptsize] {нет} (fallback.west);
-\draw[line] (budget) -- node[right, font=\scriptsize] {да} (prompt);
-\draw[line] (prompt) -- (regen);
+\draw[line] (budget.south) -- node[right, font=\scriptsize] {да} (prompt.north);
+\draw[line] (prompt.south) -- (regen.north);
 \draw[line] (regen.west) -| ++(-22mm,0) |- (sort.west);
 \end{tikzpicture}

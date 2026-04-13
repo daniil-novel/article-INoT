@@ -19,15 +19,15 @@
 \node[action, left=22mm of faithful] (restore) {Restore dropped evidence\\or relax threshold};
 \node[terminator, right=22mm of faithful] (output) {Return $\hat{\mathcal{C}}$};
 
-\draw[line] (input) -- (segment);
-\draw[line] (segment) -- (score);
-\draw[line] (score) -- (need);
+\draw[line] (input.south) -- (segment.north);
+\draw[line] (segment.south) -- (score.north);
+\draw[line] (score.south) -- (need.north);
 \draw[line] (need.west) -- node[above, font=\scriptsize] {no} (assemble.east);
-\draw[line] (assemble.south) |- (output.west);
-\draw[line] (need) -- node[right, font=\scriptsize] {yes} (summarize);
-\draw[line] (summarize) -- (check);
-\draw[line] (check) -- (faithful);
+\draw[line] (assemble.south) -- ++(0,-15mm) -| (output.south);
+\draw[line] (need.south) -- node[right, font=\scriptsize] {yes} (summarize.north);
+\draw[line] (summarize.south) -- (check.north);
+\draw[line] (check.south) -- (faithful.north);
 \draw[line] (faithful.east) -- node[above, font=\scriptsize] {yes} (output.west);
 \draw[line] (faithful.west) -- node[above, font=\scriptsize] {no} (restore.east);
-\draw[line] (restore.north) |- (summarize.west);
+\draw[line] (restore.west) -- ++(-8mm,0) |- (summarize.west);
 \end{tikzpicture}

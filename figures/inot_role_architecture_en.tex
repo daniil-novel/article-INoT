@@ -25,20 +25,20 @@
 \node[store, below=16mm of orch] (audit) {Audit and traces\\telemetry, cost logs, approvals};
 \node[ext, above=12mm of tools] (output) {Verified patch\\or final answer};
 
-\draw[line] (dev) -- (ide);
-\draw[line] (ide) -- (orch);
-\draw[line] (orch) -- (policy);
-\draw[line] (orch) -- (memory);
-\draw[line] (policy.east) -- ++(6mm,0) |- (planner.west);
-\draw[line] (memory.east) -- ++(6mm,0) |- (planner.west);
-\draw[line] (orch) -- (planner);
-\draw[line] (planner) -- (worker);
-\draw[line] (worker) -- (critic);
-\draw[line] (critic) -- (selfcheck);
-\draw[line] (worker.east) -- ++(7mm,0) |- (tools.west);
-\draw[line] (selfcheck.east) -- (tools.west);
-\draw[line] (selfcheck.north east) -- ++(8mm,0) |- (output.south);
-\draw[line] (orch) -- (audit);
+\draw[line] (dev.east) -- (ide.west);
+\draw[line] (ide.east) -- (orch.west);
+\draw[line] (orch.north east) -- ++(4mm,0) |- (policy.west);
+\draw[line] (orch.south east) -- ++(4mm,0) |- (memory.west);
+\draw[line] (policy.east) -- ++(6mm,0) |- ([yshift=2mm]planner.west);
+\draw[line] (memory.east) -- ++(6mm,0) |- ([yshift=-2mm]planner.west);
+\draw[line] (orch.east) -- ++(8mm,0) |- (planner.west);
+\draw[line] (planner.east) -- (worker.west);
+\draw[line] (worker.south) -- (critic.north);
+\draw[line] (critic.south) -- (selfcheck.north);
+\draw[line] (worker.east) -- ++(7mm,0) |- (tools.north west);
+\draw[line] (selfcheck.east) -- ++(7mm,0) |- (tools.south west);
+\draw[line] (selfcheck.east) -- ++(10mm,0) |- (output.south);
+\draw[line] (orch.south) -- (audit.north);
 \draw[line] (tools) -- ++(0,-8mm) -| (audit.east);
 
 \begin{scope}[on background layer]

@@ -20,16 +20,16 @@
 \node[action, below=of prompt] (regen) {Regenerate and re-score};
 \node[terminator, right=21mm of budget] (fallback) {Return highest-score\\fallback};
 
-\draw[line] (input) -- (sort);
-\draw[line] (sort) -- (keep);
-\draw[line] (keep) -- (verify);
-\draw[line] (verify) -- (pass);
+\draw[line] (input.south) -- (sort.north);
+\draw[line] (sort.south) -- (keep.north);
+\draw[line] (keep.south) -- (verify.north);
+\draw[line] (verify.south) -- (pass.north);
 \draw[line] (pass.east) -- node[above, font=\scriptsize] {yes} (accept.west);
-\draw[line] (pass) -- node[right, font=\scriptsize] {no} (more);
+\draw[line] (pass.south) -- node[right, font=\scriptsize] {no} (more.north);
 \draw[line] (more.west) -| ++(-21mm,0) |- node[pos=0.25, left, font=\scriptsize] {yes} (verify.west);
-\draw[line] (more) -- node[right, font=\scriptsize] {no} (budget);
+\draw[line] (more.south) -- node[right, font=\scriptsize] {no} (budget.north);
 \draw[line] (budget.east) -- node[above, font=\scriptsize] {no} (fallback.west);
-\draw[line] (budget) -- node[right, font=\scriptsize] {yes} (prompt);
-\draw[line] (prompt) -- (regen);
+\draw[line] (budget.south) -- node[right, font=\scriptsize] {yes} (prompt.north);
+\draw[line] (prompt.south) -- (regen.north);
 \draw[line] (regen.west) -| ++(-22mm,0) |- (sort.west);
 \end{tikzpicture}
