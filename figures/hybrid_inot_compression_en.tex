@@ -1,0 +1,33 @@
+\begin{tikzpicture}[
+  scale=0.9,
+  transform shape,
+  node distance=6mm and 10mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=32mm, minimum height=8mm, font=\scriptsize},
+  decision/.style={diamond, draw=black!80, thick, fill=orange!10, align=center, aspect=2.1, inner xsep=1mm, inner ysep=0.7mm, font=\scriptsize},
+  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=32mm, minimum height=8mm, font=\scriptsize}
+]
+
+\node[terminator] (input) {Raw context $\mathcal{C}_0$};
+\node[action, below=of input] (segment) {Segment files, logs, docs, history};
+\node[action, below=of segment] (score) {Score relevance and dependencies};
+\node[decision, below=of score] (need) {Needs\\compression?};
+\node[action, left=22mm of need] (assemble) {Assemble compressed\\context $\hat{\mathcal{C}}$};
+\node[action, below=of need] (summarize) {Keep salient evidence and\\summarize low-priority spans};
+\node[action, below=of summarize] (check) {Consistency / faithfulness check};
+\node[decision, below=of check] (faithful) {Faithful\\enough?};
+\node[action, left=22mm of faithful] (restore) {Restore dropped evidence\\or relax threshold};
+\node[terminator, right=22mm of faithful] (output) {Return $\hat{\mathcal{C}}$};
+
+\draw[line] (input) -- (segment);
+\draw[line] (segment) -- (score);
+\draw[line] (score) -- (need);
+\draw[line] (need.west) -- node[above, font=\scriptsize] {no} (assemble.east);
+\draw[line] (assemble.south) |- (output.west);
+\draw[line] (need) -- node[right, font=\scriptsize] {yes} (summarize);
+\draw[line] (summarize) -- (check);
+\draw[line] (check) -- (faithful);
+\draw[line] (faithful.east) -- node[above, font=\scriptsize] {yes} (output.west);
+\draw[line] (faithful.west) -- node[above, font=\scriptsize] {no} (restore.east);
+\draw[line] (restore.north) |- (summarize.west);
+\end{tikzpicture}

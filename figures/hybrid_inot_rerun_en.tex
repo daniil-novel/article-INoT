@@ -1,0 +1,35 @@
+\begin{tikzpicture}[
+  scale=0.9,
+  transform shape,
+  node distance=6mm and 10mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=31mm, minimum height=8mm, font=\scriptsize},
+  decision/.style={diamond, draw=black!80, thick, fill=orange!10, align=center, aspect=2.1, inner xsep=1mm, inner ysep=0.7mm, font=\scriptsize},
+  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=31mm, minimum height=8mm, font=\scriptsize}
+]
+
+\node[terminator] (input) {Input: candidates $\mathcal{Y}$,\\ scores $s_k$, budget $R$};
+\node[action, below=of input] (sort) {Sort candidates by critic score};
+\node[action, below=of sort] (keep) {Keep top $M$ candidates};
+\node[action, below=of keep] (verify) {ExternalVerify next candidate};
+\node[decision, below=of verify] (pass) {Pass?};
+\node[terminator, right=21mm of pass] (accept) {Return verified\\candidate};
+\node[decision, below=of pass] (more) {More retained\\candidates?};
+\node[decision, below=of more] (budget) {Rerun budget\\left?};
+\node[action, below=of budget] (prompt) {Build failure-only prompt};
+\node[action, below=of prompt] (regen) {Regenerate and re-score};
+\node[terminator, right=21mm of budget] (fallback) {Return highest-score\\fallback};
+
+\draw[line] (input) -- (sort);
+\draw[line] (sort) -- (keep);
+\draw[line] (keep) -- (verify);
+\draw[line] (verify) -- (pass);
+\draw[line] (pass.east) -- node[above, font=\scriptsize] {yes} (accept.west);
+\draw[line] (pass) -- node[right, font=\scriptsize] {no} (more);
+\draw[line] (more.west) -| ++(-21mm,0) |- node[pos=0.25, left, font=\scriptsize] {yes} (verify.west);
+\draw[line] (more) -- node[right, font=\scriptsize] {no} (budget);
+\draw[line] (budget.east) -- node[above, font=\scriptsize] {no} (fallback.west);
+\draw[line] (budget) -- node[right, font=\scriptsize] {yes} (prompt);
+\draw[line] (prompt) -- (regen);
+\draw[line] (regen.west) -| ++(-22mm,0) |- (sort.west);
+\end{tikzpicture}

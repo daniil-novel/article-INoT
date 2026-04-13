@@ -1,0 +1,48 @@
+\begin{tikzpicture}[
+  scale=0.86,
+  transform shape,
+  node distance=7mm and 10mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  comp/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=30mm, minimum height=9mm, font=\scriptsize},
+  ext/.style={rectangle, rounded corners=2pt, draw=black!70, thick, fill=gray!10, align=center, minimum width=26mm, minimum height=9mm, font=\scriptsize},
+  store/.style={rectangle, rounded corners=2pt, draw=black!75, thick, fill=green!10, align=center, minimum width=28mm, minimum height=9mm, font=\scriptsize},
+  zone/.style={draw=gray!60, dashed, rounded corners=3pt, inner sep=4mm}
+]
+
+\node[ext] (dev) {Developer};
+\node[comp, right=14mm of dev] (ide) {VS Code extension\\UI / voice / visual hints};
+\node[comp, right=14mm of ide] (orch) {Local orchestrator\\routing, state, session control};
+
+\node[comp, above right=4mm and 10mm of orch] (policy) {Policy controller\\permission checks\\sanitization};
+\node[comp, below right=4mm and 10mm of orch] (memory) {Memory / compression\\retrieval, pruning\\context summaries};
+\node[comp, right=16mm of orch] (planner) {Planner / router\\mode selection\\task decomposition};
+
+\node[comp, right=17mm of planner] (worker) {Worker\\candidate generation};
+\node[comp, below=of worker] (critic) {Critic\\utility and risk scoring};
+\node[comp, below=of critic] (selfcheck) {Self-check\\tests, lint, maintainability};
+
+\node[store, right=16mm of critic] (tools) {Tool adapters\\files, git, docs, terminal, tests};
+\node[store, below=16mm of orch] (audit) {Audit and traces\\telemetry, cost logs, approvals};
+\node[ext, above=12mm of tools] (output) {Verified patch\\or final answer};
+
+\draw[line] (dev) -- (ide);
+\draw[line] (ide) -- (orch);
+\draw[line] (orch) -- (policy);
+\draw[line] (orch) -- (memory);
+\draw[line] (policy.east) -- ++(6mm,0) |- (planner.west);
+\draw[line] (memory.east) -- ++(6mm,0) |- (planner.west);
+\draw[line] (orch) -- (planner);
+\draw[line] (planner) -- (worker);
+\draw[line] (worker) -- (critic);
+\draw[line] (critic) -- (selfcheck);
+\draw[line] (worker.east) -- ++(7mm,0) |- (tools.west);
+\draw[line] (selfcheck.east) -- (tools.west);
+\draw[line] (selfcheck.north east) -- ++(8mm,0) |- (output.south);
+\draw[line] (orch) -- (audit);
+\draw[line] (tools) -- ++(0,-8mm) -| (audit.east);
+
+\begin{scope}[on background layer]
+  \node[zone, fit=(planner)(worker)(critic)(selfcheck), label={[font=\scriptsize]north:Hybrid-INoT decision core}] {};
+  \node[zone, fit=(policy)(memory)(planner), label={[font=\scriptsize]north:Controlled reasoning layer}] {};
+\end{scope}
+\end{tikzpicture}

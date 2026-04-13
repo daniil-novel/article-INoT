@@ -115,7 +115,16 @@ OpenAI / ChatGPT agent & OpenAI публично подтверждает unifie
 
 \subsection{Архитектура ролей и поток данных}
 
-Предлагаемая система использует роли \textit{policy controller}, \textit{memory/compression}, \textit{planner}, \textit{worker}, \textit{critic} и \textit{self-check}. Сначала \textit{policy controller} очищает вход и проверяет допустимость инструментальных действий. Затем \textit{memory/compression} извлекает релевантный контекст $\hat{\mathcal{C}} \subseteq \mathcal{C}_0$. После этого \textit{planner} выбирает внутренний интроспективный режим или внешний агентный режим. Внутри интроспективного режима \textit{worker} порождает $K$ кандидатов, \textit{critic} присваивает им оценки риска и полезности, а \textit{self-check} либо принимает лучший кандидат, либо инициирует селективный повтор только для тех элементов, которые не прошли внешнюю проверку.
+Предлагаемая система использует роли \textit{policy controller}, \textit{memory/compression}, \textit{planner}, \textit{worker}, \textit{critic} и \textit{self-check}. Важно, что в данной статье роли понимаются как функциональные позиции внутри управляемого reasoning-контура, а не как обязательные независимые процессы: часть ролей может оставаться внешними сервисами, тогда как часть может быть схлопнута во внутренние фазы одного обращения к модели.
+
+Сначала \textit{policy controller} очищает вход, проверяет допустимость инструментальных действий и ограничивает уровень доступа. Затем \textit{memory/compression} извлекает релевантный контекст $\hat{\mathcal{C}} \subseteq \mathcal{C}_0$ и убирает шум длинного окружения. После этого \textit{planner} выбирает внутренний интроспективный режим или внешний агентный режим. Внутри интроспективного режима \textit{worker} порождает $K$ кандидатов, \textit{critic} присваивает им оценки риска и полезности, а \textit{self-check} либо принимает лучший кандидат, либо инициирует селективный повтор только для тех элементов, которые не прошли внешнюю проверку. В более широком проектном контуре этот reasoning-ядро встраивается в IDE-расширение, локальный оркестратор, слой tool adapters и журнал аудита; это показано на рис.~\ref{fig:role-arch-ru}.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.98\textwidth}{!}{\input{figures/inot_role_architecture_ru}}
+\caption{Архитектурная схема Hybrid-INoT-агента в контуре IDE, локального оркестратора и инструментальных адаптеров}
+\label{fig:role-arch-ru}
+\end{figure}
 
 \subsection{Формальные обозначения}
 
@@ -183,7 +192,7 @@ C_{\text{check}}^S < (\rho_0 - \rho_1)\, C_{\text{rerun}}^L,
 
 \begin{figure}[htbp]
 \centering
-\input{figures/hybrid_inot_activity_ru}
+\resizebox{0.8\textwidth}{!}{\input{figures/hybrid_inot_activity_ru}}
 \caption{UML activity diagram гибридного интроспективного цикла Hybrid-INoT}
 \label{fig:workflow-ru}
 \end{figure}
@@ -240,6 +249,15 @@ C_{\text{check}}^S < (\rho_0 - \rho_1)\, C_{\text{rerun}}^L,
 \end{algorithmic}
 \end{algorithm}
 
+На рис.~\ref{fig:rerun-flow-ru} показана та же логика в виде отдельной блок-схемы. Здесь ключевым является не сам факт повторного запуска, а его селективность: повтор формируется только по подтвержденным сигналам неудачи.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.9\textwidth}{!}{\input{figures/hybrid_inot_rerun_ru}}
+\caption{Блок-схема селективного повторного запуска для алгоритма \ref{alg:rerun}}
+\label{fig:rerun-flow-ru}
+\end{figure}
+
 \begin{algorithm}[htbp]
 \caption{Компрессия контекста для длинных задач}
 \label{alg:compression}
@@ -256,6 +274,15 @@ C_{\text{check}}^S < (\rho_0 - \rho_1)\, C_{\text{rerun}}^L,
 \State \Return $\hat{\mathcal{C}}$
 \end{algorithmic}
 \end{algorithm}
+
+Рис.~\ref{fig:compression-flow-ru} подчеркивает, что компрессия в предлагаемом методе не сводится к механическому усечению контекста: сначала выделяются релевантные фрагменты, затем проверяется сохранение смысловой целостности.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.9\textwidth}{!}{\input{figures/hybrid_inot_compression_ru}}
+\caption{Блок-схема компрессии контекста для алгоритма \ref{alg:compression}}
+\label{fig:compression-flow-ru}
+\end{figure}
 
 \begin{algorithm}[htbp]
 \caption{Самопроверка кода и оценка поддерживаемости}
@@ -278,6 +305,15 @@ C_{\text{check}}^S < (\rho_0 - \rho_1)\, C_{\text{rerun}}^L,
 \State \Return $(v, M)$
 \end{algorithmic}
 \end{algorithm}
+
+На рис.~\ref{fig:selfcheck-flow-ru} видно, что самопроверка опирается на наблюдаемые инженерные сигналы: тесты, статический анализ и прокси поддерживаемости агрегируются в единый верификационный verdict.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.9\textwidth}{!}{\input{figures/hybrid_inot_selfcheck_ru}}
+\caption{Блок-схема самопроверки кода и оценки поддерживаемости для алгоритма \ref{alg:selfcheck}}
+\label{fig:selfcheck-flow-ru}
+\end{figure}
 
 \subsection{Система метрик}
 

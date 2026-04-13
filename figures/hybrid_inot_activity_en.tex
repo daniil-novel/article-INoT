@@ -1,12 +1,11 @@
 \begin{tikzpicture}[
-  scale=0.84,
+  scale=0.88,
   transform shape,
-  node distance=7mm and 10mm,
+  node distance=6mm and 9mm,
   line/.style={-{Latex[length=2.4mm]}, thick},
-  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=30mm, minimum height=8mm, font=\scriptsize},
+  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=29mm, minimum height=8mm, font=\scriptsize},
   decision/.style={diamond, draw=black!80, thick, fill=orange!10, align=center, aspect=2.15, inner xsep=1mm, inner ysep=0.7mm, font=\scriptsize},
-  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=30mm, minimum height=8mm, font=\scriptsize},
-  stage/.style={draw=gray!65, dashed, rounded corners=3pt, inner sep=4mm}
+  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=29mm, minimum height=8mm, font=\scriptsize}
 ]
 
 \node[terminator] (input) {Input: task $x$,\\ context $\mathcal{C}_0$};
@@ -44,11 +43,5 @@
 \draw[line] (pass) -- node[right, font=\scriptsize] {no} (update);
 \draw[line] (update) -- (budget);
 \draw[line] (budget.east) -- node[above, font=\scriptsize] {no} (fallback.west);
-\draw[line] (budget.west) -| ++(-22mm,0) |- node[pos=0.25, left, font=\scriptsize] {yes} (planner.west);
-
-\begin{scope}[on background layer]
-  \node[stage, fit=(sanitize)(compress)(route), label={[font=\scriptsize]north:Policy controller + memory}] {};
-  \node[stage, fit=(planner)(generate)(critic)(select), label={[font=\scriptsize]north:Planner / worker / critic}] {};
-  \node[stage, fit=(check)(pass)(update)(budget), label={[font=\scriptsize]north:Self-check + recovery}] {};
-\end{scope}
+\draw[line] (budget.west) -| ++(-21mm,0) |- node[pos=0.25, left, font=\scriptsize] {yes} (planner.west);
 \end{tikzpicture}

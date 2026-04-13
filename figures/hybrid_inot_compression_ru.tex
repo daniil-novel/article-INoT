@@ -1,0 +1,33 @@
+\begin{tikzpicture}[
+  scale=0.9,
+  transform shape,
+  node distance=6mm and 10mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=32mm, minimum height=8mm, font=\scriptsize},
+  decision/.style={diamond, draw=black!80, thick, fill=orange!10, align=center, aspect=2.1, inner xsep=1mm, inner ysep=0.7mm, font=\scriptsize},
+  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=32mm, minimum height=8mm, font=\scriptsize}
+]
+
+\node[terminator] (input) {Исходный контекст $\mathcal{C}_0$};
+\node[action, below=of input] (segment) {Сегментировать файлы,\\логи, документы, историю};
+\node[action, below=of segment] (score) {Оценить релевантность\\и зависимости};
+\node[decision, below=of score] (need) {Нужна\\компрессия?};
+\node[action, left=22mm of need] (assemble) {Собрать сжатый\\контекст $\hat{\mathcal{C}}$};
+\node[action, below=of need] (summarize) {Оставить существенные\\факты и сжать второстепенное};
+\node[action, below=of summarize] (check) {Проверка согласованности\\и faithful сохранения};
+\node[decision, below=of check] (faithful) {Достаточно\\faithful?};
+\node[action, left=22mm of faithful] (restore) {Вернуть отброшенные\\факты или ослабить порог};
+\node[terminator, right=22mm of faithful] (output) {Возврат $\hat{\mathcal{C}}$};
+
+\draw[line] (input) -- (segment);
+\draw[line] (segment) -- (score);
+\draw[line] (score) -- (need);
+\draw[line] (need.west) -- node[above, font=\scriptsize] {нет} (assemble.east);
+\draw[line] (assemble.south) |- (output.west);
+\draw[line] (need) -- node[right, font=\scriptsize] {да} (summarize);
+\draw[line] (summarize) -- (check);
+\draw[line] (check) -- (faithful);
+\draw[line] (faithful.east) -- node[above, font=\scriptsize] {да} (output.west);
+\draw[line] (faithful.west) -- node[above, font=\scriptsize] {нет} (restore.east);
+\draw[line] (restore.north) |- (summarize.west);
+\end{tikzpicture}

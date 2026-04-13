@@ -1,0 +1,29 @@
+\begin{tikzpicture}[
+  scale=0.9,
+  transform shape,
+  node distance=6mm and 10mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=33mm, minimum height=8mm, font=\scriptsize},
+  decision/.style={diamond, draw=black!80, thick, fill=orange!10, align=center, aspect=2.1, inner xsep=1mm, inner ysep=0.7mm, font=\scriptsize},
+  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=33mm, minimum height=8mm, font=\scriptsize}
+]
+
+\node[terminator] (input) {Кандидатный патч\\или ответ};
+\node[action, below=of input] (tests) {Запустить тесты\\и compile checks};
+\node[action, below=of tests] (static) {Запустить lint\\и static analysis};
+\node[action, below=of static] (maint) {Измерить прокси\\поддерживаемости};
+\node[action, below=of maint] (aggregate) {Агрегировать сигналы\\ошибок};
+\node[decision, below=of aggregate] (pass) {Все проверки\\пройдены?};
+\node[terminator, right=22mm of pass] (accept) {Принять\\верифицированный\\кандидат};
+\node[action, below=of pass] (report) {Сформировать отчет\\об ошибках};
+\node[terminator, right=22mm of report] (rerun) {Вернуть feedback\\для selective rerun};
+
+\draw[line] (input) -- (tests);
+\draw[line] (tests) -- (static);
+\draw[line] (static) -- (maint);
+\draw[line] (maint) -- (aggregate);
+\draw[line] (aggregate) -- (pass);
+\draw[line] (pass.east) -- node[above, font=\scriptsize] {да} (accept.west);
+\draw[line] (pass) -- node[right, font=\scriptsize] {нет} (report);
+\draw[line] (report.east) -- (rerun.west);
+\end{tikzpicture}

@@ -1,0 +1,35 @@
+\begin{tikzpicture}[
+  scale=0.9,
+  transform shape,
+  node distance=6mm and 10mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=31mm, minimum height=8mm, font=\scriptsize},
+  decision/.style={diamond, draw=black!80, thick, fill=orange!10, align=center, aspect=2.1, inner xsep=1mm, inner ysep=0.7mm, font=\scriptsize},
+  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=31mm, minimum height=8mm, font=\scriptsize}
+]
+
+\node[terminator] (input) {Вход: кандидаты $\mathcal{Y}$,\\ оценки $s_k$, бюджет $R$};
+\node[action, below=of input] (sort) {Сортировка по score критика};
+\node[action, below=of sort] (keep) {Оставить верхние $M$};
+\node[action, below=of keep] (verify) {ExternalVerify следующего\\кандидата};
+\node[decision, below=of verify] (pass) {Проверка\\пройдена?};
+\node[terminator, right=21mm of pass] (accept) {Возврат\\верифицированного\\кандидата};
+\node[decision, below=of pass] (more) {Остались кандидаты\\в верхнем множестве?};
+\node[decision, below=of more] (budget) {Остался бюджет\\повторов?};
+\node[action, below=of budget] (prompt) {Сформировать prompt\\только по ошибкам};
+\node[action, below=of prompt] (regen) {Сгенерировать заново\\и переоценить};
+\node[terminator, right=21mm of budget] (fallback) {Возврат fallback\\с максимальным score};
+
+\draw[line] (input) -- (sort);
+\draw[line] (sort) -- (keep);
+\draw[line] (keep) -- (verify);
+\draw[line] (verify) -- (pass);
+\draw[line] (pass.east) -- node[above, font=\scriptsize] {да} (accept.west);
+\draw[line] (pass) -- node[right, font=\scriptsize] {нет} (more);
+\draw[line] (more.west) -| ++(-21mm,0) |- node[pos=0.25, left, font=\scriptsize] {да} (verify.west);
+\draw[line] (more) -- node[right, font=\scriptsize] {нет} (budget);
+\draw[line] (budget.east) -- node[above, font=\scriptsize] {нет} (fallback.west);
+\draw[line] (budget) -- node[right, font=\scriptsize] {да} (prompt);
+\draw[line] (prompt) -- (regen);
+\draw[line] (regen.west) -| ++(-22mm,0) |- (sort.west);
+\end{tikzpicture}

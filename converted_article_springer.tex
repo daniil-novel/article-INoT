@@ -107,7 +107,16 @@ We distinguish three architectural families: \textbf{Single-Large}, \textbf{Clas
 
 \subsection{Role architecture and data flow}
 
-The proposed system uses the roles \textit{policy controller}, \textit{memory/compression}, \textit{planner}, \textit{worker}, \textit{critic}, and \textit{self-check}. First, the \textit{policy controller} sanitizes the input and checks whether tool actions are permitted. Next, \textit{memory/compression} extracts a relevant context $\hat{\mathcal{C}} \subseteq \mathcal{C}_0$. The \textit{planner} then chooses either an internal introspective mode or an external agent mode. Inside the introspective mode, the \textit{worker} produces $K$ candidates, the \textit{critic} scores them for utility and risk, and \textit{self-check} either accepts the best candidate or triggers a selective rerun only for those components that fail verification.
+The proposed system uses the roles \textit{policy controller}, \textit{memory/compression}, \textit{planner}, \textit{worker}, \textit{critic}, and \textit{self-check}. In this paper, these roles are treated as functional positions inside a controlled reasoning loop rather than as a requirement that every role must run in a separate process. Some roles may remain external services; others may be collapsed into different phases of the same model call.
+
+First, the \textit{policy controller} sanitizes the input and checks whether tool actions are permitted. Next, \textit{memory/compression} extracts a relevant context $\hat{\mathcal{C}} \subseteq \mathcal{C}_0$ and removes long-context noise. The \textit{planner} then chooses either an internal introspective mode or an external agent mode. Inside the introspective mode, the \textit{worker} produces $K$ candidates, the \textit{critic} scores them for utility and risk, and \textit{self-check} either accepts the best candidate or triggers a selective rerun only for those components that fail verification. In the broader project setting, this reasoning core sits inside an IDE extension, a local orchestrator, a tool-adapter layer, and an audit trail, as summarized in Fig.~\ref{fig:role-arch-en}.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.98\textwidth}{!}{\input{figures/inot_role_architecture_en}}
+\caption{Architecture of the Hybrid-INoT agent across the IDE layer, local orchestrator, and tool adapters}
+\label{fig:role-arch-en}
+\end{figure}
 
 \subsection{Formal notation}
 
@@ -175,7 +184,7 @@ Figure~\ref{fig:workflow-en} presents the main Hybrid-INoT loop as a UML activit
 
 \begin{figure}[htbp]
 \centering
-\input{figures/hybrid_inot_activity_en}
+\resizebox{0.8\textwidth}{!}{\input{figures/hybrid_inot_activity_en}}
 \caption{UML activity diagram of the Hybrid-INoT introspective workflow}
 \label{fig:workflow-en}
 \end{figure}
@@ -232,6 +241,15 @@ Figure~\ref{fig:workflow-en} presents the main Hybrid-INoT loop as a UML activit
 \end{algorithmic}
 \end{algorithm}
 
+Figure~\ref{fig:rerun-flow-en} presents the same control logic as a standalone flowchart. The key point is not rerunning per se, but restricting reruns to failure signals that have already been externally confirmed.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.9\textwidth}{!}{\input{figures/hybrid_inot_rerun_en}}
+\caption{Flowchart of the selective rerun logic in Algorithm~\ref{alg:rerun}}
+\label{fig:rerun-flow-en}
+\end{figure}
+
 \begin{algorithm}[htbp]
 \caption{Context compression for long tasks}
 \label{alg:compression}
@@ -248,6 +266,15 @@ Figure~\ref{fig:workflow-en} presents the main Hybrid-INoT loop as a UML activit
 \State \Return $\hat{\mathcal{C}}$
 \end{algorithmic}
 \end{algorithm}
+
+Figure~\ref{fig:compression-flow-en} emphasizes that context compression is not modeled as blind truncation. Relevant evidence is identified first, then semantic faithfulness is checked before the compressed context is returned.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.9\textwidth}{!}{\input{figures/hybrid_inot_compression_en}}
+\caption{Flowchart of the context-compression procedure in Algorithm~\ref{alg:compression}}
+\label{fig:compression-flow-en}
+\end{figure}
 
 \begin{algorithm}[htbp]
 \caption{Code self-check and maintainability scoring}
@@ -270,6 +297,15 @@ Figure~\ref{fig:workflow-en} presents the main Hybrid-INoT loop as a UML activit
 \State \Return $(v, M)$
 \end{algorithmic}
 \end{algorithm}
+
+Figure~\ref{fig:selfcheck-flow-en} makes the verification structure explicit: tests, static analysis, and maintainability proxies are aggregated into one observable verdict rather than inferred from text alone.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{0.9\textwidth}{!}{\input{figures/hybrid_inot_selfcheck_en}}
+\caption{Flowchart of code self-check and maintainability scoring in Algorithm~\ref{alg:selfcheck}}
+\label{fig:selfcheck-flow-en}
+\end{figure}
 
 \subsection{Metric system}
 
