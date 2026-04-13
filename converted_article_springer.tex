@@ -14,7 +14,10 @@
 \usepackage{algpseudocode}%
 \usepackage{listings}%
 \usepackage{tabularx}%
+\usepackage{tikz}%
 \usepackage{url}%
+
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds}
 
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\I}{\mathbb{I}}
@@ -156,7 +159,20 @@ C_{\text{check}}^S < (\rho_0 - \rho_1)\, C_{\text{rerun}}^L,
 \end{equation}
 where $\rho_0$ and $\rho_1$ are rerun probabilities without and with the small-model self-check and $C_{\text{rerun}}^L$ is the expected cost of such a rerun.
 
-\subsection{Algorithms}
+\subsection{Workflow and algorithms}
+
+\subsubsection{Workflow visualization}
+
+Figure~\ref{fig:workflow-en} presents the main Hybrid-INoT loop as a UML activity diagram. Relative to pseudocode alone, the diagram makes three decision points explicit: routing between internal and external execution, passing versus failing self-check, and rerunning only while iteration budget remains.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/hybrid_inot_activity_en}
+\caption{UML activity diagram of the Hybrid-INoT introspective workflow}
+\label{fig:workflow-en}
+\end{figure}
+
+\subsubsection{Algorithmic specification}
 
 \begin{algorithm}[htbp]
 \caption{Hybrid introspective loop}

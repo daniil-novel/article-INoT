@@ -17,7 +17,10 @@
 \usepackage{algpseudocode}%
 \usepackage{listings}%
 \usepackage{tabularx}%
+\usepackage{tikz}%
 \usepackage{url}%
+
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds}
 
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\I}{\mathbb{I}}
@@ -164,7 +167,20 @@ C_{\text{check}}^S < (\rho_0 - \rho_1)\, C_{\text{rerun}}^L,
 \end{equation}
 где $\rho_0$ и $\rho_1$ --- вероятности повторного запуска без и с малой самопроверкой соответственно, а $C_{\text{rerun}}^L$ --- ожидаемая стоимость такого повторного запуска.
 
-\subsection{Алгоритмы}
+\subsection{Рабочий процесс и алгоритмы}
+
+\subsubsection{Наглядная схема процесса}
+
+На рис.~\ref{fig:workflow-ru} представлен основной цикл Hybrid-INoT в виде UML-диаграммы активности. По сравнению с одним только псевдокодом схема делает явными три ключевые развилки: выбор между внутренним и внешним режимами, прохождение или непрохождение самопроверки и повторный запуск только при наличии оставшегося итерационного бюджета.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/hybrid_inot_activity_ru}
+\caption{UML activity diagram гибридного интроспективного цикла Hybrid-INoT}
+\label{fig:workflow-ru}
+\end{figure}
+
+\subsubsection{Алгоритмическая спецификация}
 
 \begin{algorithm}[htbp]
 \caption{Гибридный интроспективный цикл}
