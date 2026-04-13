@@ -40,15 +40,17 @@
 
 \section{Introduction}
 
-Modern software development requires constant switching among source code, version control, issue trackers, documentation, and automated checks. Empirical studies show that such context switching increases cognitive load and delays task resumption \cite{ko2007,parnin2011,goncalves2011}. LLM-based assistants are often framed as a way to mitigate these costs, yet the move from chat-style assistance to full agentic workflows introduces a new bottleneck: functional capability improves, but token expenditure, latency, and orchestration overhead rise as well.
+Modern software development rarely unfolds as a single uninterrupted coding session. Developers constantly move among source files, version control, issue descriptions, CI logs, and technical documentation; empirical work by Ko et al. \cite{ko2007}, Parnin and Rugaber \cite{parnin2011}, and Gon\c{c}alves et al. \cite{goncalves2011} shows that these context switches increase cognitive load and slow task resumption. In that setting, LLM-based assistants are attractive not merely as chat interfaces but as a possible way to shorten the engineering loop between intent, action, and verification.
 
-Classical LLM agents are commonly implemented as externally orchestrated think--act--observe loops with tool calls, delegated roles, and repeated invocations of a large model \cite{yao2022react,yang2024sweagent}. This design is valuable when tool isolation and real interaction with the environment are necessary, but it also creates repeated transmission of long context across roles, duplicated intermediate artifacts, and cascading inference costs. For tasks such as code review, local refactoring, document reasoning, and change justification, this architecture may be heavier than necessary.
+The move from chat-style assistance to full agentic workflows, however, changes the cost structure. In ReAct-style reasoning-and-acting loops \cite{yao2022react} and modern software-engineering agents such as SWE-agent \cite{yang2024sweagent}, a large model is repeatedly involved in planning, acting, observing, and revising. This design is appropriate when real tools, privilege boundaries, and environment interaction matter. But it also causes repeated replay of long context across roles, duplication of intermediate artifacts, and cumulative inference cost. For code review, local refactoring, document reasoning, and change justification, such external multi-agent orchestration may be heavier than the task actually requires.
 
-One possible response is to move part of role interaction inside a single model context. Test-time reasoning improvement through intermediate steps is well established in Chain-of-Thought, ReAct, Self-Refine, and Reflexion \cite{wei2022cot,yao2022react,madaan2023selfrefine,shinn2023reflexion}. Sun and Zeng extend this direction with \textit{Introspection of Thought} (INoT), where one model simulates several roles and performs an internal cycle of generation, critique, and correction \cite{sun2025inot}. Yet introspection alone does not settle the methodological issues. Intermediate text should not be treated as a faithful explanation of the model's latent computation \cite{turpin2023unfaithful}, and the literature still lacks a rigorous formulation that ties internal role segregation specifically to inference economics, code reliability, and maintainability in agentic software-engineering pipelines.
+This motivates a different question: can part of role interaction be collapsed into one model context? Test-time reasoning improvement via intermediate steps has already been established in Chain-of-Thought \cite{wei2022cot}, ReAct \cite{yao2022react}, Self-Refine \cite{madaan2023selfrefine}, and Reflexion \cite{shinn2023reflexion}. Sun and Zeng \cite{sun2025inot} push this line further with \textit{Introspection of Thought} (INoT), where one model simulates several roles and performs an internal cycle of generation, critique, and correction. Yet intermediate text should not be confused with a faithful explanation of the model's latent computation, as Turpin et al. \cite{turpin2023unfaithful} make clear. In this paper, introspection is therefore treated operationally: not as transparent access to hidden cognition, but as a controllable engineering mechanism for candidate generation, critique, self-check, and selective rerun.
 
-The central research question of this paper is therefore the following: can an agent architecture with internal role introspection increase utility per token and utility per dollar without degrading quality or engineering reliability relative to both a single-shot single-agent setup and a classically orchestrated multi-agent workflow?
+The present paper should also be read in the correct project stage. It is the methodological layer of a larger developer-assistant project rather than a claim that the full IDE-integrated system is already complete. At the time of writing, the full assistant with editor integration, tool agents, and end-to-end telemetry is still under construction. Accordingly, the paper focuses on a formal problem statement, a preregistered evaluation design, and explicit expected effects to be tested later on the implemented prototype.
 
-The paper contributes a source audit, a formal hybrid architecture with \textit{planner}, \textit{worker}, \textit{critic}, \textit{self-check}, \textit{memory/compression}, and \textit{policy controller} roles, an analytical cost model, new efficiency and reliability metrics, and a reproducible evaluation and TCO protocol.
+The central research question is therefore the following: can an agent architecture with internal role introspection increase utility per token and utility per dollar without degrading quality or engineering reliability relative to both a single-shot single-agent setup and a classically orchestrated multi-agent workflow?
+
+The contribution is fourfold. First, the paper audits the source base and removes unsupported architectural claims. Second, it formalizes a hybrid architecture with \textit{planner}, \textit{worker}, \textit{critic}, \textit{self-check}, \textit{memory/compression}, and \textit{policy controller} roles. Third, it introduces an analytical cost model together with efficiency, reliability, and maintainability metrics. Fourth, it specifies a reproducible future evaluation protocol and a transparent TCO framework that can be instantiated once the prototype is complete.
 
 \section{Related Work and Positioning}
 
@@ -64,30 +66,36 @@ The classical theoretical basis for multi-agent systems comes from Weiss and Woo
 
 For long contexts, more tokens mean not only higher cost but also more noise. LongLLMLingua and LLMLingua-2 show that prompt compression can reduce latency while maintaining or even improving performance in long-context settings \cite{jiang2023longllmlingua,pan2024llmlingua2}. In software engineering, Jia et al. directly connect context compression to issue resolution and demonstrate large token savings on SWE-bench-style tasks \cite{jia2026compression}. Code self-check should also not be reduced to textual reflection. Compiler feedback, tests, and static analysis remain necessary external signals \cite{bi2024cocogen,su2025static,sepidband2025complexity}.
 
-\subsection{Publicly confirmed evidence about contemporary systems}
+\subsection{Publicly documented architectural patterns in contemporary systems}
 
-In addition to academic literature, the paper must distinguish between publicly confirmed facts and speculation about hidden product internals. This matters especially for `DeepSeek`, `GLM-4.5`, and `OpenAI/ChatGPT`.
+For positioning, it is not enough to list prominent models. The important distinction is between what primary sources explicitly document and what remains conjecture about hidden internals. Table~\ref{tab:public-patterns} summarizes publicly documented patterns as of April 13, 2026. It does not prove that the listed systems lack additional internal mechanisms; it only marks the boundary of what can be used in an academic argument as confirmed disclosure.
 
 \begin{table}[htbp]
-\caption{Publicly confirmed and unconfirmed claims about contemporary systems}
-\label{tab:confirmed-claims}
+\caption{Publicly documented approaches and disclosure limits in contemporary agent-oriented systems}
+\label{tab:public-patterns}
 \centering
-\small
-\begin{tabularx}{\textwidth}{@{}p{2.6cm}X X@{}}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{2.7cm}X X@{}}
 \toprule
-System & Confirmed by primary sources & Unconfirmed and therefore not used as fact \\
+System & What primary sources document & What should not be asserted as established fact \\
 \midrule
-DeepSeek-V3 & The technical report confirms an MoE backbone, Multi-head Latent Attention, and a cost-efficiency-oriented design \cite{deepseek2024v3}. & No public primary source confirms an internal multi-agent architecture or INoT-style role debate. \\
-DeepSeek-R1 & The technical report confirms reasoning-oriented post-training and RL-based improvement in the R1 line \cite{deepseek2025r1}. & No public evidence confirms a specific hidden multi-role orchestration stack in product agents. \\
-GLM-4.5 & Public sources confirm the model's agentic/reasoning/coding orientation and the existence of a technical report \cite{zai2025glm45}. & It is not publicly confirmed that GLM-4.5 uses internal multi-agent debate as its core computation scheme. \\
-OpenAI / ChatGPT agent & OpenAI publicly confirms a unified agentic product with browser, terminal, connectors, and a system card \cite{openai2025chatgptagent,openai2025chatgptagentcard}. OpenAI also publishes SDK-level handoff patterns and agent workflows \cite{openai2026sdk,openai2026guide}. & The internal role decomposition of ChatGPT agent itself is not publicly documented beyond product-level description, so it is not used as an established fact. \\
+DeepSeek-V3 & The technical report documents an MoE backbone, Multi-head Latent Attention, and an efficiency-oriented design for training and inference \cite{deepseek2024v3}. & Public sources do not document an INoT-style internal role debate or hidden multi-agent orchestration as the core inference mechanism. \\
+DeepSeek-R1 & The technical report documents reasoning-oriented post-training and an RL-based scheme for improving reasoning capability \cite{deepseek2025r1}. & It cannot be claimed from public evidence that deployed DeepSeek agents use a specific internal role-allocation architecture. \\
+Gemini 3.1 Pro & Google's official announcement of February 19, 2026 and current Gemini API documentation describe Gemini 3.1 Pro as a reasoning-oriented model for complex tasks with agentic and coding capabilities in preview \cite{google2026gemini31pro,google2026geminimodels}. & Open materials do not disclose an internal role architecture or an explicit INoT-equivalent debate mechanism inside one inference call. \\
+Claude Sonnet 4.5 & Anthropic's public materials document agentic/computer-use capabilities, while the extended-thinking documentation describes interleaved thinking with tool use \cite{anthropic2026sonnet45,anthropic2026extendedthinking}. & These disclosures do not justify claiming an internal planner/worker/critic role debate in the specific sense formalized by INoT. \\
+GLM-4.5 & Official documentation and the technical report describe GLM-4.5 as a native agentic foundation model with an MoE architecture, 128K context, and strengthened reasoning/coding/agentic performance \cite{zai2025glm45,zai2025glm45docs}. & It is not publicly established that GLM-4.5 uses internal multi-agent debate as its main computational scheme. \\
+MiniMax-M2.7 & MiniMax documentation publicly highlights M2.7 for AI coding tools and separately documents tool use and interleaved thinking as platform capabilities \cite{minimax2026textdocs}. & The documentation does not establish an INoT-like internal multi-role debate inside a single model call. \\
+Xiaomi MiMo-V2-Pro & Xiaomi's official MiMo page presents MiMo-V2-Pro as a foundation model for the agentic era and discloses product-level parameters such as 1T total / 42B active parameters and 1M context \cite{xiaomi2026mimo}. & These product disclosures are insufficient grounds for asserting a specific hidden planning, debate, or introspection architecture. \\
+OpenAI / ChatGPT agent & OpenAI publicly documents a unified agentic system with browser use, terminal, connectors, and a system card for ChatGPT agent \cite{openai2025chatgptagent,openai2025chatgptagentcard}. OpenAI also publishes SDK-level handoff patterns and general agent workflows \cite{openai2026sdk,openai2026guide}. & The internal role decomposition of ChatGPT agent beyond public product description is not disclosed and should not be treated as fact. \\
 \botrule
 \end{tabularx}
 \end{table}
 
 \subsection{Research gap and novelty}
 
-Existing work covers either external multi-agent coordination or sequential self-improvement within one model. The underexplored middle ground is a \textit{hybrid agent architecture} in which most role interaction happens inside one context while specialized external procedures are used only selectively for compression, verification, and tool control. The novelty of the present paper lies not in introducing intermediate reasoning per se, but in formalizing it as a mechanism for managing inference economics and engineering quality in agentic software engineering.
+Table~\ref{tab:public-patterns} makes the central positioning point clearer. Contemporary public disclosures already describe long-context reasoning, tool use, browser or terminal interaction, MoE design, and in some cases interleaved thinking. The research gap is therefore not that industry systems lack agents, reasoning, or internal computation altogether. The narrower and more meaningful gap is that the open literature still offers very little controlled evidence on when \textit{internal role segregation within one context} is preferable to external role specialization, and almost no work evaluates that question jointly through token replay, inference cost, code reliability, and maintainability.
+
+The novelty of the present paper should thus be stated carefully. It is not the generic use of intermediate reasoning, nor a blanket claim that INoT must dominate all alternatives. The novelty lies in treating INoT as an engineering control mechanism for the inference trajectory: it determines when multiple candidates are worth generating, when internal critique is sufficient, when an external verifier is necessary, and when reruns should be limited to confirmed failures. In that sense, the contribution is comparative and methodological. The paper defines a testable hybrid architecture and a metric system that can later determine when internal role cycling is genuinely cheaper without being worse, and when classical external multi-agent orchestration remains the better choice.
 
 \section{Problem Statement, Hypotheses, and Formal Setup}
 
@@ -294,7 +302,11 @@ To quantify workflow reliability, the paper also uses
 \end{align}
 where \textit{SCR} is self-check recall and \textit{RFR} is rollback-free rate.
 
-\section{Reproducible Experimental Protocol}
+\section{Planned Evaluation Protocol and Expected Indicators}
+
+\subsection{Implementation status and interpretation frame}
+
+At the time of writing, the full assistant described by the broader project is not yet complete as an end-to-end deployed system. This section should therefore be read as a \textit{preregistered evaluation design}: it fixes the task sets, baselines, statistical tests, and interpretation thresholds that will be used once the prototype is finished. In other words, the section does not report observed experimental outcomes; it specifies how future outcomes must be evaluated.
 
 \subsection{Prompt-length scale and task classes}
 
@@ -346,6 +358,29 @@ These are complemented by two \textit{synthetic but reproducible} families becau
 
 We compare four regimes: \textbf{B0 Single-Large}, \textbf{B1 Single-Large+Self-Refine}, \textbf{B2 Classical-MAS}, and \textbf{B3 Hybrid-INoT}. Additional ablations are \textit{no-critic}, \textit{no-compression}, \textit{no-self-check}, \textit{large-model-only}, and \textit{always-external}. For stochastic settings, each configuration is run with at least five random seeds on HumanEval, MBPP, and the synthetic suites; issue-resolution settings may use at least three runs provided that task IDs and seeds are fully disclosed.
 
+\subsection{Expected effects and future decision thresholds}
+
+To avoid conflating hypotheses, design expectations, and observed evidence, Table~\ref{tab:expected-effects} records \textit{not results} but preregistered effect directions and minimally relevant thresholds. If later measurements on the implemented assistant fail to meet these targets, the corresponding hypotheses should be treated as unsupported or only partially supported.
+
+\begin{table}[htbp]
+\caption{Expected effect directions and minimally relevant thresholds for future evaluation}
+\label{tab:expected-effects}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{2.8cm}p{2.1cm}X@{}}
+\toprule
+Metric & Regime / task class & Preregistered expectation or threshold \\
+\midrule
+$Q$ and success rate & \textit{coding}, \textit{debugging}, \textit{document reasoning} under \textit{long}/\textit{very long} context & Hybrid-INoT should be at least non-inferior to Classical-MAS within a two-percentage-point non-inferiority margin on the main success metric. \\
+$U_{\text{tok}}$ & \textit{long}/\textit{very long} tasks with shared context & A practically meaningful gain is defined as an improvement of at least $15\%$ over Classical-MAS. \\
+$Q_{\$}$ & same regimes & A practically meaningful gain is defined as an improvement of at least $10\%$ over Classical-MAS. \\
+Latency & \textit{short} vs. \textit{long} & For \textit{short} tasks, degradation beyond $10\%$ is treated as evidence of poor routing; for \textit{long} tasks, the expectation is neutral to moderately favorable latency due to fewer expensive reruns. \\
+\textit{VCR} & \textit{coding}, \textit{debugging} & Relative to B0 Single-Large, the expected improvement is at least five percentage points due to external self-check. \\
+\textit{MAS} & \textit{coding} & Success should not be bought at the price of maintainability degradation: more than a $5\%$ drop relative to Classical-MAS is treated as unacceptable. \\
+\botrule
+\end{tabularx}
+\end{table}
+
 The report includes mean values with 95\% confidence intervals, bootstrap confidence intervals with at least $10\,000$ resamples over tasks, McNemar tests for paired binary success, Wilcoxon signed-rank tests for paired token, cost, and latency comparisons, and Holm--Bonferroni correction for multiple comparisons. Closed API models without immutable snapshot identifiers are placed in an observational appendix rather than mixed into the reproducible track.
 
 \section{Economic Analysis and TCO}
@@ -393,7 +428,7 @@ Total synthetic TCO, USD / month & 1{,}634 & 1{,}252 \\
 \end{tabular}
 \end{table}
 
-Under these declared assumptions, Hybrid-INoT reduces monthly synthetic TCO by 23.4\%. This is not an empirical measurement from a deployed production system; it is a reproducible worked example.
+Under these declared assumptions, the worked example yields a 23.4\% reduction in monthly synthetic TCO. This is not an empirical measurement from a deployed production system; it is a reproducible calculation template to be replaced later with observed deployment data.
 
 \subsection{When the architecture is beneficial and when it is not}
 
@@ -415,7 +450,9 @@ The approach has several important limitations. Internal role text does not guar
 
 \section{Conclusion}
 
-The paper presents a scientifically defensible reformulation of evaluating role segregation in language models via introspection of thought. The revised version relies only on real and citable academic or official primary sources, avoids treating unconfirmed architectural claims as established facts, formalizes role introspection as a mechanism for managing quality, tokens, cost, and reliability, and introduces a reproducible evaluation protocol together with a synthetic TCO calculation under explicit assumptions.
+The present version of the paper is not a final report on an already completed system. Instead, it establishes a methodologically strict research frame for evaluating such a system once it is implemented. The paper cleans the factual and bibliographic basis, sharpens the actual research gap, formalizes Hybrid-INoT as a hybrid agent architecture, and introduces a metric system that evaluates not only answer quality but also token economics, inference cost, code reliability, and maintainability.
+
+The practical value of this frame is that, after the assistant prototype is finished, single-agent baselines, classical external multi-agent orchestration, and internal role introspection can be compared on the same tasks and under predeclared interpretation criteria. That comparative and testable framing, rather than any premature claim of superiority, is the main scientific result at the current stage of the project.
 
 \backmatter
 
@@ -504,6 +541,27 @@ DeepSeek-AI \emph{et al.}, ``DeepSeek-R1: Incentivizing Reasoning Capability in 
 
 \bibitem{zai2025glm45}
 Z.ai, ``GLM-4.5: Agentic, Reasoning, and Coding Foundation Models,'' arXiv preprint arXiv:2508.06471, 2025.
+
+\bibitem{zai2025glm45docs}
+Z.ai, ``GLM-4.5,'' 2025. [Online]. Available: \url{https://docs.z.ai/guides/llm/glm-4.5}
+
+\bibitem{google2026gemini31pro}
+Google, ``Gemini 3.1 Pro,'' Feb.~19, 2026. [Online]. Available: \url{https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro}
+
+\bibitem{google2026geminimodels}
+Google, ``Gemini API models,'' 2026. [Online]. Available: \url{https://ai.google.dev/gemini-api/docs/models/gemini}
+
+\bibitem{anthropic2026sonnet45}
+Anthropic, ``Claude Sonnet 4.5,'' Sep.~29, 2025. [Online]. Available: \url{https://www.anthropic.com/news/claude-sonnet-4-5}
+
+\bibitem{anthropic2026extendedthinking}
+Anthropic, ``Extended thinking,'' 2026. [Online]. Available: \url{https://docs.claude.com/en/docs/build-with-claude/extended-thinking}
+
+\bibitem{minimax2026textdocs}
+MiniMax, ``Text generation models and guides,'' 2026. [Online]. Available: \url{https://platform.minimax.io/docs/api-reference/text-intro}
+
+\bibitem{xiaomi2026mimo}
+Xiaomi, ``MiMo,'' 2026. [Online]. Available: \url{https://mimo.mi.com/}
 
 \bibitem{openai2025chatgptagent}
 OpenAI, ``Introducing ChatGPT agent: bridging research and action,'' Jul.~17, 2025. [Online]. Available: \url{https://openai.com/index/introducing-chatgpt-agent/}
