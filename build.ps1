@@ -23,14 +23,23 @@ function Show-Usage {
 }
 
 function Invoke-Build([string]$TexFile) {
+  # -f keeps latexmk going through pdflatex's non-fatal exit codes (e.g.
+  # undefined references/citations on the first pass), so embedded
+  # \begin{thebibliography} gets resolved across the 2-3 passes latexmk
+  # runs automatically. Without -f the first pdflatex exit code 1 would
+  # abort the whole build before references stabilise.
   & $latexmk `
     -synctex=1 `
     -interaction=nonstopmode `
     -file-line-error `
     -pdf `
+    -f `
     $TexFile
 
-  if ($LASTEXITCODE -ne 0) {
+  # Treat "finished with errors but produced pdf" (exit 12 from latexmk
+  # under -f) as a soft failure only when the PDF is actually missing.
+  $pdfName = [IO.Path]::ChangeExtension($TexFile, ".pdf")
+  if (-not (Test-Path -LiteralPath $pdfName)) {
     exit $LASTEXITCODE
   }
 }
