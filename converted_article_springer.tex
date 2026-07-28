@@ -37,9 +37,9 @@
 
 \affil*[1]{\orgname{National Research University Higher School of Economics}, \orgaddress{\city{Moscow}, \country{Russia}}}
 
-\abstract{External multi-agent orchestration built on large language models repeatedly passes the shared context to independent roles and thereby creates substantial coordination overhead. In software engineering tasks with long shared context, this leads to rapid growth in token usage. This paper studies \textbf{Hybrid-INoT}, a hybrid architecture in which the \textit{planner--worker--critic--self-check} role cycle is unfolded inside a single model call, while only tool actions, verification, and context compression remain external. For this architecture, we specify an operational model, the \texttt{RouteMode} routing function, and a termination condition for the internal role cycle. We show that, with sufficiently long shared context and several external roles, Hybrid-INoT can be more economical than Classical-MAS in total token usage; in addition, we derive a worst-case upper bound on token consumption and a profitability condition for a small self-check model. The paper also proposes a metric system for token efficiency, monetary cost, and code maintainability, together with an empirical validation program that includes a pilot comparison on HumanEval, an ablation study, a context-length scaling analysis, an evaluation of the self-check procedure, and a TCO analysis based on real measurements.}
+\abstract{External multi-agent orchestration repeatedly transmits shared context to separate large-language-model roles, increasing token usage. We propose \textbf{Hybrid-INoT}, a hybrid architecture in which the \textit{planner--worker--critic--self-check} cycle is executed inside one model call, while tool actions, verification, and context compression remain external. We define its operational model, routing function, and analytical conditions for token and economic efficiency. A reproducible evaluation uses HumanEval and a controlled task set. In a real Gemini~3.1~Pro Preview API pilot ($n=5$ tasks per context length), Hybrid-INoT reduced mean token consumption relative to Classical-MAS by 55.6--88.9\% as target context grew from 256 to 16,384 tokens; an independent Gemini~3.1~Flash-Lite run ($n=20$, seed 42) yielded 49.6--90.3\% savings. In the latter run, the paired $U_{\mathrm{tok}}$ gain was significant at all four context lengths after Holm--Bonferroni correction ($p=1.91\cdot10^{-6}$). However, pass@1 was 1.0 for both architectures, so the stated quality non-inferiority margin was not statistically established. The small-model profitability condition held in the HumanEval pilot but not in the approximate SWE-bench Lite protocol. An analytical extrapolation of observed Pro API costs gives \$429.96 savings per 10,000 tasks under an equal mixture of four context lengths (95\% bootstrap CI \$267.06--\$617.17); this is not a full-TCO estimate. The evidence therefore supports token efficiency in the studied range but does not establish quality preservation, transfer to real repositories, or lower total cost of ownership.}
 
-\keywords{Large language models, agent systems, role introspection, Introspection of Thought, Self-Refine, Reflexion, token efficiency, economics of inference, code reliability, experimental protocol}
+\keywords{Large language models, agent systems, Introspection of Thought, token efficiency, inference economics, HumanEval, reproducible experiment}
 
 \maketitle
 
@@ -55,9 +55,9 @@ In agent systems built on large language models, a typical configuration is exte
 \[
 D_{\text{ctx}}+H_{\text{coord}} \;\;\in\;\; \Theta(|\mathcal{A}|\cdot|\mathcal{C}_0|)+\Theta(|\mathcal{A}|^2\cdot\bar{h}),
 \]
-where $|\mathcal{A}|$ is the number of roles and $\bar{h}$ is the average coordination-message length. This is not merely a qualitative observation: empirical measurements show that when $|\mathcal{A}|\ge 4$ and $|\mathcal{C}_0|\ge 4000$ tokens, the context share in the total cost exceeds 60\%~\cite{qian2024scaling,guo2024survey}. At standard API prices of \$3/M input tokens (roughly the level of Claude Sonnet~3.5 / GPT-4o in 2025), the price of this structural defect amounts to thousands of dollars per month even at a modest workload of 10{,}000 tasks. Here $D_{\text{ctx}}$ denotes the cost of repeated shared-context transmission, $H_{\text{coord}}$ the cost of coordination messages, $|\mathcal{C}_0|$ the length of the initial context in tokens, $|\mathcal{A}|$ the number of roles, and $\bar{h}$ the average coordination-message length.
+where $|\mathcal{A}|$ is the number of roles and $\bar{h}$ is the average coordination-message length. In our API pilot, this structural effect was observed directly. At a target context of 16,384 tokens, \textrm{Classical-MAS} used 59,631 tokens per task on average, of which 57,485 (96.4\%) were input tokens; \textrm{Hybrid-INoT} used 6,608 tokens. Per-case cost was \$0.14072 and \$0.02949, respectively, at the recorded Gemini~3.1~Pro Preview prices~\cite{openrouterpro2026}. These values concern the first five HumanEval tasks and must not be generalized to a different task distribution without measurement.
 
-Thus, the costs of the architectural scheme under discussion admit a quantitative expression: at the scale of $10^4$--$10^6$ engineering tasks, \textrm{Classical-MAS} spends an order of magnitude more resources on repeated context retransmission than on direct solution generation. It is precisely this fact that determines the relevance of the problem studied here.
+The problem is therefore quantitatively observable: in the studied long-context regime, repeated input transmission produced an approximately ninefold difference in total tokens between B2 and B3. The remainder of the paper separates the analytical model from empirical evidence and restricts claims to completed pilots.
 
 \subsection{Existing approaches and their limitations}
 
@@ -71,10 +71,11 @@ The paper delivers the following results:
 \item[\textbf{C2.}] Proposition~\ref{prop:inot-vs-mas}, which states the token advantage of Hybrid-INoT over Classical-MAS in expectation when the shared context is sufficiently long, and proves it by an explicit token accounting under stated assumptions (§\ref{sec:analysis}).
 \item[\textbf{C3.}] Inequality~\eqref{eq:small-model-condition}, which gives the profitability condition for a small self-check model (§\ref{sec:analysis}).
 \item[\textbf{C4.}] A system of metrics for token efficiency, monetary cost, and code maintainability with a justified aggregation form (§\ref{sec:metrics}).
-\item[\textbf{C5.}] An empirical validation program comprising five studies, E1--E5, with fixed baseline configurations, ablation analysis, and explicitly unfavorable scenarios (§\ref{sec:eval}).
+\item[\textbf{C5.}] A reproducible real-API evaluation covering context-length scaling, ablations, the small-model check, and an E6 cross-model sensitivity analysis (§\ref{sec:eval}).
+\item[\textbf{C6.}] Evidence-aligned hypothesis verdicts: support for the token component of H1 in the Flash-Lite run, partial support for H2 only on HumanEval, and no support for H3 in the direct architectural comparison (§\ref{sec:eval}).
 \end{enumerate}
 
-\noindent The empirical validation of Hybrid-INoT under long context is discussed further in §\ref{sec:agenda}.
+\noindent The harness, configurations, raw results, and figure-generation script are linked to an immutable research commit (§\ref{sec:eval}).
 
 \section{Related work and distinction of the proposed approach}\label{sec:related}
 
@@ -148,12 +149,12 @@ The agent strategy induces a random output $Y:\Omega\to\mathcal{Y}$. At the same
 \subsection{Research hypotheses}
 
 \begin{description}
-\item[\textbf{H1} (advantage under long context).] There exists a threshold initial-context length $\tau^\star$ such that for $|\mathcal{C}_0|>\tau^\star$, the \textrm{Hybrid-INoT} architecture yields at least a $\delta_{H1}=15\%$ increase in $U_{\text{tok}}$ relative to \textrm{Classical-MAS}, while solution quality degrades by no more than 2 percentage points.\par\emph{Verification:} experiment E1 (§\ref{subsec:e1}) with the paired Wilcoxon signed-rank test, 95\% bootstrap confidence intervals, and Holm--Bonferroni correction; the value of $\tau^\star$ is estimated in E3 (§\ref{subsec:e3}).
-\item[\textbf{H2} (economic justification of the small self-check model).] There exists a regime in which the preliminary check performed by a small model reduces the probability of an expensive rerun enough for condition~\eqref{eq:small-model-condition} to hold: $C_{\text{check}}^S<(\rho_0-\rho_1)C_{\text{rerun}}^L$.\par\emph{Verification:} E4 (§\ref{subsec:e4}) with direct measurements of $\rho_0,\rho_1,C_{\text{check}}^S,C_{\text{rerun}}^L$ on 100 HumanEval tasks and 50 SWE-bench~Lite tasks.
-\item[\textbf{H3} (boundary of applicability).] On tasks with genuinely independent subtasks and a high degree of tool parallelism, the response-time advantage of Hybrid-INoT vanishes or becomes negative.\par\emph{Verification:} dedicated experiment E2c (§\ref{subsec:e2}) on a subset of clearly parallel tasks from the Synthetic Tool-Use Suite.
+\item[\textbf{H1} (advantage under long context).] There exists a threshold initial-context length $\tau^\star$ such that for $|\mathcal{C}_0|>\tau^\star$, \textrm{Hybrid-INoT} yields at least a $\delta_{H1}=15\%$ increase in $U_{\text{tok}}$ relative to \textrm{Classical-MAS}, while pass@1 degrades by no more than 2 percentage points.\par\emph{Verification:} E3 (§\ref{subsec:e3}) with paired Wilcoxon tests, 95\% bootstrap confidence intervals, and Holm--Bonferroni correction.
+\item[\textbf{H2} (economic justification of the small self-check model).] There exists a regime in which a small-model preliminary check reduces expensive reruns enough for $C_{\text{check}}^S<(\rho_0-\rho_1)C_{\text{rerun}}^L$.\par\emph{Verification:} E4 (§\ref{subsec:e4}) on 20 HumanEval tasks and 20 approximate SWE-bench Lite cases.
+\item[\textbf{H3} (boundary of applicability).] On tasks with genuinely independent subtasks and parallel tools, the response-time advantage of Hybrid-INoT vanishes or becomes negative.\par\emph{Verification:} an architectural comparison on five tasks and a separate controlled serial/parallel tool microbenchmark in E2c (§\ref{subsec:e2}).
 \end{description}
 
-When testing H1, the base model, the set of allowed tools, the external-verification protocol, the task set, and the iteration limit are held fixed across all compared configurations; only the orchestration scheme and the way the shared context is reused across roles are changed. In H3, genuinely independent subtasks are those for which partial solutions can be constructed without exchanging intermediate state and without jointly reading the shared context, while a high degree of tool parallelism means that external checks and tool calls can be executed concurrently without blocking dependencies. Hypothesis~H3 therefore defines the applicability boundary of the architecture: under such conditions, the latency advantage of the internal role cycle may disappear. The threshold $\delta_{H1}=15\%$ for H1 is chosen as the smallest practically meaningful improvement, taking into account the typical variability of token budgets across seeds ($\approx 5{-}8\%$ std in~\cite{madaan2023selfrefine}) and the engineering cost of deploying the hybrid scheme at a scale of $10^4$ tasks per month. Sensitivity to this choice is assessed in E1 on the grid $\delta\in\{5\%,10\%,15\%,20\%\}$.
+When testing H1, the base model, tools, external verification, task set, seed, temperature, and prompts are held fixed; only orchestration changes. The threshold $\delta_{H1}=15\%$ is treated as the minimum practically meaningful effect. Observed savings do not replace evaluation of the complete H1 criterion.
 
 \section{Method: Hybrid-INoT}\label{sec:method}
 
@@ -177,7 +178,7 @@ Let $\varphi_{\mathrm{tool}}(x)\in\{0,1\}$ indicate whether an external tool is 
 \[
 \texttt{RouteMode}(x,\hat{\mathcal{C}})=\begin{cases}\texttt{external}, & \varphi_{\mathrm{tool}}(x)=1 \;\lor\; \varphi_{\mathrm{par}}(x)=1 \;\lor\; |\hat{\mathcal{C}}|<\tau^\star_{\mathrm{route}},\\ \texttt{internal}, & \text{otherwise}.\end{cases}
 \]
-The parameters $\varphi_{\mathrm{tool}}$ and $\varphi_{\mathrm{par}}$ are determined by a separate classifier over $x$ (in the base implementation, a lightweight instruction-based classifier; later, a trained binary classifier); the threshold $\tau^\star_{\mathrm{route}}=1024$ tokens is used as an initial configuration and refined in E3.
+The parameters $\varphi_{\mathrm{tool}}$ and $\varphi_{\mathrm{par}}$ are determined by a separate classifier over $x$ (a lightweight instruction-based classifier in the base implementation). The threshold $\tau^\star_{\mathrm{route}}=1024$ tokens remains an engineering setting and must not be conflated with the left-censored research result $\tau^\star\le256$ from E3.
 \end{definition}
 
 \subsection{Internal cycle and termination condition}
@@ -318,7 +319,7 @@ C_{\text{inf}}=c_L^{\mathrm{in}}\textstyle\sum_i p_i^L+c_L^{\mathrm{out}}\sum_i 
 C_{\text{check}}^S<(\rho_0-\rho_1)\cdot C_{\text{rerun}}^L.
 \label{eq:small-model-condition}
 \end{equation}
-The left-hand side of the inequality is the cost of the preliminary check, whereas the right-hand side is the expected savings from reducing the probability of an expensive rerun of the large model. Inequality~\eqref{eq:small-model-condition} therefore defines the decision criterion between a cheap preliminary check and a rerun of the large model. Its practical applicability depends on the values $\rho_0,\rho_1,C_{\text{check}}^S$, and $C_{\text{rerun}}^L$, which are to be estimated in E4.
+The left-hand side of the inequality is the cost of the preliminary check, whereas the right-hand side is the expected savings from reducing the probability of an expensive rerun of the large model. Inequality~\eqref{eq:small-model-condition} therefore defines the decision criterion between a cheap preliminary check and a rerun of the large model. Pilot measurements of $\rho_0,\rho_1,C_{\text{check}}^S$, and $C_{\text{rerun}}^L$ are reported in E4.
 
 \section{Metric system}\label{sec:metrics}
 
@@ -337,7 +338,7 @@ The aggregated success metric is defined as
 \mathrm{MAS}_i=\min(\mathrm{Success}_i,\mathrm{Verified}_i)\cdot M_i^{\lambda},\qquad \lambda\in[0,1],\quad\lambda=0.5.
 \label{eq:mas}
 \end{equation}
-The rationale for this construction is as follows. First, $\mathrm{Success}$ and $\mathrm{Verified}$ are necessary conditions for counting a solution as successful: a patch that fails external verification should not receive a high final score. Second, the multiplier $M_i^\lambda$ models the effect of maintainability on the final assessment; the parameter $\lambda$ controls the strength of this effect. The baseline configuration uses $\lambda=0.5$, and the robustness of conclusions to the choice of $\lambda$ is assessed in E2d.
+The rationale for this construction is as follows. First, $\mathrm{Success}$ and $\mathrm{Verified}$ are necessary conditions for counting a solution as successful: a patch that fails external verification should not receive a high final score. Second, the multiplier $M_i^\lambda$ models the effect of maintainability on the final assessment; the parameter $\lambda$ controls the strength of this effect. The baseline uses $\lambda=0.5$; E2d produced seven ranking inversions under weight and $\lambda$ changes, so the composite metric is treated as secondary.
 
 \subsection{Maintainability weights and their rationale}
 
@@ -364,7 +365,7 @@ $w_{\mathrm{doc}}$ & $0.20$ & ISO 25010 Modifiability; documentation coverage is
 \end{table}
 
 \subsubsection*{Sensitivity analysis}
-E2d tests the robustness of the configuration ranking B0--B3 under variations $(w_{\mathrm{cc}},w_{\mathrm{dup}},w_{\mathrm{warn}},w_{\mathrm{doc}})\pm 20\%$ and $\lambda\in\{0,0.25,0.5,0.75,1\}$ in~\eqref{eq:mas}. A reversal of the ranking under such variations is treated as evidence that the metric is overly sensitive to the chosen parameterization.
+E2d tested the robustness of the configuration ranking under $(w_{\mathrm{cc}},w_{\mathrm{dup}},w_{\mathrm{warn}},w_{\mathrm{doc}})\pm 20\%$ and $\lambda\in\{0,0.25,0.5,0.75,1\}$ in~\eqref{eq:mas}; seven reversals were observed.
 
 \subsection{Reliability metrics}
 \begin{align}
@@ -372,168 +373,186 @@ E2d tests the robustness of the configuration ranking B0--B3 under variations $(
 \mathrm{RFR}&=\frac{\#\{\text{patches without rollback}\}}{\#\{\text{applied patches}\}}.
 \end{align}
 
-\section{Empirical validation program}\label{sec:eval}
+\section{Empirical validation}\label{sec:eval}
 
-\subsection{General rules}
+\subsection{Reproducibility, source data, and statistical protocol}\label{subsec:e1}
 
-All experiments fix task identifiers, seed values, model versions with snapshot identifiers, and token prices together with the date of measurement. For closed APIs without a fixed version identifier, the data are moved to a separate appendix describing the observed characteristics. Statistical analysis includes the paired Wilcoxon signed-rank test for continuous metrics, McNemar's test for binary outcomes, 95\% bootstrap confidence intervals ($10^4$ resamples), and Holm--Bonferroni correction.
+The research harness is published in the INoT\_Research repository~\cite{inotresearch2026}; every result below is tied to commit \texttt{010211ee5775185e8330ab6cde06e912c2adcb9e}. The built-in configuration check completed successfully, and the test suite reported 15 passing tests. Raw JSON inputs are stored under \texttt{results/slide\_e2e3\_real}, \texttt{results/e6}, and \texttt{reproducibility/results/20260726\_flash\_lite}. Their SHA-256 hashes, aggregates, and figure-generation code are captured in \texttt{reproducibility/evidence\_snapshot.json}.
 
-\subsection{E1~--- Pilot on HumanEval}\label{subsec:e1}
+The primary dataset is canonical HumanEval~\cite{chen2021humaneval}. The Pro pilot uses HumanEval/0--4, and the Flash-Lite replication uses HumanEval/0--19 in canonical order. Historical context is generated deterministically (seed 42) from prompts and canonical solutions of \emph{other} HumanEval tasks; the target task solution is excluded. Whole blocks are appended, so actual lengths exceed targets. For $n=20$ and targets $\{256,1024,4096,16384\}$, mean actual lengths are $\{371.2,1154.8,4210.6,16524.3\}$ tokens, with ranges $\{259$--$545,\ 1024$--$1411,\ 4100$--$4415,\ 16389$--$16946\}$. This context is reproducible but synthetic.
 
-\textbf{Goal:} test H1 on a limited sample.
-\textbf{Data:} HumanEval (164 tasks)~\cite{chen2021humaneval}; for each task, four versions with artificial historical context of length $\{512,2048,8192\}$ tokens generated by a deterministic template are considered, for a total of $164\times 4=656$ cases. Seed values: $\{42,123,456,789,1337\}$.
-\textbf{Compared configurations:}
-\begin{itemize}
-\item B0 Single-Large (one large-model call without iterations);
-\item B1 Single-Large + \textrm{Self-Refine}~\cite{madaan2023selfrefine}, three iterations;
-\item B2 \textrm{Classical-MAS} (planner, worker, critic as separate calls, in a MetaGPT-like architecture);
-\item B3 \textrm{Hybrid-INoT} ($K=3$, $I=3$).
-\end{itemize}
-\textbf{Metrics:} pass@1 (share of tasks solved on the first attempt), $T$ (total token consumption), $U_{\text{tok}}$, $C_{\text{inf}}$ (USD per 1000 tasks at prices dated \{date\}), $Q_{\$}$, and response time.
-\textbf{Success criterion for H1:} B3 yields $\Delta U_{\text{tok}}\ge 15\%$ relative to B2 on the subset with $|\mathcal{C}_0|>2048$, with $p<0.05$ after Holm--Bonferroni; pass@1 does not degrade by more than 2 percentage points.
-\textbf{Failure criterion:} if these conditions are not met, H1 is treated as unsupported, and the conclusions are stated without claiming an advantage of Hybrid-INoT.
+B2 Classical-MAS invokes planner, worker, and critic separately and repeats shared context; B3 Hybrid-INoT runs the internal role cycle over one compressed-context transmission. Models are \texttt{google/gemini-3.1-pro-preview} and \texttt{google/gemini-3.1-flash-lite}. Recorded prices are \$2/\$12 and \$0.25/\$1.50 per million input/output tokens, respectively~\cite{openrouterpro2026,openrouterflash2026}, fixed on 26 July 2026. These API aliases are not immutable weight snapshots, so provider drift remains possible.
 
-Table~\ref{tab:e1-template} defines the reporting format for the results once the experiment is carried out.
+For each context length, B2 and B3 are paired on task and seed. We report
+\begin{align}
+S_T &= 100\left(1-\frac{\overline{T}_{B3}}{\overline{T}_{B2}}\right), &
+S_C &= 100\left(1-\frac{\overline{C}_{B3}}{\overline{C}_{B2}}\right), \label{eq:empirical-savings}\\
+\Delta U_{\mathrm{tok}} &= 100\left(\frac{U_{\mathrm{tok}}^{B3}}{U_{\mathrm{tok}}^{B2}}-1\right). \label{eq:empirical-utok}
+\end{align}
+Continuous paired differences use two-sided Wilcoxon signed-rank tests; binary outcomes use exact McNemar tests. Percentile bootstrap confidence intervals use $10^4$ resamples, and four context-length comparisons are adjusted by Holm--Bonferroni.
+
+\subsection{E3~--- Scaling with context length}\label{subsec:e3}
+
+Table~\ref{tab:e3-results} reports observed API means. B2 grows with repeated context, whereas B3 remains around 5.6--6.7k tokens after the 4,096-token target because of compression.
 
 \begin{table}[htbp]
-\caption{Reporting template for experiment E1}
-\label{tab:e1-template}
+\caption{Real API measurements for B2 and B3 on HumanEval}
+\label{tab:e3-results}
 \centering
 \footnotesize
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}llrrrrc@{}}
 \toprule
-Configuration & pass@1 & tokens/task & $U_{\text{tok}}$ & USD/1000 tasks \\
+Model & Context & $T_{B2}$ & $T_{B3}$ & $S_T$, \% & $S_C$, \% & pass@1 B2/B3 \\
 \midrule
-B0 & --- & --- & --- & --- \\
-B1 \textrm{Self-Refine} & --- & --- & --- & --- \\
-B2 \textrm{Classical-MAS} & --- & --- & --- & --- \\
-B3 \textrm{Hybrid-INoT} & --- & --- & --- & --- \\
+Pro ($n=5$) & 256 & 4964 & 2203 & 55.6 & 43.1 & 1.00/1.00 \\
+ & 1024 & 7117 & 2925 & 58.9 & 46.8 & 1.00/1.00 \\
+ & 4096 & 18218 & 6706 & 63.2 & 49.1 & 1.00/1.00 \\
+ & 16384 & 59631 & 6608 & 88.9 & 79.0 & 1.00/1.00 \\
+\midrule
+Flash-Lite ($n=20$) & 256 & 2738 & 1379 & 49.6 & 26.0 & 1.00/1.00 \\
+ & 1024 & 5487 & 2271 & 58.6 & 41.8 & 1.00/1.00 \\
+ & 4096 & 16007 & 5664 & 64.6 & 56.9 & 1.00/1.00 \\
+ & 16384 & 58110 & 5633 & 90.3 & 86.9 & 1.00/1.00 \\
 \botrule
 \end{tabular}
 \end{table}
 
-\subsection{E2~--- Ablation analysis and unfavorable scenarios}\label{subsec:e2}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/generated/e3_humaneval_replication_en.png}
+\caption{Mean total tokens per task. Dashed squares denote B2 Classical-MAS; solid circles denote B3 Hybrid-INoT. The $y$ axis is logarithmic. Left: retained Pro pilot ($n=5$ per point); right: Flash-Lite replication ($n=20$, seed 42).}
+\label{fig:e3-replication}
+\end{figure}
 
-\textbf{E2a.} B3 vs.\ B3a (without compression), B3b (without critic), and B3c (without self-check). Data: HumanEval, $n=164$. Criterion: each component must make a statistically significant contribution; if $\Delta_{\text{B3}-\text{B3b}}$ is insignificant, the critic role is removed from the architecture.
-\textbf{E2b} (unfavorable scenario: systematic critic error). A subset of 50 tasks on which the baseline B0 fails; the study measures how often $r_{\text{crit}}$ approves an incorrect candidate; an alarm threshold of $>20\%$ implies the need for external critic training.
-\textbf{E2c} (unfavorable scenario: parallel tools, H3). Fifty tasks with explicitly independent subtasks from the Synthetic Tool-Use Suite; response time is compared between B3 and B2; a response-time degradation of B3 up to 30\% is considered acceptable.
-\textbf{E2d} (metric sensitivity analysis). Ranking of configurations under $w\pm 20\%$ and $\lambda\in\{0,0.25,0.5,0.75,1\}$.
+For Pro at 16,384 target tokens,
+\[
+S_T=100\left(1-\frac{6608.4}{59631.4}\right)=88.9\%,\qquad
+S_C=100\left(1-\frac{0.0294908}{0.1407228}\right)=79.0\%.
+\]
+Since pass@1 is one, $U_{B2}=1/59631.4=1.677\cdot10^{-5}$ and $U_{B3}=1/6608.4=1.513\cdot10^{-4}$, an aggregate ratio-of-means gain of 802.4\%. Computing the ratio within each task before aggregation gives 805.7\% (95\% bootstrap CI 753.4--850.1\%).
 
-\subsection{E3~--- Scaling with context length}\label{subsec:e3}
+All Pro paired gains are positive, but with five nonzero one-directional pairs the minimum two-sided $p$ is 0.0625; none is significant after correction. In the Flash-Lite run, mean paired gains are 105.5, 144.3, 183.2, and 934.6\%; all CIs exclude zero, and $p=1.91\cdot10^{-6}$ at every context length, surviving Holm correction.
 
-\textbf{Goal:} estimate empirically the threshold $\tau^\star$ from Prop.~\ref{prop:inot-vs-mas}.
-\textbf{Data:} 50 HumanEval tasks $\times$ 4 context lengths $\{256,1024,4096,16384\}=200$ cases.
-\textbf{Method:} construct $U_{\text{tok}}(|\mathcal{C}_0|)$ for B0, B2, and B3; identify the intersection point $U_{\text{tok}}^{B3}(|\mathcal{C}_0|)=U_{\text{tok}}^{B2}(|\mathcal{C}_0|)$.
-\textbf{Criterion:} $\tau^\star$ must be finite and $<16384$; otherwise H1 and Prop.~\ref{prop:inot-vs-mas} are not confirmed in a practically relevant range.
+Nevertheless, pass@1${}=1.0$ for both architectures creates a ceiling. There are no discordant pairs, exact McNemar $p=1$, and the sample does not establish non-inferiority within 2 percentage points. Only the token component of H1 is supported. Because B3 dominates at the leftmost grid point, \texttt{tau\_star=256} means left censoring, $\tau^\star\le256$ target tokens, not a point estimate.
 
-\subsection{E4~--- Evaluation of the self-check procedure and H2}\label{subsec:e4}
+\subsection{E2~--- Ablations, critic behavior, and parallelism}\label{subsec:e2}
 
-\textbf{Goal:} test condition~\eqref{eq:small-model-condition}.
-\textbf{Data:} 100 HumanEval tasks + 50 SWE-bench Lite tasks~\cite{jimenez2023swebench}.
-\textbf{Measurements:} $\rho_0$ (share of incorrect solutions without self-check), $\rho_1$ (with self-check), $C_{\text{check}}^S$, and $C_{\text{rerun}}^L$, obtained by direct measurement.
-\textbf{Additionally:} SCR recall and the cost-benefit ratio of the self-check procedure.
-\textbf{Criterion for H2:} $C_{\text{check}}^S<(\rho_0-\rho_1)C_{\text{rerun}}^L$ on both datasets with 95\% confidence intervals.
+The Pro ablation pilot contains five tasks. pass@1 is 1.0 for full B3 and variants without compression, critic, or self-check. Paired aggregate-success differences for full B3 against the three variants are $-0.0037$, $-0.0262$, and $0.0000$, with $p=1.0$, $0.5$, and $1.0$; none survives Holm correction. Component token-overhead shares are 36.6\% for compression, 29.7\% for the critic, and 33.8\% for self-check, but these are overhead allocations, not demonstrated independent quality contributions. Only two B0 failures were available for E2b; zero erroneous critic approvals in two cases do not establish critic reliability.
 
-\subsection{E5~--- TCO on real data}\label{subsec:e5}
+In E2c, mean B2 latency is 19.28~s and B3 latency 9.76~s, a $-49.4\%$ change; the 95\% bootstrap CI for B3$-$B2 is $[-13.05,-6.83]$~s, but the Wilcoxon test gives $p=0.0625$ at $n=5$. A separate deterministic tool microbenchmark shows serial execution to be 148.8\% slower than parallel execution, yet the direct architectural comparison does not show the predicted B3 penalty. H3 is therefore \emph{not supported}; the microbenchmark only confirms a mechanism requiring isolation on real independent-tool tasks. E2d produces seven ranking inversions under weight and $\lambda$ changes, with the no-critic variant ranked first canonically. The composite metric is therefore unstable and retained only as a secondary measure.
 
-\textbf{Goal:} replace the synthetic TCO calculation with observed measurements.
-\textbf{Data:} $N=500$ tasks with varying context length, under B2 and B3.
-\textbf{Measurements:} input and output tokens for each role, number of API calls, number of reruns. $C_{\text{inf}}$ is computed using current prices, for which the model version and measurement date are recorded.
-\textbf{Extrapolation:} to 10{,}000 tasks/month with confidence intervals, \emph{not} a point estimate.
-\textbf{Sensitivity analysis:} token-price variation by $\pm 50\%$.
-\textbf{Criterion:} if even the lower CI bound of $\Delta\text{TCO}$ is not negative, no economic gain may be claimed.
+\subsection{E4~--- Economic test of the small model}\label{subsec:e4}
+
+Twenty HumanEval cases and twenty approximate SWE-bench Lite cases were run with Gemini~3.1~Pro Preview as the large model and Flash-Lite as the small model. Net margin per task is
+\begin{equation}
+M=(\rho_0-\rho_1)C_{\mathrm{rerun}}^L-C_{\mathrm{check}}^S.
+\label{eq:e4-margin}
+\end{equation}
+
+\begin{table}[htbp]
+\caption{Small-model profitability test, USD per task}
+\label{tab:e4-results}
+\centering
+\footnotesize
+\begin{tabular}{@{}lrrrrrc@{}}
+\toprule
+Dataset & $\rho_0$ & $\rho_1$ & $C_{\mathrm{check}}^S$ & $C_{\mathrm{rerun}}^L$ & $M$ (95\% CI) & H2 \\
+\midrule
+HumanEval & .35 & .00 & .000060 & .010822 & .003728 [.002042; .007685] & yes \\
+SWE-bench Lite* & .75 & .60 & .000122 & .014469 & .002048 [$-.000104$; .004650] & no \\
+\botrule
+\end{tabular}
+\end{table}
+
+For HumanEval, $M=(0.35-0)\cdot0.0108224-0.000060025=0.003727815$, and the lower CI bound is positive. The SWE-bench Lite interval crosses zero, so the original H2 requirement for both datasets is not met. The asterisk is essential: the current loader does not run the official containerized SWE-bench harness~\cite{jimenez2023swebench}; it uses code extraction and a \texttt{check(\_)} stub. This result characterizes the harness routing/check procedure, not the ability to resolve real GitHub issues.
+
+\subsection{E6~--- Cross-model sensitivity}\label{subsec:e6}
+
+The retained E6 compares Pro and Flash-Lite on ten controlled cases per architecture--context cell. Three simple function families are repeated (\texttt{reverse\_words}, \texttt{count\_peaks}, and \texttt{normalize\_path}); pass@1 is 1.0 throughout. At contexts 512, 2,048, and 8,192, Flash-Lite cost is 4.8, 6.9, and 9.7\% of Pro cost for B2, and 4.4, 5.4, and 7.0\% for B3 (Fig.~\ref{fig:e6-cost}). Paired $U_{\mathrm{tok}}$ differences are significant ($p=0.001953$, all survive Holm correction), but the quality ceiling prevents generalization to difficult tasks.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.92\textwidth]{figures/generated/e6_model_cost_ratio_en.png}
+\caption{Mean Gemini~3.1~Flash-Lite cost relative to Gemini~3.1~Pro Preview in controlled E6. Hatching preserves black-and-white readability.}
+\label{fig:e6-cost}
+\end{figure}
+
+\subsection{E5~--- API-inference cost extrapolation}\label{subsec:e5}
+
+The full TCO experiment was not completed: an additional run hit the provider limit before \texttt{runs.json} was persisted and is excluded. Instead, we perform an explicitly limited analytical extrapolation from twenty paired Pro E3 cases: five tasks at each of four context lengths with equal weights. For $N$ tasks,
+\begin{equation}
+\Delta C_{\mathrm{inf}}(N)=N\cdot
+\frac{1}{20}\sum_{i=1}^{20}\left(C_{B2,i}-C_{B3,i}\right).
+\label{eq:inference-extrapolation}
+\end{equation}
+The mean difference is \$0.042996 per task; at $N=10,000$, B3 savings are \$429.96, with a 95\% paired-bootstrap CI of \$267.06--\$617.17. Scaling both token prices by $-50,-25,0,+25,+50\%$ gives \$214.98, \$322.47, \$429.96, \$537.45, and \$644.94, respectively (Fig.~\ref{fig:e5-sensitivity}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.92\textwidth]{figures/generated/e5_inference_cost_sensitivity_en.png}
+\caption{Sensitivity of monthly B3 savings versus B2 to a common token-price multiplier: 10,000 tasks and an equal mixture of four context lengths. The band is the 95\% paired-bootstrap CI.}
+\label{fig:e5-sensitivity}
+\end{figure}
 
 \section{Economic model}\label{sec:tco}
 
-\subsection{TCO formulation}
+\subsection{Boundary between inference cost and TCO}
 
 \begin{equation}
 \mathrm{TCO}_{\text{month}}=C_{\text{inf}}+C_{\text{hw}}+C_{\text{energy}}+C_{\text{storage}}+C_{\text{ops}}.
 \label{eq:tco}
 \end{equation}
 
-Equation~\eqref{eq:tco} defines the structure of total cost of ownership; its parameterization is based on the measurements described in E5.
+Only external-API $C_{\text{inf}}$ is measured. Hardware, energy, storage, operations, engineering labor, and delay costs are not observed. Thus, E5 supports API-inference savings for the pilot mixture but not $\Delta\mathrm{TCO}<0$.
 
-\subsection{Conditions of economic viability}
+\subsection{Hypothesis verdicts}
 
-\begin{itemize}
-\item \textbf{Economically favorable:} $|\mathcal{C}_0|>\tau^\star$; $|\mathcal{A}|\ge 3$; the share of errors caught by the cheap self-check procedure is at least 30\%; no dominant parallelism is present.
-\item \textbf{Economically unfavorable:} $|\mathcal{C}_0|<\tau^\star$; genuine subtask independence; a requirement of process-level privilege isolation; or poor adherence of the model to the role format (measured in E2b).
-\end{itemize}
-
-These regimes are quantified in experiments E1, E3, and E5.
+\begin{table}[htbp]
+\caption{Original hypotheses versus observed evidence}
+\label{tab:hypothesis-verdict}
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+Claim & Verdict & Evidence \\
+\midrule
+H1 & partial & B3 token gain is supported in Flash-Lite; Pro is underpowered, and 2-pp pass@1 non-inferiority is not established. \\
+H2 & not supported as stated & Positive CI on HumanEval, but the approximate SWE-bench Lite CI crosses zero. \\
+H3 & not supported & The tool microbenchmark favors parallelism, but direct B3 is faster than B2; $n=5$. \\
+$\tau^\star$ & not identified & B3 dominates at the left boundary; only $\tau^\star\le256$ target tokens is established. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \section{Limitations and threats to validity}\label{sec:limits}
 
-\subsection{When internal introspection is worse than external orchestration}
-
 \begin{enumerate}
-\item \textbf{Genuine subtask independence.} Parallel execution of several large-model calls yields linear speedup in response time, whereas the internal cycle is sequential.
-\item \textbf{Need for privilege isolation.} Execution of untrusted code and secret handling require process boundaries between roles, which rules out the internal mode.
-\item \textbf{Weak adherence to the role format.} If the model does not preserve role prefixes, the critic effectively degenerates into a generator with a different instruction, and the architectural advantage disappears. This risk is assessed in E2b.
-\item \textbf{Systematic critic error.} A critic relying on its own generations may consistently approve incorrect candidates. In that case, the main safeguard remains external verification.
-\item \textbf{Compression that removes a critical fact.} Algorithm~\ref{alg:compression} may omit a rare but essential fragment; therefore, failing traces and API signatures are always preserved in the compressed context.
+\item \textbf{Small, non-random samples.} The first 5 or 20 HumanEval tasks are used rather than a random stratified sample of 164; the new run has one seed.
+\item \textbf{Synthetic context.} Long inputs are assembled from other HumanEval tasks rather than repository history. They isolate retransmission cost but not real codebase dependencies.
+\item \textbf{Quality ceiling.} B2/B3 and controlled E6 have pass@1${}=1.0$, supporting a resource comparison but not a strong quality test.
+\item \textbf{Approximate SWE-bench.} The official container harness is not used, so no claim about real issue resolution is made.
+\item \textbf{API drift.} Model names, parameters, usage, latency, and cost are recorded, but aliases do not guarantee immutable weights. Provider-limit failures are excluded.
+\item \textbf{Limited answer auditability.} \texttt{runs.json} records metrics and usage but not complete final solution text.
+\item \textbf{Cost is not TCO.} Figure~\ref{fig:e5-sensitivity} covers API inference only; the other terms in~\eqref{eq:tco} are unmeasured.
+\item \textbf{Architectural boundaries.} Independent subtasks, process isolation, critic errors, and compression losses may eliminate the B3 advantage. Role text is a computational mechanism, not a faithful explanation of hidden reasoning~\cite{turpin2023unfaithful}.
 \end{enumerate}
-
-\subsection{Threats to validity}
-
-\textbf{Internal validity:} the results may be affected by seed choice and API drift; to reduce this effect, model-version identifiers are fixed and a five-seed setup is used. \textbf{External validity:} HumanEval contains short synthetic tasks, so transfer of conclusions to real software-engineering tasks is further checked on SWE-bench Lite in E4. \textbf{Construct validity:} the metrics $U_{\text{tok}}$ and $Q_{\$}$ are sensitive to token prices; this factor is analyzed in E5 under price variations of $\pm 50\%$. \textbf{Statistical validity:} multiple comparisons are handled by Holm--Bonferroni correction, and when $n$ is small, the main emphasis is placed on confidence intervals.
-
-\subsection{Scope of applicability}
-
-The theoretical conclusions obtained here apply to software-engineering tasks with long shared context and are not automatically transferable to other task classes. Intermediate role texts are treated as a computational instrument rather than an interpretable explanation of model behavior~\cite{turpin2023unfaithful}. Finally, the specific hyperparameters $K=3$, $I=3$, and $\lambda=0.5$ are used as a working configuration and may be optimized further in later studies.
 
 \section{Directions for further research}\label{sec:agenda}
 
-Further development of this work is primarily connected with full empirical validation of the proposed architecture and refinement of the conditions under which it is applicable.
-
-\subsection{Immediate tasks}
-
-\textbf{R1.} Implement a reproducible prototype of configurations B0 and B3 with end-to-end execution on HumanEval.
-
-\textbf{R2.} Conduct a pilot comparison on HumanEval according to protocol E1 and obtain the first estimates of pass@1, token consumption, and cost.
-
-\textbf{R3.} Perform the ablation analysis E2a--E2d, including the contribution of compression, the critic, the self-check procedure, and the sensitivity of the metrics.
-
-\textbf{R4.} Refine the distinction from Self-Refine either by strengthening the theoretical analysis or by a direct empirical comparison in terms of $U_{\text{tok}}$ under long context.
-
-\textbf{R5.} Estimate TCO from real measurements for a sample of $N=500$ tasks with confidence intervals and sensitivity analysis with respect to token prices.
-
-\textbf{R6.} Calibrate the weights in Table~\ref{tab:weights} on the basis of expert elicitation or additional normative sources while preserving the sensitivity analysis.
-
-\subsection{Extension of the experimental program}
-
-\textbf{R7.} Carry out E3 and E4 in full and obtain an empirical estimate of the threshold $\tau^\star$ with confidence intervals.
-
-\textbf{R8.} Extend the set of baseline configurations with Reflexion \cite{shinn2023reflexion}, ReAct \cite{yao2022react}, and SWE-agent \cite{yang2024sweagent}.
-
-\textbf{R9.} Extend the evaluation from SWE-bench Lite to SWE-bench Full on a sample of at least 300 tasks.
-
-\textbf{R10.} Conduct an expert code-quality assessment on a subset of 50 tasks in order to validate the metric $M_i$ against professional judgment.
-
-\textbf{R11.} Study error-propagation mechanisms and compare the effect of a faulty critic in Hybrid-INoT and Classical-MAS.
-
-\subsection{Target outcomes of the empirical validation}
-
-The central claim about the advantage of internal role segregation under long shared context may be treated as confirmed only if all of the following conditions hold simultaneously:
+The next study should remove the identified uncertainty rather than repeat the pilot:
 \begin{enumerate}
-\item E1: $\Delta U_{\text{tok}}^{B3-B2}\ge 15\%$ on $|\mathcal{C}_0|>2048$, with $p<0.05$ after Holm--Bonferroni correction.
-\item E1: pass@1 for B3 is not worse than B2 within a non-inferiority margin of 2 percentage points.
-\item E2a: each component (compression, critic, self-check) makes a significant independent contribution.
-\item E3: $\tau^\star$ is finite and $<16{,}384$.
-\item E4: $C_{\text{check}}^S<(\rho_0-\rho_1)C_{\text{rerun}}^L$ on both datasets with 95\% confidence intervals.
-\item E5: $\Delta\text{TCO}<0$ at the lower CI bound and robust under $\pm 50\%$ token prices.
-\item R4: either a proof or empirical significance against Self-Refine is obtained.
+\item run all 164 HumanEval tasks with at least five seeds and a fixed analysis plan, including a powered non-inferiority test;
+\item extend the context grid below 256 tokens to estimate rather than left-censor $\tau^\star$;
+\item retain full input/output, prompt hashes, immutable model identifiers, and external-test results per run;
+\item replace the approximate SWE-bench path with the official container harness on a random repository sample;
+\item repeat E2c with real independent tools under matched models and serial/parallel execution;
+\item compare B3 with Self-Refine~\cite{madaan2023selfrefine}, Reflexion~\cite{shinn2023reflexion}, ReAct~\cite{yao2022react}, and SWE-agent~\cite{yang2024sweagent};
+\item measure full TCO, including operations, reruns, latency, infrastructure, and storage, under a production context-length distribution.
 \end{enumerate}
-\noindent If only part of these conditions is met, the scope of the conclusions must be restricted to the results actually obtained.
-
-\subsection{Research focus}
-
-Future research should focus on formal and empirical distinction between Hybrid-INoT and external multi-agent orchestration in terms of token efficiency on software-engineering tasks with long context. The maintainability metric system and TCO analysis serve here as supporting components of the broader research program.
 
 \section{Conclusion}
 
-The paper formalizes Hybrid-INoT as an intermediate architecture between in-context self-critique and external multi-agent orchestration. For this architecture, the paper defines the system state, the routing function, and the internal role cycle; derives a proposition on token advantage under long context and at least three roles; derives a worst-case upper bound on token usage; and proposes a profitability condition for the small self-check model. In addition, it develops a metric system for token efficiency, monetary cost, and code maintainability and formulates an empirical validation program required for quantitative testing of the theoretical conclusions. Taken together, these results provide a formal basis for further comparison of Hybrid-INoT with Classical-MAS and related approaches on software-engineering tasks.
+Hybrid-INoT is formalized as an intermediate architecture between in-context self-critique and external multi-agent orchestration. The analytical model predicts a growing advantage with shared-context length, and two real API pilots agree with that prediction. In the 20-task Flash-Lite replication, B3 uses 49.6--90.3\% fewer tokens than B2, and paired $U_{\mathrm{tok}}$ gains remain significant after multiple-comparison correction. However, ceiling pass@1 does not establish quality non-inferiority; H2 is supported only on HumanEval; H3 is not supported in the direct pilot; and the \$429.96 per 10,000 tasks estimate covers API inference only. The evidence therefore supports Hybrid-INoT as a promising mechanism for reducing repeated long-context transmission, while quality, the applicability threshold, and full economic impact require a powered evaluation on real repositories.
 
 \backmatter
 
@@ -619,6 +638,15 @@ ISO/IEC 25010:2023, ``Systems and software engineering~--- SQuaRE~--- Product qu
 
 \bibitem{mccabe1976}
 T.~J.~McCabe, ``A Complexity Measure,'' \emph{IEEE Trans.\ Software Engineering}, vol.~SE-2, no.~4, pp.~308--320, 1976.
+
+\bibitem{inotresearch2026}
+D.~Privezentsev, ``INoT\_Research: reproducible experiments for Hybrid-INoT,'' GitHub repository, commit \texttt{010211ee5775185e8330ab6cde06e912c2adcb9e}, 2026. [Online]. Available: \url{https://github.com/daniil-novel/INoT_Research}. Accessed: 26 July 2026.
+
+\bibitem{openrouterpro2026}
+OpenRouter, ``Gemini 3.1 Pro Preview~--- pricing,'' 2026. [Online]. Available: \url{https://openrouter.ai/google/gemini-3.1-pro-preview/pricing}. Accessed: 26 July 2026.
+
+\bibitem{openrouterflash2026}
+OpenRouter, ``Gemini 3.1 Flash Lite Preview~--- pricing,'' 2026. [Online]. Available: \url{https://openrouter.ai/google/gemini-3.1-flash-lite/pricing}. Accessed: 26 July 2026.
 
 \end{thebibliography}
 
