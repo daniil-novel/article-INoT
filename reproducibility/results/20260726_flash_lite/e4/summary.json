@@ -1,0 +1,34 @@
+{
+  "humaneval": {
+    "n_tasks": 20,
+    "rho_0": 0.35,
+    "rho_1": 0.0,
+    "C_check_S": 6.002499999999999e-05,
+    "C_rerun_L": 0.0108224,
+    "expected_savings": 0.0037878399999999993,
+    "net_margin": 0.0037278149999999993,
+    "ci_low": 0.0020415346875000003,
+    "ci_high": 0.0076850875,
+    "h2_confirmed_lower_ci_gt_0": true,
+    "small_decision_counts": {
+      "PASS": 13,
+      "REJECT": 7
+    }
+  },
+  "swebench_lite": {
+    "n_tasks": 20,
+    "rho_0": 0.75,
+    "rho_1": 0.6,
+    "C_check_S": 0.0001223625,
+    "C_rerun_L": 0.014469199999999998,
+    "expected_savings": 0.00217038,
+    "net_margin": 0.0020480175,
+    "ci_low": -0.00010414093749999997,
+    "ci_high": 0.004650463749999998,
+    "h2_confirmed_lower_ci_gt_0": false,
+    "small_decision_counts": {
+      "PASS": 15,
+      "REJECT": 5
+    }
+  }
+}

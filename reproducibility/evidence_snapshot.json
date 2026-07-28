@@ -1,0 +1,2505 @@
+{
+  "research_repository": "https://github.com/daniil-novel/INoT_Research",
+  "research_commit": "010211ee5775185e8330ab6cde06e912c2adcb9e",
+  "article_evidence_date": "2026-07-26",
+  "analysis_revision_date": "2026-07-28",
+  "analysis_code": {
+    "path": "article-INoT/reproducibility/build_article_evidence.py",
+    "sha256": "fd9f95401da9038548363cf9f56cebe336a7f7c7d7c7b21b7ff8ee6d60d8d549"
+  },
+  "manuscript_sources": {
+    "english_tex": {
+      "path": "article-INoT/converted_article_springer.tex",
+      "sha256": "73cf0411b7e40bfc0ccc65ae6adee2c80e74576593118bb580b1d82228cbde44"
+    },
+    "russian_tex": {
+      "path": "article-INoT/converted_article_springer_ru.tex",
+      "sha256": "97749f27099959bf9803815f7ec177fa9375ce45aaa835ca23167eb2fff1df84"
+    }
+  },
+  "canonical_claim_status": {
+    "resource_efficiency": "observed descriptively for the fixed E3 task sets; conditional rank-based sensitivity analyses are reported",
+    "quality_noninferiority_2pp": "not established",
+    "h2_rerun_policy": "not evaluated",
+    "h3_parallel_tool_penalty": "not supported",
+    "tau_star_and_router": "not identified or evaluated"
+  },
+  "excluded_legacy_claims": [
+    {
+      "source": "tracked_e2_stats.e3_tau_star",
+      "source_value": 256.0,
+      "canonical_status": "not identified; no crossover is bracketed"
+    },
+    {
+      "source": "tracked_e2_full_summary.e2c.h3_supported_parallel_tools_hurt_serial_hybrid",
+      "source_value": true,
+      "canonical_status": "not supported; deterministic tool timing is not a direct architecture-level test"
+    },
+    {
+      "source": "new_e4_legacy_aggregate_inputs.humaneval.h2_confirmed_lower_ci_gt_0",
+      "source_value": true,
+      "canonical_status": "not evaluated; aggregate screening counts do not identify an integrated rerun-policy effect"
+    },
+    {
+      "source": "new_e4_legacy_aggregate_inputs.swebench_lite.h2_confirmed_lower_ci_gt_0",
+      "source_value": false,
+      "canonical_status": "not evaluated; aggregate screening counts do not identify an integrated rerun-policy effect"
+    }
+  ],
+  "recomputation_scope": {
+    "recomputed_from_run_rows": [
+      "Pro and Flash-Lite E3 aggregates and paired statistics",
+      "data-quality checks and context-length profiles",
+      "four-point OLS slope diagnostics",
+      "E5 API-inference extrapolation and price sensitivity"
+    ],
+    "derived_from_aggregate_only_input": [
+      "E4 screening confusion tables"
+    ],
+    "imported_precomputed_with_hash_but_not_recomputed": [
+      "E2 aggregate and pairwise summaries",
+      "E6 aggregate and comparison summaries"
+    ],
+    "not_independently_reverified": [
+      "pass/fail labels because complete generated answers are absent",
+      "original external verification executions"
+    ]
+  },
+  "primary_estimand": {
+    "treatment": "end-to-end always-internal B3 bundle: one combined planner-worker-critic call, deterministic proxy compression above 4096 tokens, and external verification",
+    "comparator": "B2 Classical-MAS with separate planner, worker and critic calls over the uncompressed shared context",
+    "scope": "system-level package effect; orchestration and compression effects are not separately identified",
+    "router_evaluated": false
+  },
+  "input_files": {
+    "pro_e3_runs": {
+      "path": "INoT_Research/results/slide_e2e3_real/e3/runs.json",
+      "sha256": "e6c126892d020fa8904a524e2e0d026a9f6da719a8e196a28512a3931ef572f9"
+    },
+    "e2_stats": {
+      "path": "INoT_Research/results/slide_e2e3_real/slide_e2_e3_stats.json",
+      "sha256": "8fce55fac0a3a6d350e561b62328671e490450250d5031265dab570870a4287f"
+    },
+    "e2_pairwise": {
+      "path": "INoT_Research/results/slide_e2e3_real/e2/e2a/pairwise_vs_full.json",
+      "sha256": "e24abf7edec6b8fe2ff0874376281bedbe34b51e5c470d6481cca109d9c1557c"
+    },
+    "e2_full_summary": {
+      "path": "INoT_Research/results/slide_e2e3_real/e2/summary.json",
+      "sha256": "ec56e5f4c9d6e252a459af061e7b26e6709054cdcc8b9e34086765f51fc466f4"
+    },
+    "e6_summary": {
+      "path": "INoT_Research/results/e6/summary.json",
+      "sha256": "b07a63739f4258540909bfb49bb00707af7372a84c75d1bab0837c0a51ee697e"
+    },
+    "e6_comparisons": {
+      "path": "INoT_Research/results/e6/flash_vs_pro.json",
+      "sha256": "8fee067c0b87fe547843eedee109188c68c64036826e45bbbc91302a939f97a2"
+    },
+    "e6_runs": {
+      "path": "INoT_Research/results/e6/runs.json",
+      "sha256": "5eb1acfc91ceca171e912d03f43a65a1b50158d23d068bc347b52e54962070f8"
+    },
+    "e4_summary": {
+      "path": "article-INoT/reproducibility/results/20260726_flash_lite/e4/summary.json",
+      "sha256": "64d345cc95473dd4a55f4ac7f5c0f009e5e1dd9edc1f0abbd84fc422bf9272bb"
+    },
+    "flash_e3_runs_e3": {
+      "path": "article-INoT/reproducibility/results/20260726_flash_lite/e3/runs.json",
+      "sha256": "3e9c4e0371c1a2aa6471bc8f66e45f073589e50ce221db6f493fc162f220b829"
+    }
+  },
+  "e3_data_quality": {
+    "tracked_pro": {
+      "label": "tracked Pro HumanEval E3",
+      "unit_of_analysis": "task x architecture x target-context x seed",
+      "row_count": 60,
+      "expected_row_count": 60,
+      "unique_key_count": 60,
+      "architectures": [
+        "B0_SingleLarge",
+        "B2_ClassicalMAS",
+        "B3_HybridINoT"
+      ],
+      "contexts": [
+        256,
+        1024,
+        4096,
+        16384
+      ],
+      "task_ids": [
+        "HumanEval/0",
+        "HumanEval/1",
+        "HumanEval/2",
+        "HumanEval/3",
+        "HumanEval/4"
+      ],
+      "seeds": [
+        42
+      ],
+      "models": [
+        "google/gemini-3.1-pro-preview"
+      ],
+      "duplicate_keys": 0,
+      "missing_buckets": 0,
+      "token_accounting_mismatches": 0,
+      "usage_trace_mismatches": 0,
+      "paid_usage_positive": true,
+      "compressed_context_proxy_tokens": {
+        "selection_block_sum_budget": 4096,
+        "serialized_count_includes_join_separators": true,
+        "interpretation": "the selector budgets block proxy counts before retained blocks are joined; the serialized count may therefore exceed 4096",
+        "by_target_context": {
+          "256": {
+            "minimum": 265,
+            "maximum": 639,
+            "count_above_block_sum_budget": 0,
+            "row_count": 5
+          },
+          "1024": {
+            "minimum": 1028,
+            "maximum": 1138,
+            "count_above_block_sum_budget": 0,
+            "row_count": 5
+          },
+          "4096": {
+            "minimum": 4128,
+            "maximum": 4151,
+            "count_above_block_sum_budget": 5,
+            "row_count": 5
+          },
+          "16384": {
+            "minimum": 4100,
+            "maximum": 4108,
+            "count_above_block_sum_budget": 5,
+            "row_count": 5
+          }
+        },
+        "observed_maximum": 4151
+      },
+      "status": "pass"
+    },
+    "flash_lite_replication": {
+      "label": "Flash-Lite HumanEval E3 replication",
+      "unit_of_analysis": "task x architecture x target-context x seed",
+      "row_count": 240,
+      "expected_row_count": 240,
+      "unique_key_count": 240,
+      "architectures": [
+        "B0_SingleLarge",
+        "B2_ClassicalMAS",
+        "B3_HybridINoT"
+      ],
+      "contexts": [
+        256,
+        1024,
+        4096,
+        16384
+      ],
+      "task_ids": [
+        "HumanEval/0",
+        "HumanEval/1",
+        "HumanEval/10",
+        "HumanEval/11",
+        "HumanEval/12",
+        "HumanEval/13",
+        "HumanEval/14",
+        "HumanEval/15",
+        "HumanEval/16",
+        "HumanEval/17",
+        "HumanEval/18",
+        "HumanEval/19",
+        "HumanEval/2",
+        "HumanEval/3",
+        "HumanEval/4",
+        "HumanEval/5",
+        "HumanEval/6",
+        "HumanEval/7",
+        "HumanEval/8",
+        "HumanEval/9"
+      ],
+      "seeds": [
+        42
+      ],
+      "models": [
+        "google/gemini-3.1-flash-lite"
+      ],
+      "duplicate_keys": 0,
+      "missing_buckets": 0,
+      "token_accounting_mismatches": 0,
+      "usage_trace_mismatches": 0,
+      "paid_usage_positive": true,
+      "compressed_context_proxy_tokens": {
+        "selection_block_sum_budget": 4096,
+        "serialized_count_includes_join_separators": true,
+        "interpretation": "the selector budgets block proxy counts before retained blocks are joined; the serialized count may therefore exceed 4096",
+        "by_target_context": {
+          "256": {
+            "minimum": 259,
+            "maximum": 545,
+            "count_above_block_sum_budget": 0,
+            "row_count": 20
+          },
+          "1024": {
+            "minimum": 1024,
+            "maximum": 1411,
+            "count_above_block_sum_budget": 0,
+            "row_count": 20
+          },
+          "4096": {
+            "minimum": 4113,
+            "maximum": 4170,
+            "count_above_block_sum_budget": 20,
+            "row_count": 20
+          },
+          "16384": {
+            "minimum": 4099,
+            "maximum": 4115,
+            "count_above_block_sum_budget": 20,
+            "row_count": 20
+          }
+        },
+        "observed_maximum": 4170
+      },
+      "status": "pass"
+    }
+  },
+  "tracked_pro_humaneval_e3": {
+    "B0_SingleLarge": {
+      "256": {
+        "n": 5,
+        "pass_at_1": 0.8,
+        "mean_tokens": 1375.8,
+        "mean_input_tokens": 691.2,
+        "mean_output_tokens": 684.6,
+        "mean_cost_usd": 0.0095976,
+        "mean_latency_seconds": 7.793208379999851,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      },
+      "1024": {
+        "n": 5,
+        "pass_at_1": 0.8,
+        "mean_tokens": 2217,
+        "mean_input_tokens": 1414.4,
+        "mean_output_tokens": 802.6,
+        "mean_cost_usd": 0.012459999999999999,
+        "mean_latency_seconds": 9.036094320000847,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      },
+      "4096": {
+        "n": 5,
+        "pass_at_1": 0.6,
+        "mean_tokens": 5931.8,
+        "mean_input_tokens": 5098.6,
+        "mean_output_tokens": 833.2,
+        "mean_cost_usd": 0.0201956,
+        "mean_latency_seconds": 9.90550649999641,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      },
+      "16384": {
+        "n": 5,
+        "pass_at_1": 0.6,
+        "mean_tokens": 19840.6,
+        "mean_input_tokens": 18957.8,
+        "mean_output_tokens": 882.8,
+        "mean_cost_usd": 0.0485092,
+        "mean_latency_seconds": 11.688003579998622,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      }
+    },
+    "B2_ClassicalMAS": {
+      "256": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 4963.6,
+        "mean_input_tokens": 2702,
+        "mean_output_tokens": 2261.6,
+        "mean_cost_usd": 0.0325432,
+        "mean_latency_seconds": 23.859057340005528,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      },
+      "1024": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 7117,
+        "mean_input_tokens": 4797.2,
+        "mean_output_tokens": 2319.8,
+        "mean_cost_usd": 0.037432,
+        "mean_latency_seconds": 24.128502579996713,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      },
+      "4096": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 18218.4,
+        "mean_input_tokens": 15904.6,
+        "mean_output_tokens": 2313.8,
+        "mean_cost_usd": 0.0595748,
+        "mean_latency_seconds": 27.085283739998705,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      },
+      "16384": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 59631.4,
+        "mean_input_tokens": 57485.4,
+        "mean_output_tokens": 2146,
+        "mean_cost_usd": 0.1407228,
+        "mean_latency_seconds": 24.97392724000383,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ]
+      }
+    },
+    "B3_HybridINoT": {
+      "256": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 2203,
+        "mean_input_tokens": 792,
+        "mean_output_tokens": 1411,
+        "mean_cost_usd": 0.018516,
+        "mean_latency_seconds": 15.772299160002149,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ],
+        "token_savings_vs_b2_pct": 55.61689096623419,
+        "cost_savings_vs_b2_pct": 43.10332112392143,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 125.31093962778033
+      },
+      "1024": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 2924.6,
+        "mean_input_tokens": 1516.4,
+        "mean_output_tokens": 1408.2,
+        "mean_cost_usd": 0.0199312,
+        "mean_latency_seconds": 14.742153259995394,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ],
+        "token_savings_vs_b2_pct": 58.9068427708304,
+        "cost_savings_vs_b2_pct": 46.75357982474888,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 143.34951788278738
+      },
+      "4096": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 6706.4,
+        "mean_input_tokens": 5012.6,
+        "mean_output_tokens": 1693.8,
+        "mean_cost_usd": 0.030350799999999997,
+        "mean_latency_seconds": 16.089775540001575,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ],
+        "token_savings_vs_b2_pct": 63.188864005620694,
+        "cost_savings_vs_b2_pct": 49.0542981260533,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 171.6569247286175
+      },
+      "16384": {
+        "n": 5,
+        "pass_at_1": 1.0,
+        "mean_tokens": 6608.4,
+        "mean_input_tokens": 4981,
+        "mean_output_tokens": 1627.4,
+        "mean_cost_usd": 0.0294908,
+        "mean_latency_seconds": 16.31106120000477,
+        "models": [
+          "google/gemini-3.1-pro-preview"
+        ],
+        "token_savings_vs_b2_pct": 88.91791908289927,
+        "cost_savings_vs_b2_pct": 79.04333910354256,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 802.357605471824
+      }
+    }
+  },
+  "tracked_pro_humaneval_e3_pairwise": [
+    {
+      "context_target_tokens": 256,
+      "n_pairs": 5,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 124.17475563692194,
+      "median_within_task_relative_utok_gain_pct": 123.06483300589393,
+      "minimum_within_task_relative_utok_gain_pct": 102.66736401673641,
+      "maximum_within_task_relative_utok_gain_pct": 143.5034802784223,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        112.44256219446143,
+        136.0889236610913
+      ],
+      "pairs_at_or_above_15_pct": 5,
+      "wilcoxon_p_utok": 0.0625,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 0.03125,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": false,
+      "holm_reject_gain_le_15_pct": false
+    },
+    {
+      "context_target_tokens": 1024,
+      "n_pairs": 5,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 144.39573326577676,
+      "median_within_task_relative_utok_gain_pct": 141.65567282321896,
+      "minimum_within_task_relative_utok_gain_pct": 116.80517082179134,
+      "maximum_within_task_relative_utok_gain_pct": 168.02616390919582,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        129.18143424801033,
+        158.776101476031
+      ],
+      "pairs_at_or_above_15_pct": 5,
+      "wilcoxon_p_utok": 0.0625,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 0.03125,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": false,
+      "holm_reject_gain_le_15_pct": false
+    },
+    {
+      "context_target_tokens": 4096,
+      "n_pairs": 5,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 171.9274479846842,
+      "median_within_task_relative_utok_gain_pct": 170.67206720672067,
+      "minimum_within_task_relative_utok_gain_pct": 162.93027360988526,
+      "maximum_within_task_relative_utok_gain_pct": 185.36546943919342,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        165.64323913720983,
+        179.04277119838306
+      ],
+      "pairs_at_or_above_15_pct": 5,
+      "wilcoxon_p_utok": 0.0625,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 0.03125,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": false,
+      "holm_reject_gain_le_15_pct": false
+    },
+    {
+      "context_target_tokens": 16384,
+      "n_pairs": 5,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 805.6478428186953,
+      "median_within_task_relative_utok_gain_pct": 817.5618869687062,
+      "minimum_within_task_relative_utok_gain_pct": 720.9248079034028,
+      "maximum_within_task_relative_utok_gain_pct": 872.4216339126198,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        756.0210618037912,
+        850.4111937017185
+      ],
+      "pairs_at_or_above_15_pct": 5,
+      "wilcoxon_p_utok": 0.0625,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 0.03125,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": false,
+      "holm_reject_gain_le_15_pct": false
+    }
+  ],
+  "tracked_pro_context_scaling_slopes": {
+    "label": "tracked Pro HumanEval E3",
+    "model": [
+      "google/gemini-3.1-pro-preview"
+    ],
+    "estimand": "per-task OLS slope of total tokens against actual context tokens over four target-context cells",
+    "contexts": [
+      256,
+      1024,
+      4096,
+      16384
+    ],
+    "architectures": {
+      "B2_ClassicalMAS": {
+        "n_task_slopes": 5,
+        "mean_gridwide_ols_slope_tokens_per_context_token": 3.4103882458052177,
+        "median_gridwide_ols_slope_tokens_per_context_token": 3.403886935452833,
+        "mean_task_resampling_interval": [
+          3.3966879179188765,
+          3.424088573691558
+        ],
+        "minimum_task_slope": 3.391890422088011,
+        "maximum_task_slope": 3.43197929055084,
+        "per_task_slopes": [
+          3.3978859049827634,
+          3.391890422088011,
+          3.403886935452833,
+          3.43197929055084,
+          3.426298675951639
+        ]
+      },
+      "B3_HybridINoT": {
+        "n_task_slopes": 5,
+        "mean_gridwide_ols_slope_tokens_per_context_token": 0.23418189041542145,
+        "median_gridwide_ols_slope_tokens_per_context_token": 0.23358324353227375,
+        "mean_task_resampling_interval": [
+          0.22073594974808392,
+          0.2495452589934616
+        ],
+        "minimum_task_slope": 0.2142068990128002,
+        "maximum_task_slope": 0.26392494633437646,
+        "per_task_slopes": [
+          0.23682615076575209,
+          0.26392494633437646,
+          0.23358324353227375,
+          0.22236821243190483,
+          0.2142068990128002
+        ]
+      }
+    },
+    "paired_b2_minus_b3": {
+      "mean_gridwide_ols_slope_difference": 3.1762063553897955,
+      "mean_task_resampling_interval": [
+        3.14967083037237,
+        3.2027418804072214
+      ],
+      "wilcoxon_two_sided_p": 0.0625,
+      "all_task_differences_positive": true
+    },
+    "interpretation": "grid-wide four-point linear summary, not a marginal derivative; B3 changes compression regime at the 4096-token boundary",
+    "uncertainty_scope": "task-resampling stability only; seed and repeated API-run uncertainty are not represented"
+  },
+  "tracked_pro_tau_star_interpretation": {
+    "identified": false,
+    "censoring": "unbracketed_left_boundary",
+    "statement": "no crossover is observed; a routing threshold is not identified by this grid",
+    "reason": "the always-internal B3 treatment weakly dominates B2 at every observed point, and behavior below the grid is unknown"
+  },
+  "flash_lite_humaneval_e3_replication": {
+    "B0_SingleLarge": {
+      "256": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 745.65,
+        "mean_input_tokens": 602.8,
+        "mean_output_tokens": 142.85,
+        "mean_cost_usd": 0.000364975,
+        "mean_latency_seconds": 1.2043134300009115,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      },
+      "1024": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 1650.8,
+        "mean_input_tokens": 1493.15,
+        "mean_output_tokens": 157.65,
+        "mean_cost_usd": 0.0006097625,
+        "mean_latency_seconds": 1.2604007950038068,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      },
+      "4096": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 5133.7,
+        "mean_input_tokens": 4975.2,
+        "mean_output_tokens": 158.5,
+        "mean_cost_usd": 0.00148155,
+        "mean_latency_seconds": 1.569442299999355,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      },
+      "16384": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 19159.5,
+        "mean_input_tokens": 19001.45,
+        "mean_output_tokens": 158.05,
+        "mean_cost_usd": 0.0049874375,
+        "mean_latency_seconds": 1.7525872050013276,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      }
+    },
+    "B2_ClassicalMAS": {
+      "256": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 2737.9,
+        "mean_input_tokens": 2269.7,
+        "mean_output_tokens": 468.2,
+        "mean_cost_usd": 0.001269725,
+        "mean_latency_seconds": 4.297113569997601,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      },
+      "1024": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 5486.8,
+        "mean_input_tokens": 4979.75,
+        "mean_output_tokens": 507.05,
+        "mean_cost_usd": 0.0020055125,
+        "mean_latency_seconds": 4.5876175799989145,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      },
+      "4096": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 16006.75,
+        "mean_input_tokens": 15463.3,
+        "mean_output_tokens": 543.45,
+        "mean_cost_usd": 0.004681,
+        "mean_latency_seconds": 4.720858480002789,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      },
+      "16384": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 58110,
+        "mean_input_tokens": 57554.5,
+        "mean_output_tokens": 555.5,
+        "mean_cost_usd": 0.015221875,
+        "mean_latency_seconds": 5.706858260002628,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ]
+      }
+    },
+    "B3_HybridINoT": {
+      "256": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 1379.25,
+        "mean_input_tokens": 902.95,
+        "mean_output_tokens": 476.3,
+        "mean_cost_usd": 0.0009401875,
+        "mean_latency_seconds": 3.006558500006213,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ],
+        "token_savings_vs_b2_pct": 49.623799262208266,
+        "cost_savings_vs_b2_pct": 25.953454488176565,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 98.50643465651625
+      },
+      "1024": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 2270.5,
+        "mean_input_tokens": 1790.5,
+        "mean_output_tokens": 480,
+        "mean_cost_usd": 0.001167625,
+        "mean_latency_seconds": 2.971907264998299,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ],
+        "token_savings_vs_b2_pct": 58.618867099219955,
+        "cost_savings_vs_b2_pct": 41.779221022057946,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 141.65602290244442
+      },
+      "4096": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 5663.55,
+        "mean_input_tokens": 5182.2,
+        "mean_output_tokens": 481.35,
+        "mean_cost_usd": 0.002017575,
+        "mean_latency_seconds": 3.287485635005578,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ],
+        "token_savings_vs_b2_pct": 64.61773939119433,
+        "cost_savings_vs_b2_pct": 56.89863277077547,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 182.6275039507023
+      },
+      "16384": {
+        "n": 20,
+        "pass_at_1": 1.0,
+        "mean_tokens": 5632.9,
+        "mean_input_tokens": 5158.2,
+        "mean_output_tokens": 474.7,
+        "mean_cost_usd": 0.0020016,
+        "mean_latency_seconds": 3.162842414996703,
+        "models": [
+          "google/gemini-3.1-flash-lite"
+        ],
+        "token_savings_vs_b2_pct": 90.30648769574944,
+        "cost_savings_vs_b2_pct": 86.85050297680148,
+        "delta_pass_at_1_pp_vs_b2": 0.0,
+        "relative_utok_gain_vs_b2_pct": 931.617816755135
+      }
+    }
+  },
+  "flash_lite_humaneval_e3_pairwise": [
+    {
+      "context_target_tokens": 256,
+      "n_pairs": 20,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 106.47312071074649,
+      "median_within_task_relative_utok_gain_pct": 81.06260837106251,
+      "minimum_within_task_relative_utok_gain_pct": 49.33564413633738,
+      "maximum_within_task_relative_utok_gain_pct": 178.5097192224622,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        87.49511315610906,
+        126.14133758407922
+      ],
+      "pairs_at_or_above_15_pct": 20,
+      "wilcoxon_p_utok": 1.9073486328125e-06,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 9.5367431640625e-07,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": true,
+      "holm_reject_gain_le_15_pct": true
+    },
+    {
+      "context_target_tokens": 1024,
+      "n_pairs": 20,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 144.84020425192233,
+      "median_within_task_relative_utok_gain_pct": 132.30318982479608,
+      "minimum_within_task_relative_utok_gain_pct": 103.37614678899084,
+      "maximum_within_task_relative_utok_gain_pct": 194.05845711547673,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        131.87758483355563,
+        158.2678528403585
+      ],
+      "pairs_at_or_above_15_pct": 20,
+      "wilcoxon_p_utok": 1.9073486328125e-06,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 9.5367431640625e-07,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": true,
+      "holm_reject_gain_le_15_pct": true
+    },
+    {
+      "context_target_tokens": 4096,
+      "n_pairs": 20,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 183.2916124753412,
+      "median_within_task_relative_utok_gain_pct": 180.75498815150502,
+      "minimum_within_task_relative_utok_gain_pct": 160.82356770833331,
+      "maximum_within_task_relative_utok_gain_pct": 213.39686098654704,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        177.29026256917479,
+        189.61663704587863
+      ],
+      "pairs_at_or_above_15_pct": 20,
+      "wilcoxon_p_utok": 1.9073486328125e-06,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 9.5367431640625e-07,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": true,
+      "holm_reject_gain_le_15_pct": true
+    },
+    {
+      "context_target_tokens": 16384,
+      "n_pairs": 20,
+      "pass_at_1_b2": 1.0,
+      "pass_at_1_b3": 1.0,
+      "estimand": "mean within-task relative U_tok gain, 100 * mean(U_B3/U_B2 - 1)",
+      "mean_within_task_relative_utok_gain_pct": 934.6082766784164,
+      "median_within_task_relative_utok_gain_pct": 920.8972371859597,
+      "minimum_within_task_relative_utok_gain_pct": 845.159721096157,
+      "maximum_within_task_relative_utok_gain_pct": 1036.5469560207412,
+      "mean_within_task_relative_utok_gain_resampling_interval_pct": [
+        910.7908661094143,
+        959.6010926671335
+      ],
+      "pairs_at_or_above_15_pct": 20,
+      "wilcoxon_p_utok": 1.9073486328125e-06,
+      "wilcoxon_one_sided_p_gain_above_15_pct": 9.5367431640625e-07,
+      "inferential_scope": "conditional rank-based sensitivity analysis for the fixed task set and single retained API run; the Wilcoxon test targets a symmetric location shift, not the reported mean",
+      "resampling_interval_scope": "2.5--97.5 percentile task-resampling stability interval; not a design-based population confidence interval",
+      "mcnemar_exact_p": 1.0,
+      "discordant_b2_only": 0,
+      "discordant_b3_only": 0,
+      "holm_reject_zero_gain": true,
+      "holm_reject_gain_le_15_pct": true
+    }
+  ],
+  "flash_lite_context_scaling_slopes": {
+    "label": "Flash-Lite HumanEval E3 replication",
+    "model": [
+      "google/gemini-3.1-flash-lite"
+    ],
+    "estimand": "per-task OLS slope of total tokens against actual context tokens over four target-context cells",
+    "contexts": [
+      256,
+      1024,
+      4096,
+      16384
+    ],
+    "architectures": {
+      "B2_ClassicalMAS": {
+        "n_task_slopes": 20,
+        "mean_gridwide_ols_slope_tokens_per_context_token": 3.4254778807014183,
+        "median_gridwide_ols_slope_tokens_per_context_token": 3.426252476380223,
+        "mean_task_resampling_interval": [
+          3.42110752039995,
+          3.4298601709190417
+        ],
+        "minimum_task_slope": 3.4038085581611477,
+        "maximum_task_slope": 3.448655721361803,
+        "per_task_slopes": [
+          3.4232512294442596,
+          3.4268897550932644,
+          3.4135194403733156,
+          3.429454320924051,
+          3.42794468205383,
+          3.439365077315835,
+          3.433030702607164,
+          3.419597486189742,
+          3.4038085581611477,
+          3.43564114762302,
+          3.423419881243991,
+          3.418425651324169,
+          3.4320173263945,
+          3.426903104882255,
+          3.4197130422135995,
+          3.4259920878218124,
+          3.425663551293266,
+          3.426512864938634,
+          3.448655721361803,
+          3.409751982768693
+        ]
+      },
+      "B3_HybridINoT": {
+        "n_task_slopes": 20,
+        "mean_gridwide_ols_slope_tokens_per_context_token": 0.21909849835005865,
+        "median_gridwide_ols_slope_tokens_per_context_token": 0.21990132070538485,
+        "mean_task_resampling_interval": [
+          0.2164851430660329,
+          0.22161416323741462
+        ],
+        "minimum_task_slope": 0.20518510133816473,
+        "maximum_task_slope": 0.22774428946412342,
+        "per_task_slopes": [
+          0.21878448275703766,
+          0.22774428946412342,
+          0.22045902459102307,
+          0.22416672312189087,
+          0.22531051339030533,
+          0.2067810091353615,
+          0.22223848005934896,
+          0.22446180169660399,
+          0.21660422433123733,
+          0.21528553134888992,
+          0.22046649053127043,
+          0.22046822030854138,
+          0.21591242836897132,
+          0.21376320129345217,
+          0.21934361681974662,
+          0.20518510133816473,
+          0.21614570789502885,
+          0.22678551639297323,
+          0.2249609870800197,
+          0.21710261707718287
+        ]
+      }
+    },
+    "paired_b2_minus_b3": {
+      "mean_gridwide_ols_slope_difference": 3.206379382351359,
+      "mean_task_resampling_interval": [
+        3.20144962726325,
+        3.211653100848876
+      ],
+      "wilcoxon_two_sided_p": 1.9073486328125e-06,
+      "all_task_differences_positive": true
+    },
+    "interpretation": "grid-wide four-point linear summary, not a marginal derivative; B3 changes compression regime at the 4096-token boundary",
+    "uncertainty_scope": "task-resampling stability only; seed and repeated API-run uncertainty are not represented"
+  },
+  "flash_lite_quality_noninferiority_bound": {
+    "method": "one-sided Clopper-Pearson zero-event reference bound under an iid Bernoulli task-sampling model",
+    "n_unique_task_pairs": 20,
+    "observed_harmful_pairs_b2_pass_b3_fail": 0,
+    "nominal_reference_level": 0.95,
+    "upper_bound_harm_probability": 0.13910834066826516,
+    "upper_bound_harm_percentage_points": 13.910834066826517,
+    "noninferiority_margin_percentage_points": 2.0,
+    "noninferiority_established": false,
+    "minimum_zero_harm_pairs_required": 149,
+    "upper_bound_if_all_164_humaneval_pairs_are_zero_harm": 1.810083598705059,
+    "scope_note": "The four context cells reuse the same tasks, so the bound uses 20 unique task pairs rather than 80 correlated observations. Because these are the first non-random HumanEval tasks and one retained API run, the nominal level is a planning reference, not design-valid population coverage."
+  },
+  "flash_lite_tau_star_interpretation": {
+    "identified": false,
+    "censoring": "unbracketed_left_boundary",
+    "statement": "no crossover is observed; a routing threshold is not identified by this grid",
+    "reason": "the always-internal B3 treatment weakly dominates B2 at every observed point, and behavior below the grid is unknown"
+  },
+  "humaneval_input_profile": {
+    "5": {
+      "256": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4"
+        ],
+        "actual_context_tokens_min": 265,
+        "actual_context_tokens_mean": 436,
+        "actual_context_tokens_max": 639
+      },
+      "512": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4"
+        ],
+        "actual_context_tokens_min": 517,
+        "actual_context_tokens_mean": 565.4,
+        "actual_context_tokens_max": 639
+      },
+      "1024": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4"
+        ],
+        "actual_context_tokens_min": 1028,
+        "actual_context_tokens_mean": 1071.2,
+        "actual_context_tokens_max": 1138
+      },
+      "2048": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4"
+        ],
+        "actual_context_tokens_min": 2082,
+        "actual_context_tokens_mean": 2100.4,
+        "actual_context_tokens_max": 2140
+      },
+      "4096": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4"
+        ],
+        "actual_context_tokens_min": 4210,
+        "actual_context_tokens_mean": 4299.2,
+        "actual_context_tokens_max": 4355
+      },
+      "8192": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4"
+        ],
+        "actual_context_tokens_min": 8205,
+        "actual_context_tokens_mean": 8232.6,
+        "actual_context_tokens_max": 8267
+      },
+      "16384": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4"
+        ],
+        "actual_context_tokens_min": 16413,
+        "actual_context_tokens_mean": 16464,
+        "actual_context_tokens_max": 16534
+      }
+    },
+    "20": {
+      "256": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4",
+          "HumanEval/5",
+          "HumanEval/6",
+          "HumanEval/7",
+          "HumanEval/8",
+          "HumanEval/9",
+          "HumanEval/10",
+          "HumanEval/11",
+          "HumanEval/12",
+          "HumanEval/13",
+          "HumanEval/14",
+          "HumanEval/15",
+          "HumanEval/16",
+          "HumanEval/17",
+          "HumanEval/18",
+          "HumanEval/19"
+        ],
+        "actual_context_tokens_min": 259,
+        "actual_context_tokens_mean": 371.2,
+        "actual_context_tokens_max": 545
+      },
+      "512": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4",
+          "HumanEval/5",
+          "HumanEval/6",
+          "HumanEval/7",
+          "HumanEval/8",
+          "HumanEval/9",
+          "HumanEval/10",
+          "HumanEval/11",
+          "HumanEval/12",
+          "HumanEval/13",
+          "HumanEval/14",
+          "HumanEval/15",
+          "HumanEval/16",
+          "HumanEval/17",
+          "HumanEval/18",
+          "HumanEval/19"
+        ],
+        "actual_context_tokens_min": 529,
+        "actual_context_tokens_mean": 631.95,
+        "actual_context_tokens_max": 801
+      },
+      "1024": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4",
+          "HumanEval/5",
+          "HumanEval/6",
+          "HumanEval/7",
+          "HumanEval/8",
+          "HumanEval/9",
+          "HumanEval/10",
+          "HumanEval/11",
+          "HumanEval/12",
+          "HumanEval/13",
+          "HumanEval/14",
+          "HumanEval/15",
+          "HumanEval/16",
+          "HumanEval/17",
+          "HumanEval/18",
+          "HumanEval/19"
+        ],
+        "actual_context_tokens_min": 1024,
+        "actual_context_tokens_mean": 1154.8,
+        "actual_context_tokens_max": 1411
+      },
+      "2048": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4",
+          "HumanEval/5",
+          "HumanEval/6",
+          "HumanEval/7",
+          "HumanEval/8",
+          "HumanEval/9",
+          "HumanEval/10",
+          "HumanEval/11",
+          "HumanEval/12",
+          "HumanEval/13",
+          "HumanEval/14",
+          "HumanEval/15",
+          "HumanEval/16",
+          "HumanEval/17",
+          "HumanEval/18",
+          "HumanEval/19"
+        ],
+        "actual_context_tokens_min": 2050,
+        "actual_context_tokens_mean": 2169.35,
+        "actual_context_tokens_max": 2344
+      },
+      "4096": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4",
+          "HumanEval/5",
+          "HumanEval/6",
+          "HumanEval/7",
+          "HumanEval/8",
+          "HumanEval/9",
+          "HumanEval/10",
+          "HumanEval/11",
+          "HumanEval/12",
+          "HumanEval/13",
+          "HumanEval/14",
+          "HumanEval/15",
+          "HumanEval/16",
+          "HumanEval/17",
+          "HumanEval/18",
+          "HumanEval/19"
+        ],
+        "actual_context_tokens_min": 4100,
+        "actual_context_tokens_mean": 4210.55,
+        "actual_context_tokens_max": 4415
+      },
+      "8192": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4",
+          "HumanEval/5",
+          "HumanEval/6",
+          "HumanEval/7",
+          "HumanEval/8",
+          "HumanEval/9",
+          "HumanEval/10",
+          "HumanEval/11",
+          "HumanEval/12",
+          "HumanEval/13",
+          "HumanEval/14",
+          "HumanEval/15",
+          "HumanEval/16",
+          "HumanEval/17",
+          "HumanEval/18",
+          "HumanEval/19"
+        ],
+        "actual_context_tokens_min": 8196,
+        "actual_context_tokens_mean": 8312.25,
+        "actual_context_tokens_max": 8620
+      },
+      "16384": {
+        "task_ids": [
+          "HumanEval/0",
+          "HumanEval/1",
+          "HumanEval/2",
+          "HumanEval/3",
+          "HumanEval/4",
+          "HumanEval/5",
+          "HumanEval/6",
+          "HumanEval/7",
+          "HumanEval/8",
+          "HumanEval/9",
+          "HumanEval/10",
+          "HumanEval/11",
+          "HumanEval/12",
+          "HumanEval/13",
+          "HumanEval/14",
+          "HumanEval/15",
+          "HumanEval/16",
+          "HumanEval/17",
+          "HumanEval/18",
+          "HumanEval/19"
+        ],
+        "actual_context_tokens_min": 16389,
+        "actual_context_tokens_mean": 16524.3,
+        "actual_context_tokens_max": 16946
+      }
+    }
+  },
+  "tracked_e2_stats": {
+    "source": "real OpenRouter pilot, Gemini 3.1 Pro/Flash-Lite config",
+    "e2a_n": 5,
+    "e2a_component_token_overhead_shares_pct": {
+      "Compression": 36.57490168037182,
+      "Critic role": 29.665713264211668,
+      "Self-check": 33.759385055416516
+    },
+    "e2a_pass_at_1_all_variants": {
+      "B3_full": 1.0,
+      "B3a_no_compression": 1.0,
+      "B3b_no_critic": 1.0,
+      "B3c_no_self_check": 1.0
+    },
+    "e2b_critic_error_rate_pct": 0.0,
+    "e2c_tool_serial_over_parallel_slowdown_pct": 148.76888091814,
+    "e3_n_per_context_arch": 5,
+    "e3_scaling": [
+      {
+        "context": 256,
+        "cost_savings_pct": 43.10332112392145,
+        "token_savings_pct": 55.61689096623419,
+        "b2_cost_usd": 0.0325432,
+        "b3_cost_usd": 0.018515999999999998,
+        "b2_tokens": 4963.6,
+        "b3_tokens": 2203.0,
+        "b2_pass_at_1": 1.0,
+        "b3_pass_at_1": 1.0
+      },
+      {
+        "context": 1024,
+        "cost_savings_pct": 46.75357982474888,
+        "token_savings_pct": 58.9068427708304,
+        "b2_cost_usd": 0.037432,
+        "b3_cost_usd": 0.0199312,
+        "b2_tokens": 7117.0,
+        "b3_tokens": 2924.6,
+        "b2_pass_at_1": 1.0,
+        "b3_pass_at_1": 1.0
+      },
+      {
+        "context": 4096,
+        "cost_savings_pct": 49.0542981260533,
+        "token_savings_pct": 63.188864005620694,
+        "b2_cost_usd": 0.0595748,
+        "b3_cost_usd": 0.0303508,
+        "b2_tokens": 18218.4,
+        "b3_tokens": 6706.4,
+        "b2_pass_at_1": 1.0,
+        "b3_pass_at_1": 1.0
+      },
+      {
+        "context": 16384,
+        "cost_savings_pct": 79.04333910354256,
+        "token_savings_pct": 88.91791908289927,
+        "b2_cost_usd": 0.14072279999999998,
+        "b3_cost_usd": 0.0294908,
+        "b2_tokens": 59631.4,
+        "b3_tokens": 6608.4,
+        "b2_pass_at_1": 1.0,
+        "b3_pass_at_1": 1.0
+      }
+    ]
+  },
+  "tracked_e2_pairwise": [
+    {
+      "label": "MAS B3 vs B3a_no_compression",
+      "n": 5,
+      "diff_mean": -0.003736509374330943,
+      "p_value": 1.0,
+      "ci": [
+        -0.01120952812299283,
+        0.0
+      ],
+      "holm_rejected": false
+    },
+    {
+      "label": "MAS B3 vs B3b_no_critic",
+      "n": 5,
+      "diff_mean": -0.02621206865324528,
+      "p_value": 0.5,
+      "ci": [
+        -0.07116318721107395,
+        0.0
+      ],
+      "holm_rejected": false
+    },
+    {
+      "label": "MAS B3 vs B3c_no_self_check",
+      "n": 5,
+      "diff_mean": 0.0,
+      "p_value": 1.0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "holm_rejected": false
+    }
+  ],
+  "tracked_e2_full_summary": {
+    "e2a": {
+      "summaries": {
+        "B3_full": {
+          "architecture": "B3_full",
+          "n": 5,
+          "pass_at_1": 1.0,
+          "mean_tokens": 5227.2,
+          "mean_input_tokens": 3205.6,
+          "mean_output_tokens": 2021.6,
+          "mean_cost_usd": 0.0306704,
+          "mean_cost_rub": 3.06704,
+          "mean_latency_seconds": 17.690444120002212,
+          "mean_iterations": 1.2,
+          "mean_rerun_count": 0,
+          "routed_external_share": 0.0,
+          "mean_maintainability": 0.815,
+          "utok_per_kilo": 0.19130700948882767,
+          "q_per_dollar": 32.60472638113621,
+          "vcr": 1.0,
+          "mas": 0.8996614151874077,
+          "extras": {
+            "tokens_std": 1649.1711130140498,
+            "tokens_median": 4578,
+            "cost_std": 0.010559471229185675,
+            "cost_rub_std": 1.0559471229185673
+          }
+        },
+        "B3a_no_compression": {
+          "architecture": "B3a_no_compression",
+          "n": 5,
+          "pass_at_1": 1.0,
+          "mean_tokens": 4408.8,
+          "mean_input_tokens": 2682.4,
+          "mean_output_tokens": 1726.4,
+          "mean_cost_usd": 0.0260816,
+          "mean_cost_rub": 2.60816,
+          "mean_latency_seconds": 15.654458459996386,
+          "mean_iterations": 1,
+          "mean_rerun_count": 0,
+          "routed_external_share": 0.0,
+          "mean_maintainability": 0.822,
+          "utok_per_kilo": 0.22681908909453818,
+          "q_per_dollar": 38.341206060977854,
+          "vcr": 1.0,
+          "mas": 0.9033979245617386,
+          "extras": {
+            "tokens_std": 523.1907491536906,
+            "tokens_median": 4229,
+            "cost_std": 0.006131283506738207,
+            "cost_rub_std": 0.6131283506738207
+          }
+        },
+        "B3b_no_critic": {
+          "architecture": "B3b_no_critic",
+          "n": 5,
+          "pass_at_1": 1.0,
+          "mean_tokens": 4563.4,
+          "mean_input_tokens": 2682.4,
+          "mean_output_tokens": 1881,
+          "mean_cost_usd": 0.027936799999999998,
+          "mean_cost_rub": 2.7936799999999997,
+          "mean_latency_seconds": 16.78513789999706,
+          "mean_iterations": 1,
+          "mean_rerun_count": 0,
+          "routed_external_share": 0.0,
+          "mean_maintainability": 0.862,
+          "utok_per_kilo": 0.21913485559013018,
+          "q_per_dollar": 35.79508032416025,
+          "vcr": 1.0,
+          "mas": 0.925873483840653,
+          "extras": {
+            "tokens_std": 386.31676122063357,
+            "tokens_median": 4399,
+            "cost_std": 0.004428251411110256,
+            "cost_rub_std": 0.44282514111102567
+          }
+        },
+        "B3c_no_self_check": {
+          "architecture": "B3c_no_self_check",
+          "n": 5,
+          "pass_at_1": 1.0,
+          "mean_tokens": 4471.8,
+          "mean_input_tokens": 2682.4,
+          "mean_output_tokens": 1789.4,
+          "mean_cost_usd": 0.0268376,
+          "mean_cost_rub": 2.68376,
+          "mean_latency_seconds": 15.431759179997607,
+          "mean_iterations": 1,
+          "mean_rerun_count": 0,
+          "routed_external_share": 0.0,
+          "mean_maintainability": 0.815,
+          "utok_per_kilo": 0.2236235967619303,
+          "q_per_dollar": 37.26115599010344,
+          "vcr": 1.0,
+          "mas": 0.8996614151874077,
+          "extras": {
+            "tokens_std": 513.371366556414,
+            "tokens_median": 4543,
+            "cost_std": 0.00604086780520812,
+            "cost_rub_std": 0.604086780520812
+          }
+        }
+      },
+      "pairwise": [
+        {
+          "label": "MAS B3 vs B3a_no_compression",
+          "n": 5,
+          "diff_mean": -0.003736509374330943,
+          "p_value": 1.0,
+          "ci": [
+            -0.01120952812299283,
+            0.0
+          ],
+          "holm_rejected": false
+        },
+        {
+          "label": "MAS B3 vs B3b_no_critic",
+          "n": 5,
+          "diff_mean": -0.02621206865324528,
+          "p_value": 0.5,
+          "ci": [
+            -0.07116318721107395,
+            0.0
+          ],
+          "holm_rejected": false
+        },
+        {
+          "label": "MAS B3 vs B3c_no_self_check",
+          "n": 5,
+          "diff_mean": 0.0,
+          "p_value": 1.0,
+          "ci": [
+            0.0,
+            0.0
+          ],
+          "holm_rejected": false
+        }
+      ]
+    },
+    "e2b": {
+      "n_failing_for_b0": 2,
+      "n_b3_runs": 2,
+      "critic_endorsement_error_rate": 0.0,
+      "alarm_threshold_exceeded": false
+    },
+    "e2c": {
+      "n_pairs": 5,
+      "b2_mean_latency_s": 19.280093100003434,
+      "b3_mean_latency_s": 9.757259119997617,
+      "relative_slowdown_b3_over_b2": -0.49392053921171786,
+      "wilcoxon_p": 0.0625,
+      "ci_diff_b3_minus_b2": [
+        -13.048972440001672,
+        -6.8255483000044475
+      ],
+      "tool_serial_summary": {
+        "n": 5,
+        "mean_expected_latency_ms": 381.0,
+        "mean_measured_latency_ms": 382.11124000372365
+      },
+      "tool_parallel_summary": {
+        "n": 5,
+        "mean_expected_latency_ms": 152.0,
+        "mean_measured_latency_ms": 153.60089999740012
+      },
+      "tool_relative_slowdown_serial_over_parallel": 1.4876888091814002,
+      "acceptable_30pct_band": true
+    },
+    "e2d": {
+      "canonical_ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "inversions_under_perturbation": 7,
+      "rankings": [
+        {
+          "lambda": 0.0,
+          "weight_jitter": -0.2,
+          "ranking": [
+            "B3_full",
+            "B3a_no_compression",
+            "B3b_no_critic",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3_full": 1.0,
+            "B3a_no_compression": 1.0,
+            "B3b_no_critic": 1.0,
+            "B3c_no_self_check": 1.0
+          }
+        },
+        {
+          "lambda": 0.0,
+          "weight_jitter": 0.0,
+          "ranking": [
+            "B3_full",
+            "B3a_no_compression",
+            "B3b_no_critic",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3_full": 1.0,
+            "B3a_no_compression": 1.0,
+            "B3b_no_critic": 1.0,
+            "B3c_no_self_check": 1.0
+          }
+        },
+        {
+          "lambda": 0.0,
+          "weight_jitter": 0.2,
+          "ranking": [
+            "B3_full",
+            "B3a_no_compression",
+            "B3b_no_critic",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3_full": 1.0,
+            "B3a_no_compression": 1.0,
+            "B3b_no_critic": 1.0,
+            "B3c_no_self_check": 1.0
+          }
+        },
+        {
+          "lambda": 0.25,
+          "weight_jitter": -0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.9093475132282614,
+            "B3a_no_compression": 0.8980752781252279,
+            "B3_full": 0.8962496471647826,
+            "B3c_no_self_check": 0.8962496471647826
+          }
+        },
+        {
+          "lambda": 0.25,
+          "weight_jitter": 0.0,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.9615179289687019,
+            "B3a_no_compression": 0.9495989914960085,
+            "B3_full": 0.9476686217807861,
+            "B3c_no_self_check": 0.9476686217807861
+          }
+        },
+        {
+          "lambda": 0.25,
+          "weight_jitter": 0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3_full",
+            "B3a_no_compression",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.9861209718204199,
+            "B3_full": 0.9772477365130154,
+            "B3a_no_compression": 0.9772477365130154,
+            "B3c_no_self_check": 0.9772477365130154
+          }
+        },
+        {
+          "lambda": 0.5,
+          "weight_jitter": -0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.8281264193729013,
+            "B3a_no_compression": 0.8080236680209099,
+            "B3_full": 0.8046816324370821,
+            "B3c_no_self_check": 0.8046816324370821
+          }
+        },
+        {
+          "lambda": 0.5,
+          "weight_jitter": 0.0,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.925873483840653,
+            "B3a_no_compression": 0.9033979245617386,
+            "B3_full": 0.8996614151874077,
+            "B3c_no_self_check": 0.8996614151874077
+          }
+        },
+        {
+          "lambda": 0.5,
+          "weight_jitter": 0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3_full",
+            "B3a_no_compression",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.9732050807568877,
+            "B3_full": 0.9558522816661817,
+            "B3a_no_compression": 0.9558522816661817,
+            "B3c_no_self_check": 0.9558522816661817
+          }
+        },
+        {
+          "lambda": 0.75,
+          "weight_jitter": -0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.7552038946617122,
+            "B3a_no_compression": 0.7283067120792506,
+            "B3_full": 0.7237181774894296,
+            "B3c_no_self_check": 0.7237181774894296
+          }
+        },
+        {
+          "lambda": 0.75,
+          "weight_jitter": 0.0,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.8927846830785405,
+            "B3a_no_compression": 0.8609874521620539,
+            "B3_full": 0.8555629920546239,
+            "B3c_no_self_check": 0.8555629920546239
+          }
+        },
+        {
+          "lambda": 0.75,
+          "weight_jitter": 0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3_full",
+            "B3a_no_compression",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.9611854897735312,
+            "B3_full": 0.9357293327232906,
+            "B3a_no_compression": 0.9357293327232906,
+            "B3c_no_self_check": 0.9357293327232906
+          }
+        },
+        {
+          "lambda": 1.0,
+          "weight_jitter": -0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.6896000000000001,
+            "B3a_no_compression": 0.6576000000000001,
+            "B3_full": 0.6519999999999999,
+            "B3c_no_self_check": 0.6519999999999999
+          }
+        },
+        {
+          "lambda": 1.0,
+          "weight_jitter": 0.0,
+          "ranking": [
+            "B3b_no_critic",
+            "B3a_no_compression",
+            "B3_full",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.8619999999999999,
+            "B3a_no_compression": 0.8219999999999998,
+            "B3_full": 0.8149999999999998,
+            "B3c_no_self_check": 0.8149999999999998
+          }
+        },
+        {
+          "lambda": 1.0,
+          "weight_jitter": 0.2,
+          "ranking": [
+            "B3b_no_critic",
+            "B3_full",
+            "B3a_no_compression",
+            "B3c_no_self_check"
+          ],
+          "scores": {
+            "B3b_no_critic": 0.95,
+            "B3_full": 0.9168,
+            "B3a_no_compression": 0.9168,
+            "B3c_no_self_check": 0.9168
+          }
+        }
+      ]
+    }
+  },
+  "tracked_e6_summary": {
+    "controlled::pro::B2_ClassicalMAS@ctx512": {
+      "architecture": "B2_ClassicalMAS",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 4620.6,
+      "mean_input_tokens": 2699.8,
+      "mean_output_tokens": 1920.8,
+      "mean_cost_usd": 0.0284492,
+      "mean_cost_rub": 2.84492,
+      "mean_latency_seconds": 22.51691285999841,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.6758333333333333,
+      "utok_per_kilo": 0.21642210968272518,
+      "q_per_dollar": 35.15037329696441,
+      "vcr": 1.0,
+      "mas": 0.8203601886210207,
+      "extras": {
+        "tokens_std": 840.1697685587122,
+        "tokens_median": 4251.0,
+        "cost_std": 0.00966813062385899,
+        "cost_rub_std": 0.9668130623858988
+      }
+    },
+    "controlled::pro::B2_ClassicalMAS@ctx2048": {
+      "architecture": "B2_ClassicalMAS",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 9739.7,
+      "mean_input_tokens": 7803.2,
+      "mean_output_tokens": 1936.5,
+      "mean_cost_usd": 0.0388444,
+      "mean_cost_rub": 3.88444,
+      "mean_latency_seconds": 21.69668061000266,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.6951666666666666,
+      "utok_per_kilo": 0.10267256691684548,
+      "q_per_dollar": 25.74373654889765,
+      "vcr": 1.0,
+      "mas": 0.8313550304806533,
+      "extras": {
+        "tokens_std": 726.2282079346684,
+        "tokens_median": 9476.5,
+        "cost_std": 0.008989992694101591,
+        "cost_rub_std": 0.8989992694101593
+      }
+    },
+    "controlled::pro::B2_ClassicalMAS@ctx8192": {
+      "architecture": "B2_ClassicalMAS",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 31102.4,
+      "mean_input_tokens": 29065.7,
+      "mean_output_tokens": 2036.7,
+      "mean_cost_usd": 0.0825718,
+      "mean_cost_rub": 8.25718,
+      "mean_latency_seconds": 22.78449985000334,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.7155416666666666,
+      "utok_per_kilo": 0.03215185966356294,
+      "q_per_dollar": 12.110672166526587,
+      "vcr": 1.0,
+      "mas": 0.8429008616989208,
+      "extras": {
+        "tokens_std": 802.6632170468508,
+        "tokens_median": 30651.0,
+        "cost_std": 0.008935130819411654,
+        "cost_rub_std": 0.8935130819411654
+      }
+    },
+    "controlled::pro::B3_HybridINoT@ctx512": {
+      "architecture": "B3_HybridINoT",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 2248.1,
+      "mean_input_tokens": 874.6,
+      "mean_output_tokens": 1373.5,
+      "mean_cost_usd": 0.0182312,
+      "mean_cost_rub": 1.82312,
+      "mean_latency_seconds": 13.004907619998267,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.674,
+      "utok_per_kilo": 0.4448200702815711,
+      "q_per_dollar": 54.85102461713985,
+      "vcr": 1.0,
+      "mas": 0.8201682263004496,
+      "extras": {
+        "tokens_std": 401.0410078782468,
+        "tokens_median": 2078.0,
+        "cost_std": 0.004795517757239566,
+        "cost_rub_std": 0.4795517757239567
+      }
+    },
+    "controlled::pro::B3_HybridINoT@ctx2048": {
+      "architecture": "B3_HybridINoT",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 4110.8,
+      "mean_input_tokens": 2585.6,
+      "mean_output_tokens": 1525.2,
+      "mean_cost_usd": 0.0234736,
+      "mean_cost_rub": 2.34736,
+      "mean_latency_seconds": 14.700789859998622,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.667,
+      "utok_per_kilo": 0.24326165223314195,
+      "q_per_dollar": 42.601049689864354,
+      "vcr": 1.0,
+      "mas": 0.8159156743878382,
+      "extras": {
+        "tokens_std": 712.392560320502,
+        "tokens_median": 3841.5,
+        "cost_std": 0.008526136888415525,
+        "cost_rub_std": 0.8526136888415525
+      }
+    },
+    "controlled::pro::B3_HybridINoT@ctx8192": {
+      "architecture": "B3_HybridINoT",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 6484.6,
+      "mean_input_tokens": 5122.8,
+      "mean_output_tokens": 1361.8,
+      "mean_cost_usd": 0.0265872,
+      "mean_cost_rub": 2.65872,
+      "mean_latency_seconds": 14.380288849998033,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.6705,
+      "utok_per_kilo": 0.15421151651605342,
+      "q_per_dollar": 37.61208401035085,
+      "vcr": 1.0,
+      "mas": 0.8181611584133617,
+      "extras": {
+        "tokens_std": 543.9209869089443,
+        "tokens_median": 6374.0,
+        "cost_std": 0.006488707187105919,
+        "cost_rub_std": 0.648870718710592
+      }
+    },
+    "controlled::flash_lite::B2_ClassicalMAS@ctx512": {
+      "architecture": "B2_ClassicalMAS",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 3222.6,
+      "mean_input_tokens": 2763.6,
+      "mean_output_tokens": 459,
+      "mean_cost_usd": 0.0013794,
+      "mean_cost_rub": 0.13794,
+      "mean_latency_seconds": 4.452029250000487,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.86,
+      "utok_per_kilo": 0.31030844659591633,
+      "q_per_dollar": 724.952878062926,
+      "vcr": 1.0,
+      "mas": 0.9267870691599924,
+      "extras": {
+        "tokens_std": 179.27197215404308,
+        "tokens_median": 3322.0,
+        "cost_std": 0.00015526880723442174,
+        "cost_rub_std": 0.015526880723442172
+      }
+    },
+    "controlled::flash_lite::B2_ClassicalMAS@ctx2048": {
+      "architecture": "B2_ClassicalMAS",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 8382.1,
+      "mean_input_tokens": 7909.5,
+      "mean_output_tokens": 472.6,
+      "mean_cost_usd": 0.002686275,
+      "mean_cost_rub": 0.2686275,
+      "mean_latency_seconds": 3.9982085999989065,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.85125,
+      "utok_per_kilo": 0.11930184559955143,
+      "q_per_dollar": 372.262705791477,
+      "vcr": 1.0,
+      "mas": 0.9222740816653392,
+      "extras": {
+        "tokens_std": 136.76655292870402,
+        "tokens_median": 8456.5,
+        "cost_std": 0.00011886086666771364,
+        "cost_rub_std": 0.011886086666771366
+      }
+    },
+    "controlled::flash_lite::B2_ClassicalMAS@ctx8192": {
+      "architecture": "B2_ClassicalMAS",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 29656.1,
+      "mean_input_tokens": 29180,
+      "mean_output_tokens": 476.1,
+      "mean_cost_usd": 0.00800915,
+      "mean_cost_rub": 0.800915,
+      "mean_latency_seconds": 4.163453079995816,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.8554999999999999,
+      "utok_per_kilo": 0.03371987550621963,
+      "q_per_dollar": 124.8571945836949,
+      "vcr": 1.0,
+      "mas": 0.9246538078088069,
+      "extras": {
+        "tokens_std": 158.76362933619274,
+        "tokens_median": 29632.0,
+        "cost_std": 9.693394658219642e-05,
+        "cost_rub_std": 0.00969339465821963
+      }
+    },
+    "controlled::flash_lite::B3_HybridINoT@ctx512": {
+      "architecture": "B3_HybridINoT",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 1265.8,
+      "mean_input_tokens": 875.4,
+      "mean_output_tokens": 390.4,
+      "mean_cost_usd": 0.00080445,
+      "mean_cost_rub": 0.08044499999999999,
+      "mean_latency_seconds": 2.0465450899981077,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0.3,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.667,
+      "utok_per_kilo": 0.7900142202559647,
+      "q_per_dollar": 1243.0853378084407,
+      "vcr": 1.0,
+      "mas": 0.8159156743878382,
+      "extras": {
+        "tokens_std": 49.37772777275196,
+        "tokens_median": 1292.5,
+        "cost_std": 7.294902329709427e-05,
+        "cost_rub_std": 0.007294902329709428
+      }
+    },
+    "controlled::flash_lite::B3_HybridINoT@ctx2048": {
+      "architecture": "B3_HybridINoT",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 3000.7,
+      "mean_input_tokens": 2586.6,
+      "mean_output_tokens": 414.1,
+      "mean_cost_usd": 0.0012678,
+      "mean_cost_rub": 0.12678,
+      "mean_latency_seconds": 2.0478865399956705,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0.1,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.6565,
+      "utok_per_kilo": 0.3332555736994701,
+      "q_per_dollar": 788.7679444707368,
+      "vcr": 1.0,
+      "mas": 0.809048794559985,
+      "extras": {
+        "tokens_std": 53.42667872888975,
+        "tokens_median": 3040.5,
+        "cost_std": 8.013307681600655e-05,
+        "cost_rub_std": 0.008013307681600653
+      }
+    },
+    "controlled::flash_lite::B3_HybridINoT@ctx8192": {
+      "architecture": "B3_HybridINoT",
+      "n": 10,
+      "pass_at_1": 1.0,
+      "mean_tokens": 5513.5,
+      "mean_input_tokens": 5123.6,
+      "mean_output_tokens": 389.9,
+      "mean_cost_usd": 0.00186575,
+      "mean_cost_rub": 0.186575,
+      "mean_latency_seconds": 2.1889864700016917,
+      "mean_iterations": 1,
+      "mean_rerun_count": 0.3,
+      "routed_external_share": 0.0,
+      "mean_maintainability": 0.667,
+      "utok_per_kilo": 0.18137299356125872,
+      "q_per_dollar": 535.9774889454643,
+      "vcr": 1.0,
+      "mas": 0.8159156743878382,
+      "extras": {
+        "tokens_std": 42.66673177078366,
+        "tokens_median": 5531.0,
+        "cost_std": 7.069485483399767e-05,
+        "cost_rub_std": 0.0070694854833997685
+      }
+    }
+  },
+  "tracked_e6_comparisons": [
+    {
+      "suite": "controlled",
+      "architecture": "B2_ClassicalMAS",
+      "context_length": 512,
+      "n_pairs": 10,
+      "pass_at_1_pro": 1.0,
+      "pass_at_1_flash_lite": 1.0,
+      "pass_at_1_delta_pp": 0.0,
+      "mean_cost_usd_pro": 0.028449199999999997,
+      "mean_cost_usd_flash_lite": 0.0013793999999999998,
+      "cost_ratio_flash_over_pro": 0.04848642492583271,
+      "utok_diff_mean_flash_minus_pro": 0.0885849451207636,
+      "utok_ci_low": 0.07443556090347128,
+      "utok_ci_high": 0.10596139654732464,
+      "wilcoxon_p_utok": 0.001953125,
+      "holm_bonferroni_rejected": true
+    },
+    {
+      "suite": "controlled",
+      "architecture": "B2_ClassicalMAS",
+      "context_length": 2048,
+      "n_pairs": 10,
+      "pass_at_1_pro": 1.0,
+      "pass_at_1_flash_lite": 1.0,
+      "pass_at_1_delta_pp": 0.0,
+      "mean_cost_usd_pro": 0.0388444,
+      "mean_cost_usd_flash_lite": 0.002686275,
+      "cost_ratio_flash_over_pro": 0.06915475589789004,
+      "utok_diff_mean_flash_minus_pro": 0.01613213065779554,
+      "utok_ci_low": 0.012691294960316414,
+      "utok_ci_high": 0.020188841956002075,
+      "wilcoxon_p_utok": 0.001953125,
+      "holm_bonferroni_rejected": true
+    },
+    {
+      "suite": "controlled",
+      "architecture": "B2_ClassicalMAS",
+      "context_length": 8192,
+      "n_pairs": 10,
+      "pass_at_1_pro": 1.0,
+      "pass_at_1_flash_lite": 1.0,
+      "pass_at_1_delta_pp": 0.0,
+      "mean_cost_usd_pro": 0.0825718,
+      "mean_cost_usd_flash_lite": 0.00800915,
+      "cost_ratio_flash_over_pro": 0.09699618998253641,
+      "utok_diff_mean_flash_minus_pro": 0.0015481202735867581,
+      "utok_ci_low": 0.0011683127730163115,
+      "utok_ci_high": 0.001995411105388649,
+      "wilcoxon_p_utok": 0.001953125,
+      "holm_bonferroni_rejected": true
+    },
+    {
+      "suite": "controlled",
+      "architecture": "B3_HybridINoT",
+      "context_length": 512,
+      "n_pairs": 10,
+      "pass_at_1_pro": 1.0,
+      "pass_at_1_flash_lite": 1.0,
+      "pass_at_1_delta_pp": 0.0,
+      "mean_cost_usd_pro": 0.018231199999999996,
+      "mean_cost_usd_flash_lite": 0.00080445,
+      "cost_ratio_flash_over_pro": 0.044124906753258156,
+      "utok_diff_mean_flash_minus_pro": 0.3338624905490732,
+      "utok_ci_low": 0.2901119986309804,
+      "utok_ci_high": 0.3790611837045952,
+      "wilcoxon_p_utok": 0.001953125,
+      "holm_bonferroni_rejected": true
+    },
+    {
+      "suite": "controlled",
+      "architecture": "B3_HybridINoT",
+      "context_length": 2048,
+      "n_pairs": 10,
+      "pass_at_1_pro": 1.0,
+      "pass_at_1_flash_lite": 1.0,
+      "pass_at_1_delta_pp": 0.0,
+      "mean_cost_usd_pro": 0.023473600000000004,
+      "mean_cost_usd_flash_lite": 0.0012678,
+      "cost_ratio_flash_over_pro": 0.05400961079681002,
+      "utok_diff_mean_flash_minus_pro": 0.08406001071495099,
+      "utok_ci_low": 0.065613683918878,
+      "utok_ci_high": 0.10606181256640244,
+      "wilcoxon_p_utok": 0.001953125,
+      "holm_bonferroni_rejected": true
+    },
+    {
+      "suite": "controlled",
+      "architecture": "B3_HybridINoT",
+      "context_length": 8192,
+      "n_pairs": 10,
+      "pass_at_1_pro": 1.0,
+      "pass_at_1_flash_lite": 1.0,
+      "pass_at_1_delta_pp": 0.0,
+      "mean_cost_usd_pro": 0.0265872,
+      "mean_cost_usd_flash_lite": 0.00186575,
+      "cost_ratio_flash_over_pro": 0.0701747457423121,
+      "utok_diff_mean_flash_minus_pro": 0.026202245042851215,
+      "utok_ci_low": 0.020098395777657745,
+      "utok_ci_high": 0.03397198579239955,
+      "wilcoxon_p_utok": 0.001953125,
+      "holm_bonferroni_rejected": true
+    }
+  ],
+  "tracked_e6_task_profile": {
+    "suite": "controlled",
+    "n_unique_base_cases": 10,
+    "families": [
+      "count_peaks",
+      "normalize_path",
+      "reverse_words"
+    ],
+    "base_task_ids": [
+      "controlled/count_peaks/1",
+      "controlled/count_peaks/4",
+      "controlled/count_peaks/7",
+      "controlled/normalize_path/2",
+      "controlled/normalize_path/5",
+      "controlled/normalize_path/8",
+      "controlled/reverse_words/0",
+      "controlled/reverse_words/3",
+      "controlled/reverse_words/6",
+      "controlled/reverse_words/9"
+    ]
+  },
+  "new_e4_legacy_aggregate_inputs": {
+    "humaneval": {
+      "n_tasks": 20,
+      "rho_0": 0.35,
+      "rho_1": 0.0,
+      "C_check_S": 6.002499999999999e-05,
+      "C_rerun_L": 0.0108224,
+      "expected_savings": 0.0037878399999999993,
+      "net_margin": 0.0037278149999999993,
+      "ci_low": 0.0020415346875000003,
+      "ci_high": 0.0076850875,
+      "small_decision_counts": {
+        "PASS": 13,
+        "REJECT": 7
+      }
+    },
+    "swebench_lite": {
+      "n_tasks": 20,
+      "rho_0": 0.75,
+      "rho_1": 0.6,
+      "C_check_S": 0.0001223625,
+      "C_rerun_L": 0.014469199999999998,
+      "expected_savings": 0.00217038,
+      "net_margin": 0.0020480175,
+      "ci_low": -0.00010414093749999997,
+      "ci_high": 0.004650463749999998,
+      "small_decision_counts": {
+        "PASS": 15,
+        "REJECT": 5
+      }
+    }
+  },
+  "new_e4_screening_diagnostic": {
+    "estimand": "agreement of the small-model PASS/REJECT screen with the retained B0 external-verification outcome",
+    "status": "exploratory_aggregate_only",
+    "policy_effect_evaluated": false,
+    "auditability_note": "Per-case small-check decisions, costs and final candidate texts were not persisted; the confusion tables below are reconstructed from aggregate counts and cannot reproduce the original bootstrap.",
+    "datasets": {
+      "humaneval": {
+        "n": 20,
+        "confusion_matrix": {
+          "externally_correct_screen_pass": 13,
+          "externally_correct_screen_reject": 0,
+          "externally_failed_screen_pass": 0,
+          "externally_failed_screen_reject": 7
+        },
+        "agreement_accuracy": 1.0,
+        "agreement_clopper_pearson_reference_interval": [
+          0.8315665290169146,
+          1.0
+        ],
+        "reference_interval_scope": "nominal 95% iid-binomial reference only; the fixed case set does not support design-based population coverage",
+        "sensitivity_for_correct_candidates": 1.0,
+        "specificity_for_failed_candidates": 1.0,
+        "balanced_accuracy": 1.0,
+        "mean_check_cost_usd": 6.002499999999999e-05,
+        "mean_large_generation_cost_usd": 0.0108224,
+        "check_cost_as_pct_of_large_generation": 0.5546366794795978
+      },
+      "swebench_lite": {
+        "n": 20,
+        "confusion_matrix": {
+          "externally_correct_screen_pass": 3,
+          "externally_correct_screen_reject": 2,
+          "externally_failed_screen_pass": 12,
+          "externally_failed_screen_reject": 3
+        },
+        "agreement_accuracy": 0.3,
+        "agreement_clopper_pearson_reference_interval": [
+          0.1189315904057277,
+          0.5427891822762891
+        ],
+        "reference_interval_scope": "nominal 95% iid-binomial reference only; the fixed case set does not support design-based population coverage",
+        "sensitivity_for_correct_candidates": 0.6,
+        "specificity_for_failed_candidates": 0.2,
+        "balanced_accuracy": 0.4,
+        "mean_check_cost_usd": 0.0001223625,
+        "mean_large_generation_cost_usd": 0.014469199999999998,
+        "check_cost_as_pct_of_large_generation": 0.8456756420534655
+      }
+    }
+  },
+  "inference_cost_extrapolation_from_tracked_e3": {
+    "method": "analytical extrapolation from paired real E3 API costs",
+    "source": "tracked Gemini 3.1 Pro Preview HumanEval E3",
+    "context_mix": {
+      "256": "equal weight (5 paired tasks)",
+      "1024": "equal weight (5 paired tasks)",
+      "4096": "equal weight (5 paired tasks)",
+      "16384": "equal weight (5 paired tasks)"
+    },
+    "n_paired_task_context_cases": 20,
+    "n_unique_task_clusters": 5,
+    "extrapolate_to_tasks_per_month": 10000,
+    "delta_cost_per_task_b2_minus_b3_usd": 0.04299599999999999,
+    "delta_monthly_b2_minus_b3_usd": 429.9599999999999,
+    "task_cluster_resampling_stability_interval_usd": [
+      417.32800000000003,
+      442.89899999999994
+    ],
+    "bootstrap_unit": "HumanEval task; all four context cells retained within each resampled cluster",
+    "leave_one_task_out_savings_usd": [
+      431.06,
+      425.19624999999996,
+      435.50624999999997,
+      426.27874999999995,
+      431.75874999999996
+    ],
+    "leave_one_task_out_range_usd": [
+      425.19624999999996,
+      435.50624999999997
+    ],
+    "resampling_stability_interval_lower_positive": true,
+    "resampling_scope": "2.5--97.5 percentile stability interval over the five fixed task clusters; it has no design-based population coverage target",
+    "mean_input_token_delta_b2_minus_b3": 17146.8,
+    "mean_output_token_delta_b2_minus_b3": 725.2,
+    "all_paired_input_token_deltas_positive": true,
+    "all_paired_output_token_deltas_positive": true,
+    "independent_input_output_price_sensitivity": {
+      "base_prices_usd_per_million": {
+        "input": 2.0,
+        "output": 12.0
+      },
+      "multipliers": [
+        0.5,
+        0.75,
+        1.0,
+        1.25,
+        1.5
+      ],
+      "grid": [
+        {
+          "input_price_multiplier": 0.5,
+          "output_price_multiplier": 0.5,
+          "savings_usd_per_10000_tasks": 214.98
+        },
+        {
+          "input_price_multiplier": 0.5,
+          "output_price_multiplier": 0.75,
+          "savings_usd_per_10000_tasks": 236.736
+        },
+        {
+          "input_price_multiplier": 0.5,
+          "output_price_multiplier": 1.0,
+          "savings_usd_per_10000_tasks": 258.492
+        },
+        {
+          "input_price_multiplier": 0.5,
+          "output_price_multiplier": 1.25,
+          "savings_usd_per_10000_tasks": 280.248
+        },
+        {
+          "input_price_multiplier": 0.5,
+          "output_price_multiplier": 1.5,
+          "savings_usd_per_10000_tasks": 302.004
+        },
+        {
+          "input_price_multiplier": 0.75,
+          "output_price_multiplier": 0.5,
+          "savings_usd_per_10000_tasks": 300.714
+        },
+        {
+          "input_price_multiplier": 0.75,
+          "output_price_multiplier": 0.75,
+          "savings_usd_per_10000_tasks": 322.4699999999999
+        },
+        {
+          "input_price_multiplier": 0.75,
+          "output_price_multiplier": 1.0,
+          "savings_usd_per_10000_tasks": 344.226
+        },
+        {
+          "input_price_multiplier": 0.75,
+          "output_price_multiplier": 1.25,
+          "savings_usd_per_10000_tasks": 365.982
+        },
+        {
+          "input_price_multiplier": 0.75,
+          "output_price_multiplier": 1.5,
+          "savings_usd_per_10000_tasks": 387.73799999999994
+        },
+        {
+          "input_price_multiplier": 1.0,
+          "output_price_multiplier": 0.5,
+          "savings_usd_per_10000_tasks": 386.448
+        },
+        {
+          "input_price_multiplier": 1.0,
+          "output_price_multiplier": 0.75,
+          "savings_usd_per_10000_tasks": 408.204
+        },
+        {
+          "input_price_multiplier": 1.0,
+          "output_price_multiplier": 1.0,
+          "savings_usd_per_10000_tasks": 429.96
+        },
+        {
+          "input_price_multiplier": 1.0,
+          "output_price_multiplier": 1.25,
+          "savings_usd_per_10000_tasks": 451.716
+        },
+        {
+          "input_price_multiplier": 1.0,
+          "output_price_multiplier": 1.5,
+          "savings_usd_per_10000_tasks": 473.472
+        },
+        {
+          "input_price_multiplier": 1.25,
+          "output_price_multiplier": 0.5,
+          "savings_usd_per_10000_tasks": 472.182
+        },
+        {
+          "input_price_multiplier": 1.25,
+          "output_price_multiplier": 0.75,
+          "savings_usd_per_10000_tasks": 493.938
+        },
+        {
+          "input_price_multiplier": 1.25,
+          "output_price_multiplier": 1.0,
+          "savings_usd_per_10000_tasks": 515.694
+        },
+        {
+          "input_price_multiplier": 1.25,
+          "output_price_multiplier": 1.25,
+          "savings_usd_per_10000_tasks": 537.45
+        },
+        {
+          "input_price_multiplier": 1.25,
+          "output_price_multiplier": 1.5,
+          "savings_usd_per_10000_tasks": 559.206
+        },
+        {
+          "input_price_multiplier": 1.5,
+          "output_price_multiplier": 0.5,
+          "savings_usd_per_10000_tasks": 557.9159999999998
+        },
+        {
+          "input_price_multiplier": 1.5,
+          "output_price_multiplier": 0.75,
+          "savings_usd_per_10000_tasks": 579.672
+        },
+        {
+          "input_price_multiplier": 1.5,
+          "output_price_multiplier": 1.0,
+          "savings_usd_per_10000_tasks": 601.428
+        },
+        {
+          "input_price_multiplier": 1.5,
+          "output_price_multiplier": 1.25,
+          "savings_usd_per_10000_tasks": 623.184
+        },
+        {
+          "input_price_multiplier": 1.5,
+          "output_price_multiplier": 1.5,
+          "savings_usd_per_10000_tasks": 644.9399999999998
+        }
+      ],
+      "minimum_savings_usd": 214.98,
+      "maximum_savings_usd": 644.9399999999998
+    },
+    "scope_note": "API inference only and conditional on the five non-random pilot tasks with an equal context mixture; hardware, energy, storage, operations and population-level uncertainty were not measured"
+  },
+  "run_failures": [
+    {
+      "experiment": "E3 seed 123",
+      "status": "excluded",
+      "reason": "OpenRouter total key limit was reached before the final context bucket and before runs.json was persisted"
+    },
+    {
+      "experiment": "E5",
+      "status": "excluded",
+      "reason": "OpenRouter total key limit was reached before a complete paired B2/B3 result set was persisted"
+    }
+  ],
+  "quality_checks": {
+    "pro_e3_models": [
+      "google/gemini-3.1-pro-preview"
+    ],
+    "flash_e3_models": [
+      "google/gemini-3.1-flash-lite"
+    ],
+    "pro_e3_bucket_sizes": {
+      "5": 12
+    },
+    "flash_e3_bucket_sizes": {
+      "20": 12
+    },
+    "input_paths_are_portable": true,
+    "primary_e3_grids_complete": true,
+    "e4_policy_effect_reproducible": false,
+    "complete_generated_answers_present": false,
+    "pass_labels_independently_reverified": false
+  }
+}

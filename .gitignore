@@ -16,6 +16,11 @@
 *.ilg
 *.ind
 
+# Python reproducibility helpers
+__pycache__/
+*.pyc
+tmp/
+
 # OS/editor noise
 Thumbs.db
 .DS_Store
