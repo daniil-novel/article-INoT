@@ -1,0 +1,22 @@
+{
+  "seeds": [
+    17,
+    43,
+    101
+  ],
+  "arms": [
+    "single_neutral",
+    "single_roles",
+    "multi_neutral",
+    "multi_roles"
+  ],
+  "temperature": 0.2,
+  "max_completion_tokens_total": 12288,
+  "max_cost_usd": 190,
+  "max_context_tokens": 262144,
+  "prompt_tokens_upper_bound": 65536,
+  "model": "qwen/qwen3-coder-30b-a3b-instruct",
+  "provider": "novita/fp8",
+  "input_usd_per_million": 0.07,
+  "output_usd_per_million": 0.28
+}

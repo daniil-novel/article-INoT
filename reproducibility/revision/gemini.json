@@ -1,0 +1,22 @@
+{
+  "seeds": [
+    17,
+    43,
+    101
+  ],
+  "arms": [
+    "single_neutral",
+    "single_roles",
+    "multi_neutral",
+    "multi_roles"
+  ],
+  "temperature": 0.2,
+  "max_completion_tokens_total": 12288,
+  "max_cost_usd": 190,
+  "max_context_tokens": 262144,
+  "prompt_tokens_upper_bound": 65536,
+  "model": "google/gemini-2.5-flash-lite",
+  "provider": "google-vertex",
+  "input_usd_per_million": 0.1,
+  "output_usd_per_million": 0.4
+}

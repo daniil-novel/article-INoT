@@ -1,0 +1,259 @@
+{
+  "accessed": "2026-09-08",
+  "source": "https://openrouter.ai/api/v1/models/{model}/endpoints",
+  "models": [
+    {
+      "model": "qwen/qwen3-coder-30b-a3b-instruct",
+      "endpoints": [
+        {
+          "provider_name": "Novita",
+          "tag": "novita/fp8",
+          "pricing": {
+            "prompt": "0.00000007",
+            "completion": "0.00000027",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "seed",
+            "top_k",
+            "repetition_penalty",
+            "tools",
+            "tool_choice",
+            "response_format",
+            "structured_outputs"
+          ]
+        },
+        {
+          "provider_name": "SiliconFlow",
+          "tag": "siliconflow/fp8",
+          "pricing": {
+            "prompt": "0.00000007",
+            "completion": "0.00000028",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "structured_outputs",
+            "response_format",
+            "temperature",
+            "top_p",
+            "top_k",
+            "frequency_penalty",
+            "tools",
+            "tool_choice",
+            "max_tokens"
+          ]
+        },
+        {
+          "provider_name": "Amazon Bedrock",
+          "tag": "amazon-bedrock",
+          "pricing": {
+            "prompt": "0.00000015",
+            "completion": "0.0000006",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop",
+            "tool_choice",
+            "tools"
+          ]
+        },
+        {
+          "provider_name": "Alibaba",
+          "tag": "alibaba",
+          "pricing": {
+            "prompt": "0.0000002925",
+            "completion": "0.0000014625",
+            "discount": 0,
+            "overrides": [
+              {
+                "min_prompt_tokens": 32000,
+                "prompt": "0.0000004875",
+                "completion": "0.0000024375"
+              },
+              {
+                "min_prompt_tokens": 128000,
+                "prompt": "0.00000078",
+                "completion": "0.0000039"
+              }
+            ]
+          },
+          "supported_parameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "presence_penalty",
+            "response_format",
+            "tools",
+            "tool_choice",
+            "logprobs",
+            "top_logprobs",
+            "top_k",
+            "frequency_penalty",
+            "stop"
+          ]
+        }
+      ]
+    },
+    {
+      "model": "google/gemini-2.5-flash-lite",
+      "endpoints": [
+        {
+          "provider_name": "Google",
+          "tag": "google-vertex/eu",
+          "pricing": {
+            "prompt": "0.0000001",
+            "completion": "0.0000004",
+            "image": "0.0000001",
+            "audio": "0.0000003",
+            "input_audio_cache": "0.00000003",
+            "web_search": "0.014",
+            "internal_reasoning": "0.0000004",
+            "input_cache_read": "0.00000001",
+            "input_cache_write": "0.0000000833333333333333",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "structured_outputs",
+            "response_format",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "tools",
+            "tool_choice",
+            "stop"
+          ]
+        },
+        {
+          "provider_name": "Google",
+          "tag": "google-vertex",
+          "pricing": {
+            "prompt": "0.0000001",
+            "completion": "0.0000004",
+            "image": "0.0000001",
+            "audio": "0.0000003",
+            "input_audio_cache": "0.00000003",
+            "web_search": "0.014",
+            "internal_reasoning": "0.0000004",
+            "input_cache_read": "0.00000001",
+            "input_cache_write": "0.0000000833333333333333",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "structured_outputs",
+            "response_format",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "tools",
+            "tool_choice",
+            "stop"
+          ]
+        },
+        {
+          "provider_name": "Google AI Studio",
+          "tag": "google-ai-studio/flex",
+          "pricing": {
+            "prompt": "0.00000005",
+            "completion": "0.0000002",
+            "image": "0.00000005",
+            "audio": "0.00000015",
+            "input_audio_cache": "0.000000015",
+            "web_search": "0.014",
+            "internal_reasoning": "0.0000002",
+            "input_cache_read": "0.000000005",
+            "input_cache_write": "0.0000000416666666666667",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "structured_outputs",
+            "response_format",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "tools",
+            "tool_choice",
+            "stop"
+          ]
+        },
+        {
+          "provider_name": "Google AI Studio",
+          "tag": "google-ai-studio",
+          "pricing": {
+            "prompt": "0.0000001",
+            "completion": "0.0000004",
+            "image": "0.0000001",
+            "audio": "0.0000003",
+            "input_audio_cache": "0.00000003",
+            "web_search": "0.014",
+            "internal_reasoning": "0.0000004",
+            "input_cache_read": "0.00000001",
+            "input_cache_write": "0.0000000833333333333333",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "structured_outputs",
+            "response_format",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "tools",
+            "tool_choice",
+            "stop"
+          ]
+        },
+        {
+          "provider_name": "Google AI Studio",
+          "tag": "google-ai-studio/priority",
+          "pricing": {
+            "prompt": "0.00000018",
+            "completion": "0.00000072",
+            "image": "0.00000018",
+            "audio": "0.00000054",
+            "input_audio_cache": "0.000000054",
+            "web_search": "0.014",
+            "internal_reasoning": "0.00000072",
+            "input_cache_read": "0.000000018",
+            "input_cache_write": "0.00000015",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "structured_outputs",
+            "response_format",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "tools",
+            "tool_choice",
+            "stop"
+          ]
+        }
+      ]
+    }
+  ]
+}
