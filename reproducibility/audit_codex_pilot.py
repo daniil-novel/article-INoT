@@ -27,16 +27,18 @@ def inventory_attempt(archive):
         try:
             c.parse_events(raw); text_only=True
         except (ValueError,KeyError): text_only=False
+        tariff_supported = usage is not None and usage.get('cache_write_input_tokens',0)==0
         turns.append({'turn':folder.name,'status':c.read(folder/'status.json'),
                       'events_sha256':sha(folder/'events.jsonl'),'text_only_trace':text_only,
                       'observed_usage':usage,
-                      'observed_api_equivalent_usd':c.value_usage(usage) if usage else None})
+                      'observed_api_equivalent_usd':c.value_usage(usage) if tariff_supported else None})
     known=[t for t in turns if t['observed_usage'] is not None]
     return {'archive':archive.name,'status':c.read(archive/'status.json'),
             'submitted_turns':len(turns),'turns_with_complete_usage':len(known),
             'turns_with_unavailable_usage':len(turns)-len(known),
             'known_total_tokens':sum(t['observed_usage']['input_tokens']+t['observed_usage']['output_tokens'] for t in known),
-            'known_api_equivalent_usd':sum(t['observed_api_equivalent_usd'] for t in known),
+            'turns_without_supported_valuation':sum(t['observed_api_equivalent_usd'] is None for t in turns),
+            'known_api_equivalent_usd':sum(t['observed_api_equivalent_usd'] for t in known if t['observed_api_equivalent_usd'] is not None),
             'interpretation':'includes invalid/incomplete generations; unobserved usage is unknown, not zero',
             'turns':turns}
 
@@ -46,10 +48,18 @@ def audit(archive):
     if m != c.make_manifest(tasks,m['replicate_ids'],m['arms']):raise ValueError('Frozen manifest/source mismatch')
     if (archive/'instructions.txt').read_text(encoding='utf-8')!=c.BASE:raise ValueError('Instructions differ')
     if c.read(archive/'status.json')['state']!='completed':raise ValueError('Generation matrix is incomplete')
+    runtime=c.read(archive/'runtime.json')
+    if runtime['version']!=c.CLI_VERSION or runtime['authentication']!='chatgpt':raise ValueError('Runtime version/authentication differs')
+    if runtime['workers'] not in (1,2) or runtime['timeout_seconds']!=180:raise ValueError('Runtime execution limits differ from pilot')
+    provenance=c.read(archive/'runtime_provenance.json')
+    if provenance['cli_version']!=runtime['version'] or provenance['prefix']!=runtime['prefix']:raise ValueError('Runtime provenance differs')
+    if provenance['package_version']!='0.153.4' or not provenance['native_executable_sha256']:raise ValueError('Missing pinned package/binary provenance')
+    if sha(archive/'runner_source.py')!=m['source_sha256_lf']:raise ValueError('Archived frozen runner differs')
+    if sha(archive/'npm-package-lock.json')!=provenance['npm_lock_sha256']:raise ValueError('Runtime package lock changed')
     saved=[json.loads(line) for line in (archive/'results.jsonl').read_text(encoding='utf-8').splitlines()]
     rows={r['id']:r for r in saved}
     if len(rows)!=len(saved) or set(rows)!={x['id'] for x in m['cells']}:raise ValueError('Missing or duplicate result cells')
-    taskmap={t['task_id']:t for t in tasks};expected_turns=set();checked=[]
+    taskmap={t['task_id']:t for t in tasks};expected_turns=set();checked=[];canonical_argv=None
     for cell in m['cells']:
         history=[];parts=[]
         row=rows[cell['id']]
@@ -66,12 +76,12 @@ def audit(archive):
             parsed=c.parse_events((folder/'events.jsonl').read_bytes())
             if any(result[k]!=value for k,value in parsed.items()):raise ValueError('Derived turn data differ from CLI event stream')
             argv=c.read(folder/'argv.json')
-            # Compare settings while allowing moved archive paths; argv records original paths.
-            required=c.cli_command(['codex'],'CWD','INSTRUCTIONS')
-            settings={argv[i+1] for i,v in enumerate(argv[:-1]) if v=='-c'}
-            expected_settings={required[i+1] for i,v in enumerate(required[:-1]) if v=='-c' and not required[i+1].startswith('model_instructions_file=')}
-            if settings-{v for v in settings if v.startswith('model_instructions_file=')} != expected_settings:raise ValueError('CLI configuration changed')
-            if argv[argv.index('--model')+1]!=c.MODEL:raise ValueError('Model changed')
+            # Original absolute paths are recorded in provenance before publication moves the archive.
+            required=c.cli_command(runtime['prefix'],provenance['empty_working_directory'],provenance['instructions_path'])
+            if argv!=required:raise ValueError('Exact CLI arguments or instruction path differ')
+            if provenance['instructions_sha256']!=sha(archive/'instructions.txt'):raise ValueError('Loaded instruction artifact differs')
+            if canonical_argv is not None and argv!=canonical_argv:raise ValueError('CLI settings changed between turns')
+            canonical_argv=argv
             history.append(parsed['final_text']);parts.append(parsed)
         usage={k:sum(p['usage'][k] for p in parts) for k in ('input_tokens','cached_input_tokens','output_tokens')}
         reasoning=[p['usage'].get('reasoning_output_tokens') for p in parts]

@@ -139,14 +139,16 @@ def evaluate(args: argparse.Namespace) -> int:
     sys.path.insert(0, str(vendor_path))
     from bigcodebench.eval import untrusted_check  # noqa: PLC0415
 
-    # These are the upstream evaluator defaults, made explicit for the run
-    # record. The upstream function itself owns process isolation and limits.
+    # Explicit pilot arguments. The pinned core still applies TIMEOUT_LIMIT=240,
+    # so these small timing arguments do not imply a subsecond task timeout.
     limits = {
         "max_as_limit": args.max_as_limit,
         "max_data_limit": args.max_data_limit,
         "max_stack_limit": args.max_stack_limit,
         "min_time_limit": args.min_time_limit,
         "gt_time_limit": args.gt_time_limit,
+        "upstream_timeout_floor_seconds": 240,
+        "effective_test_timeout_seconds": max(240, args.min_time_limit, args.gt_time_limit) + 1,
     }
     records = []
     for task_id in SELECTED_TASK_IDS:
