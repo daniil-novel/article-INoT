@@ -19,6 +19,7 @@ except ImportError:
     from factorial_runner import ARMS, STEPS, FINAL, canonical, digest, read, save, tasks_from
 
 MODEL = 'gpt-5.4-mini'
+CLI_VERSION = 'codex-cli 0.153.4'
 ARMS = (*ARMS, 'direct')
 PRICES = {'input': .75, 'cached_input': .075, 'output': 4.50}
 PRICING_URL = 'https://developers.openai.com/api/docs/pricing'
@@ -48,7 +49,8 @@ def make_manifest(tasks, repeats, arms):
             cell = {'task_id': task_id, 'replicate_id': rep, 'arm': arm,
                     'cli_turns': 3 if arm.startswith('multi') else 1}
             cells.append({**cell, 'id': digest(cell)[:24]})
-    m = {'schema': 'codex-subscription-v1', 'model_requested': MODEL,
+    m = {'schema': 'codex-subscription-v2', 'model_requested': MODEL,
+         'cli_version_required': CLI_VERSION,
          'reasoning_effort': 'medium', 'source_sha256_lf': source_hash(),
          'tasks_sha256': digest(tasks), 'replicate_ids': repeats, 'arms': arms,
          'cells': cells, 'planned_generations': len(cells),
@@ -99,6 +101,8 @@ def parse_events(raw):
         raise ValueError('Missing or invalid actual CLI usage')
     if usage['cached_input_tokens'] > usage['input_tokens']:
         raise ValueError('Cached input is a subset of input')
+    if usage.get('cache_write_input_tokens', 0) != 0:
+        raise ValueError('Nonzero cache-write usage needs a separately verified tariff')
     reasoning = usage.get('reasoning_output_tokens')
     if reasoning is not None and (type(reasoning) is not int or not 0 <= reasoning <= usage['output_tokens']):
         raise ValueError('Invalid reasoning subset')
@@ -120,6 +124,13 @@ def cli_command(prefix, cwd, instructions):
     config = {'model_reasoning_effort': 'medium', 'forced_login_method': 'chatgpt',
               'model_instructions_file': str(instructions), 'project_doc_max_bytes': 0,
               'web_search': 'disabled', 'features.shell_tool': False,
+              'tools.update_plan.enabled': False,
+              'tools.experimental_request_user_input.enabled': False,
+              'features.view_image': False, 'features.sleep_tool': False,
+              'features.current_time_reminder': False,
+              'features.request_permissions_tool': False,
+              'features.image_generation': False, 'features.code_mode': False,
+              'features.code_mode_only': False,
               'features.multi_agent': False, 'features.apps': False,
               'features.plugins': False, 'features.remote_plugin': False,
               'features.in_app_browser': False, 'features.shell_snapshot': False,
@@ -138,6 +149,12 @@ def cli_command(prefix, cwd, instructions):
 def resolved_prefix():
     # Avoid shell interpolation and pass the prompt through stdin, including on Windows.
     node = shutil.which('node')
+    override = os.environ.get('CODEX_STUDY_CLI_JS')
+    if override:
+        path = Path(override).resolve(strict=True)
+        if not node or path.name != 'codex.js':
+            raise ValueError('CODEX_STUDY_CLI_JS must name the official Node CLI entry point')
+        return [node, str(path)]
     candidates = []
     if node:
         candidates.append(Path(node).parent / 'node_modules/@openai/codex/bin/codex.js')
@@ -199,6 +216,8 @@ def execute(tasks_path, manifest_path, archive, workers=2, timeout=180):
     instructions.write_bytes(BASE.encode('utf-8'))
     prefix=resolved_prefix()
     version=subprocess.check_output(prefix+['--version'],text=True).strip()
+    if version != CLI_VERSION:
+        raise ValueError(f'Frozen CLI version required: {CLI_VERSION}; got {version}')
     auth=subprocess.run(prefix+['login','status'],capture_output=True,text=True)
     if auth.returncode or 'ChatGPT' not in auth.stdout+auth.stderr:
         raise ValueError('ChatGPT subscription login required')
