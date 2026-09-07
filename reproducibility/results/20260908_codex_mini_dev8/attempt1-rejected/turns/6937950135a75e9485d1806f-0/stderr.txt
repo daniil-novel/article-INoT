@@ -1,0 +1,2 @@
+2026-09-07T23:02:57.624159Z ERROR codex_models_manager::cache: failed to load models cache: missing field `base_instructions` at line 132 column 5
+2026-09-07T23:03:11.678601Z  WARN codex_protocol::openai_models: Model personality requested but model_messages is missing, falling back to base instructions. model=gpt-5.4-mini personality=none

@@ -1,0 +1,26 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Backs up a specified file from a predefined directory to a backup directory and executes it as a subprocess.
+The function should output with:
+    int: The exit code of the subprocess, or -1 if the backup process fails.
+You should write self-contained code starting with:
+```
+import subprocess
+import os
+import shutil
+import sys
+# Constants
+DIRECTORY = 'c:\Program Files\VMware\VMware Server'
+BACKUP_DIRECTORY = 'c:\Program Files\VMware\VMware Server\Backup'
+def task_func(filename):
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import os
+import shutil
+import sys
+# Constants
+DIRECTORY = 'c:\Program Files\VMware\VMware Server'
+BACKUP_DIRECTORY = 'c:\Program Files\VMware\VMware Server\Backup'
+def task_func(filename):

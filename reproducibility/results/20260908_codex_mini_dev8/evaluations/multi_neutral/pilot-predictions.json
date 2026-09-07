@@ -1,0 +1,389 @@
+{
+  "argv": [
+    "/workspace/bcb_pilot_evaluator.py",
+    "--root",
+    "/workspace",
+    "--output",
+    "/out/pilot-predictions.json",
+    "--image-ref",
+    "bcb-pilot:dev",
+    "--image-id",
+    "sha256:4cb1f9314783f953beae57c297590ee9e5ef659c50b7705661c6bc4601f549dc",
+    "--predictions",
+    "/workspace/predictions.jsonl"
+  ],
+  "controls": [
+    "gold",
+    "incorrect"
+  ],
+  "cwd": "/workspace",
+  "dataset_sha256": "f6704a124f4edcec9d12cc7912f41f3d4207f51b87f091d136e3436f7e25149f",
+  "disclaimer": "Eight-task development pilot only; not the official BigCodeBench CLI harness and not a full benchmark result.",
+  "dockerfile_sha256": "7676956acb0390db1c33f61c66eeababf76c6dc303d633489599d40f4437d3ee",
+  "image_id": "sha256:4cb1f9314783f953beae57c297590ee9e5ef659c50b7705661c6bc4601f549dc",
+  "image_ref": "bcb-pilot:dev",
+  "limits": {
+    "effective_test_timeout_seconds": 241,
+    "gt_time_limit": 0.1,
+    "max_as_limit": 30720,
+    "max_data_limit": 30720,
+    "max_stack_limit": 10,
+    "min_time_limit": 0.1,
+    "upstream_timeout_floor_seconds": 240
+  },
+  "network_expected_disabled": true,
+  "pip_freeze": [
+    "cloudpickle==3.1.2",
+    "contourpy==1.3.3",
+    "cycler==0.12.1",
+    "et_xmlfile==2.0.0",
+    "fonttools==4.64.0",
+    "joblib==1.6.0",
+    "kiwisolver==1.5.1",
+    "matplotlib==3.9.2",
+    "numpy==1.26.4",
+    "openpyxl==3.1.5",
+    "packaging==26.3",
+    "pandas==2.2.3",
+    "pillow==12.3.0",
+    "pip==24.0",
+    "pyparsing==3.3.2",
+    "python-dateutil==2.9.0.post0",
+    "pytz==2026.3.post1",
+    "scikit-learn==1.5.2",
+    "scipy==1.14.1",
+    "seaborn==0.13.2",
+    "setuptools==79.0.1",
+    "six==1.17.0",
+    "threadpoolctl==3.6.0",
+    "tzdata==2026.3",
+    "wheel==0.46.3"
+  ],
+  "platform": "Linux-6.10.4-linuxkit-x86_64-with-glibc2.41",
+  "prediction_analysis": {
+    "denominator": 8,
+    "evaluable_only_rate": 0.5714285714285714,
+    "evaluable_tasks": 7,
+    "missing_or_ineligible_count": 1,
+    "optimistic_upper_bound": 0.625,
+    "pass_count": 4,
+    "pessimistic_lower_bound": 0.5,
+    "status_by_task": {
+      "BigCodeBench/1005": null,
+      "BigCodeBench/1036": "fail",
+      "BigCodeBench/1087": "pass",
+      "BigCodeBench/309": "pass",
+      "BigCodeBench/322": "fail",
+      "BigCodeBench/325": "pass",
+      "BigCodeBench/361": "pass",
+      "BigCodeBench/45": "fail"
+    }
+  },
+  "predictions": true,
+  "prepared_split_sha256": "95d84cf31a4b0eedf374d9ff7d3d971df7234b7d66b5f1f3bbfd722e8af04a77",
+  "python": "3.11.16 (main, Sep  1 2026, 00:12:26) [GCC 14.2.0]",
+  "records": [
+    {
+      "control": "gold",
+      "details": {},
+      "elapsed_seconds": 0.525,
+      "error": null,
+      "status": "pass",
+      "task_id": "BigCodeBench/325"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 74, in test_case_1\nAssertionError: None != {'file1.txt': [], 'file2.txt': [], 'file3.txt': []}\n",
+        "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 78, in test_case_2\nAssertionError: None != {}\n",
+        "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 84, in test_case_3\nAssertionError: None != {'file4.txt': []}\n",
+        "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 91, in test_case_4\nAssertionError: None != {'file5.txt': ['(A)', '(B)', '(C)', '(D)']}\n",
+        "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 98, in test_case_5\nAssertionError: None != {'file6.txt': ['(characters)']}\n"
+      },
+      "elapsed_seconds": 0.488,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/325"
+    },
+    {
+      "control": "gold",
+      "details": {},
+      "elapsed_seconds": 0.531,
+      "error": null,
+      "status": "pass",
+      "task_id": "BigCodeBench/322"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_backup_of_large_file": "Traceback (most recent call last):\n  File \"__test__.py\", line 91, in test_backup_of_large_file\nAssertionError: None != 0\n",
+        "test_backup_with_special_characters": "Traceback (most recent call last):\n  File \"__test__.py\", line 100, in test_backup_with_special_characters\nAssertionError: None != -1\n",
+        "test_failed_backup_nonexistent_file": "Traceback (most recent call last):\n  File \"__test__.py\", line 71, in test_failed_backup_nonexistent_file\nAssertionError: None != -1\n",
+        "test_successful_execution": "Traceback (most recent call last):\n  File \"__test__.py\", line 65, in test_successful_execution\nAssertionError: None != 0\n"
+      },
+      "elapsed_seconds": 0.551,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/322"
+    },
+    {
+      "control": "gold",
+      "details": {},
+      "elapsed_seconds": 1.437,
+      "error": null,
+      "status": "pass",
+      "task_id": "BigCodeBench/1036"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_empty_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 80, in test_empty_series\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_identical_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 94, in test_identical_series\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_intersection_exists": "Traceback (most recent call last):\n  File \"__test__.py\", line 66, in test_intersection_exists\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_no_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 73, in test_no_intersection\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_partial_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 87, in test_partial_intersection\nTypeError: cannot unpack non-iterable NoneType object\n"
+      },
+      "elapsed_seconds": 0.966,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/1036"
+    },
+    {
+      "control": "gold",
+      "details": {
+        "test_extraction_path_already_exists": "Traceback (most recent call last):\n  File \"__test__.py\", line 123, in test_extraction_path_already_exists\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp39yhrfjb/mnt/data/task_func_data/existing_extract_path')\n",
+        "test_file_already_exists_at_save_path": "Traceback (most recent call last):\n  File \"__test__.py\", line 112, in test_file_already_exists_at_save_path\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp39yhrfjb/mnt/data/task_func_data/existing_file_extract')\n",
+        "test_successful_download_and_extraction_sample_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 84, in test_successful_download_and_extraction_sample_1\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp39yhrfjb/mnt/data/task_func_data/sample_1_extract')\n",
+        "test_successful_download_and_extraction_sample_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 93, in test_successful_download_and_extraction_sample_5\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp39yhrfjb/mnt/data/task_func_data/sample_5_extract')\n"
+      },
+      "elapsed_seconds": 0.552,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/1005"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_extraction_path_already_exists": "Traceback (most recent call last):\n  File \"__test__.py\", line 128, in test_extraction_path_already_exists\nAssertionError: None != PosixPath('/tmp/tmpqjxxiqwv/mnt/data/task_func_data/existing_extract_path')\n",
+        "test_file_already_exists_at_save_path": "Traceback (most recent call last):\n  File \"__test__.py\", line 117, in test_file_already_exists_at_save_path\nAssertionError: None != PosixPath('/tmp/tmpqjxxiqwv/mnt/data/task_func_data/existing_file_extract')\n",
+        "test_invalid_url": "Traceback (most recent call last):\n  File \"__test__.py\", line 107, in test_invalid_url\nAttributeError: 'NoneType' object has no attribute 'startswith'\n",
+        "test_successful_download_and_extraction_sample_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 89, in test_successful_download_and_extraction_sample_1\nAssertionError: None != PosixPath('/tmp/tmpqjxxiqwv/mnt/data/task_func_data/sample_1_extract')\n",
+        "test_successful_download_and_extraction_sample_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 98, in test_successful_download_and_extraction_sample_5\nAssertionError: None != PosixPath('/tmp/tmpqjxxiqwv/mnt/data/task_func_data/sample_5_extract')\n"
+      },
+      "elapsed_seconds": 0.508,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/1005"
+    },
+    {
+      "control": "gold",
+      "details": {},
+      "elapsed_seconds": 0.776,
+      "error": null,
+      "status": "pass",
+      "task_id": "BigCodeBench/361"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_empty_excel_file": "Traceback (most recent call last):\n  File \"__test__.py\", line 94, in test_empty_excel_file\nAssertionError: ValueError not raised\n",
+        "test_file_not_found": "Traceback (most recent call last):\n  File \"__test__.py\", line 86, in test_file_not_found\nAssertionError: FileNotFoundError not raised\n",
+        "test_normal_functionality": "Traceback (most recent call last):\n  File \"__test__.py\", line 84, in test_normal_functionality\nAssertionError: None != {'A': 60, 'B': 150}\n",
+        "test_overwrite_existing_csv": "Traceback (most recent call last):\n  File \"__test__.py\", line 102, in test_overwrite_existing_csv\nAssertionError: 'Old Data' unexpectedly found in 'Old Data'\n",
+        "test_sheet_not_found": "Traceback (most recent call last):\n  File \"__test__.py\", line 89, in test_sheet_not_found\nAssertionError: ValueError not raised\n"
+      },
+      "elapsed_seconds": 0.744,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/361"
+    },
+    {
+      "control": "gold",
+      "details": {},
+      "elapsed_seconds": 1.396,
+      "error": null,
+      "status": "pass",
+      "task_id": "BigCodeBench/1087"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_custom_mean_std_dev": "Traceback (most recent call last):\n  File \"__test__.py\", line 94, in test_custom_mean_std_dev\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_default_parameters": "Traceback (most recent call last):\n  File \"__test__.py\", line 73, in test_default_parameters\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_large_sample": "Traceback (most recent call last):\n  File \"__test__.py\", line 109, in test_large_sample\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_negative_std_dev": "Traceback (most recent call last):\n  File \"__test__.py\", line 102, in test_negative_std_dev\nAssertionError: ValueError not raised\n",
+        "test_save_plots_true": "Traceback (most recent call last):\n  File \"__test__.py\", line 82, in test_save_plots_true\nTypeError: cannot unpack non-iterable NoneType object\n"
+      },
+      "elapsed_seconds": 0.721,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/1087"
+    },
+    {
+      "control": "gold",
+      "details": {},
+      "elapsed_seconds": 1.385,
+      "error": null,
+      "status": "pass",
+      "task_id": "BigCodeBench/45"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 63, in test_case_1\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 79, in test_case_2\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 93, in test_case_3\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 107, in test_case_4\nTypeError: cannot unpack non-iterable NoneType object\n",
+        "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 115, in test_case_5\nTypeError: cannot unpack non-iterable NoneType object\n"
+      },
+      "elapsed_seconds": 1.182,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/45"
+    },
+    {
+      "control": "gold",
+      "details": {},
+      "elapsed_seconds": 1.051,
+      "error": null,
+      "status": "pass",
+      "task_id": "BigCodeBench/309"
+    },
+    {
+      "control": "incorrect",
+      "details": {
+        "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 53, in test_case_1\nTypeError: 'NoneType' object is not iterable\n",
+        "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 61, in test_case_2\nTypeError: 'NoneType' object is not iterable\n",
+        "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 69, in test_case_3\nTypeError: 'NoneType' object is not iterable\n",
+        "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 77, in test_case_4\nAssertionError: None != [[0.0], [0.0], [0.0], [0.0], [0.0]]\n",
+        "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 83, in test_case_5\nAssertionError: None != [[0.0, 1.0], [0.0, 1.0], [0.0, 1.0]]\n"
+      },
+      "elapsed_seconds": 1.069,
+      "error": null,
+      "status": "fail",
+      "task_id": "BigCodeBench/309"
+    },
+    {
+      "analysis_eligible": true,
+      "analysis_status": "pass",
+      "control": "prediction",
+      "details": {},
+      "elapsed_seconds": 0.475,
+      "error": null,
+      "solution_sha256": "c8f73333c94fe1118df23b5e4f9229bbd073e9583f0994a7d97685fb593f7eb7",
+      "status": "pass",
+      "task_id": "BigCodeBench/325"
+    },
+    {
+      "analysis_eligible": true,
+      "analysis_status": "fail",
+      "control": "prediction",
+      "details": {
+        "test_backup_of_large_file": "Traceback (most recent call last):\n  File \"__test__.py\", line 76, in test_backup_of_large_file\nAssertionError: -1 != 0\n",
+        "test_successful_execution": "Traceback (most recent call last):\n  File \"__test__.py\", line 50, in test_successful_execution\nAssertionError: -1 != 0\n"
+      },
+      "elapsed_seconds": 0.534,
+      "error": null,
+      "solution_sha256": "891d798840ec70190fd10b36f2a521f42a6d6078abefc913174c307ef9c69ab0",
+      "status": "fail",
+      "task_id": "BigCodeBench/322"
+    },
+    {
+      "analysis_eligible": true,
+      "analysis_status": "fail",
+      "control": "prediction",
+      "details": {
+        "test_empty_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 95, in test_empty_series\nAssertionError: 'Swarm Plot of Two Series with Intersections Highlighted' != 'Overlap Between Series1 and Series2'\n- Swarm Plot of Two Series with Intersections Highlighted\n+ Overlap Between Series1 and Series2\n\n",
+        "test_identical_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 109, in test_identical_series\nAssertionError: 'Swarm Plot of Two Series with Intersections Highlighted' != 'Overlap Between Series1 and Series2'\n- Swarm Plot of Two Series with Intersections Highlighted\n+ Overlap Between Series1 and Series2\n\n",
+        "test_intersection_exists": "Traceback (most recent call last):\n  File \"__test__.py\", line 81, in test_intersection_exists\nAssertionError: 'Swarm Plot of Two Series with Intersections Highlighted' != 'Overlap Between Series1 and Series2'\n- Swarm Plot of Two Series with Intersections Highlighted\n+ Overlap Between Series1 and Series2\n\n",
+        "test_no_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 88, in test_no_intersection\nAssertionError: 'Swarm Plot of Two Series with Intersections Highlighted' != 'Overlap Between Series1 and Series2'\n- Swarm Plot of Two Series with Intersections Highlighted\n+ Overlap Between Series1 and Series2\n\n",
+        "test_partial_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 102, in test_partial_intersection\nAssertionError: 'Swarm Plot of Two Series with Intersections Highlighted' != 'Overlap Between Series1 and Series2'\n- Swarm Plot of Two Series with Intersections Highlighted\n+ Overlap Between Series1 and Series2\n\n"
+      },
+      "elapsed_seconds": 1.448,
+      "error": null,
+      "solution_sha256": "21246b23fdc1834c47cef42137a784dfcc6b9ff44f893fc500a7cb60c7d8ea50",
+      "status": "fail",
+      "task_id": "BigCodeBench/1036"
+    },
+    {
+      "analysis_eligible": false,
+      "analysis_status": null,
+      "control": "prediction",
+      "details": {
+        "test_extraction_path_already_exists": "Traceback (most recent call last):\n  File \"__test__.py\", line 128, in test_extraction_path_already_exists\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp235g64ds/mnt/data/task_func_data/existing_extract_path')\n",
+        "test_file_already_exists_at_save_path": "Traceback (most recent call last):\n  File \"__test__.py\", line 117, in test_file_already_exists_at_save_path\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp235g64ds/mnt/data/task_func_data/existing_file_extract')\n",
+        "test_successful_download_and_extraction_sample_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 89, in test_successful_download_and_extraction_sample_1\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp235g64ds/mnt/data/task_func_data/sample_1_extract')\n",
+        "test_successful_download_and_extraction_sample_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 98, in test_successful_download_and_extraction_sample_5\nAssertionError: 'URL Error: [Errno -3] Temporary failure in name resolution' != PosixPath('/tmp/tmp235g64ds/mnt/data/task_func_data/sample_5_extract')\n"
+      },
+      "elapsed_seconds": 0.58,
+      "error": null,
+      "solution_sha256": "27d787e5cd6a9aa1773576551cce666c6efe917735d8b9f144293b865d4853fb",
+      "status": "fail",
+      "task_id": "BigCodeBench/1005"
+    },
+    {
+      "analysis_eligible": true,
+      "analysis_status": "pass",
+      "control": "prediction",
+      "details": {},
+      "elapsed_seconds": 0.834,
+      "error": null,
+      "solution_sha256": "3069677d8b88d2ef632cd158ead204788a3a6f49653c3cc5a64c8baca110bc06",
+      "status": "pass",
+      "task_id": "BigCodeBench/361"
+    },
+    {
+      "analysis_eligible": true,
+      "analysis_status": "pass",
+      "control": "prediction",
+      "details": {},
+      "elapsed_seconds": 1.606,
+      "error": null,
+      "solution_sha256": "90f3c20875ed9a85c5a664d05cc649d0948c6b86df34f7d300a74e2d22ac786e",
+      "status": "pass",
+      "task_id": "BigCodeBench/1087"
+    },
+    {
+      "analysis_eligible": true,
+      "analysis_status": "fail",
+      "control": "prediction",
+      "details": {
+        "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 53, in test_case_1\nAssertionError: False is not true\n",
+        "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 69, in test_case_2\nAssertionError: False is not true\n",
+        "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 83, in test_case_3\nAssertionError: False is not true\n",
+        "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 97, in test_case_4\nAssertionError: False is not true\n",
+        "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 105, in test_case_5\nAssertionError: False is not true\n"
+      },
+      "elapsed_seconds": 1.529,
+      "error": null,
+      "solution_sha256": "263024138c80d6ee11ba966a71a6c690cc5020cb98543ab58eac093f1d5214f6",
+      "status": "fail",
+      "task_id": "BigCodeBench/45"
+    },
+    {
+      "analysis_eligible": true,
+      "analysis_status": "pass",
+      "control": "prediction",
+      "details": {},
+      "elapsed_seconds": 1.083,
+      "error": null,
+      "solution_sha256": "6d3f605b87dbadfc2e9bc312b47fb90f459ceda1a8e70ed602ae537d841716d9",
+      "status": "pass",
+      "task_id": "BigCodeBench/309"
+    }
+  ],
+  "requirements_sha256": "6700b765a17d33f3f1b9872436588a2702ed8da6139cac793cb7aff3166b1166",
+  "schema": "bcb-development-pilot-v1",
+  "selected_task_ids": [
+    "BigCodeBench/325",
+    "BigCodeBench/322",
+    "BigCodeBench/1036",
+    "BigCodeBench/1005",
+    "BigCodeBench/361",
+    "BigCodeBench/1087",
+    "BigCodeBench/45",
+    "BigCodeBench/309"
+  ],
+  "upstream_commit": "09dd993f46c3fbf3a799465bb96d524edcb0b199",
+  "vendor_tree_sha256": "9cbdc69ea1e61fe7bf32ad5ef7720cfb3116eb838497676c9593eed990dc0bd0"
+}

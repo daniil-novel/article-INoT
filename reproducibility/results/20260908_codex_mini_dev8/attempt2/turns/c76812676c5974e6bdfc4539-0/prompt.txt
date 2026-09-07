@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate a random sample from a normal distribution, analyze its skewness and kurtosis, and create a histogram and a QQ plot to visualize the distribution.
+The function should output with:
+    float: Skewness of the sample.
+    float: Kurtosis of the sample.
+    list: Paths to the saved plot files, empty if save_plots is False.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):

@@ -1,0 +1,154 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Perform PCA on a DataFrame (excluding non-numeric columns) and draw a scatter plot of the first two main components. The principal columns should be name 'Component 1' and 'Component 2'. Missing values are replaced by column's average.
+The function should output with:
+    DataFrame: A pandas DataFrame with the first two principal components. The columns should be 'principal component 1' and 'principal component 2'.
+    Axes: A matplotlib Axes object representing the scatter plot. The xlabel should be 'principal component' and the ylabel 'principal component 2'.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df: pd.DataFrame)` based on the requirements.
+
+## Goal
+Given an input DataFrame:
+1. Keep only numeric columns.
+2. Replace missing values in each numeric column with that column’s mean.
+3. Run PCA on the cleaned numeric data.
+4. Extract the first two principal components.
+5. Return:
+   - a DataFrame with columns named **`principal component 1`** and **`principal component 2`**
+   - a matplotlib `Axes` object with a scatter plot of the two components
+
+---
+
+## Important requirement details
+There is a naming inconsistency in the prompt:
+
+- It says the principal columns should be named **`Component 1`** and **`Component 2`**
+- But the output DataFrame columns should be **`principal component 1`** and **`principal component 2`**
+
+To satisfy the explicit output requirement, the returned DataFrame should use:
+- `principal component 1`
+- `principal component 2`
+
+Similarly, the plot axis labels are specified as:
+- xlabel: `'principal component'`
+- ylabel: `'principal component 2'`
+
+The xlabel looks incomplete or possibly a typo, but the implementation should follow it exactly unless a correction is desired.
+
+---
+
+## Implementation plan
+
+### 1. Select numeric columns only
+- Use `df.select_dtypes(include=[np.number])` to exclude non-numeric columns.
+- This ensures PCA receives only numeric input.
+
+### 2. Handle missing values
+- For each numeric column, replace missing values with the column mean.
+- Use `fillna(numeric_df.mean())`.
+- This works column-wise and preserves the shape.
+
+### 3. Handle edge cases before PCA
+Check whether PCA can be performed safely:
+- If there are no numeric columns, PCA cannot run.
+- If there are fewer than 2 numeric columns, PCA cannot produce two components.
+- If all numeric data become constant or there are too few rows, PCA may still run but the result may be degenerate.
+- If a column contains all missing values, its mean will be `NaN`; such columns should be dropped or otherwise handled before PCA.
+
+### 4. Run PCA
+- Create a `PCA(n_components=2)` object.
+- Fit and transform the cleaned numeric data.
+- Store the result in a 2-column array.
+
+### 5. Build the output DataFrame
+- Create a DataFrame from the PCA result.
+- Set columns to:
+  - `principal component 1`
+  - `principal component 2`
+
+### 6. Create the scatter plot
+- Use seaborn or matplotlib to plot the first component on x and second on y.
+- Return the matplotlib `Axes` object.
+- Set:
+  - xlabel to `'principal component'`
+  - ylabel to `'principal component 2'`
+
+---
+
+## Edge cases to account for
+
+### 1. No numeric columns
+Example: DataFrame contains only strings or categorical values.
+- PCA cannot be performed.
+- The function should either:
+  - raise a clear error, or
+  - return an empty result in a defined way
+- Best practice: raise `ValueError` with a helpful message.
+
+### 2. Only one numeric column
+- PCA needs at least 2 components for the requested output.
+- Raise `ValueError` if numeric columns < 2.
+
+### 3. Columns with all missing values
+- Mean becomes `NaN`, so filling won’t help.
+- Such columns should be dropped before PCA, or the function should fail clearly if too few usable columns remain.
+
+### 4. Very small dataset
+- If there is only one row, PCA is not meaningful.
+- It may still technically run in some cases, but output is degenerate.
+- Decide whether to allow it or raise an error; usually allowing it is acceptable if sklearn does not object.
+
+### 5. Constant columns
+- Constant columns have zero variance.
+- PCA can still run, but such columns contribute nothing.
+- No special handling required unless all columns are constant and dimensionality becomes problematic.
+
+### 6. Mixed dtypes
+- Non-numeric columns must be ignored completely.
+- Numeric-looking strings should not be treated as numeric unless already typed numeric.
+
+---
+
+## Suggested function behavior
+A robust implementation should:
+1. Validate input type is a DataFrame.
+2. Select numeric columns.
+3. Drop columns that remain entirely missing after selection.
+4. Fill missing values with means.
+5. Verify at least 2 usable numeric columns remain.
+6. Compute PCA with 2 components.
+7. Return:
+   - the PCA DataFrame
+   - the Axes object
+
+---
+
+## Output contract
+The function should return something like:
+
+- **DataFrame** with shape `(n_rows, 2)`
+- columns:
+  - `principal component 1`
+  - `principal component 2`
+- **Axes** object containing the scatter plot
+
+---
+
+If you want, I can now provide the actual self-contained implementation following this plan.

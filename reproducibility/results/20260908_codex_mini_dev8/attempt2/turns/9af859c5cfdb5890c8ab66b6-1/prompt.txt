@@ -1,0 +1,143 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a random sample from a normal distribution, analyze its skewness and kurtosis, and create a histogram and a QQ plot to visualize the distribution.
+The function should output with:
+    float: Skewness of the sample.
+    float: Kurtosis of the sample.
+    list: Paths to the saved plot files, empty if save_plots is False.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(mean=123456.908, std_dev=1.2, save_plots=False)`.
+
+## Requirements interpretation
+
+The function should:
+
+1. Generate a random sample from a normal distribution using the provided `mean` and `std_dev`.
+2. Compute:
+   - skewness of the sample
+   - kurtosis of the sample
+3. Create two visualizations:
+   - histogram
+   - QQ plot
+4. Save plots only if `save_plots=True`.
+5. Return:
+   - `float` skewness
+   - `float` kurtosis
+   - `list` of file paths to saved plots, or `[]` if `save_plots=False`
+
+## Implementation plan
+
+### 1. Validate and prepare inputs
+- Accept `mean` and `std_dev` as numeric values.
+- Since `std_dev` is a scale parameter, validate that it is positive.
+- `save_plots` should be treated as a boolean flag.
+
+### 2. Generate the random sample
+- Use `np.random.normal(mean, std_dev, size=N)` where `N` is a fixed sample size inside the function.
+- Since no sample size is specified in the signature, choose a reasonable default such as `1000` or `5000`.
+- The sample should be 1D.
+
+### 3. Compute skewness and kurtosis
+- Use SciPy:
+  - `stats.skew(sample)`
+  - `stats.kurtosis(sample)`
+- Convert results to plain Python `float` before returning.
+- Decide whether to use:
+  - **excess kurtosis** (`fisher=True`, SciPy default), or
+  - **classical kurtosis** (`fisher=False`)
+- Most scientific Python code uses excess kurtosis by default, so that is a sensible default unless the task explicitly expects otherwise.
+
+### 4. Create plots
+Create two figures:
+
+#### Histogram
+- Plot a histogram of the sample.
+- Optionally overlay a normal density curve for readability, though not strictly required.
+- Title, axis labels, and grid should be included for clarity.
+
+#### QQ plot
+- Use `stats.probplot(sample, dist="norm", plot=plt)` or the more controlled Matplotlib approach.
+- This visualizes how well the sample matches a normal distribution.
+
+### 5. Save plots conditionally
+- If `save_plots=True`:
+  - Save histogram to a file, e.g. `"histogram.png"`
+  - Save QQ plot to a file, e.g. `"qq_plot.png"`
+  - Collect the file paths in a list and return them
+- If `save_plots=False`:
+  - Do not save files
+  - Return an empty list
+
+### 6. Clean up figures
+- Close figures after saving or displaying to avoid resource leakage.
+- This is especially important if the function may be called multiple times.
+
+### 7. Return values
+Return a 3-tuple:
+```python
+(skewness: float, kurtosis: float, plot_paths: list)
+```
+
+## Edge cases to handle
+
+1. **Non-positive `std_dev`**
+   - `std_dev <= 0` is invalid for a normal distribution.
+   - Raise `ValueError`.
+
+2. **Non-numeric inputs**
+   - If `mean` or `std_dev` are not numeric, NumPy/SciPy may fail.
+   - Either rely on natural exceptions or explicitly validate types.
+
+3. **Small sample size**
+   - If sample size is too small, skewness/kurtosis estimates can be unstable or undefined.
+   - Use a sufficiently large fixed sample size to avoid this.
+
+4. **Randomness / reproducibility**
+   - Because no seed parameter is provided, results will vary on each call.
+   - If reproducibility is desired, internally set a seed or use a fixed RNG, but that would reduce randomness.
+   - Best to leave it random unless the broader task requires deterministic output.
+
+5. **Plot saving when `save_plots=False`**
+   - Ensure no files are written.
+   - Return `[]`.
+
+6. **Filesystem issues**
+   - If saving fails due to permissions or invalid paths, let the exception surface or handle it gracefully depending on task expectations.
+
+## Suggested output behavior
+
+Example return:
+```python
+(0.03, -0.12, ["histogram.png", "qq_plot.png"])
+```
+
+or, when `save_plots=False`:
+```python
+(0.03, -0.12, [])
+```
+
+## Implementation note
+
+Because the task says the code should start with:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+```
+
+the final code should preserve that exact header and implement the full logic inside `task_func`.

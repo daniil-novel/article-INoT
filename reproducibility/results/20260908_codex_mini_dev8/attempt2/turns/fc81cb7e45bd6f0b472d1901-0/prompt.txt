@@ -1,0 +1,24 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Reads data from an Excel spreadsheet, converts it to a CSV file, then calculates the sum of each column in the CSV file.
+Note that: Ensure the Excel file contains only numerical data for accurate sum calculations.
+The function should raise the exception for: FileNotFoundError: If the Excel file does not exist at the specified path. ValueError: If the specified sheet name is not found in the Excel file.
+The function should output with:
+    dict: A dictionary with the sum of each column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import logging
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+def task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv"):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import logging
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+def task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv"):

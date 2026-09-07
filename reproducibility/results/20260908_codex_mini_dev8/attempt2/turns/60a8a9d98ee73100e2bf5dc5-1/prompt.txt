@@ -1,0 +1,121 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Extracts matches from all text files in a specified directory based on a regular expression pattern. It captures whatever is between parentheses as a single match, and any character outside the parentheses as individual matches in the string.
+The function should output with:
+    dict: A dictionary where keys are file names (without path) and values are lists of matches extracted from the files.
+You should write self-contained code starting with:
+```
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(directory_path: str, regex_pattern: str = r'\(.+?\)|\w') -> dict`.
+
+## Requirements interpreted
+- Input:
+  - `directory_path`: path to a directory containing text files.
+  - `regex_pattern`: regular expression used to extract matches.
+- Output:
+  - A dictionary:
+    - keys = file names only, without directory path
+    - values = lists of matches found in each file
+- Behavior:
+  - Process all text files in the given directory.
+  - Extract matches from each file using the regex.
+  - Return one entry per file.
+
+## Planned approach
+1. **Validate the directory**
+   - Convert `directory_path` into a `Path`.
+   - Check whether it exists and is a directory.
+   - If not valid, decide on a consistent behavior:
+     - either raise an error, or
+     - return `{}`.
+   - For robustness, raising a clear exception is usually better.
+
+2. **Locate text files**
+   - Use `glob` or `Path.glob` to find text files in the directory.
+   - Most likely this means files matching `*.txt`.
+   - Only include regular files, not subdirectories.
+
+3. **Read each file**
+   - Open files in text mode, preferably with UTF-8 encoding.
+   - Use `errors='ignore'` or a fallback strategy if encoding issues are likely.
+   - Read the full contents into a string.
+
+4. **Apply the regex**
+   - Use `re.findall(regex_pattern, content)` to get all matches.
+   - This fits the task because the pattern is intended to produce flat matches.
+   - Store matches as a list.
+
+5. **Build the result dictionary**
+   - Use `file_path.name` as the key, so only the base file name is stored.
+   - Use the list of extracted matches as the value.
+
+6. **Return the dictionary**
+   - Return the accumulated mapping for all text files.
+
+## Important edge cases
+- **Empty directory**
+  - Return `{}`.
+
+- **No `.txt` files found**
+  - Return `{}`.
+
+- **Unreadable file**
+  - Decide whether to skip that file or raise an exception.
+  - Best practical choice: skip with safe handling, unless strict failure is required.
+
+- **Encoding problems**
+  - Some text files may not be valid UTF-8.
+  - Consider `errors='ignore'` or `errors='replace'` to avoid crashes.
+
+- **Regex behavior ambiguity**
+  - The supplied pattern is:
+    - `r'\(.+?\)|\w'`
+  - This means:
+    - match a parenthesized substring as one unit, or
+    - match a word character individually.
+  - If the intent is truly “any character outside parentheses individually,” the regex may need adjustment, but the function should still respect the provided pattern parameter.
+
+- **Nested parentheses**
+  - The non-greedy `.+?` will stop at the first closing parenthesis, so nested parentheses are not fully supported.
+  - Example: `(a(b)c)` would likely not be parsed as a single nested structure.
+
+- **Empty parentheses `()`**
+  - Depending on the regex, this may or may not match.
+  - With `.+?`, empty parentheses will not be matched.
+
+- **Files with no matches**
+  - The file should still appear in the result with an empty list, unless you want to omit empty results.
+  - For consistency, include the file with `[]`.
+
+- **File names collision**
+  - If two files in different folders have the same name, using only the base file name can overwrite entries.
+  - Since the task explicitly asks for file names without path, this is acceptable if only one directory level is processed.
+
+## Suggested test scenarios
+- A directory with:
+  - one normal text file
+  - multiple text files
+  - an empty file
+  - a file containing only parentheses
+  - a file containing only plain text
+  - a file with Unicode characters
+- Verify:
+  - returned keys are base file names
+  - values are lists
+  - regex extraction behaves as expected
+  - empty/no-match files return empty lists
+
+If you want, I can next turn this plan into the actual self-contained implementation.

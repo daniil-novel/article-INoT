@@ -1,0 +1,12 @@
+{
+  "base_image_id": "sha256:4cb1f9314783f953beae57c297590ee9e5ef659c50b7705661c6bc4601f549dc",
+  "image_id": "sha256:9a37e6856ab2937be34603254ebaa24375dcc7c0e3ac2c9224d3e7b27553abd9",
+  "source_tree_sha256": "e9c97246a4251586c602aa929c96c50ee40c0e1838deb39470014d33e3eb32ec",
+  "source_tree_hash_algorithm": "SHA256(sorted UTF-8 relative-path + NUL + file-SHA256 bytes + LF; excludes .git and __pycache__)",
+  "requirements_sha256": "3c6c6511d4aa990732c0335a8900ce7b4b8211c7911465855cacd9fee572abd7",
+  "dockerfile_sha256": "e8223a796f9a6938fef3515c3c33afe84498597856ca2005fb3bb8a7198fb8d5",
+  "package_freeze_sha256": "1fff624723054905b804536116e80c16e9537b3e19411141aa6a8cc9087b8e41",
+  "samples_sha256": "98147c8737a12257e2b4c553c87be0d475568e34c1c5e62e1178ce3a51932507",
+  "post_evaluator_staged_samples_sha256": "98147c8737a12257e2b4c553c87be0d475568e34c1c5e62e1178ce3a51932507",
+  "post_hash_matches_source": true
+}

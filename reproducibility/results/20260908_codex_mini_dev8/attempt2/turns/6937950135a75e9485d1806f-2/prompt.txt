@@ -1,0 +1,124 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform PCA on a DataFrame (excluding non-numeric columns) and draw a scatter plot of the first two main components. The principal columns should be name 'Component 1' and 'Component 2'. Missing values are replaced by column's average.
+The function should output with:
+    DataFrame: A pandas DataFrame with the first two principal components. The columns should be 'principal component 1' and 'principal component 2'.
+    Axes: A matplotlib Axes object representing the scatter plot. The xlabel should be 'principal component' and the ylabel 'principal component 2'.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Select numeric data only**
+   - Use `df.select_dtypes(include=np.number)` to exclude all non-numeric columns.
+   - Keep the original index so the PCA output aligns with the input rows.
+
+2. **Handle missing values**
+   - For each numeric column, compute its mean.
+   - Replace missing values with the column mean using `fillna(column_mean)`.
+   - If a numeric column is entirely missing, its mean will be `NaN`; decide how to handle that case explicitly, since PCA cannot work with unresolved `NaN`s.
+
+3. **Validate PCA feasibility**
+   - PCA with 2 components requires:
+     - at least 2 numeric features after filtering, and
+     - at least 2 rows.
+   - If there are fewer than 2 numeric columns or fewer than 2 samples, raise a clear error or handle it gracefully.
+   - Also consider the case where all numeric columns are constant; PCA can still run, but explained variance may be degenerate.
+
+4. **Run PCA**
+   - Fit `PCA(n_components=2)` on the cleaned numeric matrix.
+   - Transform the data to obtain two principal component columns.
+
+5. **Build the output DataFrame**
+   - Create a pandas DataFrame from the PCA result.
+   - Name the columns exactly as required by the output specification:
+     - `'principal component 1'`
+     - `'principal component 2'`
+   - Preserve the input index.
+
+6. **Create the scatter plot**
+   - Use Seaborn or Matplotlib to draw a scatter plot of the first two principal components.
+   - Return the Matplotlib `Axes` object.
+   - Set labels exactly as requested:
+     - `xlabel = 'principal component'`
+     - `ylabel = 'principal component 2'`
+   - If the intended x-axis label should be more specific, note the requirement is slightly inconsistent; follow the explicit output specification.
+
+7. **Return values**
+   - Return a tuple:
+     - the PCA DataFrame
+     - the Matplotlib Axes object
+
+### Edge cases to consider
+- **No numeric columns**: PCA cannot be performed.
+- **Only one numeric column**: cannot compute 2 principal components.
+- **Fewer than 2 rows**: PCA with two components is not possible.
+- **Columns with all missing values**: mean imputation fails unless handled specially.
+- **Constant numeric columns**: PCA may produce zero-variance directions.
+- **Mixed dtypes**: non-numeric columns must be excluded cleanly.
+- **Already complete data**: should still work normally without special handling.
+- **Index preservation**: output DataFrame should keep row alignment with input.
+
+If you want, I can turn this plan into the full function implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def task_func(df: pd.DataFrame):
+    # Select only numeric columns
+    numeric_df = df.select_dtypes(include=np.number).copy()
+
+    # Validate feasibility for PCA with 2 components
+    if numeric_df.shape[1] < 2:
+        raise ValueError("PCA requires at least two numeric columns.")
+    if numeric_df.shape[0] < 2:
+        raise ValueError("PCA requires at least two rows.")
+
+    # Replace missing values with each column's average
+    for col in numeric_df.columns:
+        col_mean = numeric_df[col].mean()
+        if pd.isna(col_mean):
+            # If a column is entirely missing, fall back to 0 to avoid unresolved NaNs
+            col_mean = 0.0
+        numeric_df[col] = numeric_df[col].fillna(col_mean)
+
+    # Run PCA
+    pca = PCA(n_components=2)
+    transformed = pca.fit_transform(numeric_df)
+
+    # Build output DataFrame
+    pca_df = pd.DataFrame(
+        transformed,
+        index=df.index,
+        columns=["principal component 1", "principal component 2"],
+    )
+
+    # Create scatter plot
+    ax = sns.scatterplot(
+        data=pca_df,
+        x="principal component 1",
+        y="principal component 2",
+    )
+    ax.set_xlabel("principal component")
+    ax.set_ylabel("principal component 2")
+
+    return pca_df, ax

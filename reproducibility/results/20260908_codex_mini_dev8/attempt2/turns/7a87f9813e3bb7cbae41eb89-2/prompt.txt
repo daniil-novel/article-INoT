@@ -1,0 +1,257 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Downloads, extracts, and deletes a ZIP file from a specified URL. The function includes comprehensive error handling to manage issues such as invalid URLs, unreachable servers, corrupted ZIP files, and file I/O errors. In the event of a failure, it provides a descriptive error message.
+The function should raise the exception for: urllib.error.URLError: If the URL is invalid or the server cannot be reached. In this case, the function returns a string in the format "URL Error: [error reason]".
+The function should output with:
+    str: The path to the directory where the ZIP file's contents have been extracted. Returns an error message in case of failure.
+You should write self-contained code starting with:
+```
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+```
+FULL SUPPLIED CONTEXT
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func`, including the main flow, error handling, and edge cases.
+
+## Goal
+Implement a function that:
+
+1. Downloads a ZIP file from a URL
+2. Extracts it into a target directory
+3. Deletes the downloaded ZIP afterward
+4. Returns the extraction directory path on success
+5. Returns a descriptive error string on failure
+
+---
+
+## Planned behavior
+
+### 1) Validate and prepare paths
+- Accept:
+  - `url: str`
+  - `save_path: str = "downloaded_file.zip"`
+  - `extract_path: str = "extracted_files"`
+- Ensure the extraction directory exists before extraction:
+  - create it if missing
+- Make sure the ZIP save location is writable
+
+---
+
+### 2) Download the ZIP file
+- Use `urllib.request` to download the file from `url` to `save_path`
+- If the URL is invalid, the server is unreachable, DNS fails, or the request is blocked:
+  - catch `urllib.error.URLError`
+  - return a string in this format:
+    - `URL Error: [error reason]`
+
+---
+
+### 3) Verify and extract the ZIP
+- Open the downloaded file with `zipfile.ZipFile`
+- Extract all contents into `extract_path`
+- If the file is not a valid ZIP archive:
+  - catch `zipfile.BadZipFile`
+  - return a descriptive error message such as:
+    - `ZIP Error: corrupted or invalid ZIP file`
+
+---
+
+### 4) Delete the ZIP file after extraction
+- After successful extraction, remove `save_path` using `os.remove`
+- If deletion fails due to permissions or filesystem issues:
+  - catch `OSError`
+  - return a descriptive file I/O error message
+
+---
+
+### 5) Return value
+- On success:
+  - return `extract_path`
+- On failure:
+  - return a clear string describing the problem
+
+---
+
+## Recommended exception handling strategy
+
+Handle errors in this order:
+
+1. `urllib.error.URLError`
+   - Return: `URL Error: ...`
+2. `zipfile.BadZipFile`
+   - Return: ZIP corruption / invalid archive message
+3. `OSError` / `IOError`
+   - Covers filesystem issues:
+     - permission denied
+     - missing directories
+     - extraction failures
+     - deletion failures
+     - disk errors
+4. Optional broad `Exception`
+   - As a final safeguard, return a generic unexpected error message
+
+---
+
+## Edge cases to account for
+
+### URL / network issues
+- Invalid URL format
+- Unreachable server
+- Timeout / DNS failure
+- HTTP errors that surface through `URLError`
+
+### ZIP issues
+- File exists but is not a ZIP
+- Corrupted archive
+- Empty archive
+- Archive with unusual or nested structure
+
+### Filesystem issues
+- `save_path` points to an unwritable location
+- `extract_path` cannot be created
+- Existing file blocks creation of `extract_path`
+- Permission denied when deleting ZIP
+- Disk full during download or extraction
+
+### Cleanup issues
+- Download succeeds but extraction fails:
+  - ZIP file should ideally still be cleaned up if possible
+- If deletion fails after successful extraction:
+  - return a clear file I/O error
+
+### Path safety
+- ZIP entries may contain dangerous paths like `../`
+- If robustness matters, validate extracted member paths to prevent path traversal
+- This is a good hardening step even though it is not explicitly required
+
+---
+
+## Suggested implementation flow
+1. Create `extract_path` if needed
+2. Download ZIP to `save_path`
+3. Open and extract ZIP
+4. Delete downloaded ZIP
+5. Return `extract_path`
+6. On any failure, return a descriptive string
+
+---
+
+## Notes on the requirement wording
+The prompt says:
+
+- “should raise the exception for: `urllib.error.URLError`”
+- but also says:
+  - “In this case, the function returns a string in the format `URL Error: [error reason]`.”
+
+These conflict slightly. The practical interpretation is:
+- **catch `URLError` and return the formatted error string**
+- do **not** let it propagate
+
+---
+
+If you want, I can also turn this plan into the exact self-contained Python implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import urllib.request
+import zipfile
+import os
+import urllib.error
+
+
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+    """
+    Download a ZIP file from `url`, extract it into `extract_path`,
+    delete the downloaded ZIP, and return `extract_path` on success.
+
+    On failure, returns a descriptive error string.
+    """
+
+    def _best_effort_cleanup() -> None:
+        try:
+            if os.path.exists(save_path):
+                os.remove(save_path)
+        except OSError:
+            pass
+
+    def _safe_extract(zip_obj: zipfile.ZipFile) -> None:
+        abs_extract_root = os.path.abspath(extract_path)
+
+        for member in zip_obj.infolist():
+            member_target = os.path.abspath(os.path.join(extract_path, member.filename))
+
+            # Prevent path traversal outside the extraction directory.
+            if member_target != abs_extract_root and not member_target.startswith(abs_extract_root + os.sep):
+                raise OSError(f"Unsafe path detected in ZIP archive: {member.filename}")
+
+            if member.is_dir():
+                os.makedirs(member_target, exist_ok=True)
+                continue
+
+            parent_dir = os.path.dirname(member_target)
+            if parent_dir:
+                os.makedirs(parent_dir, exist_ok=True)
+
+            with zip_obj.open(member, "r") as source, open(member_target, "wb") as target:
+                while True:
+                    chunk = source.read(8192)
+                    if not chunk:
+                        break
+                    target.write(chunk)
+
+    try:
+        os.makedirs(extract_path, exist_ok=True)
+    except OSError as e:
+        return f"File I/O Error: {e}"
+
+    try:
+        urllib.request.urlretrieve(url, save_path)
+    except urllib.error.URLError as e:
+        _best_effort_cleanup()
+        reason = getattr(e, "reason", e)
+        return f"URL Error: {reason}"
+    except OSError as e:
+        _best_effort_cleanup()
+        return f"File I/O Error: {e}"
+
+    try:
+        with zipfile.ZipFile(save_path, "r") as zip_obj:
+            _safe_extract(zip_obj)
+    except zipfile.BadZipFile:
+        _best_effort_cleanup()
+        return "ZIP Error: corrupted or invalid ZIP file"
+    except OSError as e:
+        _best_effort_cleanup()
+        return f"File I/O Error: {e}"
+    except Exception as e:
+        _best_effort_cleanup()
+        return f"Unexpected Error: {e}"
+
+    try:
+        os.remove(save_path)
+    except OSError as e:
+        return f"File I/O Error: {e}"
+
+    return extract_path
+```

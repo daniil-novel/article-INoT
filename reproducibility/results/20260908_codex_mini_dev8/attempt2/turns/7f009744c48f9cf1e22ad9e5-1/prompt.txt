@@ -1,0 +1,98 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Visualize two Series using a swarm plot with a highlight on their intersecting data points. This function creates a swarm plot to visually compare two pandas Series. It highlights the intersection points between these two series by drawing red dashed lines at the intersecting data points.
+The function should output with:
+    ax (matplotlib.Axes): The Axes object of the plotted swarm chart. This object can be used for further customization of the plot if required.
+    intersection_count (int): The number of unique intersecting data points between s1 and s2.
+    This count gives a quick numerical summary of the overlap between the two series.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(s1, s2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(s1, s2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(s1, s2)`:
+
+### 1) Normalize inputs
+- Convert `s1` and `s2` to pandas `Series` if they are array-like.
+- Drop missing values (`NaN` / `None`) before computing intersections and plotting, so missing data does not create false matches.
+- Optionally preserve original order for plotting, but use cleaned values for overlap detection.
+
+### 2) Compute unique intersection
+- Determine the set of **unique** values appearing in both series.
+- Use exact equality for matching values.
+- `intersection_count` should be the number of unique common values, not the number of repeated occurrences.
+
+### 3) Build plotting data
+- Create a DataFrame with two groups:
+  - one row per value from `s1` labeled `"s1"`
+  - one row per value from `s2` labeled `"s2"`
+- This structure is suitable for `seaborn.swarmplot`, with:
+  - x-axis = series label
+  - y-axis = numeric/data values
+
+### 4) Create the swarm plot
+- Create a figure and axes with `matplotlib`.
+- Call `sns.swarmplot(...)` to visualize both series side by side.
+- Add axis labels and a title such as:
+  - x label: `"Series"`
+  - y label: `"Value"`
+  - title: `"Swarm plot with intersections highlighted"`
+
+### 5) Highlight intersecting values
+- For each unique value in the intersection:
+  - draw a red dashed horizontal line at that y-value
+  - span the line across both swarm groups so the overlap is visually emphasized
+- Use a dashed red style so the highlight is clearly distinguishable from the swarm points.
+- If there are multiple intersecting values, draw one line per value.
+
+### 6) Return values
+- Return:
+  - `ax`: the matplotlib Axes object
+  - `intersection_count`: integer count of unique intersecting values
+
+---
+
+## Edge cases to handle
+
+### Empty or missing-only series
+- If either input is empty or contains only missing values:
+  - still produce a valid plot
+  - `intersection_count = 0`
+  - no highlight lines should be drawn
+
+### No overlap
+- If the two series share no values:
+  - plot normally
+  - return `intersection_count = 0`
+  - do not add red dashed lines
+
+### Duplicate values
+- If a value appears multiple times in either series, count it only once in the intersection.
+- Example: `[1, 1, 2]` and `[1, 1, 1, 3]` should yield intersection `{1}`, count `1`.
+
+### Mixed data types
+- If the series contain incompatible types, exact intersection detection may be limited by pandas/Python equality semantics.
+- Best to rely on pandas’ native value handling after dropping missing values.
+- If the task expects numeric data, plotting should work directly; if non-numeric values are present, swarm plotting may fail.
+
+### Non-Series inputs
+- Accept array-like inputs gracefully by converting them to `pd.Series`.
+
+### Constant or very dense data
+- Swarm plots can visually overlap heavily when many identical or near-identical values exist.
+- The plot should still render, but swarm positioning may be crowded; the highlight lines remain useful.
+
+---
+
+## Suggested behavior summary
+- The function should be robust, self-contained, and return both visualization and numeric overlap summary.
+- The highlight should focus on the **shared unique data values** between the two series, not all matching rows.

@@ -1,0 +1,73 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Extracts matches from all text files in a specified directory based on a regular expression pattern. It captures whatever is between parentheses as a single match, and any character outside the parentheses as individual matches in the string.
+The function should output with:
+    dict: A dictionary where keys are file names (without path) and values are lists of matches extracted from the files.
+You should write self-contained code starting with:
+```
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate input path**
+   - Convert `directory_path` to a `Path`.
+   - Check that it exists and is a directory.
+   - If not, return an empty dict or raise a clear error depending on desired behavior.
+
+2. **Collect files in the directory**
+   - Use `glob` or `Path.iterdir()` to list only entries directly inside the directory.
+   - Ignore subdirectories.
+   - Sort the file list for deterministic output.
+
+3. **Prepare the regex**
+   - Compile `regex_pattern` once with `re.compile(...)`.
+   - If the pattern is invalid, let the regex error surface or handle it explicitly.
+   - Use a matching approach that returns full matches consistently, e.g. `finditer(...)[].group(0)` if you want to avoid surprises from capturing groups in user-supplied patterns.
+
+4. **Read each file**
+   - Open files as text with a safe encoding such as UTF-8.
+   - Use `errors="ignore"` or `errors="replace"` to avoid crashes on malformed text.
+   - Read the entire file content.
+
+5. **Extract matches**
+   - Apply the compiled regex to the file content.
+   - Build a list of all matches in order.
+   - Because the requirement says:
+     - content inside parentheses should be captured as one token,
+     - everything outside parentheses should be split into individual matches,
+     ensure the regex behavior aligns with that expectation.
+
+6. **Build the output dictionary**
+   - Use the file name only, not the full path: `Path(file_path).name`.
+   - Map each file name to its list of matches.
+   - Include files even if they produce an empty list, unless the spec prefers skipping empty results.
+
+7. **Return the result**
+   - Final output should be:
+     - `dict[str, list[str]]`
+     - keys = file names
+     - values = extracted matches
+
+Edge cases to handle:
+- **Empty directory** → return `{}`.
+- **Non-existent directory** → either `{}` or a clear exception.
+- **Files with encoding issues** → use tolerant decoding.
+- **Files with no matches** → return an empty list for that file.
+- **Nested folders** → ignore unless recursion is explicitly required.
+- **Regex with capturing groups** → can change `findall` behavior, so prefer `finditer` if you want stable string outputs.
+- **Unbalanced parentheses in text** → should not crash; unmatched text simply won’t match the parenthesized token rule.
+- **Large files** → if memory matters, consider streaming, but full read is simplest if files are modest.
+
+If you want, I can turn this plan into the exact self-contained Python implementation next.

@@ -1,0 +1,227 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Downloads, extracts, and deletes a ZIP file from a specified URL. The function includes comprehensive error handling to manage issues such as invalid URLs, unreachable servers, corrupted ZIP files, and file I/O errors. In the event of a failure, it provides a descriptive error message.
+The function should raise the exception for: urllib.error.URLError: If the URL is invalid or the server cannot be reached. In this case, the function returns a string in the format "URL Error: [error reason]".
+The function should output with:
+    str: The path to the directory where the ZIP file's contents have been extracted. Returns an error message in case of failure.
+You should write self-contained code starting with:
+```
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+```
+FULL SUPPLIED CONTEXT
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func` based on the supplied requirements.
+
+## Goal
+The function should:
+
+1. Download a ZIP file from `url`
+2. Save it locally to `save_path`
+3. Extract its contents to `extract_path`
+4. Delete the downloaded ZIP file afterward
+5. Return the extraction directory path on success
+6. Return descriptive error strings on failure, with special handling for `urllib.error.URLError`
+
+---
+
+## Planned behavior
+
+### Success path
+1. Download the file from the provided URL.
+2. Write it to `save_path`.
+3. Verify it is a valid ZIP archive.
+4. Create `extract_path` if it does not exist.
+5. Extract all contents into `extract_path`.
+6. Delete the ZIP file from disk.
+7. Return `extract_path`.
+
+---
+
+## Error handling plan
+
+### 1) URL / network failures
+Catch `urllib.error.URLError` and return:
+
+```python
+f"URL Error: {reason}"
+```
+
+Where `reason` should be taken from the exception if available.
+
+This covers:
+- malformed or invalid URL
+- unreachable server
+- DNS/network failures
+
+---
+
+### 2) Corrupted or invalid ZIP file
+After download, validate the file before extraction.
+
+Handle:
+- `zipfile.BadZipFile`
+- `zipfile.LargeZipFile` if relevant
+- `zipfile.is_zipfile(save_path)` returning `False`
+
+Return a descriptive message such as:
+- `"ZIP Error: downloaded file is not a valid ZIP archive"`
+- `"ZIP Error: corrupted ZIP file"`
+
+---
+
+### 3) File I/O failures
+Catch `OSError` / `IOError` for:
+- permission denied
+- disk full
+- invalid path
+- inability to create extraction directory
+- inability to delete the ZIP file
+
+Return messages like:
+- `"File Error: [details]"`
+
+---
+
+### 4) Unexpected errors
+Catch any other exception as a fallback and return:
+- `"Unexpected Error: [details]"`
+
+This helps ensure the function always returns a useful string instead of crashing unexpectedly.
+
+---
+
+## Cleanup plan
+Use a `finally` block or equivalent cleanup logic to delete the downloaded ZIP file if it exists, even if extraction fails.
+
+Important nuance:
+- If download fails before the file exists, cleanup should not fail.
+- If extraction succeeds but deletion fails, the function should still return an error message indicating cleanup failure if needed.
+
+---
+
+## Edge cases to account for
+
+### URL-related
+- URL has no scheme, e.g. `"example.com/file.zip"`
+- URL points to a 404/503 or unreachable host
+- Redirects or other server-side issues
+
+### ZIP-related
+- File downloads successfully but is HTML or plain text instead of ZIP
+- ZIP file is partially downloaded or corrupted
+- ZIP contains nested folders, empty files, or unusual filenames
+- ZIP is password-protected or otherwise not extractable normally
+
+### Filesystem-related
+- `extract_path` does not exist and must be created
+- `save_path` points to a directory by mistake
+- No permission to write to `save_path`
+- No permission to create or write into `extract_path`
+- Existing file at `save_path` should be overwritten or safely replaced
+- Cleanup delete fails because file is locked
+
+### Platform/path issues
+- Windows path separators
+- Relative paths vs absolute paths
+- Unicode or special characters in paths
+
+---
+
+## Recommended implementation structure
+1. Validate and download the ZIP
+2. Save bytes to `save_path`
+3. Check ZIP validity
+4. Create extraction directory
+5. Extract contents
+6. Remove ZIP file
+7. Return extraction path
+8. On any failure, return a descriptive string
+
+---
+
+## Output contract
+- On success: return the extraction directory path as `str`
+- On failure: return an error message as `str`
+- For `URLError`: return exactly in the form  
+  `"URL Error: [error reason]"`
+
+---
+
+If you want, I can proceed to **stage 2** and write the actual self-contained implementation in the exact required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import urllib.request
+import zipfile
+import os
+import urllib.error
+
+
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+    result = ""
+
+    try:
+        with urllib.request.urlopen(url) as response:
+            data = response.read()
+
+        with open(save_path, "wb") as file:
+            file.write(data)
+
+        if not zipfile.is_zipfile(save_path):
+            result = "ZIP Error: downloaded file is not a valid ZIP archive"
+        else:
+            try:
+                os.makedirs(extract_path, exist_ok=True)
+                with zipfile.ZipFile(save_path, "r") as zip_ref:
+                    zip_ref.extractall(extract_path)
+                result = extract_path
+            except zipfile.BadZipFile:
+                result = "ZIP Error: corrupted ZIP file"
+            except zipfile.LargeZipFile as e:
+                result = f"ZIP Error: {e}"
+            except RuntimeError as e:
+                result = f"ZIP Error: {e}"
+            except OSError as e:
+                result = f"File Error: {e}"
+
+    except urllib.error.URLError as e:
+        reason = getattr(e, "reason", None)
+        if reason is None:
+            reason = str(e)
+        result = f"URL Error: {reason}"
+    except OSError as e:
+        result = f"File Error: {e}"
+    except Exception as e:
+        result = f"Unexpected Error: {e}"
+    finally:
+        if os.path.exists(save_path):
+            try:
+                os.remove(save_path)
+            except OSError as e:
+                if result == extract_path:
+                    result = f"File Error: failed to delete downloaded ZIP file: {e}"
+
+    return result
+```

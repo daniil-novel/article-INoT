@@ -1,0 +1,29 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Downloads, extracts, and deletes a ZIP file from a specified URL. The function includes comprehensive error handling to manage issues such as invalid URLs, unreachable servers, corrupted ZIP files, and file I/O errors. In the event of a failure, it provides a descriptive error message.
+The function should raise the exception for: urllib.error.URLError: If the URL is invalid or the server cannot be reached. In this case, the function returns a string in the format "URL Error: [error reason]".
+The function should output with:
+    str: The path to the directory where the ZIP file's contents have been extracted. Returns an error message in case of failure.
+You should write self-contained code starting with:
+```
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+```
+FULL SUPPLIED CONTEXT
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:

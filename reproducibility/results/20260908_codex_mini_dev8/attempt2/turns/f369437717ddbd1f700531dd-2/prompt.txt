@@ -1,0 +1,185 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Reads data from an Excel spreadsheet, converts it to a CSV file, then calculates the sum of each column in the CSV file.
+Note that: Ensure the Excel file contains only numerical data for accurate sum calculations.
+The function should raise the exception for: FileNotFoundError: If the Excel file does not exist at the specified path. ValueError: If the specified sheet name is not found in the Excel file.
+The function should output with:
+    dict: A dictionary with the sum of each column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import logging
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+def task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv"):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import logging
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+def task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv")`.
+
+## Goal
+Read a sheet from an Excel file, save it as CSV, then compute the sum of each column in the CSV and return the results as a dictionary.
+
+## Planned approach
+
+1. **Set up logging**
+   - Use the provided `logging.basicConfig(...)`.
+   - Log major steps: start, file read, CSV write, sum calculation, success/failure.
+
+2. **Check whether the Excel file exists**
+   - Before reading, verify `excel_file_location` points to an existing file.
+   - If not, raise `FileNotFoundError`.
+
+3. **Read the specified Excel sheet**
+   - Use `pandas.read_excel(..., sheet_name=sheet_name)`.
+   - If the sheet does not exist, catch the relevant exception and raise `ValueError` with a clear message.
+
+4. **Validate that the data is numeric**
+   - Since the task requires numerical data for accurate sums, ensure all columns contain numeric values.
+   - Recommended handling:
+     - Check for non-numeric columns or non-numeric cells.
+     - Either:
+       - reject the input with `ValueError`, or
+       - coerce values to numeric and fail if any become invalid.
+   - This prevents silent incorrect sums.
+
+5. **Write the Excel data to CSV**
+   - Save the DataFrame to `csv_file_location` using `to_csv(index=False)`.
+   - This preserves column structure and avoids adding an extra index column.
+
+6. **Read the CSV back**
+   - Load the CSV using `pandas.read_csv(csv_file_location)`.
+   - This ensures the sum is calculated from the generated CSV file as required.
+
+7. **Compute sums for each column**
+   - Calculate `sum()` for every column in the CSV DataFrame.
+   - Convert the result into a plain Python `dict`.
+
+8. **Return the result**
+   - Return a dictionary in the form:
+     ```python
+     {"col1": sum1, "col2": sum2, ...}
+     ```
+
+---
+
+## Edge cases to handle
+
+1. **Excel file not found**
+   - Raise `FileNotFoundError`.
+
+2. **Sheet name missing**
+   - Raise `ValueError`.
+
+3. **Non-numeric values in the Excel sheet**
+   - Since sums must be accurate, this should be detected and reported.
+   - Best handled as `ValueError`.
+
+4. **Empty sheet**
+   - Return an empty dictionary or raise a clear error, depending on desired strictness.
+   - For this task, returning `{}` is reasonable if the sheet is valid but empty.
+
+5. **Columns with missing values**
+   - Decide whether to allow them:
+     - pandas sum ignores `NaN` by default.
+     - If strict numeric completeness is needed, validate and raise an error.
+
+6. **Mixed-type columns**
+   - Should be rejected if they contain strings or other non-numeric data.
+
+7. **CSV overwrite**
+   - If `csv_file_location` already exists, it will be overwritten.
+   - This is acceptable unless the environment requires preservation.
+
+8. **Unexpected read/write errors**
+   - Optionally catch generic I/O exceptions and log them, then re-raise.
+
+---
+
+## Recommended implementation behavior
+- Raise exactly:
+  - `FileNotFoundError` when the Excel file path is invalid.
+  - `ValueError` when the sheet is missing.
+- Also raise `ValueError` for non-numeric data if validation fails.
+- Return only the final dictionary of column sums.
+
+If you want, I can now turn this plan into the full self-contained function code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import logging
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv"):
+    """
+    Read data from an Excel spreadsheet, convert it to CSV, then calculate the sum of each column in the CSV.
+
+    Args:
+        sheet_name: Name of the Excel sheet to read.
+        excel_file_location: Path to the Excel file.
+        csv_file_location: Path where the CSV file will be written.
+
+    Returns:
+        dict: A dictionary with the sum of each column.
+
+    Raises:
+        FileNotFoundError: If the Excel file does not exist at the specified path.
+        ValueError: If the specified sheet name is not found in the Excel file.
+        ValueError: If the sheet contains non-numeric data.
+    """
+    logging.info("Starting task_func with excel_file_location=%s, csv_file_location=%s, sheet_name=%s",
+                 excel_file_location, csv_file_location, sheet_name)
+
+    # Check that the Excel file exists
+    try:
+        with open(excel_file_location, "rb"):
+            pass
+    except FileNotFoundError:
+        logging.error("Excel file not found: %s", excel_file_location)
+        raise
+
+    # Verify the sheet exists and read it
+    try:
+        excel_file = pd.ExcelFile(excel_file_location)
+    except FileNotFoundError:
+        logging.error("Excel file not found while opening: %s", excel_file_location)
+        raise
+
+    if sheet_name not in excel_file.sheet_names:
+        logging.error("Sheet '%s' not found in Excel file: %s", sheet_name, excel_file_location)
+        raise ValueError(f"Sheet '{sheet_name}' not found in Excel file.")
+
+    try:
+        df = excel_file.parse(sheet_name=sheet_name)
+    except ValueError:
+        logging.error("Failed to parse sheet '%s' from file: %s", sheet_name, excel_file_location)
+        raise
+
+    logging.info("Excel sheet read successfully with shape %s", df.shape)
+
+    # Ensure all data is numeric
+    try:
+        numeric_df = df.apply(pd.to_numeric, errors="raise")
+    except Exception as exc:
+        logging.error("Non-numeric data found in sheet '%s': %s", sheet_name, exc)
+        raise ValueError("The Excel sheet must contain only numerical data.") from exc
+
+    # Write the numeric data to CSV
+    numeric_df.to_csv(csv_file_location, index=False)
+    logging.info("Data written to CSV at %s", csv_file_location)
+
+    # Read the CSV back and calculate column sums
+    csv_df = pd.read_csv(csv_file_location)
+    sums = csv_df.sum(numeric_only=True).to_dict()
+
+    logging.info("Column sums calculated successfully: %s", sums)
+    return sums
+```
