@@ -175,6 +175,32 @@
       "b3_vs_b0_token_change_pct": -70.5999634645998
     }
   ],
+  "calls_by_architecture": {
+    "B0_SingleLarge": {
+      "1": 80
+    },
+    "B2_ClassicalMAS": {
+      "3": 80
+    },
+    "B3_HybridINoT": {
+      "2": 48,
+      "1": 32
+    }
+  },
+  "usage_roles_by_architecture": {
+    "B0_SingleLarge": {
+      "solver": 80
+    },
+    "B2_ClassicalMAS": {
+      "planner": 80,
+      "worker": 80,
+      "critic": 80
+    },
+    "B3_HybridINoT": {
+      "inot_combined": 80,
+      "rerun": 48
+    }
+  },
   "retained_final_solution_count": 0,
   "retained_response_count": 0,
   "reported_pass_counts": {

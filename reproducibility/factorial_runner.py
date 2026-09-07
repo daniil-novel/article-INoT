@@ -189,6 +189,8 @@ def audit(root: Path, require_complete: bool = True) -> dict:
             if call_id not in expected:
                 raise ValueError("Unexpected call")
             cell, stage = expected[call_id]
+            if set(record['files']) != {call_id+s for s in ('.request.json','.transport.json','.response.json')}:
+                raise ValueError('Missing artifact checksum')
             for name, sha in record["files"].items():
                 if Path(name).name != name or file_hash(root/"calls"/name) != sha:
                     raise ValueError(f"Artifact hash mismatch: {name}")
@@ -207,12 +209,18 @@ def audit(root: Path, require_complete: bool = True) -> dict:
             errors.append("Run status is not completed")
         if status == "blocked_unknown_charge":
             errors.append("Unreconciled request charge")
+        if status == 'blocked_provider_envelope_violation':
+            errors.append('Provider exceeded the reserved envelope; review before any new request')
+        if require_complete:
+            saved = [json.loads(line) for line in (root/'results.jsonl').read_text(encoding='utf-8').splitlines()]
+            if saved != result_rows(root,m,c,index):
+                raise ValueError('Derived results differ from archived responses')
     except (OSError, ValueError, KeyError, TypeError) as exc:
         errors.append(str(exc))
     return {"ok": not errors, "errors": errors}
 
 
-def export_results(root: Path, m: dict, c: dict, index: dict) -> None:
+def result_rows(root: Path, m: dict, c: dict, index: dict) -> list[dict]:
     rows = []
     for cell in m["cells"]:
         ids = [f"{cell['id']}-{stage}" for stage in range(cell["calls"])]
@@ -224,6 +232,11 @@ def export_results(root: Path, m: dict, c: dict, index: dict) -> None:
                      "truncated": any(r["choices"][0].get("finish_reason")=="length" for r in responses),
                      "cost_usd": sum(index[i]["cost_usd"] for i in ids), "call_count": len(ids),
                      "total_tokens": sum(r["usage"]["total_tokens"] for r in responses)})
+    return rows
+
+
+def export_results(root: Path, m: dict, c: dict, index: dict) -> None:
+    rows = result_rows(root,m,c,index)
     temporary = root/"results.jsonl.tmp"
     temporary.write_bytes(b"".join(canonical(row)+b"\n" for row in rows))
     os.replace(temporary, root/"results.jsonl")

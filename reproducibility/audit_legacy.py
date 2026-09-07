@@ -48,6 +48,8 @@ def audit(source: Path) -> dict:
             "scope": "arithmetic reanalysis only; no model generation or solution replay",
             "rows": len(rows), "unique_tasks": n, "seeds": sorted({r["seed"] for r in rows}),
             "cells": cells, "contrasts": contrasts,
+            "calls_by_architecture": {arm: dict(Counter(str(len(r['usages'])) for r in rows if r['architecture']==arm)) for arm in sorted({r['architecture'] for r in rows})},
+            "usage_roles_by_architecture": {arm: dict(Counter(u.get('role','unknown') for r in rows if r['architecture']==arm for u in r['usages'])) for arm in sorted({r['architecture'] for r in rows})},
             "retained_final_solution_count": sum(bool(r.get("final_solution")) for r in rows),
             "retained_response_count": sum(bool(r.get("response") or r.get("raw_response")) for r in rows),
             "reported_pass_counts": dict(Counter(str(r["passed"]) for r in rows)),

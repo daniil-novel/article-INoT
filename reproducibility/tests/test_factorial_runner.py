@@ -121,5 +121,13 @@ class RunnerTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 self.run_it(send=lambda *_:self.fail('lock ignored'))
 
+    def test_derived_results_tampering_is_detected(self):
+        self.run_it()
+        p=self.archive/'results.jsonl'
+        rows=[json.loads(line) for line in p.read_text().splitlines()]
+        rows[0]['cost_usd']=0
+        p.write_text(''.join(json.dumps(r)+'\n' for r in rows))
+        self.assertFalse(f.audit(self.archive)['ok'])
+
 
 if __name__=='__main__':unittest.main()
