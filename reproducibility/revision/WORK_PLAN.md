@@ -7,9 +7,9 @@ Assumptions: the user authorizes repository edits/publication and up to USD 300 
 Primary sources: original INoT paper; official Agentless and SWE-agent repositories; BigCodeBench dataset and evaluator; official SWE-bench evaluator and dataset cards; model provider API metadata; immutable local historical results. Planning API is unavailable in this session, so this file is the explicit plan.
 
 1. **Completed:** inspect manuscript, historical artifacts, local research source, runtime and key status; preserve pre-existing untracked research_program_2026-09-08.md.
-2. **In progress:** reconcile primary literature and freeze estimands, sampling, budget, failure rules and baseline fidelity; implement an auditable runner and official-evaluator bridge.
-3. Pending: validate archives, treatment invariants, sampling and statistical analysis; preflight evaluator and perform real runs when funded and executable.
-4. Pending: rewrite both manuscripts around verified evidence and clearly marked prospective work; build and visually inspect PDFs.
-5. Pending: commit changes, publish the branch and GitHub description where authorization is available; report exact completion and remaining experimental gaps.
+2. **Completed for this revision:** primary-source audit, prospective estimands, sampling, budget and failure rules; generator, official-format export/collection and analysis implemented. Final confirmatory freeze awaits development calibration.
+3. **Software checks completed; empirical execution blocked:** 26 synthetic-fixture unit tests passed. Official BigCodeBench data downloaded and 40/1100 split verified. Docker default context is live, but the candidate evaluator image has 9.27 GB compressed layers and exceeds the approximately 8.6 GB free on C: before unpacking. Official controls and native baselines remain unexecuted. The existing key remains valid with USD 0 remaining; USD 300 is author authorization, not available API allowance.
+4. **Completed:** both manuscripts rewritten, historical arithmetic and rerun counts audited, PDFs built and selected pages visually inspected. No new model or official benchmark outcome is claimed.
+5. **Final publication:** scoped commits prepared; publish with fast-forward Git history and update the GitHub description. The validation record identifies tested artifacts and the remaining experimental gates.
 
-Runtime evidence: 32 GiB RAM; C: approximately 8.6 GB free, E: approximately 112 GB free; Docker client installed but Linux daemon initially unavailable. Existing OpenRouter key is valid, with limit USD 10 and remaining USD 0. No key value is stored in this record.
+Runtime evidence: 32 GiB host RAM, 8.32 GB Docker VM memory; C: approximately 8.6 GB free, E: approximately 114 GB free. Docker context default is available; desktop-linux is not. No key value is stored in this record. Existing user research_program_2026-09-08.md remains untouched and excluded from commits.

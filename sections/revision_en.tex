@@ -1,4 +1,4 @@
-\title[Hybrid-INoT revisited]{Hybrid-INoT revisited: separating role prompts, call topology, and context costs\\Evidence audit and a compression-free evaluation protocol}
+\title[Hybrid-INoT revisited]{Hybrid-INoT without compression: an evidence audit and factorial protocol for role-based code generation}
 \author*[1]{\fnm{Daniil} \sur{Privezentsev}}\email{daprivezentsev@edu.hse.ru}
 \affil*[1]{\orgname{National Research University Higher School of Economics}, \orgaddress{\city{Moscow}, \country{Russia}}}
 
@@ -11,9 +11,9 @@
 
 A software-engineering assistant may plan a change, implement it and review the result. These operations can be placed in one model response or distributed across separate calls. They can also be described with professional role labels or ordinary procedural instructions. These choices are often changed together, making an apparently large improvement difficult to attribute. Repeated transmission of code increases input usage; additional critique may improve a patch; an output cap may prevent a final implementation from being completed. Each is a different mechanism.
 
-The original Hybrid-INoT study compared a three-call planner--worker--critic pipeline with one combined role call that also selected context above a threshold. Its strongest supported observation was a reduction in the resource consumption of that complete package. The study did not establish that role separation caused the saving, improved quality or transferred to real repository repair. This revision replaces the architectural superiority claim with a more specific question: \emph{what do role instructions and call boundaries contribute when the supplied information and output allowance are controlled?}
+The original Hybrid-INoT study compared a three-call planner--worker--critic pipeline with a combined role call, thresholded context selection and an optional rerun. Its strongest supported observation was a reduction in the resource consumption of that complete package. The study did not establish that role separation caused the saving, improved quality or transferred to real repository repair. This revision replaces the architectural superiority claim with a more specific question: \emph{what do role instructions and call boundaries contribute when the supplied information and output allowance are controlled?}
 
-This question matters because a complex baseline can make an intermediate system appear efficient even when a simpler solver is cheaper. Reanalysis of the retained B0 comparator demonstrates precisely that problem: below the historical compression threshold, B3 incurs more tokens without an observable improvement in the saved success labels. The finding is conditional on a small ceiling-quality sample, but it changes which comparison should motivate the next experiment.
+This question matters because a complex baseline can make an intermediate system appear efficient even when a simpler solver is cheaper. Reanalysis of the retained B0 comparator demonstrates precisely that problem: at the first three target lengths, B3 incurs more tokens without an observable improvement in the saved success labels. The finding is conditional on a small ceiling-quality sample, but it changes which comparison should motivate the next experiment.
 
 \subsection{Contributions and evidence status}
 
@@ -47,6 +47,8 @@ There are 20 unique HumanEval tasks, four target context lengths, three architec
 
 No complete final solution or full API response is retained in the 240 Flash-Lite records. The revision can verify their arithmetic, but cannot replay the original pass/fail decisions. Regenerating an answer now would produce a new observation and would not recover the missing historical artifact. Accordingly, the table reports \emph{retained success labels}, not newly verified correctness.
 
+The saved usage records reveal another qualification: of 80 B3 records, 32 contain one call and 48 contain an additional call labelled \texttt{rerun}. B3 therefore averages 1.6 calls at each context length, whereas B0 and B2 contain exactly one and three calls. The audited B3 totals include these reruns. Its final success labels cannot be interpreted as single-attempt pass@1, and the historical contrast is not a pure three-versus-one comparison even before compression is considered.
+
 \subsection{The omitted simple comparison changes the interpretation}
 Table~\ref{tab:legacy} presents mean total tokens directly recalculated from the retained file. B0 is a single solver; B2 is the three-call pipeline; B3 combines role prompting and thresholded context selection. All saved success labels are one.
 
@@ -67,6 +69,8 @@ Context & B0 & B2 & B3 & B3 vs B2 & B3 vs B0\\
 \end{table}
 
 Three conclusions follow. First, the package saving against B2 is numerically reproducible. Second, B3 is more expensive than B0 at the first three target lengths; a benefit of role prompting cannot be inferred from those ceiling-quality records. Third, the apparent reversal at 16,384 tokens coincides with context selection in B3 and full transmission in B0/B2. It cannot establish that role prompting itself becomes more economical on long inputs.
+
+The retained context metadata also distinguish target labels from actual transformations. Ratios of transformed to original context size are exactly one at targets 256 and 1,024, but range from 0.932 to 1.005 at target 4,096 and from 0.242 to 0.251 at target 16,384. Target 4,096 is therefore not a wholly uncompressed control. These are the implementation's saved size ratios, not independently retokenized prompts.
 
 The near-flat B3 curve above the threshold is consistent with a capped selected context. A line fitted across the threshold mixes distinct operating regimes. Its slope is a descriptive summary of four design points, not an estimate of an architectural marginal cost holding all other mechanisms fixed. This revision removes that fitted slope from the headline result.
 
@@ -179,7 +183,7 @@ Declare preservation only when the one-sided 97.5\% lower bound exceeds $-0.02$.
 \subsection{Dependence, multiplicity and missing observations}
 Resample tasks, retaining all their arms, seeds and paired models together, with 10,000 bootstrap draws and seed 20260908. Seeds are repeated measurements, not independent tasks. Analyze models separately; any pooled model estimate must specify its weighting. For the five quality contrasts, apply Holm correction within each prespecified benchmark/model family. Report estimates and uncertainty even when corrected tests are nonsignificant.
 
-For sparse discordance, report the single-seed paired outcome table and conservative exact bounds in addition to bootstrap summaries. A zero-width bootstrap interval on an all-success sample does not establish quality preservation. The analysis must be capable of returning ``inconclusive'' even after all planned cells are completed.
+For sparse discordance, report the paired outcome table for the prespecified seed 17 and conservative exact bounds in addition to bootstrap summaries. The conservative release gate requires both the bootstrap lower bound and the first-seed bound to exceed $-0.02$. The latter subtracts an upper Clopper--Pearson bound for harmful outcomes from a lower bound for beneficial outcomes, allocating probability 0.0125 to each tail. It is not an exact interval for the multi-seed mean. A zero-width bootstrap interval on an all-success sample does not establish quality preservation. Paired sign-flip tests are reported as a symmetry-based sensitivity analysis. The analysis can return ``inconclusive'' even after all planned cells are completed.
 
 Empty outputs, invalid code and unsuccessful patches count as model failures. Infrastructure outcomes are recorded as missing, with separate optimistic and pessimistic bounds in which unresolved observations are assigned success or failure. Primary complete-task contrasts require every expected seed/arm cell and must disclose the excluded count. A complete-case result cannot silently replace the planned intention-to-evaluate denominator. No result-based task deletion, prompt tuning or selective seed reporting is allowed.
 
@@ -212,7 +216,7 @@ Archive audit checks expected task--model--arm--seed coverage, duplicate keys, b
 The implementation and versioned protocol accompany this manuscript in the article repository~\cite{article2026}. Unit tests and preparation checks test the software's invariants. They must not be included in the experimental sample or interpreted as evidence that a model solves benchmark tasks. Source code for missing repository retrieval, completed upstream-agent runs and complete official evaluator records remain required before publication of an empirical superiority claim.
 
 \section{Interpretation, limitations and publication boundary}\label{sec:limits}
-The corrected historical conclusion is narrower and more useful than a generic efficiency claim. Combining calls and selecting context was cheaper than the historical three-call package. At the uncompressed target lengths, the simple solver was cheaper still. Which organization offers the best cost--quality tradeoff is therefore unresolved, not automatically favorable to internal roles.
+The corrected historical conclusion is narrower and more useful than a generic efficiency claim. Combining calls and selecting context was cheaper than the historical three-call package. At the first three target lengths, the simple solver was cheaper still. Which organization offers the best cost--quality tradeoff is therefore unresolved, not automatically favorable to internal roles.
 
 The new factorial study can identify effects of its frozen prompts and call protocol within its task population. It cannot establish latent independence of roles, universal benefit across providers, correctness beyond the tests or performance on an unseen repository distribution. Matching an output allowance leaves input/caching and actual computation unequal. Fixed stage budgets can interact with difficulty; fixed context packets exclude adaptive information gathering. Both limitations motivate separate sensitivity and practical-system comparisons.
 

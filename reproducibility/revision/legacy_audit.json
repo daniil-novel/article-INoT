@@ -201,6 +201,32 @@
       "rerun": 48
     }
   },
+  "b3_context_transformation": [
+    {
+      "target_context": 256,
+      "ratio_min": 1.0,
+      "ratio_max": 1.0,
+      "changed_count": 0
+    },
+    {
+      "target_context": 1024,
+      "ratio_min": 1.0,
+      "ratio_max": 1.0,
+      "changed_count": 0
+    },
+    {
+      "target_context": 4096,
+      "ratio_min": 0.9315968289920725,
+      "ratio_max": 1.0053658536585366,
+      "changed_count": 20
+    },
+    {
+      "target_context": 16384,
+      "ratio_min": 0.24218104567449544,
+      "ratio_max": 0.25053298410184566,
+      "changed_count": 20
+    }
+  ],
   "retained_final_solution_count": 0,
   "retained_response_count": 0,
   "reported_pass_counts": {

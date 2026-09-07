@@ -1,0 +1,93 @@
+{
+  "date": "2026-09-08",
+  "scope": "Software, arithmetic, dataset and document validation only; no new LLM benchmark outcomes.",
+  "pdfs": [
+    {
+      "path": "converted_article_springer.pdf",
+      "sha256": "574c4ab0cbd7c6a324897de91b1a23412482385ded356261a30b46aae6333614",
+      "pages": 13,
+      "empty_pages": [],
+      "text_outside_page": [],
+      "replacement_character_pages": [],
+      "compile_issues": []
+    },
+    {
+      "path": "converted_article_springer_ru.pdf",
+      "sha256": "2b1017aff315450fa01a9cafa0dfd9f4aa31b32e71251ea840ea25adfa1601fe",
+      "pages": 14,
+      "empty_pages": [],
+      "text_outside_page": [],
+      "replacement_character_pages": [],
+      "compile_issues": []
+    }
+  ],
+  "source_hash_convention": "SHA-256 of UTF-8 bytes after CRLF-to-LF normalization for cross-platform Git checkouts",
+  "source_sha256_lf": {
+    "converted_article_springer.tex": "da84e86fafd1b856d329243e0a482d7acc454b7c4a805bbe9672bb91d58eeeab",
+    "converted_article_springer_ru.tex": "8ecd62d42063866aabbf84e49829414a73da745ab181ee4864bf3166711010ae",
+    "sections/revision_en.tex": "55bc3b9f9dcde6725f5e304eee34c352444f54baeb620a71f267e0264cfb4dba",
+    "sections/revision_ru.tex": "34ee94691ce1c372365732d72d71077c50cb4b2c5a5b8c77d5e0a3088e0c9899",
+    "sections/revision_references.tex": "82d6ed2a9cb2c08d4feb63816a2cbf178b0d6acd2800c3cb12fb742ef82dd196",
+    "build.ps1": "7cef8fa2ac04e485015e46a5693ac22b9e97634d2f18ff624eb2fd08dce2d814",
+    "reproducibility/factorial_runner.py": "26c2f98458b71654077ae8f36fc4beb23a13206febf2d604123ce6d97106e105",
+    "reproducibility/benchmark_bridge.py": "bf96f1df47d11dd0a697cab9c4fc94c492630eef923af4cc9008a5fb3251e92f",
+    "reproducibility/collect_outcomes.py": "50e403329d994d1f90da29eb4df5487e547fbc6d4b2efb154f7b408c67cd199c",
+    "reproducibility/analyze_factorial.py": "446562c08a828beaab66ff968200349cb5b5083dfb2493eb917cf00b13fbde64",
+    "reproducibility/audit_legacy.py": "b475c7f803478aa4c3c4ded36cf83b6dcd29d8ad1e4928dbf17ee6d6ac528bc3"
+  },
+  "build_command": ".\\build.ps1 all -Force",
+  "build_exit_code": 0,
+  "software_tests": {
+    "command": "python -m unittest discover -s reproducibility/tests",
+    "passed": 26,
+    "failed": 0,
+    "fixtures": "synthetic; no live provider generation and no official benchmark execution"
+  },
+  "dataset_split": {
+    "development": 40,
+    "confirmation": 1100,
+    "overlap": 0,
+    "sha256": "6d5fcefd214715bb46f0223585248c88bd7881fad9f69e3121ec90d473552fad"
+  },
+  "manifest_integrity": "both recomputed and checked against current runner, tasks and config",
+  "planned_matrices": [
+    {
+      "generation_count": 13200,
+      "call_count": 26400,
+      "manifest_sha256": "5f2420e0636a25f76440772b93d1a90c8b81dc50e3f101f7a6377ab05c926f35",
+      "source_sha256": "26c2f98458b71654077ae8f36fc4beb23a13206febf2d604123ce6d97106e105",
+      "worst_case_usd": 166.52697600000002,
+      "config": "qwen"
+    },
+    {
+      "generation_count": 13200,
+      "call_count": 26400,
+      "manifest_sha256": "365bf8e945c15f75cae02332dfdb497b2bc1b081ce17cbb3f95726b84aa10ec8",
+      "source_sha256": "26c2f98458b71654077ae8f36fc4beb23a13206febf2d604123ce6d97106e105",
+      "worst_case_usd": 237.89568,
+      "config": "gemini"
+    }
+  ],
+  "visual_qa": "Titles/abstracts, audit tables, methods/statistics and bibliography sampled in both languages. Updated audit pages 4/5 checked after revision. All PDF pages checked for word bounding boxes, replacement characters and empty pages. This is sampled visual review, not an independent scientific review.",
+  "historical_audit": {
+    "rows": 240,
+    "tasks": 20,
+    "b3_records_with_rerun": 48,
+    "b3_total_records": 80,
+    "replayed_solutions": 0
+  },
+  "execution_status": {
+    "new_paid_generations": 0,
+    "new_official_evaluations": 0,
+    "native_baseline_runs": 0,
+    "author_openrouter_limit_usd": 300,
+    "observed_key_remaining_usd": 0
+  },
+  "remaining_gates": [
+    "Funded key and development capability canary",
+    "Validate isolated evaluator and reference/negative controls",
+    "Freeze feasible confirmatory allocation and power before observing outcomes",
+    "Execute complete matrix and native baselines",
+    "Audit official outcomes and replace prospective sections with measured results"
+  ]
+}

@@ -1,6 +1,7 @@
 param(
   [ValidateSet("ru", "en", "all", "clean", "help")]
-  [string]$Target = "ru"
+  [string]$Target = "ru",
+  [switch]$Force
 )
 
 $latexmk = "C:\Users\GF62\AppData\Local\Programs\MiKTeX\miktex\bin\x64\latexmk.exe"
@@ -23,12 +24,15 @@ function Show-Usage {
 }
 
 function Invoke-Build([string]$TexFile) {
+  $forceArguments = @()
+  if ($Force) { $forceArguments += "-g" }
   # -f keeps latexmk going through pdflatex's non-fatal exit codes (e.g.
   # undefined references/citations on the first pass), so embedded
   # \begin{thebibliography} gets resolved across the 2-3 passes latexmk
   # runs automatically. Without -f the first pdflatex exit code 1 would
   # abort the whole build before references stabilise.
   & $latexmk `
+    @forceArguments `
     -synctex=1 `
     -interaction=nonstopmode `
     -file-line-error `
@@ -36,11 +40,16 @@ function Invoke-Build([string]$TexFile) {
     -f `
     $TexFile
 
-  # Treat "finished with errors but produced pdf" (exit 12 from latexmk
-  # under -f) as a soft failure only when the PDF is actually missing.
+  # A stale PDF must never hide a failed compilation.
+  $buildExitCode = $LASTEXITCODE
   $pdfName = [IO.Path]::ChangeExtension($TexFile, ".pdf")
   if (-not (Test-Path -LiteralPath $pdfName)) {
-    exit $LASTEXITCODE
+    throw "LaTeX did not produce $pdfName (exit $buildExitCode)"
+  }
+  $logName = [IO.Path]::ChangeExtension($TexFile, ".log")
+  if ($buildExitCode -ne 0) { throw "LaTeX build failed for $TexFile (exit $buildExitCode); inspect $logName" }
+  if (Select-String -LiteralPath $logName -Pattern '^!|LaTeX Error:|Emergency stop|Fatal error|There were undefined references|Citation .+ undefined' -Quiet) {
+    throw "Unresolved LaTeX errors or citations in $logName"
   }
 }
 

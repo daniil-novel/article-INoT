@@ -28,3 +28,7 @@ Pins identify inspected public upstream heads, **not installed or executed versi
 Source discovery covered original INoT, official evaluation/baseline implementations, budget-comparison prior art, current benchmark validity concerns and model prices. Follow-up checked the actual dataset schema, current source revisions, the INoT termination ambiguity and the distinction between successful harness execution and a resolved task. These are sufficient to revise the study question and evidence gates. Further broad searching cannot supply missing API responses or official evaluation results; synthesis proceeds with these gaps explicit.
 
 Unresolved: original INoT executable release/fidelity validation; installed upstream baseline environments; a frozen SWE repository retrieval packet; completed gold-patch and intentionally failing evaluator controls; funded model generation; real paired outcomes. The project does not claim systematic-review completeness or verified absence of all similar work.
+
+## Evaluator preflight follow-up
+
+The pinned BigCodeBench source was cloned and its HEAD verified locally. Its loader supports `BIGCODEBENCH_OVERRIDE_PATH` for the pinned local dataset. GitHub marks the repository archived since 20 July 2026. Registry metadata resolves the amd64 evaluator image to the digest in `evaluator_preflight.json`; its compressed layers total 9,273,490,980 bytes, exceeding the observed C: free space before unpacking. No image was pulled and no official control was executed. The image's internal source version remains unverified.

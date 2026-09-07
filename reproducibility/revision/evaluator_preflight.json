@@ -1,0 +1,18 @@
+{
+  "checked_on": "2026-09-08",
+  "status": "metadata-only preflight; no evaluation image pulled and no controls executed",
+  "source_repository": "https://github.com/bigcode-project/bigcodebench",
+  "source_commit": "09dd993f46c3fbf3a799465bb96d524edcb0b199",
+  "local_source_checkout_verified": true,
+  "image_repository": "bigcodebench/bigcodebench-evaluate",
+  "resolved_from_tag": "latest",
+  "amd64_manifest_digest": "sha256:1327bddf60be9bc241648c59e6060cac4ca50248a0588ab735cd0200b17cc8c2",
+  "compressed_layer_bytes": 9273490980,
+  "system_drive_free_bytes_observed": 8605532160,
+  "docker_context": "default",
+  "docker_server_memory_bytes": 8323637248,
+  "blocker": "Compressed layers exceed observed free space on C: before unpacking. Evaluator storage location and sufficient capacity must be arranged before pulling.",
+  "caveat": "Image source commit and installed dependencies have not been inspected inside the image. This digest is a candidate, not a validated environment.",
+  "dataset_override": "BIGCODEBENCH_OVERRIDE_PATH is supported by the pinned upstream loader; use the pinned local JSONL to avoid silently refreshed dataset bytes.",
+  "upstream_archived_notice": "GitHub marked the repository archived on 2026-07-20; source remains accessible."
+}
