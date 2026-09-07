@@ -20,6 +20,13 @@
 __pycache__/
 *.pyc
 tmp/
+.env
+.env.*
+!.env.example
+reproducibility/private/
+reproducibility/vendor/
+reproducibility/data/
+reproducibility/runs/
 
 # OS/editor noise
 Thumbs.db
