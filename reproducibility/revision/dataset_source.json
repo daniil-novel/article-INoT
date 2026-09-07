@@ -1,0 +1,20 @@
+{
+  "source_url": "https://huggingface.co/datasets/bigcode/bigcodebench/resolve/b74c0d0bf70d2c0bc459be537895cca163007f1a/data/v0.1.4-00000-of-00001.parquet",
+  "dataset_revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a",
+  "release": "v0.1.4",
+  "rows": 1140,
+  "fields": [
+    "task_id",
+    "complete_prompt",
+    "instruct_prompt",
+    "canonical_solution",
+    "code_prompt",
+    "test",
+    "entry_point",
+    "doc_struct",
+    "libs"
+  ],
+  "parquet_sha256": "d9a4965821c9507ebdfb551c288656b2d5fe553234f5183044333ca8a4018267",
+  "jsonl_sha256": "f13bd76a821fbf9bd43ecfa829481ffa72c77e969fe9dc8b2263a35dfb751647",
+  "downloaded": "2026-09-08"
+}
