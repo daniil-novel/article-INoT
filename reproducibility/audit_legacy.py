@@ -65,7 +65,7 @@ def main() -> None:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False)+"\n", encoding="utf-8")
     with args.output.with_suffix(".csv").open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=list(result["contrasts"][0]))
+        writer = csv.DictWriter(f, fieldnames=list(result["contrasts"][0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(result["contrasts"])
     print(json.dumps({k:v for k,v in result.items() if k not in ("cells",)},indent=2))
