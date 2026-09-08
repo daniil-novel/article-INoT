@@ -27,6 +27,14 @@ def source_hash():
     return hashlib.sha256(Path(__file__).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
 
 
+def ordered_tasks(path):
+    validated = c.tasks_from(path)
+    ordered = [json.loads(line) for line in path.read_text(encoding='utf-8-sig').splitlines() if line.strip()]
+    if sorted(ordered, key=lambda t: t['task_id']) != validated:
+        raise ValueError('Task file changed during validation')
+    return ordered
+
+
 def plan(tasks, gate, gate_sha):
     ids = [t['task_id'] for t in tasks]
     if len(ids) != 40 or len(set(ids)) != 40:
@@ -41,7 +49,8 @@ def plan(tasks, gate, gate_sha):
     for replicate in (2, 3):
         for partition in range(4):
             selected = tasks[partition::4]
-            m = c.make_manifest(selected, [replicate], list(c.ARMS))
+            # The unchanged v2 loader canonicalizes each shard by task ID.
+            m = c.make_manifest(sorted(selected, key=lambda t: t['task_id']), [replicate], list(c.ARMS))
             shards.append({'name': f'r{replicate}-s{partition}', 'replicate': replicate,
                            'task_ids': [t['task_id'] for t in selected], 'manifest': m})
     dependencies = {name: hashlib.sha256(Path(__file__).with_name(name).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
@@ -60,7 +69,7 @@ def plan(tasks, gate, gate_sha):
 
 
 def run(tasks_path, gate_path, manifest_path, archive, npm_root):
-    tasks = c.tasks_from(tasks_path)
+    tasks = ordered_tasks(tasks_path)
     gate = c.read(gate_path)
     p = c.read(manifest_path)
     if p != plan(tasks, gate, sha(gate_path)):
@@ -143,7 +152,7 @@ def main():
     if a.command == 'plan':
         if a.manifest.exists():
             raise ValueError('Refuse to overwrite a frozen plan')
-        c.save(a.manifest, plan(c.tasks_from(a.tasks), c.read(a.gate), sha(a.gate)))
+        c.save(a.manifest, plan(ordered_tasks(a.tasks), c.read(a.gate), sha(a.gate)))
     else:
         if a.archive is None:
             parser.error('--archive is required to run')
