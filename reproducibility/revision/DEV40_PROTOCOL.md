@@ -1,0 +1,31 @@
+# Development extension fixed before new generation
+
+Date: 8 September 2026. This extension follows the published eight-task pilot at article commit `a4dfcdc1866e9e7ff2cde7cf467fae0870c93ef7`. The eight-task responses will not be reused in this matrix. The 1,100 held-out tasks remain untouched.
+
+## Assignment and execution
+
+Use all 40 tasks in `bigcodebench-split/prepared.jsonl`, in its existing seeded random development order. Keep every task even when its reference fails or its tests have instruction-alignment concerns. Model: GPT-5.4 mini; reasoning: medium; official CLI: 0.153.4; unchanged `codex_subscription.py` generation source. The five existing conditions are direct, single neutral, single roles, three-stage neutral and three-stage roles. Every supplied context and preceding exposed response is transmitted in full.
+
+Two new paired replicate labels, 2 and 3, produce **400 assigned candidate programs and 720 fresh CLI turns**. Labels are not controlled provider seeds. Divide the ordered task list into four disjoint index-modulo-four partitions of ten tasks. Each shard uses the existing runner's two workers, with its existing randomized task/arm submission order. Run four shards in parallel, then the next replicate wave: at most eight simultaneous CLI processes. This scheduling change is fixed before new responses. It can change cache and latency behavior. Report actual input, cached-input and output counters, together with no-cache valuation; do not interpret elapsed time as an isolated causal effect or combine old and new runs without their protocol labels.
+
+Native stopping, 180-second per-turn deadline, 65,536-byte pre-submission guard, fresh ephemeral threads, disabled tools and strict trace rejection remain unchanged. There is no hard matched completion allowance, no verified provider sampling seed and no temperature control. Do not infer an immutable model weight snapshot from the requested alias. No automatic retries, output compression, answer repair or selection of a more favorable code block is permitted.
+
+## Controls and failure handling
+
+Before generation, execute original gold and deliberately incorrect solutions for every assigned task using the unchanged upstream BigCodeBench CLI in the final isolated custom environment. Freeze exact source/dataset/image/package/resource hashes, commands, original statuses and the task eligibility map. Evaluation remains offline and only explicit input/output mounts are available. A gold failure or negative-control pass makes that task's correctness measurement unavailable across all conditions; it does not remove the assigned task or justify substituting a different task. Record all preliminary control attempts and the reason for any environment amendment.
+
+The independent instruction/test audit is completed before new model responses are opened. Its findings are annotations and limitations; original prompts, tests and scores remain intact. Passing controls verifies executability and negative discrimination, not semantic validity of every assertion.
+
+If any shard fails, preserve all submitted events and usage, allow the already-started wave to finish, and do not start the next wave. Do not retry a failed shard or splice its successes into a replacement matrix. A partial extension is reported as partial, with assigned but unobserved outcomes retained as missing. Any later restart needs a distinct frozen amendment and a separate spending/inventory record. No quota reset credits or paid API fallback are used automatically.
+
+## Analysis fixed before the extension
+
+The independent unit is the task, not the 400 candidates or 720 CLI turns. Report all task × replicate × condition statuses, extraction failures, observed token components, complete and unavailable usage, and API-equivalent list-price valuation. For each condition report (i) successes/evaluable candidate attempts; (ii) successes/all 80 assigned attempts; and (iii) the corresponding upper bound counting unavailable outcomes as successes. The bounds describe missing outcomes, not confidence intervals.
+
+For paired quality contrasts, average the two binary outcomes within each task/condition only when both repeats and both compared conditions are observable. Compare role minus neutral within each topology and multi minus single within each label condition; show the number of complete task clusters for every contrast. Report a descriptive task-bootstrap percentile 95% interval using 10,000 resamples and analysis seed 20260908. Preserve all conditions and both replicates of a sampled task together. With fewer than two complete task clusters report no interval. For resources, use complete paired task means and report mean differences and ratios, again with the task count. Direct-solver comparisons are exploratory.
+
+This remains a development study informed by the earlier eight-task pilot. No significance threshold, confirmatory p-value, non-inferiority claim or benchmark-wide ranking is assigned to it. More repeats reduce within-task variability; they do not turn 40 tasks into 400 independent observations. Freeze a separate feasible held-out allocation and power calculation before opening any confirmatory model outcomes. Original INoT and repository-scale Agentless/SWE-agent evaluations remain separate requirements, not labels for the four constructed conditions.
+
+## Resource planning
+
+The previous pilot projects approximately **USD 7.42 API-equivalent** for 400 candidates, before variability and failed attempts. This is a calculation from measured pilot usage at published API prices, not a subscription invoice or guarantee. The complete extension is ten times the eight-task pilot, giving a projection of **22,606 summed CLI seconds (6.28 hours)**. With eight active processes an idealized lower planning figure is about 47 minutes, excluding scheduling imbalance, evaluation and stalls. No claim is made that available subscription quota is proportional to these API-equivalent dollars.
