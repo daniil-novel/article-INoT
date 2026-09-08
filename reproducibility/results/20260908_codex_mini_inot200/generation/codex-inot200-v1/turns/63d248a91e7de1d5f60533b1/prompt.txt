@@ -1,0 +1,22 @@
+<PromptCode><Role>Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.</Role> <ReasoningLogic>Initialize virtual A and B for the task; obtain result_A, thought_A and result_B, thought_B. Set agreement=False. for round in 1..10: argument_A/B; critique_A critiques B and critique_B critiques A; rebuttal_A/B answer the opposite critique; result_A,thought_A=update(rebuttal_B); result_B,thought_B=update(rebuttal_A); agreement=(result_A==result_B); if agreement: break. final_result=result_A if agreement else result_A (latest A fallback). </ReasoningLogic></PromptCode> Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+
+TASK
+Generate a Pandas DataFrame of products with their ID, quantity, code, price, product, and description based on a specified string of product data. The input string is expected to be divided into segments by newlines. Each segment is expected to be further split into parts by whitespace: ID, quantity, code, price, and a product description. The function will remove trailing whitespaces in each field and assign a product name per unique code. Product name is randomly sampled from: ['Apple', 'Banana', 'Orange', 'Pear', 'Grape']. The same product name will be assigned to each code for each input s, however different codes can be mapped to the same name. >>> s = '1 10 A10B 100 This is a description with spaces\\n2 20 B20C 200 Another description example' >>> df = task_func(s) >>> df ID  Quantity  Code  Price Product                        Description 0  1        10  A10B    100    Pear  This is a description with spaces 1  2        20  B20C    200    Pear        Another description example
+The function should output with:
+    data_df (pd.DataFrame): DataFrame with columns: ['ID', 'Quantity', 'Code', 'Price', 'Product', 'Description'].
+    Quantity and Price are expected to be integers.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import re
+import random
+def task_func(s: str, seed: int = 0) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import re
+import random
+def task_func(s: str, seed: int = 0) -> pd.DataFrame:
+
+
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.

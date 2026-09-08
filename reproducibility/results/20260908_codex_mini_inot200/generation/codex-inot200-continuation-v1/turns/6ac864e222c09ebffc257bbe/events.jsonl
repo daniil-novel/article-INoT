@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ed4-8edc-7021-a3fe-b6eb59a4e715"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport requests\nfrom bs4 import BeautifulSoup\nimport pandas as pd\nfrom io import StringIO\n\ndef task_func(url, table_id):\n    response = requests.get(url)\n    response.raise_for_status()\n\n    soup = BeautifulSoup(response.content, \"html.parser\")\n    table = soup.find(\"table\", id=table_id)\n\n    if table is None:\n        raise ValueError(\"Table with the specified ID not found.\")\n\n    if table.find(\"tr\") is None:\n        return pd.DataFrame()\n\n    dfs = pd.read_html(StringIO(str(table)))\n    return dfs[0] if dfs else pd.DataFrame()\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3065,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":418,"reasoning_output_tokens":282}}

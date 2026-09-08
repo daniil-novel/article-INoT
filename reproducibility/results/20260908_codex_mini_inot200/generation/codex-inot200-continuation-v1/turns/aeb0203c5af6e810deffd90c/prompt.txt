@@ -1,0 +1,23 @@
+<PromptCode><Role>Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.</Role> <ReasoningLogic>Initialize virtual A and B for the task; obtain result_A, thought_A and result_B, thought_B. Set agreement=False. for round in 1..10: argument_A/B; critique_A critiques B and critique_B critiques A; rebuttal_A/B answer the opposite critique; result_A,thought_A=update(rebuttal_B); result_B,thought_B=update(rebuttal_A); agreement=(result_A==result_B); if agreement: break. final_result=result_A if agreement else result_A (latest A fallback). </ReasoningLogic></PromptCode> Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+
+TASK
+Shuffles the columns of a numpy array randomly, performs Principal Component Analysis (PCA) to reduce the dimensionality to 2 principal components, and returns these components as a pandas DataFrame.
+Note that: PCA reduction will default to the number of features if fewer than 2. An named but empty DataFrame is returned for arrays without features or with empty content.
+The function should raise the exception for: ValueError: If the input array is not 2D.
+The function should output with:
+    pandas.DataFrame: DataFrame with columns 'PC1' and 'PC2' representing the two principal components.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):
+
+
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.

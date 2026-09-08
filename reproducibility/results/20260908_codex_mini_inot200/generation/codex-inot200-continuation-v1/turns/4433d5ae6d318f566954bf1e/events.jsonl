@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ee2-99d0-76e3-9d31-2de282aaf259"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nfrom datetime import datetime\nimport pytz\nfrom dateutil.parser import parse\n\ndef task_func(date_str, tz_str):\n    tz = pytz.timezone(tz_str)\n    dt = parse(date_str)\n\n    # If the parsed datetime is naive, interpret it in the specified timezone.\n    if dt.tzinfo is None:\n        dt = tz.localize(dt)\n    else:\n        dt = dt.astimezone(tz)\n\n    # Next New Year is Jan 1, 00:00:00 of the following year in the same timezone.\n    next_new_year = tz.localize(datetime(dt.year + 1, 1, 1, 0, 0, 0))\n\n    return int((next_new_year - dt).total_seconds())\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3004,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":444,"reasoning_output_tokens":277}}

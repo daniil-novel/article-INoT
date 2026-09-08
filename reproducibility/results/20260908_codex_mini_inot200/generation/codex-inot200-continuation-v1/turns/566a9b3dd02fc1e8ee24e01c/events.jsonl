@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ed6-5b83-7c13-88ab-37feb67b4bc9"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport pandas as pd\nimport numpy as np\n\ndef task_func(data, key, min_value, max_value):\n    if not isinstance(data, pd.DataFrame):\n        raise TypeError(\"The function will raise an error if the input data is not pandas DataFrame\")\n    \n    result = data.copy()\n    result[key] = np.random.uniform(min_value, max_value, size=len(result))\n    return result\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2758,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":346,"reasoning_output_tokens":253}}

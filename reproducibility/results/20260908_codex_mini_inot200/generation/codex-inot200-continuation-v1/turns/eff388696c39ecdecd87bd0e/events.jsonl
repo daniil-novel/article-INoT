@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ed8-87cf-7b00-84f8-f058312fe0cb"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport hashlib\nimport rsa\nimport base64\n\ndef task_func(file_path):\n    with open(file_path, \"rb\") as f:\n        data = f.read()\n\n    digest = hashlib.sha256(data).digest()\n\n    with open(\"private.pem\", \"rb\") as key_file:\n        private_key = rsa.PrivateKey.load_pkcs1(key_file.read())\n\n    signature = rsa.sign(digest, private_key, \"SHA-256\")\n    return base64.b64encode(signature).decode(\"utf-8\")\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2788,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":279,"reasoning_output_tokens":165}}

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "E:\ВШЭ\Курсовая работа\article\springer-article\reproducibility\heldout200\run_observed_native.py", line 102, in <module>
+    if __name__ == "__main__": raise SystemExit(main())
+                                                ^^^^^^
+  File "E:\ВШЭ\Курсовая работа\article\springer-article\reproducibility\heldout200\run_observed_native.py", line 53, in main
+    task_ids = ids(a.samples)
+               ^^^^^^^^^^^^^^
+  File "E:\ВШЭ\Курсовая работа\article\springer-article\reproducibility\heldout200\run_observed_native.py", line 30, in ids
+    raise ValueError("input must contain exactly 200 unique task IDs")
+ValueError: input must contain exactly 200 unique task IDs

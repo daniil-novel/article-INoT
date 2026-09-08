@@ -1,0 +1,22 @@
+<PromptCode><Role>Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.</Role> <ReasoningLogic>Initialize virtual A and B for the task; obtain result_A, thought_A and result_B, thought_B. Set agreement=False. for round in 1..10: argument_A/B; critique_A critiques B and critique_B critiques A; rebuttal_A/B answer the opposite critique; result_A,thought_A=update(rebuttal_B); result_B,thought_B=update(rebuttal_A); agreement=(result_A==result_B); if agreement: break. final_result=result_A if agreement else result_A (latest A fallback). </ReasoningLogic></PromptCode> Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+
+TASK
+Archive a specified project directory into a ZIP file based on the configuration specified in a config file. This function reads a configuration file to determine the project directory and archives this directory into a ZIP file. The ZIP file's name will be the project directory's basename, stored in the specified archive directory. Configuration File Format: [Project] directory=path_to_project_directory
+The function should raise the exception for: FileNotFoundError: If the `config_file_path` does not exist or the specified project directory does not exist. Exception: If the ZIP archive cannot be created.
+The function should output with:
+    bool: True if the ZIP archive is successfully created, otherwise an exception is raised.
+You should write self-contained code starting with:
+```
+import configparser
+import os
+import shutil
+def task_func(config_file_path, archieve_dir ='/home/user/archive'):
+```
+FULL SUPPLIED CONTEXT
+import configparser
+import os
+import shutil
+def task_func(config_file_path, archieve_dir ='/home/user/archive'):
+
+
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.

@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ee3-233f-74d1-b8db-bf2ca1e9381d"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport re\nfrom nltk import word_tokenize\nfrom collections import Counter\n\ndef task_func(input_str):\n    # Replace special characters, punctuation, and extra spaces with a single space\n    cleaned_str = re.sub(r\"[^A-Za-z0-9]+\", \" \", input_str)\n    \n    # Tokenize into words\n    words = word_tokenize(cleaned_str.lower())\n    \n    # Keep only alphanumeric tokens\n    words = [word for word in words if re.fullmatch(r\"[A-Za-z0-9]+\", word)]\n    \n    # Count word frequency\n    return dict(Counter(words))\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2997,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":652,"reasoning_output_tokens":516}}

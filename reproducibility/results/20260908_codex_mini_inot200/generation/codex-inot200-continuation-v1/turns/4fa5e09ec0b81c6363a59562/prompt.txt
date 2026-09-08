@@ -1,0 +1,23 @@
+<PromptCode><Role>Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.</Role> <ReasoningLogic>Initialize virtual A and B for the task; obtain result_A, thought_A and result_B, thought_B. Set agreement=False. for round in 1..10: argument_A/B; critique_A critiques B and critique_B critiques A; rebuttal_A/B answer the opposite critique; result_A,thought_A=update(rebuttal_B); result_B,thought_B=update(rebuttal_A); agreement=(result_A==result_B); if agreement: break. final_result=result_A if agreement else result_A (latest A fallback). </ReasoningLogic></PromptCode> Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+
+TASK
+Create SHA256 hashes for all files in the specified directory, including files in subdirectories, and save these hashes in a JSON file named 'hashes.json' in the given directory.
+The function should output with:
+    str: The absolute path of the JSON file ('hashes.json') containing the hashes.
+You should write self-contained code starting with:
+```
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+```
+FULL SUPPLIED CONTEXT
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+
+
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.

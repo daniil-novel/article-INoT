@@ -1,0 +1,20 @@
+<PromptCode><Role>Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.</Role> <ReasoningLogic>Initialize virtual A and B for the task; obtain result_A, thought_A and result_B, thought_B. Set agreement=False. for round in 1..10: argument_A/B; critique_A critiques B and critique_B critiques A; rebuttal_A/B answer the opposite critique; result_A,thought_A=update(rebuttal_B); result_B,thought_B=update(rebuttal_A); agreement=(result_A==result_B); if agreement: break. final_result=result_A if agreement else result_A (latest A fallback). </ReasoningLogic></PromptCode> Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+
+TASK
+Handles an HTTP GET request to retrieve a static file from the server. This function processes an HTTP GET request, extracts the filename from it, checks the existence of the file in the server's directory, and returns an HTTP response. The response either contains the file content (if found) or an appropriate error message (if not found or if the request is invalid).
+The function should output with:
+    str: An HTTP response string, which includes the status code, content length (for 200 OK responses), and the file content
+    or an error message.
+You should write self-contained code starting with:
+```
+import re
+import os
+def task_func(request):
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+def task_func(request):
+
+
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
