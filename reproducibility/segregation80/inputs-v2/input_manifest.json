@@ -1,0 +1,49 @@
+{
+  "schema": "segregation80-input-manifest-v1",
+  "selection_sha256": "d069379bc696c8723bceb86bc79c0a7fa214c7b5f33c28a1626cd01156bf0c04",
+  "model_arms": [
+    "role_boundary",
+    "neutral_boundary",
+    "role_prose",
+    "neutral_prose"
+  ],
+  "model_rows_per_arm": 80,
+  "model_input_fields": [
+    "task_id",
+    "prompt",
+    "context",
+    "benchmark",
+    "metadata"
+  ],
+  "forbidden_model_fields": [
+    "test",
+    "canonical_solution",
+    "complete_prompt",
+    "gold",
+    "reference"
+  ],
+  "model_input_sha256": {
+    "role_boundary": "4e4069e68f22cb260f0b4a4147fbf1b768e26c13d82ed2ba52716f2fe269723f",
+    "neutral_boundary": "6cd23b740a61502ab28d9866c7c64e968d590969d18003481bbeb3e4d309ca07",
+    "role_prose": "02dd04218cc64598590da9dd8ed3087b289006a06f571e30b767e74615e10bc1",
+    "neutral_prose": "fe3fe17a1940d025551e61037244c2391fe69af253764e8ff47c588a8165b721"
+  },
+  "base_prepared_sha256": "3c5862835f39d88a0bbc1c4fd82e22768e40f6c2d8e700ab57b4896aa3b84bff",
+  "evaluator_files": {
+    "evaluator_dataset.jsonl": {
+      "path": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\reproducibility\\segregation80\\inputs-v2\\evaluator\\evaluator_dataset.jsonl",
+      "sha256": "5d0791a58bc9e6a6362e846c3d0060bee53d23d9389ff55fe3751701982fac0e"
+    },
+    "gold.jsonl": {
+      "path": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\reproducibility\\segregation80\\inputs-v2\\evaluator\\gold.jsonl",
+      "sha256": "8867a5454de3ffd3d04d63dd73efdf68ce3ae22f720650852878b078cc21e0c3"
+    },
+    "incorrect.jsonl": {
+      "path": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\reproducibility\\segregation80\\inputs-v2\\evaluator\\incorrect.jsonl",
+      "sha256": "8c0f612e9e43177f9ee2277b59b6fcd6428a82139c6a4194b6c5f4dbabac2837"
+    }
+  },
+  "preparer_sha256": "c9029d846b83b8807f8492c8c5d1053c7d3759352f20eac9b1e52be2338c622b",
+  "bridge_sha256": "bf96f1df47d11dd0a697cab9c4fc94c492630eef923af4cc9008a5fb3251e92f",
+  "no_generation": true
+}
