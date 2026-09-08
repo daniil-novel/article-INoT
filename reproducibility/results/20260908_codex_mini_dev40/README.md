@@ -11,6 +11,14 @@ Recorded candidate usage totals 3,703,821 tokens. Published standard API rates v
 - `evaluations/`: unchanged upstream CLI reports, logs and environment provenance.
 - `analysis/`: all 400 joined candidate records, per-task controls, descriptive task bootstrap and resource summaries.
 - `controls/attempt3/`: final instruct-mode controls; earlier attempts are retained as diagnostics.
-- `software-checks/`: separate evaluator/bridge verification.
+- `evaluator-software-checks/`: separate evaluator/bridge verification.
 
 This is selective BigCodeBench instruct evaluation in a pinned custom offline environment, not a full official benchmark score. Original prompts and tests were not rewritten; documented prompt/test disputes remain limitations. Only reasoning exposed by the service is available, not private internal reasoning. `EVIDENCE_MANIFEST.json` hashes the published archive bytes when assembled.
+
+The complete summary and all 400 candidate records replay byte for byte in a fresh Python environment using the published files alone. From repository root:
+
+```text
+python -m reproducibility.assemble_scale collect --archive reproducibility/results/20260908_codex_mini_dev40/generation --predictions reproducibility/results/20260908_codex_mini_dev40/predictions --native reproducibility/results/20260908_codex_mini_dev40/evaluations --controls reproducibility/results/20260908_codex_mini_dev40/controls/attempt3 --output tmp/development-replayed-analysis
+```
+
+Install the pinned `reproducibility/requirements-publication.txt` first and use a new output directory. This command verifies archived traces and native reports; it makes no model calls and launches no evaluator containers.

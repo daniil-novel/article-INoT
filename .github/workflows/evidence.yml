@@ -36,6 +36,22 @@ jobs:
           for manifest in manifests:
               print(manifest.parent.name, verify(manifest.parent))
           PY
+      - name: Replay development outcomes without model calls or Docker
+        run: |
+          python -m reproducibility.assemble_scale collect \
+            --archive reproducibility/results/20260908_codex_mini_dev40/generation \
+            --predictions reproducibility/results/20260908_codex_mini_dev40/predictions \
+            --native reproducibility/results/20260908_codex_mini_dev40/evaluations \
+            --controls reproducibility/results/20260908_codex_mini_dev40/controls/attempt3 \
+            --output tmp/ci-development-replay
+          python - <<'PY'
+          from pathlib import Path
+          actual = Path('tmp/ci-development-replay')
+          expected = Path('reproducibility/results/20260908_codex_mini_dev40/analysis')
+          for name in ('summary.json', 'candidate_records.jsonl'):
+              assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
+          print('Published development summary and all 400 candidate records replay exactly')
+          PY
       - name: Replay INoT outcomes without model calls or Docker
         run: |
           python -m reproducibility.heldout200.inot_evidence collect \
