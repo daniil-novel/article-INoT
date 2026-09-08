@@ -1,0 +1,68 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate n random strings of a specified length, count the frequency of each character across all strings, and return the result as a dictionary. Constants: - VALID_CHARACTERS: A string containing all valid characters (ASCII letters and digits) that can be used in the random strings.
+The function should output with:
+    dict: A dictionary containing character counts with characters as keys and their frequencies as values.
+You should write self-contained code starting with:
+```
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):
+```
+FULL SUPPLIED CONTEXT
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Define the character pool**
+   - Use the provided constant:
+     - `VALID_CHARACTERS = string.ascii_letters + string.digits`
+   - This gives all allowed characters for generated strings.
+
+2. **Validate or normalize inputs**
+   - Ensure `n_strings` and `string_length` are integers.
+   - Decide behavior for invalid values:
+     - If either is negative, raise `ValueError`.
+     - If either is not an integer, raise `TypeError`.
+   - Allow zero values:
+     - `n_strings == 0` should return an empty dictionary.
+     - `string_length == 0` means each generated string is empty, so counts remain empty.
+
+3. **Generate random strings**
+   - Loop `n_strings` times.
+   - For each iteration:
+     - Create a random string of length `string_length`.
+     - Build it by selecting characters from `VALID_CHARACTERS` using `random.choice`.
+
+4. **Count character frequencies**
+   - Use `collections.Counter` to accumulate frequencies efficiently.
+   - Update the counter with each generated string.
+
+5. **Return the result**
+   - Convert the `Counter` to a regular dictionary before returning, if required by the task specification.
+   - Output format: `{character: frequency, ...}`.
+
+## Edge cases to handle
+- **`n_strings = 0`** → return `{}`.
+- **`string_length = 0`** → generate empty strings; result should be `{}`.
+- **Both zero** → return `{}`.
+- **Very large inputs** → may be slow or memory-intensive; counter-based accumulation helps avoid storing all strings at once.
+- **Negative inputs** → invalid; raise an error.
+- **Non-integer inputs** like floats/strings → invalid; raise an error.
+- **Randomness** → output is non-deterministic unless a seed is set externally.
+
+## Suggested implementation approach
+- Use `Counter` for counting.
+- Avoid storing all generated strings in a list; update counts incrementally as each string is created.
+- Return `dict(counter)` to match the requested dictionary output.
+
+If you want, I can also turn this plan into the exact self-contained function code.

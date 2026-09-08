@@ -1,0 +1,129 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a Pandas DataFrame with random alphabets in each cell. The DataFrame will have a specified number of rows and columns. Each column is named with a string from the list ['a', 'b', 'c', ...] depending on the number of columns specified.
+The function should output with:
+    DataFrame: A pandas DataFrame with random alphabets.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function:
+
+```python
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+```
+
+that returns a **Pandas DataFrame** filled with **random alphabet characters** in every cell, with:
+
+- `rows` = number of rows
+- `columns` = number of columns
+- column names generated as strings like `a`, `b`, `c`, ...
+
+---
+
+### Implementation plan
+
+1. **Validate inputs**
+   - Ensure `rows` and `columns` are integers.
+   - Ensure they are non-negative.
+   - If invalid, raise a clear error such as `ValueError`.
+
+2. **Generate column names**
+   - Build names from lowercase letters:
+     - `['a', 'b', 'c', ...]`
+   - Use as many as needed for the requested number of columns.
+   - If `columns > 26`, decide how to handle naming:
+     - either extend names beyond `z` (`aa`, `ab`, ...)
+     - or raise an error if only single-letter names are intended.
+   - Best practice: support extended names so the function works for any column count.
+
+3. **Generate random cell values**
+   - Use `numpy.random.choice` to sample random letters for a matrix of shape `(rows, columns)`.
+   - Sample from lowercase alphabets, e.g. `a` through `z`.
+
+4. **Create the DataFrame**
+   - Pass the random matrix to `pd.DataFrame(...)`.
+   - Assign the generated column names.
+
+5. **Return the DataFrame**
+   - The function should return the constructed DataFrame object.
+
+---
+
+### Edge cases to consider
+
+- **`rows = 0`**
+  - Should return an empty DataFrame with the correct column names.
+
+- **`columns = 0`**
+  - Should return an empty DataFrame with zero columns and `rows` rows.
+
+- **`rows < 0` or `columns < 0`**
+  - Invalid input; raise `ValueError`.
+
+- **Non-integer inputs**
+  - Example: `rows=3.5`, `columns='4'`
+  - Either cast carefully or, preferably, reject with `TypeError`/`ValueError`.
+
+- **Very large sizes**
+  - Could consume significant memory; the function should still work logically, but performance/memory may become an issue.
+
+- **More than 26 columns**
+  - Single-letter naming is not enough unless extended labels are implemented.
+
+- **Randomness reproducibility**
+  - If deterministic output is needed later, a random seed could be added, but it is not required by the current task.
+
+---
+
+### Expected behavior
+
+Example output shape for `rows=2`, `columns=3`:
+
+- DataFrame with 2 rows and 3 columns
+- columns named `a`, `b`, `c`
+- each cell containing a random alphabet character
+
+If you want, I can next provide the full implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import numpy as np
+
+def task_func(rows=100, columns=3):
+    if not isinstance(rows, int) or isinstance(rows, bool):
+        raise ValueError("rows must be a non-negative integer")
+    if not isinstance(columns, int) or isinstance(columns, bool):
+        raise ValueError("columns must be a non-negative integer")
+    if rows < 0 or columns < 0:
+        raise ValueError("rows and columns must be non-negative")
+
+    def make_column_name(n):
+        name = ""
+        while True:
+            n, rem = divmod(n, 26)
+            name = chr(ord('a') + rem) + name
+            if n == 0:
+                break
+            n -= 1
+        return name
+
+    col_names = [make_column_name(i) for i in range(columns)]
+    letters = np.array(list("abcdefghijklmnopqrstuvwxyz"))
+    data = np.random.choice(letters, size=(rows, columns))
+
+    return pd.DataFrame(data, columns=col_names)
+```

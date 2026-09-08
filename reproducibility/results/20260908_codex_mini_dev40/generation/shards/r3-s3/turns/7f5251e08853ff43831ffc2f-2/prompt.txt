@@ -1,0 +1,111 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Reverse the order of words separated by. "" in all strings of a numpy array.
+The function should output with:
+    numpy.ndarray: The numpy array with the strings reversed.
+You should write self-contained code starting with:
+```
+import numpy as np
+import datetime
+def task_func(arr):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import datetime
+def task_func(arr):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(arr)`.
+
+## Goal
+Reverse the order of words in every string inside a NumPy array and return a NumPy array with the same shape.
+
+## Assumption
+The phrase “words separated by . ""” looks malformed. I will assume the intended separator is whitespace and that each string should be split into words, reversed, and joined back with spaces.
+
+If a different delimiter is intended, the split/join logic can be adjusted.
+
+## Plan
+
+1. **Convert input to a NumPy array**
+   - Use `np.asarray(arr)` so the function works with lists, tuples, or arrays.
+   - Preserve the original shape.
+
+2. **Define a helper for one string**
+   - For each element:
+     - If it is a string:
+       - Split into words with `split()` so multiple spaces are handled cleanly.
+       - Reverse the word list.
+       - Join with a single space.
+     - If it is not a string:
+       - Decide a consistent behavior:
+         - either convert to string, or
+         - leave unchanged if the task expects only strings.
+   - Since the task says “all strings,” non-string values should ideally be passed through unchanged or handled safely.
+
+3. **Apply the helper to every element**
+   - For object arrays or mixed arrays, use `np.vectorize` or a list comprehension over `arr.flat`.
+   - Reshape the result back to the original array shape.
+
+4. **Return a NumPy array**
+   - Ensure the output is `np.ndarray`.
+   - Prefer `dtype=object` if the array may contain variable-length strings or mixed values.
+
+## Edge Cases to Handle
+
+- **Empty array**
+  - Return an empty NumPy array with the same shape.
+
+- **Empty string `""`**
+  - Should remain `""` after processing.
+
+- **Strings with multiple spaces**
+  - Using `split()` collapses repeated spaces; e.g. `"a   b"` becomes `"b a"`.
+
+- **Leading/trailing spaces**
+  - `split()` removes them, so output will be normalized.
+
+- **Single-word strings**
+  - Should remain unchanged.
+
+- **Non-string elements**
+  - Could appear in object arrays; handle safely instead of crashing.
+
+- **Unicode / non-ASCII text**
+  - Standard Python string methods handle these correctly.
+
+- **Nested NumPy arrays**
+  - If the input is multidimensional, process elementwise and preserve shape.
+
+## Implementation Choice
+A simple and robust approach is:
+- `np.asarray(arr)`
+- apply a scalar reverse-word function elementwise
+- return `np.array(result).reshape(arr.shape)`
+
+If you want, I can also provide the exact code implementation starting from:
+
+```python
+import numpy as np
+import datetime
+def task_func(arr):
+```
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import datetime
+
+def task_func(arr):
+    a = np.asarray(arr)
+    out = np.empty(a.shape, dtype=object)
+
+    def reverse_words(x):
+        if isinstance(x, str):
+            words = x.split()
+            return " ".join(words[::-1])
+        return x
+
+    for idx in np.ndindex(a.shape):
+        out[idx] = reverse_words(a[idx])
+
+    return out

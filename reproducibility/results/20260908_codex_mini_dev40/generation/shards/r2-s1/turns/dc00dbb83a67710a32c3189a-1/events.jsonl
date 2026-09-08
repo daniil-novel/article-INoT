@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07e73-596c-7402-893b-1844fd931fa1"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport nltk\n# Download necessary NLTK data (if not already present)\nnltk.download('punkt')\nnltk.download('averaged_perceptron_tagger')\nfrom collections import Counter\n\ndef task_func(content):\n    if not content:\n        return {}\n\n    tokens = nltk.word_tokenize(content)\n    if len(tokens) <= 1:\n        return {}\n\n    tagged_tokens = nltk.pos_tag(tokens[:-1])\n    return dict(Counter(tag for _, tag in tagged_tokens))\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3207,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":217,"reasoning_output_tokens":109}}

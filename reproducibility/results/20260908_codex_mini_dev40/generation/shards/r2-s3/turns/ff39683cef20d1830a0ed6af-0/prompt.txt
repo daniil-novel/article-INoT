@@ -1,0 +1,30 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Upload all files from a specific directory to the specified server URL, along with the associated metadata. In addition, the speed limit function pauses for one second after each upload.
+The function should raise the exception for: The function will raise FileNotFoundError if the directory does not exist. The function will raise TypeError if the url is invalid.
+The function should output with:
+    list: A list of status codes for the upload responses.
+You should write self-contained code starting with:
+```
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):
+```
+FULL SUPPLIED CONTEXT
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):

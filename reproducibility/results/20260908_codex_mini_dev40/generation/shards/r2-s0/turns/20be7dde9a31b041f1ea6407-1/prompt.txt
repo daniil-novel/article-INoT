@@ -1,0 +1,128 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Extracts matches from all text files in a specified directory based on a regular expression pattern. It captures whatever is between parentheses as a single match, and any character outside the parentheses as individual matches in the string.
+The function should output with:
+    dict: A dictionary where keys are file names (without path) and values are lists of matches extracted from the files.
+You should write self-contained code starting with:
+```
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict` that satisfies the task.
+
+## Goal
+Scan all text files in a directory, extract matches using the provided regex, and return a dictionary:
+
+- **keys**: file names only, no path
+- **values**: lists of matches found in each file
+
+## Planned approach
+
+### 1) Validate and normalize input
+- Convert `directory_path` to a `Path` object.
+- Verify that it exists and is a directory.
+- If it is invalid, decide on a consistent behavior:
+  - either return `{}` for non-existent / invalid directory
+  - or raise a clear exception like `NotADirectoryError`
+- The safer implementation is usually to raise for invalid paths, but the final behavior should be consistent with project conventions.
+
+### 2) Find text files in the directory
+- Use `glob` or `Path.glob` to enumerate files in the specified directory.
+- Restrict to regular files only.
+- Treat “text files” as files with a `.txt` extension unless the task context says otherwise.
+- Ignore subdirectories and non-file entries.
+
+Possible file selection rule:
+- `*.txt` for standard text files
+- if broader support is desired, also allow files with no extension if they are plain text, but that requires content sniffing and is unnecessary here
+
+### 3) Read each file safely
+- Open each file with UTF-8 encoding.
+- Use `errors="ignore"` or `errors="replace"` to avoid crashes on malformed text.
+- Read the full file content as a string.
+
+### 4) Apply the regex
+- Compile `regex_pattern` with `re.findall(...)` or `re.finditer(...)`.
+- Since the task says:
+  - text inside parentheses should be captured as one match
+  - characters outside parentheses should be individual matches
+- The intended behavior is to use a pattern that alternates between:
+  - grouped content inside parentheses
+  - single-character or token-level matches outside parentheses
+- If the provided default regex is imperfect, the function should still use the supplied pattern argument directly.
+
+### 5) Collect results
+- Store results in a dictionary keyed by `file.name`.
+- Values should be the list of extracted matches in original order.
+- If a file has no matches, store an empty list or omit it; the more explicit choice is to store `[]`.
+
+### 6) Return the dictionary
+- Final return value: `{filename: [match1, match2, ...], ...}`
+
+---
+
+## Important edge cases
+
+### Empty directory
+- Return `{}`.
+
+### No matching files
+- Return `{}`.
+
+### Empty file
+- Return `{filename: []}` or omit it; choose one behavior and keep it consistent.
+
+### Files with encoding issues
+- Use a tolerant decode strategy so one bad file does not stop processing all files.
+
+### Nested directories
+- Ignore them unless recursive traversal is explicitly required.
+
+### Duplicate base filenames
+- If two files with the same name exist in different places, but only one directory level is processed, this will not occur.
+- If recursion is later added, basename collisions would overwrite earlier entries; that should be handled if needed.
+
+### Regex behavior mismatch
+- The task description implies special handling for parentheses versus non-parenthesized characters.
+- If the supplied regex is malformed or too narrow, the implementation should still honor the passed-in pattern and not silently replace it unless explicitly required.
+
+### Unicode text
+- Use Unicode-safe file reading.
+- Ensure regex works on Python strings normally.
+
+---
+
+## Suggested internal structure
+1. Validate path
+2. Iterate over text files
+3. Read content
+4. `re.findall(regex_pattern, content)`
+5. Normalize matches if `findall` returns tuples because of capture groups
+6. Add `{file.name: matches}` to result
+7. Return result
+
+---
+
+## One subtle point to watch
+If the regex contains capturing groups, `re.findall()` may return:
+- a list of strings, or
+- a list of tuples
+
+So the implementation should either:
+- use non-capturing groups in the regex, or
+- normalize tuple results before storing them
+
+---
+
+If you want, I can next turn this plan into the exact self-contained Python function.

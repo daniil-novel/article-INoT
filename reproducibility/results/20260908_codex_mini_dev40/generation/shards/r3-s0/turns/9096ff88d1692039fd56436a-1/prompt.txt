@@ -1,0 +1,109 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Computes the average of each row in a provided 2D array and appends these averages as a new column. Additionally, it plots the averages against their respective row indices.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame which includes the original data and an additional 'Average' column.
+    Axes: A matplotlib Axes object with the plot of row averages.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(data)` based on the requirements.
+
+## Goal
+Given a 2D array-like input, produce:
+
+1. A `pandas.DataFrame` containing the original rows plus a new `Average` column with the row-wise mean.
+2. A `matplotlib.axes.Axes` object plotting the row averages against row indices.
+
+---
+
+## Implementation Plan
+
+### 1. Normalize the input into a DataFrame
+- Convert `data` into a `pandas.DataFrame`.
+- If the input is expected to have 8 columns, assign `COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']` as column names.
+- Keep the original row order and index behavior simple and stable.
+
+### 2. Ensure values are numeric
+- Compute row averages only from numeric values.
+- If values may come as strings, coerce them to numeric when possible.
+- Non-convertible values should be handled gracefully, typically as `NaN`.
+
+### 3. Compute row-wise averages
+- Calculate the mean across each row using pandas row-wise averaging.
+- Use a NaN-tolerant mean so missing values do not break the computation.
+- If a row has all missing/non-numeric values, its average should become `NaN`.
+
+### 4. Append the average as a new column
+- Add a new column named exactly `"Average"` to the DataFrame.
+- This column should align row-by-row with the original data.
+
+### 5. Create the plot
+- Create a new figure and axes with `plt.subplots()`.
+- Plot row averages on the y-axis versus row indices on the x-axis.
+- Use markers for readability, e.g. `"o"`.
+
+### 6. Add plot formatting
+- Set the x-axis label to something like `"Row Index"`.
+- Set the y-axis label to `"Average"`.
+- Add a title such as `"Row Averages"`.
+- Optionally enable a grid for easier reading.
+
+### 7. Return both outputs
+- Return a tuple:
+  - the updated `DataFrame`
+  - the `Axes` object containing the plot
+
+---
+
+## Edge Cases to Handle
+
+### Empty input
+- If `data` is empty, return:
+  - an empty DataFrame with an `Average` column
+  - an empty plot axes
+
+### Ragged rows
+- If rows have different lengths, pandas will fill missing cells with `NaN`.
+- Averages should still compute correctly, ignoring missing values.
+
+### Non-numeric values
+- If some entries are non-numeric, convert what can be converted and treat invalid entries as `NaN`.
+- Rows with partially valid values should still average the valid ones.
+
+### Rows with all missing values
+- If a row contains only missing/non-numeric values, its average should be `NaN`.
+
+### Input shape mismatch with `COLUMN_NAMES`
+- If the input does not have exactly 8 columns, decide on one of these strategies:
+  - use only the first `n` names if fewer columns exist
+  - extend names dynamically if more columns exist
+  - or raise a clear `ValueError`
+- For robustness, the cleanest approach is to adapt column names dynamically or validate the expected width explicitly.
+
+### Input already being a DataFrame
+- If `data` is already a DataFrame-like object, the function should still work after normalization.
+
+---
+
+## Expected Behavior Summary
+- Preserve all original rows.
+- Add `Average` as the last column.
+- Plot averages in row order.
+- Return `(df, ax)`.
+
+If you want, I can also turn this plan into the full implementation.

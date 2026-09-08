@@ -1,0 +1,95 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Protects all double quotes in all Excel (.xlsx) files in the specified directory by prefixing them with a double backslash.
+The function should output with:
+    int: The number of Excel files processed.
+You should write self-contained code starting with:
+```
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+def task_func(directory_path='./xlsx_files/'):
+```
+FULL SUPPLIED CONTEXT
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+def task_func(directory_path='./xlsx_files/'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(directory_path='./xlsx_files/')`.
+
+## Goal
+Process every `.xlsx` file in the specified directory and replace every double quote character `"` in cell text with two backslashes followed by a quote: `\\"` in the saved Excel content.
+
+Return:
+- `int`: number of Excel files successfully processed
+
+## Plan
+
+1. **Discover Excel files**
+   - Build a file list from `directory_path` using `glob`.
+   - Target files ending in `.xlsx`.
+   - Exclude non-files and likely temporary Excel lock files such as `~$*.xlsx`.
+
+2. **Open each workbook safely**
+   - Use `load_workbook(path)` for each file.
+   - Process each workbook one by one.
+   - If a workbook cannot be opened or is corrupted, skip it rather than crashing the whole task.
+
+3. **Traverse all worksheets**
+   - For every worksheet in the workbook:
+     - Iterate through all populated cells.
+
+4. **Replace quotes only in string-like cell values**
+   - Check each cell value.
+   - If the value is a string and contains `"`:
+     - Replace every `"` with `\\\"` in the stored text form, i.e. two backslashes plus a quote.
+   - Leave non-string values unchanged:
+     - numbers
+     - dates/timestamps
+     - booleans
+     - `None`
+     - formulas, unless the requirement explicitly says formulas should also be edited
+
+5. **Save the workbook in place**
+   - Write the modified workbook back to the same file path.
+
+6. **Count processed files**
+   - Increment a counter only after a workbook is successfully opened, processed, and saved.
+   - Return that counter.
+
+## Edge cases to handle
+
+- **No `.xlsx` files found**
+  - Return `0`.
+
+- **Directory path does not exist**
+  - Return `0` or handle gracefully without exception, depending on desired strictness.
+
+- **Temporary Excel files**
+  - Skip files like `~$file.xlsx`.
+
+- **Cells with formulas**
+  - Usually should not be altered unless explicitly required, because changing formula text can break the workbook.
+
+- **Merged cells / empty cells**
+  - Ignore empty cells; merged placeholder cells should not cause issues.
+
+- **Very large workbooks**
+  - Process sequentially, workbook by workbook, to avoid excessive memory use.
+
+- **Files already containing backslashes before quotes**
+  - Only replace raw `"` characters; do not try to “normalize” existing escapes.
+
+- **Read-only / locked / corrupted files**
+  - Skip problematic files and continue processing the rest.
+
+## Intended behavior summary
+- Input: directory path
+- Output: integer count of successfully processed `.xlsx` files
+- Side effect: each processed workbook is saved with all `"` characters in string cell values replaced by `\\\"`
+
+If you want, I can next turn this plan into the exact self-contained implementation.

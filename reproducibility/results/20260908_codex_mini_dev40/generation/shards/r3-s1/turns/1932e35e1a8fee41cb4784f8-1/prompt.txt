@@ -1,0 +1,105 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Load a JSON file into a Pandas DataFrame, remove a specific key from each object and write the processed DataFrame back into a JSON file oriented by records.
+The function should output with:
+    df (DataFrame): A pandas DataFrame representation of the processed JSON data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import json
+def task_func(file_path, key):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import json
+def task_func(file_path, key):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(file_path, key)`:
+
+## Goal
+- Read a JSON file into a Pandas DataFrame.
+- Remove the specified `key` from each JSON object/row if present.
+- Write the cleaned data back to a JSON file using `orient="records"`.
+- Return the processed DataFrame as `df`.
+
+---
+
+## Assumptions
+- The input JSON is a list of record objects, suitable for `pd.read_json(...)` or `json.load(...)` followed by DataFrame conversion.
+- The output should be a JSON file in record-oriented format.
+- Since no output path is provided in the signature, the implementation likely needs to:
+  - overwrite the input file, or
+  - derive an output filename from `file_path`.
+  
+This should be clarified in the next stage if needed. If not, the safest default is to overwrite the original file or write to a predictable derived path.
+
+---
+
+## Proposed approach
+1. **Load JSON**
+   - Read the file from `file_path`.
+   - Convert it into a `pandas.DataFrame`.
+
+2. **Remove the target key**
+   - Drop the column named `key` from the DataFrame if it exists.
+   - If the key is absent, keep the DataFrame unchanged.
+
+3. **Write processed data back to JSON**
+   - Convert the cleaned DataFrame to JSON with:
+     - `orient="records"`
+     - `force_ascii=False` if Unicode preservation is desired
+   - Save to the intended destination file.
+
+4. **Return result**
+   - Return the cleaned DataFrame as `df`.
+
+---
+
+## Edge cases to handle
+### 1. Key not present in data
+- The key may not exist in some or all records.
+- The code should not fail; just skip removal if the column is absent.
+
+### 2. Missing values / irregular records
+- Some objects may not contain all fields.
+- Pandas will represent missing fields as `NaN`; dropping the specified column remains safe.
+
+### 3. Empty JSON file
+- If the file is empty or contains an empty list, the result should be an empty DataFrame.
+- Writing back should still produce valid empty JSON records (`[]`).
+
+### 4. JSON structure not as expected
+- If the JSON is not a list of objects, `pd.read_json` may behave unexpectedly or raise errors.
+- The function should either:
+  - rely on the expected format, or
+  - explicitly validate input and raise a clear error.
+
+### 5. Non-serializable values
+- If records contain values not directly serializable by Pandas/JSON, output may need cleanup.
+- Usually not an issue for standard JSON-compatible input.
+
+### 6. File/path issues
+- Invalid path, missing file, or unreadable file should raise an I/O-related exception.
+- If writing to a derived output file, path construction must avoid collisions or invalid filenames.
+
+### 7. Key conflicts with nested structures
+- If `key` exists only inside nested dictionaries, dropping a top-level DataFrame column will not remove nested occurrences.
+- Based on the requirement, removal likely applies only to top-level keys/columns.
+
+---
+
+## Implementation notes
+- Prefer `df.drop(columns=[key], errors="ignore")` for safe key removal.
+- Use `df.to_json(..., orient="records")` for the required output format.
+- If preserving the original file is important, choose a separate output path such as:
+  - appending `_processed.json` to the filename.
+
+---
+
+## Expected function behavior
+- Input: `file_path`, `key`
+- Output: cleaned `DataFrame`
+- Side effect: write cleaned data to JSON file in records format
+
+If you want, I can next provide the actual self-contained implementation.

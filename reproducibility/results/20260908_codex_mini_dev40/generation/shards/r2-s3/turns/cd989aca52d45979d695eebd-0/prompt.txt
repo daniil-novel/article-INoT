@@ -1,0 +1,20 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Draw the phase of a complex function over a range of x and y and return the matplotlib axes object along with the 2D array of calculated phase values.
+The function should raise the exception for: TypeError: If either `x` or `y` is not a numpy.ndarray. ValueError: If `x` and `y` do not have the same length.
+The function should output with:
+    tuple: containing
+    matplotlib.axes.Axes: The axes object with the phase plot.
+    numpy.ndarray: The 2D array of calculated phase values.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):

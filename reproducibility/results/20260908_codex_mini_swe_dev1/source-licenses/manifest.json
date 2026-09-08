@@ -1,0 +1,213 @@
+{
+  "schema": "swe-source-licenses-v1",
+  "source_pairs": 23,
+  "files": [
+    {
+      "repo": "marshmallow-code/marshmallow",
+      "base_commit": "2be2d83a1a9a6d3d9b85804f3ab545cecc409bb0",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/marshmallow-code/marshmallow/2be2d83a1a9a6d3d9b85804f3ab545cecc409bb0/LICENSE",
+      "sha256": "34504b7070a400542d7709c44d8a326dbd7b244c36b168f6af7ab601e0a9410d",
+      "bytes": 1052,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\marshmallow-code__marshmallow__2be2d83a1a9a__LICENSE"
+    },
+    {
+      "repo": "marshmallow-code/marshmallow",
+      "base_commit": "b40a0f4e33823e6d0f341f7e8684e359a99060d1",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/marshmallow-code/marshmallow/b40a0f4e33823e6d0f341f7e8684e359a99060d1/LICENSE",
+      "sha256": "ae69ff4f28b18bef6fccfe37769d182bfeb0bfabcd2d8d7f28a80933d6f2d36b",
+      "bytes": 1069,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\marshmallow-code__marshmallow__b40a0f4e3382__LICENSE"
+    },
+    {
+      "repo": "pvlib/pvlib-python",
+      "base_commit": "04a523fafbd61bc2e49420963b84ed8e2bd1b3cf",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pvlib/pvlib-python/04a523fafbd61bc2e49420963b84ed8e2bd1b3cf/LICENSE",
+      "sha256": "88bd02ef00e092986978d3ca7945ffe76208a2008835dc752f34e9e4a7f338b6",
+      "bytes": 1565,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pvlib__pvlib-python__04a523fafbd6__LICENSE"
+    },
+    {
+      "repo": "pvlib/pvlib-python",
+      "base_commit": "0b8f24c265d76320067a5ee908a57d475cd1bb24",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pvlib/pvlib-python/0b8f24c265d76320067a5ee908a57d475cd1bb24/LICENSE",
+      "sha256": "88bd02ef00e092986978d3ca7945ffe76208a2008835dc752f34e9e4a7f338b6",
+      "bytes": 1565,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pvlib__pvlib-python__0b8f24c265d7__LICENSE"
+    },
+    {
+      "repo": "pvlib/pvlib-python",
+      "base_commit": "27a3a07ebc84b11014d3753e4923902adf9a38c0",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pvlib/pvlib-python/27a3a07ebc84b11014d3753e4923902adf9a38c0/LICENSE",
+      "sha256": "a02e12ddaada3cf0d5dbdd8affdd577c2eec640758a95842a304f7513b8c0be4",
+      "bytes": 1622,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pvlib__pvlib-python__27a3a07ebc84__LICENSE"
+    },
+    {
+      "repo": "pvlib/pvlib-python",
+      "base_commit": "40e9e978c170bdde4eeee1547729417665dbc34c",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pvlib/pvlib-python/40e9e978c170bdde4eeee1547729417665dbc34c/LICENSE",
+      "sha256": "a02e12ddaada3cf0d5dbdd8affdd577c2eec640758a95842a304f7513b8c0be4",
+      "bytes": 1622,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pvlib__pvlib-python__40e9e978c170__LICENSE"
+    },
+    {
+      "repo": "pvlib/pvlib-python",
+      "base_commit": "c78b50f4337ecbe536a961336ca91a1176efc0e8",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pvlib/pvlib-python/c78b50f4337ecbe536a961336ca91a1176efc0e8/LICENSE",
+      "sha256": "329a9c401ebb4c62d4d2bc978800e0ca840cc0de27f550bd06de165369f43c1e",
+      "bytes": 1565,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pvlib__pvlib-python__c78b50f4337e__LICENSE"
+    },
+    {
+      "repo": "pydicom/pydicom",
+      "base_commit": "3746878d8edf1cbda6fbcf35eec69f9ba79301ca",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pydicom/pydicom/3746878d8edf1cbda6fbcf35eec69f9ba79301ca/LICENSE",
+      "sha256": "f9c26852d458b6bfd105e53bde336cc849fc50de9c4ee4e5f747da315814c2ab",
+      "bytes": 3196,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pydicom__pydicom__3746878d8edf__LICENSE"
+    },
+    {
+      "repo": "pydicom/pydicom",
+      "base_commit": "49a3da4a3d9c24d7e8427a25048a1c7d5c4f7724",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pydicom/pydicom/49a3da4a3d9c24d7e8427a25048a1c7d5c4f7724/LICENSE",
+      "sha256": "81fde122d7719a3884012e6af6d65caa622dd760730a3be9fc6c94d51b6b8f67",
+      "bytes": 3196,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pydicom__pydicom__49a3da4a3d9c__LICENSE"
+    },
+    {
+      "repo": "pydicom/pydicom",
+      "base_commit": "b9fb05c177b685bf683f7f57b2d57374eb7d882d",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pydicom/pydicom/b9fb05c177b685bf683f7f57b2d57374eb7d882d/LICENSE",
+      "sha256": "81fde122d7719a3884012e6af6d65caa622dd760730a3be9fc6c94d51b6b8f67",
+      "bytes": 3196,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pydicom__pydicom__b9fb05c177b6__LICENSE"
+    },
+    {
+      "repo": "pydicom/pydicom",
+      "base_commit": "f8cf45b6c121e5a4bf4a43f71aba3bc64af3db9c",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pydicom/pydicom/f8cf45b6c121e5a4bf4a43f71aba3bc64af3db9c/LICENSE",
+      "sha256": "81fde122d7719a3884012e6af6d65caa622dd760730a3be9fc6c94d51b6b8f67",
+      "bytes": 3196,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pydicom__pydicom__f8cf45b6c121__LICENSE"
+    },
+    {
+      "repo": "pydicom/pydicom",
+      "base_commit": "f909c76e31f759246cec3708dadd173c5d6e84b1",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pydicom/pydicom/f909c76e31f759246cec3708dadd173c5d6e84b1/LICENSE",
+      "sha256": "81fde122d7719a3884012e6af6d65caa622dd760730a3be9fc6c94d51b6b8f67",
+      "bytes": 3196,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pydicom__pydicom__f909c76e31f7__LICENSE"
+    },
+    {
+      "repo": "pylint-dev/astroid",
+      "base_commit": "0c9ab0fe56703fa83c73e514a1020d398d23fa7f",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pylint-dev/astroid/0c9ab0fe56703fa83c73e514a1020d398d23fa7f/LICENSE",
+      "sha256": "fea16bda9e734dea0d9c8d9f5b909878ef4171626354329609fffcf3db42cb24",
+      "bytes": 26516,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pylint-dev__astroid__0c9ab0fe5670__LICENSE"
+    },
+    {
+      "repo": "pylint-dev/astroid",
+      "base_commit": "39c2a9805970ca57093d32bbaf0e6a63e05041d8",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pylint-dev/astroid/39c2a9805970ca57093d32bbaf0e6a63e05041d8/LICENSE",
+      "sha256": "fea16bda9e734dea0d9c8d9f5b909878ef4171626354329609fffcf3db42cb24",
+      "bytes": 26516,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pylint-dev__astroid__39c2a9805970__LICENSE"
+    },
+    {
+      "repo": "pylint-dev/astroid",
+      "base_commit": "6cf238d089cf4b6753c94cfc089b4a47487711e5",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pylint-dev/astroid/6cf238d089cf4b6753c94cfc089b4a47487711e5/LICENSE",
+      "sha256": "fea16bda9e734dea0d9c8d9f5b909878ef4171626354329609fffcf3db42cb24",
+      "bytes": 26516,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pylint-dev__astroid__6cf238d089cf__LICENSE"
+    },
+    {
+      "repo": "pylint-dev/astroid",
+      "base_commit": "ce5cbce5ba11cdc2f8139ade66feea1e181a7944",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pylint-dev/astroid/ce5cbce5ba11cdc2f8139ade66feea1e181a7944/LICENSE",
+      "sha256": "fea16bda9e734dea0d9c8d9f5b909878ef4171626354329609fffcf3db42cb24",
+      "bytes": 26516,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pylint-dev__astroid__ce5cbce5ba11__LICENSE"
+    },
+    {
+      "repo": "pylint-dev/astroid",
+      "base_commit": "d2a5b3c7b1e203fec3c7ca73c30eb1785d3d4d0a",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pylint-dev/astroid/d2a5b3c7b1e203fec3c7ca73c30eb1785d3d4d0a/LICENSE",
+      "sha256": "fea16bda9e734dea0d9c8d9f5b909878ef4171626354329609fffcf3db42cb24",
+      "bytes": 26516,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pylint-dev__astroid__d2a5b3c7b1e2__LICENSE"
+    },
+    {
+      "repo": "pyvista/pyvista",
+      "base_commit": "db6ee8dd4a747b8864caae36c5d05883976a3ae5",
+      "license_path": "LICENSE",
+      "source_url": "https://raw.githubusercontent.com/pyvista/pyvista/db6ee8dd4a747b8864caae36c5d05883976a3ae5/LICENSE",
+      "sha256": "bddee60a93ea3ba191f0cadeff8c16d7bd771535ccb64b7660afad1845623a1c",
+      "bytes": 1088,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\pyvista__pyvista__db6ee8dd4a74__LICENSE"
+    },
+    {
+      "repo": "sqlfluff/sqlfluff",
+      "base_commit": "14e1a23a3166b9a645a16de96f694c77a5d4abb7",
+      "license_path": "LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/sqlfluff/sqlfluff/14e1a23a3166b9a645a16de96f694c77a5d4abb7/LICENSE.md",
+      "sha256": "6d1e394d2e68a47106733103e9ed87c9d1573d9b7a43f5d05989424fce6dae39",
+      "bytes": 1073,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\sqlfluff__sqlfluff__14e1a23a3166__LICENSE.md"
+    },
+    {
+      "repo": "sqlfluff/sqlfluff",
+      "base_commit": "304a197829f98e7425a46d872ada73176137e5ae",
+      "license_path": "LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/sqlfluff/sqlfluff/304a197829f98e7425a46d872ada73176137e5ae/LICENSE.md",
+      "sha256": "6d1e394d2e68a47106733103e9ed87c9d1573d9b7a43f5d05989424fce6dae39",
+      "bytes": 1073,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\sqlfluff__sqlfluff__304a197829f9__LICENSE.md"
+    },
+    {
+      "repo": "sqlfluff/sqlfluff",
+      "base_commit": "a10057635e5b2559293a676486f0b730981f037a",
+      "license_path": "LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/sqlfluff/sqlfluff/a10057635e5b2559293a676486f0b730981f037a/LICENSE.md",
+      "sha256": "6d1e394d2e68a47106733103e9ed87c9d1573d9b7a43f5d05989424fce6dae39",
+      "bytes": 1073,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\sqlfluff__sqlfluff__a10057635e5b__LICENSE.md"
+    },
+    {
+      "repo": "sqlfluff/sqlfluff",
+      "base_commit": "a1579a16b1d8913d9d7c7d12add374a290bcc78c",
+      "license_path": "LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/sqlfluff/sqlfluff/a1579a16b1d8913d9d7c7d12add374a290bcc78c/LICENSE.md",
+      "sha256": "6d1e394d2e68a47106733103e9ed87c9d1573d9b7a43f5d05989424fce6dae39",
+      "bytes": 1073,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\sqlfluff__sqlfluff__a1579a16b1d8__LICENSE.md"
+    },
+    {
+      "repo": "sqlfluff/sqlfluff",
+      "base_commit": "f1dba0e1dd764ae72d67c3d5e1471cf14d3db030",
+      "license_path": "LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/sqlfluff/sqlfluff/f1dba0e1dd764ae72d67c3d5e1471cf14d3db030/LICENSE.md",
+      "sha256": "6d1e394d2e68a47106733103e9ed87c9d1573d9b7a43f5d05989424fce6dae39",
+      "bytes": 1073,
+      "archive_path": "reproducibility\\results\\20260908_codex_mini_swe_dev1\\source-licenses\\sqlfluff__sqlfluff__f1dba0e1dd76__LICENSE.md"
+    }
+  ]
+}

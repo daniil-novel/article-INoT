@@ -1,0 +1,25 @@
+Running 1 instances...
+
+Error in evaluation for pvlib__pvlib-python-1606: >>>>> Patch Apply Failed:
+patch unexpectedly ends in middle of line
+patch: **** Only garbage was found in the patch input.
+
+Check (logs/evaluation/negative-dev1-v3/negative-control/pvlib__pvlib-python-1606/run_instance.log) for more information.
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|██████████| 1/1 [00:16<00:00, 16.68s/it]
+All instances run.
+1 ran successfully, 0 failed: 100%|██████████| 1/1 [00:16<00:00, 16.68s/it]
+1 ran successfully, 0 failed: 100%|██████████| 1/1 [00:16<00:00, 16.68s/it]
+Total instances: 1
+Instances submitted: 1
+Instances completed: 0
+Instances incomplete: 0
+Instances resolved: 0
+Instances unresolved: 0
+Instances with likely infrastructure failures: 0
+Instances with ambiguous failures: 0
+Instances with empty patches: 0
+Instances with errors: 1
+Unstopped containers: 0
+Unremoved images: 1
+Report written to logs/evaluation/negative-dev1-v3/results.json

@@ -1,0 +1,119 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Create a numeric array of random integers, calculate the mean and standard deviation, and draw a histogram of the distribution.
+Note that: The random integers are generated between 1 and 100. The title of the histogram is "Histogram of Random Integers". The x-axis is labeled "Value" and the y-axis is labeled "Frequency". The mean is plotted as a red dashed line, and the standard deviation is plotted as purple dashed lines.
+The function should output with:
+    Tuple: A tuple containing the array, mean, standard deviation, and the histogram plot (Axes).
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+# Constants
+ARRAY_SIZE = 10000
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+# Constants
+ARRAY_SIZE = 10000
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+We need to implement `task_func()` in a self-contained way using the provided starter code.
+
+### Goal
+Generate an array of random integers from 1 to 100, compute:
+- the array itself,
+- the mean,
+- the standard deviation,
+- a histogram plot (`Axes` object),
+
+and return them as a tuple.
+
+---
+
+## Planned approach
+
+### 1. Generate the random integer array
+- Use NumPy to create an array of size `ARRAY_SIZE = 10000`.
+- Values must be integers in the inclusive range `[1, 100]`.
+- Recommended function: `np.random.randint(1, 101, size=ARRAY_SIZE)`.
+
+### 2. Compute summary statistics
+- Compute the mean of the array using `np.mean(...)`.
+- Compute the standard deviation using `np.std(...)`.
+- Keep the default behavior unless a different interpretation is explicitly needed.
+  - Default `np.std` uses population standard deviation (`ddof=0`), which is usually appropriate here.
+
+### 3. Build the histogram plot
+- Create a figure and axes using `plt.subplots()`.
+- Draw a histogram of the array:
+  - Use bins that reflect integer values clearly.
+  - A good choice is bin edges centered around integers, e.g. `np.arange(0.5, 101.5, 1)`.
+- Set:
+  - title: `"Histogram of Random Integers"`
+  - x-axis label: `"Value"`
+  - y-axis label: `"Frequency"`
+
+### 4. Plot the mean and standard deviation lines
+- Mean:
+  - Draw a red dashed vertical line at the mean.
+  - Use `ax.axvline(mean, color='red', linestyle='--')`.
+- Standard deviation:
+  - The prompt says “standard deviation is plotted as purple dashed lines.”
+  - The most natural interpretation is to show lines at `mean - std` and `mean + std`.
+  - Draw two purple dashed vertical lines at those positions.
+  - Use `ax.axvline(mean - std, color='purple', linestyle='--')`
+  - and `ax.axvline(mean + std, color='purple', linestyle='--')`.
+
+### 5. Return the required tuple
+Return:
+- the NumPy array,
+- the mean,
+- the standard deviation,
+- the histogram `Axes` object.
+
+So the return value should be conceptually:
+`(array, mean, std, ax)`
+
+---
+
+## Edge cases to consider
+
+### 1. Empty array
+- Not expected because `ARRAY_SIZE = 10000`, but if the function is adapted later, mean/std on an empty array would fail or produce warnings.
+- Since size is fixed, this is not a practical concern here.
+
+### 2. Histogram binning
+- If bins are not chosen carefully, integer values may appear misaligned.
+- Using half-offset integer bins avoids this issue and makes the histogram visually correct.
+
+### 3. Standard deviation line interpretation
+- The prompt is slightly ambiguous: “standard deviation is plotted as purple dashed lines.”
+- Best interpretation: show `mean ± std` with purple dashed lines.
+- This should be documented in the implementation if needed.
+
+### 4. Reproducibility
+- No seed is required by the prompt.
+- If deterministic output is desired for testing, a seed could be set, but that would change randomness.
+- Since the prompt just asks for random integers, no seed should be imposed unless instructed.
+
+### 5. Plot object return
+- Make sure to return the `Axes` object, not the `Figure`.
+- This matches the required output exactly.
+
+---
+
+## Expected structure of `task_func()`
+1. Generate the array.
+2. Compute mean and standard deviation.
+3. Create figure/axes.
+4. Plot histogram.
+5. Plot mean and std lines.
+6. Set labels/title.
+7. Return tuple `(array, mean, std, ax)`.
+
+If you want, I can now produce the exact implementation code for `task_func()` in the required format.

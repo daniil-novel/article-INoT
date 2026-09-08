@@ -1,0 +1,33 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 582B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/bcb-scale40:v2
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/bcb-scale40:v2
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 38B done
+#5 DONE 0.0s
+
+#6 [2/3] COPY requirements.txt /tmp/heldout200-requirements.txt
+#6 CACHED
+
+#7 [3/3] RUN python -m pip install --no-cache-dir --disable-pip-version-check -r /tmp/heldout200-requirements.txt     && mkdir -p /opt/nltk_data     && python -m nltk.downloader -d /opt/nltk_data punkt averaged_perceptron_tagger stopwords words     && test -d /opt/nltk_data/tokenizers/punkt     && test -d /opt/nltk_data/corpora/stopwords     && test -d /opt/nltk_data/corpora/words
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 writing image sha256:781f071a3d2a87315f54ba4d8c9179270dfc35e554a8801d60ae481d537027df done
+#8 naming to docker.io/library/bcb-heldout200:v3 done
+#8 DONE 0.0s
+
+View build details: docker-desktop://dashboard/build/default/default/onzyras2nklzsf16yiehjd8ox

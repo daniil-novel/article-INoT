@@ -1,0 +1,21 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Count the Part-of-Speech (POS) tags in a sentence without the last word.
+The function should output with:
+    dict: A dictionary with POS tags as keys and their count as values.
+You should write self-contained code starting with:
+```
+import nltk
+# Download necessary NLTK data (if not already present)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+from collections import Counter
+def task_func(content):
+```
+FULL SUPPLIED CONTEXT
+import nltk
+# Download necessary NLTK data (if not already present)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+from collections import Counter
+def task_func(content):

@@ -1,12 +1,16 @@
-# GPT-5.4 mini development extension
+# Completed development experiment: 40 tasks, 400 candidates
 
-This directory initially publishes the complete pre-generation control evidence. The frozen model matrix has 40 tasks × five conditions × two repeat labels: 400 candidates and 720 fresh CLI turns. Model generation is in progress; these control reports are not model-performance results.
+GPT-5.4 mini with medium reasoning generated all 400 assigned candidates in 720 fresh Codex CLI turns: 40 randomly selected development tasks, five conditions, two repeat labels. Context and exposed stage outputs were retained in full. Repeat labels are not controlled model seeds.
 
-- `controls/attempt1`: original environment diagnostic; missing Faker and an offline network-dependent task; CLI `dev` mode was not the intended `instruct` mode.
-- `controls/attempt2`: Faker added; still the wrong CLI mode. Retained as a diagnostic, not the final control gate.
-- `controls/attempt3`: final `instruct full` selective development controls. Gold passes 39/40, all 40 negative controls fail; `/1005` remains unavailable offline. The gate, raw metadata, exact solutions, full reports and independent pre-generation audit are retained.
-- `controls/attempt1/inputs/official_dev40.jsonl`: the exact 40 selected original dataset records, including evaluator-only tests and canonical solutions. They were not model inputs.
-- `evaluator-software-checks`: a successful gold round trip through the prediction launcher and an intentionally forced one-second deadline with verification that its own container was removed. These are evaluator software checks, not model responses.
-- `BIGCODEBENCH-LICENSE.txt`: Apache-2.0 license accompanying the [upstream code](https://github.com/bigcode-project/bigcodebench); the [dataset card](https://huggingface.co/datasets/bigcode/bigcodebench) also declares Apache-2.0. Original benchmark work: Zhuo et al., *BigCodeBench: Benchmarking Code Generation with Diverse Function Calls and Complex Instructions*, ICLR 2025.
+Original BigCodeBench tests were executed for every candidate. Reference and incorrect controls make 39 tasks eligible, giving 390 evaluable attempts; the ten attempts on `/1005` remain unavailable in the analysis. All 400 native input/code/status joins pass the evidence audit. Observed success varies by condition from 34/78 to 42/78, so there is no ceiling in these labels. Development comparisons are descriptive and cannot establish non-inferiority.
 
-The original byte sequences and historical absolute paths are preserved. Runtime paths in recorded commands are evidence of the original execution, not portable installation instructions. See [the fixed extension protocol](../../revision/DEV40_PROTOCOL.md), [the assignment manifest](../../revision/codex_dev40_manifest.json), and [the exposure log](../../revision/DATA_EXPOSURE_LOG.md).
+Recorded candidate usage totals 3,703,821 tokens. Published standard API rates value it at USD 6.6113451, or USD 7.7687595 without cache discounts. These values are counterfactual API prices, not subscription charges or total research costs.
+
+- `generation/`: every original prompt, exposed response, event stream, CLI argument list, runtime record and frozen assignment.
+- `predictions/`: exactly extracted native evaluator inputs.
+- `evaluations/`: unchanged upstream CLI reports, logs and environment provenance.
+- `analysis/`: all 400 joined candidate records, per-task controls, descriptive task bootstrap and resource summaries.
+- `controls/attempt3/`: final instruct-mode controls; earlier attempts are retained as diagnostics.
+- `software-checks/`: separate evaluator/bridge verification.
+
+This is selective BigCodeBench instruct evaluation in a pinned custom offline environment, not a full official benchmark score. Original prompts and tests were not rewritten; documented prompt/test disputes remain limitations. Only reasoning exposed by the service is available, not private internal reasoning. `EVIDENCE_MANIFEST.json` hashes the published archive bytes when assembled.

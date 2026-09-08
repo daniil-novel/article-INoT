@@ -1,0 +1,132 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Visualize two Series using a swarm plot with a highlight on their intersecting data points. This function creates a swarm plot to visually compare two pandas Series. It highlights the intersection points between these two series by drawing red dashed lines at the intersecting data points.
+The function should output with:
+    ax (matplotlib.Axes): The Axes object of the plotted swarm chart. This object can be used for further customization of the plot if required.
+    intersection_count (int): The number of unique intersecting data points between s1 and s2.
+    This count gives a quick numerical summary of the overlap between the two series.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(s1, s2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(s1, s2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(s1, s2)`:
+
+## Goal
+Create a swarm plot comparing two pandas Series and visually emphasize values that appear in both series by drawing red dashed horizontal markers at the shared value levels. Return:
+
+- `ax`: the Matplotlib Axes containing the plot
+- `intersection_count`: count of **unique** shared values between `s1` and `s2`
+
+---
+
+## Plan
+
+### 1. Normalize and validate inputs
+- Accept `s1` and `s2` as pandas Series or values convertible to Series.
+- Convert both inputs to pandas Series if needed.
+- Remove missing values (`NaN` / `None`) before computing overlap and plotting, since missing values should not be treated as intersecting data points.
+
+### 2. Compute unique intersection
+- Determine shared values using set-like logic:
+  - `intersection = set(s1_clean.unique()) ∩ set(s2_clean.unique())`
+- Use the number of unique shared values as `intersection_count`.
+- This means duplicates in either series do **not** increase the count.
+
+### 3. Prepare plotting data
+- Build a combined DataFrame with:
+  - a column identifying source series (`"s1"` / `"s2"`)
+  - a column for the values
+- This format is suitable for `seaborn.swarmplot`.
+
+### 4. Create the swarm plot
+- Initialize a figure and axis.
+- Use `sns.swarmplot(...)` with:
+  - x as the series label
+  - y as the value column
+- Ensure both series are plotted on the same axis for comparison.
+
+### 5. Highlight intersecting values
+For each unique shared value:
+- Draw a red dashed horizontal line at that y-value across the plot region, visually indicating the overlap.
+- Optionally, use slight transparency so the swarm points remain visible.
+- If the x-axis categories are `"s1"` and `"s2"`, the line should span between those two positions.
+
+### 6. Final plot styling
+- Add axis labels and a title.
+- Optionally add a legend or annotate that red dashed lines indicate shared values.
+- Return the `ax` object and the computed `intersection_count`.
+
+---
+
+## Edge cases to handle
+
+### Empty series
+- If one or both series are empty after removing missing values:
+  - The plot should still be created if possible.
+  - `intersection_count` should be `0`.
+
+### All values missing
+- If a series contains only missing values:
+  - Treat it as empty after cleaning.
+  - No overlap should be counted.
+
+### Duplicate values
+- Duplicates should **not** inflate the overlap count.
+- Example: `s1 = [1, 1, 2]`, `s2 = [1, 1, 3]` → `intersection_count = 1`.
+
+### Mixed numeric types
+- Values like `1` and `1.0` should be treated as equivalent if pandas set intersection treats them as equal.
+- Be consistent with pandas’ native comparison behavior.
+
+### Non-numeric data
+- Swarm plots are best suited for numeric values.
+- If the series contain non-numeric but comparable values, plotting may fail or be misleading.
+- Decide whether to:
+  - assume numeric input, or
+  - coerce values to numeric and drop invalid entries.
+- Since the task is centered on swarm plots, numeric input is the safest assumption.
+
+### Very dense data / overlapping points
+- Swarm plots can become crowded.
+- The overlap markers should still be visible, so use an appropriate z-order and transparency.
+
+### Identical series
+- If both series contain exactly the same unique values:
+  - `intersection_count` equals the number of unique values in the series.
+  - Every shared value gets highlighted.
+
+### No intersection
+- If there are no shared values:
+  - Do not draw any red dashed lines.
+  - Return `intersection_count = 0`.
+
+---
+
+## Suggested implementation behavior
+- The function should be self-contained.
+- It should import:
+  - `pandas as pd`
+  - `seaborn as sns`
+  - `matplotlib.pyplot as plt`
+- It should begin exactly with:
+
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(s1, s2):
+```
+
+---
+
+If you want, I can now turn this plan into the actual implementation.

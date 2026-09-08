@@ -1,0 +1,65 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Computes the average of each row in a provided 2D array and appends these averages as a new column. Additionally, it plots the averages against their respective row indices.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame which includes the original data and an additional 'Average' column.
+    Axes: A matplotlib Axes object with the plot of row averages.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Planned implementation approach:
+
+1. **Normalize the input**
+   - Accept `data` as a 2D structure such as a list of lists, tuple of tuples, or NumPy-like array.
+   - Convert it into a `pandas.DataFrame` using the provided `COLUMN_NAMES`.
+
+2. **Validate shape and contents**
+   - Ensure the input is truly 2D.
+   - Ensure each row has the expected number of columns.
+   - Since `COLUMN_NAMES` has 8 entries, verify that each row has exactly 8 values.
+   - Ensure values are numeric or at least convertible to numeric, because row averages must be computed.
+
+3. **Compute row averages**
+   - Calculate the mean across each row using `axis=1`.
+   - Add the result as a new column named **`Average`**.
+
+4. **Create the plot**
+   - Build a Matplotlib figure/axes pair.
+   - Plot row indices on the x-axis and the computed row averages on the y-axis.
+   - Use markers and labels for readability.
+   - Return the `Axes` object, not the figure.
+
+5. **Return value**
+   - Return a tuple:
+     - the augmented `DataFrame`
+     - the `Axes` object with the plotted averages
+
+### Important edge cases to handle
+- **Empty input**
+  - Return an empty DataFrame with the expected columns plus `Average`, and an empty plot.
+- **Incorrect row length**
+  - Raise a clear `ValueError` if any row does not contain 8 values.
+- **Non-numeric values**
+  - Either raise an error or coerce them explicitly; for robustness, validation is better than silent coercion.
+- **Missing values (`None`, `NaN`)**
+  - Decide whether to ignore them in averages or reject them; the safest default is to reject or require explicit handling.
+- **Already-tabular input**
+  - If `data` is already a DataFrame, still validate/standardize it before computing the averages.
+- **No plotting display**
+  - The function should only create and return the axes, not call `plt.show()`.
+
+If you want, I can now turn this plan into the full self-contained implementation.

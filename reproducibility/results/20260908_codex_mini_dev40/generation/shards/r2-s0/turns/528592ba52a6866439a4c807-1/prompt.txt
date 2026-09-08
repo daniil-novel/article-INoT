@@ -1,0 +1,92 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a high-dimensional dataset, run PCA to reduce its dimensionality, and then draw a heatmap of the covariance matrix of the transformed data.
+The function should output with:
+    tuple:
+    transformed_data (ndarray): The transformed data of shape (N_SAMPLES, n_components).
+    heatmap_axes (Axes): The heatmap of the covariance matrix of the transformed data or None if n_components=1.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Set up the function signature and imports**
+   - Use the provided imports:
+     - `numpy as np`
+     - `PCA` from `sklearn.decomposition`
+     - `matplotlib.pyplot as plt`
+     - `seaborn as sns`
+   - Implement `task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None)`.
+
+2. **Validate inputs**
+   - Ensure:
+     - `N_SAMPLES > 0`
+     - `N_FEATURES > 0`
+     - `n_components >= 1`
+   - Also ensure `n_components <= min(N_SAMPLES, N_FEATURES)` because PCA cannot return more components than the available rank/dimensions.
+   - If invalid, raise a clear `ValueError`.
+
+3. **Generate a high-dimensional dataset**
+   - Create reproducible random data using `np.random.default_rng(random_seed)`.
+   - Sample a matrix of shape `(N_SAMPLES, N_FEATURES)` from a standard normal distribution.
+   - This satisfies the “high-dimensional dataset” requirement in a self-contained way.
+
+4. **Run PCA**
+   - Instantiate `PCA(n_components=n_components, random_state=random_seed)` if desired; note that PCA itself is deterministic for full SVD, but passing the seed is harmless if a randomized solver is used by sklearn internally.
+   - Fit PCA on the generated data and transform it.
+   - Store the transformed output as `transformed_data` with shape `(N_SAMPLES, n_components)`.
+
+5. **Compute the covariance matrix of transformed data**
+   - If `n_components > 1`, compute covariance via:
+     - `cov_matrix = np.cov(transformed_data, rowvar=False)`
+   - This yields an `(n_components, n_components)` covariance matrix.
+
+6. **Draw the heatmap**
+   - If `n_components > 1`:
+     - Create a figure and axis with `plt.subplots()`.
+     - Use `sns.heatmap(cov_matrix, ax=ax, cmap=..., square=True, annot=False)` to visualize covariance structure.
+     - Set a descriptive title and axis labels if helpful.
+     - Return the heatmap axis.
+   - If `n_components == 1`:
+     - Do **not** create a heatmap.
+     - Return `None` for `heatmap_axes`.
+
+7. **Return the required tuple**
+   - Return:
+     - `transformed_data`
+     - `heatmap_axes` or `None`
+
+Edge cases to handle:
+
+- **`n_components = 1`**
+  - No 2D covariance heatmap is meaningful; return `None` for `heatmap_axes`.
+
+- **`n_components > min(N_SAMPLES, N_FEATURES)`**
+  - PCA cannot compute that many components; raise `ValueError`.
+
+- **Non-positive dimensions**
+  - Reject `N_SAMPLES <= 0`, `N_FEATURES <= 0`, or `n_components <= 0`.
+
+- **Random seed omitted**
+  - Still work deterministically only if a seed is provided; otherwise generate a fresh random dataset.
+
+- **Very small sample sizes**
+  - PCA can still work if dimensions are valid, but covariance may be noisy; no special handling required beyond validation.
+
+- **Shape consistency**
+  - Ensure the returned transformed data always has shape `(N_SAMPLES, n_components)`.
+
+If you want, I can also provide the exact implementation code next.

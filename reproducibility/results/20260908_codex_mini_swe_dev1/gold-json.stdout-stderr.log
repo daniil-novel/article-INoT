@@ -1,0 +1,18 @@
+Using gold predictions - ignoring predictions_path
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 853, in <module>
+    main(**vars(args))
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 777, in main
+    run_instances(
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 455, in run_instances
+    test_specs = [make_test_spec(instance) for instance in instances]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 455, in <listcomp>
+    test_specs = [make_test_spec(instance) for instance in instances]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/swebench/swebench/harness/utils.py", line 258, in make_test_spec
+    f2p = instance["FAIL_TO_PASS"]
+          ~~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'FAIL_TO_PASS'

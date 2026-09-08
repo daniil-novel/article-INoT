@@ -1,0 +1,66 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Run a random bash script from a list of scripts.
+The function should output with:
+    script (str): The full path of the script that was executed.
+You should write self-contained code starting with:
+```
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+### Goal
+Implement `task_func()` so it:
+1. Randomly selects one script from `SCRIPTS`
+2. Builds its full path using `SCRIPTS_DIR`
+3. Executes the selected bash script with `subprocess`
+4. Returns the executed script path as `script: str`
+
+### Planned behavior
+- Use `random.choice(SCRIPTS)` to pick a script name.
+- Join the directory and filename with `os.path.join(SCRIPTS_DIR, selected_script)` to form the full path.
+- Run the script via `subprocess.run(...)` with a bash-compatible invocation, e.g. `["bash", script_path]`.
+- Return a structured result containing the full path, e.g. `{"script": script_path}`.
+
+### Implementation steps
+1. Keep the provided imports and constants.
+2. Add `import os` if path joining is needed.
+3. In `task_func()`:
+   - validate or assume `SCRIPTS` is non-empty
+   - choose one script at random
+   - construct the absolute/full path
+   - execute it with `subprocess.run`
+   - return the script path in the expected output format
+
+### Edge cases to handle
+- **Empty `SCRIPTS` list**  
+  - `random.choice` would fail; raise a clear `ValueError` instead.
+- **Invalid script path**  
+  - If the selected file does not exist, `subprocess.run` will fail; optionally check with `os.path.exists`.
+- **Non-executable script / missing bash**  
+  - Use `bash script_path` rather than relying on executable bits.
+- **Script execution failure**  
+  - Decide whether to let exceptions propagate or capture them with `check=True` and handle `CalledProcessError`.
+- **Bad `SCRIPTS_DIR` value**  
+  - If it is relative or malformed, path construction still works, but execution may fail; consider normalizing with `os.path.abspath`.
+- **Duplicate script names**  
+  - Selection still works; duplicates simply increase their chance of being chosen.
+- **Need for deterministic testing**  
+  - For tests, mock `random.choice` and `subprocess.run` so behavior is reproducible.
+
+### Output contract
+- The function should return the full path of the script that was executed, under the key `script`.

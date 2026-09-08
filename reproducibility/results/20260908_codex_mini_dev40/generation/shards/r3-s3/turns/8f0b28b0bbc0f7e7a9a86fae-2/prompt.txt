@@ -1,0 +1,255 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Upload all files from a specific directory to the specified server URL, along with the associated metadata. In addition, the speed limit function pauses for one second after each upload.
+The function should raise the exception for: The function will raise FileNotFoundError if the directory does not exist. The function will raise TypeError if the url is invalid.
+The function should output with:
+    list: A list of status codes for the upload responses.
+You should write self-contained code starting with:
+```
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):
+```
+FULL SUPPLIED CONTEXT
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is a stage-1 implementation plan for `task_func(url, directory, metadata)`.
+
+## Goal
+Upload **all files** from a given local directory to a server URL, attach the provided `metadata` to each upload, pause **1 second after each upload**, and return a **list of HTTP status codes**.
+
+---
+
+## Required behavior
+
+### Inputs
+- `url`: target server URL
+- `directory`: path to a local directory containing files to upload
+- `metadata`: extra data to send with each upload
+
+### Output
+- `list[int]`: status codes from each upload response, in file-processing order
+
+### Exceptions
+- Raise `FileNotFoundError` if `directory` does not exist
+- Raise `TypeError` if `url` is invalid
+
+---
+
+## Implementation plan
+
+### 1. Validate `url`
+- Check that `url` is a valid URL-like string.
+- Minimal validation should confirm:
+  - it is a string
+  - it is non-empty
+  - it has a valid scheme/host structure, or at least starts with `http://` or `https://`
+- If invalid, raise `TypeError`.
+
+**Reasoning:** The prompt explicitly requires `TypeError` for an invalid URL.
+
+---
+
+### 2. Validate `directory`
+- Use `os.path.exists(directory)` and/or `os.path.isdir(directory)` to confirm the directory exists.
+- If not, raise `FileNotFoundError`.
+
+**Reasoning:** The function must fail early if the directory is missing.
+
+---
+
+### 3. Collect files in the directory
+- List entries in the directory with `os.listdir(directory)`.
+- Filter to include only regular files, not subdirectories.
+- Use a deterministic order, preferably sorted alphabetically, so status codes are returned consistently.
+
+**Reasoning:** “All files” should not include nested folders unless explicitly intended, and sorted order makes behavior predictable.
+
+---
+
+### 4. Prepare upload payload for each file
+For each file:
+- Build its full path with `os.path.join(directory, filename)`
+- Open it in binary mode
+- Attach:
+  - the file itself
+  - the metadata
+
+### Metadata handling
+Because the prompt says “along with the associated metadata,” the plan should define a consistent transport format. Two common options are:
+
+1. **Multipart upload**:
+   - file sent as binary upload
+   - metadata sent as JSON string in a form field
+
+2. **JSON payload**:
+   - file content encoded into text/base64 and combined with metadata in JSON
+
+Given the presence of `requests` and the likely expectation of file upload, multipart is usually the most practical approach.
+
+---
+
+### 5. Send the request
+- Use `requests.post(url, ...)` for each file.
+- Capture `response.status_code`.
+- Append the status code to the result list.
+
+### Error handling during upload
+- The prompt does not specify network exception handling.
+- A practical implementation should decide whether to:
+  - let `requests` exceptions propagate, or
+  - catch them and continue per file
+
+Since the output must be a list of status codes, the cleanest interpretation is:
+- let unexpected request errors propagate unless otherwise specified
+
+---
+
+### 6. Apply speed limit
+- After each upload attempt, call `time.sleep(1)`.
+
+**Important detail:**  
+The pause should happen **after each upload**, whether the upload succeeds or fails, unless the function is intentionally designed to stop on exceptions.
+
+---
+
+### 7. Return result
+- Return the list of collected HTTP status codes.
+
+---
+
+## Edge cases to consider
+
+### Directory-related
+- Directory exists but is empty → return `[]`
+- Directory path points to a file, not a directory → treat as invalid directory, likely `FileNotFoundError`
+- Directory contains subdirectories → skip them, upload only files
+- Directory contains hidden files → include them if they are regular files unless excluded explicitly
+
+### URL-related
+- URL is `None` → `TypeError`
+- URL is not a string → `TypeError`
+- URL is an empty string → `TypeError`
+- URL missing scheme or malformed → `TypeError`
+
+### Metadata-related
+- `metadata` is `None` → should still be sent or converted consistently
+- `metadata` is not JSON-serializable → if using JSON serialization, this can fail
+- metadata is large or nested → ensure serialization is safe and consistent
+
+### File-related
+- File cannot be opened due to permissions → should raise the corresponding I/O exception
+- Directory contains non-UTF8 filenames → handle paths via `os` and let `requests`/Python manage encoding as needed
+- Very large files → binary streaming may be preferable to reading entire file into memory
+
+### Network / server-related
+- Server returns non-2xx codes → still append those codes to the list
+- Server unavailable → request may raise an exception
+- Partial failure across files → decide whether to stop immediately or continue; the prompt does not require recovery logic, so simplest is to propagate exceptions unless specified otherwise
+
+### Rate limiting behavior
+- Ensure `time.sleep(1)` is called after each file upload
+- If no files exist, no sleeping should occur
+
+---
+
+## Suggested test scenarios
+1. Valid directory with 3 files → returns 3 status codes
+2. Empty directory → returns empty list
+3. Missing directory → raises `FileNotFoundError`
+4. Invalid URL type (`None`, number, empty string) → raises `TypeError`
+5. Directory contains a subdirectory → subdirectory skipped
+6. Upload returns mixed status codes (200, 201, 500) → list preserves order
+7. One upload fails due to server/network error → behavior depends on chosen exception policy
+
+---
+
+## Assumptions to confirm
+- “All files” means **only files directly inside the given directory**, not recursive traversal
+- Metadata should be sent **with each file upload**
+- Invalid URL means a malformed or non-string URL
+- The function should return status codes in processing order
+
+If you want, I can next turn this plan into the actual self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import requests
+import os
+import json
+import time
+import base64
+from urllib.parse import urlparse
+
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+
+
+def _make_json_safe(value):
+    """
+    Convert value into something that can be safely serialized as JSON.
+    Non-serializable objects are stringified.
+    """
+    return json.loads(json.dumps(value, default=str, ensure_ascii=False))
+
+
+def task_func(url, directory, metadata):
+    if not isinstance(url, str) or not url.strip():
+        raise TypeError("url is invalid")
+
+    parsed = urlparse(url.strip())
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        raise TypeError("url is invalid")
+
+    try:
+        directory_path = os.fspath(directory)
+    except TypeError:
+        raise FileNotFoundError("directory does not exist")
+
+    if not os.path.isdir(directory_path):
+        raise FileNotFoundError("directory does not exist")
+
+    status_codes = []
+    safe_metadata = _make_json_safe(metadata)
+
+    for filename in sorted(os.listdir(directory_path)):
+        file_path = os.path.join(directory_path, filename)
+
+        if not os.path.isfile(file_path):
+            continue
+
+        try:
+            with open(file_path, "rb") as file_obj:
+                file_data = file_obj.read()
+
+            payload = {
+                "filename": filename,
+                "file_content": base64.b64encode(file_data).decode("ascii"),
+                "metadata": safe_metadata,
+            }
+
+            response = requests.post(url, headers=HEADERS, json=payload)
+            status_codes.append(response.status_code)
+        finally:
+            time.sleep(1)
+
+    return status_codes

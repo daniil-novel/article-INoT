@@ -1,0 +1,25 @@
+2026-09-08 00:54:34,142 - INFO - Creating container for pvlib__pvlib-python-1606...
+2026-09-08 00:54:34,195 - INFO - Container for pvlib__pvlib-python-1606 created: 3a4f240275b0c64e18b50e7e9a03a2d501b48601164746c0abdc7067ec1b8b21
+2026-09-08 00:54:34,385 - INFO - Container for pvlib__pvlib-python-1606 started: 3a4f240275b0c64e18b50e7e9a03a2d501b48601164746c0abdc7067ec1b8b21
+2026-09-08 00:54:34,396 - INFO - Intermediate patch for pvlib__pvlib-python-1606 written to logs/evaluation/negative-dev1-v3/negative-control/pvlib__pvlib-python-1606/patch.diff, now applying to container...
+2026-09-08 00:54:34,523 - INFO - Failed to apply patch to container: git apply --verbose
+2026-09-08 00:54:34,868 - INFO - Failed to apply patch to container: git apply --verbose --3way
+2026-09-08 00:54:35,408 - INFO - Failed to apply patch to container: git apply --verbose --reject
+2026-09-08 00:54:35,518 - INFO - Failed to apply patch to container: patch --batch --forward --fuzz=5 -p1 -i
+2026-09-08 00:54:35,577 - INFO - >>>>> Patch Apply Failed:
+patch unexpectedly ends in middle of line
+patch: **** Only garbage was found in the patch input.
+
+2026-09-08 00:54:35,584 - INFO - Traceback (most recent call last):
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 333, in run_instance
+    raise EvaluationError(
+swebench.harness.utils.EvaluationError: Error in evaluation for pvlib__pvlib-python-1606: >>>>> Patch Apply Failed:
+patch unexpectedly ends in middle of line
+patch: **** Only garbage was found in the patch input.
+
+Check (logs/evaluation/negative-dev1-v3/negative-control/pvlib__pvlib-python-1606/run_instance.log) for more information.
+
+2026-09-08 00:54:35,585 - INFO - Attempting to stop container sweb.eval.pvlib__pvlib-python-1606.negative-dev1-v3...
+2026-09-08 00:54:50,727 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.negative-dev1-v3 stopped successfully.
+2026-09-08 00:54:50,728 - INFO - Attempting to remove container sweb.eval.pvlib__pvlib-python-1606.negative-dev1-v3...
+2026-09-08 00:54:50,772 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.negative-dev1-v3 removed successfully.

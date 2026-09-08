@@ -1,0 +1,247 @@
+{
+  "schema_version": 2,
+  "study_scope": "SWE-bench Lite development smoke only; no confirmatory benchmark claim",
+  "observed_candidate_files": 2,
+  "missing_candidate_files": 8,
+  "observed_complete_joins": 2,
+  "observed_resolved": 0,
+  "observed_unresolved": 1,
+  "observed_native_application_rejections": 1,
+  "observed_infrastructure_failures": 0,
+  "quality_failure_cells": 2,
+  "candidate_generation": {
+    "deadline_seconds": 180,
+    "retries": 0,
+    "known_usage_turns": 3,
+    "known_usage_tokens": 56796,
+    "known_usage_api_equivalent_usd": 0.1379895,
+    "unknown_usage_turns": 1,
+    "usage_accounting": "includes invalid/incomplete generations; unobserved usage is unknown, not zero"
+  },
+  "provenance": {
+    "inventory_path": "reproducibility/runs/swe-smoke-dev1/generation/inventory.json",
+    "inventory_sha256": "4996cd0271394446f36e415e89a7cc42b1ff14fcac95d933b1cfcc682b4a665b",
+    "generation_manifest_path": "reproducibility/runs/swe-smoke-dev1/generation/manifest.json",
+    "generation_manifest_sha256": "81dc9d4da49b80bf84e298979a3ed0eb52ce67c73ec782597804b503876245e5",
+    "generation_manifest_declared_sha256": "1b2e20ade1fa8cb4b5c56608f4be27287151465754b881116005a9996d451c6e",
+    "native_join_metadata_sha256": {
+      "direct--r2": "2b047e1a5de275da1d4efe21b146c64ab3909a84fa2a40131ba7bd43981feb2f",
+      "single_neutral--r2": "08510578e7590ebd618eb8cc6acd24e22500f5b4afed3db26e0783395b5e6a56"
+    }
+  },
+  "manifest_cells": [
+    {
+      "arm": "direct",
+      "cli_turns": 1,
+      "id": "853f32ae77449ed741e2289b",
+      "replicate_id": 2,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "observed_quality_failure",
+      "evaluation": "direct--r2"
+    },
+    {
+      "arm": "multi_roles",
+      "cli_turns": 3,
+      "id": "28b68f3c4fc8a95b48c76abe",
+      "replicate_id": 2,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_generation_timeout",
+      "evaluation": null
+    },
+    {
+      "arm": "single_neutral",
+      "cli_turns": 1,
+      "id": "ec37748a310395b78caf261e",
+      "replicate_id": 2,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "observed_quality_failure",
+      "evaluation": "single_neutral--r2"
+    },
+    {
+      "arm": "multi_neutral",
+      "cli_turns": 3,
+      "id": "dc51f33e542b029c33b1d7cd",
+      "replicate_id": 2,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_no_export",
+      "evaluation": null
+    },
+    {
+      "arm": "single_roles",
+      "cli_turns": 1,
+      "id": "94e3e0e8c79e4cc1b8072b6f",
+      "replicate_id": 2,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_no_export",
+      "evaluation": null
+    },
+    {
+      "arm": "direct",
+      "cli_turns": 1,
+      "id": "41af7f47343e5e9d3fc0fe0e",
+      "replicate_id": 1,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_no_export",
+      "evaluation": null
+    },
+    {
+      "arm": "single_neutral",
+      "cli_turns": 1,
+      "id": "271f926dfe875b51e2aa24ad",
+      "replicate_id": 1,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_no_export",
+      "evaluation": null
+    },
+    {
+      "arm": "single_roles",
+      "cli_turns": 1,
+      "id": "f02af368eccd67dacbb997c3",
+      "replicate_id": 1,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_no_export",
+      "evaluation": null
+    },
+    {
+      "arm": "multi_neutral",
+      "cli_turns": 3,
+      "id": "88179aa469fc71929ed61802",
+      "replicate_id": 1,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_no_export",
+      "evaluation": null
+    },
+    {
+      "arm": "multi_roles",
+      "cli_turns": 3,
+      "id": "44920fdc7d43efa5b60e8e69",
+      "replicate_id": 1,
+      "task_id": "pvlib__pvlib-python-1606",
+      "status": "missing_no_export",
+      "evaluation": null
+    }
+  ],
+  "environment": {
+    "upstream_commit": "02e7a74ffd0b707aab73d203fe87bdc7c76afc8e",
+    "custom_image_id": "sha256:09bb86006da10a9a79ecc8e20ba4adf0b3bf2f459c1171584f9857e9dad75b27",
+    "controller_image_id": "sha256:c303eeb04b99760928bc7e736aa0e6a60296a48c4814cc208fd600d943b868a2",
+    "network": "controller --network none; unchanged upstream child task network not overridden"
+  },
+  "candidates": [
+    {
+      "name": "direct--r2",
+      "arm": "direct",
+      "run_id": "pred-20260908T012612Z-c37cbf7f",
+      "task_id": "pvlib__pvlib-python-1606",
+      "launcher_exit_code": 0,
+      "join_status": "complete",
+      "classification": "candidate_test_or_patch_failure",
+      "patch_bytes_match": true,
+      "report_task_id_exact": true,
+      "results_task_membership": true,
+      "report_flags": {
+        "patch_is_None": false,
+        "patch_exists": true,
+        "patch_successfully_applied": true,
+        "resolved": false,
+        "infra_failure": false
+      },
+      "report_sha256": "0fbc6bdc1e41155baee48915eb5263afa521bd251217cc6fa3196e341add3719",
+      "results_sha256": "f9a0d58972fbc53b90f8307fd595a4e04c68c274382a0643ff593c169c0caf12",
+      "artifact_hashes": {
+        "patch.diff": "197e2bc39d350491c36974f0744f0fb252e860da61cd2b4ed1099b359fb08b5f",
+        "eval.sh": "9d67a02a862297bfa7a014abdd6e922b480c5c565966613151a5379cc02a0daa",
+        "test_output.txt": "43cc940f5a019da0c62a1ff42d245427831e048b5e58d2ddf8598a98829846e5",
+        "run_instance.log": "843982d0bab2c594c553cd6e336fef33dbe8efa343b4c673b522b335c25d689b"
+      },
+      "test_counts": {
+        "FAIL_TO_PASS": {
+          "total": 1,
+          "success": 0,
+          "failure": 1
+        },
+        "PASS_TO_PASS": {
+          "total": 10,
+          "success": 10,
+          "failure": 0
+        },
+        "FAIL_TO_FAIL": {
+          "total": 0,
+          "success": 0,
+          "failure": 0
+        },
+        "PASS_TO_FAIL": {
+          "total": 0,
+          "success": 0,
+          "failure": 0
+        },
+        "declared_total": 11
+      },
+      "results_summary": {
+        "completed_instances": 1,
+        "resolved_instances": 0,
+        "unresolved_instances": 1,
+        "error_instances": 0,
+        "infra_failure_instances": 0,
+        "completed_ids": [
+          "pvlib__pvlib-python-1606"
+        ],
+        "resolved_ids": [],
+        "unresolved_ids": [
+          "pvlib__pvlib-python-1606"
+        ],
+        "error_ids": []
+      },
+      "input_hashes": {
+        "prediction_source_sha256": "1b20a9cc7f347dbed789a63bf478e93af00cf0d8e07fb20535eb6fd604eabf0e",
+        "prediction_snapshot_sha256": "1b20a9cc7f347dbed789a63bf478e93af00cf0d8e07fb20535eb6fd604eabf0e",
+        "prediction_bytes_unchanged": true
+      },
+      "native_join_metadata_sha256": "2b047e1a5de275da1d4efe21b146c64ab3909a84fa2a40131ba7bd43981feb2f"
+    },
+    {
+      "name": "single_neutral--r2",
+      "arm": "single_neutral",
+      "run_id": "pred-20260908T012715Z-56215a18",
+      "task_id": "pvlib__pvlib-python-1606",
+      "launcher_exit_code": 0,
+      "join_status": "complete",
+      "classification": "native_application_rejection",
+      "patch_bytes_match": true,
+      "report_task_id_exact": false,
+      "results_task_membership": true,
+      "report_flags": null,
+      "report_sha256": null,
+      "results_sha256": "fda05b3f72cb55dea3e06b0ade37088e0b62930092d96ae9e9823b50ac1450a4",
+      "artifact_hashes": {
+        "patch.diff": "f9f052b95bebe10403e4e7f6f9e6381631659a08882e163b0490fbaa217b4de2",
+        "eval.sh": null,
+        "test_output.txt": null,
+        "run_instance.log": "cda12826e6070fb30a4578bdf7e53acb3ce23ccd70717da5e024b2f263a0cb01"
+      },
+      "test_counts": null,
+      "results_summary": {
+        "completed_instances": 0,
+        "resolved_instances": 0,
+        "unresolved_instances": 0,
+        "error_instances": 1,
+        "infra_failure_instances": 0,
+        "completed_ids": [],
+        "resolved_ids": [],
+        "unresolved_ids": [],
+        "error_ids": [
+          "pvlib__pvlib-python-1606"
+        ]
+      },
+      "input_hashes": {
+        "prediction_source_sha256": "e0039c8ffc2396fbcbda1e236fd12eb4f58124938996033eb4209b1606032f98",
+        "prediction_snapshot_sha256": "e0039c8ffc2396fbcbda1e236fd12eb4f58124938996033eb4209b1606032f98",
+        "prediction_bytes_unchanged": true
+      },
+      "native_join_metadata_sha256": "08510578e7590ebd618eb8cc6acd24e22500f5b4afed3db26e0783395b5e6a56"
+    }
+  ],
+  "interpretation": "Partial observation: two of ten assigned generation cells exported patches and both were quality failures. The direct patch applied but failed its one FAIL_TO_PASS test (10 PASS_TO_PASS tests passed), so it remained unresolved. The single-neutral patch was rejected by native patch application before report.json; results recorded an evaluator error. The eight missing assignments remain missing data, not failures or passes.",
+  "assigned_candidates": 10,
+  "assigned_task_clusters": 1
+}

@@ -1,0 +1,102 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Protects all double quotes in all Excel (.xlsx) files in the specified directory by prefixing them with a double backslash.
+The function should output with:
+    int: The number of Excel files processed.
+You should write self-contained code starting with:
+```
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+def task_func(directory_path='./xlsx_files/'):
+```
+FULL SUPPLIED CONTEXT
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+def task_func(directory_path='./xlsx_files/'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(directory_path='./xlsx_files/')`:
+
+1. **Find all Excel files**
+   - Use `glob.glob(os.path.join(directory_path, '*.xlsx'))`.
+   - Optionally ignore temporary Excel lock files such as `~$*.xlsx`.
+
+2. **Process each workbook**
+   - Open each `.xlsx` file with `load_workbook(...)`.
+   - Iterate through every worksheet in the workbook.
+
+3. **Scan all cells**
+   - Traverse each cell in each sheet.
+   - Only process cells whose value is a string.
+   - Leave non-string types alone: numbers, dates, booleans, blanks, errors, etc.
+
+4. **Replace double quotes**
+   - For each string cell, replace every `"` with `\\` + `"` in the stored text.
+   - This should be done globally within the string, not just once per cell.
+
+5. **Save the workbook**
+   - Write the modified workbook back to the same file path.
+   - This preserves the original file name and updates the content in place.
+
+6. **Return the processed-file count**
+   - Count each `.xlsx` workbook successfully processed and saved.
+   - Return that integer at the end.
+
+### Edge cases to handle
+
+- **No Excel files found**: return `0`.
+- **Empty sheets / empty cells**: skip safely.
+- **Cells already containing backslashes**: still replace every quote consistently; do not try to infer prior escaping unless required.
+- **Formula cells**: safest approach is to skip them, because rewriting quotes inside formulas can break formula syntax.
+- **Corrupt or unreadable workbooks**: skip the file and continue to the next one if loading/saving fails.
+- **Hidden sheets / merged cells**: hidden sheets should still be scanned; merged non-top-left cells should be ignored naturally because they are not normal editable values.
+- **Unicode text**: preserve as-is except for the quote replacement.
+
+### Expected behavior summary
+- Input: directory containing `.xlsx` files.
+- Output: integer count of workbook files processed.
+- Effect: every double quote in editable text cells is prefixed with a double backslash and the workbook is saved in place.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+
+def task_func(directory_path='./xlsx_files/'):
+    processed_count = 0
+    xlsx_files = glob.glob(os.path.join(directory_path, '*.xlsx'))
+
+    for file_path in xlsx_files:
+        if os.path.basename(file_path).startswith('~$'):
+            continue
+
+        try:
+            workbook = load_workbook(file_path)
+            changed = False
+
+            for worksheet in workbook.worksheets:
+                for row in worksheet.iter_rows():
+                    for cell in row:
+                        if cell.__class__.__name__ == "MergedCell":
+                            continue
+                        if cell.data_type == 'f':
+                            continue
+                        if isinstance(cell.value, str) and '"' in cell.value:
+                            cell.value = cell.value.replace('"', '\\\\' + '"')
+                            changed = True
+
+            if changed:
+                workbook.save(file_path)
+            else:
+                workbook.save(file_path)
+
+            processed_count += 1
+        except Exception:
+            continue
+
+    return processed_count

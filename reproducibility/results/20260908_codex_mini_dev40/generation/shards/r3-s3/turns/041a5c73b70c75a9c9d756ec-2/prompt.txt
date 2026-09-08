@@ -1,0 +1,94 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw the phase of a complex function over a range of x and y and return the matplotlib axes object along with the 2D array of calculated phase values.
+The function should raise the exception for: TypeError: If either `x` or `y` is not a numpy.ndarray. ValueError: If `x` and `y` do not have the same length.
+The function should output with:
+    tuple: containing
+    matplotlib.axes.Axes: The axes object with the phase plot.
+    numpy.ndarray: The 2D array of calculated phase values.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate inputs**
+   - Check `isinstance(x, np.ndarray)` and `isinstance(y, np.ndarray)`.
+   - If either check fails, raise:
+     - `TypeError("x and y must be numpy.ndarray")`
+   - Check `len(x) == len(y)`.
+   - If not, raise:
+     - `ValueError("x and y must have the same length")`
+
+2. **Prepare the coordinate grid**
+   - Treat `x` and `y` as 1D coordinate vectors.
+   - Build a 2D mesh with `np.meshgrid(x, y)`, producing:
+     - `X` with shape `(len(y), len(x))`
+     - `Y` with shape `(len(y), len(x))`
+
+3. **Compute phase values**
+   - Interpret the complex quantity as `Z = X + 1j * Y`.
+   - Compute the phase for every grid point with `np.angle(Z)`.
+   - This returns a 2D `numpy.ndarray` of phase values in radians.
+
+4. **Create the plot**
+   - Create a figure and axes with `plt.subplots()`.
+   - Draw the phase map using a 2D color plot such as:
+     - `ax.pcolormesh(...)` or `ax.imshow(...)`
+   - Use a cyclic colormap like `"twilight"` or `"hsv"` so phase wraps visually correctly.
+   - Add a colorbar to show the phase scale.
+   - Label axes, e.g. `"x"` and `"y"`.
+
+5. **Return values**
+   - Return a tuple:
+     - the `matplotlib.axes.Axes` object
+     - the 2D `numpy.ndarray` containing phase values
+
+Edge cases to consider:
+- **Non-ndarray inputs**: must raise `TypeError`.
+- **Length mismatch**: must raise `ValueError`.
+- **Empty arrays**: should be handled gracefully if possible; resulting phase array would be empty.
+- **1-element arrays**: should still produce a valid 1x1 phase grid and plot.
+- **Large arrays**: prefer vectorized `np.angle` over scalar `cmath.phase` loops for speed.
+- **Shape ambiguity**: if arrays are not 1D, decide whether to flatten or require 1D; for a clean implementation, using 1D coordinate vectors is the safest interpretation.
+
+If you want, I can turn this plan into the exact self-contained function next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+
+def task_func(x, y):
+    if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray):
+        raise TypeError("x and y must be numpy.ndarray")
+
+    if len(x) != len(y):
+        raise ValueError("x and y must have the same length")
+
+    x_vals = np.ravel(x)
+    y_vals = np.ravel(y)
+
+    X, Y = np.meshgrid(x_vals, y_vals)
+    phase_values = np.angle(X + 1j * Y)
+
+    fig, ax = plt.subplots()
+    mesh = ax.pcolormesh(X, Y, phase_values, shading="auto", cmap="twilight")
+    fig.colorbar(mesh, ax=ax, label="Phase (radians)")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_title("Phase of complex function")
+
+    return ax, phase_values
+```

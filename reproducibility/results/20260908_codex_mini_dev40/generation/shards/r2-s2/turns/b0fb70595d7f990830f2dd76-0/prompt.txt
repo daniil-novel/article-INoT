@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Convert the 'date' column of a DataFrame to ordinal, perform KMeans clustering on 'date' and 'value' columns, and plot the clusters. Required names: x: 'Date (ordinal)' ylabel: 'Value' title: 'KMeans Clustering of Value vs Date'
+The function should raise the exception for: ValueError: If the DataFrame is empty or lacks required columns.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object containing the scatter plot of the clusters.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df, n_clusters=3, random_state=0):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df, n_clusters=3, random_state=0):

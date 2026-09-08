@@ -1,0 +1,79 @@
+{
+  "task_id": "pvlib__pvlib-python-1606",
+  "split": "dev",
+  "upstream_commit": "02e7a74ffd0b707aab73d203fe87bdc7c76afc8e",
+  "dataset_source": "SWE-bench/SWE-bench_Lite dev-00000-of-00001.parquet",
+  "dataset_parquet_sha256": "b90bcbfaca1b5f65155500124a977876c264a4003ab384aca4dfc39a54bef89f",
+  "evaluator_json_sha256": "6f1442a086f2e133a26165f15f8fc912e15fe7f416262ce8c2c77b9eb3df4bb4",
+  "official_image": {
+    "name": "swebench/sweb.eval.x86_64.pvlib_1776_pvlib-python-1606:latest",
+    "image_id": "sha256:6816a8bcdf28b9660ac7af12a7861a80141be55d4e761eff7d53c1fe6b650213",
+    "repo_digests": [
+      "swebench/sweb.eval.x86_64.pvlib_1776_pvlib-python-1606@sha256:67af22e57989f01d55a8e783ce6afeacfecdf439bf3cba65f53eb5f0a311eb3e"
+    ],
+    "size_bytes": 3972991320,
+    "manifest_digest": "sha256:67af22e57989f01d55a8e783ce6afeacfecdf439bf3cba65f53eb5f0a311eb3e",
+    "compressed_layer_bytes": 1692673802
+  },
+  "controller_image": {
+    "tag": "swe-smoke-controller:20260908-v3",
+    "image_id": "sha256:c303eeb04b99760928bc7e736aa0e6a60296a48c4814cc208fd600d943b868a2",
+    "size_bytes": 1325898783,
+    "dockerfile_sha256": "75d341f39ad39eab734dc855742a4e2786d0398853a5becdd95b83bad3b77600",
+    "requirements_sha256": "12fac9805409772ffbdf20c7b36269b9790953f65b6aee2b6ae4263d03ac694b",
+    "pip_freeze_sha256": "07e1f7c825ccebfcefd736b8bf8e9996e27aa565322c329e28b72e1da8a8b378"
+  },
+  "controls": {
+    "gold": {
+      "run_id": "gold-dev1-v3",
+      "results_sha256": "749b2bb1781a68fd987f3d7a72945cfb5a3ab4e3ab9777b7a46d7fadd481b401",
+      "report_sha256": "87ef8c00c35c2cb85444836831dec7befca57b79190168738b851eec273b9360",
+      "test_output_sha256": "f82cbd357879f067eb9b1b7f503c4f87de11da323791fee2fe6f92e9c850fe53",
+      "status": "completed_unresolved",
+      "observed": "tests exit 4: NumPy 2 removed np.Inf"
+    },
+    "negative": {
+      "run_id": "negative-dev1-v3",
+      "results_sha256": "006c2d663c8a91261017bb5bbb5bad9f0ed78ad54bca3baea4031835a90ddb63",
+      "report_sha256": null,
+      "status": "evaluator_error_expected",
+      "observed": "malformed patch rejected by git apply"
+    }
+  },
+  "custom_task_image": {
+    "tag": "swe-smoke-pvlib-numpy126:20260908",
+    "image_id": "sha256:09bb86006da10a9a79ecc8e20ba4adf0b3bf2f459c1171584f9857e9dad75b27",
+    "repo_digests": [],
+    "size_bytes": 4045217418,
+    "base_official_manifest": "sha256:67af22e57989f01d55a8e783ce6afeacfecdf439bf3cba65f53eb5f0a311eb3e",
+    "dockerfile_sha256": "3a73d9ab6a559807468e165521f7373a9b0d4a083f80ea68019eaf1806ff0351",
+    "requirements_sha256": "e77e7045d01a9431264f9262c6b199d8e7988c139276a5266a3cf689588ad66e",
+    "dependency_check": {
+      "python": "3.9.21",
+      "numpy": "1.26.4",
+      "scipy": "1.13.1"
+    }
+  },
+  "custom_input_hashes": {
+    "dataset_json_sha256": "cb3e80bd3a1641ee60393baf780018925430c38de09000c7f272c5744e58851e",
+    "negative_noop_jsonl_sha256": "02d5ab845b509c04a8a0ea9d7a777e661f484d07fb4d0ebd61eb6089ff0bf5e2"
+  },
+  "custom_controls": {
+    "gold": {
+      "run_id": "gold-dev1-numpy126",
+      "results_sha256": "8d9768f9d6f4c25d558458b6fd13410af416abe52e0f6b0d099d69e6a9fc0336",
+      "report_sha256": "ff28b21ffa8aa17484d755a9fde48356e8b9fae2232d658c0a595344e0a962fa",
+      "test_output_sha256": "7bf7b39645ee82c9e2b99e7431d1b4068f20b8128309eebb9767b8a6ea33ffe6",
+      "status": "resolved",
+      "observed": "11 passed, test exit 0"
+    },
+    "negative_noop": {
+      "run_id": "negative-noop-dev1-numpy126",
+      "results_sha256": "e891273d7c527c1e57295ed8208f858a393825f030d393cf374f8c0a756268c1",
+      "report_sha256": "0fbc6bdc1e41155baee48915eb5263afa521bd251217cc6fa3196e341add3719",
+      "test_output_sha256": "335913a18c849080decc489670b0e0b53ad8d5a757f2fd9df8e747d198e444ad",
+      "status": "completed_unresolved",
+      "observed": "10 passed, 1 failed, test exit 1"
+    }
+  }
+}

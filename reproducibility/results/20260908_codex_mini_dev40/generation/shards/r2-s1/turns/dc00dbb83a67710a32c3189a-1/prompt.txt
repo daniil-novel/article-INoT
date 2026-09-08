@@ -1,0 +1,56 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Count the Part-of-Speech (POS) tags in a sentence without the last word.
+The function should output with:
+    dict: A dictionary with POS tags as keys and their count as values.
+You should write self-contained code starting with:
+```
+import nltk
+# Download necessary NLTK data (if not already present)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+from collections import Counter
+def task_func(content):
+```
+FULL SUPPLIED CONTEXT
+import nltk
+# Download necessary NLTK data (if not already present)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+from collections import Counter
+def task_func(content):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Read input**
+   - Accept `content` as a sentence-like string.
+
+2. **Tokenize the sentence**
+   - Use `nltk.word_tokenize(content)` to split the sentence into word tokens.
+   - This is preferable to simple `split()` because it handles punctuation more reliably.
+
+3. **Remove the last word/token**
+   - Exclude the final token from POS tagging:
+     - If there is only 0 or 1 token, the result should be an empty dictionary.
+   - Work with the remaining tokens only.
+
+4. **POS tag the remaining tokens**
+   - Apply `nltk.pos_tag()` to the truncated token list.
+
+5. **Count POS tags**
+   - Extract the tag from each `(word, tag)` pair.
+   - Use `Counter` to count how many times each tag appears.
+
+6. **Return result**
+   - Convert the `Counter` to a regular `dict` and return it.
+
+Edge cases to handle:
+- **Empty string**: return `{}`.
+- **Single-word input**: removing the last word leaves no tokens, so return `{}`.
+- **Trailing punctuation**: tokenization may separate punctuation into its own token; “last word” should be interpreted as the last token after tokenization unless the task specifies otherwise.
+- **Multiple spaces / irregular whitespace**: tokenization should still work.
+- **Non-standard text**: numbers, symbols, or mixed-language content may produce tags, but should still be counted normally if tokenized.
+- **NLTK data missing**: the provided `nltk.download(...)` calls should cover required resources, but code should still assume the environment may need to fetch them once.
+
+If you want, I can now turn this plan into the exact self-contained Python function.

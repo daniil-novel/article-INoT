@@ -1,0 +1,232 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a Pandas DataFrame with colomns 'Team' and 'Match Result' of the results of football matches for multiple teams, incorporating random goals and penalties. Penalties are converted into fines using a predefined cost.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with columns ['Team', 'Match Result'], detailing each team's goals and accumulated fines.
+You should write self-contained code starting with:
+```
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):
+```
+FULL SUPPLIED CONTEXT
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(goals, penalties, rng_seed=None)`.
+
+## Goal
+Build a `pandas.DataFrame` with exactly two columns:
+
+- `Team`
+- `Match Result`
+
+Each row should represent one team and summarize:
+- its goals
+- its penalties converted into fines using a fixed cost
+- a combined match-result string
+
+---
+
+## Proposed behavior
+
+### 1) Set the random seed
+If `rng_seed` is provided, call `seed(rng_seed)` to make any random behavior reproducible.
+
+This is important if:
+- team names or values are randomized
+- goals/penalties are generated internally with `randint`
+
+---
+
+### 2) Normalize and validate inputs
+Treat `goals` and `penalties` as per-team collections unless the task explicitly says otherwise.
+
+Validate that:
+- both inputs are iterable sequences of the same length
+- values are numeric integers
+- values are non-negative
+
+If lengths differ, the function should either:
+- raise a clear `ValueError`, or
+- truncate to the shorter length, depending on the desired strictness
+
+For a clean implementation, prefer raising `ValueError` because the output is per team and mismatched data is ambiguous.
+
+---
+
+### 3) Define the fine conversion rule
+Use a predefined constant for fine cost per penalty, for example:
+
+- `FINE_COST = 100` or another fixed value specified by the task
+
+For each team:
+- `fine = penalties[i] * FINE_COST`
+
+---
+
+### 4) Build team labels
+Since no team names are supplied in the signature, generate default team names such as:
+
+- `Team 1`
+- `Team 2`
+- `Team 3`
+- ...
+
+This ensures the output always has a `Team` column.
+
+If the task expects the names to come from somewhere else, this part can be adapted.
+
+---
+
+### 5) Compose the “Match Result” text
+For each team, create a readable summary string, for example:
+
+- `Goals: 2, Penalties: 1, Fine: 100`
+
+or if the requirement wants the penalty fully replaced by the fine:
+
+- `Goals: 2, Fine: 100`
+
+The key is that the string should clearly show:
+- the goals
+- the accumulated fine
+
+If multiple penalties are involved, the accumulated fine should be the total penalty count times the fixed cost.
+
+---
+
+### 6) Create the DataFrame
+Construct a DataFrame with:
+
+- `Team`: generated team labels
+- `Match Result`: composed result strings
+
+Ensure the final DataFrame only contains these two columns.
+
+---
+
+## Edge cases to handle
+
+### Empty input
+If `goals` and `penalties` are empty:
+- return an empty DataFrame with columns `['Team', 'Match Result']`
+
+---
+
+### Mismatched lengths
+If `len(goals) != len(penalties)`:
+- raise `ValueError("goals and penalties must have the same length")`
+
+---
+
+### Non-integer or invalid values
+If values contain:
+- floats
+- strings
+- `None`
+- negative numbers
+
+handle by either:
+- validating and raising `TypeError` / `ValueError`
+- or converting safe numeric types if that fits the expected use
+
+For robustness, reject negative values because goals and penalties should not be negative.
+
+---
+
+### Large numbers
+If goals or penalties are large:
+- calculation still works normally
+- string formatting should remain concise
+
+---
+
+### RNG reproducibility
+If randomness is used to generate any match data:
+- `rng_seed` must fully determine output
+
+If randomness is not needed because inputs already define the data:
+- still accept and apply `rng_seed` for consistency, but it may have no visible effect
+
+---
+
+## Suggested output format example
+For input like:
+- `goals = [2, 1, 3]`
+- `penalties = [1, 0, 2]`
+- `FINE_COST = 100`
+
+Possible rows:
+
+| Team   | Match Result                         |
+|--------|--------------------------------------|
+| Team 1 | Goals: 2, Fine: 100                  |
+| Team 2 | Goals: 1, Fine: 0                    |
+| Team 3 | Goals: 3, Fine: 200                  |
+
+---
+
+## Implementation checklist
+1. Import `seed`, `randint`, and `pandas as pd`
+2. Define `task_func(goals, penalties, rng_seed=None)`
+3. Seed RNG if `rng_seed` is not `None`
+4. Validate inputs and lengths
+5. Convert penalties to fines using a fixed cost
+6. Generate team names
+7. Build result strings
+8. Return `pd.DataFrame({"Team": ..., "Match Result": ...})`
+
+If you want, I can also provide the exact self-contained implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+from random import randint, seed
+import pandas as pd
+
+# Method
+def task_func(goals, penalties, rng_seed=None):
+    if rng_seed is not None:
+        seed(rng_seed)
+
+    def _as_list(value):
+        if isinstance(value, (str, bytes)):
+            raise TypeError("goals and penalties must be numeric values or sequences of numeric values")
+        try:
+            return list(value), True
+        except TypeError:
+            return [value], False
+
+    goals_list, goals_is_iter = _as_list(goals)
+    penalties_list, penalties_is_iter = _as_list(penalties)
+
+    if goals_is_iter and penalties_is_iter:
+        if len(goals_list) != len(penalties_list):
+            raise ValueError("goals and penalties must have the same length")
+    elif goals_is_iter and not penalties_is_iter:
+        penalties_list = penalties_list * len(goals_list)
+    elif penalties_is_iter and not goals_is_iter:
+        goals_list = goals_list * len(penalties_list)
+
+    if len(goals_list) == 0 and len(penalties_list) == 0:
+        return pd.DataFrame(columns=["Team", "Match Result"])
+
+    for value in goals_list:
+        if not isinstance(value, int) or isinstance(value, bool):
+            raise TypeError("goals must contain integers")
+        if value < 0:
+            raise ValueError("goals must be non-negative")
+    for value in penalties_list:
+        if not isinstance(value, int) or isinstance(value, bool):
+            raise TypeError("penalties must contain integers")
+        if value < 0:
+            raise ValueError("penalties must be non-negative")
+
+    FINE_COST = 100
+    teams = [f"Team {i + 1}" for i in range(len(goals_list))]
+    match_results = [f"Goals: {g}, Fine: {p * FINE_COST}" for g, p in zip(goals_list, penalties_list)]
+
+    return pd.DataFrame({"Team": teams, "Match Result": match_results})

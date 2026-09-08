@@ -1,0 +1,229 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a high-dimensional dataset, run PCA to reduce its dimensionality, and then draw a heatmap of the covariance matrix of the transformed data.
+The function should output with:
+    tuple:
+    transformed_data (ndarray): The transformed data of shape (N_SAMPLES, n_components).
+    heatmap_axes (Axes): The heatmap of the covariance matrix of the transformed data or None if n_components=1.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func` that satisfies the requirement.
+
+## Goal
+Create a function that:
+1. Generates a synthetic high-dimensional dataset.
+2. Applies PCA to reduce it to `n_components`.
+3. Computes the covariance matrix of the PCA-transformed data.
+4. Draws a heatmap of that covariance matrix.
+5. Returns:
+   - `transformed_data` as an `ndarray` of shape `(N_SAMPLES, n_components)`
+   - `heatmap_axes` as a Matplotlib `Axes`, or `None` if `n_components == 1`
+
+---
+
+## Implementation Plan
+
+### 1. Input handling and validation
+Validate inputs up front to avoid confusing runtime errors.
+
+Recommended checks:
+- `N_SAMPLES > 0`
+- `N_FEATURES > 0`
+- `n_components >= 1`
+- `n_components <= min(N_SAMPLES, N_FEATURES)`
+
+Why:
+- PCA cannot extract more components than the smaller of sample count and feature count.
+- A heatmap is only meaningful if there is more than one component.
+- Very small sample/feature sizes can cause PCA or covariance computation to fail.
+
+`random_seed` should be accepted as `None` or an integer.
+
+---
+
+### 2. Generate a synthetic high-dimensional dataset
+Use NumPy to create a dataset of shape:
+- `(N_SAMPLES, N_FEATURES)`
+
+A good choice is:
+- `rng = np.random.default_rng(random_seed)`
+- `data = rng.normal(size=(N_SAMPLES, N_FEATURES))`
+
+Optional improvement:
+- To make PCA more interesting, you can introduce correlations by multiplying the random data by a random mixing matrix or scaling feature variances.
+- However, even plain Gaussian data is valid if the task only requires synthetic high-dimensional data.
+
+---
+
+### 3. Apply PCA
+Create and fit PCA:
+- `pca = PCA(n_components=n_components)`
+- `transformed_data = pca.fit_transform(data)`
+
+This should produce an array of shape:
+- `(N_SAMPLES, n_components)`
+
+PCA internally centers the data, so no explicit centering is required.
+
+---
+
+### 4. Compute covariance matrix of transformed data
+Use:
+- `cov_matrix = np.cov(transformed_data, rowvar=False)`
+
+Notes:
+- `rowvar=False` means each column is treated as a variable/component.
+- If `n_components > 1`, the covariance matrix will have shape `(n_components, n_components)`.
+- If `n_components == 1`, `np.cov` returns a scalar, which is one reason the heatmap should be skipped in that case.
+
+---
+
+### 5. Plot heatmap only when `n_components > 1`
+If `n_components > 1`:
+- Create a figure and axes with `plt.subplots()`
+- Plot the covariance matrix using `sns.heatmap(...)`
+- Add a title and axis labels if desired
+- Return the heatmap axes
+
+If `n_components == 1`:
+- Do not plot a heatmap
+- Return `None` for `heatmap_axes`
+
+This matches the required output behavior exactly.
+
+---
+
+### 6. Return values
+Return:
+```python
+(transformed_data, heatmap_axes)
+```
+
+Where:
+- `transformed_data.shape == (N_SAMPLES, n_components)`
+- `heatmap_axes` is an `Axes` object when `n_components > 1`
+- `heatmap_axes is None` when `n_components == 1`
+
+---
+
+## Edge Cases to Handle
+
+### 1. `n_components == 1`
+- No heatmap should be created.
+- Return `None` for `heatmap_axes`.
+
+### 2. `n_components > min(N_SAMPLES, N_FEATURES)`
+- PCA cannot compute this many components.
+- Raise a clear `ValueError`.
+
+### 3. `N_SAMPLES <= 1`
+- PCA and covariance computation are not meaningful with a single sample.
+- Raise a clear `ValueError`.
+
+### 4. `N_FEATURES <= 0` or `N_SAMPLES <= 0`
+- Invalid dimensions.
+- Raise a clear `ValueError`.
+
+### 5. Degenerate data
+- If generated data has zero variance in some direction, PCA may still work but the covariance matrix can contain zeros.
+- Heatmap still works.
+
+### 6. `random_seed=None`
+- The function should still work, but results will vary across runs.
+
+### 7. Covariance scalar case
+- When `n_components == 1`, `np.cov` returns a scalar instead of a matrix.
+- This is why the heatmap branch must be skipped in that case.
+
+---
+
+## Suggested Output Behavior
+- For `n_components > 1`: return a valid heatmap axes object.
+- For `n_components == 1`: return `None`.
+- Keep the function self-contained and deterministic when `random_seed` is provided.
+
+---
+
+If you want, I can next produce the actual implementation code in the exact required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None):
+    """
+    Generate synthetic data, apply PCA, and plot the covariance heatmap
+    of the PCA-transformed data.
+
+    Returns
+    -------
+    tuple
+        transformed_data (ndarray): Shape (N_SAMPLES, n_components)
+        heatmap_axes (Axes or None): Heatmap axes for covariance matrix,
+                                     or None if n_components == 1
+    """
+    # Validate inputs
+    for name, value in (
+        ("N_SAMPLES", N_SAMPLES),
+        ("N_FEATURES", N_FEATURES),
+        ("n_components", n_components),
+    ):
+        if not isinstance(value, (int, np.integer)):
+            raise TypeError(f"{name} must be an integer.")
+        if value <= 0:
+            raise ValueError(f"{name} must be greater than 0.")
+
+    if N_SAMPLES <= 1:
+        raise ValueError("N_SAMPLES must be greater than 1 for PCA and covariance computation.")
+
+    if n_components > min(N_SAMPLES, N_FEATURES):
+        raise ValueError("n_components must be less than or equal to min(N_SAMPLES, N_FEATURES).")
+
+    # Generate synthetic high-dimensional data
+    rng = np.random.default_rng(random_seed)
+
+    # Create mildly correlated high-dimensional data
+    latent_dim = min(10, N_FEATURES)
+    latent = rng.normal(size=(N_SAMPLES, latent_dim))
+    mixing = rng.normal(size=(latent_dim, N_FEATURES))
+    noise = 0.1 * rng.normal(size=(N_SAMPLES, N_FEATURES))
+    data = latent @ mixing + noise
+
+    # Apply PCA
+    pca = PCA(n_components=n_components)
+    transformed_data = pca.fit_transform(data)
+
+    # Plot covariance heatmap if applicable
+    heatmap_axes = None
+    if n_components > 1:
+        cov_matrix = np.cov(transformed_data, rowvar=False)
+        _, heatmap_axes = plt.subplots()
+        sns.heatmap(
+            cov_matrix,
+            ax=heatmap_axes,
+            cmap="viridis",
+            annot=False,
+            square=True,
+            cbar=True,
+        )
+        heatmap_axes.set_title("Covariance Matrix of PCA-Transformed Data")
+        heatmap_axes.set_xlabel("Principal Components")
+        heatmap_axes.set_ylabel("Principal Components")
+
+    return transformed_data, heatmap_axes

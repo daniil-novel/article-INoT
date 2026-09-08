@@ -1,0 +1,117 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Count the Part-of-Speech (POS) tags in a sentence without the last word.
+The function should output with:
+    dict: A dictionary with POS tags as keys and their count as values.
+You should write self-contained code starting with:
+```
+import nltk
+# Download necessary NLTK data (if not already present)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+from collections import Counter
+def task_func(content):
+```
+FULL SUPPLIED CONTEXT
+import nltk
+# Download necessary NLTK data (if not already present)
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+from collections import Counter
+def task_func(content):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(content)`.
+
+## Goal
+Count the POS tags for all words in a sentence **except the last word**, and return the result as a dictionary:
+- **key**: POS tag
+- **value**: number of times that tag appears
+
+## Planned approach
+
+1. **Accept the input sentence**
+   - `content` is expected to be a string containing one sentence or text fragment.
+
+2. **Tokenize the sentence**
+   - Use NLTK tokenization to split the sentence into tokens.
+   - This should treat words and punctuation as separate tokens, which is important for POS tagging.
+
+3. **Remove the last word/token**
+   - Exclude the final token from the POS analysis.
+   - Since the task says “without the last word,” the most direct interpretation is to remove the last token produced by tokenization.
+   - If the last token is punctuation, the interpretation may depend on the tokenizer, so we should define behavior carefully:
+     - If tokenization returns punctuation as the last token, and the task intends “last word” literally, you may want to remove only the last word-like token rather than the last token.
+     - In most practical implementations for this task, removing the last token is the simplest and most consistent rule.
+
+4. **POS-tag the remaining tokens**
+   - Apply `nltk.pos_tag(...)` to the token list after removing the last token.
+
+5. **Count tag frequencies**
+   - Extract the POS tags from the tagged output.
+   - Use `Counter` to count occurrences of each tag.
+
+6. **Return a plain dictionary**
+   - Convert the `Counter` result to a standard `dict` before returning.
+
+---
+
+## Edge cases to handle
+
+### 1. Empty input string
+- Example: `""`
+- Tokenization yields no tokens.
+- After excluding the last word, there is nothing to tag.
+- **Return:** `{}`
+
+### 2. Single-word sentence
+- Example: `"Hello"`
+- Removing the last word leaves no tokens.
+- **Return:** `{}`
+
+### 3. Sentence with only punctuation
+- Example: `"!!!"`
+- Tokenization may yield punctuation tokens only.
+- After removing the last token, tagging may be empty.
+- **Return:** `{}` if no tokens remain.
+
+### 4. Leading/trailing/multiple spaces
+- Example: `"  This   is   fine   "`
+- Tokenization should normalize spacing.
+- The logic should still correctly remove the last word and tag the rest.
+
+### 5. Mixed punctuation at the end
+- Example: `"This is great."`
+- Depending on tokenization, `"."` may appear as a separate token.
+- If the requirement is interpreted as removing the final *word*, you may need to ensure the actual last word is removed rather than just the last token.
+- If using the simpler “drop last token” rule, document that behavior.
+
+### 6. Non-string input
+- Example: `None`, integers, lists
+- The task statement does not specify validation, but robust code may:
+  - either return `{}` for invalid input,
+  - or convert to string,
+  - or raise an error.
+- Best practical choice for a simple task: assume valid string input unless the environment suggests otherwise.
+
+### 7. Very short text after removal
+- Example: `"A."` or `"Hi"`
+- If nothing remains after removing the last word/token, return `{}`.
+
+---
+
+## Implementation notes
+- Use the provided imports:
+  - `nltk`
+  - `Counter`
+- The scaffold already downloads:
+  - `punkt`
+  - `averaged_perceptron_tagger`
+- The function should be self-contained and only depend on the given imports.
+
+---
+
+## Expected behavior summary
+Input sentence → tokenize → remove last word/token → POS tag remaining tokens → count tags → return dictionary.
+
+If you want, I can next provide the actual implementation in the exact required format.

@@ -1,0 +1,150 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Computes the average of each row in a provided 2D array and appends these averages as a new column. Additionally, it plots the averages against their respective row indices.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame which includes the original data and an additional 'Average' column.
+    Axes: A matplotlib Axes object with the plot of row averages.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data)` that satisfies the requirements.
+
+## Goal
+Given a 2D array-like `data`, compute the average of each row, append those averages as a new `"Average"` column in a pandas `DataFrame`, and plot the row averages against row indices.
+
+## Planned behavior
+1. **Convert input to a DataFrame**
+   - Use the provided `COLUMN_NAMES` for the original columns.
+   - If `data` has fewer than 8 columns, use only the needed column names.
+   - If `data` has more than 8 columns, decide whether to:
+     - either accept only the first 8 columns, or
+     - extend labels dynamically.
+   - Best choice depends on expected data shape; if input is guaranteed 8 columns, keep it simple.
+
+2. **Compute row-wise averages**
+   - Calculate the mean across each row using pandas row operations.
+   - Add the resulting series as a new column named `"Average"`.
+
+3. **Create the plot**
+   - Plot row indices on the x-axis and row averages on the y-axis.
+   - Use matplotlib to create a line or marker plot.
+   - Return the `Axes` object, not the figure.
+
+4. **Return result**
+   - Return a tuple:
+     - the updated `DataFrame`
+     - the matplotlib `Axes`
+
+---
+
+## Suggested implementation steps
+
+### 1. Build the DataFrame
+- Convert `data` into `pd.DataFrame(data, columns=...)`.
+- If the input is already a DataFrame or list/array, pandas should handle it.
+- Use only the first `len(row)` column names if needed.
+
+### 2. Compute averages
+- Use:
+  - `df.mean(axis=1)` for row averages.
+- Assign it to:
+  - `df["Average"] = ...`
+
+### 3. Plot averages
+- Create a plot with:
+  - x-values: `df.index`
+  - y-values: `df["Average"]`
+- Label axes:
+  - x-axis: `"Row Index"`
+  - y-axis: `"Average"`
+- Optionally add a title like `"Row Averages"`.
+
+### 4. Return both objects
+- Return:
+  - `df, ax`
+
+---
+
+## Edge cases to handle
+1. **Empty input**
+   - If `data` is empty, return an empty DataFrame with an `"Average"` column and an empty plot.
+
+2. **Non-numeric values**
+   - If rows contain strings or mixed types, mean calculation may fail.
+   - You may need coercion with `pd.to_numeric(..., errors="coerce")` if robustness is needed.
+
+3. **Missing values**
+   - Pandas `mean(axis=1)` skips NaNs by default, which is usually desirable.
+   - If all values in a row are missing, the average will be `NaN`.
+
+4. **Unequal row lengths**
+   - A ragged list may produce missing values in the DataFrame.
+   - Pandas will fill with `NaN`, and row means will still work.
+
+5. **Mismatch with `COLUMN_NAMES`**
+   - If the number of columns in `data` differs from 8, column naming must be handled carefully.
+   - Possible strategies:
+     - truncate to the number of columns available,
+     - pad names dynamically,
+     - or raise a clear error if exactly 8 columns are required.
+
+6. **1D input**
+   - If `data` is a single row, ensure it is treated as one row rather than a flat series.
+
+---
+
+## Recommended output format
+- A tuple like:
+  - `(dataframe_with_average, axes_object)`
+
+If you want, I can now turn this plan into the full self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+
+
+def task_func(data):
+    df = pd.DataFrame(data).copy()
+
+    # Assign column names for the original data
+    n_cols = df.shape[1]
+    if n_cols > 0:
+        if n_cols <= len(COLUMN_NAMES):
+            df.columns = COLUMN_NAMES[:n_cols]
+        else:
+            extra_names = [f"Col{i}" for i in range(len(COLUMN_NAMES) + 1, n_cols + 1)]
+            df.columns = COLUMN_NAMES + extra_names
+
+    # Compute row-wise averages robustly
+    numeric_df = df.apply(pd.to_numeric, errors='coerce') if not df.empty else df
+    df["Average"] = numeric_df.mean(axis=1) if n_cols > 0 else pd.Series(dtype=float)
+
+    # Plot averages against row indices
+    fig, ax = plt.subplots()
+    ax.plot(df.index, df["Average"], marker="o")
+    ax.set_xlabel("Row Index")
+    ax.set_ylabel("Average")
+    ax.set_title("Row Averages")
+    ax.grid(True, linestyle="--", alpha=0.5)
+
+    return df, ax
+```

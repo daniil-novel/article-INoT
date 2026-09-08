@@ -1,0 +1,130 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Extracts matches from all text files in a specified directory based on a regular expression pattern. It captures whatever is between parentheses as a single match, and any character outside the parentheses as individual matches in the string.
+The function should output with:
+    dict: A dictionary where keys are file names (without path) and values are lists of matches extracted from the files.
+You should write self-contained code starting with:
+```
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(directory_path: str, regex_pattern: str = r'\(.+?\)|\w') -> dict`:
+
+## Goal
+Read all text files in a directory, extract matches using the supplied regex, and return a dictionary:
+
+- **keys**: file names only, no path
+- **values**: lists of matched strings, in order of appearance
+
+## Intended behavior
+With the default pattern:
+
+- `\(.+?\)` matches a parenthesized substring like `(abc)` as **one** match
+- `\w` matches any single word character outside parentheses as **individual** matches
+
+So a string like:
+
+```text
+ab(cd)e
+```
+
+would yield:
+
+```python
+["a", "b", "(cd)", "e"]
+```
+
+## Implementation plan
+
+### 1. Validate input directory
+- Convert `directory_path` to a `Path`.
+- Check that it exists and is a directory.
+- If invalid, decide on one of:
+  - return `{}` silently, or
+  - raise `FileNotFoundError` / `NotADirectoryError`
+- For robustness, raising is usually better unless the task expects silent failure.
+
+### 2. Locate text files
+- Enumerate files in the directory using either:
+  - `glob.glob(os.path.join(directory_path, "*.txt"))`, or
+  - `Path(directory_path).glob("*.txt")`
+- Since the task says “all text files,” restrict to `.txt` unless more file types are explicitly desired.
+- Use non-recursive scanning unless recursion is requested.
+
+### 3. Read each file safely
+- Open each file as text, preferably with:
+  - `encoding="utf-8"`
+  - `errors="ignore"` or `errors="replace"` if you want resilience against bad encoding
+- Read the full contents into a string.
+
+### 4. Apply the regex
+- Compile the regex once with `re.compile(regex_pattern)`.
+- Use `findall()` or `finditer()` to extract matches:
+  - `findall()` is simplest if the pattern has no capturing groups
+  - `finditer()` is safer if you want consistent match strings regardless of regex group structure
+- Since the default pattern contains only non-capturing matching behavior in practice, `findall()` is fine if the pattern is expected to follow this format.
+- If you want to support arbitrary regex patterns robustly, prefer `finditer()` and collect `match.group(0)`.
+
+### 5. Build the result dictionary
+- Use the file’s base name only:
+  - `Path(file_path).name`
+- Map that name to the list of extracted matches.
+- If a file has no matches, include it with an empty list or omit it depending on desired behavior.
+  - Usually include it to reflect that the file was processed.
+
+### 6. Return the final dictionary
+- Return the dictionary after processing all files.
+
+---
+
+## Edge cases to handle
+
+### Directory issues
+- **Directory does not exist**
+- **Path is a file, not a directory**
+- **Directory is empty**
+
+### File selection
+- **No `.txt` files found**
+- **Files with uppercase extensions** like `.TXT` if case-insensitive matching is desired
+- **Hidden files** if they should be included or excluded
+
+### Reading issues
+- **Non-UTF-8 text files**
+- **Permission errors**
+- **Very large files** if memory usage matters
+
+### Regex behavior
+- **Empty matches**: depending on the pattern, regex may match empty strings
+- **Nested parentheses**: the default pattern `\(.+?\)` is non-greedy, so it captures the shortest parenthesized segment
+- **Multiple parenthesized segments**: each should be returned separately
+- **Malformed regex**: invalid `regex_pattern` should raise `re.error`
+- **Patterns with capturing groups**: `re.findall()` can change output shape if the user supplies groups; `finditer()` avoids that issue
+
+### Content quirks
+- **Newlines inside parentheses**: `.` does not match newline unless `re.DOTALL` is used
+- **Unicode word characters**: `\w` includes many Unicode letters/digits/underscore in Python regex
+
+---
+
+## Suggested implementation choices
+For a clean and robust solution:
+
+- use `Path(directory_path).glob("*.txt")`
+- compile the regex once
+- read files with UTF-8 and `errors="ignore"` or `replace`
+- use `finditer()` and collect `match.group(0)` to avoid surprises with capturing groups
+- return `{filename: matches}` for every processed file, even if matches are empty
+
+If you want, I can also provide the actual implementation in the exact required function format.

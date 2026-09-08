@@ -1,0 +1,104 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw the phase of a complex function over a range of x and y and return the matplotlib axes object along with the 2D array of calculated phase values.
+The function should raise the exception for: TypeError: If either `x` or `y` is not a numpy.ndarray. ValueError: If `x` and `y` do not have the same length.
+The function should output with:
+    tuple: containing
+    matplotlib.axes.Axes: The axes object with the phase plot.
+    numpy.ndarray: The 2D array of calculated phase values.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(x, y)`:
+
+1. **Validate inputs**
+   - Check that `x` is an instance of `numpy.ndarray`.
+   - Check that `y` is an instance of `numpy.ndarray`.
+   - If either check fails, raise:
+     - `TypeError("x must be a numpy.ndarray")` or a similarly clear message.
+   - Check that `len(x) == len(y)`.
+   - If not, raise:
+     - `ValueError("x and y must have the same length")`.
+
+2. **Interpret the inputs as coordinates**
+   - Treat `x` and `y` as 1D coordinate arrays defining a grid range.
+   - Create a 2D mesh using `np.meshgrid(x, y)` so the computation spans all combinations of `x` and `y`.
+
+3. **Compute the complex phase values**
+   - Build a complex-valued field from the grid.
+   - A natural choice is `z = X + 1j * Y`, where `X` and `Y` are the meshgrid outputs.
+   - Compute phase values with `np.angle(z)` or `cmath.phase` element-by-element.
+   - Store the result as a 2D NumPy array with shape `(len(y), len(x))`.
+
+4. **Create the plot**
+   - Create a figure and axes with `plt.subplots()`.
+   - Plot the 2D phase array on the axes using a suitable 2D visualization method such as:
+     - `imshow`, or
+     - `pcolormesh`, or
+     - `contourf`
+   - Add a colorbar if desired for readability.
+   - Label axes appropriately, e.g. `"x"` and `"y"`.
+   - Set a title like `"Phase Plot"`.
+
+5. **Return value**
+   - Return a tuple:
+     - the `matplotlib.axes.Axes` object
+     - the 2D NumPy array of phase values
+
+Edge cases to handle:
+- `x` or `y` is not a `numpy.ndarray` → `TypeError`
+- `x` and `y` have different lengths → `ValueError`
+- empty arrays → should still produce an empty or degenerate phase result, but plotting may need care
+- arrays with complex/NaN/Inf values → phase computation may produce unusual or non-finite results
+- multidimensional arrays → allowed by the type check, but the intended use is 1D coordinate arrays; if needed, the implementation should either document that expectation or explicitly flatten/reject them
+
+
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+
+def task_func(x, y):
+    if not isinstance(x, np.ndarray):
+        raise TypeError("x must be a numpy.ndarray")
+    if not isinstance(y, np.ndarray):
+        raise TypeError("y must be a numpy.ndarray")
+    if len(x) != len(y):
+        raise ValueError("x and y must have the same length")
+
+    x = x.ravel()
+    y = y.ravel()
+
+    X, Y = np.meshgrid(x, y)
+    Z = X + 1j * Y
+    phase = np.angle(Z)
+
+    fig, ax = plt.subplots()
+
+    if phase.size > 0:
+        im = ax.imshow(
+            phase,
+            origin="lower",
+            extent=(x.min(), x.max(), y.min(), y.max()),
+            aspect="auto",
+            cmap="hsv",
+        )
+        fig.colorbar(im, ax=ax)
+
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_title("Phase Plot")
+
+    return ax, phase

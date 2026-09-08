@@ -1,0 +1,21 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Simulate rolling a certain number of a standard six-sided dice several times, then identify and display the distribution of the sums of the dice rolls in a bar plot.
+The function should output with:
+    tuple: A tuple containing the following elements:
+    Counter: A Counter object with the count of each possible sum.
+    Axes: A matplotlib Axes object representing the bar plot of the Distribution of Dice Roll Sums,
+    with Sum of Dice Roll on the x-axis and count on the y-axis.
+You should write self-contained code starting with:
+```
+from collections import Counter
+import random
+import matplotlib.pyplot as plt
+def task_func(num_rolls, num_dice, plot_path=None, random_seed=0):
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+import random
+import matplotlib.pyplot as plt
+def task_func(num_rolls, num_dice, plot_path=None, random_seed=0):

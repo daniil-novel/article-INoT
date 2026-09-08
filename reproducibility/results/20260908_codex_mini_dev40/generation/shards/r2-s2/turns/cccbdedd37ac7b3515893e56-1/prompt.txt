@@ -1,0 +1,108 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Perform PCA on a DataFrame (excluding non-numeric columns) and draw a scatter plot of the first two main components. The principal columns should be name 'Component 1' and 'Component 2'. Missing values are replaced by column's average.
+The function should output with:
+    DataFrame: A pandas DataFrame with the first two principal components. The columns should be 'principal component 1' and 'principal component 2'.
+    Axes: A matplotlib Axes object representing the scatter plot. The xlabel should be 'principal component' and the ylabel 'principal component 2'.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+### 1) Interpret the requirements precisely
+- Accept a `pandas.DataFrame`.
+- Use **only numeric columns** for PCA.
+- Replace missing numeric values with the **mean of each column**.
+- Compute PCA and keep the **first two principal components**.
+- Return:
+  1. a DataFrame with columns exactly:
+     - `'principal component 1'`
+     - `'principal component 2'`
+  2. a `matplotlib.axes.Axes` object showing a scatter plot of component 1 vs component 2.
+- Set axis labels exactly as required:
+  - `xlabel = 'principal component'`
+  - `ylabel = 'principal component 2'`
+
+### 2) Data preparation steps
+1. **Select numeric columns only**
+   - Use `df.select_dtypes(include=[np.number])`.
+   - Ignore all non-numeric columns entirely.
+
+2. **Handle missing / invalid values**
+   - Replace `NaN` in each numeric column with that column’s mean.
+   - If there are any `inf` / `-inf` values, treat them as missing first so they do not break PCA.
+   - If a column is entirely missing, its mean is undefined; handle this safely by using a fallback (commonly `0.0`) or by dropping that column if necessary.
+
+### 3) PCA computation
+1. Run PCA on the cleaned numeric matrix.
+2. Extract the first two transformed components.
+3. Build the result DataFrame from those two columns.
+4. Use the original index so row alignment is preserved.
+
+### 4) Plotting plan
+1. Create a figure and axes with `plt.subplots()`.
+2. Draw a scatter plot of:
+   - x = first principal component
+   - y = second principal component
+3. Use `seaborn.scatterplot` or `ax.scatter`.
+4. Apply the requested axis labels exactly.
+
+### 5) Return values
+- Return the PCA DataFrame and the Axes object as a tuple.
+
+---
+
+## Edge cases to handle
+
+### A) No numeric columns
+- If the input has only text/categorical columns, PCA cannot run.
+- Return:
+  - an empty DataFrame with the required output columns
+  - an empty Axes object with the correct labels
+
+### B) Fewer than 2 numeric columns
+- PCA cannot produce two meaningful components if there is only one numeric feature.
+- Graceful fallback options:
+  - return the available component(s) and fill the missing one with `NaN`, or
+  - return an empty/placeholder result
+- In practice, a robust implementation should avoid crashing and still return the required output structure.
+
+### C) Columns with all missing values
+- Mean imputation gives `NaN` for such columns.
+- Decide a fallback strategy so PCA input contains finite values.
+
+### D) Constant numeric columns
+- PCA can technically run, but some components may have zero variance.
+- The implementation should still succeed without special failure.
+
+### E) Infinite values
+- `inf` / `-inf` should be converted to missing values before imputation.
+
+### F) Empty input DataFrame
+- Return empty outputs cleanly.
+
+---
+
+## Notes on naming
+There is a small naming mismatch in the prompt:
+- It mentions principal columns should be named `'Component 1'` and `'Component 2'`
+- But the required output DataFrame columns are explicitly:
+  - `'principal component 1'`
+  - `'principal component 2'`
+
+For correctness, the implementation should follow the **output specification** exactly.

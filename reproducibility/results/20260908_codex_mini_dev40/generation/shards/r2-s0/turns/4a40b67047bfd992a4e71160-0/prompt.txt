@@ -1,0 +1,20 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a Pandas DataFrame with colomns 'Team' and 'Match Result' of the results of football matches for multiple teams, incorporating random goals and penalties. Penalties are converted into fines using a predefined cost.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with columns ['Team', 'Match Result'], detailing each team's goals and accumulated fines.
+You should write self-contained code starting with:
+```
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):
+```
+FULL SUPPLIED CONTEXT
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):

@@ -1,0 +1,43 @@
+Using gold predictions - ignoring predictions_path
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 853, in <module>
+    main(**vars(args))
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 734, in main
+    predictions = get_predictions_from_file(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/swebench/swebench/harness/utils.py", line 56, in get_predictions_from_file
+    dataset = load_swebench_dataset(dataset_name, split, instance_ids)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/swebench/swebench/harness/utils.py", line 152, in load_swebench_dataset
+    dataset = cast(Dataset, load_dataset("parquet", data_files=name, split="train"))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/datasets/load.py", line 2628, in load_dataset
+    builder_instance.download_and_prepare(
+  File "/usr/local/lib/python3.11/site-packages/datasets/builder.py", line 1029, in download_and_prepare
+    self._download_and_prepare(
+  File "/usr/local/lib/python3.11/site-packages/datasets/builder.py", line 1102, in _download_and_prepare
+    split_generators = self._split_generators(dl_manager, **split_generators_kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/datasets/packaged_modules/parquet/parquet.py", line 58, in _split_generators
+    self.info.features = datasets.Features.from_arrow_schema(pq.read_schema(f))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/datasets/features/features.py", line 1788, in from_arrow_schema
+    metadata_features = Features.from_dict(metadata["info"]["features"])
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/datasets/features/features.py", line 1826, in from_dict
+    obj = generate_from_dict(dic)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/datasets/features/features.py", line 1452, in generate_from_dict
+    return {key: generate_from_dict(value) for key, value in obj.items()}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/datasets/features/features.py", line 1452, in <dictcomp>
+    return {key: generate_from_dict(value) for key, value in obj.items()}
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/datasets/features/features.py", line 1467, in generate_from_dict
+    field_names = {f.name for f in fields(class_type)}
+                                   ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dataclasses.py", line 1246, in fields
+    raise TypeError('must be called with a dataclass type or instance') from None
+TypeError: must be called with a dataclass type or instance

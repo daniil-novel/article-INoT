@@ -1,0 +1,77 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Reverse the order of words separated by. "" in all strings of a numpy array.
+The function should output with:
+    numpy.ndarray: The numpy array with the strings reversed.
+You should write self-contained code starting with:
+```
+import numpy as np
+import datetime
+def task_func(arr):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import datetime
+def task_func(arr):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+### Goal
+Create `task_func(arr)` that takes a NumPy array of strings and returns a new NumPy array where, for each string, the order of the words/tokens is reversed.
+
+### Assumptions
+- The input is a `numpy.ndarray`.
+- Each element is a string-like value.
+- The separator is a period-based delimiter as implied by the prompt. Since the wording is ambiguous, the implementation should treat `.` as the separator and preserve the original string shape as much as possible.
+
+### Plan
+1. **Normalize input**
+   - Convert the input to a NumPy array with `np.asarray(arr)` to support list-like inputs safely if needed.
+   - Keep the output as a NumPy array.
+
+2. **Process each string element**
+   - For every element:
+     - Convert it to `str` if needed.
+     - Split the string into parts using the delimiter `.`.
+     - Remove empty fragments caused by consecutive delimiters or leading/trailing delimiters.
+     - Reverse the list of parts.
+     - Join the reversed parts back together using the same delimiter style.
+
+3. **Preserve array structure**
+   - Use vectorized-style processing via `np.vectorize` or `np.nditer`/list comprehension so the returned object has the same shape as the input array.
+
+4. **Return result**
+   - Return a NumPy array of the same shape containing the reversed strings.
+
+### Edge cases to handle
+- **Empty array**: return an empty array with the same shape.
+- **Single-element strings**: should remain unchanged.
+- **Strings with no delimiter**: return unchanged.
+- **Leading/trailing delimiters**: avoid producing unexpected empty tokens.
+- **Multiple consecutive delimiters**: decide whether to collapse them or preserve them; safest is to ignore empty tokens when reversing.
+- **Whitespace around tokens**: trim tokens before joining so output is clean.
+- **Non-string elements**: either convert to string or document that only strings are supported; converting is more robust.
+- **Multidimensional arrays**: preserve original shape.
+
+If you want, I can proceed to stage 2 and write the actual self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import datetime
+
+def task_func(arr):
+    arr = np.asarray(arr)
+
+    def reverse_words(s):
+        text = str(s)
+        parts = [part.strip() for part in text.split(".") if part.strip() != ""]
+        if not parts:
+            return ""
+        return ".".join(parts[::-1])
+
+    result = np.empty(arr.shape, dtype=object)
+    for idx in np.ndindex(arr.shape):
+        result[idx] = reverse_words(arr[idx])
+
+    return result

@@ -29,6 +29,8 @@ reproducibility/data/
 reproducibility/runs/
 !reproducibility/results/20260908_codex_mini_dev8/**/*.log
 !reproducibility/results/20260908_codex_mini_dev40/**/*.log
+!reproducibility/results/20260908_codex_mini_swe_dev1/**/*.log
+!reproducibility/results/20260908_codex_mini_heldout200/**/*.log
 
 # OS/editor noise
 Thumbs.db

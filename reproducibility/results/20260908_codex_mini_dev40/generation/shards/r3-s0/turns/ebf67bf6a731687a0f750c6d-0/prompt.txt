@@ -1,0 +1,17 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate a Pandas DataFrame with colomns 'Team' and 'Match Result' of the results of football matches for multiple teams, incorporating random goals and penalties. Penalties are converted into fines using a predefined cost.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with columns ['Team', 'Match Result'], detailing each team's goals and accumulated fines.
+You should write self-contained code starting with:
+```
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):
+```
+FULL SUPPLIED CONTEXT
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):

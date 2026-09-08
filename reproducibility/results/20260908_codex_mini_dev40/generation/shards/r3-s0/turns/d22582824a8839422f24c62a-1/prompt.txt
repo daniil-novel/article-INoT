@@ -1,0 +1,144 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate two arrays of random numbers of a given length, calculate their mean, median, and standard deviation, then store these results in a Panda DataFrame 'statistics' with keys 'Array1' and 'Array2'. Draw a bar chart to compare these statistics with indices 'Mean', 'Median', and 'Standard Deviation'.
+The function should output with:
+    DataFrame: A pandas DataFrame with the statistics of the arrays.
+    Axes: The bar chart plot comparing the statistics.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(array_length=100):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(array_length=100):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is a clear implementation plan for `task_func(array_length=100)`.
+
+## Goal
+Create two random numeric arrays of the requested length, compute:
+- mean
+- median
+- standard deviation
+
+Store the results in a pandas DataFrame named `statistics` with columns:
+- `Array1`
+- `Array2`
+
+Then draw a bar chart comparing these statistics with x-axis labels:
+- `Mean`
+- `Median`
+- `Standard Deviation`
+
+The function should return:
+- the `DataFrame`
+- the bar chart `Axes`
+
+---
+
+## Implementation plan
+
+### 1) Validate input
+Check that `array_length` is a valid positive integer.
+
+Recommended checks:
+- `array_length` must be an `int`
+- `array_length > 0`
+
+If invalid, raise a `ValueError` with a clear message.
+
+---
+
+### 2) Generate two random arrays
+Use NumPy to create two arrays of size `array_length`, for example with:
+- `np.random.random(array_length)`
+
+This gives arrays of floats in `[0, 1)`.
+
+---
+
+### 3) Compute statistics for each array
+For each array compute:
+- mean: `np.mean(...)`
+- median: `np.median(...)`
+- standard deviation: `np.std(...)`
+
+Use the default standard deviation definition unless the task explicitly wants sample std.  
+Default NumPy std uses `ddof=0` (population standard deviation).
+
+---
+
+### 4) Build the DataFrame
+Create a DataFrame called `statistics` where:
+- rows are the statistic names: `Mean`, `Median`, `Standard Deviation`
+- columns are `Array1` and `Array2`
+
+Example structure:
+
+| Statistic           | Array1 | Array2 |
+|--------------------|--------|--------|
+| Mean               | ...    | ...    |
+| Median             | ...    | ...    |
+| Standard Deviation | ...    | ...    |
+
+---
+
+### 5) Plot the comparison bar chart
+Use pandas or matplotlib to draw a grouped bar chart:
+- x-axis: `Mean`, `Median`, `Standard Deviation`
+- one bar for `Array1`
+- one bar for `Array2`
+
+Add:
+- title
+- axis labels
+- legend
+
+Return the matplotlib `Axes` object.
+
+---
+
+### 6) Return values
+Return:
+- the `statistics` DataFrame
+- the plot axes
+
+---
+
+## Edge cases to handle
+
+### Invalid length
+- `array_length <= 0`
+- non-integer values such as `3.5`, `"10"`, `None`
+
+Should raise `ValueError`.
+
+### Very small lengths
+- `array_length = 1` is valid
+  - mean = median = that single value
+  - std = 0
+
+### Large lengths
+- Should still work efficiently with NumPy
+- Keep plotting readable
+
+### Randomness
+- Results will differ across runs because the arrays are random
+- If reproducibility is needed, a seed could be added, but the task does not require it
+
+---
+
+## Suggested output format
+The function should be self-contained and likely follow this pattern:
+- imports at top
+- define `task_func(array_length=100)`
+- create arrays
+- compute statistics
+- build DataFrame
+- plot grouped bars
+- return `(statistics, ax)`
+
+If you want, I can now provide the full implementation code.

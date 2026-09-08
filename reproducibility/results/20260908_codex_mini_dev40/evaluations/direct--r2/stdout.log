@@ -1,0 +1,10 @@
+Reading samples...
+Intercepted command: ['fc-list', '--help']
+Intercepted subprocess run command: (['fc-list', '--help'],)
+Intercepted Popen command: (['fc-list', '--help'],)
+Intercepted command: ['fc-list', '--help']
+Intercepted subprocess run command: (['fc-list', '--help'],)
+Intercepted Popen command: (['fc-list', '--help'],)
+BigCodeBench-Instruct (Full)
+Groundtruth is not checked
+pass@1:	0.550

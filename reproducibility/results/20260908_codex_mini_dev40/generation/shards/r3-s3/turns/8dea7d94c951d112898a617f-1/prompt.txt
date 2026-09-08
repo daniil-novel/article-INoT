@@ -1,0 +1,152 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Downloads, extracts, and deletes a ZIP file from a specified URL. The function includes comprehensive error handling to manage issues such as invalid URLs, unreachable servers, corrupted ZIP files, and file I/O errors. In the event of a failure, it provides a descriptive error message.
+The function should raise the exception for: urllib.error.URLError: If the URL is invalid or the server cannot be reached. In this case, the function returns a string in the format "URL Error: [error reason]".
+The function should output with:
+    str: The path to the directory where the ZIP file's contents have been extracted. Returns an error message in case of failure.
+You should write self-contained code starting with:
+```
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+```
+FULL SUPPLIED CONTEXT
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func` that matches the requirements and covers edge cases.
+
+## Goal
+Download a ZIP file from `url`, save it to `save_path`, extract its contents into `extract_path`, delete the ZIP file afterward, and return the extraction directory path. On failure, return a descriptive error string.
+
+---
+
+## Planned behavior
+
+### 1) Validate and prepare paths
+- Accept:
+  - `url: str`
+  - `save_path: str = "downloaded_file.zip"`
+  - `extract_path: str = "extracted_files"`
+- Ensure the extraction directory exists before unpacking:
+  - `os.makedirs(extract_path, exist_ok=True)`
+
+---
+
+### 2) Download the ZIP file
+- Use `urllib.request.urlopen(url)` to fetch the remote file.
+- Write the response body to `save_path` in binary mode.
+- Handle `urllib.error.URLError` explicitly:
+  - Return: `f"URL Error: {reason}"`
+  - Use the error’s reason/message if available.
+- Optionally also guard against other request-related failures, but the key required case is `URLError`.
+
+---
+
+### 3) Verify and extract ZIP contents
+- Open the downloaded file with `zipfile.ZipFile(save_path, "r")`.
+- Extract all contents into `extract_path`.
+- Handle ZIP corruption or invalid archive errors:
+  - Catch `zipfile.BadZipFile`
+  - Return something like: `"Error: Corrupted or invalid ZIP file"`
+- If extraction fails due to filesystem problems, return a descriptive I/O error message.
+
+---
+
+### 4) Delete the ZIP file after processing
+- After a successful extraction, remove the temporary ZIP file:
+  - `os.remove(save_path)`
+- If deletion fails, return a file I/O error message.
+- Consider cleanup even if extraction fails:
+  - If the file was downloaded successfully but later errors occur, attempt to delete `save_path` in a `finally` block where appropriate.
+
+---
+
+### 5) Return success value
+- On success, return `extract_path`.
+- This should be the directory path where the ZIP contents were extracted.
+
+---
+
+## Recommended exception handling structure
+
+Use a layered `try/except/finally` approach:
+
+1. **Download phase**
+   - catch `urllib.error.URLError`
+   - return URL error string
+
+2. **Extraction phase**
+   - catch `zipfile.BadZipFile`
+   - return ZIP-specific error string
+   - catch `OSError` / `IOError`
+   - return file system error string
+
+3. **Cleanup phase**
+   - attempt to delete the ZIP file if it exists
+   - if deletion fails, return a cleanup error only if the main operation succeeded; otherwise preserve the most relevant earlier error
+
+---
+
+## Edge cases to account for
+
+### URL-related
+- Invalid URL format
+- DNS failure
+- Server unreachable
+- Timeout / connection failure
+- HTTP errors that manifest as `URLError` depending on context
+
+### Download/file-related
+- Cannot create or write to `save_path`
+- No permissions for current directory
+- Disk full
+- Partial download due to connection drop
+
+### ZIP-related
+- File is not a ZIP archive
+- Corrupted ZIP contents
+- Empty ZIP file
+- Encrypted ZIP requiring a password
+
+### Extraction-related
+- Destination directory cannot be created
+- File path conflicts during extraction
+- Permission denied when writing extracted files
+- Path traversal entries inside ZIP (`../` entries) if you want to harden against unsafe archives
+
+### Cleanup-related
+- ZIP file cannot be deleted because it is locked or permissions prevent removal
+- Temporary ZIP file may not exist if download failed early
+
+---
+
+## Suggested return messages
+Keep errors descriptive and consistent:
+- `URL Error: <reason>`
+- `Error: Corrupted or invalid ZIP file`
+- `Error: File I/O issue - <details>`
+- `Error: Failed to delete ZIP file - <details>`
+
+---
+
+## Notes on robustness
+- Always make sure the function returns a string, even on failure.
+- If multiple errors happen, prefer reporting the most relevant root cause.
+- If you want safer extraction, validate ZIP member paths before extracting to avoid directory traversal attacks.
+
+If you want, I can next turn this plan into the exact self-contained implementation.

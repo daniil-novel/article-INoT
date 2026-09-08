@@ -1,0 +1,145 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a random sample from a normal distribution, analyze its skewness and kurtosis, and create a histogram and a QQ plot to visualize the distribution.
+The function should output with:
+    float: Skewness of the sample.
+    float: Kurtosis of the sample.
+    list: Paths to the saved plot files, empty if save_plots is False.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a concise implementation plan for the function.
+
+## Requirements interpretation
+The function must:
+
+1. Generate a random sample from a normal distribution with parameters:
+   - `mean=123456.908`
+   - `std_dev=1.2`
+2. Compute:
+   - sample skewness
+   - sample kurtosis
+3. Optionally create and save:
+   - a histogram
+   - a QQ plot
+4. Return:
+   - `float`: skewness
+   - `float`: kurtosis
+   - `list`: paths to saved plot files, or `[]` if `save_plots=False`
+
+---
+
+## Implementation plan
+
+### 1) Create the function scaffold
+Use the exact provided header:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+```
+
+### 2) Validate inputs
+Before sampling:
+- Ensure `mean` and `std_dev` are numeric and finite.
+- Ensure `std_dev > 0`.
+
+If validation fails, raise `ValueError`.
+
+### 3) Generate the random sample
+Because no sample size is specified in the signature, choose a fixed reasonable size, such as:
+- `n = 1000`
+
+Then generate:
+- `sample = np.random.normal(loc=mean, scale=std_dev, size=n)`
+
+### 4) Compute skewness and kurtosis
+Use SciPy:
+- `skewness = stats.skew(sample, bias=False)`
+- `kurtosis = stats.kurtosis(sample, fisher=True, bias=False)`
+
+Notes:
+- `fisher=True` gives **excess kurtosis** (0 for a normal distribution).
+- `bias=False` is usually preferable for sample estimates.
+
+### 5) Generate plots if requested
+If `save_plots` is `True`:
+
+#### Histogram
+- Create a histogram of the sample.
+- Add labels and title.
+- Save it to a file, for example:
+  - `histogram.png`
+
+#### QQ plot
+- Use `stats.probplot(sample, dist="norm", plot=plt)`.
+- Save it to a file, for example:
+  - `qq_plot.png`
+
+Collect both file paths in a list.
+
+If `save_plots` is `False`, return an empty list.
+
+### 6) Return the results
+Return a tuple like:
+
+```python
+return float(skewness), float(kurtosis), plot_paths
+```
+
+---
+
+## Edge cases to handle
+
+### Invalid standard deviation
+- `std_dev <= 0` should raise `ValueError`
+- Negative or zero standard deviation is invalid for a normal distribution
+
+### Non-numeric or non-finite input
+- `mean = None`, `std_dev = "abc"`, `np.nan`, `np.inf`
+- These should be rejected with a clear error
+
+### Small sample instability
+- Skewness and kurtosis can be noisy for small sample sizes
+- Using a fixed size like 1000 helps stabilize estimates
+
+### Plot saving disabled
+- If `save_plots=False`, do not create files
+- Return `[]` for the path list
+
+### File overwrite risk
+- If using fixed filenames, repeated calls will overwrite previous plots
+- This is acceptable unless uniqueness is required
+- If uniqueness is preferred, include a timestamp or random suffix
+
+### Headless environment
+- Use a non-interactive workflow: save figures and close them with `plt.close()`
+- Do not call `plt.show()` in the function
+
+### Numerical quirks
+- For very unusual samples, skewness/kurtosis may be `nan` if the sample is constant
+- This is unlikely for valid normal sampling with `std_dev > 0`, but still possible in extreme edge scenarios
+
+---
+
+## Design choice summary
+- Sample size: fixed, e.g. `1000`
+- Kurtosis definition: excess kurtosis via `scipy.stats.kurtosis(..., fisher=True)`
+- Randomness: no seed unless explicitly required
+- Return type: `(skewness: float, kurtosis: float, plot_paths: list[str])`
+
+If you want, I can next provide the full self-contained implementation exactly in the required format.

@@ -1,0 +1,15 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Reverse the order of words separated by. "" in all strings of a numpy array.
+The function should output with:
+    numpy.ndarray: The numpy array with the strings reversed.
+You should write self-contained code starting with:
+```
+import numpy as np
+import datetime
+def task_func(arr):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import datetime
+def task_func(arr):

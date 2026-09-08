@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07e79-b824-7962-8130-2b79b7fafaa6"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport json\nfrom datetime import datetime\nfrom decimal import Decimal\n\n\ndef task_func(my_obj):\n    def default_serializer(obj):\n        if isinstance(obj, datetime):\n            return obj.isoformat()\n        if isinstance(obj, Decimal):\n            if obj == obj.to_integral_value():\n                return int(obj)\n            return float(obj)\n        if hasattr(obj, \"__dict__\"):\n            return obj.__dict__\n        return str(obj)\n\n    return json.dumps(my_obj, default=default_serializer)\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2932,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":825,"reasoning_output_tokens":718}}

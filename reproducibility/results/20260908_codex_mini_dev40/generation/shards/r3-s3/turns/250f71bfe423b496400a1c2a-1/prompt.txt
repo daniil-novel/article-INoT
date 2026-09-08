@@ -1,0 +1,194 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Upload all files from a specific directory to the specified server URL, along with the associated metadata. In addition, the speed limit function pauses for one second after each upload.
+The function should raise the exception for: The function will raise FileNotFoundError if the directory does not exist. The function will raise TypeError if the url is invalid.
+The function should output with:
+    list: A list of status codes for the upload responses.
+You should write self-contained code starting with:
+```
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):
+```
+FULL SUPPLIED CONTEXT
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(url, directory, metadata)` based on the supplied requirements.
+
+## Goal
+Upload **all files** from a given local directory to a server URL, include the provided metadata with each upload, pause **1 second after each upload**, and return a **list of HTTP status codes**.
+
+---
+
+## Proposed behavior
+
+### Inputs
+- `url`: target server URL
+- `directory`: path to a local directory containing files to upload
+- `metadata`: associated metadata to send along with each file upload
+
+### Output
+- `list[int]`: status codes from each upload response, in upload order
+
+### Exceptions
+- Raise `FileNotFoundError` if `directory` does not exist
+- Raise `TypeError` if `url` is invalid
+
+---
+
+## Implementation plan
+
+### 1. Validate `url`
+Check that `url` is a valid HTTP/HTTPS URL before doing any file work.
+
+Suggested validation rules:
+- Must be a string
+- Must start with `http://` or `https://`
+- Must not be empty or only whitespace
+
+If validation fails, raise `TypeError`.
+
+---
+
+### 2. Validate `directory`
+Confirm the path exists and is a directory.
+
+Suggested checks:
+- `os.path.exists(directory)`
+- `os.path.isdir(directory)`
+
+If the path does not exist or is not a directory, raise `FileNotFoundError`.
+
+---
+
+### 3. Prepare file list
+Collect all files inside the directory:
+- Iterate through entries in the directory
+- Skip subdirectories unless recursive upload is explicitly required
+- Upload only regular files
+
+If directory is empty:
+- Return an empty list
+
+---
+
+### 4. Decide request payload format
+Each upload should include:
+- the file itself
+- metadata
+
+Because the starting context includes `HEADERS` with JSON content type, the upload format may need to be one of:
+- `multipart/form-data` if sending file plus metadata in one request, or
+- JSON body for metadata plus separate file handling
+
+Most likely practical approach:
+- send the file using `files=...`
+- send metadata using `data=...` or JSON-encoded fields, depending on server expectations
+
+If metadata is a Python dict, it should be serialized appropriately.
+
+---
+
+### 5. Upload each file
+For each file:
+1. Open the file in binary mode
+2. Send a POST request to `url`
+3. Include:
+   - the file content
+   - metadata
+4. Capture `response.status_code`
+5. Append the status code to the result list
+
+---
+
+### 6. Enforce rate limit
+After each upload attempt, pause for **1 second** using `time.sleep(1)`.
+
+Important detail:
+- The pause should happen even if the request fails, unless you intentionally want failures to skip the delay
+- The requirement says “after each upload,” so it is safest to sleep after each request attempt
+
+---
+
+### 7. Return result
+Return the list of collected status codes.
+
+---
+
+## Edge cases to handle
+
+### URL-related
+- `None`, empty string, whitespace-only string
+- Non-string URL values, e.g. integer, list
+- URL missing scheme, e.g. `example.com`
+- Unsupported scheme, e.g. `ftp://...`
+
+### Directory-related
+- Directory path does not exist
+- Path exists but is a file, not a directory
+- Directory exists but contains no files
+- Directory contains subdirectories; decide whether to ignore them or recurse
+- Directory path contains special characters or spaces
+
+### File-related
+- File cannot be opened due to permissions
+- File disappears between listing and upload
+- Zero-byte files
+- Non-regular filesystem entries such as symlinks or device files
+
+### Metadata-related
+- `metadata` is `None`
+- `metadata` is not JSON serializable
+- `metadata` is already a string vs. dict
+- Large metadata payloads
+
+### Network/request-related
+- Server returns non-2xx responses; still record the status code
+- Connection errors, timeouts, DNS failures
+- Server rejects payload format
+- Partial upload failures across multiple files
+
+### Timing-related
+- Ensure `time.sleep(1)` is applied after each upload
+- If there are many files, total runtime increases linearly
+
+---
+
+## Suggested internal structure
+1. Validate URL
+2. Validate directory
+3. Enumerate files
+4. For each file:
+   - upload
+   - record status
+   - sleep 1 second
+5. Return status list
+
+---
+
+## Notes on ambiguity
+A couple of requirements are not fully specified:
+- The exact expected structure for metadata in the request
+- Whether uploads should be recursive into subdirectories
+- Whether network errors should be handled internally or allowed to propagate
+
+A robust implementation should document these assumptions clearly, especially how metadata is serialized and whether only top-level files are uploaded.
+
+If you want, I can also turn this plan into the actual self-contained function implementation.

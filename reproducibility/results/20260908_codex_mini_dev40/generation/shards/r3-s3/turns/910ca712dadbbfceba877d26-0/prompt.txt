@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Converts a given hex string to a float number and then compresses the binary32 float number.
+The function should output with:
+    bytes: The compressed float number.
+You should write self-contained code starting with:
+```
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):
+```
+FULL SUPPLIED CONTEXT
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):

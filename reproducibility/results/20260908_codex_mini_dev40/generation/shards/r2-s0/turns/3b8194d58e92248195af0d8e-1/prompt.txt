@@ -1,0 +1,81 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Serializes an object to a JSON string, adding support for datetime and Decimal data types. Handle complex data types not natively supported by the json module's default encoder. The `My_class` parameter is reserved for future use and does not affect the current implementation. Serialize a simple dictionary: >>> task_func({'name': 'Alice', 'age': 30}) '{"name": "Alice", "age": 30}'
+The function should output with:
+    str: A JSON-formatted string representing `my_obj`, with datetime and Decimal objects properly serialized.
+You should write self-contained code starting with:
+```
+import json
+from datetime import datetime
+from decimal import Decimal
+def task_func(my_obj):
+```
+FULL SUPPLIED CONTEXT
+import json
+from datetime import datetime
+from decimal import Decimal
+def task_func(my_obj):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Define the function behavior**
+   - `task_func(my_obj)` should return a **JSON string**.
+   - It must serialize ordinary JSON-compatible types directly.
+   - It must also support:
+     - `datetime.datetime` → convert to ISO 8601 string using `.isoformat()`
+     - `decimal.Decimal` → convert to a JSON-friendly primitive, typically `int` if it has no fractional part or `float`/`str` depending on desired precision
+   - The function should not mutate `my_obj`.
+
+2. **Use `json.dumps` with a custom `default` handler**
+   - Since `json` cannot encode `datetime` or `Decimal` by default, pass a custom `default` function to `json.dumps`.
+   - In that handler:
+     - If the object is a `datetime`, return `obj.isoformat()`
+     - If the object is a `Decimal`, return a safe JSON-serializable representation
+   - For any unsupported type, re-raise `TypeError` so behavior remains consistent with `json.dumps`.
+
+3. **Decide Decimal serialization strategy**
+   - Best practical approach: convert `Decimal` to:
+     - `int` when it is a whole number, or
+     - `float` or `str` for other values
+   - Since JSON numbers may lose precision with `float`, a safer choice is **string** if precision preservation matters.
+   - If the task expects numeric JSON values, use `int`/`float`.
+   - For general compatibility with “properly serialized,” `str(Decimal(...))` is often safest for exactness, but this changes JSON type from number to string.  
+   - The implementation should choose one consistent policy.
+
+4. **Handle nested data structures**
+   - Ensure the serializer works for dictionaries, lists, tuples, and nested combinations containing `datetime` or `Decimal`.
+   - `json.dumps(..., default=...)` naturally applies the handler recursively to nested unsupported objects.
+
+5. **Preserve default JSON formatting**
+   - Return the result of `json.dumps(...)` directly.
+   - Do not add extra wrapping, logging, or post-processing.
+   - Example expected output for `{'name': 'Alice', 'age': 30}`:
+     - `'{"name": "Alice", "age": 30}'`
+
+6. **Reserved `My_class` parameter**
+   - The prompt mentions `My_class` is reserved for future use.
+   - Since the supplied function signature only includes `my_obj`, ignore this for now.
+   - If a future version adds it, keep it unused unless requirements change.
+
+### Edge cases to consider
+- **Datetime objects with timezone info**: `isoformat()` should preserve offset if present.
+- **Naive datetimes**: still serialize with `isoformat()`.
+- **Decimal values with high precision**: avoid precision loss if possible.
+- **Unsupported custom objects**: should raise `TypeError` rather than silently failing.
+- **Already JSON-serializable input**: should serialize normally with no changes.
+- **Deeply nested structures**: should work as long as all unsupported leaf nodes are handled by `default`.
+- **Special float values (`NaN`, `Infinity`)**: default `json.dumps` behavior may need consideration if present, but not required by the prompt.
+
+### Expected structure of the implementation
+- Keep the imports exactly as given:
+  - `import json`
+  - `from datetime import datetime`
+  - `from decimal import Decimal`
+- Define `task_func(my_obj)` immediately after imports.
+- Inside:
+  - define a small helper `default` function or inline encoder logic
+  - call `json.dumps(my_obj, default=...)`
+  - return the resulting string
+
+If you want, I can also provide the exact code implementation next.

@@ -1,0 +1,146 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw the phase of a complex function over a range of x and y and return the matplotlib axes object along with the 2D array of calculated phase values.
+The function should raise the exception for: TypeError: If either `x` or `y` is not a numpy.ndarray. ValueError: If `x` and `y` do not have the same length.
+The function should output with:
+    tuple: containing
+    matplotlib.axes.Axes: The axes object with the phase plot.
+    numpy.ndarray: The 2D array of calculated phase values.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+def task_func(x, y):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(x, y)` based on the requirements.
+
+## Goal
+Create a function that:
+1. Accepts two NumPy arrays `x` and `y`
+2. Validates their types and lengths
+3. Computes the phase of a complex-valued function over the `(x, y)` grid
+4. Plots the phase using Matplotlib
+5. Returns:
+   - the Matplotlib `Axes` object
+   - a 2D NumPy array of phase values
+
+---
+
+## Planned behavior
+
+### 1) Input validation
+- Check that both `x` and `y` are instances of `numpy.ndarray`.
+- If either is not a NumPy array, raise:
+  - `TypeError: If either x or y is not a numpy.ndarray.`
+- Check that `x` and `y` have the same length.
+- If not, raise:
+  - `ValueError: If x and y do not have the same length.`
+
+---
+
+### 2) Grid construction
+- Use `np.meshgrid(x, y)` to create 2D coordinate grids:
+  - `X` for x-values across rows/columns
+  - `Y` for y-values across rows/columns
+- This gives a 2D evaluation domain over the range of `x` and `y`.
+
+---
+
+### 3) Complex function phase calculation
+- Define a complex-valued expression using `X` and `Y`.
+- Since the prompt asks for “the phase of a complex function” but does not specify the exact function, implement a reasonable complex expression and compute its phase with:
+  - `np.angle(...)`
+- Ensure the result is a 2D array matching the mesh grid shape.
+
+---
+
+### 4) Plotting
+- Create a figure and axes with Matplotlib.
+- Plot the phase values as a 2D color map, likely with `imshow`, `pcolormesh`, or `contourf`.
+- Add:
+  - title
+  - axis labels
+  - colorbar for phase values
+- Return the axes object, not the figure.
+
+---
+
+## Expected return value
+Return a tuple:
+```python
+(ax, phase_values)
+```
+where:
+- `ax` is a `matplotlib.axes.Axes`
+- `phase_values` is a `numpy.ndarray` with 2 dimensions
+
+---
+
+## Edge cases to handle
+1. **Non-NumPy input**
+   - `x` or `y` is a list, tuple, scalar, or other type → `TypeError`
+
+2. **Length mismatch**
+   - `len(x) != len(y)` → `ValueError`
+
+3. **Empty arrays**
+   - If `x` and `y` are both empty, the meshgrid and plot may fail or produce empty output.
+   - Decide whether to allow this or treat it as invalid. Since no explicit instruction is given, the safest practical behavior is to let NumPy/Matplotlib behavior occur unless you want to proactively guard against empties.
+
+4. **Non-numeric arrays**
+   - If arrays contain strings/objects, downstream math may fail.
+   - Not explicitly required, so this may be left to NumPy operations to surface naturally.
+
+5. **Singleton arrays**
+   - Length-1 arrays should still work, producing a 1x1 phase array.
+
+---
+
+## Implementation outline
+1. Import `numpy`, `matplotlib.pyplot`, and `cmath` as required.
+2. Validate types of `x` and `y`.
+3. Validate equal lengths.
+4. Build `X, Y = np.meshgrid(x, y)`.
+5. Compute a complex-valued array.
+6. Compute phase with `np.angle`.
+7. Plot the phase on axes.
+8. Return `(ax, phase_values)`.
+
+If you want, I can now write the full self-contained implementation in the exact required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import matplotlib.pyplot as plt
+import cmath
+
+def task_func(x, y):
+    if not isinstance(x, np.ndarray) or not isinstance(y, np.ndarray):
+        raise TypeError("If either `x` or `y` is not a numpy.ndarray.")
+    if len(x) != len(y):
+        raise ValueError("If `x` and `y` do not have the same length.")
+
+    X, Y = np.meshgrid(x, y)
+
+    # Complex-valued function over the grid
+    Z = X + 1j * Y
+
+    # Calculate phase values as a 2D array
+    phase_values = np.angle(Z)
+
+    # Plot the phase
+    fig, ax = plt.subplots()
+    mesh = ax.pcolormesh(X, Y, phase_values, shading="auto", cmap="twilight")
+    fig.colorbar(mesh, ax=ax, label="Phase (radians)")
+    ax.set_title("Phase of Complex Function")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+
+    return ax, phase_values

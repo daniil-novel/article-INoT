@@ -1,0 +1,332 @@
+{
+  "schema": "bcb-dev40-control-gate-v1",
+  "assigned_task_ids": [
+    "BigCodeBench/325",
+    "BigCodeBench/322",
+    "BigCodeBench/1036",
+    "BigCodeBench/1005",
+    "BigCodeBench/361",
+    "BigCodeBench/1087",
+    "BigCodeBench/45",
+    "BigCodeBench/309",
+    "BigCodeBench/1029",
+    "BigCodeBench/894",
+    "BigCodeBench/858",
+    "BigCodeBench/678",
+    "BigCodeBench/451",
+    "BigCodeBench/734",
+    "BigCodeBench/374",
+    "BigCodeBench/855",
+    "BigCodeBench/573",
+    "BigCodeBench/964",
+    "BigCodeBench/303",
+    "BigCodeBench/533",
+    "BigCodeBench/155",
+    "BigCodeBench/681",
+    "BigCodeBench/1110",
+    "BigCodeBench/421",
+    "BigCodeBench/839",
+    "BigCodeBench/745",
+    "BigCodeBench/107",
+    "BigCodeBench/356",
+    "BigCodeBench/615",
+    "BigCodeBench/640",
+    "BigCodeBench/814",
+    "BigCodeBench/757",
+    "BigCodeBench/464",
+    "BigCodeBench/892",
+    "BigCodeBench/468",
+    "BigCodeBench/549",
+    "BigCodeBench/529",
+    "BigCodeBench/1022",
+    "BigCodeBench/173",
+    "BigCodeBench/544"
+  ],
+  "assigned_count": 40,
+  "controls_complete": true,
+  "evaluable_task_ids": [
+    "BigCodeBench/325",
+    "BigCodeBench/322",
+    "BigCodeBench/1036",
+    "BigCodeBench/361",
+    "BigCodeBench/1087",
+    "BigCodeBench/45",
+    "BigCodeBench/309",
+    "BigCodeBench/1029",
+    "BigCodeBench/894",
+    "BigCodeBench/858",
+    "BigCodeBench/678",
+    "BigCodeBench/451",
+    "BigCodeBench/734",
+    "BigCodeBench/374",
+    "BigCodeBench/855",
+    "BigCodeBench/573",
+    "BigCodeBench/964",
+    "BigCodeBench/303",
+    "BigCodeBench/533",
+    "BigCodeBench/155",
+    "BigCodeBench/681",
+    "BigCodeBench/1110",
+    "BigCodeBench/421",
+    "BigCodeBench/839",
+    "BigCodeBench/745",
+    "BigCodeBench/107",
+    "BigCodeBench/356",
+    "BigCodeBench/615",
+    "BigCodeBench/640",
+    "BigCodeBench/814",
+    "BigCodeBench/757",
+    "BigCodeBench/464",
+    "BigCodeBench/892",
+    "BigCodeBench/468",
+    "BigCodeBench/549",
+    "BigCodeBench/529",
+    "BigCodeBench/1022",
+    "BigCodeBench/173",
+    "BigCodeBench/544"
+  ],
+  "evaluable_count": 39,
+  "ineligible_task_ids": [
+    "BigCodeBench/1005"
+  ],
+  "status_by_task": {
+    "BigCodeBench/325": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/322": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/1036": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/1005": {
+      "gold": "fail",
+      "incorrect": "fail",
+      "eligible": false
+    },
+    "BigCodeBench/361": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/1087": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/45": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/309": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/1029": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/894": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/858": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/678": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/451": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/734": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/374": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/855": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/573": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/964": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/303": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/533": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/155": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/681": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/1110": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/421": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/839": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/745": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/107": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/356": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/615": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/640": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/814": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/757": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/464": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/892": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/468": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/549": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/529": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/1022": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/173": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    },
+    "BigCodeBench/544": {
+      "gold": "pass",
+      "incorrect": "fail",
+      "eligible": true
+    }
+  },
+  "gold_report_sha256": "c6c7bc716d0f8cd3ad073ce7049e8822f509c631163bc6d761e263f0d0c84d38",
+  "incorrect_report_sha256": "3929cee1ea16cb28c5266e347fe5bb2dd4f09045c8742cb261ead65fc9f463a4",
+  "gold_samples_sha256": "edc9273c979957c3c340e442cdc2afa38d94f1d24940b87ef21e572f9861ce13",
+  "incorrect_samples_sha256": "41fab119192563f99cfaa624e8d37bb5ac238a80faf85ee227d5e86d4bfb467a",
+  "gold_metadata_sha256": "52e322dbd2bbe72a22abe8ef3baeff2650aa5dd13b1784ba44b5227e1009c2d4",
+  "incorrect_metadata_sha256": "900dabe729f6c16874b59b502f9c1a8e952b04cb1ffd6013bc7b92582a353c3e",
+  "cli_split": "instruct",
+  "tests": "upstream original tests; no test edits",
+  "network": "none",
+  "controls": {
+    "gold": {
+      "counts": {
+        "fail": 1,
+        "pass": 39
+      },
+      "nonstandard": [
+        "BigCodeBench/1005"
+      ]
+    },
+    "incorrect": {
+      "counts": {
+        "fail": 40
+      },
+      "nonstandard": []
+    }
+  },
+  "image_id": "sha256:5697a0648acccd249a9027f48af42a42a4a8e27b6cdb626906142a480683978d",
+  "base_image_id": "sha256:9a37e6856ab2937be34603254ebaa24375dcc7c0e3ac2c9224d3e7b27553abd9",
+  "upstream_commit": "09dd993f46c3fbf3a799465bb96d524edcb0b199",
+  "source_tree_sha256": "9cbdc69ea1e61fe7bf32ad5ef7720cfb3116eb838497676c9593eed990dc0bd0",
+  "dataset_sha256": "c7822eab360e5825118c025af7561fd8f6d028fa670233e680cacc30acf33e20",
+  "prepared_split_sha256": "95d84cf31a4b0eedf374d9ff7d3d971df7234b7d66b5f1f3bbfd722e8af04a77",
+  "requirements_sha256": "3b110a1bce19dfe4a46a4a7fe7d78a2d949a398fdd815f75aa24b473e0e7af59",
+  "dockerfile_sha256": "447fae47f97775092d3566d6b974cd99447d06d32d00f96dfc00b1866275fb3f",
+  "nltk_resources_sha256": "e69590ec5f4a138cb128870fe37fcdfbb5a325864ece6cb8e3058e762fce9667",
+  "dataset_partition": "development (40 seeded IDs)",
+  "validator": "reproducibility/scale_env/validate_dev40_controls.py",
+  "validator_report_sha256": "910eb5d08b8c0e7c27fb842ad863fdffc316fc212e07cef6d1ade3fbd43cfbf5"
+}

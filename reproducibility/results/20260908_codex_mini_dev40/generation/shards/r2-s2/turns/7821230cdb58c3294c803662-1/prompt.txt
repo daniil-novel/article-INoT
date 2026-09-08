@@ -1,0 +1,70 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Given a dictionary of words as keys and letters as values, count the frequency of each letter in the words.
+The function should output with:
+    dict: A dictionary with letters as keys and their frequencies as values.
+You should write self-contained code starting with:
+```
+from collections import Counter
+from operator import itemgetter
+import itertools
+def task_func(word_dict):
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+from operator import itemgetter
+import itertools
+def task_func(word_dict):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(word_dict)`.
+
+## Assumption
+I’ll treat the **dictionary keys as the words** to analyze, since the task says “words as keys.”  
+The values are ignored unless the problem statement later clarifies otherwise.
+
+## Plan
+1. **Initialize a counter**
+   - Use `Counter` to accumulate letter frequencies.
+
+2. **Iterate through the dictionary keys**
+   - For each word in `word_dict.keys()`:
+     - Read its characters.
+     - Count each letter occurrence.
+
+3. **Normalize / filter characters if needed**
+   - If the task expects only letters, count only alphabetic characters using `str.isalpha()`.
+   - Keep case as-is unless normalization is requested.  
+     - If case-insensitive behavior is desired, convert words to lowercase first.
+
+4. **Build the result**
+   - Convert the `Counter` into a plain `dict`.
+   - Return that dictionary.
+
+## Edge cases to handle
+- **Empty input dictionary**
+  - Return `{}`.
+
+- **Repeated letters within a word**
+  - Every occurrence should be counted.
+
+- **Repeated words as keys**
+  - Not possible in a dict, but duplicate letter occurrences across different keys should still accumulate.
+
+- **Non-letter characters in keys**
+  - Decide whether to ignore them or include them.
+  - Recommended: ignore them if the task truly means “letters.”
+
+- **Upper/lowercase differences**
+  - Decide whether `'A'` and `'a'` are separate.
+  - Recommended: preserve case unless specified otherwise.
+
+- **Non-string keys**
+  - If present, either convert to `str` or skip them; ideally assume valid string keys unless robustness is required.
+
+## Suggested approach
+- Use `itertools.chain.from_iterable(...)` to flatten characters from all keys.
+- Use `Counter` for counting.
+- Optionally use `itemgetter` only if you want sorted output, but sorting is not required by the task.
+
+If you want, I can next provide the actual implementation in the required code format.

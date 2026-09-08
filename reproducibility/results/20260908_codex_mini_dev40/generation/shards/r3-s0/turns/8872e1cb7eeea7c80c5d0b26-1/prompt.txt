@@ -1,0 +1,55 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Create a Pandas DataFrame with random alphabets in each cell. The DataFrame will have a specified number of rows and columns. Each column is named with a string from the list ['a', 'b', 'c', ...] depending on the number of columns specified.
+The function should output with:
+    DataFrame: A pandas DataFrame with random alphabets.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Import dependencies**
+   - Use `pandas as pd` and `numpy as np` as required.
+
+2. **Validate inputs**
+   - Ensure `rows` and `columns` are integers.
+   - Reject negative values with a clear error, e.g. `ValueError`.
+   - Allow `0` for either dimension, which should return an empty DataFrame with the correct shape.
+
+3. **Prepare column names**
+   - Use lowercase alphabet names starting from `'a'`.
+   - For up to 26 columns, use `['a', 'b', 'c', ...]`.
+   - If `columns > 26`, decide one of two behaviors:
+     - either extend naming logically (`aa`, `ab`, ...), or
+     - raise an explicit error if only single-letter names are intended.
+   - Based on the prompt, extending names is the safer choice.
+
+4. **Generate random cell values**
+   - Create a list of lowercase letters `a-z`.
+   - Use `np.random.choice(...)` to fill a `(rows, columns)` array with random letters.
+   - Each cell should contain one random alphabet character.
+
+5. **Build the DataFrame**
+   - Pass the generated 2D array to `pd.DataFrame`.
+   - Assign the generated column names.
+
+6. **Return the result**
+   - Return the DataFrame only.
+
+Edge cases to handle:
+- `rows = 0` or `columns = 0`
+- Negative `rows` or `columns`
+- Non-integer inputs
+- `columns > 26` if single-letter column names are insufficient
+- Very large dimensions, which may impact memory usage
+
+If you want, I can now convert this plan into the exact self-contained function code.

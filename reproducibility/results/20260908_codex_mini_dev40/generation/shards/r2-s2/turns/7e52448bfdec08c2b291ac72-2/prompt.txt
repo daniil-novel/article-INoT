@@ -1,0 +1,134 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Look for files that match the pattern of the regular expression '(? <! Distillr)\\\\ AcroTray\\.exe' in the directory 'C:\\ SomeDir\\'. If found, write these file paths to a configuration file.
+The function should output with:
+    str: Path to the created configuration file.
+You should write self-contained code starting with:
+```
+import re
+import os
+import shutil
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+import shutil
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func`:
+
+## Goal
+Search `source_dir` recursively for files whose **full path** matches the regex pattern for `AcroTray.exe` with the negative lookbehind for `Distillr`, then write all matched file paths into a config file under `target_dir`, and return the config file path as a string.
+
+## Planned behavior
+
+1. **Validate inputs**
+   - Ensure `source_dir` exists and is a directory.
+   - Ensure `target_dir` exists; create it if needed.
+   - Compile `file_pattern` as a regular expression.
+   - If the regex is invalid, fail clearly with an exception.
+
+2. **Walk the directory tree**
+   - Use `os.walk(source_dir)` to search recursively.
+   - For each file found:
+     - Build its full path with `os.path.join(root, filename)`.
+     - Normalize path separators so regex matching is consistent on Windows-style backslashes.
+
+3. **Apply regex matching**
+   - Match the regex against the **full file path**, not just the filename, because the pattern includes a backslash before `AcroTray.exe`.
+   - The intended pattern should match paths like:
+     - `C:\SomeDir\...\AcroTray.exe`
+   - The negative lookbehind `(?<!Distillr)` means paths immediately preceded by `Distillr` before the backslash should be excluded.
+
+4. **Collect matched paths**
+   - Store matched file paths in a list.
+   - Optionally deduplicate them if needed, though `os.walk` normally won’t repeat paths.
+
+5. **Write configuration file**
+   - Create a config file in `target_dir` with a deterministic name, for example:
+     - `matched_files.cfg`
+   - Write each matched path on its own line.
+   - If no files match, still create the config file, but leave it empty.
+
+6. **Return result**
+   - Return the path to the created config file as a string.
+
+## Edge cases to handle
+
+- **No matches found**
+  - Still create the config file and return its path.
+- **`source_dir` does not exist**
+  - Raise `FileNotFoundError` or a similar clear exception.
+- **`target_dir` does not exist**
+  - Create it automatically.
+- **Invalid regex pattern**
+  - Raise a regex compilation error or convert it to a user-friendly exception.
+- **Permission problems**
+  - Let filesystem errors surface naturally, since the task depends on being able to read source files and write output.
+- **Path separator differences**
+  - Normalize paths before applying the regex so the pattern behaves predictably on Windows paths.
+- **Pattern semantics**
+  - Make sure the regex is applied to the whole path; matching only basenames would not respect the `\\AcroTray.exe` part.
+- **Duplicate results**
+  - If any arise, keep only unique paths before writing.
+
+## Output contract
+- The function should return:
+  - `str`: the path to the created configuration file.
+
+If you want, I can next turn this plan into the exact self-contained Python implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import re
+import os
+import shutil
+
+
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+    """
+    Recursively search source_dir for files whose full path matches the requested
+    AcroTray.exe pattern and write matching paths to a configuration file.
+
+    Returns:
+        str: Path to the created configuration file.
+    """
+    default_pattern = r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'
+    task_pattern = r'(?<!Distillr)\\AcroTray\.exe'
+
+    if not os.path.exists(source_dir):
+        raise FileNotFoundError(f"Source directory does not exist: {source_dir}")
+    if not os.path.isdir(source_dir):
+        raise NotADirectoryError(f"Source path is not a directory: {source_dir}")
+
+    if os.path.exists(target_dir) and not os.path.isdir(target_dir):
+        raise NotADirectoryError(f"Target path is not a directory: {target_dir}")
+    os.makedirs(target_dir, exist_ok=True)
+
+    pattern_to_use = task_pattern if file_pattern == default_pattern else file_pattern
+    try:
+        regex = re.compile(pattern_to_use)
+    except re.error:
+        # Let invalid regex patterns fail clearly.
+        raise
+
+    matched_paths = []
+    seen = set()
+
+    for root, _, files in os.walk(source_dir):
+        for filename in files:
+            full_path = os.path.join(root, filename)
+            normalized_path = full_path.replace("/", "\\")
+            if regex.search(normalized_path) and normalized_path not in seen:
+                seen.add(normalized_path)
+                matched_paths.append(normalized_path)
+
+    config_path = os.path.join(target_dir, "matched_files.cfg")
+    with open(config_path, "w", encoding="utf-8") as config_file:
+        for path in matched_paths:
+            config_file.write(path + os.linesep)
+
+    return config_path
+```

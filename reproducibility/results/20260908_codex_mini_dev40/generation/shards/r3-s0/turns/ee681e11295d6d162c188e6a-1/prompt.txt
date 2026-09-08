@@ -1,0 +1,103 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Create a Pandas DataFrame with random alphabets in each cell. The DataFrame will have a specified number of rows and columns. Each column is named with a string from the list ['a', 'b', 'c', ...] depending on the number of columns specified.
+The function should output with:
+    DataFrame: A pandas DataFrame with random alphabets.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function:
+
+```python
+import pandas as pd
+import numpy as np
+def task_func(rows=100, columns=3):
+```
+
+that returns a pandas `DataFrame` of shape `(rows, columns)` where:
+
+- every cell contains a random alphabetic character
+- column names are strings like `a`, `b`, `c`, ... based on the number of columns
+
+### Interpretation
+
+A practical interpretation is:
+
+- use lowercase English letters as the “random alphabets”
+- generate each cell independently
+- column labels should be the first `columns` letters of the alphabet
+
+### Implementation plan
+
+1. **Validate inputs**
+   - Ensure `rows` and `columns` are integers.
+   - Ensure both are non-negative.
+   - Decide behavior for invalid values:
+     - either raise `ValueError`
+     - or rely on downstream NumPy/Pandas errors
+   - Best practice: validate explicitly.
+
+2. **Generate column names**
+   - Build a list of names from the alphabet:
+     - for example, `['a', 'b', 'c']` when `columns=3`
+   - If `columns` may exceed 26, decide whether to:
+     - extend naming beyond `z` somehow, or
+     - raise an error
+   - Since the prompt only mentions `['a', 'b', 'c', ...]`, the simplest assumption is lowercase letters.
+
+3. **Generate random letters for the data**
+   - Use `np.random.choice` over lowercase letters.
+   - Create a 2D array of shape `(rows, columns)`.
+
+4. **Construct the DataFrame**
+   - Pass the array and column names into `pd.DataFrame`.
+
+5. **Return the DataFrame**
+   - The function should return the created object directly.
+
+### Edge cases to consider
+
+- **`rows = 0`**
+  - Return an empty DataFrame with the correct column names.
+
+- **`columns = 0`**
+  - Return a DataFrame with zero columns and the requested number of rows.
+
+- **Negative values**
+  - Should raise an error; these dimensions are invalid.
+
+- **Non-integer inputs**
+  - Should either be rejected or converted intentionally.
+  - Safer to reject non-integers.
+
+- **`columns > 26`**
+  - The prompt suggests simple alphabetic column names.
+  - Need a decision:
+    - either support only up to 26 columns
+    - or generate extended labels like `aa`, `ab`, etc.
+  - If not specified, note this as a design assumption.
+
+- **Randomness**
+  - Output will differ between calls unless a seed is set.
+  - The prompt does not request reproducibility, so no seed is required.
+
+### Suggested behavior summary
+
+- Input: `rows`, `columns`
+- Output: pandas `DataFrame`
+- Data: random lowercase letters
+- Columns: `a, b, c, ...`
+- Shape: `(rows, columns)`
+
+If you want, I can next provide the actual implementation code.

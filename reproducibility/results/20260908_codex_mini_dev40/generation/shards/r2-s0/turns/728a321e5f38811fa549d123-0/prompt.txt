@@ -1,0 +1,20 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Extracts matches from all text files in a specified directory based on a regular expression pattern. It captures whatever is between parentheses as a single match, and any character outside the parentheses as individual matches in the string.
+The function should output with:
+    dict: A dictionary where keys are file names (without path) and values are lists of matches extracted from the files.
+You should write self-contained code starting with:
+```
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:

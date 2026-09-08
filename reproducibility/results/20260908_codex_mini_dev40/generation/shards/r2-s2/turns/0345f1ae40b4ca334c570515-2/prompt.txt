@@ -1,0 +1,94 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Look for files that match the pattern of the regular expression '(? <! Distillr)\\\\ AcroTray\\.exe' in the directory 'C:\\ SomeDir\\'. If found, write these file paths to a configuration file.
+The function should output with:
+    str: Path to the created configuration file.
+You should write self-contained code starting with:
+```
+import re
+import os
+import shutil
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+import shutil
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate inputs**
+   - Confirm `source_dir` exists and is a directory.
+   - Ensure `target_dir` exists; create it if needed.
+   - Treat `file_pattern` as a regular expression and compile it with `re.compile(...)`.
+   - If the regex is invalid, let the function fail clearly with `re.error`.
+
+2. **Scan the source tree**
+   - Use `os.walk(source_dir)` to recursively traverse all subdirectories.
+   - For each file, build the full path with `os.path.join(root, filename)`.
+   - Normalize the path with `os.path.normpath(...)` so matching is consistent on Windows-style paths.
+
+3. **Apply the regex**
+   - Match the regex against the full normalized file path, not just the basename, because the pattern includes a path separator before `AcroTray.exe`.
+   - Collect every matching path in a list.
+   - Optionally deduplicate matches while preserving order, in case the same path is discovered more than once.
+
+4. **Write the configuration file**
+   - Create a deterministic config file under `target_dir`, for example `matched_files.cfg` or `config.txt`.
+   - Write each matching file path on its own line in UTF-8.
+   - If no files match, still create the config file as empty so the return value always points to a real file.
+
+5. **Return value**
+   - Return the full path of the created configuration file as a string.
+
+Edge cases to handle:
+- **No matches found**: create an empty config file and return its path.
+- **Invalid regex**: surface `re.error` rather than silently ignoring it.
+- **Missing source directory**: raise an error early instead of writing an empty result.
+- **Permission issues**: handle or propagate `OSError` if traversal or writing fails.
+- **Path separator differences**: normalize paths before regex matching.
+- **Case sensitivity**: keep regex behavior as specified unless the task explicitly requires case-insensitive matching.
+- **Duplicate paths**: avoid writing duplicates if directory traversal could encounter them.
+
+If you want, I can turn this plan into the exact self-contained Python implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import re
+import os
+import shutil
+
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+    source_dir = os.path.abspath(source_dir)
+    target_dir = os.path.abspath(target_dir)
+
+    if not os.path.isdir(source_dir):
+        raise NotADirectoryError(f"Source directory does not exist or is not a directory: {source_dir}")
+
+    os.makedirs(target_dir, exist_ok=True)
+
+    pattern = re.compile(file_pattern)
+
+    matched_paths = []
+    seen = set()
+
+    for root, _, files in os.walk(source_dir):
+        for filename in files:
+            full_path = os.path.normpath(os.path.join(root, filename))
+            # Normalize separators for regexes that expect Windows-style paths.
+            regex_path = full_path.replace("/", "\\")
+            if pattern.search(regex_path):
+                if full_path not in seen:
+                    seen.add(full_path)
+                    matched_paths.append(full_path)
+
+    config_path = os.path.join(target_dir, "matched_files.cfg")
+    with open(config_path, "w", encoding="utf-8") as config_file:
+        if matched_paths:
+            config_file.write("\n".join(matched_paths))
+            config_file.write("\n")
+
+    return config_path
+```

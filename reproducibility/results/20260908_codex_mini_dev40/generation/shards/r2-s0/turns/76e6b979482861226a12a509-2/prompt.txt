@@ -1,0 +1,192 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Extracts matches from all text files in a specified directory based on a regular expression pattern. It captures whatever is between parentheses as a single match, and any character outside the parentheses as individual matches in the string.
+The function should output with:
+    dict: A dictionary where keys are file names (without path) and values are lists of matches extracted from the files.
+You should write self-contained code starting with:
+```
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function:
+
+```python
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+
+that:
+
+- scans **all text files in a given directory**
+- applies a **regular expression** to file contents
+- extracts:
+  - text **inside parentheses** as one full match
+  - any **character outside parentheses** as individual matches
+- returns a dictionary:
+  - **keys**: file names only, no path
+  - **values**: lists of extracted matches for each file
+
+---
+
+### Intended behavior
+
+Given a file content like:
+
+```text
+a(bc)d
+```
+
+the output should conceptually preserve:
+- `a`
+- `bc` as one unit
+- `d`
+
+So the matches list would be something like:
+
+```python
+["a", "bc", "d"]
+```
+
+---
+
+### Implementation plan
+
+1. **Validate the input directory**
+   - Convert `directory_path` to a `Path`.
+   - Confirm it exists and is a directory.
+   - If not, return an empty dict or handle gracefully depending on expected robustness.
+
+2. **Collect files from the directory**
+   - Iterate through files in the given directory.
+   - Since the task says “all text files,” determine a practical rule:
+     - either process all regular files,
+     - or restrict to common text-like files if needed.
+   - Best approach: process all regular files and attempt text reading.
+
+3. **Read each file as text**
+   - Open each file with a text encoding such as UTF-8.
+   - Use error handling for decode issues:
+     - either `errors="ignore"` / `errors="replace"`
+     - or skip unreadable files.
+
+4. **Apply regex extraction**
+   - Use `re.findall(regex_pattern, content)`.
+   - This will produce a list of all matches in the order they appear.
+   - Parenthesized groups should be preserved as one token; outside characters should be matched individually according to the pattern.
+
+5. **Build the result dictionary**
+   - Use the file’s base name only: `Path(file).name`.
+   - Map that name to the extracted list.
+
+6. **Return the dictionary**
+
+---
+
+### Edge cases to handle
+
+1. **Empty directory**
+   - Return `{}`.
+
+2. **Directory does not exist**
+   - Return `{}` or handle with a clear fallback.
+
+3. **File is not readable**
+   - Skip it or return an empty list for that file, depending on strictness.
+
+4. **Non-text files**
+   - Reading may fail if binary data appears.
+   - Best handled by skipping or using tolerant decoding.
+
+5. **Empty file**
+   - Result should be `[]` for that file.
+
+6. **No regex matches**
+   - Result should be an empty list for that file.
+
+7. **Multiple files with the same name in different subdirectories**
+   - Since keys are only file names, collisions can happen if recursion is used.
+   - If scanning only the top-level directory, this is not an issue.
+
+8. **Regex behavior ambiguity**
+   - The provided default pattern is escaped in a way that may be intended for literal parentheses handling.
+   - Implementation should preserve the supplied default but ensure the actual regex logic matches the intended extraction behavior.
+
+9. **Special characters in file names**
+   - Use `Path`/`os` safely rather than string slicing.
+
+---
+
+### Suggested complexity
+
+- Let:
+  - `n` = number of files
+  - `m` = total size of file contents
+- Time complexity: roughly **O(m)** for reading plus regex matching.
+- Space complexity: **O(k)** for storing extracted matches, where `k` is total number of matches.
+
+---
+
+### Notes for implementation
+
+- `re.findall()` is the most natural fit here.
+- Since `glob` is imported, it can be used to enumerate files, but `Path.iterdir()` is simpler if allowed.
+- The function should be self-contained and deterministic: same directory + same regex ⇒ same dict output.
+
+If you want, I can next turn this plan into the actual implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import re
+import os
+from pathlib import Path
+import glob
+
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+    directory = Path(directory_path).expanduser()
+
+    if not directory.exists() or not directory.is_dir():
+        return {}
+
+    result = {}
+    default_patterns = {r'\\(.+?\\)|\\w', r'\((.+?)\)|\w'}
+
+    for file_name in sorted(glob.glob(os.path.join(str(directory), "*"))):
+        path = Path(file_name)
+        if not path.is_file():
+            continue
+
+        try:
+            content = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+
+        try:
+            if regex_pattern in default_patterns:
+                # Capture text inside parentheses as one token,
+                # otherwise capture every character individually.
+                token_re = re.compile(r'\((.*?)\)|.', re.S)
+                matches = [
+                    m.group(1) if m.group(1) is not None else m.group(0)
+                    for m in token_re.finditer(content)
+                ]
+            else:
+                matches = [m.group(0) for m in re.finditer(regex_pattern, content)]
+        except re.error:
+            matches = []
+
+        result[path.name] = matches
+
+    return result
+```

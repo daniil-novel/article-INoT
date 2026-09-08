@@ -1,0 +1,102 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Converts a number from one base to another, adds a random salt, hashes the result using SHA-256, and then encodes the hash in base64 using a custom alphabet. The function also returns the used salt. Verify that different invocations produce different results due to the random salt. >>> result1, salt1 = task_func('FF', 16, 8, alphabet) >>> result2, salt2 = task_func('FF', 16, 8, alphabet) >>> result1 != result2 True
+The function should raise the exception for: ValueError: If `from_base` or `to_base` is less than 2, indicating an invalid base for conversion. ValueError: If the `num` string contains characters not valid in the `from_base` specified, indicating an invalid number format for conversion.
+The function should output with:
+    tuple: A tuple containing the base64-encoded hash of the converted number and the used salt.
+You should write self-contained code starting with:
+```
+import numpy as np
+import secrets
+import hashlib
+import base64
+def task_func(num, from_base, to_base, alphabet):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import secrets
+import hashlib
+import base64
+def task_func(num, from_base, to_base, alphabet):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(num, from_base, to_base, alphabet)`:
+
+1. **Validate bases**
+   - If `from_base < 2` or `to_base < 2`, raise `ValueError`.
+   - This matches the required invalid-base behavior.
+
+2. **Validate the input number string**
+   - Build the allowed digit set for `from_base`.
+   - Accept only characters valid for that base:
+     - `0-9` for values 0–9
+     - `A-Z` / `a-z` as needed for bases above 10
+   - Reject any character not representable in `from_base` by raising `ValueError`.
+   - Optionally normalize case for parsing, but be consistent.
+
+3. **Convert `num` from `from_base` to an integer**
+   - Use positional parsing:
+     - initialize total = 0
+     - for each digit, multiply total by `from_base` and add digit value
+   - This is the canonical intermediate representation.
+
+4. **Convert the integer to `to_base`**
+   - Convert the integer into a string representation in the target base.
+   - Use repeated division/modulo by `to_base`.
+   - Handle `0` specially so it returns `"0"`.
+
+5. **Generate a random salt**
+   - Use `secrets` for cryptographic randomness.
+   - Generate a fresh salt each call, e.g. as a random hex string or random bytes.
+   - Ensure each invocation is likely to differ, so:
+     - `result1 != result2` for identical inputs is expected.
+
+6. **Build the hash input**
+   - Combine the converted value and the salt into one deterministic string/byte sequence.
+   - Example structure: `"{converted_value}:{salt}"` or equivalent.
+   - Encode consistently before hashing, e.g. UTF-8.
+
+7. **Hash with SHA-256**
+   - Compute `hashlib.sha256(...)` on the combined bytes.
+   - Use the full 32-byte digest.
+
+8. **Encode the hash using custom base64 alphabet**
+   - Treat the SHA-256 digest as raw bytes and base64-encode it.
+   - Replace the standard Base64 alphabet with the provided `alphabet`.
+   - Important:
+     - The alphabet should be 64 characters long.
+     - If it is not, the encoding cannot be performed correctly; optionally raise `ValueError`.
+
+9. **Return the required tuple**
+   - Return:
+     - the custom-base64-encoded hash
+     - the used salt
+   - Output type: `tuple`
+
+---
+
+### Edge cases to handle
+
+- `from_base < 2` or `to_base < 2` → `ValueError`
+- `num` contains invalid characters for `from_base` → `ValueError`
+- `num == "0"` → should still work and hash the correct converted value
+- Lowercase vs uppercase digits:
+  - Decide whether to accept both or normalize; be consistent
+- Very large numbers:
+  - Python can handle arbitrary-size integers, so conversion should still work
+- `alphabet` length not equal to 64:
+  - Should be treated as invalid for custom Base64 encoding
+- Duplicate characters in `alphabet`:
+  - Technically invalid for a proper custom Base64 alphabet; ideally reject
+- Random salt must be newly generated on each call so outputs differ across invocations
+
+---
+
+### Expected behavior example
+
+- Calling the function twice with the same inputs should usually produce different encoded hashes because the salt is random:
+  - `result1, salt1 = task_func('FF', 16, 8, alphabet)`
+  - `result2, salt2 = task_func('FF', 16, 8, alphabet)`
+  - `result1 != result2` should be `True`
+
+If you want, I can also turn this plan into the exact self-contained implementation starting with the required imports and function signature.

@@ -1,0 +1,78 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Convert the 'date' column of a DataFrame to ordinal, perform KMeans clustering on 'date' and 'value' columns, and plot the clusters. Required names: x: 'Date (ordinal)' ylabel: 'Value' title: 'KMeans Clustering of Value vs Date'
+The function should raise the exception for: ValueError: If the DataFrame is empty or lacks required columns.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object containing the scatter plot of the clusters.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df, n_clusters=3, random_state=0):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df, n_clusters=3, random_state=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(df, n_clusters=3, random_state=0)`:
+
+1. **Validate inputs**
+   - Check that `df` is not empty.
+   - Check that `df` contains both required columns: `'date'` and `'value'`.
+   - If either check fails, raise `ValueError`.
+   - Also validate that `n_clusters` is a positive integer and does not exceed the number of rows, because KMeans cannot fit with more clusters than samples.
+
+2. **Avoid mutating the caller’s DataFrame**
+   - Work on a copy of `df` so the original data remains unchanged.
+
+3. **Convert `date` to ordinal**
+   - Convert the `'date'` column to pandas datetime using `pd.to_datetime(...)`.
+   - Transform each timestamp to a Python ordinal integer using `.map(lambda x: x.toordinal())` or equivalent.
+   - Store the result in a new feature column, e.g. `'date_ordinal'`.
+
+4. **Prepare clustering features**
+   - Build the 2D feature matrix using:
+     - `date_ordinal`
+     - `value`
+   - Ensure `'value'` is numeric.
+   - If there are missing or non-numeric values after conversion, decide consistently:
+     - either raise `ValueError`,
+     - or drop invalid rows before clustering.
+   - For a strict, predictable function, raising `ValueError` is usually better.
+
+5. **Fit KMeans**
+   - Create `KMeans(n_clusters=n_clusters, random_state=random_state)`.
+   - Fit it on the two-column feature matrix.
+   - Save predicted cluster labels back into the copied DataFrame.
+
+6. **Create the plot**
+   - Create a Matplotlib figure/axes with `plt.subplots()`.
+   - Plot a scatter chart of:
+     - x = ordinal date
+     - y = value
+     - color = cluster label
+   - Use a colormap so clusters are visually distinct.
+
+7. **Set exact axis labels and title**
+   - `xlabel = 'Date (ordinal)'`
+   - `ylabel = 'Value'`
+   - `title = 'KMeans Clustering of Value vs Date'`
+
+8. **Return the Axes**
+   - Return the `matplotlib.axes.Axes` object containing the scatter plot.
+
+Edge cases to account for:
+- Empty DataFrame.
+- Missing required columns.
+- `n_clusters <= 0`.
+- `n_clusters > number of rows`.
+- Non-datetime or invalid date values.
+- Non-numeric or missing values in `'value'`.
+- DataFrames with only one row or only one valid sample after cleaning.
+- Timezone-aware dates, which should still be convertible through `pd.to_datetime`.
+
+If you want, I can turn this plan into the full function implementation next.

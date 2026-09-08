@@ -1,0 +1,156 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate n random strings of a specified length, count the frequency of each character across all strings, and return the result as a dictionary. Constants: - VALID_CHARACTERS: A string containing all valid characters (ASCII letters and digits) that can be used in the random strings.
+The function should output with:
+    dict: A dictionary containing character counts with characters as keys and their frequencies as values.
+You should write self-contained code starting with:
+```
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):
+```
+FULL SUPPLIED CONTEXT
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements Analysis
+
+You need a function:
+
+```python
+def task_func(n_strings, string_length):
+```
+
+that:
+
+1. Generates `n_strings` random strings.
+2. Each string has length `string_length`.
+3. Characters are chosen only from:
+
+```python
+VALID_CHARACTERS = string.ascii_letters + string.digits
+```
+
+4. Counts how often each character appears across **all generated strings**.
+5. Returns the counts as a `dict` mapping each character to its frequency.
+
+---
+
+## Implementation Plan
+
+### 1. Use the provided constants and imports
+- Keep the given imports:
+  - `random`
+  - `string`
+  - `collections`
+- Use `VALID_CHARACTERS` as the character pool.
+
+### 2. Generate random strings
+- Loop `n_strings` times.
+- For each iteration:
+  - Build a random string of length `string_length`.
+  - Each character should be selected independently from `VALID_CHARACTERS`.
+- A clean way is to use `random.choices(VALID_CHARACTERS, k=string_length)` and join the result.
+
+### 3. Count character frequencies
+- Accumulate all characters from all generated strings into one counting structure.
+- `collections.Counter` is the most suitable choice.
+- Update the counter as each string is generated, or collect all characters and count once.
+
+### 4. Return result as a dictionary
+- Convert the counter to a plain dictionary before returning.
+- The keys should be characters; values should be integer counts.
+
+---
+
+## Edge Cases to Handle
+
+### 1. `n_strings == 0`
+- No strings are generated.
+- Return an empty dictionary `{}`.
+
+### 2. `string_length == 0`
+- Generated strings are empty.
+- Total character count is zero.
+- Return `{}`.
+
+### 3. Both inputs are zero
+- Also return `{}`.
+
+### 4. Negative input values
+- `n_strings < 0` or `string_length < 0` are invalid.
+- Best behavior: raise `ValueError` with a clear message.
+
+### 5. Non-integer inputs
+- If either argument is not an integer, the function should ideally reject it.
+- Best behavior: raise `TypeError` or `ValueError`.
+- If strict validation is desired, check `isinstance(x, int)`.
+
+### 6. Very large inputs
+- The function may consume significant time and memory.
+- Since only counts are needed, counting incrementally is preferable to storing all strings.
+
+### 7. Empty `VALID_CHARACTERS`
+- Not expected here because it is predefined as letters + digits.
+- If it were empty, random generation would fail; no special handling needed for the provided task.
+
+---
+
+## Suggested Behavior Summary
+
+- Input:
+  - `n_strings`: number of random strings to generate
+  - `string_length`: length of each random string
+- Output:
+  - `dict[str, int]` with counts of each character across all generated strings
+
+---
+
+## Recommended Algorithm
+
+1. Validate inputs.
+2. Initialize `collections.Counter()`.
+3. For each of `n_strings` iterations:
+   - Generate a random string of length `string_length`.
+   - Update the counter with its characters.
+4. Return `dict(counter)`.
+
+---
+
+## Notes
+
+- The dictionary may not contain every valid character; it should contain only those that actually appear.
+- Order of keys in the returned dictionary is not important unless explicitly required.
+- The random process should use only characters from `VALID_CHARACTERS`.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import random
+import string
+import collections
+
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+
+def task_func(n_strings, string_length):
+    if not isinstance(n_strings, int) or not isinstance(string_length, int):
+        raise TypeError("n_strings and string_length must be integers")
+    if n_strings < 0 or string_length < 0:
+        raise ValueError("n_strings and string_length must be non-negative")
+
+    counts = collections.Counter()
+
+    for _ in range(n_strings):
+        random_string = ''.join(random.choices(VALID_CHARACTERS, k=string_length))
+        counts.update(random_string)
+
+    return dict(counts)
+```

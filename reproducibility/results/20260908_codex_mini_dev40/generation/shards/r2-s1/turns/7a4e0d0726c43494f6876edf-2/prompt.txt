@@ -1,0 +1,132 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a random sample from a normal distribution, analyze its skewness and kurtosis, and create a histogram and a QQ plot to visualize the distribution.
+The function should output with:
+    float: Skewness of the sample.
+    float: Kurtosis of the sample.
+    list: Paths to the saved plot files, empty if save_plots is False.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate inputs**
+   - Ensure `mean` is numeric.
+   - Ensure `std_dev` is a positive number.
+   - If `std_dev <= 0`, raise a clear `ValueError` because a normal distribution requires a positive scale.
+
+2. **Generate a random sample**
+   - Use `np.random.normal(loc=mean, scale=std_dev, size=n)`.
+   - Since the function signature does not include sample size, choose a fixed internal sample size such as `1000` or `5000`.
+   - Do not set a seed unless reproducibility is explicitly desired; otherwise the sample should remain random.
+
+3. **Compute summary statistics**
+   - Compute skewness with `scipy.stats.skew(sample)`.
+   - Compute kurtosis with `scipy.stats.kurtosis(sample)`.
+   - Convert both results to plain Python `float` before returning.
+   - Decide whether to use:
+     - default `kurtosis(..., fisher=True)` for excess kurtosis, or
+     - `fisher=False` for standard Pearson kurtosis.
+   - Use one consistently and document it in a comment.
+
+4. **Create plots**
+   - If `save_plots` is `True`:
+     - Create a histogram of the sample with `matplotlib.pyplot.hist`.
+     - Create a QQ plot using `scipy.stats.probplot(sample, dist="norm", plot=plt)`.
+     - Save both plots to files with descriptive names, for example:
+       - `histogram.png`
+       - `qq_plot.png`
+     - Collect the saved paths in a list and return it.
+   - If `save_plots` is `False`, skip plotting work and return an empty list.
+
+5. **Clean up figures**
+   - Call `plt.close()` or `plt.close('all')` after saving each plot to avoid figure reuse and memory buildup.
+
+6. **Return value**
+   - Return a 3-tuple:
+     - skewness as `float`
+     - kurtosis as `float`
+     - list of saved plot paths, or `[]` if `save_plots` is `False`
+
+Edge cases to handle:
+- `std_dev <= 0` → raise `ValueError`
+- non-numeric `mean` / `std_dev` → raise `TypeError` or let NumPy/SciPy fail with a clear error
+- `save_plots=True` but filesystem write fails → let the exception propagate or wrap it with a clearer message
+- very small sample size can make skewness/kurtosis unstable; since the size is internal, choose a reasonably large default
+- empty sample should not occur if internal size is fixed to a positive integer
+
+If you want, I can also turn this plan into the full self-contained function body.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+    """
+    Generate a random sample from a normal distribution, compute skewness and kurtosis,
+    and optionally save a histogram and QQ plot.
+
+    Returns:
+        tuple: (skewness: float, kurtosis: float, plot_paths: list[str])
+    """
+    # Validate inputs
+    if not np.isscalar(mean) or isinstance(mean, bool):
+        raise TypeError("mean must be a numeric scalar.")
+    if not np.isscalar(std_dev) or isinstance(std_dev, bool):
+        raise TypeError("std_dev must be a numeric scalar.")
+
+    mean = float(mean)
+    std_dev = float(std_dev)
+
+    if std_dev <= 0:
+        raise ValueError("std_dev must be a positive number.")
+
+    # Generate a random normal sample
+    sample_size = 5000
+    sample = np.random.normal(loc=mean, scale=std_dev, size=sample_size)
+
+    # Compute skewness and kurtosis
+    skewness = float(stats.skew(sample))
+    # Use Fisher's definition (excess kurtosis): normal distribution => 0
+    kurt = float(stats.kurtosis(sample, fisher=True))
+
+    plot_paths = []
+
+    if save_plots:
+        # Histogram
+        hist_path = "histogram.png"
+        plt.figure(figsize=(8, 6))
+        plt.hist(sample, bins="auto", edgecolor="black", alpha=0.75)
+        plt.title("Histogram of Normal Sample")
+        plt.xlabel("Value")
+        plt.ylabel("Frequency")
+        plt.tight_layout()
+        plt.savefig(hist_path, dpi=150)
+        plt.close()
+        plot_paths.append(hist_path)
+
+        # QQ plot
+        qq_path = "qq_plot.png"
+        plt.figure(figsize=(8, 6))
+        stats.probplot(sample, dist="norm", plot=plt)
+        plt.title("QQ Plot of Normal Sample")
+        plt.tight_layout()
+        plt.savefig(qq_path, dpi=150)
+        plt.close()
+        plot_paths.append(qq_path)
+
+    return skewness, kurt, plot_paths
+```

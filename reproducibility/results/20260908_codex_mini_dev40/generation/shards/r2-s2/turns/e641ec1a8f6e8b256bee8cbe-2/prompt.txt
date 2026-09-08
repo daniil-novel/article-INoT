@@ -1,0 +1,185 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Protects all double quotes in all Excel (.xlsx) files in the specified directory by prefixing them with a double backslash.
+The function should output with:
+    int: The number of Excel files processed.
+You should write self-contained code starting with:
+```
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+def task_func(directory_path='./xlsx_files/'):
+```
+FULL SUPPLIED CONTEXT
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+def task_func(directory_path='./xlsx_files/'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(directory_path='./xlsx_files/')` that meets the requirement of protecting all double quotes in all `.xlsx` files in the specified directory by prefixing them with a double backslash.
+
+## Goal
+Process every Excel workbook in `directory_path` and replace every literal double quote (`"`) in cell text with `\\"` so the quotes are protected. Return the number of Excel files processed.
+
+## Proposed approach
+
+1. **Collect target files**
+   - Use `glob.glob(os.path.join(directory_path, '*.xlsx'))` to find all `.xlsx` files in the directory.
+   - Ignore temporary Excel lock files such as `~$*.xlsx` if they appear.
+
+2. **Open each workbook**
+   - Load each file with `openpyxl.load_workbook(...)`.
+   - Use `keep_vba=False` unless macro support is needed; the task only mentions `.xlsx`, so standard workbook handling is enough.
+   - Process all sheets in the workbook.
+
+3. **Traverse all cells**
+   - For each worksheet, iterate through all populated cells using `worksheet.iter_rows()`.
+   - Check only string-like cell values.
+   - If a cell value is a string and contains `"`, replace every `"` with `\\"`.
+
+4. **Write changes back**
+   - Save the modified workbook back to the same file path.
+   - If no cells were changed, the workbook can still be saved or skipped; either is acceptable unless you want to avoid unnecessary rewrites.
+
+5. **Return result**
+   - Return the count of `.xlsx` files successfully processed.
+
+---
+
+## Important implementation details
+
+### Quote replacement rule
+- Each double quote must be prefixed with a **double backslash**.
+- In Python string literal form, the replacement string should be written carefully to produce the actual text `\\"`.
+- The intended stored cell text should become:
+  - `He said "hi"` → `He said \\"hi\\"`
+
+### Type handling
+Only modify:
+- `str` values
+
+Do not modify:
+- `None`
+- numbers
+- booleans
+- dates/datetimes
+- formulas
+- error values
+
+### Workbook structure
+Ensure processing covers:
+- All worksheets in the workbook
+- All populated cells, including cells in merged regions if they store values in the top-left cell
+- Cells inside tables/charts are not required unless they are regular cell values
+
+---
+
+## Suggested edge cases
+
+1. **Empty directory**
+   - No `.xlsx` files found.
+   - Return `0`.
+
+2. **Files with no quote characters**
+   - File is still a valid target.
+   - Either save unchanged or skip save; return count as processed if opened successfully.
+
+3. **Multiple quotes in one cell**
+   - Replace all occurrences, not just the first.
+
+4. **Cells containing formulas**
+   - Do not alter formula strings unless the task explicitly says formulas should be edited.
+   - In `openpyxl`, formulas are also stored as strings starting with `=`, so decide whether to preserve them untouched.
+
+5. **Cells with embedded special text**
+   - Strings containing newline characters, tabs, or Unicode should remain intact except for quote replacement.
+
+6. **Hidden sheets**
+   - Hidden worksheets should still be processed, since they are part of the workbook.
+
+7. **Read-only / locked files**
+   - If a workbook cannot be opened or saved, skip it and continue, unless you want the function to fail fast.
+   - Since the requirement asks for the number processed, it’s usually better to count only successfully processed files.
+
+8. **Temporary Excel lock files**
+   - Skip files beginning with `~$` to avoid processing temp lock files.
+
+9. **Non-`.xlsx` files**
+   - Ignore them entirely.
+
+10. **Corrupted workbook**
+   - Catch exceptions during load/save and skip the file rather than stopping the entire run, if robustness is desired.
+
+---
+
+## Recommended structure of the function
+
+- Define a counter: `processed = 0`
+- Build file list via glob
+- Loop over each file:
+  - skip temp files
+  - load workbook
+  - loop sheets/cells
+  - replace quotes in string cell values
+  - save workbook
+  - increment counter
+- return `processed`
+
+---
+
+## Complexity
+- Let `F` be the number of `.xlsx` files and `C` the total number of cells scanned.
+- Time complexity: **O(C)** overall
+- Space complexity: **O(1)** additional space aside from workbook loading
+
+If you want, I can also provide the exact implementation following this plan.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import regex as re
+import glob
+import os
+from openpyxl import load_workbook
+
+def task_func(directory_path='./xlsx_files/'):
+    processed = 0
+    for file_path in glob.glob(os.path.join(directory_path, '*.xlsx')):
+        if os.path.basename(file_path).startswith('~$'):
+            continue
+
+        try:
+            workbook = load_workbook(file_path)
+        except Exception:
+            continue
+
+        try:
+            changed = False
+            for worksheet in workbook.worksheets:
+                for row in worksheet.iter_rows():
+                    for cell in row:
+                        if cell.data_type == 'f':
+                            continue
+                        value = cell.value
+                        if isinstance(value, str) and '"' in value:
+                            new_value = value.replace('"', '\\\\' + '"')
+                            if new_value != value:
+                                cell.value = new_value
+                                changed = True
+
+            if changed:
+                workbook.save(file_path)
+
+            processed += 1
+        except Exception:
+            continue
+        finally:
+            try:
+                workbook.close()
+            except Exception:
+                pass
+
+    return processed
+```

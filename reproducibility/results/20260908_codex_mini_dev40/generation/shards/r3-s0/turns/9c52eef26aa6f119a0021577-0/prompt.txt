@@ -1,0 +1,22 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a high-dimensional dataset, run PCA to reduce its dimensionality, and then draw a heatmap of the covariance matrix of the transformed data.
+The function should output with:
+    tuple:
+    transformed_data (ndarray): The transformed data of shape (N_SAMPLES, n_components).
+    heatmap_axes (Axes): The heatmap of the covariance matrix of the transformed data or None if n_components=1.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(n_components=2, N_SAMPLES=500, N_FEATURES=50, random_seed=None):

@@ -1,0 +1,98 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a random sample from a normal distribution, analyze its skewness and kurtosis, and create a histogram and a QQ plot to visualize the distribution.
+The function should output with:
+    float: Skewness of the sample.
+    float: Kurtosis of the sample.
+    list: Paths to the saved plot files, empty if save_plots is False.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Plan for the implementation:
+
+1. **Keep the required function signature unchanged**
+   - Start exactly with the supplied imports and:
+     ```python
+     def task_func(mean=123456.908, std_dev=1.2, save_plots=False):
+     ```
+   - Return a 3-item tuple:
+     - `float` skewness
+     - `float` kurtosis
+     - `list` of saved plot file paths, or `[]` when `save_plots=False`
+
+2. **Generate a normal sample**
+   - Use `np.random.normal(loc=mean, scale=std_dev, size=N)` where `N` is a fixed internal sample size, e.g. `1000`.
+   - Since no sample-size argument is provided, choose a reasonably large default to make skewness/kurtosis meaningful.
+   - Optionally use a local RNG (`np.random.default_rng()`) for cleaner randomness handling.
+
+3. **Validate inputs before sampling**
+   - Ensure `mean` and `std_dev` are numeric and finite.
+   - Require `std_dev > 0`; otherwise raise `ValueError`.
+   - This prevents invalid normal distribution parameters and avoids confusing downstream errors.
+
+4. **Compute skewness and kurtosis**
+   - Use SciPy:
+     - `stats.skew(sample, bias=False)`
+     - `stats.kurtosis(sample, fisher=True, bias=False)`
+   - `fisher=True` gives **excess kurtosis**; this is the most common statistical convention.
+   - Convert results to plain Python `float` before returning if needed.
+
+5. **Create the histogram**
+   - Build a histogram of the generated sample with `matplotlib.pyplot.hist`.
+   - Use a sensible bin count such as 30.
+   - Add labels, title, and grid for readability.
+
+6. **Create the QQ plot**
+   - Use `stats.probplot(sample, dist="norm", plot=plt)` or the figure/axes equivalent.
+   - This visually checks how closely the sample matches a normal distribution.
+
+7. **Save plots conditionally**
+   - If `save_plots` is `True`:
+     - Save histogram and QQ plot as image files, preferably PNG.
+     - Use deterministic filenames, e.g.:
+       - `histogram.png`
+       - `qq_plot.png`
+     - Collect the file paths in a list and return them.
+   - If `save_plots` is `False`:
+     - Do not save files.
+     - Return an empty list.
+
+8. **Close figures after saving**
+   - Call `plt.close()` / `plt.close(fig)` to avoid memory leaks and figure overlap in repeated calls.
+
+## Edge cases to handle
+
+- **Negative or zero `std_dev`**
+  - Invalid for a normal distribution.
+  - Should raise `ValueError` with a clear message.
+
+- **Non-numeric or non-finite inputs**
+  - `mean`, `std_dev` should not be `None`, strings, `nan`, or infinite values.
+  - Validate and fail early.
+
+- **Very small sample sizes**
+  - Not an issue if you use a fixed internal sample size like 1000.
+  - Skewness/kurtosis estimates are unstable for tiny samples, so avoid too-small `N`.
+
+- **Plot saving disabled**
+  - Must return `[]` for the paths list.
+
+- **File save errors**
+  - If the environment cannot write files, saving will fail.
+  - Best behavior is to let the exception propagate rather than silently pretending success.
+
+- **Kurtosis convention ambiguity**
+  - Be explicit in code about using excess kurtosis (`fisher=True`) so the output is well-defined.
+
+If you want, I can now write the full implementation in one self-contained function.

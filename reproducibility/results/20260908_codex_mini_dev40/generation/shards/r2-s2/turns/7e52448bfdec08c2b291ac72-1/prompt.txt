@@ -1,0 +1,81 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Look for files that match the pattern of the regular expression '(? <! Distillr)\\\\ AcroTray\\.exe' in the directory 'C:\\ SomeDir\\'. If found, write these file paths to a configuration file.
+The function should output with:
+    str: Path to the created configuration file.
+You should write self-contained code starting with:
+```
+import re
+import os
+import shutil
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+import shutil
+def task_func(source_dir, target_dir, file_pattern=r'\b[A-Za-z0-9]+\.(txt|doc|docx)\b'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func`:
+
+## Goal
+Search `source_dir` recursively for files whose **full path** matches the regex pattern for `AcroTray.exe` with the negative lookbehind for `Distillr`, then write all matched file paths into a config file under `target_dir`, and return the config file path as a string.
+
+## Planned behavior
+
+1. **Validate inputs**
+   - Ensure `source_dir` exists and is a directory.
+   - Ensure `target_dir` exists; create it if needed.
+   - Compile `file_pattern` as a regular expression.
+   - If the regex is invalid, fail clearly with an exception.
+
+2. **Walk the directory tree**
+   - Use `os.walk(source_dir)` to search recursively.
+   - For each file found:
+     - Build its full path with `os.path.join(root, filename)`.
+     - Normalize path separators so regex matching is consistent on Windows-style backslashes.
+
+3. **Apply regex matching**
+   - Match the regex against the **full file path**, not just the filename, because the pattern includes a backslash before `AcroTray.exe`.
+   - The intended pattern should match paths like:
+     - `C:\SomeDir\...\AcroTray.exe`
+   - The negative lookbehind `(?<!Distillr)` means paths immediately preceded by `Distillr` before the backslash should be excluded.
+
+4. **Collect matched paths**
+   - Store matched file paths in a list.
+   - Optionally deduplicate them if needed, though `os.walk` normally won’t repeat paths.
+
+5. **Write configuration file**
+   - Create a config file in `target_dir` with a deterministic name, for example:
+     - `matched_files.cfg`
+   - Write each matched path on its own line.
+   - If no files match, still create the config file, but leave it empty.
+
+6. **Return result**
+   - Return the path to the created config file as a string.
+
+## Edge cases to handle
+
+- **No matches found**
+  - Still create the config file and return its path.
+- **`source_dir` does not exist**
+  - Raise `FileNotFoundError` or a similar clear exception.
+- **`target_dir` does not exist**
+  - Create it automatically.
+- **Invalid regex pattern**
+  - Raise a regex compilation error or convert it to a user-friendly exception.
+- **Permission problems**
+  - Let filesystem errors surface naturally, since the task depends on being able to read source files and write output.
+- **Path separator differences**
+  - Normalize paths before applying the regex so the pattern behaves predictably on Windows paths.
+- **Pattern semantics**
+  - Make sure the regex is applied to the whole path; matching only basenames would not respect the `\\AcroTray.exe` part.
+- **Duplicate results**
+  - If any arise, keep only unique paths before writing.
+
+## Output contract
+- The function should return:
+  - `str`: the path to the created configuration file.
+
+If you want, I can next turn this plan into the exact self-contained Python implementation.

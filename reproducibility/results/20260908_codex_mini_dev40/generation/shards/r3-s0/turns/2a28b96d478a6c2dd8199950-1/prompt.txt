@@ -1,0 +1,120 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Simulate rolling a certain number of a standard six-sided dice several times, then identify and display the distribution of the sums of the dice rolls in a bar plot.
+The function should output with:
+    tuple: A tuple containing the following elements:
+    Counter: A Counter object with the count of each possible sum.
+    Axes: A matplotlib Axes object representing the bar plot of the Distribution of Dice Roll Sums,
+    with Sum of Dice Roll on the x-axis and count on the y-axis.
+You should write self-contained code starting with:
+```
+from collections import Counter
+import random
+import matplotlib.pyplot as plt
+def task_func(num_rolls, num_dice, plot_path=None, random_seed=0):
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+import random
+import matplotlib.pyplot as plt
+def task_func(num_rolls, num_dice, plot_path=None, random_seed=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(num_rolls, num_dice, plot_path=None, random_seed=0)`.
+
+## Goal
+Simulate rolling `num_dice` standard six-sided dice `num_rolls` times, compute the sum for each trial, count frequencies of each sum, and display them in a bar plot.
+
+---
+
+## Implementation plan
+
+### 1. Initialize randomness
+- Call `random.seed(random_seed)` so results are reproducible.
+- Use Python’s built-in `random.randint(1, 6)` for each die roll.
+
+### 2. Simulate dice rolls
+- For each of the `num_rolls` trials:
+  - Roll `num_dice` dice.
+  - Sum the results.
+  - Store the sum in a list or directly update a `Counter`.
+
+Recommended approach:
+- Maintain a list of trial sums, then convert to `Counter`.
+- Or directly increment `Counter[sum_value] += 1` per trial.
+
+### 3. Build the distribution
+- Create a `Counter` mapping each possible sum to how many times it occurred.
+- The keys will range from:
+  - minimum possible sum = `num_dice`
+  - maximum possible sum = `6 * num_dice`
+- Ensure the plot includes all sums in that range, even if some never occurred.
+
+### 4. Create the bar plot
+- Use `matplotlib.pyplot.subplots()` to create a figure and axes.
+- Plot a bar chart with:
+  - x-axis: possible sums
+  - y-axis: counts from the `Counter`
+- Label the axes:
+  - x-axis: `Sum of Dice Roll`
+  - y-axis: `Count`
+- Set the title to something like:
+  - `Distribution of Dice Roll Sums`
+
+### 5. Handle optional saving
+- If `plot_path` is provided:
+  - save the figure to that path using `plt.savefig(plot_path)`
+
+### 6. Return value
+Return a tuple:
+- `Counter` object with the distribution
+- `Axes` object for the bar plot
+
+So the return format should be:
+```python
+return distribution_counter, ax
+```
+
+---
+
+## Edge cases to consider
+
+### 1. `num_rolls == 0`
+- No simulations should be run.
+- The `Counter` will be empty.
+- The plot can still be created with the full sum range, but all bars should have height 0, or alternatively the plot may remain empty.
+- Best practice: still return a valid `Axes`.
+
+### 2. `num_dice == 0`
+- Mathematically, the sum of zero dice is `0`.
+- If allowed, every roll produces sum `0`.
+- If not allowed by intended spec, raise `ValueError`.
+- Since the prompt says “a certain number of standard six-sided dice,” positive integers are likely intended.
+
+### 3. Negative or non-integer inputs
+- If `num_rolls` or `num_dice` is negative, raise `ValueError`.
+- If either is not an integer, raise `TypeError` or `ValueError`.
+- This helps avoid silent incorrect behavior.
+
+### 4. Very large values
+- Large `num_rolls` may be slow.
+- The implementation should still be straightforward and correct, even if not optimized for huge simulations.
+
+### 5. Plot path handling
+- If `plot_path` is `None`, just show/create the plot without saving.
+- If provided, ensure the figure is saved before returning.
+
+---
+
+## Suggested structure
+1. Import/assume `Counter`, `random`, `matplotlib.pyplot as plt`
+2. Define `task_func(...)`
+3. Validate inputs
+4. Seed RNG
+5. Simulate rolls and collect sums
+6. Build `Counter`
+7. Plot bar chart
+8. Save if needed
+9. Return `(counter, ax)`
+
+If you want, I can also turn this plan into the full implementation code.

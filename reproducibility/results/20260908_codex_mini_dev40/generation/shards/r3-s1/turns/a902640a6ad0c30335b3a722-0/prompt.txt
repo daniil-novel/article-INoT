@@ -1,0 +1,22 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Run a random bash script from a list of scripts.
+The function should output with:
+    script (str): The full path of the script that was executed.
+You should write self-contained code starting with:
+```
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():

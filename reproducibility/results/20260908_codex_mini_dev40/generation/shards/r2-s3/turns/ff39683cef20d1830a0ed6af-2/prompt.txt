@@ -1,0 +1,204 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Upload all files from a specific directory to the specified server URL, along with the associated metadata. In addition, the speed limit function pauses for one second after each upload.
+The function should raise the exception for: The function will raise FileNotFoundError if the directory does not exist. The function will raise TypeError if the url is invalid.
+The function should output with:
+    list: A list of status codes for the upload responses.
+You should write self-contained code starting with:
+```
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):
+```
+FULL SUPPLIED CONTEXT
+import requests
+import os
+import json
+import time
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+def task_func(url, directory, metadata):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a solid implementation plan for `task_func(url, directory, metadata)` based on the requirements.
+
+## Goal
+Upload every file in a given directory to a server URL, include the provided metadata with each upload, pause 1 second after each upload, and return a list of HTTP status codes.
+
+---
+
+## Implementation plan
+
+### 1) Validate inputs
+- **Check that `directory` exists and is a directory**
+  - If it does not exist, raise `FileNotFoundError`.
+  - If it exists but is not a directory, treat it the same way or raise `FileNotFoundError` for consistency.
+- **Validate `url`**
+  - Ensure it is a valid URL string.
+  - If invalid, raise `TypeError`.
+  - A reasonable validation rule is:
+    - must be a non-empty string
+    - must have a scheme like `http` or `https`
+    - must have a network location/host
+  - This avoids sending malformed requests.
+
+### 2) Collect files to upload
+- List all entries in the directory.
+- Upload **files only**, not subdirectories.
+- Sort the file list for deterministic behavior.
+- If the directory is empty, return an empty list.
+
+### 3) Prepare upload payload
+- For each file:
+  - Read its contents.
+  - Combine:
+    - the file name
+    - the file data
+    - the provided `metadata`
+- Since the request headers indicate JSON:
+  - The upload body should be JSON-serializable.
+  - If file contents are binary, they may need encoding before being placed into JSON.
+- Keep the metadata attached to each file upload, not just once globally.
+
+### 4) Send the request
+- Use `requests.post(...)` to upload each file to `url`.
+- Pass the headers defined in `HEADERS`.
+- Capture the response object.
+- Append `response.status_code` to the result list.
+
+### 5) Enforce speed limit
+- After each upload attempt, pause for **1 second** using `time.sleep(1)`.
+- The pause should happen even if an upload fails, if the intended behavior is strict rate limiting.
+
+### 6) Return result
+- Return a `list` of status codes in upload order.
+
+---
+
+## Edge cases to handle
+
+### Directory-related
+- **Directory does not exist**
+  - Raise `FileNotFoundError`.
+- **Directory exists but is empty**
+  - Return `[]`.
+- **Directory contains subdirectories**
+  - Ignore them and upload only regular files.
+- **Permission issues reading files**
+  - These are not explicitly specified; typically let them raise naturally unless you want defensive handling.
+
+### URL-related
+- **Malformed URL**
+  - Raise `TypeError`.
+- **Unsupported scheme**
+  - Treat as invalid URL and raise `TypeError` if it doesn’t meet the validation rule.
+
+### Metadata-related
+- **Metadata is not JSON-serializable**
+  - Since uploads are JSON-based, this may cause serialization errors.
+  - The spec does not define special handling, so let the exception propagate unless you want to normalize it.
+
+### Upload-related
+- **Server returns 4xx/5xx**
+  - Still a valid response; append the status code.
+- **Network failure / request exception**
+  - Not explicitly specified.
+  - Best default: let the exception propagate, since no recovery behavior is defined.
+- **One file fails, others should still upload**
+  - The requirements do not explicitly say whether to continue on errors.
+  - If robustness is desired, catch per-file request exceptions and continue; otherwise fail fast.
+  - If implementing strictly by spec, fail-fast is acceptable unless you choose to define more tolerant behavior.
+
+### Timing-related
+- **Ensure 1-second delay after every upload**
+  - Even if response is non-200, the delay should still happen after the attempt.
+
+---
+
+## Suggested internal flow
+1. Validate `url`.
+2. Validate `directory`.
+3. Build sorted list of files.
+4. Initialize `status_codes = []`.
+5. For each file:
+   - read file
+   - build request JSON with metadata + file info
+   - POST to server
+   - append `response.status_code`
+   - sleep 1 second
+6. Return `status_codes`.
+
+---
+
+## Notes
+- The function should preserve the provided `HEADERS` constant.
+- Because the file upload format is not fully specified, the implementation should keep the upload payload simple and JSON-safe.
+- If strict conformance to the given headers matters, avoid multipart form upload unless the server expects it.
+
+If you want, I can also turn this plan into the actual self-contained function code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import requests
+import os
+import json
+import time
+from urllib.parse import urlparse
+import base64
+
+# Redefining the function in the current context
+HEADERS = {
+    'accept': 'text/json',
+    'Content-Type': 'application/json'
+}
+
+def task_func(url, directory, metadata):
+    # Validate URL
+    if not isinstance(url, str):
+        raise TypeError("Invalid URL")
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        raise TypeError("Invalid URL")
+
+    # Validate directory
+    if not os.path.isdir(directory):
+        raise FileNotFoundError(directory)
+
+    status_codes = []
+
+    # Upload files only, in deterministic order
+    filenames = sorted(
+        name for name in os.listdir(directory)
+        if os.path.isfile(os.path.join(directory, name))
+    )
+
+    for filename in filenames:
+        file_path = os.path.join(directory, filename)
+
+        with open(file_path, "rb") as f:
+            file_bytes = f.read()
+
+        payload = {
+            "filename": filename,
+            "metadata": metadata,
+            "content": base64.b64encode(file_bytes).decode("ascii"),
+        }
+
+        try:
+            response = requests.post(url, headers=HEADERS, data=json.dumps(payload))
+            status_codes.append(response.status_code)
+        finally:
+            time.sleep(1)
+
+    return status_codes
+```

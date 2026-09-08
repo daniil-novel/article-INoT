@@ -1,0 +1,145 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Converts a given hex string to a float number and then compresses the binary32 float number.
+The function should output with:
+    bytes: The compressed float number.
+You should write self-contained code starting with:
+```
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):
+```
+FULL SUPPLIED CONTEXT
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for the function.
+
+## Goal
+Take a hexadecimal string that encodes a 32-bit IEEE-754 float, convert it to a Python float, then compress its binary32 byte representation with `zlib`.
+
+## Planned approach
+
+1. **Accept input**
+   - Default to `KEY = '470FC614'` if no argument is passed.
+   - Treat the input as a hex string representing exactly 4 bytes.
+
+2. **Normalize the hex string**
+   - Strip surrounding whitespace.
+   - Optionally handle a `0x` / `0X` prefix if present.
+   - Keep the original case irrelevant since hex parsing is case-insensitive.
+
+3. **Validate the input**
+   - Ensure the remaining string contains only valid hex characters.
+   - Prefer enforcing length `8` hex digits for a binary32 value.
+   - If the input is malformed, raise a `ValueError` with a clear message.
+
+4. **Convert hex to raw bytes**
+   - Parse the hex string into a 4-byte sequence.
+   - Use big-endian interpretation unless the problem explicitly states otherwise.
+   - This is important because IEEE-754 float bytes are order-sensitive.
+
+5. **Unpack bytes into a Python float**
+   - Use `struct.unpack('>f', ...)` to interpret the 4 bytes as a binary32 float.
+   - This preserves special values such as:
+     - `+0.0` / `-0.0`
+     - `inf` / `-inf`
+     - `nan`
+
+6. **Repack the float as binary32 bytes**
+   - Use `struct.pack('>f', value)` to ensure the float is represented as a 4-byte binary32 value.
+   - This step normalizes the float back into the exact binary32 layout before compression.
+
+7. **Compress the binary32 bytes**
+   - Pass the 4-byte result into `zlib.compress(...)`.
+   - The output should be the compressed `bytes` object.
+
+8. **Return result**
+   - Return the compressed bytes in the required format, likely:
+     - `{"bytes": compressed_data}`
+
+---
+
+## Edge cases to handle
+
+1. **Invalid hex input**
+   - Non-hex characters like `G`, `Z`, spaces inside the string, etc.
+   - Should raise a `ValueError`.
+
+2. **Wrong length**
+   - If the hex string is not exactly 8 hex digits after normalization.
+   - Either reject it or define a strict rule; strict validation is safer.
+
+3. **Prefix handling**
+   - Inputs like `0x470FC614` should either be supported by stripping the prefix or rejected consistently.
+   - Supporting it makes the function more robust.
+
+4. **Leading zeros**
+   - Example: `00000001`
+   - Must be preserved in parsing; do not trim them before conversion.
+
+5. **Special floating-point values**
+   - IEEE-754 bit patterns can represent:
+     - `NaN`
+     - `Infinity`
+     - signed zero
+     - denormal/subnormal numbers
+   - The code should not try to “fix” them; just convert and repack.
+
+6. **Endianness**
+   - Using native endianness can produce inconsistent results across platforms.
+   - Always use explicit big-endian format (`'>'`) for deterministic behavior.
+
+7. **Compression of very small payload**
+   - A 4-byte input may compress to a larger output because of zlib headers.
+   - That is expected and not an error.
+
+---
+
+## Implementation notes
+- `struct` is the correct tool for bit-preserving float conversion.
+- `zlib.compress` returns `bytes`, which matches the requested output.
+- Keep the implementation self-contained and deterministic.
+
+If you want, I can also turn this plan into the exact function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import struct
+import zlib
+
+# Constants
+KEY = '470FC614'
+
+
+def task_func(hex_string=KEY):
+    if not isinstance(hex_string, str):
+        raise TypeError("hex_string must be a string")
+
+    s = hex_string.strip()
+    if s.startswith(("0x", "0X")):
+        s = s[2:]
+
+    if len(s) != 8:
+        raise ValueError("hex_string must contain exactly 8 hex digits")
+
+    try:
+        raw_bytes = bytes.fromhex(s)
+    except ValueError as exc:
+        raise ValueError("hex_string must be a valid hexadecimal string") from exc
+
+    # Convert the IEEE-754 binary32 bytes to a Python float
+    value = struct.unpack(">f", raw_bytes)[0]
+
+    # Repack as binary32 and compress
+    binary32_bytes = struct.pack(">f", value)
+    compressed_bytes = zlib.compress(binary32_bytes)
+
+    return {"bytes": compressed_bytes}
+```

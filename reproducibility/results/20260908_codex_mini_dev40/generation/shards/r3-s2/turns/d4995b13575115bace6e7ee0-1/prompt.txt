@@ -1,0 +1,132 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Read a CSV file into a Pandas DataFrame, convert numeric values into floats,and draw a line chart of data in the specified columns. In addition, compute the cube-root of the data.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame of the data in the CSV file.
+    Axes: A matplotlib Axes object showing the plotted data.
+    Series: A pandas Series containing the cube-root of the data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(file_path="data.csv", columns=["A", "B", "C"]):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(file_path="data.csv", columns=["A", "B", "C"]):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is a clear implementation plan for `task_func(file_path="data.csv", columns=["A", "B", "C"])`, including edge cases.
+
+## Goal
+Implement a function that:
+
+1. Reads a CSV file into a `pandas.DataFrame`
+2. Converts numeric values to floats
+3. Draws a line chart for the specified columns
+4. Computes the cube-root of the data
+5. Returns a tuple:
+   - `DataFrame`
+   - `matplotlib.axes.Axes`
+   - `pandas.Series`
+
+---
+
+## Implementation Plan
+
+### 1. Read the CSV file
+- Use `pd.read_csv(file_path)` to load the file.
+- The resulting object should be a `DataFrame`.
+
+### 2. Validate / handle the requested columns
+- Check that all column names in `columns` exist in the DataFrame.
+- If any requested column is missing, decide whether to:
+  - raise an informative error, or
+  - let pandas raise a `KeyError`
+- For robustness, an explicit check with a clear error message is preferable.
+
+### 3. Convert numeric values to floats
+- Convert relevant data to floating-point numbers.
+- Since the task says “convert numeric values into floats,” the safest interpretation is:
+  - apply numeric conversion to the whole DataFrame where possible, or
+  - at least convert the selected plotting columns to float
+- Non-numeric cells should be handled gracefully:
+  - use coercion to `NaN` for invalid numeric values if appropriate
+- Ensure the selected columns become float-typed if they contain numeric data.
+
+### 4. Compute the cube-root of the data
+- Compute the cube-root for the data values.
+- Most likely this should be done for the specified columns, since those are the ones being plotted.
+- Important: cube-root must work for negative numbers too.
+  - Use a sign-preserving approach instead of simple exponentiation if negative values may occur.
+- Decide whether the cube-root result should be:
+  - a `Series` for one column, or
+  - an aggregated/flattened `Series` for multiple columns
+- Since the required return type is a single `Series`, a reasonable choice is:
+  - compute cube-root values for the selected data and return them as a flattened `Series`
+
+### 5. Draw the line chart
+- Use Matplotlib to create a line chart from the selected columns.
+- Plot each requested column as a separate line.
+- Include labels/legend so the chart is interpretable.
+- Return the `Axes` object, not the figure.
+
+### 6. Return values
+Return a tuple in this order:
+1. The DataFrame
+2. The Matplotlib Axes object
+3. The cube-root `Series`
+
+---
+
+## Important Edge Cases
+
+### Missing file
+- If `file_path` does not exist, `pd.read_csv` will fail.
+- Letting the exception propagate is acceptable, but a clearer message is better.
+
+### Missing columns
+- If one or more requested columns are absent, the function should raise a clear error.
+
+### Non-numeric values in selected columns
+- Cells like `"x"`, empty strings, or mixed types may prevent direct float conversion.
+- Convert with coercion if robustness is needed, producing `NaN` for invalid entries.
+
+### Negative numbers for cube-root
+- Using `x ** (1/3)` can fail or produce complex results for negative values.
+- Use a sign-preserving cube-root formula so negative values are handled correctly.
+
+### Empty CSV
+- An empty file may result in an empty DataFrame or read failure.
+- Plotting empty data should be handled gracefully or raise an informative error.
+
+### No selected columns provided
+- If `columns` is empty, there is nothing to plot or cube-root.
+- This should raise a clear validation error.
+
+### Duplicate column names
+- If the CSV contains duplicate names, column selection may behave unexpectedly.
+- Best to assume standard unique column names, or validate if necessary.
+
+### Single-column input
+- The function should still work if `columns` contains only one column.
+- The plot should show one line, and the returned cube-root result should still be a `Series`.
+
+### Mixed dtypes
+- Some columns may already be numeric while others are strings.
+- Converting selected data to numeric float types avoids plotting errors.
+
+---
+
+## Design Choice to Clarify
+One ambiguity is what exactly “compute the cube-root of the data” refers to:
+- **Option A:** cube-root of the specified plotting columns only
+- **Option B:** cube-root of all numeric data in the DataFrame
+
+The most practical interpretation is **Option A**, since the task specifically asks to plot the specified columns and return a cube-root `Series`. If needed, this can be documented in the implementation.
+
+---
+
+If you want, I can now produce the actual implementation in the exact requested function format.

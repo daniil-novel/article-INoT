@@ -1,0 +1,18 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate a number of random lowercase letters and count their occurrences. This function takes an integer input to determine how many random letters to generate and an optional seed for consistent randomness. It then creates a list of these letters, chosen from the English lowercase alphabet, and counts each letter's occurrences. The result is returned as a Counter object (from the collections module) which behaves like a dictionary where the keys are the letters, and the values are their counts.
+Note that: The function internally uses a list to store the randomly generated letters before counting them. The randomness of letter selection can be consistent by providing a seed.
+The function should output with:
+    Counter: A collections.Counter object with the count of each letter.
+You should write self-contained code starting with:
+```
+import string
+import random
+from collections import Counter
+def task_func(n, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import string
+import random
+from collections import Counter
+def task_func(n, seed=None):

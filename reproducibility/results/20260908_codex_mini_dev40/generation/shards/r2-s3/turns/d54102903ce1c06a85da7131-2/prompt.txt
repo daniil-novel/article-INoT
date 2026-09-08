@@ -1,0 +1,128 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Converts a given hex string to a float number and then compresses the binary32 float number.
+The function should output with:
+    bytes: The compressed float number.
+You should write self-contained code starting with:
+```
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):
+```
+FULL SUPPLIED CONTEXT
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Normalize the input hex string**
+   - Accept `hex_string` as a string of hexadecimal digits.
+   - Strip whitespace.
+   - Optionally remove a leading `0x` / `0X` if present.
+   - Validate that the remaining string is a valid hex representation.
+
+2. **Convert hex to the underlying 32-bit bit pattern**
+   - Parse the hex string into an integer with base 16.
+   - Treat this integer as the raw IEEE-754 binary32 bit pattern, not as a decimal number.
+
+3. **Convert the binary32 bits to a Python float**
+   - Use `struct.pack` and `struct.unpack` with 4-byte formats.
+   - Typical approach:
+     - pack the integer as unsigned 32-bit: `struct.pack('!I', bits)`
+     - unpack as float: `struct.unpack('!f', ...)[0]`
+   - Use network/big-endian order consistently so the mapping from hex to binary32 is stable.
+
+4. **Re-pack the float into binary32 bytes**
+   - Convert the float back to 4 IEEE-754 bytes using `struct.pack('!f', value)`.
+   - This ensures the compressed payload is exactly the binary32 representation.
+
+5. **Compress the binary32 bytes**
+   - Apply `zlib.compress(...)` to the 4-byte binary32 buffer.
+   - The result is the compressed byte string.
+
+6. **Return the result in the required format**
+   - Return a dictionary like:
+     - `{"bytes": compressed_bytes}`
+   - If the evaluation expects a raw bytes object instead, adapt accordingly; but the prompt explicitly says output with `bytes`, so a dict key named `bytes` is the safest interpretation.
+
+Edge cases to handle:
+
+- **Invalid hex input**
+  - Non-hex characters should raise an error or be handled cleanly.
+- **Wrong length**
+  - A binary32 value should normally be exactly 8 hex characters.
+  - Decide whether to reject shorter/longer inputs or accept them if they still fit in 32 bits.
+- **Leading `0x` prefix**
+  - Support it by stripping before parsing.
+- **Whitespace / casing**
+  - Trim whitespace and allow uppercase/lowercase hex.
+- **Special IEEE-754 values**
+  - `NaN`, `+inf`, `-inf`, `+0.0`, `-0.0`, and subnormals should still round-trip through `struct`.
+- **Compression may not shrink data**
+  - Since the input is only 4 bytes, `zlib` output may be larger than the original; that is expected.
+- **Endianness**
+  - Use a fixed byte order (`'!'` or `'>'`) to avoid platform-specific behavior.
+
+Suggested implementation shape:
+
+- `import struct`
+- `import zlib`
+- `KEY = '470FC614'`
+- `def task_func(hex_string=KEY):`
+  - normalize and validate
+  - convert hex to int
+  - convert int bits -> float
+  - pack float into binary32 bytes
+  - compress with zlib
+  - return `{"bytes": compressed}`
+
+If you want, I can also turn this plan into the actual self-contained code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import struct
+import zlib
+
+# Constants
+KEY = '470FC614'
+
+
+def task_func(hex_string=KEY):
+    """
+    Convert a hex string representing IEEE-754 binary32 bits to a float,
+    then compress the resulting binary32 byte sequence with zlib.
+
+    Returns:
+        dict: {"bytes": compressed_bytes}
+    """
+    if not isinstance(hex_string, str):
+        raise TypeError("hex_string must be a string")
+
+    cleaned = hex_string.strip()
+    if cleaned.lower().startswith("0x"):
+        cleaned = cleaned[2:]
+
+    if not cleaned:
+        raise ValueError("hex_string is empty")
+
+    if len(cleaned) > 8:
+        raise ValueError("hex_string must fit in 32 bits (at most 8 hex digits)")
+
+    try:
+        bits = int(cleaned, 16)
+    except ValueError as exc:
+        raise ValueError("hex_string must contain only hexadecimal digits") from exc
+
+    if not 0 <= bits <= 0xFFFFFFFF:
+        raise ValueError("hex_string must fit in 32 bits")
+
+    float_value = struct.unpack('!f', struct.pack('!I', bits))[0]
+    binary32_bytes = struct.pack('!f', float_value)
+    compressed_bytes = zlib.compress(binary32_bytes)
+
+    return {"bytes": compressed_bytes}

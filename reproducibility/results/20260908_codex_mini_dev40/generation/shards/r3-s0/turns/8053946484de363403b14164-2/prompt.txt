@@ -1,0 +1,85 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Serializes an object to a JSON string, adding support for datetime and Decimal data types. Handle complex data types not natively supported by the json module's default encoder. The `My_class` parameter is reserved for future use and does not affect the current implementation. Serialize a simple dictionary: >>> task_func({'name': 'Alice', 'age': 30}) '{"name": "Alice", "age": 30}'
+The function should output with:
+    str: A JSON-formatted string representing `my_obj`, with datetime and Decimal objects properly serialized.
+You should write self-contained code starting with:
+```
+import json
+from datetime import datetime
+from decimal import Decimal
+def task_func(my_obj):
+```
+FULL SUPPLIED CONTEXT
+import json
+from datetime import datetime
+from decimal import Decimal
+def task_func(my_obj):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Keep the required imports and function signature**
+   - Use:
+     ```python
+     import json
+     from datetime import datetime
+     from decimal import Decimal
+     def task_func(my_obj):
+     ```
+   - The reserved `My_class` concept should be ignored in current behavior.
+
+2. **Serialize with `json.dumps`**
+   - Return a JSON string directly from `json.dumps(my_obj, default=...)`.
+   - This lets the standard encoder handle normal types like `dict`, `list`, `str`, `int`, `bool`, `None`, etc.
+
+3. **Provide a custom fallback serializer**
+   - Define a `default` function for unsupported objects:
+     - `datetime` → convert with `isoformat()` so it becomes a valid JSON string.
+     - `Decimal` → convert to `str()` to preserve exact precision.
+   - For any other unsupported type, raise `TypeError` so failures are explicit and consistent with `json` behavior.
+
+4. **Preserve standard JSON formatting**
+   - Use default `json.dumps` formatting so output matches examples like:
+     ```python
+     '{"name": "Alice", "age": 30}'
+     ```
+   - Do not alter separators unless needed; the default spacing matches the sample.
+
+5. **Edge cases to handle**
+   - **Nested structures**: `datetime` and `Decimal` inside lists, dicts, tuples, or nested containers should serialize correctly via the custom `default`.
+   - **Timezone-aware vs naive datetimes**: both should serialize via `isoformat()`, preserving timezone info when present.
+   - **Empty objects**: `{}`, `[]`, and `None` should serialize normally.
+   - **Unsupported custom objects**: if an object is neither `datetime` nor `Decimal`, raise `TypeError`.
+   - **Decimal precision**: serializing as `str` avoids precision loss; converting to `float` would be riskier.
+   - **Dictionary keys**: keep in mind JSON only supports string-like keys; non-standard keys follow `json.dumps` rules.
+   - **Special float values** (`NaN`, `Infinity`): leave default `json` behavior unless requirements explicitly prohibit them.
+
+6. **Expected behavior**
+   - Input:
+     ```python
+     {'name': 'Alice', 'age': 30}
+     ```
+   - Output:
+     ```python
+     '{"name": "Alice", "age": 30}'
+     ```
+
+If you want, I can also turn this plan into the exact final implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import json
+from datetime import datetime
+from decimal import Decimal
+
+def task_func(my_obj):
+    def default(obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        if isinstance(obj, Decimal):
+            return str(obj)
+        raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
+
+    return json.dumps(my_obj, default=default)
+```

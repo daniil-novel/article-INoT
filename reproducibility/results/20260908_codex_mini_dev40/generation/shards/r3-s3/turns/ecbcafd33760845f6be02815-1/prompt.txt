@@ -1,0 +1,189 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Downloads, extracts, and deletes a ZIP file from a specified URL. The function includes comprehensive error handling to manage issues such as invalid URLs, unreachable servers, corrupted ZIP files, and file I/O errors. In the event of a failure, it provides a descriptive error message.
+The function should raise the exception for: urllib.error.URLError: If the URL is invalid or the server cannot be reached. In this case, the function returns a string in the format "URL Error: [error reason]".
+The function should output with:
+    str: The path to the directory where the ZIP file's contents have been extracted. Returns an error message in case of failure.
+You should write self-contained code starting with:
+```
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+```
+FULL SUPPLIED CONTEXT
+import urllib.request
+import zipfile
+import os
+import urllib.error
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a function:
+
+```python
+def task_func(
+    url: str,
+    save_path: str = "downloaded_file.zip",
+    extract_path: str = "extracted_files",
+) -> str:
+```
+
+that:
+
+1. Downloads a ZIP file from `url`
+2. Saves it to `save_path`
+3. Extracts its contents into `extract_path`
+4. Deletes the downloaded ZIP file after processing
+5. Returns the extraction directory path on success
+6. Returns a descriptive error string on failure
+7. Handles specific failure cases, including:
+   - invalid or unreachable URL via `urllib.error.URLError`
+   - corrupted / invalid ZIP via `zipfile.BadZipFile`
+   - file I/O errors such as permission issues or missing directories
+
+Important note: the prompt says “should raise the exception for `urllib.error.URLError`” but then also says the function “returns a string in the format `URL Error: [error reason]`.” These conflict. The safer interpretation for this task is to **catch** `URLError` and return the requested error string, because the function’s declared output is `str`.
+
+---
+
+## Implementation plan
+
+### 1. Validate / prepare paths
+- Accept the URL and optional paths.
+- Ensure the extraction directory exists before extraction:
+  - `os.makedirs(extract_path, exist_ok=True)`
+- If directory creation fails, return a clear file I/O error message.
+
+### 2. Download the ZIP file
+- Open the URL using `urllib.request.urlopen(url)`.
+- Read the response body in binary form.
+- Write the bytes to `save_path` using binary write mode.
+
+### 3. Handle URL/network errors
+- Catch `urllib.error.URLError`.
+- Return:
+  - `f"URL Error: {reason}"`
+- Where `reason` comes from the exception, converted to string if needed.
+
+### 4. Validate the ZIP file
+- Open the downloaded file with `zipfile.ZipFile(save_path, "r")`.
+- Extract all contents into `extract_path`.
+
+### 5. Handle invalid ZIP files
+- Catch `zipfile.BadZipFile`.
+- Return a message such as:
+  - `"Error: Corrupted or invalid ZIP file."`
+
+### 6. Handle file I/O and extraction errors
+- Catch general `OSError` / `IOError` for:
+  - permission denied
+  - disk full
+  - invalid path
+  - missing write permissions
+- Return a descriptive message such as:
+  - `"File Error: ..."`
+
+### 7. Delete the downloaded ZIP file
+- After extraction succeeds, remove `save_path` with `os.remove(save_path)`.
+- If deletion fails, decide whether to:
+  - treat it as an error and return a message, or
+  - still return success and note cleanup failure
+- Given the prompt emphasizes error handling, the cleaner approach is to return an error if cleanup fails, but only after confirming extraction succeeded. If you want stricter behavior, cleanup failure should be surfaced explicitly.
+
+### 8. Return success value
+- On successful download, extraction, and cleanup:
+  - return `extract_path`
+
+---
+
+## Edge cases to cover
+
+### URL-related
+- Empty string URL
+- Malformed URL
+- DNS failure / server unreachable
+- HTTP redirect or inaccessible resource
+- Server returns a response that is not a ZIP file
+
+### Download/file-related
+- Cannot create or write to `save_path`
+- `save_path` points to a directory instead of a file
+- Partial download / interrupted network read
+- Existing file at `save_path`
+
+### ZIP-related
+- File is not a valid ZIP archive
+- ZIP archive is corrupted
+- ZIP contains unexpected structure
+- ZIP contains nested directories
+- ZIP is empty
+
+### Extraction-related
+- `extract_path` cannot be created
+- Permission denied when extracting
+- Path collisions with existing files
+- ZIP entries with unsafe paths like `../` traversal attempts
+
+### Cleanup-related
+- Temporary ZIP file cannot be deleted
+- File is still locked on Windows
+
+---
+
+## Security / robustness considerations
+
+- When extracting ZIP contents, consider guarding against **zip slip path traversal**:
+  - ensure extracted member paths stay inside `extract_path`
+- If not handled, a malicious ZIP could write files outside the intended directory.
+- This is especially important if the URL is untrusted.
+
+---
+
+## Suggested error-handling policy
+
+A consistent return contract makes the function easier to use:
+
+- Success:
+  - return the extraction directory path as a string
+- Failure:
+  - return a prefixed descriptive message:
+    - `"URL Error: ..."`
+    - `"ZIP Error: ..."`
+    - `"File Error: ..."`
+    - `"Extraction Error: ..."`
+
+---
+
+## High-level flow
+
+1. Create extraction directory
+2. Download ZIP to local file
+3. Open and validate ZIP
+4. Extract contents
+5. Delete ZIP file
+6. Return extraction directory path
+
+If any step fails, return a specific error string immediately.
+
+---
+
+## Recommended implementation order
+
+1. Implement download and `URLError` handling
+2. Add ZIP validation and extraction
+3. Add file cleanup
+4. Add broader file I/O exception handling
+5. Optionally add ZIP path traversal protection
+
+If you want, I can do **stage 2** and provide the actual self-contained implementation next.

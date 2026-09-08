@@ -1,0 +1,21 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate n random strings of a specified length, count the frequency of each character across all strings, and return the result as a dictionary. Constants: - VALID_CHARACTERS: A string containing all valid characters (ASCII letters and digits) that can be used in the random strings.
+The function should output with:
+    dict: A dictionary containing character counts with characters as keys and their frequencies as values.
+You should write self-contained code starting with:
+```
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):
+```
+FULL SUPPLIED CONTEXT
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):

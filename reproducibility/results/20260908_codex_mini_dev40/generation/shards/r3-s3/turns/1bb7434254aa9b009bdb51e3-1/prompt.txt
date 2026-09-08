@@ -1,0 +1,64 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate n random strings of a specified length, count the frequency of each character across all strings, and return the result as a dictionary. Constants: - VALID_CHARACTERS: A string containing all valid characters (ASCII letters and digits) that can be used in the random strings.
+The function should output with:
+    dict: A dictionary containing character counts with characters as keys and their frequencies as values.
+You should write self-contained code starting with:
+```
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):
+```
+FULL SUPPLIED CONTEXT
+import random
+import string
+import collections
+# Constants
+VALID_CHARACTERS = string.ascii_letters + string.digits
+def task_func(n_strings, string_length):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Accept inputs**
+   - `n_strings`: how many random strings to generate.
+   - `string_length`: length of each generated string.
+
+2. **Validate inputs**
+   - Ensure both are integers.
+   - Ensure both are non-negative.
+   - Decide behavior for invalid values:
+     - raise `TypeError` if not integers
+     - raise `ValueError` if negative
+   - This keeps the function predictable and avoids silent bugs.
+
+3. **Generate random strings**
+   - Use `random.choices(VALID_CHARACTERS, k=string_length)` to create each string.
+   - Repeat this `n_strings` times.
+   - Join each character list into a string with `"".join(...)`.
+
+4. **Count character frequencies**
+   - Use `collections.Counter`.
+   - For each generated string, update the counter with its characters.
+   - Since `Counter` accepts iterables of characters, updating with the string directly is sufficient.
+
+5. **Return result**
+   - Convert the `Counter` to a plain `dict` before returning.
+   - Output format: `{character: frequency, ...}`.
+
+Edge cases to handle:
+- `n_strings == 0` → return `{}`.
+- `string_length == 0` → all generated strings are empty, so total counts are `{}`.
+- Both values zero → return `{}`.
+- Very large values → function should still work, but runtime and memory scale with `n_strings * string_length`.
+- Non-integer inputs such as floats, strings, or `None` → reject with `TypeError`.
+- Negative values → reject with `ValueError`.
+
+Complexity:
+- Time: `O(n_strings * string_length)`
+- Space: `O(m)`, where `m` is the number of distinct characters counted, at most the size of `VALID_CHARACTERS`.
+
+If you want, I can also turn this plan into the exact Python implementation.

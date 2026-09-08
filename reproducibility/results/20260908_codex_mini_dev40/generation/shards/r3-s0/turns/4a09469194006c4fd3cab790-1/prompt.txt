@@ -1,0 +1,111 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Extracts matches from all text files in a specified directory based on a regular expression pattern. It captures whatever is between parentheses as a single match, and any character outside the parentheses as individual matches in the string.
+The function should output with:
+    dict: A dictionary where keys are file names (without path) and values are lists of matches extracted from the files.
+You should write self-contained code starting with:
+```
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+from pathlib import Path
+import glob
+def task_func(directory_path: str, regex_pattern: str = r'\\(.+?\\)|\\w') -> dict:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is a requirements analysis and implementation plan for `task_func`.
+
+## What the function should do
+
+`task_func(directory_path: str, regex_pattern: str = r'\(.+?\)|\w') -> dict` should:
+
+1. Look through files in the given directory.
+2. Read each text file’s contents.
+3. Apply the provided regular expression to extract matches.
+4. Return a dictionary:
+   - **keys**: file names only, without the directory path
+   - **values**: lists of matches found in each file
+
+## Interpretation of the matching rule
+
+The description implies:
+
+- text inside parentheses should be treated as **one match**
+- text outside parentheses should be matched **character by character** or token by token, depending on the regex pattern
+
+However, there is a small inconsistency in the prompt:
+
+- the description says “any character outside the parentheses”
+- the default regex uses `\w`, which matches **word characters only**, not every character
+
+So the implementation should respect the **actual regex pattern provided** by the caller, while being aware that the intended behavior may be broader than `\w`.
+
+## Implementation plan
+
+### 1. Validate and normalize the directory input
+- Convert `directory_path` to a `Path` object.
+- Check whether it exists and is a directory.
+- Decide on error policy:
+  - either return `{}` for invalid paths
+  - or raise a clear exception like `FileNotFoundError` / `NotADirectoryError`
+
+### 2. Collect files in the directory
+- Use `glob` or `Path.glob("*")` to enumerate files.
+- Filter to actual files only, excluding subdirectories.
+- Since the prompt says “text files,” either:
+  - process all regular files as text, or
+  - optionally restrict to known text extensions like `.txt` if that is expected by the problem environment
+
+### 3. Read each file safely
+- Open files with a text encoding such as UTF-8.
+- Use tolerant decoding if needed, for example:
+  - `errors="ignore"` or `errors="replace"`
+- This avoids crashes on files with unexpected characters.
+
+### 4. Apply the regex
+- Use `re.findall(regex_pattern, content)`.
+- If the regex contains capturing groups and `findall` returns tuples, normalize the result into a flat list of strings.
+- Preserve the intended atomic match for parenthesized text.
+
+### 5. Build the result dictionary
+- Use each file’s basename as the key.
+- Store the list of matches as the value.
+- If a file has no matches, store an empty list rather than omitting the file, unless the task specifically wants otherwise.
+
+## Edge cases to handle
+
+### Directory-related
+- Directory does not exist
+- Path exists but is not a directory
+- Directory is empty
+
+### File-related
+- Non-text files mixed into the directory
+- Files with unreadable encoding
+- Permission errors
+- Empty files
+
+### Regex-related
+- Pattern has no matches in a file
+- Pattern contains capturing groups, which changes `re.findall` return shape
+- Parentheses inside the text may be unmatched; those should simply not be matched unless the regex allows it
+- The default pattern may not fully match the prose description, so the function should follow the provided regex parameter
+
+### Naming-related
+- Two files with the same basename in different paths would collide as keys, but this is only an issue if recursion is introduced. If only the given directory is scanned, this is usually safe.
+
+## Suggested behavior choices
+
+A robust and predictable implementation would likely:
+- scan only the given directory, not recursively
+- include every file that can be read as text
+- return `{}` for invalid directories or unreadable cases, or raise a clear exception consistently
+- always return a dictionary, even if it is empty
+
+If you want, I can next turn this plan into the actual self-contained implementation.

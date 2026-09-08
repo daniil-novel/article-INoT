@@ -1,0 +1,124 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a DataFrame representing monthly sales of products and visualize the total sales. The function creates a DataFrame where each row represents a month, each column represents a product, and cell values represent sales figures. It then plots the total sales per product across all months using both a line plot and a heatmap for visualization. The function also displays: - A line plot showing the total sales per product. - A heatmap visualizing sales figures across products and months.
+The function should output with:
+    pd.DataFrame: A DataFrame with randomly generated sales figures for each product over 12 months.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+PRODUCTS = ['Product' + str(i) for i in range(1, 6)]
+MONTHS = ['Month' + str(i) for i in range(1, 13)]
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+PRODUCTS = ['Product' + str(i) for i in range(1, 6)]
+MONTHS = ['Month' + str(i) for i in range(1, 13)]
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is the implementation plan for `task_func()`.
+
+## Goal
+Create a monthly sales DataFrame for 5 products over 12 months, then visualize:
+1. Total sales per product with a line plot
+2. Sales distribution across products and months with a heatmap
+
+The function should return the generated `pd.DataFrame`.
+
+---
+
+## Implementation Plan
+
+### 1) Prepare the data structure
+- Use the predefined `PRODUCTS` list as DataFrame columns.
+- Use the predefined `MONTHS` list as the DataFrame index.
+- Generate a `12 x 5` matrix of random sales values using `numpy`.
+
+### 2) Generate sales figures
+- Produce non-negative numeric sales values.
+- A simple and suitable choice is random integers in a reasonable range, e.g. `0` to `1000`, or another sales-like range.
+- Convert the generated array into a `pandas.DataFrame`:
+  - Rows correspond to months
+  - Columns correspond to products
+
+### 3) Compute total sales per product
+- Sum the DataFrame over the month axis (`axis=0`) to get total sales for each product.
+- This produces a series indexed by product names.
+
+### 4) Create the line plot
+- Use `matplotlib` to plot total sales per product.
+- Plot product names on the x-axis and total sales on the y-axis.
+- Add:
+  - title
+  - axis labels
+  - markers for readability
+  - grid if desired
+
+### 5) Create the heatmap
+- Use `seaborn.heatmap()` on the monthly sales DataFrame.
+- Display month names on one axis and products on the other.
+- Add:
+  - color bar
+  - title
+  - axis labels if needed
+- Ensure the heatmap reflects raw sales values, not aggregated totals.
+
+### 6) Display the plots
+- Call `plt.show()` after creating the plots.
+- If making both plots in one function, use separate figures to avoid overlap.
+
+### 7) Return the DataFrame
+- Return the created DataFrame as the function output.
+
+---
+
+## Edge Cases to Consider
+
+### 1) Empty product/month lists
+- In this task, `PRODUCTS` and `MONTHS` are predefined and non-empty.
+- If generalized later, handle empty lists by returning an empty DataFrame and skipping plots.
+
+### 2) Mismatched dimensions
+- Ensure the random sales array shape exactly matches `(len(MONTHS), len(PRODUCTS))`.
+- If shapes mismatch, DataFrame construction will fail or produce incorrect visualization.
+
+### 3) Non-numeric sales values
+- Heatmaps and numeric aggregation require numeric values.
+- Keep all generated sales data numeric.
+
+### 4) Negative sales values
+- Sales should generally be non-negative.
+- Avoid negative random generation unless the task explicitly requires it.
+
+### 5) Plot clutter or readability
+- With 5 products and 12 months, the data is small enough, but labels may still need rotation for readability.
+- Rotate x-axis labels if necessary.
+
+### 6) Reproducibility
+- If deterministic output is desired, set a random seed with `np.random.seed(...)`.
+- If not required, leave it random.
+
+### 7) Display order
+- Create the DataFrame before computing totals and plotting.
+- Plotting should not modify the returned DataFrame.
+
+---
+
+## Expected Function Behavior
+- Input: none
+- Output: a `pd.DataFrame` with:
+  - index = `MONTHS`
+  - columns = `PRODUCTS`
+  - values = generated sales figures
+- Side effects:
+  - shows a line plot of total sales per product
+  - shows a heatmap of monthly sales data
+
+If you want, I can now provide the full implementation code in the required format.

@@ -1,0 +1,112 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Reads data from an Excel spreadsheet, converts it to a CSV file, then calculates the sum of each column in the CSV file.
+Note that: Ensure the Excel file contains only numerical data for accurate sum calculations.
+The function should raise the exception for: FileNotFoundError: If the Excel file does not exist at the specified path. ValueError: If the specified sheet name is not found in the Excel file.
+The function should output with:
+    dict: A dictionary with the sum of each column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import logging
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+def task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv"):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import logging
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+def task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(sheet_name, excel_file_location="test.xlsx", csv_file_location="test.csv")` that satisfies the requirements.
+
+## Implementation Plan
+
+### 1. Validate the Excel file path
+- Check whether `excel_file_location` exists.
+- If the file is missing, raise:
+  - `FileNotFoundError`
+
+### 2. Load the Excel sheet
+- Use `pandas.read_excel(...)` with the provided `sheet_name`.
+- If the sheet does not exist in the workbook, raise:
+  - `ValueError`
+- Log the start of the operation and any important steps.
+
+### 3. Ensure the data is numerical
+- Since the requirement says the Excel file should contain only numerical data for accurate sums:
+  - Verify all columns can be treated as numeric.
+  - Convert data to numeric if needed using `pd.to_numeric(..., errors="raise")` or equivalent validation logic.
+- If any non-numeric value is found, raise a clear error such as `ValueError` indicating the sheet contains invalid data for summation.
+
+### 4. Convert Excel data to CSV
+- Save the loaded DataFrame to `csv_file_location` using `to_csv(..., index=False)`.
+- This should happen after successful validation so only clean data is exported.
+
+### 5. Read the CSV file back
+- Load the generated CSV using `pd.read_csv(...)`.
+- This ensures the sum is calculated from the CSV file, as requested.
+
+### 6. Calculate column sums
+- Compute the sum for each column in the CSV DataFrame.
+- Return the result as a Python dictionary:
+  - keys = column names
+  - values = column sums
+
+### 7. Logging
+- Use logging to record:
+  - file loading attempt
+  - successful sheet read
+  - CSV write completion
+  - sum calculation completion
+- If an exception occurs, log the error before re-raising it.
+
+---
+
+## Edge Cases to Handle
+
+### Missing Excel file
+- If `excel_file_location` does not exist:
+  - raise `FileNotFoundError`
+
+### Invalid sheet name
+- If `sheet_name` is not present in the workbook:
+  - raise `ValueError`
+
+### Non-numeric values in Excel
+- If any cell contains text, mixed types, or invalid numeric strings:
+  - raise `ValueError`
+- This is important because summing non-numeric data would produce incorrect results or fail later.
+
+### Empty sheet
+- If the sheet is empty:
+  - return an empty dictionary `{}` or raise a `ValueError` depending on desired strictness
+- Since the task expects sums, returning `{}` is reasonable if no data exists.
+
+### Missing values (`NaN`)
+- Decide whether to allow them:
+  - pandas sum ignores `NaN` by default, which is usually acceptable
+- If strict completeness is needed, raise a `ValueError` when missing values are present.
+
+### Duplicate column names
+- If the Excel file has duplicate headers, sums may be ambiguous.
+- Consider rejecting duplicate columns with a `ValueError`.
+
+### CSV write/read consistency
+- Ensure the CSV is written with no index column so the sums only reflect original data columns.
+- Use consistent encoding if needed to avoid read/write issues.
+
+---
+
+## Expected Output
+- The function should return:
+  - `dict`
+- Example structure:
+  ```python
+  {"A": 10, "B": 25, "C": 7}
+  ```
+
+If you want, I can also turn this plan into the full implementation code next.

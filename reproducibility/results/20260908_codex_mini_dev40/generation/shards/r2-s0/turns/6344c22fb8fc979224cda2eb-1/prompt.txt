@@ -1,0 +1,174 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate two arrays of random numbers of a given length, calculate their mean, median, and standard deviation, then store these results in a Panda DataFrame 'statistics' with keys 'Array1' and 'Array2'. Draw a bar chart to compare these statistics with indices 'Mean', 'Median', and 'Standard Deviation'.
+The function should output with:
+    DataFrame: A pandas DataFrame with the statistics of the arrays.
+    Axes: The bar chart plot comparing the statistics.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(array_length=100):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(array_length=100):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(array_length=100)`.
+
+## Goal
+Create two random numeric arrays of length `array_length`, compute:
+- mean
+- median
+- standard deviation
+
+Store the results in a pandas `DataFrame` named `statistics` with columns:
+- `Array1`
+- `Array2`
+
+Then draw a bar chart comparing these statistics using the indices:
+- `Mean`
+- `Median`
+- `Standard Deviation`
+
+Return:
+- the `DataFrame`
+- the `Axes` object for the plot
+
+---
+
+## Planned implementation steps
+
+### 1. Validate input
+Check that `array_length` is:
+- an integer
+- greater than 0
+
+If invalid, raise a clear exception, such as:
+- `TypeError` for non-integers
+- `ValueError` for non-positive values
+
+---
+
+### 2. Generate two random arrays
+Use NumPy to create two independent arrays of length `array_length`.
+
+Likely choice:
+- `np.random.rand(array_length)` for uniform random floats in `[0, 1)`
+
+Store them as:
+- `array1`
+- `array2`
+
+---
+
+### 3. Compute statistics for each array
+For each array calculate:
+- `mean` using `np.mean`
+- `median` using `np.median`
+- `standard deviation` using `np.std`
+
+Use the default standard deviation unless otherwise specified:
+- `ddof=0` gives population standard deviation
+
+Collect the results in the order:
+1. Mean
+2. Median
+3. Standard Deviation
+
+---
+
+### 4. Build the DataFrame `statistics`
+Create a pandas DataFrame where:
+- rows are the statistics:
+  - `Mean`
+  - `Median`
+  - `Standard Deviation`
+- columns are:
+  - `Array1`
+  - `Array2`
+
+Example structure:
+
+|                | Array1 | Array2 |
+|----------------|--------|--------|
+| Mean           | ...    | ...    |
+| Median         | ...    | ...    |
+| Standard Deviation | ... | ...  |
+
+This matches the requirement that the DataFrame has keys `Array1` and `Array2`.
+
+---
+
+### 5. Draw the bar chart
+Create a bar chart comparing the statistics:
+- x-axis: `Mean`, `Median`, `Standard Deviation`
+- grouped bars for `Array1` and `Array2`
+
+Use pandas plotting or matplotlib directly, returning the `Axes` object.
+
+Recommended approach:
+- `statistics.plot(kind='bar')`
+
+This naturally produces grouped bars by statistic.
+
+Add:
+- title
+- x-label
+- y-label
+- legend
+
+---
+
+### 6. Return outputs
+Return:
+- the `statistics` DataFrame
+- the plot `Axes`
+
+So the function output will be something like:
+```python
+return statistics, ax
+```
+
+---
+
+## Edge cases to handle
+
+### Invalid `array_length`
+- `array_length <= 0` → should raise `ValueError`
+- non-integer input like `10.5` or `"100"` → should raise `TypeError` or be explicitly converted if you choose, but validation is safer
+
+### Small arrays
+- `array_length = 1`
+  - mean = median = element itself
+  - standard deviation = `0.0`
+
+### Extremely large arrays
+- could consume memory if `array_length` is huge
+- not necessarily necessary to cap size, but this is a practical consideration
+
+### Randomness / reproducibility
+- results vary on each run unless a seed is set
+- if deterministic behavior is desired, you could set a seed inside the function, but that would reduce randomness
+- since the task says random numbers, leaving it unseeded is reasonable
+
+### Data type issues
+- if `array_length` is passed as NumPy integer type, it should still work
+- if it’s a float that represents an integer, decide whether to reject or convert; rejecting is cleaner
+
+---
+
+## Suggested structure of the function
+1. import / use NumPy and pandas
+2. validate `array_length`
+3. generate arrays
+4. compute statistics
+5. create `statistics` DataFrame
+6. plot the bar chart
+7. return DataFrame and Axes
+
+---
+
+If you want, I can also turn this plan into the exact self-contained code matching the required function signature.

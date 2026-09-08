@@ -1,0 +1,236 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Calculate the moon phase by the date and time taking into account the lunar phase cycle of 7 years. The function uses a constant array `MOON_PHASES_YEARS` to determine the reference years for the moon phases.
+The function should output with:
+    float: The moon phase between 0 and 1. A value of 0 indicates a new moon and a value of 1 indicates a full moon.
+You should write self-contained code starting with:
+```
+import pytz
+import numpy as np
+from dateutil.parser import parse
+import math
+MOON_PHASES_YEARS = np.array([1987, 1994, 2001, 2008, 2015, 2022])
+def task_func(date_str, from_tz, to_tz):
+```
+FULL SUPPLIED CONTEXT
+import pytz
+import numpy as np
+from dateutil.parser import parse
+import math
+MOON_PHASES_YEARS = np.array([1987, 1994, 2001, 2008, 2015, 2022])
+def task_func(date_str, from_tz, to_tz):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a solid implementation plan for `task_func(date_str, from_tz, to_tz)` based on the supplied requirements.
+
+## Goal
+Return a `float` in `[0, 1]` representing moon phase illumination:
+
+- `0.0` = new moon
+- `1.0` = full moon
+
+The calculation must account for a **7-year lunar phase cycle** using `MOON_PHASES_YEARS = np.array([1987, 1994, 2001, 2008, 2015, 2022])` as the reference years.
+
+---
+
+## Implementation plan
+
+### 1. Parse the input datetime
+- Use `dateutil.parser.parse(date_str)` to convert the string into a `datetime`.
+- If parsing fails, raise a clear `ValueError`.
+
+### 2. Handle time zones
+- Resolve `from_tz` and `to_tz` with `pytz.timezone(...)`.
+- If the parsed datetime is naive:
+  - localize it to `from_tz`.
+- If it is already timezone-aware:
+  - normalize/convert it consistently, ideally first to `from_tz` if the function is expected to interpret the input in that timezone.
+- Then convert the datetime to `to_tz`.
+
+This ensures the moon phase is computed for the requested target local time.
+
+---
+
+### 3. Determine the 7-year reference year
+- Use `MOON_PHASES_YEARS` as the cycle anchors.
+- Since the years are spaced by 7, determine which reference year best matches the input year:
+  - either by modulo-7 alignment relative to the first year,
+  - or by selecting the closest/reference year in the cycle.
+- If the input year is outside the range of the array, wrap it through the 7-year pattern rather than failing.
+
+This preserves the intended repeating lunar cycle behavior.
+
+---
+
+### 4. Map the date into the reference cycle
+- Preserve month/day/time as much as possible when relating the input date to the reference year.
+- If the equivalent reference-year date is invalid:
+  - handle leap-day issues carefully,
+  - clamp Feb 29 to Feb 28 in non-leap years,
+  - avoid invalid month/day combinations.
+
+This step is important for consistent cycle comparison.
+
+---
+
+### 5. Compute the moon phase value
+Because the required output is **0 for new moon and 1 for full moon**, the implementation should compute an **illumination-like phase value**, not just a raw lunar age fraction.
+
+A practical approach:
+- Compute the moon’s phase position within the lunar cycle.
+- Convert that position into an illumination scale in `[0, 1]`.
+- Use a smooth periodic function or equivalent normalization so:
+  - new moon → `0`
+  - first quarter / last quarter → around `0.5`
+  - full moon → `1`
+
+If the formula produces values slightly outside `[0, 1]` due to floating-point error, clamp the result.
+
+---
+
+### 6. Return the result
+- Return a Python `float`.
+- Ensure the value is bounded in `[0.0, 1.0]`.
+
+---
+
+## Edge cases to handle
+
+### Input parsing
+- Invalid date strings
+- Empty strings
+- Ambiguous formats like `"01/02/03"` depending on parser interpretation
+
+### Time zones
+- Invalid `from_tz` / `to_tz`
+- Naive datetime input
+- Already-aware datetime input
+- DST-related cases:
+  - ambiguous local times when clocks fall back
+  - nonexistent local times when clocks spring forward
+
+### Calendar edge cases
+- Leap years, especially Feb 29
+- Month-end overflow when constructing equivalent reference-year dates
+- Dates before the first reference year or after the last one
+
+### Numerical edge cases
+- Phase values slightly below `0` or above `1` due to rounding
+- Exact new moon / full moon boundary values
+- Very close-to-boundary times where timezone conversion changes the calendar day
+
+---
+
+## Assumptions to make explicit
+If not otherwise specified, the implementation should assume:
+
+1. `date_str` is interpreted in `from_tz` if it is naive.
+2. The lunar phase cycle repeats every 7 years using `MOON_PHASES_YEARS` as anchors.
+3. The output is an illumination-style value in `[0, 1]`, not a signed phase angle.
+
+---
+
+If you want, I can proceed with **stage 2: write the actual self-contained implementation** following this plan.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pytz
+import numpy as np
+from dateutil.parser import parse
+import math
+MOON_PHASES_YEARS = np.array([1987, 1994, 2001, 2008, 2015, 2022])
+
+from datetime import datetime, timedelta
+import calendar
+
+
+def _safe_localize(tz, naive_dt):
+    try:
+        return tz.localize(naive_dt, is_dst=None)
+    except pytz.AmbiguousTimeError:
+        return tz.localize(naive_dt, is_dst=True)
+    except pytz.NonExistentTimeError:
+        return tz.localize(naive_dt + timedelta(hours=1), is_dst=True)
+
+
+def _clamp_day(year, month, day):
+    return min(day, calendar.monthrange(year, month)[1])
+
+
+def _julian_day(dt):
+    dt_utc = dt.astimezone(pytz.utc)
+    year = dt_utc.year
+    month = dt_utc.month
+    day = (
+        dt_utc.day
+        + (dt_utc.hour
+           + (dt_utc.minute
+              + (dt_utc.second + dt_utc.microsecond / 1_000_000.0) / 60.0) / 60.0) / 24.0
+    )
+
+    if month <= 2:
+        year -= 1
+        month += 12
+
+    a = year // 100
+    b = 2 - a + a // 4
+
+    return (
+        math.floor(365.25 * (year + 4716))
+        + math.floor(30.6001 * (month + 1))
+        + day
+        + b
+        - 1524.5
+    )
+
+
+def task_func(date_str, from_tz, to_tz):
+    try:
+        dt = parse(date_str)
+    except Exception as exc:
+        raise ValueError(f"Invalid date string: {date_str!r}") from exc
+
+    try:
+        src_tz = pytz.timezone(from_tz)
+    except Exception as exc:
+        raise ValueError(f"Invalid from_tz: {from_tz!r}") from exc
+
+    try:
+        dst_tz = pytz.timezone(to_tz)
+    except Exception as exc:
+        raise ValueError(f"Invalid to_tz: {to_tz!r}") from exc
+
+    if dt.tzinfo is None:
+        dt = _safe_localize(src_tz, dt)
+    else:
+        dt = dt.astimezone(src_tz)
+
+    local_dt = dt.astimezone(dst_tz)
+
+    # Map the year onto the 7-year lunar cycle anchored by MOON_PHASES_YEARS.
+    base_year = int(MOON_PHASES_YEARS[0])
+    cycle_length = int(np.diff(MOON_PHASES_YEARS).mean()) if len(MOON_PHASES_YEARS) > 1 else 7
+    reference_year = base_year + ((local_dt.year - base_year) % cycle_length)
+
+    safe_day = _clamp_day(reference_year, local_dt.month, local_dt.day)
+    ref_naive = datetime(
+        reference_year,
+        local_dt.month,
+        safe_day,
+        local_dt.hour,
+        local_dt.minute,
+        local_dt.second,
+        local_dt.microsecond,
+    )
+    ref_local = _safe_localize(dst_tz, ref_naive)
+
+    jd = _julian_day(ref_local)
+
+    # Moon illumination approximation in [0, 1]
+    synodic_month = 29.530588853
+    new_moon_jd = 2451550.1
+    age = ((jd - new_moon_jd) % synodic_month) / synodic_month
+    illumination = 0.5 * (1.0 - math.cos(2.0 * math.pi * age))
+
+    return float(max(0.0, min(1.0, illumination)))
+```

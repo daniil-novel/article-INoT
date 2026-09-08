@@ -1,0 +1,135 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Simulate rolling a certain number of a standard six-sided dice several times, then identify and display the distribution of the sums of the dice rolls in a bar plot.
+The function should output with:
+    tuple: A tuple containing the following elements:
+    Counter: A Counter object with the count of each possible sum.
+    Axes: A matplotlib Axes object representing the bar plot of the Distribution of Dice Roll Sums,
+    with Sum of Dice Roll on the x-axis and count on the y-axis.
+You should write self-contained code starting with:
+```
+from collections import Counter
+import random
+import matplotlib.pyplot as plt
+def task_func(num_rolls, num_dice, plot_path=None, random_seed=0):
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+import random
+import matplotlib.pyplot as plt
+def task_func(num_rolls, num_dice, plot_path=None, random_seed=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for:
+
+```python
+from collections import Counter
+import random
+import matplotlib.pyplot as plt
+def task_func(num_rolls, num_dice, plot_path=None, random_seed=0):
+```
+
+## Requirements analysis
+
+The function should:
+
+1. **Simulate** rolling `num_dice` standard six-sided dice.
+2. Repeat that simulation **`num_rolls` times**.
+3. Compute the **sum of dice** for each trial.
+4. Build a **Counter** of how many times each sum occurred.
+5. Create a **bar plot** of the distribution:
+   - x-axis: **Sum of Dice Roll**
+   - y-axis: **count**
+6. Return a **tuple**:
+   - `Counter`
+   - `matplotlib.axes.Axes`
+
+If `plot_path` is provided, the plot should likely be **saved** to that location as well.
+
+---
+
+## Implementation plan
+
+### 1. Initialize randomness
+- Call `random.seed(random_seed)` so output is reproducible.
+
+### 2. Simulate rolls
+- For each trial in `range(num_rolls)`:
+  - Generate `num_dice` random integers from `1` to `6` using `random.randint(1, 6)`.
+  - Sum them.
+  - Store the sum in a list.
+
+### 3. Count outcomes
+- Create `Counter(roll_sums)` from the simulated sums.
+
+### 4. Prepare plot data
+- For a complete distribution plot, use the full theoretical sum range:
+  - Minimum sum: `num_dice`
+  - Maximum sum: `6 * num_dice`
+- Include all sums in that range, even if some have zero counts.
+- This makes the histogram-style bar plot easier to interpret.
+
+### 5. Build the bar plot
+- Create a figure and axes with `plt.subplots()`.
+- Plot bars with:
+  - x = all possible sums
+  - y = corresponding counts
+- Label axes and title appropriately.
+- Optionally add grid or tick formatting for readability.
+
+### 6. Save plot if requested
+- If `plot_path` is not `None`, call `plt.savefig(plot_path)` before returning.
+
+### 7. Return result
+- Return `(counter, ax)`.
+
+---
+
+## Edge cases to handle
+
+### 1. `num_rolls == 0`
+- No simulations are performed.
+- The `Counter` should be empty.
+- The plot should still be created, likely with all zero bars for the possible sum range or an empty chart depending on design.
+- Best approach: still render the full possible range with zero counts, so output remains consistent.
+
+### 2. `num_dice == 0`
+- A roll of zero dice would always sum to `0`, but this is not a standard dice roll scenario.
+- Decide whether to:
+  - **reject** it with a `ValueError`, or
+  - allow it and return `Counter({0: num_rolls})`.
+- Since the prompt says “rolling a certain number of a standard six-sided dice,” the safer interpretation is to require `num_dice > 0`.
+
+### 3. Negative inputs
+- `num_rolls < 0` or `num_dice < 0` should raise `ValueError`.
+
+### 4. Non-integer inputs
+- If either input is not an integer, raise `TypeError` or `ValueError`.
+- Since the signature doesn’t specify type enforcement, explicit validation is advisable.
+
+### 5. Very large values
+- Large `num_rolls` or `num_dice` may be slow or memory-heavy.
+- Since the task is simulation-based, this is acceptable, but should be noted as a performance consideration.
+
+### 6. `plot_path` issues
+- If a path is provided but invalid/unwritable, saving the figure may fail.
+- No special handling is required unless robustness is desired.
+
+### 7. Reproducibility
+- Since `random_seed` defaults to `0`, repeated calls with the same parameters should produce identical results.
+
+---
+
+## Expected return shape
+
+The function should return:
+
+```python
+(counter, ax)
+```
+
+Where:
+- `counter` is a `Counter` mapping each observed sum to its frequency.
+- `ax` is the Matplotlib `Axes` object used for the bar plot.
+
+If you want, I can next produce the full implementation exactly in the required format.

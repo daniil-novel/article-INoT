@@ -1,0 +1,145 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Run a random bash script from a list of scripts.
+The function should output with:
+    script (str): The full path of the script that was executed.
+You should write self-contained code starting with:
+```
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+We need a function `task_func()` that:
+
+1. Selects **one script at random** from `SCRIPTS`.
+2. Builds its **full path** using `SCRIPTS_DIR` and the chosen filename.
+3. **Runs** that script via `subprocess`.
+4. Produces output containing:
+   - `script (str)`: the full path of the executed script.
+
+The supplied starter structure must be preserved, beginning with:
+
+```python
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+```
+
+---
+
+### Implementation plan
+
+1. **Import and constants**
+   - Keep `subprocess` and `random`.
+   - Use the provided `SCRIPTS` and `SCRIPTS_DIR`.
+
+2. **Validate the script list**
+   - Ensure `SCRIPTS` is not empty before selecting a script.
+   - If empty, raise a clear exception.
+
+3. **Select a random script**
+   - Use `random.choice(SCRIPTS)`.
+
+4. **Construct the full path**
+   - Join `SCRIPTS_DIR` with the selected script name.
+   - The result should be the exact path that will be executed.
+
+5. **Execute the script**
+   - Run the chosen bash script using `subprocess`.
+   - Since this is a bash script, execution should be done in a shell-compatible way.
+   - Capture success/failure appropriately.
+
+6. **Return/output the required value**
+   - The function should expose the full script path as `script` in its output.
+   - Most likely this means returning a dict-like result, e.g. `{"script": full_path}`.
+
+---
+
+### Edge cases to handle
+
+1. **Empty script list**
+   - `random.choice()` would fail.
+   - Handle explicitly with a meaningful error.
+
+2. **Invalid script directory**
+   - `SCRIPTS_DIR` may not exist or may not be accessible.
+   - The function should fail clearly if execution is impossible.
+
+3. **Missing script file**
+   - The randomly selected file might not exist in `SCRIPTS_DIR`.
+   - Check existence before execution, or let subprocess error be handled cleanly.
+
+4. **Non-executable script**
+   - The `.sh` file may not have execute permission.
+   - Either invoke it through `bash <script>` or surface a clear error.
+
+5. **Script execution failure**
+   - The script may exit with a non-zero status.
+   - Decide whether to raise an exception or return failure details.
+
+6. **Path safety**
+   - Ensure the final path is built from the directory + filename, not arbitrary input.
+   - Since the list is fixed, this is low risk.
+
+7. **Randomness reproducibility**
+   - If deterministic behavior is ever needed, a seed could be set externally.
+   - Not required here, but worth noting.
+
+---
+
+### Suggested behavior
+
+A robust implementation would:
+
+- choose a random script,
+- build its full path,
+- execute it with `subprocess.run(...)`,
+- return the executed path in a structure like:
+
+```python
+{"script": "/path/to/scripts/script2.sh"}
+```
+
+If you want, I can now proceed to **stage 2** and write the actual implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import subprocess
+import random
+import os
+
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+
+def task_func():
+    if not SCRIPTS:
+        raise ValueError("SCRIPTS must not be empty")
+
+    script_name = random.choice(SCRIPTS)
+    script = os.path.join(SCRIPTS_DIR, script_name)
+
+    if not os.path.isfile(script):
+        raise FileNotFoundError(f"Script not found: {script}")
+
+    subprocess.run(["bash", script], check=True)
+
+    return {"script": script}
+```

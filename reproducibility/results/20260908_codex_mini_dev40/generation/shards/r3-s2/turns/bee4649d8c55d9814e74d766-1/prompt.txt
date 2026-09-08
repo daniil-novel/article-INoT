@@ -1,0 +1,94 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Convert the 'date' column of a DataFrame to ordinal, perform KMeans clustering on 'date' and 'value' columns, and plot the clusters. Required names: x: 'Date (ordinal)' ylabel: 'Value' title: 'KMeans Clustering of Value vs Date'
+The function should raise the exception for: ValueError: If the DataFrame is empty or lacks required columns.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object containing the scatter plot of the clusters.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df, n_clusters=3, random_state=0):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df, n_clusters=3, random_state=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(df, n_clusters=3, random_state=0)`.
+
+## Goal
+- Convert the `date` column to ordinal values.
+- Run `KMeans` clustering using the `date` ordinal and `value` columns.
+- Plot the clustered points.
+- Return the `matplotlib.axes.Axes` object.
+
+## Required plot labels
+- x-axis label: `Date (ordinal)`
+- y-axis label: `Value`
+- title: `KMeans Clustering of Value vs Date`
+
+## Validation rules
+Raise `ValueError` if:
+- the DataFrame is empty, or
+- it does not contain both required columns: `date` and `value`
+
+## Suggested implementation steps
+1. **Validate input**
+   - Check `df.empty`.
+   - Check that `{"date", "value"}` is a subset of `df.columns`.
+   - If either check fails, raise `ValueError`.
+
+2. **Work on a copy**
+   - Copy the DataFrame to avoid mutating the caller’s data.
+
+3. **Convert `date` to ordinal**
+   - Convert `df["date"]` to datetime first with `pd.to_datetime(...)`.
+   - Convert those dates to ordinal integers using `.dt.date.map(datetime.date.toordinal)` or equivalent.
+   - Store the result in a new column such as `date_ordinal`.
+
+4. **Prepare clustering data**
+   - Build a 2-column numeric matrix from:
+     - `date_ordinal`
+     - `value`
+
+5. **Run KMeans**
+   - Fit `KMeans(n_clusters=n_clusters, random_state=random_state)` on the 2D data.
+   - Get cluster labels with `fit_predict`.
+
+6. **Plot clusters**
+   - Create a scatter plot with one color per cluster.
+   - Use the ordinal date on the x-axis and `value` on the y-axis.
+   - Set:
+     - `xlabel("Date (ordinal)")`
+     - `ylabel("Value")`
+     - `title("KMeans Clustering of Value vs Date")`
+
+7. **Return the Axes**
+   - Return the `Axes` object from the plot.
+
+## Edge cases to consider
+- **Empty DataFrame**: must raise `ValueError`.
+- **Missing required columns**: must raise `ValueError`.
+- **Invalid date values**:
+  - If `date` contains non-parsable strings or invalid timestamps, `pd.to_datetime` may fail.
+  - A reasonable approach is to let that conversion raise naturally, since the task only mandates a custom `ValueError` for empty/missing-column cases.
+- **Non-numeric `value` column**:
+  - `KMeans` requires numeric input. If `value` is not numeric, clustering will fail.
+  - You may optionally coerce or validate it, but this is not explicitly required.
+- **Too few rows for the requested number of clusters**:
+  - `KMeans` will error if `n_clusters > number of samples`.
+  - This can be left to scikit-learn unless you want an explicit validation step.
+- **Missing values (`NaN`)**:
+  - NaNs in `date` or `value` will break conversion or clustering.
+  - You can either let the error surface or handle them explicitly by dropping/imputing, depending on desired behavior.
+- **Single unique date or value**:
+  - KMeans can still run if there are enough rows, but clusters may be degenerate.
+
+## Output
+- The function should return the `Axes` object containing the scatter plot.
+
+If you want, I can now turn this plan into the exact self-contained implementation starting from the provided imports and function signature.

@@ -1,0 +1,173 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Converts a given hex string to a float number and then compresses the binary32 float number.
+The function should output with:
+    bytes: The compressed float number.
+You should write self-contained code starting with:
+```
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):
+```
+FULL SUPPLIED CONTEXT
+import struct
+import zlib
+# Constants
+KEY = '470FC614'
+def task_func(hex_string=KEY):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Stage 1 — Requirements Analysis & Implementation Plan
+
+### Goal
+Implement `task_func(hex_string=KEY)` that:
+
+1. Takes a hex string representing a 32-bit IEEE-754 float bit pattern.
+2. Converts that hex string into a Python float.
+3. Re-encodes that float as **binary32** (`4 bytes`).
+4. Compresses those 4 bytes with `zlib`.
+5. Returns the compressed result as `bytes`.
+
+---
+
+## Expected behavior
+
+Given the supplied default:
+
+```python
+KEY = '470FC614'
+```
+
+the function should:
+
+- interpret it as 4 raw bytes: `47 0F C6 14`
+- unpack those bytes into a float
+- pack the float back into binary32 bytes
+- compress the 4-byte payload using `zlib.compress(...)`
+- return the compressed `bytes`
+
+---
+
+## Implementation plan
+
+### 1) Parse the hex string into bytes
+Use:
+
+- `bytes.fromhex(hex_string)`
+
+This is appropriate because the input is a hex-encoded byte sequence.
+
+### 2) Validate the input shape
+Before unpacking, ensure the hex string is valid for a binary32 float:
+
+- It must contain exactly 8 hex characters after optional cleanup
+- It must decode to exactly 4 bytes
+
+If not, the function should fail clearly, most naturally with `ValueError`.
+
+### 3) Convert bytes to float
+Use `struct.unpack` with an explicit byte order:
+
+- `struct.unpack('>f', raw_bytes)[0]`
+
+`'>f'` means big-endian binary32. This is the safest choice for a hex string written in byte order.
+
+### 4) Re-pack as binary32
+To guarantee the value is represented as 4-byte float data:
+
+- `struct.pack('>f', float_value)`
+
+This step ensures the final compressed payload is based on binary32 bytes, not Python’s internal float representation.
+
+### 5) Compress the binary32 bytes
+Use:
+
+- `zlib.compress(packed_bytes)`
+
+This returns compressed `bytes`.
+
+### 6) Return bytes
+The function should return the compressed bytes object directly.
+
+---
+
+## Edge cases to handle
+
+### Invalid hex input
+Examples:
+
+- non-hex characters: `"47XXC614"`
+- odd-length string: `"470FC61"`
+- too short/too long: `"470FC61400"`
+
+Expected handling:
+- raise `ValueError` with a clear message
+
+### Wrong byte length
+If the decoded data is not exactly 4 bytes, it cannot represent a binary32 value directly.
+
+Expected handling:
+- raise `ValueError`
+
+### Leading/trailing whitespace
+Should probably be tolerated by stripping input first:
+
+- `" 470FC614 \n"`
+
+### Case sensitivity
+Hex should accept both uppercase and lowercase:
+
+- `"470fc614"` should work
+
+### Special float values
+If the bit pattern corresponds to:
+
+- `NaN`
+- `+inf`
+- `-inf`
+- `-0.0`
+
+The code should still process them normally, because they are valid binary32 bit patterns.
+
+### Endianness ambiguity
+The hex string can be interpreted in different byte orders if not specified. The implementation should explicitly choose one order, preferably **big-endian**, and be consistent.
+
+---
+
+## Suggested implementation details
+
+- Keep the code self-contained
+- Do not add extra dependencies
+- Preserve the required function signature exactly
+- Return `bytes`, not text
+- Use explicit format strings in `struct` for deterministic behavior
+
+---
+
+## Pseudocode outline
+
+```python
+import struct
+import zlib
+
+KEY = '470FC614'
+
+def task_func(hex_string=KEY):
+    clean_hex = hex_string.strip()
+    raw = bytes.fromhex(clean_hex)
+
+    if len(raw) != 4:
+        raise ValueError("hex_string must encode exactly 4 bytes (8 hex digits)")
+
+    value = struct.unpack('>f', raw)[0]
+    binary32 = struct.pack('>f', value)
+    compressed = zlib.compress(binary32)
+
+    return compressed
+```
+
+---
+
+If you want, I can now provide the final implementation code in the exact required format.

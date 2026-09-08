@@ -1,0 +1,191 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a Pandas DataFrame with colomns 'Team' and 'Match Result' of the results of football matches for multiple teams, incorporating random goals and penalties. Penalties are converted into fines using a predefined cost.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with columns ['Team', 'Match Result'], detailing each team's goals and accumulated fines.
+You should write self-contained code starting with:
+```
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):
+```
+FULL SUPPLIED CONTEXT
+from random import randint, seed
+import pandas as pd
+# Method
+def task_func(goals, penalties, rng_seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(goals, penalties, rng_seed=None)`.
+
+## Goal
+Return a `pandas.DataFrame` with exactly these columns:
+
+- `Team`
+- `Match Result`
+
+Each row should represent one team’s match outcome, including:
+
+- randomly generated goals
+- randomly generated penalties
+- fines computed from penalties using a fixed cost
+
+---
+
+## Assumptions to make the task implementable
+Because the function signature only gives `goals`, `penalties`, and `rng_seed`, the most practical interpretation is:
+
+- `goals` and `penalties` are parallel iterables/lists of the same length
+- each entry provides the upper bound or base value for random generation for that team
+- team names are auto-generated as `Team 1`, `Team 2`, etc.
+
+If the intended meaning differs, the random-generation step can be adjusted, but the structure stays the same.
+
+---
+
+## Proposed algorithm
+
+### 1. Set a fixed penalty-to-fine cost
+Define a constant such as:
+
+- `PENALTY_COST = <predefined value>`
+
+Then compute:
+
+- `fine = penalties_value * PENALTY_COST`
+
+---
+
+### 2. Make randomness reproducible
+If `rng_seed` is not `None`:
+
+- call `seed(rng_seed)`
+
+This ensures the same inputs produce the same randomized output.
+
+---
+
+### 3. Validate inputs
+Before generating the DataFrame:
+
+- check that `goals` and `penalties` are iterable
+- check that they have the same length
+- check that all values are valid numbers/integers
+- ensure values are non-negative, since negative goals or penalties do not make sense
+
+If validation fails, raise a `ValueError`.
+
+---
+
+### 4. Generate match results row by row
+For each team index `i`:
+
+- create `team_name = f"Team {i + 1}"`
+- generate random goals for the team, e.g.:
+  - `team_goals = randint(0, goals[i])`
+- generate random penalties for the team, e.g.:
+  - `team_penalties = randint(0, penalties[i])`
+- compute the fine:
+  - `fine = team_penalties * PENALTY_COST`
+- format a readable result string, for example:
+  - `"Goals: 2, Penalties: 1, Fine: 100"`
+
+Store each row as:
+
+- `Team`
+- `Match Result`
+
+---
+
+### 5. Build the DataFrame
+Create a list of dictionaries, then pass it to:
+
+- `pd.DataFrame(rows, columns=["Team", "Match Result"])`
+
+This guarantees the required column order.
+
+---
+
+## Recommended output format for `Match Result`
+Use a concise string that includes all required details, for example:
+
+- `Goals: 3, Penalties: 2, Fine: 200`
+
+This is easy to read and satisfies the requirement to detail goals and accumulated fines.
+
+If you want the output to be more structured, you could include additional text like:
+
+- `Team scored 3 goals, received 2 penalties, fine = 200`
+
+---
+
+## Edge cases to handle
+
+### 1. Empty inputs
+If `goals` and `penalties` are empty:
+
+- return an empty DataFrame with columns `["Team", "Match Result"]`
+
+---
+
+### 2. Length mismatch
+If `goals` and `penalties` have different lengths:
+
+- raise `ValueError`
+- do not silently truncate, since that could hide data issues
+
+---
+
+### 3. Negative values
+If any goals or penalties are negative:
+
+- raise `ValueError`
+
+---
+
+### 4. Non-integer input
+If inputs contain floats, strings, or other invalid values:
+
+- either convert carefully if appropriate
+- or raise `TypeError` / `ValueError`
+
+For a clean implementation, integer-only validation is safest.
+
+---
+
+### 5. `rng_seed` is `None`
+If no seed is provided:
+
+- use normal nondeterministic randomness
+
+---
+
+### 6. Large values
+If goal/penalty bounds are very large:
+
+- the logic still works
+- just be careful with integer formatting in the result string
+
+---
+
+### 7. Zero penalties
+If a team has zero penalties:
+
+- fine should be `0`
+
+---
+
+## Final structure of the function
+The function should:
+
+1. optionally seed RNG
+2. validate inputs
+3. generate randomized goals and penalties
+4. convert penalties into fines
+5. assemble rows into a DataFrame
+6. return the DataFrame with the exact columns:
+   - `Team`
+   - `Match Result`
+
+If you want, I can also turn this plan into the exact self-contained Python implementation.

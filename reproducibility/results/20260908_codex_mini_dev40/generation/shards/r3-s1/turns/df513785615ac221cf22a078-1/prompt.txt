@@ -1,0 +1,82 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a DataFrame representing monthly sales of products and visualize the total sales. The function creates a DataFrame where each row represents a month, each column represents a product, and cell values represent sales figures. It then plots the total sales per product across all months using both a line plot and a heatmap for visualization. The function also displays: - A line plot showing the total sales per product. - A heatmap visualizing sales figures across products and months.
+The function should output with:
+    pd.DataFrame: A DataFrame with randomly generated sales figures for each product over 12 months.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+PRODUCTS = ['Product' + str(i) for i in range(1, 6)]
+MONTHS = ['Month' + str(i) for i in range(1, 13)]
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+PRODUCTS = ['Product' + str(i) for i in range(1, 6)]
+MONTHS = ['Month' + str(i) for i in range(1, 13)]
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func()`.
+
+## Requirements analysis
+The function should:
+
+1. Create a `pandas.DataFrame` with:
+   - 12 rows, one for each month in `MONTHS`
+   - 5 columns, one for each product in `PRODUCTS`
+   - random sales values in each cell
+
+2. Visualize the data in two ways:
+   - A **line plot** of total sales per product across all months
+   - A **heatmap** of sales by month and product
+
+3. Return the generated `DataFrame`
+
+---
+
+## Implementation plan
+1. **Generate random sales data**
+   - Use NumPy to create a `12 x 5` matrix of random sales figures.
+   - Prefer integer sales values for clarity, e.g. random integers in a reasonable range such as `0..100` or `1..100`.
+
+2. **Build the DataFrame**
+   - Use `MONTHS` as the index.
+   - Use `PRODUCTS` as the columns.
+   - Store the random matrix in the DataFrame.
+
+3. **Compute total sales per product**
+   - Sum each product column across all months using `df.sum(axis=0)`.
+
+4. **Create the line plot**
+   - Plot product totals on the y-axis and product names on the x-axis.
+   - Add title, axis labels, markers, and grid for readability.
+   - Call `plt.show()` after plotting.
+
+5. **Create the heatmap**
+   - Use `seaborn.heatmap(df, annot=True or false, cmap=...)`.
+   - Add title and axis labels.
+   - Call `plt.show()` after plotting.
+
+6. **Return the DataFrame**
+   - The function should return the DataFrame so the caller can inspect or reuse it.
+
+---
+
+## Edge cases and assumptions
+- **Randomness**: The values will differ on each call unless a seed is set. If reproducibility is desired, a fixed seed should be used.
+- **Data type**: Sales should likely be numeric integers; floating-point values are less natural for sales counts unless specified.
+- **Empty labels**: Not applicable here because `PRODUCTS` and `MONTHS` are predefined and non-empty.
+- **Plot clarity**:
+  - Long labels could overlap, but product/month names are short.
+  - If annotations are enabled in the heatmap, the plot may become crowded, but with only 12x5 cells it should still be readable.
+- **Display environment**: In non-interactive environments, plots may not render visibly, but the code should still generate them correctly.
+- **Aggregation interpretation**: “total sales per product across all months” means summing each product’s column over all months, which is the most direct interpretation.
+
+If you want, I can now provide the actual implementation code for `task_func()` in the required format.

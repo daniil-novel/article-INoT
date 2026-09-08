@@ -1,0 +1,22 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Calculate the moon phase by the date and time taking into account the lunar phase cycle of 7 years. The function uses a constant array `MOON_PHASES_YEARS` to determine the reference years for the moon phases.
+The function should output with:
+    float: The moon phase between 0 and 1. A value of 0 indicates a new moon and a value of 1 indicates a full moon.
+You should write self-contained code starting with:
+```
+import pytz
+import numpy as np
+from dateutil.parser import parse
+import math
+MOON_PHASES_YEARS = np.array([1987, 1994, 2001, 2008, 2015, 2022])
+def task_func(date_str, from_tz, to_tz):
+```
+FULL SUPPLIED CONTEXT
+import pytz
+import numpy as np
+from dateutil.parser import parse
+import math
+MOON_PHASES_YEARS = np.array([1987, 1994, 2001, 2008, 2015, 2022])
+def task_func(date_str, from_tz, to_tz):

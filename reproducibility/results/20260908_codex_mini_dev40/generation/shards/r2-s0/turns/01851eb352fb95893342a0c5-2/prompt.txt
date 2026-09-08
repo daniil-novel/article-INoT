@@ -1,0 +1,151 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Computes the average of each row in a provided 2D array and appends these averages as a new column. Additionally, it plots the averages against their respective row indices.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame which includes the original data and an additional 'Average' column.
+    Axes: A matplotlib Axes object with the plot of row averages.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+def task_func(data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a function:
+
+```python
+def task_func(data):
+```
+
+that:
+
+1. Accepts a 2D array-like input `data`.
+2. Treats each row as a record with columns named by `COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']`.
+3. Computes the average of each row.
+4. Appends those averages as a new column named `Average`.
+5. Produces a plot of the row averages against row indices.
+6. Returns a tuple:
+   - a pandas `DataFrame` containing the original data plus the `Average` column
+   - a matplotlib `Axes` object for the plot
+
+---
+
+## Implementation plan
+
+### 1) Build the DataFrame
+- Convert `data` into a `pandas.DataFrame`.
+- Use `COLUMN_NAMES` as the column labels for the original data.
+- If the incoming data has fewer than 8 columns, decide whether to:
+  - raise an error, or
+  - let pandas infer fewer columns and only use available names.
+- Since the prompt implies a fixed 2D array shape matching the constants, the safest plan is to validate shape and require exactly 8 columns.
+
+### 2) Compute row-wise averages
+- Use `df.mean(axis=1)` to compute each row’s mean.
+- Add the result as a new column `Average`.
+
+### 3) Create the plot
+- Create a matplotlib figure and axes with `plt.subplots()`.
+- Plot row indices on the x-axis and the row averages on the y-axis.
+- Use a simple line plot or marker plot, e.g.:
+  - x: `df.index`
+  - y: `df['Average']`
+- Add axis labels and a title for clarity.
+
+### 4) Return values
+- Return `(df, ax)`.
+
+---
+
+## Edge cases to handle
+
+### Input shape issues
+- **Not 2D**: if `data` is a 1D list or malformed nested structure, `DataFrame` creation may behave unexpectedly.
+- **Wrong number of columns**:
+  - fewer than 8 columns → missing names
+  - more than 8 columns → extra unnamed columns or mismatch if names are forced
+- Recommended approach: validate that each row has exactly 8 values.
+
+### Missing or non-numeric data
+- If some cells are `NaN`, `df.mean(axis=1)` will ignore them by default.
+- If values are strings or mixed types, mean computation may fail unless they are numeric-like.
+- Decide whether to:
+  - rely on pandas coercion, or
+  - explicitly convert with `pd.to_numeric(..., errors='coerce')`
+- If strict numeric input is expected, raise an informative error for invalid values.
+
+### Empty input
+- If `data` is empty, return an empty DataFrame with the expected columns plus `Average`, and an empty plot axis.
+- Alternatively, raise a clear error if empty input is not allowed.
+
+### Single-row input
+- Should still work: one average value, one point on the plot.
+
+### Plot formatting
+- Ensure the function returns the `Axes` object, not the figure.
+- The plot should be based on row positions, typically `0..n-1`.
+
+---
+
+## Suggested validation rules
+A robust implementation would:
+- confirm `data` is iterable and 2D,
+- ensure every row has length 8,
+- ensure values are numeric or convertible,
+- compute row means,
+- append `Average`,
+- plot and return the axis.
+
+---
+
+## Expected output structure
+- **DataFrame**: original columns `A` through `H`, plus `Average`
+- **Axes**: plot of average values across rows
+
+If you want, I can also provide the full implementation in the exact required code format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Constants
+COLUMN_NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+
+
+def task_func(data):
+    df = pd.DataFrame(data)
+
+    # Allow a truly empty input to produce an empty, well-formed result
+    if df.shape[1] == 0 and df.empty:
+        df = pd.DataFrame(columns=COLUMN_NAMES)
+    else:
+        if df.shape[1] != len(COLUMN_NAMES):
+            raise ValueError(
+                f"Each row must contain exactly {len(COLUMN_NAMES)} values."
+            )
+        df.columns = COLUMN_NAMES
+        df = df.apply(pd.to_numeric, errors='raise')
+
+    df["Average"] = df.mean(axis=1)
+
+    fig, ax = plt.subplots()
+    ax.plot(df.index, df["Average"], marker="o")
+    ax.set_xlabel("Row Index")
+    ax.set_ylabel("Average")
+    ax.set_title("Row Averages")
+
+    return df, ax
+```

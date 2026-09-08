@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07e90-455f-72e3-8e52-75123a2a741e"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport json\nfrom datetime import datetime\nfrom decimal import Decimal\n\ndef task_func(my_obj):\n    def default_serializer(obj):\n        if isinstance(obj, datetime):\n            return obj.isoformat()\n        if isinstance(obj, Decimal):\n            return str(obj)\n        raise TypeError(f\"Object of type {obj.__class__.__name__} is not JSON serializable\")\n\n    return json.dumps(my_obj, default=default_serializer)\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3747,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":1091,"reasoning_output_tokens":996}}

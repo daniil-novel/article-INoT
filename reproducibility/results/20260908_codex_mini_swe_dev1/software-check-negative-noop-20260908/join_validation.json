@@ -1,0 +1,28 @@
+{
+  "run_id": "pred-20260908T011843Z-cb0fd1fe",
+  "task_id": "pvlib__pvlib-python-1606",
+  "results_exists": true,
+  "report_exists": true,
+  "results_sha256": "f7d3049e751fd556ade00273c5bbf1a04e47650aa8c123af6a935e8056d1c778",
+  "report_sha256": "0fbc6bdc1e41155baee48915eb5263afa521bd251217cc6fa3196e341add3719",
+  "prediction_to_report_join": "E:/\u0412\u0428\u042d/\u041a\u0443\u0440\u0441\u043e\u0432\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430/article/springer-article/reproducibility/runs/swe-smoke-dev1/software-check-negative-noop-20260908/logs/evaluation/pred-20260908T011843Z-cb0fd1fe/negative-noop-control/pvlib__pvlib-python-1606/report.json",
+  "results_task_membership": true,
+  "report_task_id_exact": true,
+  "patch_bytes_match": true,
+  "report_flags": {
+    "patch_is_None": false,
+    "patch_exists": true,
+    "patch_successfully_applied": true,
+    "resolved": false,
+    "infra_failure": false
+  },
+  "artifact_hashes": {
+    "patch.diff": "1da763bf2b87181b8823440d85ba1dda84a0d94ebce0f15b1ff27804d8a2cf2d",
+    "eval.sh": "9d67a02a862297bfa7a014abdd6e922b480c5c565966613151a5379cc02a0daa",
+    "test_output.txt": "816c8e09fb3565b47ba102bd12bd3f696a6ecb963e3548ffa950fc9b0aab6500",
+    "run_instance.log": "b50f48ec432ae48bb8bdfd7fe60ef57671127b3d3420084cd0ef5f1e7b17ed43"
+  },
+  "candidate_status": "submitted_patch",
+  "classification": "candidate_patch_or_application_failure",
+  "status": "complete"
+}

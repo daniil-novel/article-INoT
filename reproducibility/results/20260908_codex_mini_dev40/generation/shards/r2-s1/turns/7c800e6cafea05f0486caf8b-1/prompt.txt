@@ -1,0 +1,64 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Run a random bash script from a list of scripts.
+The function should output with:
+    script (str): The full path of the script that was executed.
+You should write self-contained code starting with:
+```
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import random
+# Constants
+SCRIPTS = ['script1.sh', 'script2.sh', 'script3.sh']
+SCRIPTS_DIR = '/path/to/scripts'  
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Import required modules**
+   - Use `subprocess` to execute the selected bash script.
+   - Use `random` to choose one script from the list.
+
+2. **Define constants**
+   - `SCRIPTS` contains the candidate script filenames.
+   - `SCRIPTS_DIR` is the directory where those scripts reside.
+
+3. **Implement `task_func()`**
+   - Validate that `SCRIPTS` is not empty.
+   - Randomly select one script from `SCRIPTS` using `random.choice`.
+   - Build the absolute/full path by joining `SCRIPTS_DIR` and the chosen filename.
+   - Execute the script with `subprocess.run(...)`.
+     - Typically use `bash` explicitly, since the scripts are bash scripts.
+     - Capture errors via `check=True` if failure should raise an exception.
+   - Return or output the executed script path as required by the task:
+     - `script` should be the full path of the script that was executed.
+
+4. **Output format**
+   - Ensure the function exposes the executed script path in a clear way, e.g.:
+     - returning a dictionary like `{"script": script_path}`, or
+     - returning the path directly if the surrounding system expects that.
+   - Since the prompt specifies `script (str): The full path of the script that was executed`, the implementation should make that value available explicitly.
+
+Edge cases to handle:
+- **Empty script list**
+  - Raise a clear error if `SCRIPTS` is empty.
+- **Invalid script name / missing file**
+  - If the selected script does not exist under `SCRIPTS_DIR`, fail clearly before execution or let `subprocess` raise an error.
+- **Non-bash / non-executable scripts**
+  - Since the task says bash script, invoke via `bash script_path` to avoid relying on executable permissions.
+- **Invalid `SCRIPTS_DIR`**
+  - If the directory path is wrong, execution should fail with a clear exception.
+- **Randomness**
+  - The selected script should be uniformly random among the available scripts.
+- **Path handling**
+  - Build paths safely and consistently, avoiding manual string concatenation.
+
+If you want, I can also provide the exact code implementation next.

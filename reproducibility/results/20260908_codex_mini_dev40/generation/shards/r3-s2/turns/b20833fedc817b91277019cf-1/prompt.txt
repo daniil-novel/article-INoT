@@ -1,0 +1,83 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Given a dictionary of words as keys and letters as values, count the frequency of each letter in the words.
+The function should output with:
+    dict: A dictionary with letters as keys and their frequencies as values.
+You should write self-contained code starting with:
+```
+from collections import Counter
+from operator import itemgetter
+import itertools
+def task_func(word_dict):
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+from operator import itemgetter
+import itertools
+def task_func(word_dict):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+We need to implement `task_func(word_dict)` that:
+
+- takes a dictionary whose **keys are words**
+- counts the frequency of **each letter** appearing in those words
+- returns a dictionary in the form `{letter: frequency}`
+
+### Assumptions to clarify
+The prompt is a bit ambiguous about the dictionary values. The safest interpretation is:
+
+- **count letters from the dictionary keys** (the words)
+- **ignore the values**, unless the hidden tests indicate otherwise
+
+Also, since the prompt says “letters,” it likely means:
+
+- count alphabetic characters only
+- do not count spaces, punctuation, or digits
+
+### Implementation plan
+
+1. **Initialize counting**
+   - Use `Counter()` to accumulate letter frequencies.
+
+2. **Iterate over dictionary keys**
+   - For each key in `word_dict`, treat it as a word.
+   - If needed, convert non-string keys to strings defensively.
+
+3. **Normalize / filter characters**
+   - For each character in each word:
+     - keep it only if it is a letter (`char.isalpha()`), if the task expects only letters
+     - optionally preserve case unless the problem says to lowercase everything
+
+4. **Update counts**
+   - Add each valid character to the `Counter`.
+
+5. **Return result**
+   - Convert the `Counter` to a regular dictionary and return it.
+
+### Edge cases to handle
+
+- **Empty dictionary**
+  - Return `{}`
+
+- **Empty word strings as keys**
+  - They contribute nothing
+
+- **Repeated letters across multiple words**
+  - Must be counted cumulatively
+
+- **Non-letter characters in words**
+  - Should be ignored if the interpretation is strictly “letters”
+
+- **Mixed case**
+  - Decide whether `A` and `a` are separate.
+  - Default safe behavior: treat them as distinct unless normalization is required.
+
+- **Non-string keys**
+  - Convert to string or skip, depending on how defensive you want the function to be
+
+- **Dictionary values**
+  - Ignore unless later clarification says they should be included in the count too
+
+If you want, I can proceed to stage 2 and write the actual implementation.
