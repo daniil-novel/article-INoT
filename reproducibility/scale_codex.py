@@ -15,6 +15,9 @@ from . import codex_subscription as c
 from .audit_codex_pilot import audit, inventory_attempt
 from .record_codex_runtime import capture
 
+DEPENDENCIES = ('codex_subscription.py', 'factorial_runner.py', 'audit_codex_pilot.py',
+                'record_codex_runtime.py', 'benchmark_bridge.py', 'analyze_scale.py')
+
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -41,7 +44,10 @@ def plan(tasks, gate, gate_sha):
             m = c.make_manifest(selected, [replicate], list(c.ARMS))
             shards.append({'name': f'r{replicate}-s{partition}', 'replicate': replicate,
                            'task_ids': [t['task_id'] for t in selected], 'manifest': m})
+    dependencies = {name: hashlib.sha256(Path(__file__).with_name(name).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+                    for name in DEPENDENCIES}
     p = {'schema': 'codex-development-scale-v1', 'source_sha256_lf': source_hash(),
+         'dependency_sha256_lf': dependencies,
          'runner_source_sha256_lf': c.source_hash(), 'tasks_sha256': c.digest(tasks),
          'control_gate_sha256': gate_sha, 'assigned_task_ids': ids,
          'evaluable_task_ids': eligible, 'replicate_ids': [2, 3],
@@ -65,6 +71,9 @@ def run(tasks_path, gate_path, manifest_path, archive, npm_root):
     c.save(archive / 'tasks.json', tasks)
     (archive / 'control-gate.json').write_bytes(gate_path.read_bytes())
     (archive / 'orchestrator_source.py').write_bytes(Path(__file__).read_bytes().replace(b'\r\n', b'\n'))
+    (archive / 'sources').mkdir()
+    for name in DEPENDENCIES:
+        (archive / 'sources' / name).write_bytes(Path(__file__).with_name(name).read_bytes().replace(b'\r\n', b'\n'))
     c.save(archive / 'status.json', {'state': 'started', 'started_unix': time.time()})
     taskmap = {t['task_id']: t for t in tasks}
     env = os.environ.copy()
