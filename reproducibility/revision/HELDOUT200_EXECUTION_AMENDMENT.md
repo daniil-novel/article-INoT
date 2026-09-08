@@ -39,3 +39,7 @@ estimates and p-values. This is not an unmodified preregistered execution.
 This amendment does not authorize repeating the incomplete SWE demonstration,
 changing the INoT treatment, adding tasks, changing the response deadline,
 consuming reset credits or using paid API credentials.
+
+## Transport clarification before continuation dispatch
+
+A second original shard ended with an explicit network/stream interruption (`error decoding response body`), without final usage. This was observed before held-out quality evaluation. In the continuation, an explicitly identified transport interruption may end that cell and allow other never-submitted cells, using the same no-retry rule as a deadline. Quota, authentication and unrecognized failures stop further dispatch. All partial traces and unknown usage remain in the ledger. No continuation has been dispatched at this amendment checkpoint.
