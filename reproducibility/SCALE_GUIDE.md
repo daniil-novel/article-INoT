@@ -75,4 +75,6 @@ The frozen generation manifests bind tasks, prompts, controls and implementation
 
 Quality comparisons use task pairs and show both missingness bounds and evaluable denominators. Four reserved binary contrasts use exact two-sided McNemar tests with Holm adjustment; other intervals are descriptive. Administrative amendments are disclosed. There is no non-inferiority claim.
 
+The exact primary entry point is `heldout200.analyze.summarize`, called by the collector. The earlier API `analyze_factorial.py` is an explicitly gated legacy exploratory path; its sign-flip sensitivity is not the primary test. [INFERENCE_RULES.md](revision/INFERENCE_RULES.md) maps versions, states that no externally justified quality-loss margin is available, and defines a lower observed valuation as a paired mean ratio below one without upgrading descriptive intervals to an economic-superiority test.
+
 Input tokens include cached input; output tokens include reasoning output. Counterfactual standard API valuation is `((I-C)*0.75+C*0.075+O*4.50)/1e6` USD. Also report `(I*0.75+O*4.50)/1e6` without cache discounts. Missing failed-turn counters are unknown, not zero. Candidate-only totals omit incomplete multi-call attempts, so the submitted-turn ledger is also required. Subscription billing, research-worker usage and evaluator compute are separate.

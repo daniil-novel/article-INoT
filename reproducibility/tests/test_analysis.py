@@ -10,10 +10,10 @@ def rows(n=20):
 class AnalysisTests(unittest.TestCase):
     def test_ceiling_bootstrap_cannot_establish_noninferiority(self):
         r=analyze(rows(),1000)
-        self.assertEqual(r['quality_preservation']['decision'],'inconclusive')
+        self.assertEqual(r['quality_preservation']['decision'],'not_assessed')
         self.assertEqual(r['complete_tasks'],20)
         self.assertEqual(r['contrasts']['roles_single']['quality_ci95'],[0,0])
-        self.assertLess(r['quality_preservation']['first_seed_conservative_lower97_5'],-.02)
+        self.assertIsNone(r['quality_preservation']['margin'])
 
     def test_missing_case_is_not_silently_removed(self):
         data=rows();data[0]['resolved']=None
@@ -22,7 +22,21 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(r['complete_tasks'],19)
         self.assertEqual(r['assigned_tasks'],20)
         self.assertEqual(r['missing_outcomes'],1)
-        self.assertEqual(r['quality_preservation']['decision'],'inconclusive')
+        self.assertEqual(r['quality_preservation']['decision'],'not_assessed')
+
+    def test_favorable_large_sample_cannot_invent_quality_or_money_criterion(self):
+        data=rows(160)
+        for x in data:
+            x['resolved']=x['arm']=='single_roles'
+            x['cost_usd']=.001 if x['arm']=='single_roles' else .01
+        r=analyze(data,1000)
+        self.assertEqual(r['quality_preservation']['decision'],'not_assessed')
+        self.assertIsNone(r['quality_preservation']['margin'])
+        self.assertEqual(r['monetary_superiority']['decision'],'not_assessed')
+        self.assertEqual(r['analysis_role'],'legacy_exploratory_only')
+        expected=holm([v['sign_flip_p'] for v in r['contrasts'].values()])
+        self.assertEqual([v['holm_sign_flip_sensitivity_p'] for v in r['contrasts'].values()],expected)
+        self.assertTrue(all('holm_p' not in v for v in r['contrasts'].values()))
 
     def test_factorial_interaction_is_difference_of_differences(self):
         data=rows()

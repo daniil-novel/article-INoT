@@ -1,4 +1,9 @@
-"""Task-cluster analysis of independently evaluated outcomes; never scores model prose."""
+"""Legacy exploratory API analysis; not the published held-out inference procedure.
+
+The executed primary study uses heldout200.analyze.summarize. This legacy
+module reports descriptive intervals and explicitly labelled sign-flip
+sensitivity only; it cannot certify quality preservation or monetary superiority.
+"""
 from __future__ import annotations
 
 import argparse
@@ -8,7 +13,6 @@ import math
 from pathlib import Path
 
 import numpy as np
-from scipy.stats import beta
 
 ARMS = ("single_neutral", "single_roles", "multi_neutral", "multi_roles")
 CONTRASTS = {"roles_single": [-1,1,0,0], "roles_multi": [0,0,-1,1],
@@ -70,7 +74,13 @@ def analyze(rows: list[dict], draws: int = 10000, seed: int = 20260908) -> dict:
     result = {"assigned_tasks":len(tasks),"seeds":seeds,"complete_tasks":n,
               "missing_outcomes":int(np.isnan(q).sum()),"cell_quality_bounds":{a:[float(low[j]),float(high[j])] for j,a in enumerate(ARMS)},
               "status":"incomplete" if n < len(tasks) else "complete",
-              "inference":"Task-cluster percentile bootstrap and paired sign-flip sensitivity; no population sampling guarantee",
+              "analysis_role":"legacy_exploratory_only",
+              "primary_analysis_entrypoint":"reproducibility.heldout200.analyze.summarize",
+              "inference":"Descriptive task-cluster intervals; Holm applies only to five sign-flip sensitivity contrasts, not to a primary test",
+              "quality_preservation":{"margin":None,"decision":"not_assessed",
+                                      "reason":"No externally justified quality-loss margin was registered for this legacy analysis"},
+              "monetary_superiority":{"decision":"not_assessed",
+                                      "reason":"Cost means and intervals are descriptive; no confirmatory economic decision rule was registered"},
               "draws":draws,"random_seed":seed,"contrasts":{}}
     if n < 2:return result
     y = q[complete].mean(2);c = cost[complete].mean(2)
@@ -92,19 +102,8 @@ def analyze(rows: list[dict], draws: int = 10000, seed: int = 20260908) -> dict:
         result['contrasts'][name]={"quality_difference":estimate,"quality_ci95":np.quantile(distribution,[.025,.975]).tolist(),
                                    "cost_difference_usd":float((c@w).mean()),"cost_ci95":np.quantile(cost_boot@w,[.025,.975]).tolist(),
                                    "sign_flip_p":p,"quality_missing_bounds":[float(low@np.maximum(w,0)+high@np.minimum(w,0)),float(high@np.maximum(w,0)+low@np.minimum(w,0))]}
-    for name,adjusted in zip(CONTRASTS,holm(pvals)):result['contrasts'][name]['holm_p']=adjusted
-    # Conservative independent-task bound on the prespecified first seed.
-    a,b=q[complete,1,0],q[complete,3,0]
-    harm=int(((a==0)&(b==1)).sum());benefit=int(((a==1)&(b==0)).sum())
-    benefit_lower=0.0 if benefit==0 else float(beta.ppf(.0125,benefit,n-benefit+1))
-    harm_upper=1.0 if harm==n else float(beta.ppf(.9875,harm+1,n-harm))
-    conservative_lower=benefit_lower-harm_upper
-    boot_lower=result['contrasts']['topology_roles']['quality_ci95'][0]
-    result['quality_preservation']={"margin":.02,"first_seed":seeds[0],"harmful_pairs":harm,"beneficial_pairs":benefit,
-                                    "first_seed_conservative_lower97_5":conservative_lower,
-                                    "seed_mean_bootstrap_lower97_5":boot_lower,
-                                    "decision":"supported_by_both_bounds" if n==len(tasks) and conservative_lower>-.02 and boot_lower>-.02 else "inconclusive",
-                                    "scope":"Conservative gate also requires the fixed first seed; not an exact interval for the multi-seed mean"}
+    for name,adjusted in zip(CONTRASTS,holm(pvals)):
+        result['contrasts'][name]['holm_sign_flip_sensitivity_p']=adjusted
     result['cells']={a:{"mean_single_attempt_success":float(y[:,j].mean()),"mean_usd":float(cost[:,j,:].mean()),
                         "cost_per_resolved_task":float(c[:,j].sum()/y[:,j].sum()) if n==len(tasks) and y[:,j].sum()>0 else None} for j,a in enumerate(ARMS)}
     return result
@@ -112,9 +111,13 @@ def analyze(rows: list[dict], draws: int = 10000, seed: int = 20260908) -> dict:
 
 def main() -> None:
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--legacy-exploratory',action='store_true',
+                   help='Acknowledge that this is not the published primary analysis')
     p.add_argument('--outcomes',type=Path,required=True);p.add_argument('--manifest',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True);p.add_argument('--draws',type=int,default=10000)
     args=p.parse_args()
+    if not args.legacy_exploratory:
+        p.error('Use heldout200.assemble collect for the published primary study; this archived procedure requires --legacy-exploratory')
     if args.draws<1000:raise ValueError('At least 1000 resamples required')
     m=json.loads(args.manifest.read_text());rows=load_outcomes(args.outcomes,m['cells'])
     result=analyze(rows,args.draws)
