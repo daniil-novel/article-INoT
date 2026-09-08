@@ -1,0 +1,282 @@
+[
+  {
+    "bytes": 78875,
+    "path": "pvlib/modelchain.py",
+    "rank": 1,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 24000
+  },
+  {
+    "bytes": 122066,
+    "path": "pvlib/pvsystem.py",
+    "rank": 2,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 24000
+  },
+  {
+    "bytes": 28153,
+    "path": "pvlib/iotools/tmy.py",
+    "rank": 3,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 24000
+  },
+  {
+    "bytes": 28294,
+    "path": "pvlib/iotools/pvgis.py",
+    "rank": 4,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 24000
+  },
+  {
+    "bytes": 15263,
+    "path": "pvlib/iotools/psm3.py",
+    "rank": 6,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 39513,
+    "path": "pvlib/forecast.py",
+    "rank": 7,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 17287,
+    "path": "pvlib/iotools/epw.py",
+    "rank": 8,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 51221,
+    "path": "pvlib/temperature.py",
+    "rank": 9,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 18857,
+    "path": "pvlib/inverter.py",
+    "rank": 10,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 26671,
+    "path": "pvlib/tracking.py",
+    "rank": 11,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 35298,
+    "path": "pvlib/clearsky.py",
+    "rank": 12,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 50230,
+    "path": "pvlib/solarposition.py",
+    "rank": 13,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 11415,
+    "path": "pvlib/iotools/ecmwf_macc.py",
+    "rank": 14,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 21676,
+    "path": "pvlib/iotools/bsrn.py",
+    "rank": 15,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 11685,
+    "path": "pvlib/tools.py",
+    "rank": 16,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 9307,
+    "path": "pvlib/iotools/midc.py",
+    "rank": 17,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 114612,
+    "path": "pvlib/irradiance.py",
+    "rank": 18,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 15227,
+    "path": "pvlib/iotools/sodapro.py",
+    "rank": 19,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 50560,
+    "path": "pvlib/ivtools/sdm.py",
+    "rank": 20,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 29321,
+    "path": "pvlib/singlediode.py",
+    "rank": 21,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 8562
+  },
+  {
+    "bytes": 5336,
+    "path": "pvlib/iotools/crn.py",
+    "rank": 23,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 10964,
+    "path": "pvlib/scaling.py",
+    "rank": 24,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 7228,
+    "path": "pvlib/iotools/srml.py",
+    "rank": 25,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 24256,
+    "path": "pvlib/atmosphere.py",
+    "rank": 26,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 29237,
+    "path": "pvlib/iam.py",
+    "rank": 27,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 7358,
+    "path": "pvlib/iotools/surfrad.py",
+    "rank": 28,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 17205,
+    "path": "pvlib/ivtools/sde.py",
+    "rank": 29,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 28960,
+    "path": "pvlib/bifacial/infinite_sheds.py",
+    "rank": 30,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 15406,
+    "path": "pvlib/ivtools/utils.py",
+    "rank": 31,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 11535,
+    "path": "pvlib/snow.py",
+    "rank": 32,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 8778,
+    "path": "pvlib/soiling.py",
+    "rank": 33,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 6769,
+    "path": "pvlib/shading.py",
+    "rank": 34,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 18961,
+    "path": "pvlib/spectrum/spectrl2.py",
+    "rank": 35,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 13140,
+    "path": "pvlib/_deprecation.py",
+    "rank": 36,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 48216,
+    "path": "pvlib/spa.py",
+    "rank": 37,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 9423,
+    "path": "pvlib/spectrum/mismatch.py",
+    "rank": 38,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3900
+  },
+  {
+    "bytes": 4256,
+    "path": "pvlib/iotools/solrad.py",
+    "rank": 40,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3493
+  },
+  {
+    "bytes": 5240,
+    "path": "pvlib/bifacial/pvfactors.py",
+    "rank": 41,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3493
+  },
+  {
+    "bytes": 5754,
+    "path": "pvlib/bifacial/utils.py",
+    "rank": 42,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 3493
+  },
+  {
+    "bytes": 205,
+    "path": "pvlib/spectrum/__init__.py",
+    "rank": 48,
+    "reason": "relevant source file could not fit as a complete file; no truncation or budget change",
+    "remaining_bytes": 137
+  }
+]

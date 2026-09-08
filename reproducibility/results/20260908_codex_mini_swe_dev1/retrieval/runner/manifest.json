@@ -1,0 +1,118 @@
+{
+  "base_commit": "c78b50f4337ecbe536a961336ca91a1176efc0e8",
+  "bm25": {
+    "b": 0.75,
+    "idf": "log(1 + (N-df+0.5)/(df+0.5))",
+    "k1": 1.5
+  },
+  "checkout_verification_sha256": "d4b7a65b15c660b39c8e7f857833da6b1ef60f83fa6ce8e1b53092cd4ea620a1",
+  "context_sha256": "2bdb4f43a5920b6346faa664eb2bc9fa6bd85fb2326a1debc3bcff62b93515d7",
+  "excluded_filename_markers": [
+    "example"
+  ],
+  "excluded_path_components": [
+    "benchmark",
+    "benchmarks",
+    "doc",
+    "docs",
+    "example",
+    "examples",
+    "test",
+    "tests"
+  ],
+  "forbidden_columns_not_read": [
+    "hints_text",
+    "patch",
+    "test_patch",
+    "gold_patch",
+    "test",
+    "reference"
+  ],
+  "instance_id": "pvlib__pvlib-python-1606",
+  "limitations_sha256": "9d6139bbb099e882a17594d175e8050ad433515a11e6e220d75fb7f81ac77244",
+  "max_packet_bytes": 24000,
+  "metadata_columns_read": [
+    "instance_id",
+    "repo",
+    "base_commit",
+    "problem_statement",
+    "version"
+  ],
+  "parquet": "reproducibility/data/swebench-lite/dev-00000-of-00001.parquet",
+  "prepared_task_sha256": "d35206e76dccb230e2a7e8e2fca88c0252abdf861a7a630dea487cf89972d71e",
+  "preparer_sha256": "a2c1990194813f3ab546f84fb26c88595981d7821c720b73926d8ee9dcf70019",
+  "ranking_sha256": "e9b7e92fbed36a30420b7225bcb78c49b12fe02ece349d9e6d3950a1afb03b73",
+  "repo": "pvlib/pvlib-python",
+  "retriever_sha256": "a7f923bdf9d76625192a70ec2e34ec908ea43002c853f7de3d99ebc82b4e0d6a",
+  "schema": "swe-smoke-retrieval-v1",
+  "selected_bytes": 23863,
+  "selected_file_records": [
+    {
+      "bytes": 15438,
+      "path": "pvlib/location.py",
+      "rank": 5,
+      "sha256": "0325d408b87527acc0e0dc9d710f0b911717fe3587c48b9a4e292d37ca5d1bd4"
+    },
+    {
+      "bytes": 4662,
+      "path": "setup.py",
+      "rank": 22,
+      "sha256": "02f78af51e37f4f2794c15a9330ca50257ffb9e47f1a9882fe8cb5b973bfb3ce"
+    },
+    {
+      "bytes": 407,
+      "path": "pvlib/__init__.py",
+      "rank": 39,
+      "sha256": "2b6828ad4812862c27e54f9cd6d411da026e2e8a16177d41597fea4f215bf261"
+    },
+    {
+      "bytes": 1102,
+      "path": "pvlib/spa_c_files/setup.py",
+      "rank": 43,
+      "sha256": "45c3047f4476c0a1c98efa541f9cba876da6f3acba52b757c243e41ca3667b8f"
+    },
+    {
+      "bytes": 412,
+      "path": "pvlib/bifacial/__init__.py",
+      "rank": 44,
+      "sha256": "f2e3a243c711d16a7ad85f9d2d6db96f5ff12370318705a535a817a8cc9952a0"
+    },
+    {
+      "bytes": 282,
+      "path": "pvlib/version.py",
+      "rank": 45,
+      "sha256": "f5bda0c97e2b98abbad030a08ce86188441217db03e6eb713542773527ed456b"
+    },
+    {
+      "bytes": 159,
+      "path": "pvlib/ivtools/__init__.py",
+      "rank": 46,
+      "sha256": "6e75033ea93308ff7a09a1452b71b0e0735ccc9a07b4ef9c23d181180b595462"
+    },
+    {
+      "bytes": 1401,
+      "path": "pvlib/iotools/__init__.py",
+      "rank": 47,
+      "sha256": "837ec6895b271b8f3c8d34e11c00b252c1edb1ace7dfe8706867257976124c11"
+    },
+    {
+      "bytes": 0,
+      "path": "pvlib/spa_c_files/__init__.py",
+      "rank": 49,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "selected_files": [
+    "pvlib/location.py",
+    "setup.py",
+    "pvlib/__init__.py",
+    "pvlib/spa_c_files/setup.py",
+    "pvlib/bifacial/__init__.py",
+    "pvlib/version.py",
+    "pvlib/ivtools/__init__.py",
+    "pvlib/iotools/__init__.py",
+    "pvlib/spa_c_files/__init__.py"
+  ],
+  "source_commit": "c78b50f4337ecbe536a961336ca91a1176efc0e8",
+  "tokenizer": "lowercase ASCII identifier regex [A-Za-z_][A-Za-z0-9_]*"
+}

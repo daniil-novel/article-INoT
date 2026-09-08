@@ -7,3 +7,5 @@
 # Preserve exact evidence bytes, including native CRLF and original prompt whitespace.
 reproducibility/results/20260908_codex_mini_dev8/** -text -whitespace
 reproducibility/results/20260908_codex_mini_dev40/** -text -whitespace
+
+reproducibility/results/20260908_codex_mini_swe_dev1/** -text -whitespace
