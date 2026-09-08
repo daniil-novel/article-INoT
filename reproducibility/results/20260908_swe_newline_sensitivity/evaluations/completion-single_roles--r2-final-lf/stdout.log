@@ -1,0 +1,20 @@
+Running 1 instances...
+Error in evaluation for pvlib__pvlib-python-1606: >>>>> Patch Apply Failed:
+The next patch would create the file pvlib/tools.py,
+which already exists!  Skipping patch.
+
+Check (logs/evaluation/pred-20260908T083309Z-90c4d698/completion-single_roles--r2-final-lf/pvlib__pvlib-python-1606/run_instance.log) for more information.
+All instances run.
+Total instances: 1
+Instances submitted: 1
+Instances completed: 0
+Instances incomplete: 0
+Instances resolved: 0
+Instances unresolved: 0
+Instances with likely infrastructure failures: 0
+Instances with ambiguous failures: 0
+Instances with empty patches: 0
+Instances with errors: 1
+Unstopped containers: 1
+Unremoved images: 1
+Report written to logs/evaluation/pred-20260908T083309Z-90c4d698/results.json

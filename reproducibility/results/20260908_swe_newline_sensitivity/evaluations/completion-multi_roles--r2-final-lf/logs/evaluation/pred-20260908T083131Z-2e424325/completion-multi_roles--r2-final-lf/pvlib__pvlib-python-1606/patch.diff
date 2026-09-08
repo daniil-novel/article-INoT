@@ -1,0 +1,54 @@
+diff --git a/pvlib/tools.py b/pvlib/tools.py
+index 0000000..0000000 100644
+--- a/pvlib/tools.py
++++ b/pvlib/tools.py
+@@
+-    niter = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    # Golden-section search cannot estimate iterations on a zero-width
++    # interval. In that case the optimum is already at the shared bound, and
++    # using atol as a floor avoids divide-by-zero warnings.
++    interval = np.abs(df['VH'] - df['VL'])
++    niter = np.trunc(np.log(atol / np.maximum(interval, atol)) / np.log(phim1))
+diff --git a/tests/test_tools_golden_section.py b/tests/test_tools_golden_section.py
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tests/test_tools_golden_section.py
+@@
++import numpy as np
++import pandas as pd
++
++from pvlib import pvsystem
++from pvlib.tools import _golden_sect_DataFrame
++
++
++def test_golden_sect_dataframe_handles_equal_bounds():
++    index = pd.Index([0, 1])
++    params = pd.DataFrame(index=index)
++    lower = pd.Series([2.0, 0.0], index=index)
++    upper = pd.Series([2.0, 4.0], index=index)
++
++    def parabola(_params, x):
++        return -(x - 3.0) ** 2
++
++    p_opt, x_opt = _golden_sect_DataFrame(params, lower, upper, parabola)
++    p_opt = np.atleast_1d(np.asarray(p_opt))
++    x_opt = np.atleast_1d(np.asarray(x_opt))
++
++    assert np.isclose(x_opt[0], 2.0)
++    assert np.isclose(p_opt[0], -1.0)
++    assert np.isclose(x_opt[1], 3.0, atol=1e-6)
++    assert np.isclose(p_opt[1], 0.0, atol=1e-6)
++
++
++def test_singlediode_handles_zero_photocurrent():
++    result = pvsystem.singlediode(
++        photocurrent=0.0,
++        saturation_current=1e-10,
++        resistance_series=0.5,
++        resistance_shunt=1000.0,
++        nNsVth=1.5,
++    )
++
++    assert np.isclose(result['v_oc'], 0.0)
++    assert np.isclose(result['p_mp'], 0.0)

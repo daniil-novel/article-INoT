@@ -1,0 +1,33 @@
+{
+  "run_id": "pred-20260908T083235Z-88d7740c",
+  "task_id": "pvlib__pvlib-python-1606",
+  "results_exists": true,
+  "report_exists": true,
+  "results_sha256": "fee96fe51bb42556e7ce78fee38ce461f141e648196aa60f59f84bf96fdfa4c2",
+  "report_sha256": "0fbc6bdc1e41155baee48915eb5263afa521bd251217cc6fa3196e341add3719",
+  "prediction_to_report_join": "E:/\u0412\u0428\u042d/\u041a\u0443\u0440\u0441\u043e\u0432\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430/article/springer-article/reproducibility/runs/swe-newline-sensitivity-v1/evaluations/completion-multi_neutral--r1-final-lf/logs/evaluation/pred-20260908T083235Z-88d7740c/completion-multi_neutral--r1-final-lf/pvlib__pvlib-python-1606/report.json",
+  "results_task_membership": true,
+  "report_task_id_exact": true,
+  "report_flags_valid": true,
+  "native_application_rejection": false,
+  "invalid_candidate_patch": false,
+  "evaluator_error": false,
+  "inconsistent_empty_patch_summary": false,
+  "patch_bytes_match": true,
+  "report_flags": {
+    "patch_is_None": false,
+    "patch_exists": true,
+    "patch_successfully_applied": true,
+    "resolved": false,
+    "infra_failure": false
+  },
+  "artifact_hashes": {
+    "patch.diff": "e8805db859b78d9a22f2018b33cc8d3047befa3f80e72169293e7a8f08552e4a",
+    "eval.sh": "9d67a02a862297bfa7a014abdd6e922b480c5c565966613151a5379cc02a0daa",
+    "test_output.txt": "a1564ca2c223e3372d3903185c6efa036eecc99e50a5cb9d0ebb5b7853a0580b",
+    "run_instance.log": "679814f278cf2c010a9ba00e7305749378e162588bd2faabdf5583983d8a865a"
+  },
+  "candidate_status": "submitted_patch",
+  "classification": "candidate_test_or_patch_failure",
+  "status": "complete"
+}

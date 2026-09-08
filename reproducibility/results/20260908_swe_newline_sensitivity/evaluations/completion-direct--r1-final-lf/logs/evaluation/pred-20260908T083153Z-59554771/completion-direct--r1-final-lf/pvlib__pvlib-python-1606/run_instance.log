@@ -1,0 +1,23 @@
+2026-09-08 08:31:56,017 - INFO - Creating container for pvlib__pvlib-python-1606...
+2026-09-08 08:31:56,075 - INFO - Container for pvlib__pvlib-python-1606 created: b3e1f0242a4606ac4e7d600e1ae8a5e54d3e22dfc7e4bbc9fe8d10b1432e66c2
+2026-09-08 08:31:56,242 - INFO - Container for pvlib__pvlib-python-1606 started: b3e1f0242a4606ac4e7d600e1ae8a5e54d3e22dfc7e4bbc9fe8d10b1432e66c2
+2026-09-08 08:31:56,253 - INFO - Intermediate patch for pvlib__pvlib-python-1606 written to logs/evaluation/pred-20260908T083153Z-59554771/completion-direct--r1-final-lf/pvlib__pvlib-python-1606/patch.diff, now applying to container...
+2026-09-08 08:31:56,405 - INFO - Failed to apply patch to container: git apply --verbose
+2026-09-08 08:31:56,751 - INFO - Failed to apply patch to container: git apply --verbose --3way
+2026-09-08 08:31:57,258 - INFO - Failed to apply patch to container: git apply --verbose --reject
+2026-09-08 08:31:57,391 - INFO - Failed to apply patch to container: patch --batch --forward --fuzz=5 -p1 -i
+2026-09-08 08:31:57,444 - INFO - >>>>> Patch Apply Failed:
+patch: **** Only garbage was found in the patch input.
+
+2026-09-08 08:31:57,453 - INFO - Traceback (most recent call last):
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 333, in run_instance
+    raise EvaluationError(
+swebench.harness.utils.EvaluationError: Error in evaluation for pvlib__pvlib-python-1606: >>>>> Patch Apply Failed:
+patch: **** Only garbage was found in the patch input.
+
+Check (logs/evaluation/pred-20260908T083153Z-59554771/completion-direct--r1-final-lf/pvlib__pvlib-python-1606/run_instance.log) for more information.
+
+2026-09-08 08:31:57,453 - INFO - Attempting to stop container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T083153Z-59554771...
+2026-09-08 08:32:12,612 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T083153Z-59554771 stopped successfully.
+2026-09-08 08:32:12,614 - INFO - Attempting to remove container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T083153Z-59554771...
+2026-09-08 08:32:12,660 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T083153Z-59554771 removed successfully.

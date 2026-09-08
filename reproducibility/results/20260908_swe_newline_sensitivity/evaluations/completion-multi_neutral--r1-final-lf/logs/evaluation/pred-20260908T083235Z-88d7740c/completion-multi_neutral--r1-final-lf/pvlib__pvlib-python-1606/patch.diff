@@ -1,0 +1,84 @@
+diff --git a/pvlib/tools.py b/pvlib/tools.py
+--- a/pvlib/tools.py
++++ b/pvlib/tools.py
+@@
+ def _golden_sect_DataFrame(params, lower, upper, func, atol=1e-8):
+     """
+     Golden section search for pandas DataFrame inputs.
+     """
+     phim1 = (np.sqrt(5) - 1) / 2
+     df = pd.DataFrame(index=params.index)
+     df['VL'] = lower
+     df['VH'] = upper
+-    niter = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    width = df['VH'] - df['VL']
++    degenerate = width == 0
++
++    # Handle zero-width intervals explicitly. This can happen in the
++    # singlediode/LambertW path when the operating point has zero irradiance
++    # and the optimizer is asked to search over [0, 0]. In that case the
++    # optimum is the bound itself, and the normal golden-section iteration
++    # would divide by zero when estimating the number of iterations.
++    if degenerate.any():
++        if degenerate.all():
++            x = df['VL'].copy()
++            return func(params, x), x
++
++        f = pd.Series(index=df.index, dtype='float64')
++        x = pd.Series(index=df.index, dtype='float64')
++
++        x.loc[degenerate] = df.loc[degenerate, 'VL']
++        f.loc[degenerate] = func(params.loc[degenerate], x.loc[degenerate])
++
++        f_nd, x_nd = _golden_sect_DataFrame(
++            params.loc[~degenerate],
++            df.loc[~degenerate, 'VL'],
++            df.loc[~degenerate, 'VH'],
++            func, atol=atol)
++        f.loc[~degenerate] = f_nd
++        x.loc[~degenerate] = x_nd
++        return f, x
++
++    niter = np.trunc(np.log(atol / width) / np.log(phim1))
+     niter = niter.where(niter > 0, 0)
+     df['niter'] = niter
+     df['x1'] = df['VL'] + (1 - phim1) * (df['VH'] - df['VL'])
+     df['x2'] = df['VL'] + phim1 * (df['VH'] - df['VL'])
+     df['f1'] = func(params, df['x1'])
+diff --git a/tests/test_tools_golden_sect.py b/tests/test_tools_golden_sect.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_tools_golden_sect.py
+@@
++import numpy as np
++import pandas as pd
++
++from pvlib.tools import _golden_sect_DataFrame
++
++
++def test_golden_sect_dataframe_zero_width_interval():
++    params = pd.DataFrame({'dummy': [0.0]}, index=[0])
++
++    def func(params, x):
++        return x ** 2
++
++    f_opt, x_opt = _golden_sect_DataFrame(params, 0.0, 0.0, func)
++
++    assert np.isclose(x_opt.iloc[0], 0.0)
++    assert np.isclose(f_opt.iloc[0], 0.0)
++
++
++def test_golden_sect_dataframe_mixed_zero_width_interval():
++    params = pd.DataFrame({'dummy': [0.0, 1.0]}, index=[0, 1])
++    lower = pd.Series([1.0, 0.0], index=params.index)
++    upper = pd.Series([1.0, 4.0], index=params.index)
++
++    def func(params, x):
++        return -(x - 2.0) ** 2
++
++    f_opt, x_opt = _golden_sect_DataFrame(params, lower, upper, func)
++
++    assert np.isclose(x_opt.loc[0], 1.0)
++    assert np.isclose(f_opt.loc[0], -1.0)
++    assert np.isclose(x_opt.loc[1], 2.0, atol=1e-3)
++    assert np.isclose(f_opt.loc[1], 0.0, atol=1e-3)

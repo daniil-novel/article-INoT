@@ -141,3 +141,23 @@ jobs:
           assert report['turn_usage'] == json.loads((expected/'summary.json').read_text(encoding='utf-8'))['turn_usage']
           print('All ten SWE outcomes and the complete known/unknown usage ledger replay')
           PY
+      - name: Replay final-newline export sensitivity for all ten SWE patches
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from reproducibility.swe_smoke.completion_evidence import audit_native, sha
+          root = Path('reproducibility/results/20260908_swe_newline_sensitivity')
+          plan = json.loads((root/'plan.json').read_text(encoding='utf-8'))['predictions']
+          assert len(plan) == 10
+          for item in plan:
+              original = Path(item['source'])
+              pred = root/item['prediction']
+              assert sha(original) == item['source_sha256'] and sha(pred) == item['prediction_sha256']
+              before = json.loads(original.read_text(encoding='utf-8'))['model_patch']
+              after = json.loads(pred.read_text(encoding='utf-8'))['model_patch']
+              assert after == (before if before.endswith('\n') else before+'\n')
+              actual = audit_native(root/'evaluations'/item['label'], {'prediction_path': str(pred)})
+              assert actual['native_status'] == 'complete' and actual['resolved'] is False
+          print('All ten newline sensitivity outcomes verified from native evidence')
+          PY

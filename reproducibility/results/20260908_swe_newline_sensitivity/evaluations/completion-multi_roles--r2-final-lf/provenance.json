@@ -1,0 +1,22 @@
+{
+  "run_id": "pred-20260908T083131Z-2e424325",
+  "task_id": "pvlib__pvlib-python-1606",
+  "source_commit": "02e7a74ffd0b707aab73d203fe87bdc7c76afc8e",
+  "source_checkout": "git diff --quiet HEAD -- verified",
+  "dataset_sha256": "cb3e80bd3a1641ee60393baf780018925430c38de09000c7f272c5744e58851e",
+  "original_parquet_sha256": "b90bcbfaca1b5f65155500124a977876c264a4003ab384aca4dfc39a54bef89f",
+  "prediction_source_sha256": "4f5dc22579ec73247684263f56dacd890c1645664e35d9839efa58324ba3efc8",
+  "prediction_snapshot_sha256": "4f5dc22579ec73247684263f56dacd890c1645664e35d9839efa58324ba3efc8",
+  "candidate_status": "submitted_patch",
+  "custom_image_id": "sha256:09bb86006da10a9a79ecc8e20ba4adf0b3bf2f459c1171584f9857e9dad75b27",
+  "controller_image_id": "sha256:c303eeb04b99760928bc7e736aa0e6a60296a48c4814cc208fd600d943b868a2",
+  "controller_name": "sweb.controller.pred-20260908T083131Z-2e424325",
+  "task_container_name": "sweb.eval.pvlib__pvlib-python-1606.pred-20260908T083131Z-2e424325",
+  "network": "controller none; child task network is unchanged upstream default",
+  "model_calls": 0,
+  "launcher_exit_code": 0,
+  "prediction_source_sha256_after": "4f5dc22579ec73247684263f56dacd890c1645664e35d9839efa58324ba3efc8",
+  "prediction_snapshot_sha256_after": "4f5dc22579ec73247684263f56dacd890c1645664e35d9839efa58324ba3efc8",
+  "prediction_bytes_unchanged": true,
+  "join_status": "complete"
+}

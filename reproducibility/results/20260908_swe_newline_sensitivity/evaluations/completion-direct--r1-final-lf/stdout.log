@@ -1,0 +1,19 @@
+Running 1 instances...
+Error in evaluation for pvlib__pvlib-python-1606: >>>>> Patch Apply Failed:
+patch: **** Only garbage was found in the patch input.
+
+Check (logs/evaluation/pred-20260908T083153Z-59554771/completion-direct--r1-final-lf/pvlib__pvlib-python-1606/run_instance.log) for more information.
+All instances run.
+Total instances: 1
+Instances submitted: 1
+Instances completed: 0
+Instances incomplete: 0
+Instances resolved: 0
+Instances unresolved: 0
+Instances with likely infrastructure failures: 0
+Instances with ambiguous failures: 0
+Instances with empty patches: 0
+Instances with errors: 1
+Unstopped containers: 1
+Unremoved images: 1
+Report written to logs/evaluation/pred-20260908T083153Z-59554771/results.json
