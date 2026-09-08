@@ -18,6 +18,7 @@ REPEATS=[101,102,103]
 DEPENDENCIES=['codex_subscription.py','factorial_runner.py','benchmark_bridge.py','record_codex_runtime.py',
               'scale1000/dispatch.py','scale1000/prepare.py','scale1000/controls.py','scale1000/analyze.py',
               'scale1000/collect.py','heldout200/evidence.py','scale_env/validate_native.py']
+DEPENDENCIES += ['scale1000/ENVIRONMENT_AMENDMENT.md','scale1000/environment/Dockerfile','scale1000/environment/requirements.txt']
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -46,8 +47,10 @@ def completed_empty(folder):
     raw=(folder/'events.jsonl').read_bytes()
     events=[json.loads(x) for x in raw.decode().splitlines() if x.strip()]
     messages=[e for e in events if e.get('type')=='item.completed' and e.get('item',{}).get('type')=='agent_message']
-    if len(messages)!=1 or not isinstance(messages[0]['item'].get('text'),str) or messages[0]['item']['text'].strip():raise ValueError('Not an empty completed response')
-    original=messages[0]['item']['text'];messages[0]['item']['text']='EMPTY_RESPONSE_VALIDATION_SENTINEL'
+    if len(messages)>1 or (messages and (not isinstance(messages[0]['item'].get('text'),str) or messages[0]['item']['text'].strip())):raise ValueError('Not an empty completed response')
+    original=messages[0]['item']['text'] if messages else ''
+    if messages:messages[0]['item']['text']='EMPTY_RESPONSE_VALIDATION_SENTINEL'
+    else:events.insert(0,{'type':'item.completed','item':{'type':'agent_message','text':'EMPTY_RESPONSE_VALIDATION_SENTINEL'}})
     normalized=c.parse_events(b'\n'.join(c.canonical(e) for e in events))
     normalized['final_text']=original;normalized['empty_model_response']=True
     normalized['original_terminal_status']=status
