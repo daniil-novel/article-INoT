@@ -37,6 +37,15 @@ def render(primary,inot,paired,selection):
     all_groups.append({'code':'INoT*','generated':b['generated'],'n':b['evaluable'],'passes':b['passes'],
                        'rate':b['evaluable_only_rate'],'bounds':b['missingness_bounds'],'format_failures':b['format_failures'],
                        **{k:b['completed_candidate_totals'][k]/b['generated'] for k in ('total_tokens','api_equivalent_usd','uncached_sensitivity_usd')}})
+    for group,records in zip(all_groups,[[r for r in p_rows if r['arm']==arm] for arm in ARMS]+[b_rows]):
+        if len(records)!=group['generated']:raise ValueError('Component denominator differs')
+        for key in ('input_tokens','cached_input_tokens','output_tokens'):
+            group[key]=sum(r['usage'][key] for r in records)/len(records)
+        if abs(group['input_tokens']+group['output_tokens']-group['total_tokens'])>1e-8:
+            raise ValueError('Token components do not reconcile')
+        reasoning=[r['usage'].get('reasoning_output_tokens') for r in records]
+        group['reasoning_subset_observed_candidates']=sum(x is not None for x in reasoning)
+        group['mean_reasoning_output_subset']=sum(reasoning)/len(reasoning) if all(x is not None for x in reasoning) else None
     indexed={(r['task_id'],r['arm']):r for r in p_rows}
     ib={r['task_id']:r for r in b_rows}
     tests={t['contrast']:t for t in s['four_predeclared_quality_tests']}
@@ -121,6 +130,19 @@ def render(primary,inot,paired,selection):
     ax.set(xlabel='Mean API-equivalent valuation (US cents / candidate)',ylabel='Original-test success (%)',ylim=(0,100),xlim=(0,max(r['api_equivalent_usd'] for r in all_groups)*120))
     ax.spines[['top','right']].set_visible(False);ax.grid(alpha=.18)
     fig.savefig(ROOT/'figures/heldout_cost_quality.pdf');fig.savefig(ROOT/'figures/heldout_cost_quality.png',dpi=180);plt.close(fig)
+    fig,ax=plt.subplots(figsize=(6.7,3.6),layout='constrained')
+    x=list(range(len(all_groups)));base=[0.0]*len(x)
+    parts=[('Uncached input',[r['input_tokens']-r['cached_input_tokens'] for r in all_groups],'#476b85'),
+           ('Cached input',[r['cached_input_tokens'] for r in all_groups],'#9dc4d4'),
+           ('Output (includes reasoning)',[r['output_tokens'] for r in all_groups],'#bf813e')]
+    for label,values,color in parts:
+        scaled=[value/1000 for value in values]
+        ax.bar(x,scaled,bottom=base,label=label,color=color,width=.65)
+        base=[a+b for a,b in zip(base,scaled)]
+    ax.set(xticks=x,xticklabels=[r['code'] for r in all_groups],ylabel='Mean thousand tokens / completed candidate',ylim=(0,max(base)*1.23))
+    ax.legend(frameon=False,fontsize=8,loc='upper left',ncol=3)
+    ax.spines[['top','right']].set_visible(False);ax.grid(axis='y',alpha=.15);ax.set_axisbelow(True)
+    fig.savefig(ROOT/'figures/heldout_token_components.pdf');fig.savefig(ROOT/'figures/heldout_token_components.png',dpi=180);plt.close(fig)
     fig,ax=plt.subplots(figsize=(6.7,3.1),layout='constrained')
     for y,(key,label) in enumerate(zip(KEYS,LABELS)):
         q=s['paired_contrasts'][key]['quality'];lo,hi=q['descriptive_task_bootstrap_95_interval'];mean=q['mean_paired_difference']
