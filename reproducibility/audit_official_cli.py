@@ -47,7 +47,7 @@ def crosscheck(predictions, native, controls, core, dataset):
     manifest=read(predictions/'export_manifest.json');reports={};common=None
     for group in manifest['groups']:
         # Paths in the source export manifest remain original; use their retained basename.
-        samples=jsonl(predictions/Path(group['path']).name)
+        samples=jsonl(predictions/Path(group['path'].replace('\\','/')).name)
         expected={r['task_id']:r['solution'] for r in samples}
         report=check_run(native/group['arm'],expected,sha(dataset))
         original=read(core/group['arm']/'pilot-predictions.json')

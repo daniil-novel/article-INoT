@@ -23,6 +23,7 @@ def join(archive, evaluations):
     fingerprints=[]
     for group in summary['by_arm']:
         arm=group['arm'];path=evaluations/arm/'pilot-predictions.json';result=c.read(path)
+        group['format_extraction_failures']=0
         fingerprints.append({k:result[k] for k in ('upstream_commit','dataset_sha256','prepared_split_sha256','vendor_tree_sha256','requirements_sha256','dockerfile_sha256','image_id','limits','pip_freeze')})
         records=result['records']
         modelrows=[r for r in records if r['control']=='prediction']
@@ -31,7 +32,8 @@ def join(archive, evaluations):
             task_id=prediction['task_id']
             candidates=[r for r in rows if r['arm']==arm and r['task_id']==task_id]
             if len(candidates)!=1:raise ValueError('Expected exactly one replicate in development pilot')
-            solution,_=_extract_fenced_block(candidates[0]['final_text'],'bigcodebench')
+            solution,extracted=_extract_fenced_block(candidates[0]['final_text'],'bigcodebench')
+            group['format_extraction_failures']+=int(not extracted)
             if prediction['solution_sha256']!=hashlib.sha256(solution.encode()).hexdigest():raise ValueError('Evaluated solution differs from complete archived final answer')
             controls=[r for r in records if r['task_id']==task_id and r['control'] in {'gold','incorrect'}]
             if len(controls)!=2 or {r['control'] for r in controls}!={'gold','incorrect'}:raise ValueError('Missing or duplicated controls')
@@ -69,6 +71,16 @@ def write_tables(summary, out):
             lines.append(f"{names[g['arm']][index]} & {g['mean_total_tokens']:.0f} & {g['mean_api_equivalent_usd']:.5f} & {q['pass_count']}/{q['evaluable_tasks']} & {q['pessimistic_lower_bound']:.3f}--{q['optimistic_upper_bound']:.3f}"+r' \\')
         lines += [r'\bottomrule',r'\end{tabular}',r'\end{table}']
         (out/f'codex_pilot_table_{lang}.tex').write_text('\n'.join(lines)+'\n',encoding='utf-8')
+        caption=('Every assigned task outcome. P: pass, F: fail, T: timeout, U: unavailable after the reference/negative-control gate. No task is discarded.' if lang=='en' else
+                 'Исход каждой назначенной задачи. P --- успех, F --- ошибка, T --- тайм-аут, U --- оценка недоступна после проверки эталона и отрицательного контроля. Задачи не удаляются.')
+        lines=[r'\begin{table}[htbp]',r'\centering\small',r'\caption{'+caption+'}',r'\label{tab:codextasks}',r'\begin{tabular}{lccccc}',r'\toprule',
+               ('Task' if lang=='en' else 'Задача')+' & '+' & '.join(names[g['arm']][index] for g in summary['by_arm'])+r' \\',r'\midrule']
+        symbols={'pass':'P','fail':'F','timeout':'T',None:'U'}
+        ids=list(summary['by_arm'][0]['quality']['status_by_task'])
+        for task_id in ids:
+            lines.append(task_id.split('/')[-1]+' & '+' & '.join(symbols[g['quality']['status_by_task'][task_id]] for g in summary['by_arm'])+r' \\')
+        lines += [r'\bottomrule',r'\end{tabular}',r'\end{table}']
+        (out/f'codex_pilot_tasks_{lang}.tex').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 
 
 def main():

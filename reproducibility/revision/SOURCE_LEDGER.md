@@ -21,14 +21,22 @@ Accessed 8 September 2026. Primary sources only. A source's result is background
 - Agentless: `5ce5888b9f149beaace393957a55ea8ee46c9f71`
 - SWE-agent: `3ea751c087f32b16e039a2233dd6eefecef325d5`
 
-Pins identify inspected public upstream heads, **not installed or executed versions**. Confirmatory environments must record their actual installed commit and image digest.
+At the initial source-discovery stage these pins identified inspected public upstream heads, not installed versions. The later BigCodeBench pilot actually uses the pin above and records its source and image digests. The other three upstream implementations remain unexecuted.
 
 ## Gaps and stopping decision
 
 Source discovery covered original INoT, official evaluation/baseline implementations, budget-comparison prior art, current benchmark validity concerns and model prices. Follow-up checked the actual dataset schema, current source revisions, the INoT termination ambiguity and the distinction between successful harness execution and a resolved task. These are sufficient to revise the study question and evidence gates. Further broad searching cannot supply missing API responses or official evaluation results; synthesis proceeds with these gaps explicit.
 
-Unresolved: original INoT executable release/fidelity validation; installed upstream baseline environments; a frozen SWE repository retrieval packet; completed gold-patch and intentionally failing evaluator controls; funded model generation; real paired outcomes. The project does not claim systematic-review completeness or verified absence of all similar work.
+Unresolved after the development pilot: original INoT executable release/fidelity validation; installed upstream baseline environments; a frozen SWE repository retrieval packet and its gold-patch/negative controls; large confirmatory model generation and paired outcomes. The project does not claim systematic-review completeness or verified absence of all similar work.
 
 ## Evaluator preflight follow-up
 
 The pinned BigCodeBench source was cloned and its HEAD verified locally. Its loader supports `BIGCODEBENCH_OVERRIDE_PATH` for the pinned local dataset. GitHub marks the repository archived since 20 July 2026. Registry metadata resolves the amd64 evaluator image to the digest in `evaluator_preflight.json`; its compressed layers total 9,273,490,980 bytes, exceeding the observed C: free space before unpacking. No image was pulled and no official control was executed. The image's internal source version remains unverified.
+
+## Subscription execution follow-up
+
+- GPT-5.4 mini documentation: https://developers.openai.com/api/docs/models/gpt-5.4-mini . Coding-capable mini model, medium reasoning supported. This describes advertised capability, not measured quality on our tasks. The CLI alias is recorded; an immutable served snapshot is not independently proven.
+- Standard API list prices: https://developers.openai.com/api/docs/pricing . Accessed 8 September 2026: USD 0.75/M input, 0.075/M cached input, 4.50/M output. Used only for counterfactual valuation of CLI tokens, never as a subscription invoice. Cheaper GPT models exist; this pilot is not an exhaustive model-price-quality optimization.
+- Noninteractive CLI JSONL: https://developers.openai.com/codex/noninteractive . `turn.completed.usage` supplies observed token counters. Cached input and reasoning output are subsets, not additional totals. No verified CLI controls for provider sampling seed, temperature or equal hard output allowance were established.
+- Tool registration: official https://github.com/openai/codex/releases/tag/rust-v0.152.0 and https://raw.githubusercontent.com/openai/codex/rust-v0.153.4/codex-rs/core/src/tools/spec_plan.rs . CLI 0.144.1 exposed the planning tool despite text-only instructions. Version 0.153.4 supports explicit `tools.update_plan.enabled=false`; remaining model-dependent tools are guarded by per-trace rejection.
+- The development evaluator executes both the pinned BigCodeBench core and the unchanged official CLI in the documented smaller containers. All 40 raw test statuses agree. This is selective `instruct` evaluation of eight tasks in a custom environment, not a full benchmark score or the complete official release image. Reference-control failures remain missing for all treatments.
