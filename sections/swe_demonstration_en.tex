@@ -1,10 +1,31 @@
-\section{Repository-patch demonstration and an explicit incomplete run}
+\section{Complete repository-patch demonstration}
 \label{sec:swe-dev1}
 
-A separate one-task SWE-bench Lite development demonstration uses \texttt{pvlib\_\_pvlib-python-1606}. Deterministic BM25 retrieval from the exact base commit selects whole eligible Python files within 24,000 source bytes; nine files totaling 23,863 bytes enter the identical packet for all arms. Test files, hints and reference patches are excluded from retrieval. Files too large to fit are listed, not truncated. This is an explicitly selected packet, not the full repository, and omitted relevant files remain a retrieval limitation.
+A separate one-task SWE-bench Lite development demonstration uses \texttt{pvlib\_\_pvlib-python-1606}. Deterministic BM25 retrieval from the exact base commit selects whole eligible Python files within 24,000 source bytes; nine files totaling 23,863 bytes enter the identical packet for all arms. Test files, hints and reference patches are excluded from retrieval. Files too large to fit are listed, not truncated. This is a selected packet, not the full repository; retrieval omissions remain a limitation.
 
-The unchanged pinned SWE-bench harness initially fails even with the gold patch because its official task image contains an incompatible NumPy version. A separate image changing NumPy to 1.26.4 passes all 11 gold tests; an applicable comment-only negative passes ten tests and fails the regression test. All initial failures and both image identities are retained. These controls validate the adjusted environment, not the unchanged release image. The controller runs offline, while the unchanged upstream child task container retains its default Docker network; no credentials or personal directories are mounted.
+The unchanged pinned SWE-bench harness initially fails even with the gold patch because its official task image contains an incompatible NumPy version. A separate image changing NumPy to 1.26.4 passes all 11 gold tests; an applicable comment-only negative passes ten tests and fails the regression test. Both controls are repeated successfully before evaluation of the additional candidates. Initial failures and image identities are retained. The controller runs offline, while the unchanged upstream child task container retains its default Docker network; no credentials or personal directories are mounted.
 
-The fixed ten-candidate generation stops after one CLI call exceeds the 180-second deadline. Two complete patches remain: D applies but fails the target regression test (ten other tests pass); SN is rejected by native patch application. Eight assigned candidates remain missing. Both observed evaluations pass the input/patch/report audit and have no identified infrastructure failure. Four CLI turns were submitted; three expose complete usage totaling 56,796 tokens and USD 0.1379895 in API-equivalent valuation, while one has unavailable usage. This is a partial development demonstration with no resolved instance, not a Lite benchmark score. The observation is restricted to actual patch application and original regression tests.
+The original ten-assignment generation stopped after a 180-second CLI deadline, leaving two complete candidates, seven unsubmitted assignments and one interrupted MR assignment. A prospective completion protocol, published before additional generation at commit \texttt{5f7ebf9}, submits each of the seven untouched assignments once and restarts the interrupted MR assignment from its first stage as a separately labelled recovery. Each additional turn receives 600 seconds. No candidate is repaired, selected or regenerated using test feedback. The original interrupted attempt remains in the first-attempt history and resource ledger. The completed table therefore combines two original candidates and eight extension candidates under different operational deadlines; it is not a homogeneous first-attempt estimate.
 
-An absent instance report is not itself an outcome. Under the original final-format contract, an observed response yielding an empty patch is a candidate failure. A nonempty patch is also a failure when the exact exported bytes, the native run summary and the upstream patch-application rejection marker agree. Other missing reports, explicit infrastructure failures and inconsistent response--export joins remain unknown. The collector retains the response, prediction, summary and relevant native evidence with their hashes; the analysis loader verifies these sources before accepting a reportless failure. Both retained SWE observations satisfy these provenance checks.
+\begin{table}[t]
+\centering
+\caption{All ten SWE development assignments on one issue. A denotes native patch-application rejection; T denotes an applied patch that fails the target regression while passing the other ten tests. Every entry is an observed failure, not missing data. Repeat labels are not controlled model seeds.}
+\label{tab:swe-complete}
+\begin{tabular}{lcc}
+\hline
+Condition & Repeat 1 & Repeat 2 \\
+\hline
+D  & A & T (original) \\
+SN & A & A (original) \\
+SR & A & A \\
+MN & T & A \\
+MR & A & A (recovery) \\
+\hline
+\end{tabular}
+\end{table}
+
+All ten response--export--native-result joins are verified against complete archived traces and exact patch bytes (Table~\ref{tab:swe-complete}). None resolves the issue: eight patches fail application and two apply but fail the target regression. No evaluated candidate has an identified infrastructure failure. This supports end-to-end evaluation feasibility and exposes a patch-generation failure mode; it does not support repository-repair effectiveness or an advantage of role instructions. Ten attempts on one issue are one task cluster, not ten independent benchmark instances.
+
+The extension completes all 16 planned turns, consuming 314,793 known tokens valued at USD 0.758976. The original run submitted four turns, three with known usage and one unknown. Across both phases, 19 of 20 submitted turns expose usage: 371,589 known tokens and USD 0.8969655 in standard API-equivalent valuation, including the interrupted attempt's known first stage. Unknown usage is not zero, and this valuation is not a subscription invoice.
+
+An absent instance report is not itself an outcome. An observed response yielding an empty patch is a candidate failure. A nonempty patch is a failure when the exact exported bytes, native run summary and upstream patch-application rejection evidence agree. Other missing reports, explicit infrastructure failures and inconsistent response--export joins remain unknown. The replay auditor recomputes native classifications and checks generation, prediction, control and environment identities; the ten-row outcome table replays byte for byte from the public archive. No SWE-bench Lite score or cross-task generalization claim follows from this demonstration.
