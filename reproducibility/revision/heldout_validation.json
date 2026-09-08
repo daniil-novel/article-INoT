@@ -1,0 +1,111 @@
+{
+  "date": "2026-09-08",
+  "scope": "Final completed primary 200-task factorial study, separate development and independent INoT adaptation",
+  "manuscript_commit": "633275245958e3cc4c719861d696669e5eefb3f5",
+  "primary_evidence_commit": "96be37745b7f727d790c324fc0d8670f8e7623f2",
+  "primary": {
+    "task_clusters_assigned": 200,
+    "repeat_labels": [
+      4
+    ],
+    "assigned_candidates": 1000,
+    "observed_candidates": 996,
+    "native_exact_program_joins": 996,
+    "evaluable_outcomes": 963,
+    "passes": 453,
+    "failures": 507,
+    "native_timeouts": 3,
+    "control_unavailable_observed": 33,
+    "generation_missing": 4,
+    "format_extraction_failures": 2,
+    "planned_and_submitted_turns": 1800,
+    "unknown_usage_turns": 3,
+    "known_tokens": 8585185,
+    "known_api_equivalent_usd": 14.2048182,
+    "known_no_cache_usd": 16.970655,
+    "invoice_claim": false
+  },
+  "separate_completed_programs": {
+    "development": 400,
+    "independent_inot_adaptation": 199,
+    "swe_one_issue_demonstration": 2
+  },
+  "local_clean_environment_replay": {
+    "primary_summary_all_996_records_and_assignments_byte_exact": true,
+    "development_400_byte_exact": true,
+    "inot_199_byte_exact": true
+  },
+  "software_validation": {
+    "passed_tests": 97,
+    "passed_subtests": 6,
+    "environment": "Isolated Python 3.11 venv with requirements-publication.txt"
+  },
+  "linux_ci": {
+    "run_id": 34190297143,
+    "commit": "633275245958e3cc4c719861d696669e5eefb3f5",
+    "conclusion": "success",
+    "url": "https://github.com/daniil-novel/article-INoT/actions/runs/34190297143",
+    "scope": [
+      "software tests",
+      "all public SHA-256 manifests",
+      "byte-exact primary996 replay",
+      "byte-exact development400 replay",
+      "byte-exact INoT199 replay",
+      "two original SWE response-patch-native-report joins"
+    ]
+  },
+  "published_manifest_counts": {
+    "20260908_codex_mini_dev40": {
+      "files": 5069,
+      "bytes": 13823289
+    },
+    "20260908_codex_mini_dev8": {
+      "files": 730,
+      "bytes": 2029494
+    },
+    "20260908_codex_mini_heldout200": {
+      "files": 12082,
+      "bytes": 52021357
+    },
+    "20260908_codex_mini_inot200": {
+      "files": 1494,
+      "bytes": 5230636
+    },
+    "20260908_codex_mini_swe_dev1": {
+      "files": 198,
+      "bytes": 3403806
+    }
+  },
+  "pdfs": {
+    "en": {
+      "pages": 27,
+      "out_of_page_word_boxes": 0,
+      "replacement_characters": 0,
+      "sha256": "b077bcb11a7f3538e7fbb7bc076de7e107a316772243657914675f53ec20b6a0",
+      "all_pages_visually_inspected": true,
+      "critical_tables_figures_and_prompt_pages_inspected_full_size": true,
+      "overfull_or_undefined_errors": 0
+    },
+    "ru": {
+      "pages": 29,
+      "out_of_page_word_boxes": 0,
+      "replacement_characters": 0,
+      "sha256": "908d1d2624e9a0ddc465c57a47f87bcc1aac700df143cf860cdb61cf40d1b17d",
+      "all_pages_visually_inspected": true,
+      "critical_tables_figures_and_prompt_pages_inspected_full_size": true,
+      "overfull_or_undefined_errors": 0
+    }
+  },
+  "interpretation_limits": [
+    "Four primary McNemar tests use Holm; no adjusted p below .05",
+    "Resource intervals are descriptive",
+    "No non-inferiority or equivalence conclusion",
+    "One model alias, no immutable provider weights or verified sampling seed/temperature",
+    "No equal hard output allowance",
+    "Native author INoT, Agentless and SWE-agent not executed",
+    "One-issue SWE matrix incomplete, no repository-benchmark score",
+    "Primary execution amendment disclosed; no retry of started cells",
+    "Full exposed responses retained; hidden provider reasoning not claimed",
+    "Counterfactual API valuation excludes research and evaluator compute"
+  ]
+}
