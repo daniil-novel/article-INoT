@@ -37,6 +37,19 @@ def _bootstrap(values: list[float], seed: int = 20260909) -> list[float] | None:
     return [float(v) for v in np.quantile(draws, [.025, .975])]
 
 
+def _bootstrap_ratio(numerators: list[float], denominators: list[float], seed: int = 20260909) -> list[float] | None:
+    if len(numerators) < 2 or len(numerators) != len(denominators):
+        return None
+    x, y = np.asarray(numerators, dtype=float), np.asarray(denominators, dtype=float)
+    rng = np.random.default_rng(seed)
+    indices = rng.integers(0, len(x), size=(10000, len(x)))
+    denominator_draws = y[indices].sum(axis=1)
+    if np.any(denominator_draws == 0):
+        return None
+    ratio_draws = x[indices].sum(axis=1) / denominator_draws
+    return [float(v) for v in np.quantile(ratio_draws, [.025, .975])]
+
+
 def _holm(pvalues: dict[str, float]) -> dict[str, float]:
     ordered = sorted(pvalues, key=lambda key: (pvalues[key], key))
     adjusted: dict[str, float] = {}
@@ -105,10 +118,26 @@ def _contrast_quality(task_order: list[str], index: dict[tuple[str, str, int], d
     else:
         p = None
         t_stat = None
+    lower, upper = [], []
+    for task in task_order:
+        task_lower, task_upper = [], []
+        for repeat in REPEATS:
+            left_row, right_row = index.get((task, a, repeat)), index.get((task, b, repeat))
+            left, right = left_row.get("quality") if left_row else None, right_row.get("quality") if right_row else None
+            if type(left) is bool and type(right) is bool:
+                task_lower.append(int(left) - int(right)); task_upper.append(int(left) - int(right))
+            elif type(left) is bool:
+                task_lower.append(int(left) - 1); task_upper.append(int(left))
+            elif type(right) is bool:
+                task_lower.append(-int(right)); task_upper.append(1 - int(right))
+            else:
+                task_lower.append(-1); task_upper.append(1)
+        lower.append(float(np.mean(task_lower))); upper.append(float(np.mean(task_upper)))
     return {"eligible_tasks": len(tasks), "task_ids": tasks, "mean_difference": float(np.mean(differences)) if differences else None,
             "t_statistic": t_stat, "two_sided_p": p, "bootstrap_95": _bootstrap(differences),
             "repeat_aggregation": "arithmetic mean of three boolean repeat outcomes within task",
-            "degenerate_difference_vector": degenerate}
+            "degenerate_difference_vector": degenerate,
+            "full_assignment_quality_difference_bounds": [float(np.mean(lower)), float(np.mean(upper))]}
 
 
 def _resource_contrast(task_order: list[str], index: dict[tuple[str, str, int], dict[str, Any]], a: str, b: str, metric: str) -> dict[str, Any]:
@@ -123,6 +152,7 @@ def _resource_contrast(task_order: list[str], index: dict[tuple[str, str, int], 
     denom = sum(right)
     return {"eligible_tasks": len(tasks), "mean_difference": float(np.mean(diffs)) if diffs else None,
             "ratio_of_task_mean_sums": float(sum(left) / denom) if denom else None,
+            "ratio_bootstrap_95": _bootstrap_ratio(left, right),
             "bootstrap_95": _bootstrap(diffs), "task_ids": tasks,
             "complete_three_repeat_pairs": True}
 

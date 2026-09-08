@@ -76,6 +76,33 @@ def test_degenerate_quality_contrast_is_finite_and_reports_boundary():
     assert all(out["contrasts"][name]["holm_p"] is not None for name in out["contrasts"])
 
 
+def test_resource_ratio_has_paired_bootstrap_interval_and_quality_bounds_use_partial_repeats():
+    rows = _rows()
+    for row in rows:
+        if row["task_id"] == "t0" and row["arm"] == "single_roles":
+            row["quality"] = None
+    out = summarize(rows)
+    resource = out["resource_contrasts"]["single_roles_minus_single_neutral"]["total_tokens"]
+    assert resource["ratio_of_task_mean_sums"] is not None
+    assert resource["ratio_bootstrap_95"] is not None
+    quality = out["contrasts"]["single_roles_minus_single_neutral"]
+    assert quality["eligible_tasks"] == 999
+    assert quality["full_assignment_quality_difference_bounds"][0] < quality["full_assignment_quality_difference_bounds"][1]
+
+
+def test_ratio_resamples_pairs_and_partial_bounds_have_exact_extremes():
+    from reproducibility.scale1000.analyze import _bootstrap_ratio, _contrast_quality, REPEATS
+    assert _bootstrap_ratio([2, 20], [1, 10]) == [2.0, 2.0]
+    assert _bootstrap_ratio([2, 20], [0, 0]) is None
+    index = {}
+    for repeat, pair in zip(REPEATS, [(True, None), (None, False), (None, None)]):
+        for arm, value in zip(("single_roles", "single_neutral"), pair):
+            index[("task", arm, repeat)] = {"quality": value, "generation_complete": True}
+    result = _contrast_quality(["task"], index, "single_roles", "single_neutral")
+    assert result["eligible_tasks"] == 0
+    assert result["full_assignment_quality_difference_bounds"] == [-1 / 3, 1.0]
+
+
 def test_single_observed_task_cannot_be_significant_and_missing_bounds_keep_all_assignments():
     rows=_rows()
     for row in rows:

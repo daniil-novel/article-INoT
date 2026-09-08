@@ -19,6 +19,7 @@ DEPENDENCIES=['codex_subscription.py','factorial_runner.py','benchmark_bridge.py
               'scale1000/dispatch.py','scale1000/prepare.py','scale1000/controls.py','scale1000/analyze.py',
               'scale1000/collect.py','heldout200/evidence.py','scale_env/validate_native.py']
 DEPENDENCIES += ['scale1000/ENVIRONMENT_AMENDMENT.md','scale1000/environment/Dockerfile','scale1000/environment/requirements.txt']
+DEPENDENCIES += ['scale1000/environment-v2/Dockerfile','scale1000/environment-v2/requirements.txt']
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 

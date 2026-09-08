@@ -22,3 +22,15 @@ resource limits remain unchanged. Failures requiring external services or
 changed assertions are not made successful by editing benchmark behavior.
 The final eligibility count, not the intended 1000 allocation, determines
 the available quality task clusters. Every assigned candidate remains scheduled.
+
+The second complete gold attempt returned 986 passes, 12 failures and two
+timeouts. Task /227 revealed the next missing dependency, librosa, after the
+soundfile import was repaired. Before any model generation, the separate
+environment-v2 layer adds upstream librosa 0.10.1 with compatible pinned
+Numba/LLVM and audio dependencies. Its base is the unchanged bcb-scale1000:v1
+image; the resulting bcb-scale1000:v2 image identity is
+sha256:afeb8d78b76f6a7b1fbf427d78a55bd35dbfcf58387711b47f8a8ba00e16b580.
+Offline imports confirm librosa 0.10.1, NumPy 1.26.4, SciPy 1.10.1,
+soundfile 0.12.1 and Numba 0.58.1. Both full 1000-task controls are repeated
+as controls-v3; earlier control attempts and environment sources remain
+unchanged. No generated-model success rate informed either amendment.
