@@ -34,3 +34,15 @@ Offline imports confirm librosa 0.10.1, NumPy 1.26.4, SciPy 1.10.1,
 soundfile 0.12.1 and Numba 0.58.1. Both full 1000-task controls are repeated
 as controls-v3; earlier control attempts and environment sources remain
 unchanged. No generated-model success rate informed either amendment.
+
+The third gold control completed with 987 passes, 11 failures and two
+timeouts. Task /227 now passes. The remaining gold non-pass IDs are /14,
+/101, /111, /176, /205, /276, /314, /363, /459, /460, /590, /1012 and /1028;
+none is a missing-library import failure. They remain in the full assignment
+and raw native outcomes. Final quality eligibility additionally requires the
+completed incorrect control to fail, as recorded in the final gate.
+
+The final incorrect control returned 998 failures, one pass (/272) and one
+timeout (/1038). The final gate therefore contains 985 quality-eligible
+task clusters: 195 of the prior 200 and 790 of the fresh 800. All 1000 tasks
+remain scheduled in all five conditions and all three new repeats.

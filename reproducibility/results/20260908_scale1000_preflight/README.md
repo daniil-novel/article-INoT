@@ -23,8 +23,12 @@ The second gold attempt passed 986 tasks, failed 12 and timed out on two.
 A remaining missing librosa import motivated the separate environment-v2
 layer before model generation. Its bcb-scale1000:v2 image identity is
 sha256:afeb8d78b76f6a7b1fbf427d78a55bd35dbfcf58387711b47f8a8ba00e16b580.
-The complete third attempt, when available below, repeats both controls in
-that final environment. Per-ID CSV and JSON summaries are under readable/;
+The complete third attempt repeats both controls in that final environment:
+987 gold passes, 11 failures and two timeouts; 998 incorrect failures, one
+incorrect pass (/272) and one timeout (/1038). The final gate has 985
+quality-eligible tasks (195 prior and 790 fresh); all 1000 tasks remain
+scheduled for all five conditions and all three new repeats.
+Per-ID CSV and JSON summaries are under readable/;
 eligibility is copied from the validated gate, never inferred from an error
 excerpt. A gold pass alone does not imply quality eligibility.
 
@@ -40,5 +44,10 @@ Published complete attempts:
     "attempt": "controls-v2",
     "assigned": 1000,
     "eligible": 984
+  },
+  {
+    "attempt": "controls-v3",
+    "assigned": 1000,
+    "eligible": 985
   }
 ]

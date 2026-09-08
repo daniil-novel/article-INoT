@@ -41,11 +41,24 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           from reproducibility.heldout200.evidence import environment_from_gate
+          from reproducibility.scale1000.control_report import make_report
+          from reproducibility.scale1000.dispatch import plan
+          from reproducibility.codex_subscription import read
           roots=sorted(Path('reproducibility/results/20260908_scale1000_preflight').glob('controls-*'))
           assert roots
           for root in roots:
               environment_from_gate(root)
+              actual=Path('tmp')/('ci-scale1000-'+root.name)
+              make_report(root,Path('reproducibility/scale1000/inputs-v1/selection.json'),actual)
+              expected=root.parent/'readable'/root.name
+              for name in ('scale1000_control_report.json','scale1000_control_status.csv'):
+                  assert (actual/name).read_bytes()==(expected/name).read_bytes(), (root.name,name)
               print('Verified complete control pair:', root.name)
+          manifest=Path('reproducibility/scale1000/generation_manifest.json')
+          if manifest.exists():
+              final_gate=Path('reproducibility/results/20260908_scale1000_preflight/controls-v3')
+              assert read(manifest)==plan(Path('reproducibility/scale1000/inputs-v1'),final_gate)
+              print('Replayed all 15000 frozen assignments and implementation identities')
           PY
       - name: Replay development outcomes without model calls or Docker
         run: |
