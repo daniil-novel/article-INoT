@@ -1,0 +1,39 @@
+\subsection{Treatment definitions and resource accounting}
+
+We use the following fixed abbreviations throughout: D, direct solving in one call; SN, three neutral stages in one call; SR, three role-labelled stages in one call; MN, neutral stages across three calls; MR, role-labelled stages across three calls. Neutral stages and named roles receive the same planning, implementation and review operations. The four structured conditions form a $2\times2$ topology-by-label factorial design; D is the simple external comparator.
+
+The reviewer's topology-by-compression experiment would decompose the earlier package. The present question instead holds compression absent and varies role labels directly. It therefore isolates neither the historical compression effect nor topology independently of intermediate information flow. Removing a router and a small checker from the treatment also removes their untested effects from the contribution.
+
+The CLI returns input $I$, cached-input $C$ and output $O$ counters for each completed turn~\cite{codexexec2026}. Cached input is a subset of input; reasoning, when separately exposed as a counter, is a subset of output. Neither is added twice. We value each turn at the published GPT-5.4 mini standard API rates~\cite{openai54mini2026,openaipricing2026}:
+\begin{equation}
+V=\frac{0.75(I-C)+0.075C+4.50O}{10^6}\quad\mathrm{USD}.
+\end{equation}
+The no-cache sensitivity is $V_0=(0.75I+4.50O)/10^6$. These are counterfactual list-price valuations of measured subscription-channel tokens, not API payments, subscription invoices or total cost of ownership. Research-assistant work, environment construction and evaluator execution are outside these generation totals. Caching and dispatch order can affect $V$; $V_0$ exposes that dependence. A provider-reported reasoning subset is not necessary to compute $V$, but its absence prevents a separate reasoning-token comparison.
+
+\section{Development results: complete execution and non-ceiling outcomes}
+\label{sec:dev40-results}
+
+All 400 assigned candidates and 720 CLI turns completed and passed the trace audit. Every saved final answer and token total reconciles to the original event stream; each multi-call input contains the exact complete prior exposed responses. The archive retains 3,703,821 observed tokens, valued at USD 6.6113451, or USD 7.7687595 in the no-cache sensitivity. No final-format extraction failed in this matrix. All 400 native evaluator rows match the exact exported programs and task IDs. The failed reference control for task /1005 makes ten assigned outcomes unavailable, leaving 390 evaluable candidate attempts over 39 tasks.
+
+\input{sections/dev40_table_en}
+
+The observed success rates range from 43.59\% to 53.85\%, so the earlier quality ceiling is absent. D has the largest observed success count (42/78) and the lowest resource mean. SR and MN each pass 39/78, MR passes 36/78, and SN passes 34/78. These are rates over separate attempts; no best-of-two selection is used. Test success is not automatically correctness relative to the natural-language instruction, given the contract issues discussed below.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\textwidth]{figures/dev40_cost_quality.pdf}
+\caption{Observed development means. Labels use the five conditions defined above. Points summarize original-test success and API-equivalent valuation, not a confidence region or a benchmark-wide efficiency frontier. Quality and resource denominators differ only by the reference-ineligible task, whose usage remains counted.}\label{fig:dev40-cost}
+\end{figure}
+
+\input{sections/dev40_contrasts_en}
+
+Role labels change quality differently across the two topologies: SR minus SN is $+6.41$ percentage points, while MR minus MN is $-3.85$ points. Their difference of differences is $-10.26$ points, with a descriptive task-bootstrap interval of $[-19.23,-1.28]$. This development interaction motivates a separate reserved-task check; it is not a confirmatory test result. The three-call conditions use 2.79 and 2.96 times the corresponding single-call token means. Their valuation ratios are 2.10 and 2.38 because cached input is cheaper than output. Thus fewer calls reduce measured resource use in this implementation, whereas the quality consequences depend on the prompt condition and have substantial uncertainty.
+
+\section{Repository-patch demonstration and an explicit incomplete run}
+\label{sec:swe-dev1}
+
+A separate one-task SWE-bench Lite development demonstration uses \texttt{pvlib\_\_pvlib-python-1606}. Deterministic BM25 retrieval from the exact base commit selects whole eligible Python files within 24,000 source bytes; nine files totaling 23,863 bytes enter the identical packet for all arms. Test files, hints and reference patches are excluded from retrieval. Files too large to fit are listed, not truncated. This is an explicitly selected packet, not the full repository, and omitted relevant files remain a retrieval limitation.
+
+The unchanged pinned SWE-bench harness initially fails even with the gold patch because its official task image contains an incompatible NumPy version. A separate image changing NumPy to 1.26.4 passes all 11 gold tests; an applicable comment-only negative passes ten tests and fails the regression test. All initial failures and both image identities are retained. These controls validate the adjusted environment, not the unchanged release image. The controller runs offline, while the unchanged upstream child task container retains its default Docker network; no credentials or personal directories are mounted.
+
+The fixed ten-candidate generation stops after one CLI call exceeds the 180-second deadline. Two complete patches remain: D applies but fails the target regression test (ten other tests pass); SN is rejected by native patch application. Eight assigned candidates remain missing. Both observed evaluations pass the input/patch/report audit and have no identified infrastructure failure. Four CLI turns were submitted; three expose complete usage totaling 56,796 tokens and USD 0.1379895 in API-equivalent valuation, while one has unavailable usage. This is a partial development demonstration with no resolved instance, not a Lite benchmark score. It replaces the old surrogate \texttt{check()} route with real patch application and tests while retaining the failure to complete the planned matrix.
+

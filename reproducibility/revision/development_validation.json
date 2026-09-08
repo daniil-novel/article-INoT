@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-08",
+  "scope": "completed development400 and partial one-task SWE demonstration; active reserved generation excluded",
+  "development_assigned_candidates": 400,
+  "development_native_code_status_joins_verified": 400,
+  "development_quality_eligible_tasks": 39,
+  "development_quality_evaluable_attempts": 390,
+  "pdfs": {
+    "english": {
+      "pages": 11,
+      "words": 3809
+    },
+    "russian": {
+      "pages": 12,
+      "words": 3689
+    }
+  },
+  "pdf_validation": {
+    "all_pages_visually_inspected": true,
+    "changed_full_width_task_table_pages_reinspected": true,
+    "out_of_page_word_boxes": 0,
+    "replacement_characters": 0,
+    "overfull_or_undefined_errors": 0
+  },
+  "archive_git_blob_checks": {
+    "files": 5324,
+    "method": "SHA1 Git blob digest of original bytes compared with staged index; SHA256 manifests separately retained",
+    "matched": 5324
+  },
+  "files_sha256": {
+    "converted_article_springer.pdf": "159837e8af787f32d991689946db63e86395239df272f934032e4b4b0759527c",
+    "converted_article_springer_ru.pdf": "25a0342011203496350848b1886193e34dd270b7e34d7a01b4a8ed692dd2bb9c",
+    "reproducibility/results/20260908_codex_mini_dev40/EVIDENCE_MANIFEST.json": "2d48193f5841d8484b7a1df30a5482cfa874e8db7d45ca19f69833b3d455c204",
+    "reproducibility/results/20260908_codex_mini_swe_dev1/EVIDENCE_MANIFEST.json": "9a43a3a3ae48a6212114c23e12b03e9143b16c1776a976531c59fde179bddde3"
+  }
+}

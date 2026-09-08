@@ -21,17 +21,17 @@ Accessed 8 September 2026. Primary sources only. A source's result is background
 - Agentless: `5ce5888b9f149beaace393957a55ea8ee46c9f71`
 - SWE-agent: `3ea751c087f32b16e039a2233dd6eefecef325d5`
 
-At the initial source-discovery stage these pins identified inspected public upstream heads, not installed versions. The later BigCodeBench pilot actually uses the pin above and records its source and image digests. The other three upstream implementations remain unexecuted.
+At the initial source-discovery stage these pins identified inspected public upstream heads, not installed versions. The later BigCodeBench pilot actually uses the pin above and records its source and image digests. The later one-task SWE demonstration also executes the pinned SWE-bench harness. Agentless and SWE-agent remain unexecuted.
 
 ## Gaps and stopping decision
 
 Source discovery covered original INoT, official evaluation/baseline implementations, budget-comparison prior art, current benchmark validity concerns and model prices. Follow-up checked the actual dataset schema, current source revisions, the INoT termination ambiguity and the distinction between successful harness execution and a resolved task. These are sufficient to revise the study question and evidence gates. Further broad searching cannot supply missing API responses or official evaluation results; synthesis proceeds with these gaps explicit.
 
-Unresolved after the development pilot: original INoT executable release/fidelity validation; installed upstream baseline environments; a frozen SWE repository retrieval packet and its gold-patch/negative controls; large confirmatory model generation and paired outcomes. The project does not claim systematic-review completeness or verified absence of all similar work.
+Unresolved at the initial eight-task development checkpoint: original INoT executable release/fidelity validation; installed upstream baseline environments; a frozen SWE repository retrieval packet and its gold-patch/negative controls; large confirmatory model generation and paired outcomes. The project does not claim systematic-review completeness or verified absence of all similar work.
 
 ## Evaluator preflight follow-up
 
-The pinned BigCodeBench source was cloned and its HEAD verified locally. Its loader supports `BIGCODEBENCH_OVERRIDE_PATH` for the pinned local dataset. GitHub marks the repository archived since 20 July 2026. Registry metadata resolves the amd64 evaluator image to the digest in `evaluator_preflight.json`; its compressed layers total 9,273,490,980 bytes, exceeding the observed C: free space before unpacking. No image was pulled and no official control was executed. The image's internal source version remains unverified.
+The pinned BigCodeBench source was cloned and its HEAD verified locally. Its loader supports `BIGCODEBENCH_OVERRIDE_PATH` for the pinned local dataset. GitHub marks the repository archived since 20 July 2026. Registry metadata resolves the amd64 evaluator image to the digest in `evaluator_preflight.json`; its compressed layers total 9,273,490,980 bytes, exceeding the observed C: free space before unpacking. At that initial preflight checkpoint no image was pulled and no official control was executed; the later custom-image control archives supersede that execution status. The image's internal source version remains unverified.
 
 ## Subscription execution follow-up
 
@@ -40,3 +40,11 @@ The pinned BigCodeBench source was cloned and its HEAD verified locally. Its loa
 - Noninteractive CLI JSONL: https://developers.openai.com/codex/noninteractive . `turn.completed.usage` supplies observed token counters. Cached input and reasoning output are subsets, not additional totals. No verified CLI controls for provider sampling seed, temperature or equal hard output allowance were established.
 - Tool registration: official https://github.com/openai/codex/releases/tag/rust-v0.152.0 and https://raw.githubusercontent.com/openai/codex/rust-v0.153.4/codex-rs/core/src/tools/spec_plan.rs . CLI 0.144.1 exposed the planning tool despite text-only instructions. Version 0.153.4 supports explicit `tools.update_plan.enabled=false`; remaining model-dependent tools are guarded by per-trace rejection.
 - The development evaluator executes both the pinned BigCodeBench core and the unchanged official CLI in the documented smaller containers. All 40 raw test statuses agree. This is selective `instruct` evaluation of eight tasks in a custom environment, not a full benchmark score or the complete official release image. Reference-control failures remain missing for all treatments.
+
+## Completed development and reserved-sample follow-up
+
+- The unchanged BigCodeBench CLI evaluated 400 new development programs with 400 verified input/code/status joins. The 39/40 control eligibility is retained. These are 40 independent assigned task clusters and two labelled repeats, not 400 independent tasks. Full evidence: `results/20260908_codex_mini_dev40/`.
+- The official SWE harness pin above actually evaluated two generated patches for one frozen development issue. One applies but fails the target test, one fails native application. Ten candidates were assigned; eight are missing after a transport deadline. Native logs establish these classifications, not an exit code alone. The custom NumPy 1.26.4 environment passes the gold control; earlier official-image failures remain archived.
+- The SWE Lite source card https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite/raw/main/README.md does not supply a blanket repository-content license. Exact upstream source licenses at all included repo/commit pairs are recorded under the SWE evidence archive. The harness license does not replace them.
+- The reserved 200-task allocation was selected before controls. Updated environment controls validate 193 references and reject all 200 deliberately incorrect programs. Original tasks and tests remain fixed. No model quality is inferred from controls.
+- INoT Sections 3.1/3.3, Listings 1/3 support the two-debater PromptCode concept. Our separately frozen 86-word instruction is independently worded, omits image augmentation for text tasks, uses agreement-or-ten-round stopping from the prose, and declares a latest-Agent-A fallback when ten rounds end without agreement. This resolves ambiguities for this replication; it is not an author-validated exact implementation. No native author executable was identified in the inspected primary sources, which is not proof that none exists.
