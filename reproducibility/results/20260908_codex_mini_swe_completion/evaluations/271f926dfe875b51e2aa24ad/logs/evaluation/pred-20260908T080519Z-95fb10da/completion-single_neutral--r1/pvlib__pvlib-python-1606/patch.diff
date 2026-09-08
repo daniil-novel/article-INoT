@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: pvlib/tools.py
+@@
+-    niter = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    with np.errstate(divide='ignore', invalid='ignore'):
++        niter = np.trunc(np.log(atol / (df['VH'] - df['VL'])) /
++                         np.log(phim1))
++    niter = np.where(np.isfinite(niter), niter, 0)
+*** End Patch

@@ -1,0 +1,9 @@
+diff --git a/pvlib/tools.py b/pvlib/tools.py
+--- a/pvlib/tools.py
++++ b/pvlib/tools.py
+@@ -341,6 +341,7 @@ def _golden_sect_DataFrame(params, lower, upper, func, atol=1e-8):
+     pvlib.singlediode._pwr_optfcn
+     """
++    # no-op control: intentionally no semantic change
+ 
+     phim1 = (np.sqrt(5) - 1) / 2

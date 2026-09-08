@@ -1,0 +1,978 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Repository: pvlib/pvlib-python
+Base commit: c78b50f4337ecbe536a961336ca91a1176efc0e8
+
+Problem statement (verbatim):
+golden-section search fails when upper and lower bounds are equal
+**Describe the bug**
+I was using pvlib for sometime now and until now I was always passing a big dataframe containing readings of a long period. Because of some changes in our software architecture, I need to pass the weather readings as a single reading (a dataframe with only one row) and I noticed that for readings that GHI-DHI are zero pvlib fails to calculate the output and returns below error while the same code executes correctly with weather information that has non-zero GHI-DHI:
+```python
+import os
+import pathlib
+import time
+import json
+from datetime import datetime
+from time import mktime, gmtime
+
+import pandas as pd
+
+from pvlib import pvsystem
+from pvlib import location as pvlocation
+from pvlib import modelchain
+from pvlib.temperature import TEMPERATURE_MODEL_PARAMETERS as PARAMS # not used -- to remove
+from pvlib.bifacial.pvfactors import pvfactors_timeseries
+from pvlib.temperature import TEMPERATURE_MODEL_PARAMETERS
+
+class PV:
+    def pv_transform_time(self, val):
+        # tt = gmtime(val / 1000)
+        tt = gmtime(val)
+        dd = datetime.fromtimestamp(mktime(tt))
+        timestamp = pd.Timestamp(dd)
+        return timestamp
+
+    def __init__(self, model: str, inverter: str, latitude: float, longitude: float, **kwargs):
+        # super().__init__(**kwargs)
+
+        temperature_model_parameters = TEMPERATURE_MODEL_PARAMETERS["sapm"][
+            "open_rack_glass_glass"
+        ]
+        # Load the database of CEC module model parameters
+        modules = pvsystem.retrieve_sam("cecmod")
+        # Load the database of CEC inverter model parameters
+        inverters = pvsystem.retrieve_sam("cecinverter")
+
+
+        # A bare bone PV simulator
+
+        # Load the database of CEC module model parameters
+        modules = pvsystem.retrieve_sam('cecmod')
+        inverters = pvsystem.retrieve_sam('cecinverter')
+        module_parameters = modules[model]
+        inverter_parameters = inverters[inverter]
+
+        location = pvlocation.Location(latitude=latitude, longitude=longitude)
+        system = pvsystem.PVSystem(module_parameters=module_parameters, inverter_parameters=inverter_parameters, temperature_model_parameters=temperature_model_parameters)
+        self.modelchain = modelchain.ModelChain(system, location, aoi_model='no_loss', spectral_model="no_loss")
+
+    def process(self, data):
+        weather = pd.read_json(data)
+        # print(f"raw_weather: {weather}")
+        weather.drop('time.1', axis=1, inplace=True)
+        weather['time'] = pd.to_datetime(weather['time']).map(datetime.timestamp) # --> this works for the new process_weather code and also the old weather file
+        weather["time"] = weather["time"].apply(self.pv_transform_time)
+        weather.index = weather["time"]
+        # print(f"weather: {weather}")
+        # print(weather.dtypes)
+        # print(weather['ghi'][0])
+        # print(type(weather['ghi'][0]))
+
+        # simulate
+        self.modelchain.run_model(weather)
+        # print(self.modelchain.results.ac.to_frame().to_json())
+        print(self.modelchain.results.ac)
+
+
+# good data
+good_data = "{\"time\":{\"12\":\"2010-01-01 13:30:00+00:00\"},\"ghi\":{\"12\":36},\"dhi\":{\"12\":36},\"dni\":{\"12\":0},\"Tamb\":{\"12\":8.0},\"WindVel\":{\"12\":5.0},\"WindDir\":{\"12\":270},\"time.1\":{\"12\":\"2010-01-01 13:30:00+00:00\"}}"
+
+# data that causes error
+data = "{\"time\":{\"4\":\"2010-01-01 05:30:00+00:00\"},\"ghi\":{\"4\":0},\"dhi\":{\"4\":0},\"dni\":{\"4\":0},\"Tamb\":{\"4\":8.0},\"WindVel\":{\"4\":4.0},\"WindDir\":{\"4\":240},\"time.1\":{\"4\":\"2010-01-01 05:30:00+00:00\"}}"
+p1 = PV(model="Trina_Solar_TSM_300DEG5C_07_II_", inverter="ABB__MICRO_0_25_I_OUTD_US_208__208V_", latitude=51.204483, longitude=5.265472)
+p1.process(good_data)
+print("=====")
+p1.process(data)
+```
+Error:
+```log
+$ python3 ./tmp-pv.py 
+time
+2010-01-01 13:30:00    7.825527
+dtype: float64
+=====
+/home/user/.local/lib/python3.10/site-packages/pvlib/tools.py:340: RuntimeWarning: divide by zero encountered in divide
+  np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1)))
+Traceback (most recent call last):
+  File "/home/user/workspace/enorch/simulator/simulator_processor/src/pv/./tmp-pv.py", line 88, in <module>
+    p1.process(data)
+  File "/home/user/workspace/enorch/simulator/simulator_processor/src/pv/./tmp-pv.py", line 75, in process
+    self.modelchain.run_model(weather)
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/modelchain.py", line 1770, in run_model
+    self._run_from_effective_irrad(weather)
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/modelchain.py", line 1858, in _run_from_effective_irrad
+    self.dc_model()
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/modelchain.py", line 790, in cec
+    return self._singlediode(self.system.calcparams_cec)
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/modelchain.py", line 772, in _singlediode
+    self.results.dc = tuple(itertools.starmap(
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/pvsystem.py", line 931, in singlediode
+    return singlediode(photocurrent, saturation_current,
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/pvsystem.py", line 2826, in singlediode
+    out = _singlediode._lambertw(
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/singlediode.py", line 651, in _lambertw
+    p_mp, v_mp = _golden_sect_DataFrame(params, 0., v_oc * 1.14,
+  File "/home/user/.local/lib/python3.10/site-packages/pvlib/tools.py", line 364, in _golden_sect_DataFrame
+    raise Exception("Iterations exceeded maximum. Check that func",
+Exception: ('Iterations exceeded maximum. Check that func', ' is not NaN in (lower, upper)')
+```
+
+I have to mention that for now the workaround that I am using is to pass the weather data as a dataframe with two rows, the first row is a good weather data that pvlib can process and the second row is the incoming weather reading (I can also post that code if you want).
+
+**Expected behavior**
+PVlib should have consistent behavior and regardless of GHI-DHI readings.
+
+**Versions:**
+```python
+>>> import pvlib
+>>> import pandas
+>>> pvlib.__version__
+'0.9.1'
+>>> pandas.__version__
+'1.4.3'
+``` 
+ - python: 3.10.6
+- OS: Ubuntu 22.04.1 LTS
+
+
+Using only the supplied task statement and retrieved context, implement the requested repository fix. Follow the assigned stage instructions. When a final solution is requested, return the complete applicable unified diff after the literal FINAL marker in exactly one fenced diff block.
+FULL SUPPLIED CONTEXT
+===== BEGIN RETRIEVED FILE: pvlib/location.py =====
+"""
+This module contains the Location class.
+"""
+
+# Will Holmgren, University of Arizona, 2014-2016.
+
+import os
+import datetime
+
+import pandas as pd
+import pytz
+import h5py
+
+from pvlib import solarposition, clearsky, atmosphere, irradiance
+from pvlib.tools import _degrees_to_index
+
+class Location:
+    """
+    Location objects are convenient containers for latitude, longitude,
+    timezone, and altitude data associated with a particular
+    geographic location. You can also assign a name to a location object.
+
+    Location objects have two timezone attributes:
+
+        * ``tz`` is a IANA timezone string.
+        * ``pytz`` is a pytz timezone object.
+
+    Location objects support the print method.
+
+    Parameters
+    ----------
+    latitude : float.
+        Positive is north of the equator.
+        Use decimal degrees notation.
+
+    longitude : float.
+        Positive is east of the prime meridian.
+        Use decimal degrees notation.
+
+    tz : str, int, float, or pytz.timezone, default 'UTC'.
+        See
+        http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+        for a list of valid time zones.
+        pytz.timezone objects will be converted to strings.
+        ints and floats must be in hours from UTC.
+
+    altitude : float, default 0.
+        Altitude from sea level in meters.
+
+    name : None or string, default None.
+        Sets the name attribute of the Location object.
+
+    See also
+    --------
+    pvlib.pvsystem.PVSystem
+    """
+
+    def __init__(self, latitude, longitude, tz='UTC', altitude=0, name=None):
+
+        self.latitude = latitude
+        self.longitude = longitude
+
+        if isinstance(tz, str):
+            self.tz = tz
+            self.pytz = pytz.timezone(tz)
+        elif isinstance(tz, datetime.timezone):
+            self.tz = 'UTC'
+            self.pytz = pytz.UTC
+        elif isinstance(tz, datetime.tzinfo):
+            self.tz = tz.zone
+            self.pytz = tz
+        elif isinstance(tz, (int, float)):
+            self.tz = tz
+            self.pytz = pytz.FixedOffset(tz*60)
+        else:
+            raise TypeError('Invalid tz specification')
+
+        self.altitude = altitude
+
+        self.name = name
+
+    def __repr__(self):
+        attrs = ['name', 'latitude', 'longitude', 'altitude', 'tz']
+        return ('Location: \n  ' + '\n  '.join(
+            f'{attr}: {getattr(self, attr)}' for attr in attrs))
+
+    @classmethod
+    def from_tmy(cls, tmy_metadata, tmy_data=None, **kwargs):
+        """
+        Create an object based on a metadata
+        dictionary from tmy2 or tmy3 data readers.
+
+        Parameters
+        ----------
+        tmy_metadata : dict
+            Returned from tmy.readtmy2 or tmy.readtmy3
+        tmy_data : None or DataFrame, default None
+            Optionally attach the TMY data to this object.
+
+        Returns
+        -------
+        Location
+        """
+        # not complete, but hopefully you get the idea.
+        # might need code to handle the difference between tmy2 and tmy3
+
+        # determine if we're dealing with TMY2 or TMY3 data
+        tmy2 = tmy_metadata.get('City', False)
+
+        latitude = tmy_metadata['latitude']
+        longitude = tmy_metadata['longitude']
+
+        if tmy2:
+            name = tmy_metadata['City']
+        else:
+            name = tmy_metadata['Name']
+
+        tz = tmy_metadata['TZ']
+        altitude = tmy_metadata['altitude']
+
+        new_object = cls(latitude, longitude, tz=tz, altitude=altitude,
+                         name=name, **kwargs)
+
+        # not sure if this should be assigned regardless of input.
+        if tmy_data is not None:
+            new_object.tmy_data = tmy_data
+            new_object.weather = tmy_data
+
+        return new_object
+
+    @classmethod
+    def from_epw(cls, metadata, data=None, **kwargs):
+        """
+        Create a Location object based on a metadata
+        dictionary from epw data readers.
+
+        Parameters
+        ----------
+        metadata : dict
+            Returned from epw.read_epw
+        data : None or DataFrame, default None
+            Optionally attach the epw data to this object.
+
+        Returns
+        -------
+        Location object (or the child class of Location that you
+        called this method from).
+        """
+
+        latitude = metadata['latitude']
+        longitude = metadata['longitude']
+
+        name = metadata['city']
+
+        tz = metadata['TZ']
+        altitude = metadata['altitude']
+
+        new_object = cls(latitude, longitude, tz=tz, altitude=altitude,
+                         name=name, **kwargs)
+
+        if data is not None:
+            new_object.weather = data
+
+        return new_object
+
+    def get_solarposition(self, times, pressure=None, temperature=12,
+                          **kwargs):
+        """
+        Uses the :py:func:`pvlib.solarposition.get_solarposition` function
+        to calculate the solar zenith, azimuth, etc. at this location.
+
+        Parameters
+        ----------
+        times : pandas.DatetimeIndex
+            Must be localized or UTC will be assumed.
+        pressure : None, float, or array-like, default None
+            If None, pressure will be calculated using
+            :py:func:`pvlib.atmosphere.alt2pres` and ``self.altitude``.
+        temperature : None, float, or array-like, default 12
+
+        kwargs
+            passed to :py:func:`pvlib.solarposition.get_solarposition`
+
+        Returns
+        -------
+        solar_position : DataFrame
+            Columns depend on the ``method`` kwarg, but always include
+            ``zenith`` and ``azimuth``. The angles are in degrees.
+        """
+        if pressure is None:
+            pressure = atmosphere.alt2pres(self.altitude)
+
+        return solarposition.get_solarposition(times, latitude=self.latitude,
+                                               longitude=self.longitude,
+                                               altitude=self.altitude,
+                                               pressure=pressure,
+                                               temperature=temperature,
+                                               **kwargs)
+
+    def get_clearsky(self, times, model='ineichen', solar_position=None,
+                     dni_extra=None, **kwargs):
+        """
+        Calculate the clear sky estimates of GHI, DNI, and/or DHI
+        at this location.
+
+        Parameters
+        ----------
+        times: DatetimeIndex
+        model: str, default 'ineichen'
+            The clear sky model to use. Must be one of
+            'ineichen', 'haurwitz', 'simplified_solis'.
+        solar_position : None or DataFrame, default None
+            DataFrame with columns 'apparent_zenith', 'zenith',
+            'apparent_elevation'.
+        dni_extra: None or numeric, default None
+            If None, will be calculated from times.
+
+        kwargs
+            Extra parameters passed to the relevant functions. Climatological
+            values are assumed in many cases. See source code for details!
+
+        Returns
+        -------
+        clearsky : DataFrame
+            Column names are: ``ghi, dni, dhi``.
+        """
+        if dni_extra is None:
+            dni_extra = irradiance.get_extra_radiation(times)
+
+        try:
+            pressure = kwargs.pop('pressure')
+        except KeyError:
+            pressure = atmosphere.alt2pres(self.altitude)
+
+        if solar_position is None:
+            solar_position = self.get_solarposition(times, pressure=pressure)
+
+        apparent_zenith = solar_position['apparent_zenith']
+        apparent_elevation = solar_position['apparent_elevation']
+
+        if model == 'ineichen':
+            try:
+                linke_turbidity = kwargs.pop('linke_turbidity')
+            except KeyError:
+                interp_turbidity = kwargs.pop('interp_turbidity', True)
+                linke_turbidity = clearsky.lookup_linke_turbidity(
+                    times, self.latitude, self.longitude,
+                    interp_turbidity=interp_turbidity)
+
+            try:
+                airmass_absolute = kwargs.pop('airmass_absolute')
+            except KeyError:
+                airmass_absolute = self.get_airmass(
+                    times, solar_position=solar_position)['airmass_absolute']
+
+            cs = clearsky.ineichen(apparent_zenith, airmass_absolute,
+                                   linke_turbidity, altitude=self.altitude,
+                                   dni_extra=dni_extra, **kwargs)
+        elif model == 'haurwitz':
+            cs = clearsky.haurwitz(apparent_zenith)
+        elif model == 'simplified_solis':
+            cs = clearsky.simplified_solis(
+                apparent_elevation, pressure=pressure, dni_extra=dni_extra,
+                **kwargs)
+        else:
+            raise ValueError('{} is not a valid clear sky model. Must be '
+                             'one of ineichen, simplified_solis, haurwitz'
+                             .format(model))
+
+        return cs
+
+    def get_airmass(self, times=None, solar_position=None,
+                    model='kastenyoung1989'):
+        """
+        Calculate the relative and absolute airmass.
+
+        Automatically chooses zenith or apparant zenith
+        depending on the selected model.
+
+        Parameters
+        ----------
+        times : None or DatetimeIndex, default None
+            Only used if solar_position is not provided.
+        solar_position : None or DataFrame, default None
+            DataFrame with with columns 'apparent_zenith', 'zenith'.
+        model : str, default 'kastenyoung1989'
+            Relative airmass model. See
+            :py:func:`pvlib.atmosphere.get_relative_airmass`
+            for a list of available models.
+
+        Returns
+        -------
+        airmass : DataFrame
+            Columns are 'airmass_relative', 'airmass_absolute'
+
+        See also
+        --------
+        pvlib.atmosphere.get_relative_airmass
+        """
+
+        if solar_position is None:
+            solar_position = self.get_solarposition(times)
+
+        if model in atmosphere.APPARENT_ZENITH_MODELS:
+            zenith = solar_position['apparent_zenith']
+        elif model in atmosphere.TRUE_ZENITH_MODELS:
+            zenith = solar_position['zenith']
+        else:
+            raise ValueError(f'{model} is not a valid airmass model')
+
+        airmass_relative = atmosphere.get_relative_airmass(zenith, model)
+
+        pressure = atmosphere.alt2pres(self.altitude)
+        airmass_absolute = atmosphere.get_absolute_airmass(airmass_relative,
+                                                           pressure)
+
+        airmass = pd.DataFrame(index=solar_position.index)
+        airmass['airmass_relative'] = airmass_relative
+        airmass['airmass_absolute'] = airmass_absolute
+
+        return airmass
+
+    def get_sun_rise_set_transit(self, times, method='pyephem', **kwargs):
+        """
+        Calculate sunrise, sunset and transit times.
+
+        Parameters
+        ----------
+        times : DatetimeIndex
+            Must be localized to the Location
+        method : str, default 'pyephem'
+            'pyephem', 'spa', or 'geometric'
+
+        kwargs are passed to the relevant functions. See
+        solarposition.sun_rise_set_transit_<method> for details.
+
+        Returns
+        -------
+        result : DataFrame
+            Column names are: ``sunrise, sunset, transit``.
+        """
+
+        if method == 'pyephem':
+            result = solarposition.sun_rise_set_transit_ephem(
+                times, self.latitude, self.longitude, **kwargs)
+        elif method == 'spa':
+            result = solarposition.sun_rise_set_transit_spa(
+                times, self.latitude, self.longitude, **kwargs)
+        elif method == 'geometric':
+            sr, ss, tr = solarposition.sun_rise_set_transit_geometric(
+                times, self.latitude, self.longitude, **kwargs)
+            result = pd.DataFrame(index=times,
+                                  data={'sunrise': sr,
+                                        'sunset': ss,
+                                        'transit': tr})
+        else:
+            raise ValueError('{} is not a valid method. Must be '
+                             'one of pyephem, spa, geometric'
+                             .format(method))
+        return result
+
+
+def lookup_altitude(latitude, longitude):
+    """
+    Look up location altitude from low-resolution altitude map
+    supplied with pvlib. The data for this map comes from multiple open data
+    sources with varying resolutions aggregated by Mapzen.
+
+    More details can be found here
+    https://github.com/tilezen/joerd/blob/master/docs/data-sources.md
+
+    Altitudes from this map are a coarse approximation and can have
+    significant errors (100+ meters) introduced by downsampling and
+    source data resolution.
+
+    Parameters
+    ----------
+    latitude : float.
+        Positive is north of the equator.
+        Use decimal degrees notation.
+
+    longitude : float.
+        Positive is east of the prime meridian.
+        Use decimal degrees notation.
+
+    Returns
+    -------
+    altitude : float
+        The altitude of the location in meters.
+
+    Notes
+    -----------
+    Attributions:
+
+    * ArcticDEM terrain data DEM(s) were created from DigitalGlobe, Inc.,
+      imagery and funded under National Science Foundation awards 1043681,
+      1559691, and 1542736;
+    * Australia terrain data © Commonwealth of Australia
+      (Geoscience Australia) 2017;
+    * Austria terrain data © offene Daten Österreichs - Digitales
+      Geländemodell (DGM) Österreich;
+    * Canada terrain data contains information licensed under the Open
+      Government Licence - Canada;
+    * Europe terrain data produced using Copernicus data and information
+      funded by the European Union - EU-DEM layers;
+    * Global ETOPO1 terrain data U.S. National Oceanic and Atmospheric
+      Administration
+    * Mexico terrain data source: INEGI, Continental relief, 2016;
+    * New Zealand terrain data Copyright 2011 Crown copyright (c) Land
+      Information New Zealand and the New Zealand Government
+      (All rights reserved);
+    * Norway terrain data © Kartverket;
+    * United Kingdom terrain data © Environment Agency copyright and/or
+      database right 2015. All rights reserved;
+    * United States 3DEP (formerly NED) and global GMTED2010 and SRTM
+      terrain data courtesy of the U.S. Geological Survey.
+
+    References
+    ----------
+    .. [1] `Mapzen, Linux foundation project for open data maps
+        <https://www.mapzen.com/>`_
+    .. [2] `Joerd, tool for downloading and processing DEMs, Used by Mapzen
+        <https://github.com/tilezen/joerd/>`_
+    .. [3] `AWS, Open Data Registry Terrain Tiles
+        <https://registry.opendata.aws/terrain-tiles/>`_
+
+    """
+
+    pvlib_path = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(pvlib_path, 'data', 'Altitude.h5')
+
+    latitude_index = _degrees_to_index(latitude, coordinate='latitude')
+    longitude_index = _degrees_to_index(longitude, coordinate='longitude')
+
+    with h5py.File(filepath, 'r') as alt_h5_file:
+        alt = alt_h5_file['Altitude'][latitude_index, longitude_index]
+
+    # 255 is a special value that means nodata. Fallback to 0 if nodata.
+    if alt == 255:
+        return 0
+    # Altitude is encoded in 28 meter steps from -450 meters to 6561 meters
+    # There are 0-254 possible altitudes, with 255 reserved for nodata.
+    alt *= 28
+    alt -= 450
+    return float(alt)
+
+===== END RETRIEVED FILE: pvlib/location.py =====
+
+===== BEGIN RETRIEVED FILE: setup.py =====
+#!/usr/bin/env python
+
+import os
+
+try:
+    from setuptools import setup, find_namespace_packages
+    from setuptools.extension import Extension
+except ImportError:
+    raise RuntimeError('setuptools is required')
+
+
+DESCRIPTION = ('A set of functions and classes for simulating the ' +
+               'performance of photovoltaic energy systems.')
+LONG_DESCRIPTION = """
+PVLIB Python is a community supported tool that provides a set of
+functions and classes for simulating the performance of photovoltaic
+energy systems. PVLIB Python was originally ported from the PVLIB MATLAB
+toolbox developed at Sandia National Laboratories and it implements many
+of the models and methods developed at the Labs. More information on
+Sandia Labs PV performance modeling programs can be found at
+https://pvpmc.sandia.gov/. We collaborate with the PVLIB MATLAB project,
+but operate independently of it.
+
+We need your help to make pvlib-python a great tool!
+
+Documentation: http://pvlib-python.readthedocs.io
+
+Source code: https://github.com/pvlib/pvlib-python
+"""
+
+DISTNAME = 'pvlib'
+LICENSE = 'BSD 3-Clause'
+AUTHOR = 'pvlib python Developers'
+MAINTAINER_EMAIL = 'holmgren@email.arizona.edu'
+URL = 'https://github.com/pvlib/pvlib-python'
+
+INSTALL_REQUIRES = ['numpy >= 1.16.0',
+                    'pandas >= 0.25.0',
+                    'pytz',
+                    'requests',
+                    'scipy >= 1.2.0',
+                    'h5py',
+                    'importlib-metadata; python_version < "3.8"']
+
+TESTS_REQUIRE = ['nose', 'pytest', 'pytest-cov', 'pytest-mock',
+                 'requests-mock', 'pytest-timeout', 'pytest-rerunfailures',
+                 'pytest-remotedata']
+EXTRAS_REQUIRE = {
+    'optional': ['cython', 'ephem', 'netcdf4', 'nrel-pysam', 'numba',
+                 'pvfactors', 'siphon', 'statsmodels',
+                 'cftime >= 1.1.1'],
+    'doc': ['ipython', 'matplotlib', 'sphinx == 4.5.0',
+            'pydata-sphinx-theme == 0.8.1', 'sphinx-gallery',
+            'docutils == 0.15.2', 'pillow', 'netcdf4', 'siphon',
+            'sphinx-toggleprompt >= 0.0.5', 'pvfactors'],
+    'test': TESTS_REQUIRE
+}
+EXTRAS_REQUIRE['all'] = sorted(set(sum(EXTRAS_REQUIRE.values(), [])))
+
+CLASSIFIERS = [
+    'Development Status :: 4 - Beta',
+    'License :: OSI Approved :: BSD License',
+    'Operating System :: OS Independent',
+    'Intended Audience :: Science/Research',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Topic :: Scientific/Engineering',
+]
+
+setuptools_kwargs = {
+    'zip_safe': False,
+    'scripts': [],
+    'include_package_data': True,
+    'python_requires': '>=3.7'
+}
+
+PROJECT_URLS = {
+    "Bug Tracker": "https://github.com/pvlib/pvlib-python/issues",
+    "Documentation": "https://pvlib-python.readthedocs.io/",
+    "Source Code": "https://github.com/pvlib/pvlib-python",
+}
+
+# set up pvlib packages to be installed and extensions to be compiled
+
+# the list of packages is not just the top-level "pvlib", but also
+# all sub-packages like "pvlib.bifacial".  Here, setuptools's definition of
+# "package" is, in effect, any directory you want to include in the
+# distribution.  So even "pvlib.data" counts as a package, despite
+# not having any python code or even an __init__.py.
+# setuptools.find_namespace_packages() will find all these directories,
+# although to exclude "docs", "ci", etc., we include only names matching
+# the "pvlib*" glob.  Although note that "docs" does get added separately
+# via the MANIFEST.in spec.
+PACKAGES = find_namespace_packages(include=['pvlib*'])
+
+extensions = []
+
+spa_sources = ['pvlib/spa_c_files/spa.c', 'pvlib/spa_c_files/spa_py.c']
+spa_depends = ['pvlib/spa_c_files/spa.h']
+spa_all_file_paths = map(lambda x: os.path.join(os.path.dirname(__file__), x),
+                         spa_sources + spa_depends)
+
+if all(map(os.path.exists, spa_all_file_paths)):
+    print('all spa_c files found')
+    PACKAGES.append('pvlib.spa_c_files')
+
+    spa_ext = Extension('pvlib.spa_c_files.spa_py',
+                        sources=spa_sources, depends=spa_depends)
+    extensions.append(spa_ext)
+else:
+    print('WARNING: spa_c files not detected. ' +
+          'See installation instructions for more information.')
+
+
+setup(name=DISTNAME,
+      packages=PACKAGES,
+      install_requires=INSTALL_REQUIRES,
+      extras_require=EXTRAS_REQUIRE,
+      tests_require=TESTS_REQUIRE,
+      ext_modules=extensions,
+      description=DESCRIPTION,
+      long_description=LONG_DESCRIPTION,
+      author=AUTHOR,
+      maintainer_email=MAINTAINER_EMAIL,
+      license=LICENSE,
+      url=URL,
+      project_urls=PROJECT_URLS,
+      classifiers=CLASSIFIERS,
+      **setuptools_kwargs)
+
+===== END RETRIEVED FILE: setup.py =====
+
+===== BEGIN RETRIEVED FILE: pvlib/__init__.py =====
+from pvlib.version import __version__  # noqa: F401
+
+from pvlib import (  # noqa: F401
+    atmosphere,
+    bifacial,
+    clearsky,
+    # forecast
+    iam,
+    inverter,
+    iotools,
+    irradiance,
+    ivtools,
+    location,
+    modelchain,
+    pvsystem,
+    scaling,
+    shading,
+    singlediode,
+    snow,
+    soiling,
+    solarposition,
+    spa,
+    spectrum,
+    temperature,
+    tools,
+    tracking,
+)
+
+===== END RETRIEVED FILE: pvlib/__init__.py =====
+
+===== BEGIN RETRIEVED FILE: pvlib/spa_c_files/setup.py =====
+# setup.py
+
+import os
+from distutils.core import setup
+from distutils.extension import Extension
+from Cython.Build import cythonize
+
+DIRNAME = os.path.dirname(__file__)
+
+# patch spa.c
+with open(os.path.join(DIRNAME, 'spa.c'), 'rb') as f:
+    SPA_C = f.read()
+# replace timezone with time_zone to avoid nameclash with the function
+# __timezone which is defined by a MACRO in pyconfig.h as timezone
+# see https://bugs.python.org/issue24643
+SPA_C = SPA_C.replace(b'timezone', b'time_zone')
+with open(os.path.join(DIRNAME, 'spa.c'), 'wb') as f:
+    f.write(SPA_C)
+
+# patch spa.h
+with open(os.path.join(DIRNAME, 'spa.h'), 'rb') as f:
+    SPA_H = f.read()
+# replace timezone with time_zone to avoid nameclash with the function
+# __timezone which is defined by a MACRO in pyconfig.h as timezone
+# see https://bugs.python.org/issue24643
+SPA_H = SPA_H.replace(b'timezone', b'time_zone')
+with open(os.path.join(DIRNAME, 'spa.h'), 'wb') as f:
+    f.write(SPA_H)
+
+SPA_SOURCES = [os.path.join(DIRNAME, src) for src in ['spa_py.pyx', 'spa.c']]
+
+setup(
+    ext_modules=cythonize([Extension('spa_py', SPA_SOURCES)])
+)
+
+===== END RETRIEVED FILE: pvlib/spa_c_files/setup.py =====
+
+===== BEGIN RETRIEVED FILE: pvlib/bifacial/__init__.py =====
+"""
+The ``bifacial`` module contains functions to model irradiance for bifacial
+modules.
+
+"""
+from pvlib._deprecation import deprecated
+from pvlib.bifacial import pvfactors, infinite_sheds, utils   # noqa: F401
+
+pvfactors_timeseries = deprecated(
+    since='0.9.1',
+    name='pvlib.bifacial.pvfactors_timeseries',
+    alternative='pvlib.bifacial.pvfactors.pvfactors_timeseries'
+)(pvfactors.pvfactors_timeseries)
+
+===== END RETRIEVED FILE: pvlib/bifacial/__init__.py =====
+
+===== BEGIN RETRIEVED FILE: pvlib/version.py =====
+try:
+    from importlib.metadata import PackageNotFoundError, version
+except ImportError:
+    # for python < 3.8
+    from importlib_metadata import PackageNotFoundError, version
+
+try:
+    __version__ = version(__package__)
+except PackageNotFoundError:
+    __version__ = "0+unknown"
+
+===== END RETRIEVED FILE: pvlib/version.py =====
+
+===== BEGIN RETRIEVED FILE: pvlib/ivtools/__init__.py =====
+"""
+The ``ivtools`` module contains functions to fit the single diode equation
+and diode models.
+
+"""
+
+from pvlib.ivtools import sde, sdm, utils  # noqa: F401
+
+===== END RETRIEVED FILE: pvlib/ivtools/__init__.py =====
+
+===== BEGIN RETRIEVED FILE: pvlib/iotools/__init__.py =====
+from pvlib.iotools.tmy import read_tmy2, read_tmy3  # noqa: F401
+from pvlib.iotools.epw import read_epw, parse_epw  # noqa: F401
+from pvlib.iotools.srml import read_srml  # noqa: F401
+from pvlib.iotools.srml import read_srml_month_from_solardat  # noqa: F401
+from pvlib.iotools.surfrad import read_surfrad  # noqa: F401
+from pvlib.iotools.midc import read_midc  # noqa: F401
+from pvlib.iotools.midc import read_midc_raw_data_from_nrel  # noqa: F401
+from pvlib.iotools.ecmwf_macc import read_ecmwf_macc  # noqa: F401
+from pvlib.iotools.ecmwf_macc import get_ecmwf_macc  # noqa: F401
+from pvlib.iotools.crn import read_crn  # noqa: F401
+from pvlib.iotools.solrad import read_solrad  # noqa: F401
+from pvlib.iotools.psm3 import get_psm3  # noqa: F401
+from pvlib.iotools.psm3 import read_psm3  # noqa: F401
+from pvlib.iotools.psm3 import parse_psm3  # noqa: F401
+from pvlib.iotools.pvgis import get_pvgis_tmy, read_pvgis_tmy  # noqa: F401
+from pvlib.iotools.pvgis import read_pvgis_hourly  # noqa: F401
+from pvlib.iotools.pvgis import get_pvgis_hourly  # noqa: F401
+from pvlib.iotools.bsrn import get_bsrn  # noqa: F401
+from pvlib.iotools.bsrn import read_bsrn  # noqa: F401
+from pvlib.iotools.bsrn import parse_bsrn  # noqa: F401
+from pvlib.iotools.sodapro import get_cams  # noqa: F401
+from pvlib.iotools.sodapro import read_cams  # noqa: F401
+from pvlib.iotools.sodapro import parse_cams  # noqa: F401
+
+===== END RETRIEVED FILE: pvlib/iotools/__init__.py =====
+
+===== BEGIN RETRIEVED FILE: pvlib/spa_c_files/__init__.py =====
+
+===== END RETRIEVED FILE: pvlib/spa_c_files/__init__.py =====
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Plan to fix the golden-section search zero-width interval bug:
+
+1. **Locate the failure point**
+   - The traceback shows the problem occurs in `pvlib.tools._golden_sect_DataFrame`.
+   - The immediate cause is `VH - VL == 0`, which makes the iteration estimate do `log(atol / 0)` and triggers division-by-zero / non-convergence.
+
+2. **Add a zero-width interval fast path**
+   - Before computing the golden-section iteration count, detect rows/cases where:
+     - `VH == VL`, or more robustly
+     - `abs(VH - VL) <= atol`
+   - For those cases, skip the search entirely and return the boundary point directly.
+   - Since the interval has no width, the optimum must be at that single point, so:
+     - `x_opt = VL` (or `VH`, same value)
+     - `f_opt = func(params, x_opt)` evaluated once
+
+3. **Preserve vectorized behavior**
+   - `_golden_sect_DataFrame` is used with DataFrame/Series inputs, so the fix should work per-row:
+     - some rows may have zero-width intervals
+     - others may still need iterative search
+   - Implement a mask for “degenerate” rows and combine:
+     - direct result for degenerate rows
+     - golden-section iterations for the remaining rows
+   - This avoids breaking multi-row callers that mix zero and non-zero intervals.
+
+4. **Guard iteration count computation**
+   - Ensure the expression that computes the number of iterations never sees a zero denominator.
+   - Only compute the golden-section iteration estimate on the non-degenerate subset.
+   - This also prevents the warning currently emitted by NumPy.
+
+5. **Keep existing semantics for normal cases**
+   - Do not change the output format, index alignment, or return contract for ordinary intervals.
+   - The fix should be strictly additive for degenerate intervals and otherwise leave the algorithm unchanged.
+
+6. **Add regression tests**
+   Add tests that cover both the low-level helper and the user-visible path:
+
+   - **Unit test for `_golden_sect_DataFrame`**
+     - Input where `VL == VH`
+     - Verify it returns without error
+     - Verify returned optimum equals the bound
+     - Verify the returned function value matches direct evaluation
+
+   - **Integration/regression test for single-diode / modelchain path**
+     - Reproduce the zero-irradiance case from the bug report
+     - Confirm `run_model` no longer raises
+     - Confirm output is physically reasonable, e.g. AC power is zero or near zero
+
+7. **Edge cases to cover explicitly**
+   - `VL == VH` exactly
+   - `abs(VH - VL) < atol`
+   - Mixed input where only some rows are degenerate
+   - Inputs with zero irradiance leading to `v_oc == 0`
+   - Any NaN-related behavior should remain unchanged unless already handled by the function
+
+8. **Documentation / comments**
+   - Add a short comment in `_golden_sect_DataFrame` explaining why zero-width intervals are short-circuited.
+   - If appropriate, mention in the docstring that equal bounds are supported and return the boundary result directly.
+
+If you want, I can next turn this plan into a precise patch-level diff targeting the likely `pvlib/tools.py` implementation and the relevant tests.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```diff
+*** Begin Patch
+*** Update File: pvlib/tools.py
+@@
+-    niter = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    # Golden-section search requires a non-zero interval width. If the lower
++    # and upper bounds are equal (or within tolerance), the optimum is the
++    # shared bound, so use a dummy width only for the iteration estimate.
++    interval = (df['VH'] - df['VL']).abs()
++    interval = interval.mask(interval <= atol, atol)
++    niter = np.trunc(np.log(atol / interval) / np.log(phim1))
+*** Add File: tests/test_tools_golden_section.py
++import numpy as np
++import pandas as pd
++
++from pvlib import pvsystem
++from pvlib.tools import _golden_sect_DataFrame
++
++
++def test_golden_sect_dataframe_handles_equal_bounds():
++    index = pd.Index([0, 1])
++    params = pd.DataFrame({'dummy': [0.0, 0.0]}, index=index)
++    lower = pd.Series([2.0, 0.0], index=index)
++    upper = pd.Series([2.0, 4.0], index=index)
++
++    def parabola(_params, voltage):
++        return -(voltage - 3.0) ** 2
++
++    p_opt, v_opt = _golden_sect_DataFrame(params, lower, upper, parabola)
++    p_opt = pd.Series(np.asarray(p_opt), index=index)
++    v_opt = pd.Series(np.asarray(v_opt), index=index)
++
++    assert np.isclose(v_opt.loc[0], 2.0)
++    assert np.isclose(p_opt.loc[0], -1.0)
++    assert np.isclose(v_opt.loc[1], 3.0, atol=1e-6)
++    assert np.isclose(p_opt.loc[1], 0.0, atol=1e-6)
++
++
++def test_singlediode_handles_zero_photocurrent():
++    index = pd.Index([0])
++    result = pvsystem.singlediode(
++        photocurrent=pd.Series([0.0], index=index),
++        saturation_current=pd.Series([1e-10], index=index),
++        resistance_series=pd.Series([0.5], index=index),
++        resistance_shunt=pd.Series([1000.0], index=index),
++        nNsVth=pd.Series([1.5], index=index),
++    )
++    if not isinstance(result, pd.DataFrame):
++        result = pd.DataFrame(result, index=index)
++
++    assert np.isclose(result['p_mp'].iloc[0], 0.0)
++    assert np.isclose(result['v_oc'].iloc[0], 0.0)
+*** End Patch
+```

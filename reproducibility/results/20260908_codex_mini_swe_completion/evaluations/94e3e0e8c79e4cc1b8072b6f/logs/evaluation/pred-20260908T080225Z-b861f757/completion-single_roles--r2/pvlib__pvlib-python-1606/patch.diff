@@ -1,0 +1,15 @@
+diff --git a/pvlib/tools.py b/pvlib/tools.py
+index 0000000..0000000 100644
+--- a/pvlib/tools.py
++++ b/pvlib/tools.py
+@@
+-    niter = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    # Rows with identical upper and lower bounds are already at the solution.
++    # Handle them explicitly so the iteration estimate does not divide by
++    # zero when the interval width is zero.
++    interval = df['VH'] - df['VL']
++    niter = pd.Series(0.0, index=df.index)
++    nonzero_interval = interval != 0
++    niter.loc[nonzero_interval] = np.trunc(
++        np.log(atol / interval[nonzero_interval]) / np.log(phim1))
+*** End of File

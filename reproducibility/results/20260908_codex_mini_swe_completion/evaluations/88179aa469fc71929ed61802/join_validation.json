@@ -1,0 +1,33 @@
+{
+  "run_id": "pred-20260908T081101Z-1639bfe6",
+  "task_id": "pvlib__pvlib-python-1606",
+  "results_exists": true,
+  "report_exists": true,
+  "results_sha256": "8baacd4ee70ebb6aef41c66951894438334385a3f8835faa8c7cc4fbd645e056",
+  "report_sha256": "0fbc6bdc1e41155baee48915eb5263afa521bd251217cc6fa3196e341add3719",
+  "prediction_to_report_join": "E:/\u0412\u0428\u042d/\u041a\u0443\u0440\u0441\u043e\u0432\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430/article/springer-article/reproducibility/runs/swe-completion-v1/evaluations/88179aa469fc71929ed61802/logs/evaluation/pred-20260908T081101Z-1639bfe6/completion-multi_neutral--r1/pvlib__pvlib-python-1606/report.json",
+  "results_task_membership": true,
+  "report_task_id_exact": true,
+  "report_flags_valid": true,
+  "native_application_rejection": false,
+  "invalid_candidate_patch": false,
+  "evaluator_error": false,
+  "inconsistent_empty_patch_summary": false,
+  "patch_bytes_match": true,
+  "report_flags": {
+    "patch_is_None": false,
+    "patch_exists": true,
+    "patch_successfully_applied": true,
+    "resolved": false,
+    "infra_failure": false
+  },
+  "artifact_hashes": {
+    "patch.diff": "38ee521dea2cda71043deb2811b0782c80e0f53c275fc37d76356556ccbe9d7f",
+    "eval.sh": "9d67a02a862297bfa7a014abdd6e922b480c5c565966613151a5379cc02a0daa",
+    "test_output.txt": "678997885c3ea6231e127b6dea4d8ed92ad0770e115af4b7f1786e63813dd9b5",
+    "run_instance.log": "a11f3139bd978380d021df6f89a2b3e165b3667a2b50af0c4a6a9d9d82371138"
+  },
+  "candidate_status": "submitted_patch",
+  "classification": "candidate_test_or_patch_failure",
+  "status": "complete"
+}

@@ -1,0 +1,30 @@
+*** Begin Patch
+*** Update File: pvlib/tools.py
+@@
+-    n = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    # Guard against zero-width intervals. This can happen in single-point
++    # inputs, for example when the search bounds are equal. In that case the
++    # optimum is already known and the iteration count should be zero rather
++    # than inf/NaN.
++    interval = (df['VH'] - df['VL']).clip(lower=atol)
++    n = np.trunc(np.log(atol / interval) / np.log(phim1))
+*** Add File: pvlib/tests/test_tools.py
++import numpy as np
++import pandas as pd
++
++from pvlib.tools import _golden_sect_DataFrame
++
++
++def test_golden_sect_dataframe_equal_bounds():
++    params = pd.DataFrame(index=[0])
++
++    fval, x = _golden_sect_DataFrame(
++        params, 1.23, 1.23, lambda v: -(v - 1.23) ** 2
++    )
++
++    x = np.atleast_1d(np.asarray(x))
++    fval = np.atleast_1d(np.asarray(fval))
++
++    assert x[0] == 1.23
++    assert fval[0] == 0.0
+*** End Patch

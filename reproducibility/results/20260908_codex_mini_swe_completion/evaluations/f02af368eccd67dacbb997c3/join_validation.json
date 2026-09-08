@@ -1,0 +1,27 @@
+{
+  "run_id": "pred-20260908T080413Z-cdde2ae5",
+  "task_id": "pvlib__pvlib-python-1606",
+  "results_exists": true,
+  "report_exists": false,
+  "results_sha256": "357cd1e944e5f9a94724ae0f4558ca00e94277267d13f0e508943a198d9595c3",
+  "report_sha256": null,
+  "prediction_to_report_join": null,
+  "results_task_membership": true,
+  "report_task_id_exact": false,
+  "report_flags_valid": false,
+  "native_application_rejection": true,
+  "invalid_candidate_patch": false,
+  "evaluator_error": false,
+  "inconsistent_empty_patch_summary": false,
+  "patch_bytes_match": true,
+  "report_flags": null,
+  "artifact_hashes": {
+    "patch.diff": "b0aa170001a18228a3e24410f2508c37bc0f03bd33f6c172b7e0ae79bc64877d",
+    "eval.sh": null,
+    "test_output.txt": null,
+    "run_instance.log": "24dc6ccc5f7e2a37a04d5b7209c4c8db276295f446a03b07dc9fc9c0a8d281b1"
+  },
+  "candidate_status": "submitted_patch",
+  "classification": "native_application_rejection",
+  "status": "complete"
+}

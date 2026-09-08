@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a0800e-5ef4-7a93-8bd8-9b4eab8db163"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```diff\n*** Begin Patch\n*** Update File: pvlib/tools.py\n@@\n-    n = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))\n+    # Guard against zero-width intervals. This can happen in single-point\n+    # inputs, for example when the search bounds are equal. In that case the\n+    # optimum is already known and the iteration count should be zero rather\n+    # than inf/NaN.\n+    interval = (df['VH'] - df['VL']).clip(lower=atol)\n+    n = np.trunc(np.log(atol / interval) / np.log(phim1))\n*** End Patch\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":10611,"cached_input_tokens":0,"cache_write_input_tokens":0,"output_tokens":2134,"reasoning_output_tokens":1975}}

@@ -1,0 +1,95 @@
+*** Begin Patch
+*** Update File: pvlib/tools.py
+@@
+-    df['d'] = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    delta = df['VH'] - df['VL']
++    df['d'] = np.nan
++    zero_width = delta.notna() & delta.eq(0)
++    nondegenerate = delta.notna() & delta.ne(0)
++    df.loc[zero_width, 'd'] = 0
++    df.loc[nondegenerate, 'd'] = np.trunc(
++        np.log(atol / delta.loc[nondegenerate]) / np.log(phim1))
+*** Add File: tests/test_golden_section_regression.py
++import warnings
++
++import numpy as np
++import pandas as pd
++
++from pvlib import location as pvlocation
++from pvlib import modelchain, pvsystem
++from pvlib.temperature import TEMPERATURE_MODEL_PARAMETERS
++from pvlib.tools import _golden_sect_DataFrame
++
++
++def _parabola(params, x):
++    return -(x - 3.0) ** 2
++
++
++def test_golden_sect_dataframe_equal_bounds_no_warning():
++    params = pd.DataFrame(index=pd.Index([0]))
++    lower = pd.Series([0.0], index=params.index)
++    upper = pd.Series([0.0], index=params.index)
++
++    with warnings.catch_warnings():
++        warnings.simplefilter('error', RuntimeWarning)
++        opt_x, opt_f = _golden_sect_DataFrame(params, lower, upper, _parabola)
++
++    assert np.isclose(np.atleast_1d(opt_x)[0], 0.0)
++    assert np.isclose(np.atleast_1d(opt_f)[0], -9.0)
++
++
++def test_golden_sect_dataframe_mixed_bounds():
++    params = pd.DataFrame(index=pd.Index([0, 1]))
++    lower = pd.Series([0.0, 0.0], index=params.index)
++    upper = pd.Series([0.0, 5.0], index=params.index)
++
++    opt_x, opt_f = _golden_sect_DataFrame(params, lower, upper, _parabola)
++
++    opt_x = np.atleast_1d(opt_x)
++    opt_f = np.atleast_1d(opt_f)
++
++    assert np.isclose(opt_x[0], 0.0)
++    assert np.isclose(opt_f[0], -9.0)
++    assert np.isclose(opt_x[1], 3.0, atol=1e-3)
++    assert np.isclose(opt_f[1], 0.0, atol=1e-3)
++
++
++def test_modelchain_zero_irradiance_single_row_runs():
++    temperature_model_parameters = TEMPERATURE_MODEL_PARAMETERS['sapm'][
++        'open_rack_glass_glass'
++    ]
++    modules = pvsystem.retrieve_sam('cecmod')
++    inverters = pvsystem.retrieve_sam('cecinverter')
++
++    module_parameters = modules['Trina_Solar_TSM_300DEG5C_07_II_']
++    inverter_parameters = inverters['ABB__MICRO_0_25_I_OUTD_US_208__208V_']
++
++    location = pvlocation.Location(latitude=51.204483, longitude=5.265472)
++    system = pvsystem.PVSystem(
++        module_parameters=module_parameters,
++        inverter_parameters=inverter_parameters,
++        temperature_model_parameters=temperature_model_parameters,
++    )
++    mc = modelchain.ModelChain(
++        system,
++        location,
++        aoi_model='no_loss',
++        spectral_model='no_loss',
++    )
++
++    weather = pd.DataFrame(
++        {
++            'ghi': [0.0],
++            'dhi': [0.0],
++            'dni': [0.0],
++            'temp_air': [8.0],
++            'wind_speed': [4.0],
++        },
++        index=pd.DatetimeIndex([pd.Timestamp('2010-01-01 05:30:00+00:00')]),
++    )
++
++    mc.run_model(weather)
++
++    assert np.isfinite(mc.results.ac.iloc[0])
++    assert np.isclose(mc.results.ac.iloc[0], 0.0, atol=1e-6)
+*** End Patch

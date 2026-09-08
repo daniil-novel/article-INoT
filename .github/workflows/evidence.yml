@@ -123,3 +123,21 @@ jobs:
               assert actual['status'] == 'complete'
               print(name, actual['classification'])
           PY
+      - name: Replay all ten completed SWE development assignments
+        run: |
+          python -m reproducibility.swe_smoke.completion_evidence \
+            --archive reproducibility/results/20260908_codex_mini_swe_completion \
+            --original-root reproducibility/results/20260908_codex_mini_swe_dev1 \
+            --out tmp/ci-swe-completion
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          actual = Path('tmp/ci-swe-completion')
+          expected = Path('reproducibility/results/20260908_codex_mini_swe_completion/analysis-v1')
+          assert (actual/'rows.csv').read_bytes() == (expected/'rows.csv').read_bytes()
+          report = json.loads((actual/'summary.json').read_text(encoding='utf-8'))
+          assert report['status'] == 'valid' and len(report['rows']) == 10
+          assert all(row['resolved'] is False for row in report['rows'])
+          assert report['turn_usage'] == json.loads((expected/'summary.json').read_text(encoding='utf-8'))['turn_usage']
+          print('All ten SWE outcomes and the complete known/unknown usage ledger replay')
+          PY

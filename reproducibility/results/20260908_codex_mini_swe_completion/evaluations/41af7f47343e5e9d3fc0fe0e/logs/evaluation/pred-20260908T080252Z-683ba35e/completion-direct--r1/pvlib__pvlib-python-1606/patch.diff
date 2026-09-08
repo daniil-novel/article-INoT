@@ -1,0 +1,15 @@
+diff --git a/pvlib/tools.py b/pvlib/tools.py
+--- a/pvlib/tools.py
++++ b/pvlib/tools.py
+@@
+-    niter = np.trunc(np.log(atol / (df['VH'] - df['VL'])) / np.log(phim1))
++    # Golden-section search is undefined for zero-width intervals. This can
++    # happen, for example, in singlediode calculations when v_oc is 0.
++    # Avoid divide-by-zero warnings and skip iterations for those rows.
++    interval = df['VH'] - df['VL']
++    niter = pd.Series(0, index=df.index, dtype=int)
++    nonzero = interval != 0
++    niter.loc[nonzero] = np.trunc(
++        np.log(atol / interval.loc[nonzero]) / np.log(phim1)
++    ).astype(int)
+*** End Patch
