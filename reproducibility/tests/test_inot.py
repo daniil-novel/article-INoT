@@ -44,7 +44,7 @@ class InotTests(unittest.TestCase):
             with self.assertRaises(ValueError): plan(tasks, protocol, selection, gate)
 
     def test_real_prepared_v2_task_file_matches_selection_and_final_gate(self):
-        tasks_path = Path('reproducibility/runs/heldout200-controls-v2/input/prepared.jsonl')
+        tasks_path = Path('reproducibility/results/20260908_codex_mini_heldout200/controls/attempt2/input/prepared.jsonl')
         selection = Path('reproducibility/revision/heldout200_selection.json')
         gate = Path('reproducibility/results/20260908_codex_mini_heldout200/controls/attempt3/heldout200_control_gate.json')
         protocol = Path('reproducibility/revision/INOT_PROTOCOL.md')
