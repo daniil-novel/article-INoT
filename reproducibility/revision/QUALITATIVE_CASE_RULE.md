@@ -1,0 +1,7 @@
+# Descriptive code examples: selection rule before primary quality inspection
+
+This supplement explains concrete program differences; it introduces no hypothesis test, changes no eligibility decision and is outside the four predeclared primary comparisons. It is recorded while the primary generation continuation is active and before its quality evaluation or inspection.
+
+For each label contrast, SR versus SN and MR versus MN, inspect the lowest numeric BigCodeBench task ID in each of two directions: the role-labelled program passes while the neutral one does not, and the neutral program passes while the role-labelled one does not. Both programs must be observed and eligible under the original control gate. A native timeout counts as non-pass in this selection, just as in the existing binary analysis. If a direction has no example, report that absence rather than changing the rule. At most four examples are selected; task duplication between contrasts is retained and disclosed.
+
+For a selected pair, read the exact original prompt, both archived programs and original native test details. Describe a verifiable implementation difference and the observed assertion or runtime failure. Distinguish the test contract from the natural-language instruction and disclose any discrepancy. Do not infer private reasoning, latent role execution or a causal mechanism from text alone. These deterministic examples illustrate available discordance; their selection does not make them representative failure frequencies.
