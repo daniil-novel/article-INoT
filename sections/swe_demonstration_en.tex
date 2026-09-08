@@ -11,7 +11,7 @@ The original ten-assignment generation stopped after a 180-second CLI deadline, 
 \centering
 \caption{All ten SWE development assignments on one issue. A denotes native patch-application rejection; T denotes an applied patch that fails the target regression while passing the other ten tests. Every entry is an observed failure, not missing data. Repeat labels are not controlled model seeds.}
 \label{tab:swe-complete}
-\begin{tabular}{lcc}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcc}
 \hline
 Condition & Repeat 1 & Repeat 2 \\
 \hline
@@ -21,10 +21,12 @@ SR & A & A \\
 MN & T & A \\
 MR & A & A (recovery) \\
 \hline
-\end{tabular}
+\end{tabular*}
 \end{table}
 
 All ten response--export--native-result joins are verified against complete archived traces and exact patch bytes (Table~\ref{tab:swe-complete}). None resolves the issue: eight patches fail application and two apply but fail the target regression. No evaluated candidate has an identified infrastructure failure. This supports end-to-end evaluation feasibility and exposes a patch-generation failure mode; it does not support repository-repair effectiveness or an advantage of role instructions. Ten attempts on one issue are one task cluster, not ten independent benchmark instances.
+
+Output serialization limits the interpretation of this negative result. Four additional responses use the tool-specific \texttt{*** Begin Patch} syntax, and all ten patches contain a bare \texttt{@@} hunk marker. These observations do not establish the functional quality of every intended edit. Because the frozen fence extractor strips the final newline, a separately specified post-observation sensitivity appends exactly one final LF to all ten predictions and reevaluates them under fresh run IDs. All ten classifications remain unchanged. This diagnostic changes no program, hunk header or file context and does not replace the original outcomes.
 
 The extension completes all 16 planned turns, consuming 314,793 known tokens valued at USD 0.758976. The original run submitted four turns, three with known usage and one unknown. Across both phases, 19 of 20 submitted turns expose usage: 371,589 known tokens and USD 0.8969655 in standard API-equivalent valuation, including the interrupted attempt's known first stage. Unknown usage is not zero, and this valuation is not a subscription invoice.
 

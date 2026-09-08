@@ -1,0 +1,24 @@
+\subsection{Точная конструкция независимого опыта с оформлением этапов}
+Все четыре запроса используют следующие точные общие строки; полные байтовые строки для каждой задачи и их хеши опубликованы. LF далее обозначает один перевод строки. Автоматический перенос при вёрстке является типографическим.
+\paragraph{Общее начало.}\begin{quote}\small
+Use three internal checkpoints in this one response.
+\end{quote}
+
+\paragraph{Операции в неизменном порядке.}
+1. \begin{quote}\small
+Analyze the requirements and edge cases and form a concise plan.
+\end{quote}
+
+2. \begin{quote}\small
+Implement the requested function using that plan.
+\end{quote}
+
+3. \begin{quote}\small
+Check the implementation against the requirements and revise it if needed.
+\end{quote}
+
+\paragraph{Общее завершение.}\begin{quote}\small
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+\end{quote}
+
+Вектор ролей: (PLANNER, IMPLEMENTER, REVIEWER); нейтральный вектор: (STAGE 1, STAGE 2, STAGE 3). Этап с заголовком имеет вид \texttt{[LABEL] OPERATION}; этапы соединяются LF. Этап в абзаце имеет вид \texttt{LABEL: OPERATION}; этапы соединяются одним пробелом. Суффикс: начало + LF + этапы + LF + завершение. Запрос: \texttt{TASK} + LF + исходный instruct prompt + LF + LF + суффикс + LF + \texttt{FULL SUPPLIED CONTEXT} + LF + полный подготовленный контекст. Общая инструкция исполнения совпадает с приведённой выше. Условия различаются только указанными обозначениями и разделителями.

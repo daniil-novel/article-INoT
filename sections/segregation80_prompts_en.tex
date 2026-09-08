@@ -1,0 +1,24 @@
+\subsection{Exact construction of the independent boundary experiment}
+All four prompts share these literal strings; the full per-task byte strings and hashes are published. LF below denotes a single newline character. Soft line wrapping in the paper is typographical.
+\paragraph{Common lead.}\begin{quote}\small
+Use three internal checkpoints in this one response.
+\end{quote}
+
+\paragraph{Operations in fixed order.}
+1. \begin{quote}\small
+Analyze the requirements and edge cases and form a concise plan.
+\end{quote}
+
+2. \begin{quote}\small
+Implement the requested function using that plan.
+\end{quote}
+
+3. \begin{quote}\small
+Check the implementation against the requirements and revise it if needed.
+\end{quote}
+
+\paragraph{Common ending.}\begin{quote}\small
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+\end{quote}
+
+The role-label vector is (PLANNER, IMPLEMENTER, REVIEWER); the neutral vector is (STAGE 1, STAGE 2, STAGE 3). A heading stage is \texttt{[LABEL] OPERATION}; stages are joined with LF. A prose stage is \texttt{LABEL: OPERATION}; stages are joined with one space. The suffix is lead + LF + stages + LF + ending. The request is \texttt{TASK} + LF + original instruct prompt + LF + LF + suffix + LF + \texttt{FULL SUPPLIED CONTEXT} + LF + complete prepared context. The common execution policy is the same as above. Only these label and separator choices differ among conditions.
