@@ -101,7 +101,7 @@ def render(primary,inot,paired,selection):
         out=['\\begin{table}[htbp]\\centering\\small','\\caption{'+cap+'}\\label{tab:heldout-exploratory}',
              '\\begin{tabular}{lrrrr}\\toprule',
              ('Contrast & Pairs Q/R & Quality difference [interval] & Tokens, ratio & USD, ratio\\\\' if en else
-              'Контраст & Пары Q/R & Разность качества [интервал] & Токены, отн. & USD, отн.\\\\'),'\\midrule']
+              'Контраст & Пары Q/R & Качество [интервал] & Токены, отн. & USD, отн.\\\\'),'\\midrule']
         for label,r in exploratory:
             q=r['quality'];n=q.get('complete_task_clusters',q.get('complete_task_pairs'))
             v=r['api_equivalent_usd'];nr=v.get('complete_task_clusters',v.get('complete_task_pairs'))
@@ -126,7 +126,10 @@ def render(primary,inot,paired,selection):
     colors=['#0c6470','#536e8a','#378b70','#a66d38','#946396','#333333']
     for r,color in zip(all_groups,colors):
         ax.scatter(100*r['api_equivalent_usd'],100*r['rate'],s=60,color=color,marker='s' if r['code']=='INoT*' else 'o')
-        ax.annotate(r['code'],(100*r['api_equivalent_usd'],100*r['rate']),xytext=(5,-15) if r['code'] in ('MR','SN') else (5,5),textcoords='offset points')
+        offset={'D':(5,-19),'SN':(7,7),'SR':(5,-20),'MN':(12,-19),'MR':(-25,14),'INoT*':(-4,12)}[r['code']]
+        ax.annotate(r['code'],(100*r['api_equivalent_usd'],100*r['rate']),xytext=offset,
+                    textcoords='offset points',color=color,
+                    arrowprops={'arrowstyle':'-','color':color,'linewidth':0.7})
     ax.set(xlabel='Mean API-equivalent valuation (US cents / candidate)',ylabel='Original-test success (%)',ylim=(0,100),xlim=(0,max(r['api_equivalent_usd'] for r in all_groups)*120))
     ax.spines[['top','right']].set_visible(False);ax.grid(alpha=.18)
     fig.savefig(ROOT/'figures/heldout_cost_quality.pdf');fig.savefig(ROOT/'figures/heldout_cost_quality.png',dpi=180);plt.close(fig)

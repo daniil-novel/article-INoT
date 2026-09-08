@@ -51,6 +51,8 @@ The pinned BigCodeBench source was cloned and its HEAD verified locally. Its loa
 
 ## Additional comparator and persona context (8 September 2026)
 
+Final empirical checkpoint: the primary archive at commit `96be37745b7f727d790c324fc0d8670f8e7623f2` contains 996 observed programs from 1,000 assignments, all checked by the unchanged native evaluator. There are 963 eligible observations; all four predeclared quality contrasts have Holm-adjusted p above 0.05. Known primary usage is 8,585,185 tokens, USD 14.2048182 list-price valuation, with three unknown-usage calls. The separate 199-program INoT adaptation has 96/192 eligible passes. These are local experimental observations, not facts inferred from the literature. Full primary, development and INoT response/report/statistics replay passes in Linux CI and the isolated local analysis environment.
+
 - Zheng et al., Findings EMNLP 2024, https://aclanthology.org/2024.findings-emnlp.888/: factual-question persona effects; motivates explicit label controls, not a coding result.
 - Luz de Araujo et al., EMNLP 2025, https://aclanthology.org/2025.emnlp-main.1364/: separates performance, irrelevant-attribute robustness and fidelity. Broad persona claims are not justified by one fixed prompt.
 - Choi, Zhu and Li, NeurIPS 2025, https://arxiv.org/abs/2508.17536v2: separates debate from majority voting; no voting baseline is silently imputed to our serial pipeline.

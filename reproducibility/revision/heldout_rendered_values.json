@@ -1,0 +1,126 @@
+{
+  "groups": [
+    {
+      "code": "D",
+      "generated": 199,
+      "n": 193,
+      "passes": 94,
+      "rate": 0.48704663212435234,
+      "bounds": [
+        0.47,
+        0.505
+      ],
+      "format_failures": 1,
+      "total_tokens": 4159.839195979899,
+      "api_equivalent_usd": 0.006549611306532663,
+      "uncached_sensitivity_usd": 0.008140413316582914,
+      "input_tokens": 2821.030150753769,
+      "cached_input_tokens": 2356.743718592965,
+      "output_tokens": 1338.8090452261306,
+      "reasoning_subset_observed_candidates": 199,
+      "mean_reasoning_output_subset": 1043.4170854271356
+    },
+    {
+      "code": "SN",
+      "generated": 197,
+      "n": 191,
+      "passes": 93,
+      "rate": 0.4869109947643979,
+      "bounds": [
+        0.465,
+        0.51
+      ],
+      "format_failures": 0,
+      "total_tokens": 5122.314720812183,
+      "api_equivalent_usd": 0.010711321065989848,
+      "uncached_sensitivity_usd": 0.012298975888324872,
+      "input_tokens": 2867.0507614213197,
+      "cached_input_tokens": 2352.0812182741115,
+      "output_tokens": 2255.263959390863,
+      "reasoning_subset_observed_candidates": 197,
+      "mean_reasoning_output_subset": 1897.6903553299492
+    },
+    {
+      "code": "SR",
+      "generated": 200,
+      "n": 193,
+      "passes": 92,
+      "rate": 0.47668393782383417,
+      "bounds": [
+        0.46,
+        0.495
+      ],
+      "format_failures": 0,
+      "total_tokens": 4703.315,
+      "api_equivalent_usd": 0.00887549025,
+      "uncached_sensitivity_usd": 0.01044278625,
+      "input_tokens": 2859.235,
+      "cached_input_tokens": 2321.92,
+      "output_tokens": 1844.08,
+      "reasoning_subset_observed_candidates": 200,
+      "mean_reasoning_output_subset": 1508.62
+    },
+    {
+      "code": "MN",
+      "generated": 200,
+      "n": 193,
+      "passes": 86,
+      "rate": 0.44559585492227977,
+      "bounds": [
+        0.43,
+        0.465
+      ],
+      "format_failures": 0,
+      "total_tokens": 14577.7,
+      "api_equivalent_usd": 0.022569684,
+      "uncached_sensitivity_usd": 0.027143700000000003,
+      "input_tokens": 10254.92,
+      "cached_input_tokens": 6776.32,
+      "output_tokens": 4322.78,
+      "reasoning_subset_observed_candidates": 200,
+      "mean_reasoning_output_subset": 2959.625
+    },
+    {
+      "code": "MR",
+      "generated": 200,
+      "n": 193,
+      "passes": 88,
+      "rate": 0.45595854922279794,
+      "bounds": [
+        0.44,
+        0.475
+      ],
+      "format_failures": 1,
+      "total_tokens": 14381.745,
+      "api_equivalent_usd": 0.022221149249999995,
+      "uncached_sensitivity_usd": 0.026755421249999998,
+      "input_tokens": 10123.315,
+      "cached_input_tokens": 6717.44,
+      "output_tokens": 4258.43,
+      "reasoning_subset_observed_candidates": 200,
+      "mean_reasoning_output_subset": 2948.48
+    },
+    {
+      "code": "INoT*",
+      "generated": 199,
+      "n": 192,
+      "passes": 96,
+      "rate": 0.5,
+      "bounds": [
+        0.48,
+        0.52
+      ],
+      "format_failures": 0,
+      "total_tokens": 3857.683417085427,
+      "api_equivalent_usd": 0.005320906281407035,
+      "uncached_sensitivity_usd": 0.0066998329145728655,
+      "input_tokens": 2842.597989949749,
+      "cached_input_tokens": 2042.854271356784,
+      "output_tokens": 1015.0854271356784,
+      "reasoning_subset_observed_candidates": 199,
+      "mean_reasoning_output_subset": 754.643216080402
+    }
+  ],
+  "source_summary": "reproducibility\\runs\\heldout200-analysis-v1\\summary.json",
+  "source_inot": "reproducibility\\runs\\inot200-analysis-v1\\summary.json"
+}

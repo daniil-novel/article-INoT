@@ -30,19 +30,21 @@ def render():
         en=lang=='en'
         out=('The following English strings are used in both language editions because they are the executed experimental instructions. Typographic wrapping is for the page only; exact UTF-8 prompts and forwarded responses are retained in the archive.\n' if en else
              'Ниже приведены английские строки, фактически использованные в эксперименте; они одинаковы в обеих языковых версиях. Переносы для вёрстки относятся только к странице; точные UTF-8-промпты и переданные ответы сохранены в архиве.\n')
-        out+='\\paragraph{'+('Common instruction.' if en else 'Общая инструкция.')+'}\n'+quote(c.BASE)
-        out+='\\paragraph{'+('Factorial operations.' if en else 'Операции факторных условий.')+'}\n'
+        out='\\begingroup\\small\n'+out
+        out+='\\paragraph*{'+('Common instruction.' if en else 'Общая инструкция.')+'}\n'+quote(c.BASE)
+        out+='\\paragraph*{'+('Factorial operations.' if en else 'Операции факторных условий.')+'}\n'
         out+=('In order, the three exact operation sentences are:\n' if en else 'Три точных предложения с операциями следуют в таком порядке:\n')
-        for step in c.STEPS:out+=quote(step)
+        out+='\\begin{quote}\n'+'\\par\n'.join(escape(step) for step in c.STEPS)+'\n\\end{quote}\n'
         out+=('Each sentence is prefixed by its neutral label (stage 1/2/3) or role label (planner/implementer/reviewer), followed by a colon and a space. Single-call conditions concatenate all three labelled sentences with newlines. Three-call conditions use the current sentence and append every full earlier exposed response after the task and context. The direct condition uses the following sentence alone before the common final contract:\n' if en else
               'Каждому предложению предшествует нейтральное обозначение (stage 1/2/3) либо роль (planner/implementer/reviewer), затем двоеточие и пробел. Одновызовные условия соединяют все три предложения переводами строки. Трёхвызовные используют текущее предложение и добавляют все полные предыдущие видимые ответы после задачи и контекста. Прямое условие использует только следующее предложение перед общим требованием итогового формата:\n')
         out+=quote(data['direct_instruction'])
-        out+='\\paragraph{'+('Final-output contract.' if en else 'Требование итогового формата.')+'}\n'+quote(c.FINAL)
+        out+='\\paragraph*{'+('Final-output contract.' if en else 'Требование итогового формата.')+'}\n'+quote(c.FINAL)
         out+=('The contract appears in each single-call condition and in stage 3 of each three-call condition. Task text is introduced by TASK; supplied context by FULL SUPPLIED CONTEXT. Each earlier response is introduced by PREVIOUS STAGE $i$ (COMPLETE OUTPUT), with one-based $i$. The runner enforces the byte guard before dispatch.\n' if en else
               'Требование добавляется во всех одновызовных условиях и на третьем этапе трёхвызовных. Текст задачи предваряется TASK, предоставленный контекст --- FULL SUPPLIED CONTEXT. Каждый предыдущий ответ предваряется PREVIOUS STAGE $i$ (COMPLETE OUTPUT), где $i$ нумеруется с единицы. Исполнитель проверяет байтовый предел до отправки.\n')
-        out+='\\paragraph{'+('Independent INoT instruction.' if en else 'Независимая инструкция INoT.')+'}\n'+quote(INOT_DESCRIPTION)
+        out+='\\clearpage\\subsection{'+('Independent INoT instruction' if en else 'Независимая инструкция INoT')+'}\n'+quote(INOT_DESCRIPTION)
         out+=('For INoT*, this instruction precedes the full task and context; the same final-output contract follows them. The common execution instruction is also retained. This is model-read conceptual guidance, not executable host code.\n' if en else
               'Для INoT* эта инструкция предшествует полной задаче и контексту; после них добавляется то же требование итогового формата. Общая инструкция исполнения также сохраняется. Это концептуальное руководство для модели, а не код, исполняемый на хосте.\n')
+        out+='\\endgroup\n'
         (ROOT/f'sections/exact_prompts_{lang}.tex').write_text(out,encoding='utf-8')
 
 

@@ -1,6 +1,6 @@
 # Compression-free experiment: audit and reproduction
 
-The development block contains 40 task clusters, two labelled repeats and 400 actual programs. The reserved allocation contains 200 new task clusters and 1,000 assigned programs. The INoT algorithm replication is a separate 200-program allocation. Candidate counts are never independent-task counts. The reserved and INoT execution amendments retain every first attempt and only continue assignments with no submitted turn.
+The completed primary experiment contains 200 new task clusters, one repeat label, 1,000 assigned and 996 observed programs; all observed programs have native reports. The development block contains 40 disjoint task clusters, two labelled repeats and 400 programs. The separate INoT adaptation completes 199 of 200 assignments. Candidate counts are never independent-task counts. The execution amendments retain every first attempt and only continue assignments with no submitted turn. The [primary archive](results/20260908_codex_mini_heldout200/README.md) provides exact replay commands, all 1,800 submitted-turn rows, missingness and source evidence.
 
 ## What can be checked without new model calls
 

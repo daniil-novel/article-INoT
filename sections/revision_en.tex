@@ -1,81 +1,88 @@
-\title[Role labels and call boundaries]{A compression-free factorial study of role labels and call boundaries in code generation}
+\title[Role labels and call boundaries]{Role labels and call boundaries in code generation: a compression-free factorial study on 200 tasks}
 \author*[1]{\fnm{Daniil} \sur{Privezentsev}}\email{daprivezentsev@edu.hse.ru}
 \affil*[1]{\orgname{National Research University Higher School of Economics}, \orgaddress{\city{Moscow}, \country{Russia}}}
 
-\abstract{Role-labelled pipelines often change both the prompt and the number of model calls. We separate these choices in an uncompressed factorial experiment using GPT-5.4 mini with medium reasoning. Forty randomly selected development tasks, five conditions and two repeats yield 400 completed programs and 720 fresh Codex CLI turns. Complete exposed responses, forwarded history, token counters and native BigCodeBench reports are archived. Controls make 39 tasks evaluable. Direct solving passes 42/78 attempts at the lowest resource mean; single-call role prompting passes 39/78 and three-call role prompting 36/78. Role-minus-neutral quality differences are +6.41 and -3.85 percentage points in the two topologies; these are development estimates with task-level uncertainty. The matrix uses 3,703,821 tokens, valued at USD 6.61135 using published API prices, not a subscription charge. A real SWE-bench patch demonstration stops after a generation deadline: two observed patches fail and eight assignments remain missing. This auditable non-ceiling record weakens a general role-efficiency claim. A reserved-task study is being prepared; non-inferiority and native-agent superiority are not asserted.}
+\abstract{Role-based pipelines often change both instructions and model-call structure, obscuring the source of any efficiency gain. We cross neutral versus role-labelled stages with one versus three calls, holding stage operations and full supplied context fixed, and add direct solving. A reserved random sample of 200 BigCodeBench tasks assigns 1,000 programs using GPT-5.4 mini with medium reasoning. Following a disclosed continuation restricted to untouched assignments, 996 programs are generated and checked with original native tests; 193 tasks pass reference controls. Quality ranges from 44.56\% to 48.70\%, avoiding the ceiling of the earlier study. The single-call role-minus-neutral quality difference is -1.05 percentage points (descriptive 95\% interval [-4.71,+2.62]); the three-call difference is +1.04 [-3.11,+5.70]. None of four predeclared quality tests rejects after Holm adjustment. On complete resource pairs, single-call roles use 8.76\% fewer tokens and have 18.45\% lower API-equivalent valuation; three calls cost 2.09--2.50 times their single-call counterparts. Known primary usage is 8,585,185 tokens, valued at USD 14.20482 under published API rates; three interrupted calls lack usage. Separate development (400 programs) and an independent INoT adaptation (199 programs) are retained. Complete exposed traces and native reports support replay. The evidence identifies a protocol-specific resource difference, without establishing quality non-inferiority or a general benefit from internal agents.}
 
-\keywords{Code generation, role prompting, factorial design, token accounting, BigCodeBench, SWE-bench}
+\keywords{Code generation, role prompting, factorial design, token accounting, BigCodeBench, reproducibility}
 \maketitle
 
-\section{Introduction: roles and call boundaries}
-\label{sec:dev40-context}
-
-Code-generation pipelines commonly describe stages as planning, implementation, and review. Two different interventions are often hidden inside that description. A role label can change the instructions given to one model response, while a call boundary can split the work across separately sampled responses with intermediate text passed forward. If both interventions change together, an observed difference cannot be attributed to role wording, to repeated inference, or to the information exposed between calls. The present development study isolates this question at the protocol level: do role-labelled instructions behave differently from neutral stage instructions when the call topology is varied under the same task population and supplied context?
-
-The estimand is deliberately narrower than a claim about independent agents or latent cognition. The study compares five implemented conditions: a direct one-call solver, a single-call response containing neutral stages, a single-call response containing role-labelled stages, a three-call neutral pipeline, and a three-call role-labelled pipeline. The single-call conditions place the three procedural stages in one model turn. The multi-call conditions expose each preceding response to the next stage. Thus call topology and intermediate information flow are part of the treatment definition. A result can support a statement about these frozen prompts and boundaries; it cannot establish that professional labels create independent internal agents.
-
-\section{Related work}
-\label{sec:dev40-related}
-
-The role-based framing has antecedents in programmatic prompting and internal dialogue. INoT organizes reasoning through explicit stages and instructions~\cite{sun2025inot}. That prior work motivates a controlled comparison, but the existence of role names does not by itself identify a causal role effect. A useful comparison must separate role wording from the number of model calls and must preserve the information made available to each condition.
-
-Budget and interaction structure are also distinct in related research. Work on single- and multi-agent reasoning under matched thinking-token budgets emphasizes that additional calls and additional computation are not interchangeable interventions~\cite{tran2026budget}. The present study therefore records input, cached-input, and output counters and reports API-equivalent list-price valuation as a descriptive resource measure. It does not treat the subscription channel as an API invoice or claim that a token comparison is a complete cost-of-ownership comparison.
-
-For software engineering, Agentless uses a structured localization--repair--validation workflow~\cite{xia2024agentless}, whereas SWE-agent uses a tool-mediated repository interface~\cite{yang2024sweagent}. Those systems address practical repository repair and include retrieval or interaction policies outside the fixed-context function tasks used here. BigCodeBench supplies diverse code-generation tasks with library calls and complex instructions~\cite{zhuo2024bigcodebench}. It is suitable for testing instruction following and executable outputs, but its function-level distribution is not a substitute for repository repair. SWE-bench evaluates changes against repository tests~\cite{jimenez2023swebench,swebenchdocs2026}; it remains a separate external boundary for this study.
-
-\input{sections/related_extended_en}
-
-\section{Executed development methods}
-\label{sec:dev40-methods}
-
-The executed extension uses GPT-5.4 mini with medium reasoning through Codex CLI 0.153.4. The runner uses the subscription channel and the frozen model alias; it does not claim an immutable weight snapshot. Each condition receives the same task text and complete supplied context. In the multi-call conditions, every subsequent stage receives the full preceding exposed response. No input is compressed or selectively shortened for a particular arm. Tools, browsing, delegation, and test execution are disabled inside generation, and a strict JSONL trace is required for each fresh ephemeral thread.
-
-The task population consists of 40 randomly ordered development tasks from BigCodeBench v0.1.4. The seeded development order and exact task assignment are recorded in the immutable manifest. Every task is retained, including a task whose reference control is unusable for correctness measurement. Two labelled repeats, IDs 2 and 3, are paired within task and condition. The labels are repeat identifiers rather than provider sampling seeds: the CLI does not expose a verified sampling seed and temperature is not controlled. Consequently, the repeats provide repeated observations under the same declared protocol without implying deterministic model replication.
-
-The five conditions applied to 40 tasks and two repeat labels produce 400 assigned candidate programs. Single-call and direct conditions use one CLI turn per candidate; each three-stage condition uses three fresh turns. The full matrix therefore contains 720 fresh CLI turns. The ordered tasks are partitioned into four disjoint ten-task shards for each repeat wave. Four shards run in parallel, each with two runner workers, for a maximum of eight simultaneous CLI processes. Repeat wave 3 begins only after wave 2 has finished. Submission order within each shard is randomized by the frozen runner, while task membership and arm labels remain fixed by the manifest.
-
-The runner imposes a 180-second deadline per CLI turn, a 65,536-byte pre-submission input guard, and no matched hard completion allowance across conditions. The absence of a matched allowance is a declared limitation: the design fixes the task information and non-treatment settings, but not actual completion length, reasoning usage, wall time, or total spending. No automatic retry, post-run repair of the archived final candidate, compression of exposed responses before forwarding, or favorable code-block selection is allowed. The implementation and review stages inside the declared treatment may revise code as instructed. If a shard fails, submitted events and observed usage are preserved, the already active wave is allowed to finish, and the next repeat wave is not started. A partial matrix remains partial, with unobserved assigned cells retained as missing.
-
-Before model generation, gold and deliberately incorrect controls were executed for all 40 assigned tasks through the unchanged upstream BigCodeBench CLI, using the final isolated custom environment, original tests, network disabled, and the native ``instruct'' mode. The control gate records 39 tasks with a passing gold control and a failing incorrect control. One task has a gold failure and is therefore retained in the assignment but excluded from correctness measurement across all arms. The gate, image and package hashes, dataset and prepared-split hashes, source tree, commands, and raw control reports are archived. Passing a control establishes executability and negative discrimination; it does not certify that every benchmark assertion is semantically valid.
-
-The independent unit is the task. Repeats are averaged within a task only for paired descriptive contrasts when both repeats and both compared conditions are observable. The analysis reports evaluable-only rates together with assignment-denominator missingness bounds. Resource contrasts use complete paired task means; descriptive per-condition resource means retain their observed-candidate denominators when the matrix is partial. Task-cluster bootstrap intervals use 10,000 resamples and a fixed analysis seed. These are descriptive 95\% bootstrap intervals without a confirmatory hypothesis test or a powered non-inferiority claim, and the 40 tasks do not become 400 independent observations merely because the matrix contains 400 candidates.
-
-\input{sections/dev40_details_en}
-
+\input{sections/heldout_context_en}
+\input{sections/heldout_methods_en}
 \input{sections/inot_method_en}
-The independently audited replication yields 199 complete programs from 200 assignments. One original generation deadline remains missing and seven tasks are unavailable under the common reference-control gate, leaving 192 evaluable outcomes. Exactly 96/192 pass the original tests (50\%); no final-format extraction fails. All-assignment missingness bounds are 48--52\%, not confidence limits. Known usage totals 767,679 tokens and USD 1.05886035 API-equivalent valuation, or USD 1.33326675 without cache discounts; one interrupted call has unknown usage. These results precede the primary matrix analysis and are not yet a paired comparative conclusion.
 
-\section{Limitations and external boundary}
-\label{sec:dev40-limits}
+\section{Primary results}
+\label{sec:primary-results}
+\subsection{Allocation, observed outcomes and missingness}
+All 1,000 assignments and 1,800 planned turns were submitted. The original attempt completed 457 of 460 submitted cells; the separately frozen continuation completed 539 of 540 untouched cells. Four cells remain incomplete: D on /1028 and SN on /388 after transport errors, SN on /249 after a deadline in the original attempt, and SN on /1028 after the continuation deadline. The final interrupted stream includes a completed response and usage, but its terminal status violates the 180-second acceptance criterion. It is therefore not used as an observed program. Event arrival times are not independently timestamped, and no timing sequence beyond the recorded terminal result is inferred.
 
-The development estimates concern one requested model alias, reasoning setting, CLI version and 40-task sample. They do not identify a universal role effect or a causal effect independent of intermediate information flow. Repeat labels do not control provider randomness. Without a matched hard output allowance, quality, completion length and resource usage remain jointly informative but are not budget-equated.
+The native evaluator checked all 996 observed programs. The common reference gate leaves 963 evaluable observations: 453 passes, 507 failures and three native timeouts. The other 33 observed programs belong to reference-ineligible tasks. Two final-format extraction failures, D /494 and MR /100, remain empty observed programs with their original responses retained. Generation failures, native timeouts, format errors and unavailable controls are distinct in the published records and in the complete task appendix.
 
-BigCodeBench test validity remains a separate concern. The independent instruction/test audit records prompt--test alignment issues as annotations, while original prompts, tests, and scores remain unchanged. A passing gold control is necessary for evaluability but cannot prove that every assertion measures the natural-language task. All assigned tasks remain in the denominator. Control or infrastructure failures produce missing outcomes; instruction/test disagreements remain annotations and do not erase their original scores. Task resampling handles repeated observations within a task but does not eliminate dependence between related benchmark problems.
+Table~\ref{tab:heldout-quality} reports observed rates and extreme all-assignment ranges. The main five conditions span 44.56--48.70\% test success, giving substantial room for both improvement and deterioration. The lower SN denominator follows its two missing generations on otherwise eligible tasks; both /1028 missing generations coincide with an unavailable reference control. The INoT* row belongs to a separate exploratory batch, discussed below.
+\input{sections/heldout_quality_en}
 
-The study is also bounded away from native repository-agent claims. The INoT result concerns the disclosed independent prompt adaptation; native author INoT, Agentless and SWE-agent implementations are not executed. Those systems can differ in retrieval, tool use, repository state, patch application and test interaction. A future native comparison must freeze each implementation, model and budget, collect complete trajectories and use the corresponding official evaluator. A function-generation result cannot be relabelled as repository repair evidence, and a published external percentage cannot be inserted as a paired arm in this matrix.
+\subsection{Four predeclared quality contrasts}
+Table~\ref{tab:heldout-tests} and Fig.~\ref{fig:quality-effects} show paired differences. Single-call roles produce six wins and eight losses against neutral stages on 191 eligible pairs. Three-call roles produce ten wins and eight losses on 193 pairs. Neither comparison provides evidence of improved quality after correction. The two topology contrasts also fail to reject: the smallest adjusted $p$ is 0.3134 for MN versus SN. The descriptive four-condition interaction is +2.09 percentage points, with interval [-4.19,+8.38], on the common 191-task subset.
 
-\section{Interpretation and next reserved-task check}
-The study separates questions that were confounded in the earlier Hybrid-INoT package. Additional calls repeatedly transmit the input and exposed intermediate work; their measured resource use is higher here. Named roles show a positive quality contrast within one response but not across three calls. Direct solving has the strongest observed development tradeoff. This supports retaining a simple baseline when evaluating internal-role methods; it does not prove that extra calls cannot help other tasks.
+These findings do not establish equivalent quality. In particular, the interval for SR minus SN still includes a loss of 4.71 points. The primary data do not substantiate a claim of token savings with a guaranteed two-point quality tolerance. Failure to reject the other contrasts similarly leaves improvements and losses compatible with the observed uncertainty.
+\input{sections/heldout_tests_en}
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.94\textwidth]{figures/heldout_quality_effects.pdf}
+\caption{Paired quality differences in percentage points, with descriptive 95\% task-bootstrap intervals. The reference line is zero; Holm-adjusted tests are reported separately in Table~\ref{tab:heldout-tests}.}\label{fig:quality-effects}
+\end{figure}
 
-A separate allocation fixes 200 new tasks from the original seeded random permutation, excluding eight dataset-card examples incidentally exposed during license verification. No development task is reused. Five conditions and a new repeat label assign 1,000 candidates and 1,800 CLI turns. Controls precede generation; four paired quality contrasts have predeclared exact McNemar tests with Holm adjustment. This is not a powered two-point non-inferiority design. At this revision stage reserved model outcomes are unavailable and are not presented as executed results.
+\subsection{Measured resources and price sensitivity}
+Completed candidates use 8,569,456 tokens and have total valuation USD 14.1467676. The submitted-turn ledger additionally retains 15,729 known tokens from the interrupted continuation call. Across all submitted calls, known usage is therefore 8,585,185 tokens: 5,776,714 input, including 4,097,536 cached, and 2,808,471 output, including 2,076,742 reasoning. The 1,797 calls with counters are valued at USD 14.2048182, or USD 16.970655 without cache discounts. Three interrupted calls have unknown usage; the known total is not a complete account of consumption. None of these valuations is a subscription charge.
+
+Table~\ref{tab:heldout-resources} reports per-condition means over completed candidates. The paired comparisons in Table~\ref{tab:heldout-resource-contrasts} use a common subset for each resource contrast. SR versus SN uses 197 pairs: 8.76\% fewer tokens and 18.45\% lower valuation, with a mean USD difference of -0.0019761 [-0.0027617,-0.0012296]. The no-cache valuation remains 16.21\% lower. Thus the observed label-associated resource difference does not disappear when the cache discount is removed, although its magnitude changes. These resource intervals are descriptive and outside the four quality tests.
+
+Within three calls, the MR/MN valuation ratio is 0.985 and its mean-difference interval crosses zero. The single-call resource finding therefore does not generalize clearly across topologies. Conversely, MN/SN and MR/SR use 2.84 and 3.06 times as many tokens and cost 2.09 and 2.50 times as much; no-cache valuation ratios are 2.19 and 2.56. Full repeated inputs and intermediate responses form part of this measured expense. Figure~\ref{fig:token-components} separates cached input, uncached input and output without double-counting reasoning.
+\input{sections/heldout_resources_en}
+\input{sections/heldout_resource_contrasts_en}
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.94\textwidth]{figures/heldout_token_components.pdf}
+\caption{Mean token components per completed candidate. Cached tokens are separated from the remaining input; output includes reasoning. Denominators include reference-ineligible tasks. INoT* is a separately dispatched adaptation.}\label{fig:token-components}
+\end{figure}
+
+\section{Exploratory comparators and development replication}
+Direct solving has the lowest observed token and valuation means among the five main conditions. SN minus D has a paired quality difference of zero [-4.19,+4.19] on 191 tasks, but a valuation ratio of 1.632 on 197 resource pairs. MR minus D has a quality difference of -3.11 [-7.77,+1.04] and costs 3.359 times as much on 199 resource pairs. These descriptive comparisons support keeping a direct baseline; they do not establish statistical dominance.
+
+The independent INoT* adaptation completes 199 of 200 assigned programs, with one original deadline and no final-format extraction error. On 192 eligible outcomes, 96 pass (50\%); all-assignment bounds are 48--52\%. Known usage is 767,679 tokens and USD 1.05886035 valuation (USD 1.33326675 without cache discounts), with one call lacking usage. Relative to D, its paired quality difference is +1.04 [-3.65,+5.73] and its valuation ratio is 0.805; relative to SR the corresponding values are +2.08 [-2.08,+6.25] and 0.600. Table~\ref{tab:heldout-exploratory} retains different quality/resource pair counts. Because this algorithm adaptation ran in a separate batch, timing, cache and provider changes remain potential confounders. It is not an author-code replication or part of the four-test family. Figure~\ref{fig:cost-quality} places the observed means on a common scale without declaring a statistically established frontier.
+\input{sections/heldout_exploratory_en}
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.94\textwidth]{figures/heldout_cost_quality.pdf}
+\caption{Observed test-success rates and mean API-equivalent valuation. The full 0--100\% quality axis avoids exaggerating small rate differences. These points have different eligible denominators; paired uncertainty is provided in Tables~\ref{tab:heldout-tests} and \ref{tab:heldout-exploratory}.}\label{fig:cost-quality}
+\end{figure}
+
+\input{sections/development_calibration_en}
+\input{sections/heldout_cases_en}
+\input{sections/swe_demonstration_en}
+
+\section{Discussion}
+The controlled label contrast yields a narrower finding than the original package-level efficiency claim. Within one response, role names accompany lower measured resource use while the quality interval remains compatible with a meaningful loss. Within three calls, neither a clear resource reduction nor improved quality is established. The result is consistent with prompt wording changing generated length; the archive does not identify a latent cognitive mechanism or establish why that change occurs.
+
+The primary quality pattern also differs from development: the development single-call role difference was positive and its three-call counterpart negative, whereas the main point estimates reverse those directions. The main interaction interval includes zero. Retaining the separate reserved analysis prevents a favorable development pattern from becoming the final evidence by selection. Meanwhile, the increased resource requirement of three calls appears in both stages, strengthening the descriptive observation for this implementation without proving that multi-call systems cannot help other tasks.
+
+An algorithmic instruction such as INoT* and a minimal role-label substitution are different interventions. The exploratory adaptation has a favorable observed resource mean, but its quality interval and separate execution batch prevent a superiority claim. The four deterministic cases further show that small implementation conventions can determine benchmark success when natural-language prose is underspecified. Their original outcomes remain in the analysis. Accordingly, the endpoint is success against the retained executable contract, not unrestricted correctness or evidence of independent internal agents.
+
+\input{sections/heldout_limitations_en}
 
 \section{Conclusion}
-Complete responses and official tests replace a confounded efficiency claim with an executed comparison of role labels and call boundaries. On the development sample, direct solving combines the highest observed test success with the lowest token use and list-price valuation. Role effects differ across protocols, motivating reserved-task measurement. These auditable observations retain sampling, evaluator and provider-version limitations.
+An uncompressed factorial experiment on 200 reserved tasks replaces the earlier confounded comparison with 996 native-checked programs. Single-call role labels reduce measured resources on complete pairs; quality non-inferiority remains unproven. Three calls require substantially more resources without a detected quality benefit in the four planned tests. A separate 400-program development stage, 199-program INoT adaptation, full task outcomes and exact exposed traces make both the findings and their boundaries auditable. The supported contribution is a controlled, reproducible measurement of these implemented protocols, not a general claim that internal roles improve reasoning.
 
 \section*{Data and code availability}
-The article repository~\cite{article2026} contains full generation and native evaluator archives, task/control/source hashes, original responses, extracted programs and per-task outcomes. The development manifest and control gate were fixed before dispatch. SHA-256 inventories link public artifacts. The earlier pilot, rejected attempt and historical records remain separate. No hidden provider reasoning or immutable weight snapshot is claimed; original source licenses accompany redistributed evidence.
+The repository~\cite{article2026} retains all prompts, exposed answers, programs, native reports, assignments, source/environment identities and per-call counters. The primary evidence snapshot is commit \texttt{96be37745b7f}, directory \texttt{20260908\_codex\_mini\_heldout200}. A SHA-256 inventory covers 12,082 files; Git blob checks preserve exact original bytes. Public-archive replay reconstructs all 996 primary records and their summary byte for byte in an isolated analysis environment; automated Linux checks also cover the separate development and INoT archives. Replay validates retained observations and computations without new model calls; it does not claim deterministic provider re-execution. The exact prompt appendix and decision timeline expose the treatment and administrative amendment. Third-party materials retain their source licenses.
 
 \section*{Declarations}
 \textbf{Funding and competing interests:} no external funding or competing interest was reported in the preceding manuscript. \textbf{Research scope:} public software benchmarks; no human-participant study. \textbf{Responsibility:} AI assisted software, audits and revision; the author remains responsible for scientific claims. Software tests are not experimental model observations.
 
-\clearpage
-\appendix
-\section{Complete development outcomes}
+\clearpage\appendix
+\section{Exact executed prompts}
+\input{sections/exact_prompts_en}
+\clearpage\section{Complete primary task outcomes}
+\input{sections/heldout_tasks_en}
+\clearpage\section{Complete development task outcomes}
 \input{sections/dev40_tasks_en}
-\clearpage
-\section{Historical evidence and calibration}
-The earlier 240 Flash-Lite records cover 20 tasks, four target lengths, three architectures and one seed, not 240 independent tasks. Saved quality labels are all one and full solutions are missing: arithmetic is checkable, correctness cannot be replayed. B3 has an extra rerun in 48/80 records; its final labels are not single-attempt pass@1. Its comparison with B2 mixes roles, calls, reruns and context selection. Relative to the simple B0 solver it costs 10.3--85.0\% more at the three shorter contexts; the longest-context saving coincides with input selection. These records motivate the replacement but do not enter its estimates.
-
-The preceding eight-task pilot generated 40 candidates in 72 turns at USD 0.7417401 API-equivalent valuation. On seven evaluable tasks, direct solving passed 4/7, single-call roles 3/7 and three-call roles 2/7. The extension uses fresh responses. An earlier CLI 0.144.1 attempt was rejected after an unexpected planning tool appeared; all 21 submitted turns and known USD 0.2493285 valuation remain archived. Rejected responses are never spliced into the valid matrix.
-
+\clearpage\section{Historical evidence and calibration}
+\input{sections/historical_evidence_en}
 \input{sections/revision_references}
