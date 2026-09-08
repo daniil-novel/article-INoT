@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-08",
+  "scope": "Completed development400 and exploratory INoT199; primary continuation active and excluded",
+  "inot_assigned": 200,
+  "inot_generated": 199,
+  "inot_evaluable": 192,
+  "inot_passes": 96,
+  "inot_native_exact_code_joins": 199,
+  "inot_public_copy_summary_and_candidate_rows_replayed_exactly": true,
+  "inot_exact_git_blob_matches": 1493,
+  "software_validation": {
+    "full_suite_passed": 94,
+    "subtests_passed": 6,
+    "additional_manifest_test_passed": 1
+  },
+  "pdfs": {
+    "en_pages": 12,
+    "ru_pages": 13,
+    "all_pages_visually_inspected": true,
+    "new_result_pages_inspected_at_full_size": true,
+    "out_of_page_word_boxes": 0,
+    "replacement_characters": 0,
+    "overfull_or_undefined_errors": 0
+  },
+  "sha256": {
+    "converted_article_springer.pdf": "106a0909e992ddf9715281c9116c342b39a0e5acf813c1817e177ad4dd67b723",
+    "converted_article_springer_ru.pdf": "f0e830fd462ec4af5ce21257f924b96d35cf7785008b7c0d59d2aec31fe47fc2",
+    "reproducibility/results/20260908_codex_mini_inot200/EVIDENCE_MANIFEST.json": "3d682df6190b54f93b58c6da6547399d985dc71b8648ffec0b32bf5efb6ad565"
+  }
+}

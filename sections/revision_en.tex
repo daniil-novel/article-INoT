@@ -42,16 +42,17 @@ The independent unit is the task. Repeats are averaged within a task only for pa
 
 \input{sections/dev40_details_en}
 
+\input{sections/inot_method_en}
+The independently audited replication yields 199 complete programs from 200 assignments. One original generation deadline remains missing and seven tasks are unavailable under the common reference-control gate, leaving 192 evaluable outcomes. Exactly 96/192 pass the original tests (50\%); no final-format extraction fails. All-assignment missingness bounds are 48--52\%, not confidence limits. Known usage totals 767,679 tokens and USD 1.05886035 API-equivalent valuation, or USD 1.33326675 without cache discounts; one interrupted call has unknown usage. These results precede the primary matrix analysis and are not yet a paired comparative conclusion.
+
 \section{Limitations and external boundary}
 \label{sec:dev40-limits}
 
-The executed design identifies the behavior of one requested model alias, one reasoning setting, one CLI version, five prompt conditions, and the selected 40-task development population. It does not identify a provider-stable model property, a universal role effect, or a causal effect independent of information flow. Because no provider sampling seed or temperature control is available, repeat labels should be interpreted as protocol-level repeated observations rather than exact stochastic replications. The absence of a matched hard output allowance leaves quality, completion length, and resource usage jointly informative but not budget-equated.
+The development estimates concern one requested model alias, reasoning setting, CLI version and 40-task sample. They do not identify a universal role effect or a causal effect independent of intermediate information flow. Repeat labels do not control provider randomness. Without a matched hard output allowance, quality, completion length and resource usage remain jointly informative but are not budget-equated.
 
 BigCodeBench test validity remains a separate concern. The independent instruction/test audit records prompt--test alignment issues as annotations, while original prompts, tests, and scores remain unchanged. A passing gold control is necessary for evaluability but cannot prove that every assertion measures the natural-language task. All assigned tasks remain in the denominator. Control or infrastructure failures produce missing outcomes; instruction/test disagreements remain annotations and do not erase their original scores. Task resampling handles repeated observations within a task but does not eliminate dependence between related benchmark problems.
 
-The study is also bounded away from external repository-agent claims. It does not execute native INoT, Agentless, or SWE-agent systems, and it does not report an external INoT, Agentless, or SWE-agent benchmark result. Those systems differ in retrieval, tool use, repository state, patch application, and test interaction. A future comparison must freeze each native implementation, model and budget, collect complete trajectories, and use the corresponding official evaluator. In particular, a function-generation result cannot be relabelled as repository repair evidence, and a published external percentage cannot be inserted as a paired arm in this matrix.
-
-The present study is consequently a bounded executed development experiment. It supplies an auditable comparison of role labels and call boundaries under full provided context, repeated exposed history, native BigCodeBench tests, and explicit resource accounting. It does not by itself justify a claim of latent multi-agent behavior, benchmark-wide superiority, non-inferiority, or external validity on contemporary repository engineering.
+The study is also bounded away from native repository-agent claims. The INoT result concerns the disclosed independent prompt adaptation; native author INoT, Agentless and SWE-agent implementations are not executed. Those systems can differ in retrieval, tool use, repository state, patch application and test interaction. A future native comparison must freeze each implementation, model and budget, collect complete trajectories and use the corresponding official evaluator. A function-generation result cannot be relabelled as repository repair evidence, and a published external percentage cannot be inserted as a paired arm in this matrix.
 
 \section{Interpretation and next reserved-task check}
 The study separates questions that were confounded in the earlier Hybrid-INoT package. Additional calls repeatedly transmit the input and exposed intermediate work; their measured resource use is higher here. Named roles show a positive quality contrast within one response but not across three calls. Direct solving has the strongest observed development tradeoff. This supports retaining a simple baseline when evaluating internal-role methods; it does not prove that extra calls cannot help other tasks.
@@ -67,6 +68,7 @@ The article repository~\cite{article2026} contains full generation and native ev
 \section*{Declarations}
 \textbf{Funding and competing interests:} no external funding or competing interest was reported in the preceding manuscript. \textbf{Research scope:} public software benchmarks; no human-participant study. \textbf{Responsibility:} AI assisted software, audits and revision; the author remains responsible for scientific claims. Software tests are not experimental model observations.
 
+\clearpage
 \appendix
 \section{Complete development outcomes}
 \input{sections/dev40_tasks_en}

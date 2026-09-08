@@ -35,7 +35,7 @@ def main():
 
         caption = ('Every development task and both repeats. Each pair of letters gives repeats 2 and 3 in order: P = pass, F = fail, U = unavailable. These are original test statuses after the reference eligibility gate; disputed tests have not been deleted.'
                    if lang == 'en' else 'Все задачи разработки и оба повтора. В каждой паре буквы обозначают повторы 2 и 3: P --- тесты пройдены, F --- не пройдены, U --- качество недоступно. Приведены исходные оценки с учётом эталонного контроля; спорные тесты не удалены.')
-        text = ['\\begin{table}[p]\\centering\\small', '\\caption{'+caption+'}\\label{tab:dev40-all}',
+        text = ['\\begin{table}[!htbp]\\centering\\footnotesize', '\\caption{'+caption+'}\\label{tab:dev40-all}',
                 '\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}rrrrrr}\\toprule', 'ID & D & SN & SR & MN & MR\\\\\\midrule']
         for task in ids:
             values = []
