@@ -47,16 +47,19 @@ def render(summary, records, selection, out):
             table.append(f"{label} & {r['quality_pairs']} & ${100*r['quality_difference']:+.2f}\\;[{100*lo:+.2f},{100*hi:+.2f}]$ & {r['wins']}/{r['losses']} & {r['exact_two_sided_mcnemar_p']:.4f} & {r['holm_p']:.4f}\\\\")
         table += [r'\bottomrule\end{tabular*}\end{table}'];write(f'tests_{lang}.tex',table)
         # All 80 tasks are listed, using two 40-row panels; no candidate is suppressed.
-        cap=('All 80 assigned tasks in the original random allocation order. P/F: eligible pass/fail; C: evaluated but control-unavailable; M: missing generation/evaluation. IDs abbreviate BigCodeBench/n. Each half has columns RB, NB, RP, NP.' if en else
-             'Все 80 назначенных задач в исходном случайном порядке. P/F: оцениваемый успех/неуспех; C: проверено, но контроль не допускает оценку; M: нет генерации/оценки. Идентификаторы сокращают BigCodeBench/n. В каждой половине столбцы RB, NB, RP, NP.')
-        table=['\\begin{table}[p]\\centering\\scriptsize','\\caption{'+cap+'}\\label{tab:seg80-all}',
+        cap=('All 80 assigned tasks in the original random allocation order. P/F: eligible pass/fail; CP/CF: native pass/fail with unavailable control, excluded from quality inference; M: missing generation/evaluation. IDs abbreviate BigCodeBench/n. Each half has columns RB, NB, RP, NP.' if en else
+             'Все 80 назначенных задач в исходном случайном порядке. P/F: оцениваемый успех/неуспех; CP/CF: нативный успех/неуспех при непригодном контроле, вне статистики качества; M: нет генерации/оценки. Идентификаторы сокращают BigCodeBench/n. В каждой половине столбцы RB, NB, RP, NP.')
+        table=['\\begin{table}[htbp]\\centering\\scriptsize','\\caption{'+cap+'}\\label{tab:seg80-all}',
                r'\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}rccccrcccc}\toprule',
                r'ID & RB & NB & RP & NP & ID & RB & NB & RP & NP\\\midrule']
         def taskrow(t):
             cells=[]
             for a in ARMS:
                 r=index[t,a]
-                cells.append('P' if r['quality'] is True else 'F' if r['quality'] is False else 'C' if r['outcome_type']=='control_unavailable' else 'M')
+                if r['outcome_type']=='control_unavailable':
+                    cells.append('CP' if r['native_status']=='pass' else 'CF' if r['native_status'] in ('fail','timeout') else 'M')
+                else:
+                    cells.append('P' if r['quality'] is True else 'F' if r['quality'] is False else 'M')
             return ' & '.join([t.split('/')[-1],*cells])
         for i in range(40):table.append(taskrow(ids[i])+' & '+taskrow(ids[i+40])+r'\\')
         table += [r'\bottomrule\end{tabular*}\end{table}'];write(f'tasks_{lang}.tex',table)
