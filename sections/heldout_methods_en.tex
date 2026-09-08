@@ -1,0 +1,58 @@
+\section{Study design and estimands}
+\label{sec:heldout-methods}
+
+\subsection{A factorial intervention without compression}
+The main experiment crosses call topology (one or three fresh model turns) with stage labels (neutral or role-labelled). Table~\ref{tab:design} defines the four factorial cells and the direct comparator. All structured conditions prescribe the same operations: analyze requirements and edge cases, implement a solution using the plan, then review and revise against the requirements. The label intervention replaces ``stage 1'', ``stage 2'', ``stage 3'' with ``planner'', ``implementer'', ``reviewer''; the operation sentences remain unchanged. In a single turn, all three instructions precede the task. In three turns, each turn receives its stage instruction, the full task, the full supplied context, and every complete earlier exposed response. The final-output contract is identical: exactly one fenced Python program. The direct comparator receives only the implementation instruction and that contract.
+
+\begin{table}[htbp]\centering
+\caption{Implemented treatment matrix. The topology factor includes the exposure of intermediate responses across fresh calls.}\label{tab:design}
+\begin{tabular}{llll}\toprule
+Code & Calls & Stage labels & Operations\\\midrule
+D & 1 & None & Direct implementation\\
+SN & 1 & Neutral & Plan, implement, review\\
+SR & 1 & Roles & Plan, implement, review\\
+MN & 3 & Neutral & Plan, implement, review\\
+MR & 3 & Roles & Plan, implement, review\\\bottomrule
+\end{tabular}\end{table}
+
+Compression is absent in every cell. This replaces the earlier comparison of three uncompressed calls with one compressed call; it does not estimate the effect of the historical compressor. The isolated label contrast is a prompt intervention, not evidence of independent internal agents. The topology contrast includes intermediate information flow and repeated inference, rather than a purely mechanical call-count effect. The untested router and auxiliary checker are removed from the claimed method.
+
+Let $Y_t(a)$ indicate that the single final program for task $t$ in condition $a$ passes the original benchmark tests in the validated environment. The four predeclared paired quality effects are
+\begin{align}
+\Delta_{R,1}&=\E_t[Y_t(\mathrm{SR})-Y_t(\mathrm{SN})], &
+\Delta_{R,3}&=\E_t[Y_t(\mathrm{MR})-Y_t(\mathrm{MN})],\\
+\Delta_{C,N}&=\E_t[Y_t(\mathrm{MN})-Y_t(\mathrm{SN})], &
+\Delta_{C,R}&=\E_t[Y_t(\mathrm{MR})-Y_t(\mathrm{SR})].
+\end{align}
+Each null is a zero quality difference. The descriptive interaction is $\Delta_{R,3}-\Delta_{R,1}$. Expectations describe the sampled task population under the implemented protocol and its model sampling, not a provider-independent property. Available-case estimates require complete paired outcomes; with missingness they describe that observed subset unless stronger assumptions are made.
+
+\subsection{Task allocation and a separate development stage}
+The source is BigCodeBench v0.1.4~\cite{zhuo2024bigcodebench}. The main allocation contains 200 new task IDs from a previously frozen seeded random permutation of the reserved pool. The first 200 eligible IDs in that random order are taken after excluding eight dataset-card examples (/0--/7) incidentally exposed during license verification. This is neither a first-row convenience sample nor a difficulty-selected subset. Task IDs, exact model inputs and evaluator data are hashed before controls; no failed control causes replacement. The 40 development tasks are disjoint from these 200. Development uses two labelled repeats and 400 candidates; the main allocation uses one new repeat label and 1,000 candidates. The latter are 200 independent sampling units at most, not 1,000 independent tasks. Related benchmark tasks may further reduce effective independence. Public availability leaves training contamination unresolved.
+
+All five conditions are assigned to every main task. Four disjoint index-modulo-four shards each contain 50 tasks. Within each shard, a frozen pseudorandom order determines task blocks and condition order; two workers process each shard, with at most eight simultaneous experimental CLI processes. The complete allocation and source hashes are committed before dispatch. The model does not receive benchmark tests, reference solutions or test feedback during generation. Repeated labels identify fresh protocol observations; they are not provider sampling seeds.
+
+\subsection{Model execution and complete exposed traces}
+Generation uses the requested \texttt{gpt-5.4-mini} alias, medium reasoning, and official Codex CLI 0.153.4 through ChatGPT subscription authentication~\cite{openai54mini2026,codexexec2026}. The published model tariff makes resource valuation auditable; model choice is an economical available coding configuration, not a demonstrated global price minimum. The CLI is isolated from user configuration and repository instructions. Tools, browsing, delegation and test execution are disabled. Every call creates a fresh ephemeral thread in an empty working directory. The accepted event schema requires exactly one completed response and a valid usage record; unexpected tool, retry or compaction events invalidate the fixed text-only treatment.
+
+Every submitted call retains its exact prompt, arguments, event stream, standard error and terminal status. Completed records also retain final text, token components and hashes of those original files. Multi-call prompts are reconstructed and byte-checked against the complete preceding exposed responses. No hidden provider reasoning is claimed to be available. The model alias does not fix immutable weights, and no verified temperature or model seed is exposed. A 180-second deadline applies to each turn. An input above 65,536 UTF-8 bytes is rejected rather than shortened. There is no matched hard output-token allowance; actual output length and resource consumption are outcomes of the treatment.
+
+The original execution rule stops a shard after its first failed cell. Transport/deadline failures therefore leave unrelated assignments unsubmitted. A separately committed administrative amendment, recorded before held-out quality evaluation or inspection, permits only those never-submitted cells to continue. Any cell with even one started stage is permanently excluded from continuation. The exact pending list and terminal first-attempt archive are frozen before dispatch; prompts, settings, deadlines and original within-shard order are preserved. An explicit transport error or deadline ends a continuation cell without retry; quota, authentication or unclassified errors stop further dispatch. First attempts, continuations and missing outcomes remain distinguishable. Thus analysis follows predeclared contrasts under an amended execution protocol, not an unchanged preregistered run.
+
+\subsection{Native evaluation and eligibility controls}
+The unchanged BigCodeBench CLI at commit \texttt{09dd993f46c3} evaluates the original \texttt{instruct full} task tests. Each native run uses an offline, non-root, read-only container with a 3-GB memory cap, two CPUs and two evaluator workers. Prepared data, exact source tree, image identity, package versions, offline resources, commands and native reports are archived. Strict extraction selects the sole final Python block; an invalid final format yields an empty observed program and a format-failure flag, without alternative-answer selection or repair.
+
+Before model generation, original gold programs and deliberately incorrect programs are tested for all 200 tasks. Dependency amendments are confined to this control phase, retain earlier failed attempts, and trigger fresh full-allocation controls. The final environment passes 193 gold controls and rejects all 200 incorrect controls. Seven tasks are consequently unavailable for quality measurement in every condition; their assignments and generation resources remain counted. The final image supplements the development environment with pinned dependencies and offline NLTK resources. TensorFlow remains unavailable because its assessed dependency requirements conflict with the environment; six other final gold failures lack a specific native diagnostic. No cause is inferred from the absence of a diagnostic. These checks establish evaluability and negative discrimination, not complete prompt--test semantic validity.
+
+Only actual observed candidate programs are submitted for evaluation. Each native result is joined to the exact archived program, original task ID and verified environment; incomplete evaluator runs or inconsistent reports cannot supply quality observations. The raw native status is retained alongside a separate eligibility-gated analysis status. Missing generations are not fabricated native failures. The same eligibility gate applies to all conditions and the exploratory INoT replication.
+
+\subsection{Inference, missingness and resource valuation}
+For each of the four planned quality contrasts, the analysis reports complete-pair counts, both discordant counts, paired mean difference, exact two-sided McNemar binomial test and Holm-adjusted $p$ across the four tests at familywise $\alpha=0.05$. Percentile intervals use 10,000 task bootstrap resamples with analysis seed 20260908; these descriptive intervals are not simultaneous intervals. The interaction, resource contrasts and direct-solver comparisons remain descriptive. Development repeats are averaged within task for its separate descriptive analysis and never pooled into the main tests.
+
+Two hundred independent evaluable tasks would yield a worst-case single-proportion normal 95\% half-width of approximately 6.9 percentage points. This is a precision rationale, not an 80\%-power calculation for a paired effect; paired uncertainty depends on discordance. The study does not establish a two-point non-inferiority margin. Per-condition quality uses evaluable observations and reports all-assignment missingness ranges: unavailable outcomes are first all failures, then all successes. Those ranges are neither confidence intervals nor missing-at-random corrections.
+
+Completed CLI turns expose input $I$, cached-input $C$ and output $O$ counters. Cached input is a subset of input; any separately exposed reasoning count is a subset of output. Neither is counted twice. Published standard API rates are USD 0.75, 0.075 and 4.50 per million tokens, respectively~\cite{openaipricing2026}. We report
+\begin{equation}
+V=\frac{0.75(I-C)+0.075C+4.50O}{10^6},\qquad
+V_0=\frac{0.75I+4.50O}{10^6}\quad\mathrm{USD}.
+\end{equation}
+$V$ is a counterfactual API list-price valuation of measured subscription-channel usage, not a payment or invoice; $V_0$ is a no-cache sensitivity. Both exclude research-assistant work, software development, environment construction and evaluator compute. Candidate resource means sum their completed constituent turns. A separate inventory includes observed usage from interrupted candidates and explicitly counts turns without final usage; unknown usage is never zero-imputed. Resource ratios use the same complete paired task subset in numerator and denominator. Timing and cache state can influence valuation, especially across separately dispatched batches.

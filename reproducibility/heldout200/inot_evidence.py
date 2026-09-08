@@ -78,10 +78,14 @@ def collect(joined,predictions,native,controls,out):
                         'format_extracted':sample['format_extracted'],'native_report_sha256':checked['report_sha256']})
     observed=[r for r in records if r['analysis_status'] is not None];passes=sum(r['analysis_status']=='pass' for r in observed)
     summary={'treatment':'inot_algorithm_replication','assigned':len(joined['assigned_task_ids']),'generated':len(records),'evaluable':len(observed),'passes':passes,
-             'evaluable_only_rate':passes/len(observed) if observed else None,'missingness_bounds':[passes/200,(passes+200-len(observed))/200],
+             'evaluable_only_rate':passes/len(observed) if observed else None,
+             'missingness_bounds':[passes/len(joined['assigned_task_ids']),(passes+len(joined['assigned_task_ids'])-len(observed))/len(joined['assigned_task_ids'])],
              'missing_generation_task_ids':joined['missing_generation_task_ids'],'format_failures':sum(not r['format_extracted'] for r in records),
              'completed_candidate_totals':{k:sum(r[k] for r in records) for k in ('total_tokens','api_equivalent_usd','uncached_sensitivity_usd')},
+             'submitted_turn_usage':{name:{k:report['inventory'][k] for k in ('known_total_tokens','known_api_equivalent_usd','submitted_turns','turns_with_unavailable_usage','turns_without_supported_valuation')} for name,report in joined['audits'].items()},
              'scope':'exploratory independently worded algorithm replication; amended execution; not native author code'}
+    from .resource_ledger import summarize_turns
+    summary['submitted_token_components']={name:summarize_turns(report['inventory']['turns']) for name,report in joined['audits'].items()}
     out.mkdir(parents=True,exist_ok=False)
     (out/'candidate_records.jsonl').write_bytes(b''.join(c.canonical(r)+b'\n' for r in records))
     c.save(out/'summary.json',summary);c.save(out/'native_audit.json',checked);c.save(out/'generation_audit.json',joined['audits'])
