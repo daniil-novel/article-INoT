@@ -102,7 +102,7 @@ def render(primary,inot,paired,selection):
         for offset in range(0,200,40):
             cap=(f'All main task outcomes, part {offset//40+1}/5. P = pass, F = fail, T = native timeout, U = unavailable by control, M = no complete generation. INoT* is the separate replication. Original scores are retained; no task is removed.' if en else
                  f'Все исходы основных задач, часть {offset//40+1}/5. P --- успех, F --- отказ, T --- превышение времени теста, U --- недоступно по контролю, M --- нет полной генерации. INoT* --- отдельная репликация. Исходные оценки сохранены; задачи не удалены.')
-            out+=['\\begin{table}[p]\\centering\\small','\\caption{'+cap+'}',
+            out+=['\\begin{table}[!htbp]\\centering\\footnotesize','\\caption{'+cap+'}',
                   '\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}rrrrrrr}\\toprule','ID & D & SN & SR & MN & MR & INoT*\\\\\\midrule']
             for task in ids_sorted[offset:offset+40]:
                 values=[status(indexed.get((task,arm))) for arm in ARMS]+[status(ib.get(task))]
@@ -121,6 +121,15 @@ def render(primary,inot,paired,selection):
     ax.set(xlabel='Mean API-equivalent valuation (US cents / candidate)',ylabel='Original-test success (%)',ylim=(0,100),xlim=(0,max(r['api_equivalent_usd'] for r in all_groups)*120))
     ax.spines[['top','right']].set_visible(False);ax.grid(alpha=.18)
     fig.savefig(ROOT/'figures/heldout_cost_quality.pdf');fig.savefig(ROOT/'figures/heldout_cost_quality.png',dpi=180);plt.close(fig)
+    fig,ax=plt.subplots(figsize=(6.7,3.1),layout='constrained')
+    for y,(key,label) in enumerate(zip(KEYS,LABELS)):
+        q=s['paired_contrasts'][key]['quality'];lo,hi=q['descriptive_task_bootstrap_95_interval'];mean=q['mean_paired_difference']
+        ax.plot([100*lo,100*hi],[y,y],color='#0c6470',lw=2)
+        ax.scatter(100*mean,y,color='#0c6470',s=40,zorder=3)
+    ax.axvline(0,color='#777777',ls='--',lw=1)
+    ax.set(yticks=range(4),yticklabels=LABELS,xlabel='Paired test-success difference (percentage points)',ylim=(3.5,-.5))
+    ax.spines[['top','right','left']].set_visible(False);ax.grid(axis='x',alpha=.18)
+    fig.savefig(ROOT/'figures/heldout_quality_effects.pdf');fig.savefig(ROOT/'figures/heldout_quality_effects.png',dpi=180);plt.close(fig)
     (ROOT/'reproducibility/revision/heldout_rendered_values.json').write_text(json.dumps({'groups':all_groups,'source_summary':str(primary/'summary.json'),'source_inot':str(inot/'summary.json')},indent=2)+'\n',encoding='utf-8')
 
 
