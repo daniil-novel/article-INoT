@@ -108,9 +108,11 @@ jobs:
           from pathlib import Path
           actual = Path('tmp/ci-segregation80-replay')
           expected = Path('reproducibility/results/20260908_codex_mini_segregation80/analysis')
-          for name in ('summary.json', 'candidate_records.jsonl'):
-              assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
-          print('All 320 independent candidates and their summary replay exactly')
+          assert (actual/'candidate_records.jsonl').read_bytes() == (expected/'candidate_records.jsonl').read_bytes()
+          # The frozen analyzer uses platform-native newlines for pretty JSON.
+          # Normalize CRLF only; every other byte, including every number, must match.
+          assert (actual/'summary.json').read_bytes().replace(b'\r\n', b'\n') == (expected/'summary.json').read_bytes().replace(b'\r\n', b'\n')
+          print('All 320 records replay byte-exact; summary differs only by platform newlines')
           PY
       - name: Recheck the two real SWE patch outcomes
         run: |

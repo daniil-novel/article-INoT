@@ -51,7 +51,10 @@ python -m reproducibility.segregation80.collect collect --archive reproducibilit
 python -m reproducibility.segregation80.analyze --records tmp/segregation80-replay/candidate_records.jsonl --selection reproducibility/segregation80/inputs-v2/selection.json --out tmp/segregation80-replay/summary.json
 ```
 
-The summary and all 320 candidate records replay byte for byte. Native evaluation
+All 320 candidate records replay byte for byte. The summary also matches every
+byte after CRLF-to-LF normalization: the frozen analyzer emits platform-native
+newlines. This presentation-only normalization does not change any value or
+modify the retained original summary. Native evaluation
 requires rebuilding the recorded environment; retained-report replay checks
 provenance, program identity and computations, without claiming deterministic
 provider regeneration or a bitwise-reproducible container build.
