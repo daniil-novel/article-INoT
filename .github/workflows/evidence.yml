@@ -73,3 +73,36 @@ jobs:
               assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
           print('Published INoT summary and all 199 candidate records replay exactly')
           PY
+      - name: Recheck the two real SWE patch outcomes
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from reproducibility.benchmark_bridge import _extract_fenced_block
+          from reproducibility.codex_subscription import parse_events
+          from reproducibility.swe_smoke.evaluate_predictions import load_prediction, sha256, validate_join
+          root = Path('reproducibility/results/20260908_codex_mini_swe_dev1')
+          rows = [json.loads(line) for line in (root/'generation/results.jsonl').read_text(encoding='utf-8').splitlines()]
+          expected = json.loads((root/'evaluations/analysis.json').read_text(encoding='utf-8'))
+          assert len(rows) == expected['observed_candidate_files'] == 2
+          for row in rows:
+              name = f"{row['arm']}--r{row['replicate_id']}"
+              folder = root/'evaluations'/name
+              native = json.loads((folder/'provenance.json').read_text(encoding='utf-8'))
+              parsed = parse_events((root/'generation/turns'/f"{row['id']}-0"/'events.jsonl').read_bytes())
+              assert parsed['final_text'] == row['final_text']
+              program, extracted = _extract_fenced_block(row['final_text'], 'swebench')
+              prediction = load_prediction(folder/'input/predictions.jsonl')
+              assert extracted and program == prediction['model_patch']
+              assert native['launcher_exit_code'] == 0 and native['prediction_bytes_unchanged']
+              assert sha256(folder/'input/predictions.jsonl') == native['prediction_snapshot_sha256']
+              assert sha256(root/'input/dev_custom_image.json') == native['dataset_sha256']
+              report_dir = folder/'logs/evaluation'/native['run_id']
+              actual = validate_join(report_dir, prediction['instance_id'], prediction['model_name_or_path'], program, False)
+              saved = json.loads((folder/'join_validation.json').read_text(encoding='utf-8'))
+              for key in saved:
+                  if key != 'prediction_to_report_join':
+                      assert actual[key] == saved[key], (name, key)
+              assert actual['status'] == 'complete'
+              print(name, actual['classification'])
+          PY
