@@ -48,7 +48,11 @@ def plan(inputs, gate):
             cell = {'task_id': tid, 'arm': arm, 'replicate_id': 1, 'cli_turns': 1}
             cells.append({**cell, 'id': c.digest(cell)[:24], 'prompt_sha256': hashlib.sha256(full_prompt(by_arm[arm][tid]).encode()).hexdigest()})
     sources = [Path(__file__), Path(c.__file__), ROOT/'reproducibility/segregation80/prepare.py',
-               ROOT/'reproducibility/segregation80/analyze.py', ROOT/'reproducibility/benchmark_bridge.py']
+               ROOT/'reproducibility/segregation80/analyze.py', ROOT/'reproducibility/benchmark_bridge.py',
+               ROOT/'reproducibility/segregation80/collect.py', ROOT/'reproducibility/segregation80/controls.py',
+               ROOT/'reproducibility/heldout200/run_observed_native.py',ROOT/'reproducibility/heldout200/evidence.py',
+               ROOT/'reproducibility/scale_env/validate_native.py',ROOT/'reproducibility/segregation80/environment/requirements.txt',
+               ROOT/'reproducibility/segregation80/environment/Dockerfile']
     p = {'schema': 'segregation80-generation-v1', 'cells': cells, 'assigned_task_ids': ids,
          'planned_candidates': 320, 'model_requested': c.MODEL, 'reasoning_effort': 'medium', 'cli_version': c.CLI_VERSION,
          'inputs_sha256': {str(f.relative_to(inputs).as_posix()): sha(f) for f in sorted(inputs.rglob('*')) if f.is_file()},

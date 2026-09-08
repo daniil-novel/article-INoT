@@ -103,6 +103,6 @@ if __name__=='__main__':
     p.add_argument('--out',type=Path,required=True)
     a=p.parse_args()
     if a.out.exists():raise ValueError('Refusing to overwrite analysis')
-    value=power_grid() if a.power else summarize(json.loads(a.records.read_text(encoding='utf-8')),json.loads(a.selection.read_text(encoding='utf-8'))['assigned_task_ids'])
+    value=power_grid() if a.power else summarize([json.loads(line) for line in a.records.read_text(encoding='utf-8').splitlines() if line.strip()] if a.records.suffix == '.jsonl' else json.loads(a.records.read_text(encoding='utf-8')),json.loads(a.selection.read_text(encoding='utf-8'))['assigned_task_ids'])
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n',encoding='utf-8')

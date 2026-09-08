@@ -35,3 +35,12 @@ These adjustments concern reference controls only and precede every candidate.
 No reference code, test, task selection or model prompt is changed. The KMeans
 test remains label-permutation fragile and reference checks do not repair its
 semantic limitation.
+
+The final control attempt (controls-v4, image
+c19c57c6f4de5f2beb2fd50027efad1c3d428bdeeb7aa64c28dc458cfc71a174)
+passes all 80 gold programs. The incorrect control fails on 79 tasks but passes
+on BigCodeBench/59. This task stays in all generation and native-evaluation
+assignments but is control-unavailable for quality inference. No negative
+control is replaced merely to make this task eligible. Thus the final paired
+quality allocation is at most 79 task units, not 80; all 320 planned candidates
+remain in the resource and assignment inventory.
