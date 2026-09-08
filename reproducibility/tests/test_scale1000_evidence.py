@@ -53,6 +53,19 @@ def test_cached_usage_cannot_exceed_input(tmp_path):
     with pytest.raises(ValueError,match='Invalid usage'):raw_usage(tmp_path)
 
 
+def test_orphan_and_out_of_order_turn_evidence_cannot_disappear(tmp_path):
+    from reproducibility.scale1000.dispatch import validate_turn_inventory
+    cells=[{'id':'assigned','cli_turns':3}]
+    orphan=tmp_path/'turns/unassigned-0';orphan.mkdir(parents=True)
+    with pytest.raises(ValueError,match='outside frozen'):validate_turn_inventory(tmp_path,cells)
+    orphan.rename(tmp_path/'turns/assigned-1')
+    with pytest.raises(ValueError,match='unaccepted prior'):validate_turn_inventory(tmp_path,cells)
+    prior=tmp_path/'turns/assigned-0';prior.mkdir()
+    with pytest.raises(ValueError,match='unaccepted prior'):validate_turn_inventory(tmp_path,cells)
+    (prior/'result.json').write_text('{}')
+    assert validate_turn_inventory(tmp_path,cells)=={'assigned-0','assigned-1'}
+
+
 def test_raw_response_export_native_join_and_usage_replay(tmp_path,monkeypatch):
     from reproducibility.scale1000 import collect as module
     from reproducibility.scale1000 import dispatch

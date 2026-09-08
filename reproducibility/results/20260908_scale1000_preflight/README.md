@@ -19,6 +19,15 @@ Image build logs, exact native inputs/reports, package freezes and source
 identities are retained. Upstream tests and reference code are unchanged.
 Rebuilding is not promised to recreate a bitwise-identical container.
 
+The second gold attempt passed 986 tasks, failed 12 and timed out on two.
+A remaining missing librosa import motivated the separate environment-v2
+layer before model generation. Its bcb-scale1000:v2 image identity is
+sha256:afeb8d78b76f6a7b1fbf427d78a55bd35dbfcf58387711b47f8a8ba00e16b580.
+The complete third attempt, when available below, repeats both controls in
+that final environment. Per-ID CSV and JSON summaries are under readable/;
+eligibility is copied from the validated gate, never inferred from an error
+excerpt. A gold pass alone does not imply quality eligibility.
+
 Published complete attempts:
 
 [
@@ -26,5 +35,10 @@ Published complete attempts:
     "attempt": "controls-v1",
     "assigned": 1000,
     "eligible": 948
+  },
+  {
+    "attempt": "controls-v2",
+    "assigned": 1000,
+    "eligible": 984
   }
 ]

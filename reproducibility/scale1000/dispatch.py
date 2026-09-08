@@ -23,6 +23,21 @@ DEPENDENCIES += ['scale1000/environment-v2/Dockerfile','scale1000/environment-v2
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
+def validate_turn_inventory(archive, cells):
+    """Reject evidence outside the allocation or beyond an unaccepted stage."""
+    root=archive/'turns'
+    if not root.exists():return set()
+    expected={f"{cell['id']}-{stage}":(cell,stage) for cell in cells for stage in range(cell['cli_turns'])}
+    actual=set()
+    for folder in root.iterdir():
+        if not folder.is_dir() or folder.name not in expected:raise ValueError('Unexpected turn evidence outside frozen allocation: '+folder.name)
+        cell,stage=expected[folder.name]
+        for previous in range(stage):
+            prior=root/f"{cell['id']}-{previous}"
+            if not (prior/'result.json').exists() and not (prior/'empty_response_classification.json').exists():raise ValueError('Later turn follows absent or unaccepted prior stage: '+folder.name)
+        actual.add(folder.name)
+    return actual
+
 def plan(inputs:Path,gate_dir:Path):
     tasks=c.tasks_from(inputs/'input/prepared.jsonl');selection=c.read(inputs/'selection.json')
     gate=c.read(gate_dir/'heldout200_control_gate.json');environment_from_gate(gate_dir)
@@ -66,6 +81,7 @@ def run(inputs,gate_dir,manifest,out,npm_root):
     lock_path=out/'DISPATCH.lock'
     with lock_path.open('x') as f:f.write(str(os.getpid()))
     try:
+        validate_turn_inventory(out,frozen['inner_manifest']['cells'])
         tasks=c.tasks_from(inputs/'input/prepared.jsonl');by_id={t['task_id']:t for t in tasks}
         os.environ['CODEX_STUDY_CLI_JS']=str(npm_root.resolve()/'node_modules/@openai/codex/bin/codex.js')
         prefix=c.resolved_prefix();version=subprocess.check_output(prefix+['--version'],text=True).strip()

@@ -21,10 +21,13 @@ does not guarantee that all 1000 tasks are quality-eligible.
 
 ## Freeze and publish the executable generation plan
 
+The amended environment is bcb-scale1000:v2, recorded under environment-v2.
+The final full control attempt is controls-v3; its completion and strict
+validation are prerequisites for generation. All earlier attempts remain.
 After reviewing the final control attempt, point `--gate-dir` to that attempt:
 
 ```sh
-python -X utf8 -m reproducibility.scale1000.dispatch freeze --inputs reproducibility/scale1000/inputs-v1 --gate-dir reproducibility/runs/scale1000-v1/controls-v1 --manifest reproducibility/scale1000/generation_manifest.json
+python -X utf8 -m reproducibility.scale1000.dispatch freeze --inputs reproducibility/scale1000/inputs-v1 --gate-dir reproducibility/runs/scale1000-v1/controls-v3 --manifest reproducibility/scale1000/generation_manifest.json
 ```
 
 Commit and publish that plan and the final control evidence before calling
@@ -35,7 +38,7 @@ found, preserve the frozen version and document a new amendment or replay path.
 ## Generate and resume untouched assignments
 
 ```sh
-python -X utf8 -m reproducibility.scale1000.dispatch run --inputs reproducibility/scale1000/inputs-v1 --gate-dir reproducibility/runs/scale1000-v1/controls-v1 --manifest reproducibility/scale1000/generation_manifest.json --out reproducibility/runs/scale1000-v1/generation --npm-root tmp/codex-runtime
+python -X utf8 -m reproducibility.scale1000.dispatch run --inputs reproducibility/scale1000/inputs-v1 --gate-dir reproducibility/runs/scale1000-v1/controls-v3 --manifest reproducibility/scale1000/generation_manifest.json --out reproducibility/runs/scale1000-v1/generation --npm-root tmp/codex-runtime
 ```
 
 The same command resumes untouched assignments after a quota/authentication
@@ -56,7 +59,7 @@ No automatic purchase, paid fallback or quota-reset redemption occurs.
 When status is `generation_finished` (zero untouched assignments), use:
 
 ```sh
-python -X utf8 -m reproducibility.scale1000.finish --gate-dir reproducibility/runs/scale1000-v1/controls-v1
+python -X utf8 -m reproducibility.scale1000.finish --gate-dir reproducibility/runs/scale1000-v1/controls-v3 --image bcb-scale1000:v2 --requirements reproducibility/scale1000/environment-v2/requirements.txt --dockerfile reproducibility/scale1000/environment-v2/Dockerfile
 ```
 
 If the final gate used an amended image, supply its exact `--image`,

@@ -40,6 +40,7 @@ def reconstruct(archive,inputs,gate_dir,manifest):
     if (archive/'instructions.txt').read_bytes()!=c.BASE.encode():raise ValueError('Model policy bytes changed')
     tasks=c.tasks_from(inputs/'input/prepared.jsonl');by_task={t['task_id']:t for t in tasks}
     if c.read(archive/'tasks.json')!=tasks:raise ValueError('Saved tasks changed')
+    submitted=d.validate_turn_inventory(archive,frozen['inner_manifest']['cells'])
     records=[];ledger=[]
     for cell in frozen['inner_manifest']['cells']:
         saved_path=archive/'cells'/f"{cell['id']}.json"
@@ -84,6 +85,7 @@ def reconstruct(archive,inputs,gate_dir,manifest):
             solution,ok=bridge._extract_fenced_block(history[-1],'bigcodebench')
             row.update(metrics);row.update({'final_text':history[-1],'solution':solution,'format_extracted':ok})
         records.append(row)
+    if {f"{row['cell_id']}-{row['stage']}" for row in ledger}!=submitted:raise ValueError('Submitted turn omitted from resource ledger')
     return records,ledger
 
 def export(archive,inputs,gate_dir,manifest,out):
