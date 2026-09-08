@@ -36,7 +36,15 @@ The output directory must be new. The replay independently verifies the two orig
 
 ## Rebuilding the native environment
 
-The image chain is explicit:
+Install Git and Docker separately. Clone the evaluator source at the exact recorded revision before building; the ignored `vendor` folder is intentionally not a bundled replacement for upstream:
+
+```powershell
+git clone https://github.com/bigcode-project/bigcodebench.git reproducibility/vendor/bigcodebench
+git -C reproducibility/vendor/bigcodebench checkout --detach 09dd993f46c3fbf3a799465bb96d524edcb0b199
+git -C reproducibility/vendor/bigcodebench status --short
+```
+
+The last command must report no tracked changes. If the checkout already exists, inspect its state instead of replacing it. The image chain is explicit:
 
 ```powershell
 docker build -f reproducibility/pilot_env/Dockerfile -t bcb-pilot:dev .
