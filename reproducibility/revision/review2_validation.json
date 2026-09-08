@@ -1,0 +1,77 @@
+{
+  "revision_date": "2026-09-08",
+  "base_manuscript_commit": "84cc037fe40375a81bad1a72a95a2ce4e972b9f2",
+  "validated_manuscript_commit": "5c9d1bdbee42f73b8c7d259747276300dcc5445f",
+  "scope": "Five-comment correction; no new model generation or retrospective change to primary inference",
+  "software_tests": {
+    "command": "python -m pytest reproducibility/tests -q",
+    "python": "3.11",
+    "passed": 130,
+    "subtests_passed": 6,
+    "environment": "isolated requirements-publication.txt environment"
+  },
+  "primary_replay": {
+    "candidate_records": 996,
+    "files_byte_identical": [
+      "candidate_records.jsonl",
+      "summary.json",
+      "assignment_availability.json"
+    ],
+    "new_model_calls": 0
+  },
+  "swe_replay": {
+    "observed_candidates": 2,
+    "classifications": [
+      "candidate_test_or_patch_failure",
+      "native_application_rejection"
+    ],
+    "original_joins_match": true
+  },
+  "integrity": {
+    "all_five_public_evidence_manifests_verified": true,
+    "frozen_primary_sources_protocol_and_raw_evidence_unchanged": true
+  },
+  "artifacts": {
+    "converted_article_springer.pdf": {
+      "pages": 28,
+      "out_of_page_word_boxes": 0,
+      "replacement_characters": 0,
+      "sha256": "c034746d9a7d16070e18c81a2e87f0b90b1995086acd9ba90dc70ae796175903",
+      "bytes": 525312,
+      "git_blob_bytes_match": true,
+      "all_pages_visually_inspected": true
+    },
+    "converted_article_springer_ru.pdf": {
+      "pages": 30,
+      "out_of_page_word_boxes": 0,
+      "replacement_characters": 0,
+      "sha256": "92d8864f533c2400938e109d312ed74af0e862161cfaf68bec8bcc38255ebb00",
+      "bytes": 599025,
+      "git_blob_bytes_match": true,
+      "all_pages_visually_inspected": true
+    }
+  },
+  "scientific_boundaries": {
+    "quality_margin": null,
+    "noninferiority": "not_assessed",
+    "monetary_superiority": "not_assessed",
+    "self_collaboration": "closest external comparator; unexecuted",
+    "funding_and_interests": "author disclosure not provided"
+  },
+  "github_description_updated_and_read_back": true,
+  "ci": {
+    "run_id": 34192239460,
+    "url": "https://github.com/daniil-novel/article-INoT/actions/runs/34192239460",
+    "head_sha": "5c9d1bdbee42f73b8c7d259747276300dcc5445f",
+    "status": "completed",
+    "conclusion": "success",
+    "verified_steps": [
+      "software tests",
+      "all five evidence manifests",
+      "exact development replay",
+      "exact primary replay",
+      "exact INoT replay",
+      "two native SWE joins"
+    ]
+  }
+}

@@ -8,6 +8,8 @@ Sources: current frozen protocols and native archives; both active and legacy co
 
 1. Completed: identify which comments concern obsolete planning material and which remain active; inspect primary sources and current evidence.
 2. Completed: correct legacy inference and SWE classification, narrow novelty, specify the descriptive monetary endpoint and remove ungrounded quality margins and editorial residue.
-3. In progress: regression tests, replay retained outcomes, rebuild and visually inspect revised PDFs, update reviewer response/README, commit and publish.
+3. Completed: regression tests, replay retained outcomes, rebuild and visually inspect revised PDFs, update reviewer response/README, commit and publish.
 
 Discovery: the completed primary study uses exact two-sided McNemar tests with Holm across four quality contrasts, not the legacy sign-flip analyzer. The obsolete automatic 0.02 non-inferiority decision has been disabled. Self-collaboration is a close antecedent; novelty cannot be role removal or varying interaction count alone. The completed 996-program native archive establishes the main study's execution, while external method replication and broad SWE-bench evaluation remain limited.
+
+Validation: 130 software tests and 6 subtests pass. All five public evidence inventories verify; primary 996-record replay is byte-identical. Both original SWE outcomes revalidate. All 28 EN and 30 RU PDF pages were visually inspected; no overfull boxes, unresolved references or out-of-page words remain. GitHub manuscript commit `5c9d1bdbee42f73b8c7d259747276300dcc5445f` passed Linux CI run `34192239460`, including development and INoT replay. About text and both Git branches are published. See `review2_validation.json` for artifact hashes.
