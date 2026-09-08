@@ -1,0 +1,18 @@
+\subsection{Closest methodological antecedent}
+Self-collaboration Code Generation via ChatGPT~\cite{dong2023selfcollaboration} already ablates role instructions and maximum interactions in Sections~5.2--5.3. Removing roles or varying interaction is therefore not a novelty claim of the present study. Table~\ref{tab:closest-method} distinguishes the implemented interventions.
+
+\begin{table}[htbp]\centering\small
+\caption{Method comparison with the closest antecedent~\cite{dong2023selfcollaboration}, Tables~3--4 and Appendix~B.1. Interaction rounds and fresh model calls are different quantities.}\label{tab:closest-method}
+\begin{tabular}{p{0.20\textwidth}p{0.31\textwidth}p{0.36\textwidth}}\toprule
+Aspect & Self-collaboration & Present experiment\\\midrule
+Labels & Role versus role-excised instructions & Identical operation sentences; only the stage prefixes change\\
+Interaction & Feedback loop; maximum interaction varied & One or three fresh turns; fixed sequence, full exposed history\\
+Design & Separate role and interaction ablations & Joint label-by-call matrix on every assigned task\\
+Tasks & HumanEval, MBPP and extended tests & Reserved BigCodeBench sample; pre-generation reference and incorrect controls\\\bottomrule
+\end{tabular}\end{table}
+
+The added value is an audit-focused replication and extension: the joint design estimates a label-by-topology interaction under one fixed generation interface, while native outcome joins and exposed token components make quality and resource differences inspectable. This is a new empirical setting and evidence record, not a new principle of role collaboration or a claimed first role ablation.
+
+For an external method comparison, Self-collaboration with its role-excised variant is the nearest baseline to the present label question. A faithful implementation must preserve its feedback and stopping policy; renaming our fixed three-turn MR condition would not implement that baseline. No Self-collaboration execution is included in the current record, so superiority over it is untested. D remains the minimal implemented comparator and SN/MN the controls for label attribution. INoT* addresses a separate internal-dialogue algorithm question and is not presented as the closest role-ablation predecessor.
+
+\subsection{Internal dialogue and repository methods}
