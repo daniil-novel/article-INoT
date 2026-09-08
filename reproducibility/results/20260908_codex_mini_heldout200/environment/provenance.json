@@ -1,0 +1,11 @@
+{
+  "schema": "heldout200-environment-v3",
+  "base_image_tag": "bcb-scale40:v2",
+  "base_image_id": "sha256:5697a0648acccd249a9027f48af42a42a4a8e27b6cdb626906142a480683978d",
+  "image_tag": "bcb-heldout200:v3",
+  "image_id": "sha256:76d84f87bb98a10e358e19d58b84c2eed3dc24c1e8431582ae1dd9874faa7667",
+  "requirements_sha256": "a401f96200ef019e3fa8774ff7da16501cdc4f5c7059d56531cca660eaa306e0",
+  "dockerfile_sha256": "afcb47bf67a4f40e189f55ef08500df690d49104d1ea00c3556b8e96e5aff011",
+  "tensorflow_assessment": "tensorflow-cpu 2.15.1 is Python 3.11/NumPy 1.26 compatible but forces protobuf 4.25.9, incompatible with evaluator e2b requiring protobuf >=5.29.4; excluded from v3",
+  "dependency_probe": "imports and NLTK stopwords/words verified in v3 image"
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "heldout200-input-manifest-v1",
+  "selection_sha256": "7559c4ef82cd82a29e0f7906dc8e76371471730e07a5e35b63127a7a1b501177",
+  "files": {
+    "evaluator_dataset.jsonl": {
+      "path": "reproducibility\\runs\\heldout200-controls-v1\\input\\evaluator_dataset.jsonl",
+      "sha256": "d566544d60100d92c8c074d751f345119f255e4e19d1f61893b6f24ba7d44413"
+    },
+    "prepared.jsonl": {
+      "path": "reproducibility\\runs\\heldout200-controls-v1\\input\\prepared.jsonl",
+      "sha256": "97ac39ea3c67041de46af61b911ffc2c6ced4a006bdffd282f834ecefb135a0e"
+    },
+    "gold.jsonl": {
+      "path": "reproducibility\\runs\\heldout200-controls-v1\\input\\gold.jsonl",
+      "sha256": "30b4709cfa56fb821355e7ff643537f7ca51bc33b6169e4d25f7854826cbc857"
+    },
+    "incorrect.jsonl": {
+      "path": "reproducibility\\runs\\heldout200-controls-v1\\input\\incorrect.jsonl",
+      "sha256": "12cf939638520ed19c8832bf5e3659924ab69e2f7e521f43dda65ea1046b6957"
+    }
+  },
+  "model_input_fields": [
+    "task_id",
+    "prompt",
+    "context",
+    "benchmark",
+    "metadata"
+  ],
+  "model_input_source_fields": [
+    "instruct_prompt",
+    "code_prompt"
+  ],
+  "forbidden_model_fields": [
+    "test",
+    "canonical_solution"
+  ],
+  "controls_dispatched": false
+}
