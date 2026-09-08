@@ -1,0 +1,59 @@
+name: Evidence integrity and replay
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: reproducibility/requirements-publication.txt
+      - name: Install recorded analysis dependencies
+        run: python -m pip install -r reproducibility/requirements-publication.txt
+      - name: Test audit and analysis software
+        run: python -m pytest reproducibility/tests -q
+      - name: Verify every published evidence byte
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from reproducibility.evidence_manifest import verify
+          manifests = sorted(Path('reproducibility/results').glob('*/EVIDENCE_MANIFEST.json'))
+          assert manifests, 'No evidence inventories found'
+          for manifest in manifests:
+              print(manifest.parent.name, verify(manifest.parent))
+          PY
+      - name: Replay INoT outcomes without model calls or Docker
+        run: |
+          python -m reproducibility.heldout200.inot_evidence collect \
+            --original reproducibility/results/20260908_codex_mini_inot200/generation/codex-inot200-v1 \
+            --continuation reproducibility/results/20260908_codex_mini_inot200/generation/codex-inot200-continuation-v1 \
+            --tasks reproducibility/results/20260908_codex_mini_heldout200/controls/attempt2/input/prepared.jsonl \
+            --selection reproducibility/results/20260908_codex_mini_inot200/protocols/heldout200_selection.json \
+            --gate reproducibility/results/20260908_codex_mini_heldout200/controls/attempt3/heldout200_control_gate.json \
+            --protocol reproducibility/results/20260908_codex_mini_inot200/protocols/INOT_PROTOCOL.md \
+            --predictions reproducibility/results/20260908_codex_mini_inot200/predictions \
+            --native reproducibility/results/20260908_codex_mini_inot200/evaluation \
+            --controls reproducibility/results/20260908_codex_mini_heldout200/controls/attempt3 \
+            --output tmp/ci-inot-replay
+          python - <<'PY'
+          from pathlib import Path
+          actual = Path('tmp/ci-inot-replay')
+          expected = Path('reproducibility/results/20260908_codex_mini_inot200/analysis')
+          for name in ('summary.json', 'candidate_records.jsonl'):
+              assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
+          print('Published INoT summary and all 199 candidate records replay exactly')
+          PY
