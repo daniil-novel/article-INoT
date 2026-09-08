@@ -20,8 +20,10 @@ The scientific line is: engineering task with shared context → internal role o
 Steps:
 1. Completed: compare original and current manuscripts and establish the integration/evidence map.
 2. Completed: write a coherent bilingual architectural and analytical frame and connect every result to it.
-3. In progress: independent coherence review, LaTeX/PDF build and visual QA, exact evidence checks, README/About update, scoped commits and publication.
+3. Completed: independent coherence review, LaTeX/PDF build and visual QA, exact evidence checks, README/About update, scoped commits and publication.
 
 No new model generation, paid API use or retrospective change to the primary inference is planned. Existing untracked author research notes remain untouched. Previously unresolved factual disclosures and external-baseline limitations stay explicit.
 
 Independent content review found no material contradiction between the integrated architectural frame, conditional algebra and unchanged experimental record. The single-pass core and later native evaluator remain explicitly distinct from an adaptive deployed agent.
+
+Publication validation: manuscript commit 9d2693c2e4a6371d553763c05199353601c24f35 passed GitHub Linux CI run 34193821809, including the software suite, every public evidence inventory, primary/development/INoT byte-exact replay and both native SWE outcomes. All 34 EN and 37 RU PDF pages were inspected; the final diagram-only changes were re-rendered and rechecked. No unresolved references, overfull boxes or out-of-page text remained. Both PDF Git blobs match the validated artifacts. README and GitHub About were updated; main and codex/development-scale were published. Artifact hashes and preserved-evidence checks are recorded in hybrid_integration_validation.json.

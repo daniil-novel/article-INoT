@@ -1,0 +1,66 @@
+{
+  "date": "2026-09-08",
+  "integration_base": "791b68336cb255866b44a5fa25fa22826d7bda9a",
+  "validated_manuscript_commit": "9d2693c2e4a6371d553763c05199353601c24f35",
+  "original_manuscript_reference": "f8f7006^:converted_article_springer.tex",
+  "scope": "Restore original Hybrid-INoT subject and formal architecture; retain current component study without new experimental execution",
+  "preserved_evidence": {
+    "primary_programs": 996,
+    "development_programs": 400,
+    "inot_adaptation_programs": 199,
+    "new_model_calls": 0,
+    "frozen_protocols_unchanged": true,
+    "experimental_and_analysis_software_unchanged": true,
+    "primary_result_table_git_blobs_unchanged": true,
+    "raw_evidence_unchanged": true
+  },
+  "content_review": {
+    "independent_review_completed": true,
+    "material_issues_remaining": 0,
+    "conditional_accounting_checked": true,
+    "external_evaluator_not_presented_as_generation_tool": true,
+    "SCC_comparison_and_missingness_corrections_preserved": true,
+    "noninferiority_or_router_claim_not_added": true
+  },
+  "pdf_artifacts": {
+    "converted_article_springer.pdf": {
+      "pages": 34,
+      "out_of_page_word_boxes": 0,
+      "replacement_characters": 0,
+      "sha256": "82557db44db684cac236378ad583d9460c4d3cf734445dd65a3c9b7f6faf2fc0",
+      "bytes": 625773,
+      "git_blob_bytes_match": true,
+      "all_pages_visually_inspected": true
+    },
+    "converted_article_springer_ru.pdf": {
+      "pages": 37,
+      "out_of_page_word_boxes": 0,
+      "replacement_characters": 0,
+      "sha256": "da01f416ffc2b4961fb34b9e0ad1eee2a317bae02f9b6628e931877fa57fa74e",
+      "bytes": 726415,
+      "git_blob_bytes_match": true,
+      "all_pages_visually_inspected": true
+    }
+  },
+  "render_validation": {
+    "undefined_references": 0,
+    "overfull_boxes": 0,
+    "final_diagram_typography_corrected": true,
+    "all_other_page_renders_identical_to_reviewed_previous_render": true
+  },
+  "github_description_updated_and_verified": true,
+  "ci": {
+    "run_id": 34193821809,
+    "url": "https://github.com/daniil-novel/article-INoT/actions/runs/34193821809",
+    "status": "completed",
+    "conclusion": "success",
+    "verified_steps": [
+      "software tests",
+      "all published evidence inventories",
+      "exact primary replay",
+      "exact development replay",
+      "exact INoT replay",
+      "two native SWE outcomes"
+    ]
+  }
+}
