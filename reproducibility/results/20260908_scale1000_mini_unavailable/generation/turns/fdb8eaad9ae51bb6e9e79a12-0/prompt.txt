@@ -1,0 +1,24 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Standardize a 2D data matrix, calculate the mean value of each row and then visualize the distribution of the mean values with an histogram. - Each row of the matrix represent a data point, its length is the same as that of FEATURE_NAMES. - The plot title should be 'Distribution of Means'.
+The function should output with:
+    tuple: A tuple containing:
+    pandas.DataFrame: A DataFrame containing the standardized data and the mean of each row.
+    Its column names should be FEATURE_NAMES and 'Mean'.
+    matplotlib.axes.Axes: The histogram plot of the distribution of means.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+# Constants
+FEATURE_NAMES = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+def task_func(data_matrix):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+# Constants
+FEATURE_NAMES = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+def task_func(data_matrix):

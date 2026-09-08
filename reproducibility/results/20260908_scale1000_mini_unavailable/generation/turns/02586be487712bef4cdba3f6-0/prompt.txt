@@ -1,0 +1,18 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Converts a 2D list into a pandas DataFrame and applies PCA for dimensionality reduction. This function creates a DataFrame from the provided 2D list and then applies PCA to reduce the dataset to its two main components. The function uses a fixed random seed to ensure reproducibility.
+The function should output with:
+    pd.DataFrame: The original data in DataFrame format.
+    np.ndarray: The data after PCA transformation.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+def task_func(array: list, random_seed: int = 42) -> (pd.DataFrame, np.ndarray):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+from sklearn.decomposition import PCA
+def task_func(array: list, random_seed: int = 42) -> (pd.DataFrame, np.ndarray):

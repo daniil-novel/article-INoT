@@ -1,0 +1,3 @@
+2026-09-08T16:59:57.607356Z  WARN codex_models_manager::model_info: Unknown model gpt-5.4-mini is used. This will use fallback model metadata.
+2026-09-08T16:59:57.673887Z  WARN codex_models_manager::model_info: Unknown model gpt-5.4-mini is used. This will use fallback model metadata.
+2026-09-08T16:59:58.016125Z ERROR codex_models_manager::manager: failed to refresh available models: exceeded retry limit, last status: 429 Too Many Requests, request id: req_96229526e2c54e908533c65fba815740

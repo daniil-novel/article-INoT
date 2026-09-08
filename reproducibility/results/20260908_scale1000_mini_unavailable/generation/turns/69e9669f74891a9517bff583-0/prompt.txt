@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Scans a specified directory for files matching a given pattern and with a certain suffix, then determines their file types. The function returns a dictionary with file names as keys and their corresponding MIME types as values.
+The function should output with:
+    dict: A dictionary mapping file names to their MIME types.
+You should write self-contained code starting with:
+```
+import re
+import os
+import glob
+import mimetypes
+def task_func(directory, file_pattern, suffix):
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+import glob
+import mimetypes
+def task_func(directory, file_pattern, suffix):

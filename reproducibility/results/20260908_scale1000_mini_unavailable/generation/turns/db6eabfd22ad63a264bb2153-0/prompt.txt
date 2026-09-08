@@ -1,0 +1,15 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Normalizes a 2D numeric array (matrix) using the Z score.
+The function should output with:
+    DataFrame: The normalized DataFrame.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from scipy import stats
+def task_func(matrix):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from scipy import stats
+def task_func(matrix):

@@ -1,0 +1,20 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a histogram from the data in a list of lists. If any sublist is empty, it will be filled with 5 random integers ranging from 0 to 100 (both inclusive) The histogram will then be constructed using the combined data from all sublists.
+The function should output with:
+    matplotlib.axes._axes.Axes: The histogram plot object.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+import matplotlib.pyplot as plt
+import random
+def task_func(list_of_lists, seed=0):
+```
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+import matplotlib.pyplot as plt
+import random
+def task_func(list_of_lists, seed=0):

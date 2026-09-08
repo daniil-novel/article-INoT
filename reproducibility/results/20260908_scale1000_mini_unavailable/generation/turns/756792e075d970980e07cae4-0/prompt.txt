@@ -1,0 +1,16 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Sorts a given dictionary by its keys in ascending order and returns a PrettyTable object displaying the sorted items with the names 'Key' and 'Value'. Display an empty dictionary. >>> str(task_func({})).startswith('+') True
+The function should output with:
+    PrettyTable: A PrettyTable object representing the sorted dictionary.
+You should write self-contained code starting with:
+```
+from collections import OrderedDict
+from prettytable import PrettyTable
+def task_func(my_dict):
+```
+FULL SUPPLIED CONTEXT
+from collections import OrderedDict
+from prettytable import PrettyTable
+def task_func(my_dict):

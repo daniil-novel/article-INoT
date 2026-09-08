@@ -1,0 +1,28 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Plots the square root function for values associated with the key 'from_user' from the input list of dictionaries. Annotates the graph with the current date and time. - Round each square root value to 2 decimals. Constants: - PLOT_TITLE: Title of the plot (default is 'Square root plot'). - X_LABEL: Label for the x-axis (default is 'x'). - Y_LABEL: Label for the y-axis (default is 'sqrt(x)'). - TIME_FORMAT: Format for displaying the current date and time (default is '%Y-%m-%d %H:%M:%S').
+The function should output with:
+    numpy.ndarray: list of square values associated with the key 'from_user' from the input list of dictionaries.
+    matplotlib.axes.Axes: plot of square root values.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime
+# Constants
+PLOT_TITLE = 'Square root plot'
+X_LABEL = 'x'
+Y_LABEL = 'sqrt(x)'
+TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+def task_func(result):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime
+# Constants
+PLOT_TITLE = 'Square root plot'
+X_LABEL = 'x'
+Y_LABEL = 'sqrt(x)'
+TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+def task_func(result):

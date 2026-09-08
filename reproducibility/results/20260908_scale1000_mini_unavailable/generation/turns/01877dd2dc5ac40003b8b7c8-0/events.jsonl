@@ -1,0 +1,5 @@
+{"type":"thread.started","thread_id":"01a081f5-d0dc-79c2-b58f-d0d3ccd5dc3f"}
+{"type":"item.completed","item":{"id":"item_0","type":"error","message":"Model metadata for `gpt-5.4-mini` not found. Defaulting to fallback metadata; this can degrade performance and cause issues."}}
+{"type":"turn.started"}
+{"type":"error","message":"{\"detail\":\"The 'gpt-5.4-mini' model is not supported when using Codex with a ChatGPT account.\"}"}
+{"type":"turn.failed","error":{"message":"{\"detail\":\"The 'gpt-5.4-mini' model is not supported when using Codex with a ChatGPT account.\"}"}}

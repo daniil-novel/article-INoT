@@ -1,0 +1,22 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Apply a Gaussian filter to a given image and draw the original and filtered images side by side.
+The function should raise the exception for: ValueError: If sigma is non-positive. TypeError: If the input is not a numpy array.
+The function should output with:
+    ax (matplotlib.axes.Axes): Axes object containing the plot. Two plots with titles 'Original' and 'Filtered'.
+    filtered_image (numpy.ndarray): The numpy array of pixel values for the filtered image.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.ndimage import gaussian_filter
+def task_func(image, sigma=2):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.ndimage import gaussian_filter
+def task_func(image, sigma=2):

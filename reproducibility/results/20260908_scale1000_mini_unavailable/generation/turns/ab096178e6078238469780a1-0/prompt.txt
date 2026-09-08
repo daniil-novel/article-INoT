@@ -1,0 +1,16 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Submits a form on a given webpage using mechanize and extracts the title of the response page.
+Note that: Notes: If the page has no title, it returns 'No Title'.
+The function should output with:
+    str: The title of the page resulting from the form submission.
+You should write self-contained code starting with:
+```
+import mechanize
+from bs4 import BeautifulSoup
+def task_func(url, form_id, data):
+```
+FULL SUPPLIED CONTEXT
+import mechanize
+from bs4 import BeautifulSoup
+def task_func(url, form_id, data):

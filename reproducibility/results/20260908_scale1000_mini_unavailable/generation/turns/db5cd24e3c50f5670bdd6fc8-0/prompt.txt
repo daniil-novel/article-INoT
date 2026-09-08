@@ -1,0 +1,18 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates a password that mirrors the structure of the given text by replacing alphabetic characters with random ascii lowercase letters, digits with random single-digit numbers, spaces wth either a random digit or random lowercase letter at equal probabilities, and leaving other characters unchanged.
+Note that: This function does not handle high Unicode characters and focuses only on ASCII values.
+The function should raise the exception for: ValueError: If the input text is empty.
+The function should output with:
+    str: The generated password.
+You should write self-contained code starting with:
+```
+import string
+import random
+def task_func(text, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import string
+import random
+def task_func(text, seed=None):

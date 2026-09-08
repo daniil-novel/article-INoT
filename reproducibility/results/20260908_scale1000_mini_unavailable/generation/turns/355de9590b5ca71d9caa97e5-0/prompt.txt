@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Computes the sum of numeric values and counts the occurrences of categories in a list of tuples. Each tuple in the input list contains a numeric value and a category. This function calculates the sum of all the numeric values and also counts how many times each category appears in the list.
+The function should output with:
+    tuple: A 2-element tuple where the first element is the sum of the numeric values, and the
+    second element is a dictionary with categories as keys and their counts as values.
+You should write self-contained code starting with:
+```
+import numpy as np
+from collections import Counter
+def task_func(list_of_tuples):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from collections import Counter
+def task_func(list_of_tuples):

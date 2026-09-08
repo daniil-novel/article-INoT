@@ -1,0 +1,15 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Creates a Flask application configured to send emails using Flask-Mail. It sets up the necessary SMTP configuration dynamically based on provided parameters and defines a route to send a test email.
+The function should output with:
+    Flask: A Flask application instance configured for sending emails.
+You should write self-contained code starting with:
+```
+from flask import Flask
+from flask_mail import Mail, Message
+def task_func(smtp_server, smtp_port, smtp_user, smtp_password, template_folder):
+```
+FULL SUPPLIED CONTEXT
+from flask import Flask
+from flask_mail import Mail, Message
+def task_func(smtp_server, smtp_port, smtp_user, smtp_password, template_folder):

@@ -1,0 +1,33 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generates a pandas DataFrame with two columns, "Random Numbers" and "Moving Average," filled with random integers and their moving average, respectively. Additionally, this function plots a histogram of the "Random Numbers" column. No Parameters.
+The function should output with:
+    pd.DataFrame: A DataFrame with two columns:
+    "Random Numbers": Contains a list of randomly generated integers.
+    "Moving Average": Contains the moving average of the random integers,
+    calculated over a window that includes the current
+    and previous 5 integers.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import random
+import statistics
+import matplotlib.pyplot as plt
+import numpy as np
+# Constants
+RANGE = 10000  # The range within which random numbers are generated
+SIZE = 1000  # The number of random numbers to generate
+BIN_WIDTH = 100  # The width of bins for the histogram
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import random
+import statistics
+import matplotlib.pyplot as plt
+import numpy as np
+# Constants
+RANGE = 10000  # The range within which random numbers are generated
+SIZE = 1000  # The number of random numbers to generate
+BIN_WIDTH = 100  # The width of bins for the histogram
+def task_func():

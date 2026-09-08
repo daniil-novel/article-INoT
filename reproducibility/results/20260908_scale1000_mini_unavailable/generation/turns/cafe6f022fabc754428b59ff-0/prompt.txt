@@ -1,0 +1,17 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Write a Pandas DataFrame into a JSON Lines file and save it in a specified directory.
+The function should output with:
+    str: The full path where the JSON Lines file was saved.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import time
+OUTPUT_DIR = './output'
+def task_func(df: pd.DataFrame, filename: str) -> str:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import time
+OUTPUT_DIR = './output'
+def task_func(df: pd.DataFrame, filename: str) -> str:

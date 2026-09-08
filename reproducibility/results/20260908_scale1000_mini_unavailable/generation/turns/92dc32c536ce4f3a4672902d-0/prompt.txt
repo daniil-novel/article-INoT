@@ -1,0 +1,21 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+The function creates an HTTP POST request handler for processing incoming data. The data is expected to be in JSON format with a key 'data'. The handler responds with a 200 success message if the data is valid, or an error message otherwise.
+Note that: Notes: If the 'Content-Type' header is not 'application/json', the server responds with a 400 Bad Request status and a JSON object: {"status": "error", "message": "Content-Type header is not application/json"}. If the received JSON object does not contain a 'data' key, the response is a 400 Bad Request with a JSON object: {"status": "error", "message": "No data received"}. For successfully processed requests, the server responds with a 200 OK status and a JSON object: {"status": "success", "message": "Data received successfully."}.
+The function should output with:
+    class: A class that is a subclass of http.server.BaseHTTPRequestHandler, designed to handle HTTP POST requests.
+You should write self-contained code starting with:
+```
+import cgi
+import http.server
+import json
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import cgi
+import http.server
+import json
+def task_func():

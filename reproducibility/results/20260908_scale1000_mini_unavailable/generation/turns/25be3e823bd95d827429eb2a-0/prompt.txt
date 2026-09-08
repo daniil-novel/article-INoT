@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+You are given a list of elements. Each element of the list is a list of 3 values. Use this list of elements to build a dataframe with 3 columns 'col1', 'col2' and 'col3' and create a distribution of chart of the different values of "col3" grouped by "col1" and "col2" using seaborn. The function's logic is as follows: 1. Build a pandas DataFrame by using list of elements. Make sure to name the columns as 'col1', 'col2' and 'col3', the constant COLUMNS is provided for this purpose. 2. Create a new dataframe by grouping the values in the column 'col3' by ['col1', 'col2']. 3. Reset the index of the newly created dataframe. This dataframe is the first element of the output tuple. 4. Create a distribution plot of the 'col3' column of the previous dataframe using seaborn. This plot is the second and last element of the output tuple. - The xlabel (label for the x-axis) is set to the 'col3'.
+The function should output with:
+    tuple:
+    pandas.DataFrame: The DataFrame of the analyzed data.
+    plt.Axes: The seaborn plot object.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+# Constants
+COLUMNS = ['col1', 'col2', 'col3']
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+# Constants
+COLUMNS = ['col1', 'col2', 'col3']
+def task_func(data):

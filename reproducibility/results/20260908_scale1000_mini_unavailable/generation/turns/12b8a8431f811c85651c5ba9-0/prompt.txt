@@ -1,0 +1,17 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Scale the 'Age' and 'Income' columns between 0 and 1 for each group by 'id' in the provided pandas DataFrame. Additionally, create a histogram of the 'Income' column after scaling and return both the scaled DataFrame and the histogram data.
+The function should output with:
+    tuple: A tuple containing the scaled DataFrame and the histogram data for the 'income' column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+def task_func(df):

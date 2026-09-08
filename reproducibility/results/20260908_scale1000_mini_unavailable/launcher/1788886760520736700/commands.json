@@ -1,0 +1,35 @@
+{
+  "generate": [
+    "C:\\Python311\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "reproducibility.scale1000.dispatch",
+    "run",
+    "--inputs",
+    "reproducibility/scale1000/inputs-v1",
+    "--gate-dir",
+    "reproducibility/runs/scale1000-v1/controls-v3",
+    "--manifest",
+    "reproducibility/scale1000/generation_manifest.json",
+    "--out",
+    "reproducibility/runs/scale1000-v1/generation",
+    "--npm-root",
+    "tmp/codex-runtime"
+  ],
+  "finish": [
+    "C:\\Python311\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "reproducibility.scale1000.finish",
+    "--gate-dir",
+    "reproducibility/runs/scale1000-v1/controls-v3",
+    "--image",
+    "bcb-scale1000:v2",
+    "--requirements",
+    "reproducibility/scale1000/environment-v2/requirements.txt",
+    "--dockerfile",
+    "reproducibility/scale1000/environment-v2/Dockerfile"
+  ]
+}

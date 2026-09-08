@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Calculates the Pearson correlation coefficient between numerical scores and categorical grades. This function performs three main tasks: 1. Converts scores from string format to floats. 2. Encodes categorical grades into numerical values based on their rank order. 3. Computes the Pearson correlation coefficient between the numerical scores and the encoded grades.
+The function should output with:
+    correlation (float): The Pearson correlation coefficient between the converted numerical scores and encoded grades.
+    Returns NaN if the input data frame has less than 2 rows, as the correlation coefficient cannot be calculated in this case.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from scipy.stats import pearsonr
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from scipy.stats import pearsonr
+def task_func(data):

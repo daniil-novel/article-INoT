@@ -1,0 +1,15 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generates a DataFrame containing ratings for a given list of products. Ratings are generated randomly based on the provided weights. The DataFrame is sorted by ratings in descending order.
+The function should output with:
+    pandas.DataFrame: A DataFrame with two columns: 'Product' and 'Rating', sorted by 'Rating' in descending order.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from random import choices, seed
+def task_func(products, ratings, weights, random_seed=42):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from random import choices, seed
+def task_func(products, ratings, weights, random_seed=42):

@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Calculate the cumulative sum for each column in a given DataFrame and plot the results in a bar chart.
+Note that: NaN values are ignored in the cumulative sum calculation, i.e. treated as zero for the purpose of the sum without changing existing values to NaN. The plot title is set to 'Cumulative Sum per Column'. X-axis label is 'Index' and Y-axis label is 'Cumulative Sum'. A legend is included in the plot.
+The function should raise the exception for: ValueError: If the DataFrame is empty or contains non-numeric data.
+The function should output with:
+    tuple: A tuple containing:
+    (1) A DataFrame with cumulative sums for each column.
+    (2) A matplotlib bar chart Figure of these cumulative sums.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame) -> pd.DataFrame:

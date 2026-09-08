@@ -1,0 +1,18 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Extracts words from the input text that begin with the '$' character and saves them to a specified file, excluding any words that are solely composed of punctuation characters. This function is useful for processing texts where '$' is used to denote special terms or entities and saves these terms to a file for further analysis or usage.
+The function should output with:
+    str: The absolute path to the output file containing the '$' prefixed words.
+You should write self-contained code starting with:
+```
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import os
+def task_func(text, output_filename):
+```
+FULL SUPPLIED CONTEXT
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import os
+def task_func(text, output_filename):

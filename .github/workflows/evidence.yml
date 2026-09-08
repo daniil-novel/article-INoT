@@ -59,6 +59,17 @@ jobs:
               final_gate=Path('reproducibility/results/20260908_scale1000_preflight/controls-v3')
               assert read(manifest)==plan(Path('reproducibility/scale1000/inputs-v1'),final_gate)
               print('Replayed all 15000 frozen assignments and implementation identities')
+          luna_manifest=Path('reproducibility/scale1000_luna/generation_manifest.json')
+          if luna_manifest.exists():
+              from reproducibility.scale1000_luna.dispatch import plan as luna_plan
+              from reproducibility import codex_luna_subscription as luna
+              assert read(luna_manifest)==luna_plan(Path('reproducibility/scale1000/inputs-v1'),final_gate)
+              probe=Path('reproducibility/results/20260908_scale1000_luna_preflight/availability-probe')
+              result=luna.parse_events((probe/'turn/events.jsonl').read_bytes())
+              assert result['final_text']=='READY'
+              assert abs(result['api_equivalent_usd']-.0006508)<1e-15
+              assert (probe/'subscription_source.py').read_bytes().replace(b'\r\n',b'\n')==Path(luna.__file__).read_bytes().replace(b'\r\n',b'\n')
+              print('Replayed Luna plan and excluded task-free availability probe')
           PY
       - name: Replay development outcomes without model calls or Docker
         run: |
