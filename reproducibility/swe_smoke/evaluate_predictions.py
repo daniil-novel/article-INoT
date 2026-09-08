@@ -114,7 +114,10 @@ def validate_join(report_dir: Path, task_id: str, model_label: str, patch_value:
     for name in ("patch.diff", "eval.sh", "test_output.txt", "run_instance.log"):
         path = task_dir / name
         artifact_hashes[name] = sha256(path) if path.is_file() else None
-    membership = task_id in results.get("completed_ids", []) + results.get("submitted_ids", []) + results.get("error_ids", [])
+    membership = task_id in results.get("completed_ids", []) + results.get("submitted_ids", []) + results.get("error_ids", []) + results.get("empty_patch_ids", [])
+    infra_ids = set(results.get("infra_failure_ids", []))
+    error_ids = set(results.get("error_ids", []))
+    empty_patch_ids = set(results.get("empty_patch_ids", []))
     flags_valid = report_flags is not None and all(type(v) is bool for v in report_flags.values())
     task_exact = isinstance(task_report, dict) and set(report) == {task_id}
     log = task_dir / 'run_instance.log'
@@ -123,13 +126,41 @@ def validate_join(report_dir: Path, task_id: str, model_label: str, patch_value:
     # methods fail, before report.json exists. Preserve this as an application
     # rejection only when its exact submitted bytes and native marker agree.
     application_rejected = (not report_path.exists() and patch_equal and task_id in results.get('error_ids', [])
+                            and task_id not in infra_ids
                             and '>>>>> Patch Apply Failed' in log_text and not timed_out)
+    infrastructure_failure = task_id in infra_ids or (task_exact and task_report.get('infra_failure') is True)
+    invalid_candidate_patch = (
+        not timed_out
+        and membership
+        and not infrastructure_failure
+        and not report_path.exists()
+        and patch_value == ""
+    )
+    inconsistent_empty_patch_summary = task_id in empty_patch_ids and patch_value not in (None, "")
     candidate_failure = flags_valid and not task_report.get("infra_failure") and (
         not task_report.get("patch_successfully_applied") or not task_report.get("resolved")
     )
-    complete = results_path.is_file() and membership and not timed_out and (
-        application_rejected or (report_path.is_file() and task_exact and patch_equal and flags_valid
+    evaluator_error = (
+        not timed_out
+        and membership
+        and task_id in error_ids
+        and not application_rejected
+        and not invalid_candidate_patch
+    )
+    # A candidate with an explicitly empty patch is a failed candidate
+    # once the evaluator records that it was submitted. A missing report for a
+    # non-empty patch remains unknown: the evaluator may have failed before it
+    # produced a trustworthy instance report. An absent prediction (None) does
+    # not establish an observed empty model response.
+    candidate_failure = candidate_failure or invalid_candidate_patch
+    complete = results_path.is_file() and membership and not timed_out and not infrastructure_failure and not inconsistent_empty_patch_summary and (
+        application_rejected or invalid_candidate_patch or (report_path.is_file() and task_exact and patch_equal and flags_valid
                                  and not task_report['infra_failure']))
+    classification = ('native_application_rejection' if application_rejected else
+                      'invalid_candidate_patch' if invalid_candidate_patch else
+                      'candidate_test_or_patch_failure' if candidate_failure else 'completed') if complete else (
+                      'evaluator_error' if evaluator_error and not infrastructure_failure and not inconsistent_empty_patch_summary else
+                      'infrastructure_or_unknown')
     return {
         "run_id": report_dir.name,
         "task_id": task_id,
@@ -142,11 +173,14 @@ def validate_join(report_dir: Path, task_id: str, model_label: str, patch_value:
         "report_task_id_exact": task_exact,
         "report_flags_valid": flags_valid,
         "native_application_rejection": application_rejected,
+        "invalid_candidate_patch": invalid_candidate_patch,
+        "evaluator_error": evaluator_error,
+        "inconsistent_empty_patch_summary": inconsistent_empty_patch_summary,
         "patch_bytes_match": patch_equal,
         "report_flags": report_flags,
         "artifact_hashes": artifact_hashes,
         "candidate_status": "missing_patch" if patch_value is None else "empty_patch" if patch_value == "" else "submitted_patch",
-        "classification": "native_application_rejection" if application_rejected else "candidate_test_or_patch_failure" if candidate_failure else "completed" if complete else "infrastructure_or_invalid_join",
+        "classification": classification,
         "status": "complete" if complete else "missing",
     }
 

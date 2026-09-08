@@ -24,6 +24,51 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _verify_candidate_failure(row: dict, outcomes_path: Path) -> None:
+    """Validate a SWE candidate failure that legitimately has no report.json."""
+    try:
+        from .benchmark_bridge import _extract_fenced_block
+    except ImportError:
+        from benchmark_bridge import _extract_fenced_block
+
+    def evidence(kind):
+        p = Path(row[kind+'_path'])
+        if not p.is_absolute():p = outcomes_path.parent/p
+        if sha(p) != row[kind+'_sha256']:
+            raise ValueError('Candidate failure evidence changed: '+kind)
+        return p
+
+    if row['evaluator'] != 'swebench' or row['resolved'] is not False:
+        raise ValueError('Only explicit failed SWE candidates may lack a native report')
+    generations = [json.loads(line) for line in evidence('generation').read_text(encoding='utf-8').splitlines() if line.strip()]
+    matched = [g for g in generations if (g['task_id'],g['arm'],g['seed'],g['model']) ==
+               (row['task_id'],row['arm'],row['seed'],row['model'])]
+    if len(matched) != 1 or not isinstance(matched[0].get('final_text'),str):
+        raise ValueError('Candidate failure lacks an exact observed response')
+    expected, _ = _extract_fenced_block(matched[0]['final_text'],'swebench')
+    predictions = [json.loads(line) for line in evidence('prediction').read_text(encoding='utf-8').splitlines() if line.strip()]
+    matched = [p for p in predictions if p.get('instance_id')==row['task_id'] and p.get('model_name_or_path')==row['model']]
+    if len(matched) != 1 or matched[0].get('model_patch') != expected:
+        raise ValueError('Candidate failure prediction differs from the observed response')
+    summary = json.loads(evidence('run_results').read_text(encoding='utf-8')) if row.get('run_results_path') else {}
+    if row['task_id'] in summary.get('infra_failure_ids',[]):
+        raise ValueError('Infrastructure failure is not a candidate failure')
+    if row.get('report_sha256'):
+        report = json.loads(evidence('report').read_text(encoding='utf-8'))
+        if report[row['task_id']].get('infra_failure'):
+            raise ValueError('Infrastructure report cannot support a candidate failure')
+    if row['outcome_type']=='candidate_invalid_patch':
+        if expected != '':raise ValueError('Invalid-patch classification has a nonempty exported patch')
+    else:
+        if not expected or row['task_id'] not in summary.get('error_ids',[]):
+            raise ValueError('Native application rejection lacks a matching error summary')
+        actual=evidence('patch').read_text(encoding='utf-8')
+        if actual.replace('\r\n','\n').rstrip('\n') != expected.replace('\r\n','\n').rstrip('\n'):
+            raise ValueError('Rejected native patch differs from the observed response')
+        if '>>>>> Patch Apply Failed' not in evidence('application_log').read_text(encoding='utf-8'):
+            raise ValueError('Native application rejection lacks the upstream failure marker')
+
+
 def load_outcomes(path: Path, expected: list[dict]) -> list[dict]:
     rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
     keys = [(r["task_id"],r["arm"],r["seed"]) for r in rows]
@@ -36,12 +81,15 @@ def load_outcomes(path: Path, expected: list[dict]) -> list[dict]:
         if row["resolved"] is not None and type(row["resolved"]) is not bool:
             raise ValueError("Resolved must be boolean or null, not a model score")
         if row["resolved"] is not None:
-            report = Path(row["report_path"])
-            if not report.is_absolute(): report = path.parent/report
-            if sha(report) != row["report_sha256"]:
-                raise ValueError("Official report is absent or changed")
             if row["evaluator"] not in ("bigcodebench", "swebench"):
                 raise ValueError("Unsupported evaluator; surrogate checks are not official outcomes")
+            if row.get('outcome_type') in ('candidate_invalid_patch','native_application_rejection'):
+                _verify_candidate_failure(row,path)
+            else:
+                report = Path(row["report_path"])
+                if not report.is_absolute(): report = path.parent/report
+                if sha(report) != row["report_sha256"]:
+                    raise ValueError("Official report is absent or changed")
         cost = row["cost_usd"]
         if type(cost) not in (int,float) or not math.isfinite(cost) or cost < 0:
             raise ValueError("Cost must be finite, nonnegative and reconciled")
