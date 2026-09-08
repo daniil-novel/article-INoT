@@ -48,3 +48,10 @@ The pinned BigCodeBench source was cloned and its HEAD verified locally. Its loa
 - The SWE Lite source card https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite/raw/main/README.md does not supply a blanket repository-content license. Exact upstream source licenses at all included repo/commit pairs are recorded under the SWE evidence archive. The harness license does not replace them.
 - The reserved 200-task allocation was selected before controls. Updated environment controls validate 193 references and reject all 200 deliberately incorrect programs. Original tasks and tests remain fixed. No model quality is inferred from controls.
 - INoT Sections 3.1/3.3, Listings 1/3 support the two-debater PromptCode concept. Our separately frozen 86-word instruction is independently worded, omits image augmentation for text tasks, uses agreement-or-ten-round stopping from the prose, and declares a latest-Agent-A fallback when ten rounds end without agreement. This resolves ambiguities for this replication; it is not an author-validated exact implementation. No native author executable was identified in the inspected primary sources, which is not proof that none exists.
+
+## Additional comparator and persona context (8 September 2026)
+
+- Zheng et al., Findings EMNLP 2024, https://aclanthology.org/2024.findings-emnlp.888/: factual-question persona effects; motivates explicit label controls, not a coding result.
+- Luz de Araujo et al., EMNLP 2025, https://aclanthology.org/2025.emnlp-main.1364/: separates performance, irrelevant-attribute robustness and fidelity. Broad persona claims are not justified by one fixed prompt.
+- Choi, Zhu and Li, NeurIPS 2025, https://arxiv.org/abs/2508.17536v2: separates debate from majority voting; no voting baseline is silently imputed to our serial pipeline.
+- Wunderlich et al., ACL Student Research Workshop 2026, https://aclanthology.org/2026.acl-srw.1/: reports configurations favorable to multi-agent inference under its compute comparison on MMLU-Pro/BBH. Included as a counterpoint; these external results do not establish code-generation performance.
