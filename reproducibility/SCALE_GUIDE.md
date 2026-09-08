@@ -61,6 +61,8 @@ Use the separately installed official Codex CLI 0.153.4 and ChatGPT authenticati
 
 The frozen generation manifests bind tasks, prompts, controls and implementation. A fresh replication requires its own output directories and recorded execution dates. Never overwrite a published attempt. The continuation commands refuse a nonterminal parent, hash the complete original archive and exclude every cell with any submitted stage. A timeout or identified stream interruption may end that cell; quota/authentication and unknown errors stop dispatch. There are no automatic retries or credit resets.
 
+[The decision timeline](revision/EXECUTION_TIMELINE.md) identifies the separate frozen allocations and continuation subsets. The immutable selection JSON describes its pre-control checkpoint; its historical false/empty control fields are superseded for eligibility by the separately frozen final control gate, not edited in place.
+
 ## Interpretation
 
 Quality comparisons use task pairs and show both missingness bounds and evaluable denominators. Four reserved binary contrasts use exact two-sided McNemar tests with Holm adjustment; other intervals are descriptive. Administrative amendments are disclosed. There is no non-inferiority claim.
