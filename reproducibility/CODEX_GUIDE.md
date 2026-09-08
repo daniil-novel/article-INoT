@@ -1,3 +1,5 @@
+> This guide covers the initial eight-task calibration. See [SCALE_GUIDE.md](SCALE_GUIDE.md) for the completed 400-program development block and reserved 200-task execution.
+
 # Воспроизведение эксперимента через подписку
 
 Модель — **GPT-5.4 mini, medium**; тариф — $0,75 / $0,075 / $4,50 за миллион входных / кешированных входных / выходных токенов. Это условная цена по официальному API-тарифу, а не счёт за подписку. [Протокол и отклонения](revision/CODEX_PROTOCOL.md) зафиксированы до новой матрицы. Spark не является экспериментальной моделью.
