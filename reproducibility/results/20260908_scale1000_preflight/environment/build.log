@@ -1,0 +1,477 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 340B 0.0s done
+#1 DONE 1.3s
+
+#2 [internal] load metadata for docker.io/library/bcb-segregation80:v3
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.1s
+
+#4 [1/4] FROM docker.io/library/bcb-segregation80:v3
+#4 ...
+
+#5 [internal] load build context
+#5 transferring context: 646B done
+#5 DONE 0.8s
+
+#4 [1/4] FROM docker.io/library/bcb-segregation80:v3
+#4 DONE 0.8s
+
+#6 [2/4] RUN apt-get update && apt-get install -y --no-install-recommends libtk8.6 libsndfile1 && rm -rf /var/lib/apt/lists/*
+#6 0.460 Hit:1 http://deb.debian.org/debian trixie InRelease
+#6 0.591 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#6 0.744 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#6 1.330 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9673 kB]
+#6 1.839 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
+#6 2.085 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [252 kB]
+#6 2.891 Fetched 10.0 MB in 3s (3881 kB/s)
+#6 2.891 Reading package lists...
+#6 3.645 Reading package lists...
+#6 4.420 Building dependency tree...
+#6 4.619 Reading state information...
+#6 5.045 The following additional packages will be installed:
+#6 5.045   fontconfig-config fonts-dejavu-core fonts-dejavu-mono libbrotli1 libexpat1
+#6 5.046   libflac14 libfontconfig1 libfreetype6 libmp3lame0 libmpg123-0t64 libogg0
+#6 5.047   libopus0 libpng16-16t64 libtcl8.6 libvorbis0a libvorbisenc2 libx11-6
+#6 5.049   libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxft2 libxrender1 libxss1
+#6 5.049   x11-common
+#6 5.053 Suggested packages:
+#6 5.053   opus-tools tcl8.6 tk8.6
+#6 5.307 The following NEW packages will be installed:
+#6 5.307   fontconfig-config fonts-dejavu-core fonts-dejavu-mono libbrotli1 libexpat1
+#6 5.308   libflac14 libfontconfig1 libfreetype6 libmp3lame0 libmpg123-0t64 libogg0
+#6 5.309   libopus0 libpng16-16t64 libsndfile1 libtcl8.6 libtk8.6 libvorbis0a
+#6 5.309   libvorbisenc2 libx11-6 libx11-data libxau6 libxcb1 libxdmcp6 libxext6
+#6 5.311   libxft2 libxrender1 libxss1 x11-common
+#6 6.561 0 upgraded, 28 newly installed, 0 to remove and 0 not upgraded.
+#6 6.561 Need to get 10.7 MB of archives.
+#6 6.561 After this operation, 25.5 MB of additional disk space will be used.
+#6 6.561 Get:1 http://deb.debian.org/debian-security trixie-security/main amd64 libexpat1 amd64 2.8.3-1~deb13u1 [123 kB]
+#6 6.813 Get:2 http://deb.debian.org/debian trixie/main amd64 fonts-dejavu-mono all 2.37-8 [489 kB]
+#6 7.164 Get:3 http://deb.debian.org/debian trixie/main amd64 fonts-dejavu-core all 2.37-8 [840 kB]
+#6 7.462 Get:4 http://deb.debian.org/debian trixie/main amd64 fontconfig-config amd64 2.15.0-2.3 [318 kB]
+#6 7.750 Get:5 http://deb.debian.org/debian trixie/main amd64 libbrotli1 amd64 1.1.0-2+b7 [307 kB]
+#6 7.894 Get:6 http://deb.debian.org/debian trixie/main amd64 libogg0 amd64 1.3.5-3+b2 [23.8 kB]
+#6 8.106 Get:7 http://deb.debian.org/debian trixie/main amd64 libflac14 amd64 1.5.0+ds-2 [210 kB]
+#6 8.370 Get:8 http://deb.debian.org/debian trixie/main amd64 libpng16-16t64 amd64 1.6.48-1+deb13u5 [283 kB]
+#6 8.676 Get:9 http://deb.debian.org/debian trixie/main amd64 libfreetype6 amd64 2.13.3+dfsg-1+deb13u1 [452 kB]
+#6 8.949 Get:10 http://deb.debian.org/debian trixie/main amd64 libfontconfig1 amd64 2.15.0-2.3 [392 kB]
+#6 9.210 Get:11 http://deb.debian.org/debian trixie/main amd64 libmp3lame0 amd64 3.100-6+b3 [363 kB]
+#6 9.411 Get:12 http://deb.debian.org/debian trixie/main amd64 libmpg123-0t64 amd64 1.32.10-1+deb13u1 [149 kB]
+#6 9.798 Get:13 http://deb.debian.org/debian trixie/main amd64 libopus0 amd64 1.5.2-2 [2852 kB]
+#6 10.09 Get:14 http://deb.debian.org/debian trixie/main amd64 libvorbis0a amd64 1.3.7-3 [90.0 kB]
+#6 10.27 Get:15 http://deb.debian.org/debian trixie/main amd64 libvorbisenc2 amd64 1.3.7-3 [75.4 kB]
+#6 10.83 Get:16 http://deb.debian.org/debian trixie/main amd64 libsndfile1 amd64 1.2.2-2+deb13u1 [199 kB]
+#6 11.16 Get:17 http://deb.debian.org/debian trixie/main amd64 libtcl8.6 amd64 8.6.16+dfsg-1 [1042 kB]
+#6 11.31 Get:18 http://deb.debian.org/debian trixie/main amd64 libxau6 amd64 1:1.0.11-1 [20.4 kB]
+#6 11.47 Get:19 http://deb.debian.org/debian trixie/main amd64 libxdmcp6 amd64 1:1.1.5-1 [27.8 kB]
+#6 11.66 Get:20 http://deb.debian.org/debian trixie/main amd64 libxcb1 amd64 1.17.0-2+b1 [144 kB]
+#6 11.92 Get:21 http://deb.debian.org/debian trixie/main amd64 libx11-data all 2:1.8.12-1 [343 kB]
+#6 12.24 Get:22 http://deb.debian.org/debian trixie/main amd64 libx11-6 amd64 2:1.8.12-1 [815 kB]
+#6 12.39 Get:23 http://deb.debian.org/debian trixie/main amd64 libxrender1 amd64 1:0.9.12-1 [27.9 kB]
+#6 12.54 Get:24 http://deb.debian.org/debian trixie/main amd64 libxft2 amd64 2.3.6-1+b4 [54.5 kB]
+#6 12.71 Get:25 http://deb.debian.org/debian trixie/main amd64 libxext6 amd64 2:1.3.4-1+b3 [50.4 kB]
+#6 12.98 Get:26 http://deb.debian.org/debian trixie/main amd64 x11-common all 1:7.7+24+deb13u1 [217 kB]
+#6 13.11 Get:27 http://deb.debian.org/debian trixie/main amd64 libxss1 amd64 1:1.2.3-1+b3 [17.0 kB]
+#6 13.38 Get:28 http://deb.debian.org/debian trixie/main amd64 libtk8.6 amd64 8.6.16-1 [793 kB]
+#6 13.68 debconf: unable to initialize frontend: Dialog
+#6 13.68 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 13.68 debconf: falling back to frontend: Readline
+#6 13.68 debconf: unable to initialize frontend: Readline
+#6 13.68 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 28.)
+#6 13.69 debconf: falling back to frontend: Teletype
+#6 13.69 debconf: unable to initialize frontend: Teletype
+#6 13.69 debconf: (This frontend requires a controlling tty.)
+#6 13.69 debconf: falling back to frontend: Noninteractive
+#6 14.43 Preconfiguring packages ...
+#6 14.50 Fetched 10.7 MB in 8s (1328 kB/s)
+#6 14.54 Selecting previously unselected package libexpat1:amd64.
+#6 14.54 (Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 5652 files and directories currently installed.)
+#6 14.58 Preparing to unpack .../00-libexpat1_2.8.3-1~deb13u1_amd64.deb ...
+#6 14.60 Unpacking libexpat1:amd64 (2.8.3-1~deb13u1) ...
+#6 14.64 Selecting previously unselected package fonts-dejavu-mono.
+#6 14.64 Preparing to unpack .../01-fonts-dejavu-mono_2.37-8_all.deb ...
+#6 14.65 Unpacking fonts-dejavu-mono (2.37-8) ...
+#6 14.73 Selecting previously unselected package fonts-dejavu-core.
+#6 14.73 Preparing to unpack .../02-fonts-dejavu-core_2.37-8_all.deb ...
+#6 14.75 Unpacking fonts-dejavu-core (2.37-8) ...
+#6 14.85 Selecting previously unselected package fontconfig-config.
+#6 14.85 Preparing to unpack .../03-fontconfig-config_2.15.0-2.3_amd64.deb ...
+#6 14.85 Unpacking fontconfig-config (2.15.0-2.3) ...
+#6 14.91 Selecting previously unselected package libbrotli1:amd64.
+#6 14.91 Preparing to unpack .../04-libbrotli1_1.1.0-2+b7_amd64.deb ...
+#6 14.92 Unpacking libbrotli1:amd64 (1.1.0-2+b7) ...
+#6 14.98 Selecting previously unselected package libogg0:amd64.
+#6 14.98 Preparing to unpack .../05-libogg0_1.3.5-3+b2_amd64.deb ...
+#6 14.99 Unpacking libogg0:amd64 (1.3.5-3+b2) ...
+#6 15.04 Selecting previously unselected package libflac14:amd64.
+#6 15.04 Preparing to unpack .../06-libflac14_1.5.0+ds-2_amd64.deb ...
+#6 15.04 Unpacking libflac14:amd64 (1.5.0+ds-2) ...
+#6 15.10 Selecting previously unselected package libpng16-16t64:amd64.
+#6 15.10 Preparing to unpack .../07-libpng16-16t64_1.6.48-1+deb13u5_amd64.deb ...
+#6 15.11 Unpacking libpng16-16t64:amd64 (1.6.48-1+deb13u5) ...
+#6 15.16 Selecting previously unselected package libfreetype6:amd64.
+#6 15.16 Preparing to unpack .../08-libfreetype6_2.13.3+dfsg-1+deb13u1_amd64.deb ...
+#6 15.16 Unpacking libfreetype6:amd64 (2.13.3+dfsg-1+deb13u1) ...
+#6 15.23 Selecting previously unselected package libfontconfig1:amd64.
+#6 15.23 Preparing to unpack .../09-libfontconfig1_2.15.0-2.3_amd64.deb ...
+#6 15.24 Unpacking libfontconfig1:amd64 (2.15.0-2.3) ...
+#6 15.29 Selecting previously unselected package libmp3lame0:amd64.
+#6 15.29 Preparing to unpack .../10-libmp3lame0_3.100-6+b3_amd64.deb ...
+#6 15.30 Unpacking libmp3lame0:amd64 (3.100-6+b3) ...
+#6 15.35 Selecting previously unselected package libmpg123-0t64:amd64.
+#6 15.35 Preparing to unpack .../11-libmpg123-0t64_1.32.10-1+deb13u1_amd64.deb ...
+#6 15.36 Unpacking libmpg123-0t64:amd64 (1.32.10-1+deb13u1) ...
+#6 15.41 Selecting previously unselected package libopus0:amd64.
+#6 15.41 Preparing to unpack .../12-libopus0_1.5.2-2_amd64.deb ...
+#6 15.42 Unpacking libopus0:amd64 (1.5.2-2) ...
+#6 15.59 Selecting previously unselected package libvorbis0a:amd64.
+#6 15.59 Preparing to unpack .../13-libvorbis0a_1.3.7-3_amd64.deb ...
+#6 15.60 Unpacking libvorbis0a:amd64 (1.3.7-3) ...
+#6 15.65 Selecting previously unselected package libvorbisenc2:amd64.
+#6 15.65 Preparing to unpack .../14-libvorbisenc2_1.3.7-3_amd64.deb ...
+#6 15.66 Unpacking libvorbisenc2:amd64 (1.3.7-3) ...
+#6 15.71 Selecting previously unselected package libsndfile1:amd64.
+#6 15.71 Preparing to unpack .../15-libsndfile1_1.2.2-2+deb13u1_amd64.deb ...
+#6 15.71 Unpacking libsndfile1:amd64 (1.2.2-2+deb13u1) ...
+#6 15.77 Selecting previously unselected package libtcl8.6:amd64.
+#6 15.78 Preparing to unpack .../16-libtcl8.6_8.6.16+dfsg-1_amd64.deb ...
+#6 15.78 Unpacking libtcl8.6:amd64 (8.6.16+dfsg-1) ...
+#6 15.91 Selecting previously unselected package libxau6:amd64.
+#6 15.91 Preparing to unpack .../17-libxau6_1%3a1.0.11-1_amd64.deb ...
+#6 15.92 Unpacking libxau6:amd64 (1:1.0.11-1) ...
+#6 15.98 Selecting previously unselected package libxdmcp6:amd64.
+#6 15.98 Preparing to unpack .../18-libxdmcp6_1%3a1.1.5-1_amd64.deb ...
+#6 15.98 Unpacking libxdmcp6:amd64 (1:1.1.5-1) ...
+#6 16.03 Selecting previously unselected package libxcb1:amd64.
+#6 16.03 Preparing to unpack .../19-libxcb1_1.17.0-2+b1_amd64.deb ...
+#6 16.04 Unpacking libxcb1:amd64 (1.17.0-2+b1) ...
+#6 16.08 Selecting previously unselected package libx11-data.
+#6 16.08 Preparing to unpack .../20-libx11-data_2%3a1.8.12-1_all.deb ...
+#6 16.09 Unpacking libx11-data (2:1.8.12-1) ...
+#6 16.18 Selecting previously unselected package libx11-6:amd64.
+#6 16.18 Preparing to unpack .../21-libx11-6_2%3a1.8.12-1_amd64.deb ...
+#6 16.18 Unpacking libx11-6:amd64 (2:1.8.12-1) ...
+#6 16.26 Selecting previously unselected package libxrender1:amd64.
+#6 16.26 Preparing to unpack .../22-libxrender1_1%3a0.9.12-1_amd64.deb ...
+#6 16.27 Unpacking libxrender1:amd64 (1:0.9.12-1) ...
+#6 16.32 Selecting previously unselected package libxft2:amd64.
+#6 16.32 Preparing to unpack .../23-libxft2_2.3.6-1+b4_amd64.deb ...
+#6 16.33 Unpacking libxft2:amd64 (2.3.6-1+b4) ...
+#6 16.39 Selecting previously unselected package libxext6:amd64.
+#6 16.39 Preparing to unpack .../24-libxext6_2%3a1.3.4-1+b3_amd64.deb ...
+#6 16.39 Unpacking libxext6:amd64 (2:1.3.4-1+b3) ...
+#6 16.45 Selecting previously unselected package x11-common.
+#6 16.45 Preparing to unpack .../25-x11-common_1%3a7.7+24+deb13u1_all.deb ...
+#6 16.46 Unpacking x11-common (1:7.7+24+deb13u1) ...
+#6 16.53 Selecting previously unselected package libxss1:amd64.
+#6 16.53 Preparing to unpack .../26-libxss1_1%3a1.2.3-1+b3_amd64.deb ...
+#6 16.54 Unpacking libxss1:amd64 (1:1.2.3-1+b3) ...
+#6 16.58 Selecting previously unselected package libtk8.6:amd64.
+#6 16.58 Preparing to unpack .../27-libtk8.6_8.6.16-1_amd64.deb ...
+#6 16.59 Unpacking libtk8.6:amd64 (8.6.16-1) ...
+#6 16.68 Setting up libexpat1:amd64 (2.8.3-1~deb13u1) ...
+#6 16.70 Setting up libxau6:amd64 (1:1.0.11-1) ...
+#6 16.72 Setting up libxdmcp6:amd64 (1:1.1.5-1) ...
+#6 16.74 Setting up libxcb1:amd64 (1.17.0-2+b1) ...
+#6 16.75 Setting up libogg0:amd64 (1.3.5-3+b2) ...
+#6 16.77 Setting up libbrotli1:amd64 (1.1.0-2+b7) ...
+#6 16.78 Setting up x11-common (1:7.7+24+deb13u1) ...
+#6 17.00 debconf: unable to initialize frontend: Dialog
+#6 17.00 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 17.00 debconf: falling back to frontend: Readline
+#6 17.00 debconf: unable to initialize frontend: Readline
+#6 17.00 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#6 17.00 debconf: falling back to frontend: Teletype
+#6 17.01 debconf: unable to initialize frontend: Teletype
+#6 17.01 debconf: (This frontend requires a controlling tty.)
+#6 17.01 debconf: falling back to frontend: Noninteractive
+#6 17.03 invoke-rc.d: could not determine current runlevel
+#6 17.04 invoke-rc.d: policy-rc.d denied execution of start.
+#6 17.05 Setting up libmpg123-0t64:amd64 (1.32.10-1+deb13u1) ...
+#6 17.07 Setting up libx11-data (2:1.8.12-1) ...
+#6 17.09 Setting up libopus0:amd64 (1.5.2-2) ...
+#6 17.10 Setting up fonts-dejavu-mono (2.37-8) ...
+#6 17.14 Setting up libpng16-16t64:amd64 (1.6.48-1+deb13u5) ...
+#6 17.15 Setting up libvorbis0a:amd64 (1.3.7-3) ...
+#6 17.17 Setting up libtcl8.6:amd64 (8.6.16+dfsg-1) ...
+#6 17.19 Setting up fonts-dejavu-core (2.37-8) ...
+#6 17.26 Setting up libflac14:amd64 (1.5.0+ds-2) ...
+#6 17.28 Setting up libx11-6:amd64 (2:1.8.12-1) ...
+#6 17.29 Setting up libmp3lame0:amd64 (3.100-6+b3) ...
+#6 17.30 Setting up libvorbisenc2:amd64 (1.3.7-3) ...
+#6 17.32 Setting up libxrender1:amd64 (1:0.9.12-1) ...
+#6 17.34 Setting up fontconfig-config (2.15.0-2.3) ...
+#6 17.44 debconf: unable to initialize frontend: Dialog
+#6 17.44 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 17.44 debconf: falling back to frontend: Readline
+#6 17.44 debconf: unable to initialize frontend: Readline
+#6 17.44 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#6 17.44 debconf: falling back to frontend: Teletype
+#6 17.44 debconf: unable to initialize frontend: Teletype
+#6 17.44 debconf: (This frontend requires a controlling tty.)
+#6 17.44 debconf: falling back to frontend: Noninteractive
+#6 17.50 Setting up libxext6:amd64 (2:1.3.4-1+b3) ...
+#6 17.51 Setting up libfreetype6:amd64 (2.13.3+dfsg-1+deb13u1) ...
+#6 17.53 Setting up libxss1:amd64 (1:1.2.3-1+b3) ...
+#6 17.54 Setting up libfontconfig1:amd64 (2.15.0-2.3) ...
+#6 17.56 Setting up libsndfile1:amd64 (1.2.2-2+deb13u1) ...
+#6 17.58 Setting up libxft2:amd64 (2.3.6-1+b4) ...
+#6 17.60 Setting up libtk8.6:amd64 (8.6.16-1) ...
+#6 17.61 Processing triggers for libc-bin (2.41-12+deb13u3) ...
+#6 DONE 17.9s
+
+#7 [3/4] COPY requirements.txt /tmp/scale1000-requirements.txt
+#7 DONE 0.1s
+
+#8 [4/4] RUN python -m pip install --no-cache-dir --disable-pip-version-check -r /tmp/scale1000-requirements.txt
+#8 2.209 Collecting blake3==0.4.1 (from -r /tmp/scale1000-requirements.txt (line 2))
+#8 2.378   Downloading blake3-0.4.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+#8 2.468 Collecting chardet==5.2.0 (from -r /tmp/scale1000-requirements.txt (line 3))
+#8 2.499   Downloading chardet-5.2.0-py3-none-any.whl.metadata (3.4 kB)
+#8 2.659 Collecting Django==4.2.7 (from -r /tmp/scale1000-requirements.txt (line 4))
+#8 2.691   Downloading Django-4.2.7-py3-none-any.whl.metadata (4.1 kB)
+#8 2.749 Collecting flask==3.0.3 (from -r /tmp/scale1000-requirements.txt (line 5))
+#8 2.781   Downloading flask-3.0.3-py3-none-any.whl.metadata (3.2 kB)
+#8 2.826 Collecting flask_login==0.6.3 (from -r /tmp/scale1000-requirements.txt (line 6))
+#8 2.865   Downloading Flask_Login-0.6.3-py3-none-any.whl.metadata (5.8 kB)
+#8 2.914 Collecting flask_restful==0.3.10 (from -r /tmp/scale1000-requirements.txt (line 7))
+#8 2.948   Downloading Flask_RESTful-0.3.10-py2.py3-none-any.whl.metadata (1.0 kB)
+#8 2.995 Collecting flask_wtf==1.2.1 (from -r /tmp/scale1000-requirements.txt (line 8))
+#8 3.026   Downloading flask_wtf-1.2.1-py3-none-any.whl.metadata (3.4 kB)
+#8 3.075 Collecting Flask-Mail==0.9.1 (from -r /tmp/scale1000-requirements.txt (line 9))
+#8 3.107   Downloading Flask-Mail-0.9.1.tar.gz (45 kB)
+#8 3.140      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.7/45.7 kB 1.3 MB/s eta 0:00:00
+#8 3.150   Preparing metadata (setup.py): started
+#8 3.966   Preparing metadata (setup.py): finished with status 'done'
+#8 4.076 Collecting gensim==4.3.2 (from -r /tmp/scale1000-requirements.txt (line 10))
+#8 4.113   Downloading gensim-4.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (8.3 kB)
+#8 4.168 Collecting geopandas==0.13.2 (from -r /tmp/scale1000-requirements.txt (line 11))
+#8 4.200   Downloading geopandas-0.13.2-py3-none-any.whl.metadata (1.5 kB)
+#8 4.252 Collecting geopy==2.4.1 (from -r /tmp/scale1000-requirements.txt (line 12))
+#8 4.283   Downloading geopy-2.4.1-py3-none-any.whl.metadata (6.8 kB)
+#8 4.394 Collecting holidays==0.29 (from -r /tmp/scale1000-requirements.txt (line 13))
+#8 4.432   Downloading holidays-0.29-py3-none-any.whl.metadata (16 kB)
+#8 4.767 Collecting Levenshtein==0.25.0 (from -r /tmp/scale1000-requirements.txt (line 14))
+#8 4.798   Downloading Levenshtein-0.25.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.3 kB)
+#8 4.865 Collecting natsort==7.1.1 (from -r /tmp/scale1000-requirements.txt (line 15))
+#8 4.901   Downloading natsort-7.1.1-py3-none-any.whl.metadata (22 kB)
+#8 4.961 Collecting prettytable==3.10.0 (from -r /tmp/scale1000-requirements.txt (line 16))
+#8 4.995   Downloading prettytable-3.10.0-py3-none-any.whl.metadata (30 kB)
+#8 5.179 Collecting psutil==5.9.5 (from -r /tmp/scale1000-requirements.txt (line 17))
+#8 5.212   Downloading psutil-5.9.5-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (21 kB)
+#8 5.273 Collecting requests_mock==1.11.0 (from -r /tmp/scale1000-requirements.txt (line 18))
+#8 5.306   Downloading requests_mock-1.11.0-py2.py3-none-any.whl.metadata (4.7 kB)
+#8 5.447 Collecting scikit-image==0.21.0 (from -r /tmp/scale1000-requirements.txt (line 20))
+#8 5.480   Downloading scikit_image-0.21.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
+#8 5.577 Collecting sendgrid==6.11.0 (from -r /tmp/scale1000-requirements.txt (line 21))
+#8 5.607   Downloading sendgrid-6.11.0-py3-none-any.whl.metadata (11 kB)
+#8 5.672 Collecting soundfile==0.12.1 (from -r /tmp/scale1000-requirements.txt (line 22))
+#8 5.703   Downloading soundfile-0.12.1-py2.py3-none-manylinux_2_31_x86_64.whl.metadata (14 kB)
+#8 5.763 Collecting textblob==0.18.0 (from -r /tmp/scale1000-requirements.txt (line 23))
+#8 5.805   Downloading textblob-0.18.0-py3-none-any.whl.metadata (4.5 kB)
+#8 5.956 Collecting wordninja==2.0.0 (from -r /tmp/scale1000-requirements.txt (line 24))
+#8 5.999   Downloading wordninja-2.0.0.tar.gz (541 kB)
+#8 6.091      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 541.6/541.6 kB 6.2 MB/s eta 0:00:00
+#8 6.097   Preparing metadata (setup.py): started
+#8 6.914   Preparing metadata (setup.py): finished with status 'done'
+#8 6.956 Collecting xlrd==2.0.1 (from -r /tmp/scale1000-requirements.txt (line 25))
+#8 6.988   Downloading xlrd-2.0.1-py2.py3-none-any.whl.metadata (3.4 kB)
+#8 7.037 Collecting xmltodict==0.13.0 (from -r /tmp/scale1000-requirements.txt (line 26))
+#8 7.069   Downloading xmltodict-0.13.0-py2.py3-none-any.whl.metadata (7.7 kB)
+#8 7.079 Requirement already satisfied: numpy==1.26.4 in /usr/local/lib/python3.11/site-packages (from -r /tmp/scale1000-requirements.txt (line 27)) (1.26.4)
+#8 7.085 Requirement already satisfied: scipy==1.10.1 in /usr/local/lib/python3.11/site-packages (from -r /tmp/scale1000-requirements.txt (line 28)) (1.10.1)
+#8 7.089 Requirement already satisfied: nltk==3.8.1 in /usr/local/lib/python3.11/site-packages (from -r /tmp/scale1000-requirements.txt (line 29)) (3.8.1)
+#8 7.158 Collecting asgiref<4,>=3.6.0 (from Django==4.2.7->-r /tmp/scale1000-requirements.txt (line 4))
+#8 7.188   Downloading asgiref-3.12.1-py3-none-any.whl.metadata (9.4 kB)
+#8 7.242 Collecting sqlparse>=0.3.1 (from Django==4.2.7->-r /tmp/scale1000-requirements.txt (line 4))
+#8 7.273   Downloading sqlparse-0.6.0-py3-none-any.whl.metadata (6.0 kB)
+#8 7.288 Requirement already satisfied: Werkzeug>=3.0.0 in /usr/local/lib/python3.11/site-packages (from flask==3.0.3->-r /tmp/scale1000-requirements.txt (line 5)) (3.1.8)
+#8 7.290 Requirement already satisfied: Jinja2>=3.1.2 in /usr/local/lib/python3.11/site-packages (from flask==3.0.3->-r /tmp/scale1000-requirements.txt (line 5)) (3.1.6)
+#8 7.335 Collecting itsdangerous>=2.1.2 (from flask==3.0.3->-r /tmp/scale1000-requirements.txt (line 5))
+#8 7.366   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+#8 7.369 Requirement already satisfied: click>=8.1.3 in /usr/local/lib/python3.11/site-packages (from flask==3.0.3->-r /tmp/scale1000-requirements.txt (line 5)) (8.5.0)
+#8 7.422 Collecting blinker>=1.6.2 (from flask==3.0.3->-r /tmp/scale1000-requirements.txt (line 5))
+#8 7.454   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+#8 7.522 Collecting aniso8601>=0.82 (from flask_restful==0.3.10->-r /tmp/scale1000-requirements.txt (line 7))
+#8 7.555   Downloading aniso8601-10.0.1-py2.py3-none-any.whl.metadata (23 kB)
+#8 7.566 Requirement already satisfied: six>=1.3.0 in /usr/local/lib/python3.11/site-packages (from flask_restful==0.3.10->-r /tmp/scale1000-requirements.txt (line 7)) (1.17.0)
+#8 7.568 Requirement already satisfied: pytz in /usr/local/lib/python3.11/site-packages (from flask_restful==0.3.10->-r /tmp/scale1000-requirements.txt (line 7)) (2026.3.post1)
+#8 7.623 Collecting wtforms (from flask_wtf==1.2.1->-r /tmp/scale1000-requirements.txt (line 8))
+#8 7.655   Downloading wtforms-3.2.2-py3-none-any.whl.metadata (4.9 kB)
+#8 7.806 Collecting smart-open>=1.8.1 (from gensim==4.3.2->-r /tmp/scale1000-requirements.txt (line 10))
+#8 7.843   Downloading smart_open-8.0.1-py3-none-any.whl.metadata (24 kB)
+#8 7.979 Collecting fiona>=1.8.19 (from geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11))
+#8 8.010   Downloading fiona-1.10.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (56 kB)
+#8 8.015      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.6/56.6 kB 36.1 MB/s eta 0:00:00
+#8 8.023 Requirement already satisfied: packaging in /usr/local/lib/python3.11/site-packages (from geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11)) (26.3)
+#8 8.032 Requirement already satisfied: pandas>=1.1.0 in /usr/local/lib/python3.11/site-packages (from geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11)) (2.2.3)
+#8 8.178 Collecting pyproj>=3.0.1 (from geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11))
+#8 8.210   Downloading pyproj-3.7.2-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (31 kB)
+#8 8.380 Collecting shapely>=1.7.1 (from geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11))
+#8 8.411   Downloading shapely-2.1.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.8 kB)
+#8 8.493 Collecting geographiclib<3,>=1.52 (from geopy==2.4.1->-r /tmp/scale1000-requirements.txt (line 12))
+#8 8.524   Downloading geographiclib-2.1-py3-none-any.whl.metadata (1.6 kB)
+#8 8.530 Requirement already satisfied: python-dateutil in /usr/local/lib/python3.11/site-packages (from holidays==0.29->-r /tmp/scale1000-requirements.txt (line 13)) (2.9.0.post0)
+#8 9.415 Collecting rapidfuzz<4.0.0,>=3.1.0 (from Levenshtein==0.25.0->-r /tmp/scale1000-requirements.txt (line 14))
+#8 9.445   Downloading rapidfuzz-3.14.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (12 kB)
+#8 9.509 Collecting wcwidth (from prettytable==3.10.0->-r /tmp/scale1000-requirements.txt (line 16))
+#8 9.540   Downloading wcwidth-0.8.3-py3-none-any.whl.metadata (43 kB)
+#8 9.543      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.3/43.3 kB 28.0 MB/s eta 0:00:00
+#8 9.566 Requirement already satisfied: requests<3,>=2.3 in /usr/local/lib/python3.11/site-packages (from requests_mock==1.11.0->-r /tmp/scale1000-requirements.txt (line 18)) (2.34.2)
+#8 9.690 Collecting networkx>=2.8 (from scikit-image==0.21.0->-r /tmp/scale1000-requirements.txt (line 20))
+#8 9.728   Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+#8 9.732 Requirement already satisfied: pillow>=9.0.1 in /usr/local/lib/python3.11/site-packages (from scikit-image==0.21.0->-r /tmp/scale1000-requirements.txt (line 20)) (12.3.0)
+#8 9.814 Collecting imageio>=2.27 (from scikit-image==0.21.0->-r /tmp/scale1000-requirements.txt (line 20))
+#8 9.844   Downloading imageio-2.37.4-py3-none-any.whl.metadata (9.6 kB)
+#8 9.944 Collecting tifffile>=2022.8.12 (from scikit-image==0.21.0->-r /tmp/scale1000-requirements.txt (line 20))
+#8 9.975   Downloading tifffile-2026.3.3-py3-none-any.whl.metadata (31 kB)
+#8 10.06 Collecting PyWavelets>=1.1.1 (from scikit-image==0.21.0->-r /tmp/scale1000-requirements.txt (line 20))
+#8 10.10   Downloading pywavelets-1.9.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (7.6 kB)
+#8 10.14 Collecting lazy_loader>=0.2 (from scikit-image==0.21.0->-r /tmp/scale1000-requirements.txt (line 20))
+#8 10.17   Downloading lazy_loader-0.5-py3-none-any.whl.metadata (5.9 kB)
+#8 10.23 Collecting python-http-client>=3.2.1 (from sendgrid==6.11.0->-r /tmp/scale1000-requirements.txt (line 21))
+#8 10.26   Downloading python_http_client-3.3.7-py3-none-any.whl.metadata (6.9 kB)
+#8 10.30 Collecting starkbank-ecdsa>=2.0.1 (from sendgrid==6.11.0->-r /tmp/scale1000-requirements.txt (line 21))
+#8 10.33   Downloading starkbank_ecdsa-2.3.1-py3-none-any.whl.metadata (8.6 kB)
+#8 10.34 Requirement already satisfied: cffi>=1.0 in /usr/local/lib/python3.11/site-packages (from soundfile==0.12.1->-r /tmp/scale1000-requirements.txt (line 22)) (2.1.1)
+#8 10.41 Requirement already satisfied: joblib in /usr/local/lib/python3.11/site-packages (from nltk==3.8.1->-r /tmp/scale1000-requirements.txt (line 29)) (1.6.0)
+#8 10.42 Requirement already satisfied: regex>=2021.8.3 in /usr/local/lib/python3.11/site-packages (from nltk==3.8.1->-r /tmp/scale1000-requirements.txt (line 29)) (2026.9.3)
+#8 10.42 Requirement already satisfied: tqdm in /usr/local/lib/python3.11/site-packages (from nltk==3.8.1->-r /tmp/scale1000-requirements.txt (line 29)) (4.67.1)
+#8 10.45 Requirement already satisfied: pycparser in /usr/local/lib/python3.11/site-packages (from cffi>=1.0->soundfile==0.12.1->-r /tmp/scale1000-requirements.txt (line 22)) (3.0)
+#8 10.47 Requirement already satisfied: attrs>=19.2.0 in /usr/local/lib/python3.11/site-packages (from fiona>=1.8.19->geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11)) (26.1.0)
+#8 10.47 Requirement already satisfied: certifi in /usr/local/lib/python3.11/site-packages (from fiona>=1.8.19->geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11)) (2026.7.22)
+#8 10.51 Collecting click-plugins>=1.0 (from fiona>=1.8.19->geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11))
+#8 10.56   Downloading click_plugins-1.1.1.2-py2.py3-none-any.whl.metadata (6.5 kB)
+#8 10.61 Collecting cligj>=0.5 (from fiona>=1.8.19->geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11))
+#8 10.64   Downloading cligj-0.7.2-py3-none-any.whl.metadata (5.0 kB)
+#8 10.71 Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.11/site-packages (from Jinja2>=3.1.2->flask==3.0.3->-r /tmp/scale1000-requirements.txt (line 5)) (3.0.3)
+#8 10.85 Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.11/site-packages (from pandas>=1.1.0->geopandas==0.13.2->-r /tmp/scale1000-requirements.txt (line 11)) (2026.3)
+#8 10.95 Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.11/site-packages (from requests<3,>=2.3->requests_mock==1.11.0->-r /tmp/scale1000-requirements.txt (line 18)) (3.5.1)
+#8 10.95 Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.11/site-packages (from requests<3,>=2.3->requests_mock==1.11.0->-r /tmp/scale1000-requirements.txt (line 18)) (3.19)
+#8 10.95 Requirement already satisfied: urllib3<3,>=1.26 in /usr/local/lib/python3.11/site-packages (from requests<3,>=2.3->requests_mock==1.11.0->-r /tmp/scale1000-requirements.txt (line 18)) (2.7.0)
+#8 11.01 Requirement already satisfied: wrapt in /usr/local/lib/python3.11/site-packages (from smart-open>=1.8.1->gensim==4.3.2->-r /tmp/scale1000-requirements.txt (line 10)) (1.14.2)
+#8 11.11 Requirement already satisfied: cloudpickle>=3.0 in /usr/local/lib/python3.11/site-packages (from joblib->nltk==3.8.1->-r /tmp/scale1000-requirements.txt (line 29)) (3.1.2)
+#8 11.36 Downloading blake3-0.4.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+#8 11.41    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 27.3 MB/s eta 0:00:00
+#8 11.44 Downloading chardet-5.2.0-py3-none-any.whl (199 kB)
+#8 11.45    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 199.4/199.4 kB 39.4 MB/s eta 0:00:00
+#8 11.49 Downloading Django-4.2.7-py3-none-any.whl (8.0 MB)
+#8 11.80    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.0/8.0 MB 25.7 MB/s eta 0:00:00
+#8 11.84 Downloading flask-3.0.3-py3-none-any.whl (101 kB)
+#8 11.85    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 101.7/101.7 kB 28.2 MB/s eta 0:00:00
+#8 11.88 Downloading Flask_Login-0.6.3-py3-none-any.whl (17 kB)
+#8 11.92 Downloading Flask_RESTful-0.3.10-py2.py3-none-any.whl (26 kB)
+#8 11.95 Downloading flask_wtf-1.2.1-py3-none-any.whl (12 kB)
+#8 11.99 Downloading gensim-4.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (26.7 MB)
+#8 13.07    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 26.7/26.7 MB 26.7 MB/s eta 0:00:00
+#8 13.10 Downloading geopandas-0.13.2-py3-none-any.whl (1.1 MB)
+#8 13.15    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 26.6 MB/s eta 0:00:00
+#8 13.18 Downloading geopy-2.4.1-py3-none-any.whl (125 kB)
+#8 13.18    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 125.4/125.4 kB 44.3 MB/s eta 0:00:00
+#8 13.32 Downloading holidays-0.29-py3-none-any.whl (695 kB)
+#8 13.36    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 695.7/695.7 kB 24.3 MB/s eta 0:00:00
+#8 13.40 Downloading Levenshtein-0.25.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (177 kB)
+#8 13.41    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 177.2/177.2 kB 38.7 MB/s eta 0:00:00
+#8 13.44 Downloading natsort-7.1.1-py3-none-any.whl (35 kB)
+#8 13.48 Downloading prettytable-3.10.0-py3-none-any.whl (28 kB)
+#8 13.51 Downloading psutil-5.9.5-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (282 kB)
+#8 13.52    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 282.1/282.1 kB 27.7 MB/s eta 0:00:00
+#8 13.56 Downloading requests_mock-1.11.0-py2.py3-none-any.whl (28 kB)
+#8 13.59 Downloading scikit_image-0.21.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (13.7 MB)
+#8 14.08    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.7/13.7 MB 27.8 MB/s eta 0:00:00
+#8 14.11 Downloading sendgrid-6.11.0-py3-none-any.whl (101 kB)
+#8 14.12    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 101.9/101.9 kB 31.4 MB/s eta 0:00:00
+#8 14.17 Downloading soundfile-0.12.1-py2.py3-none-manylinux_2_31_x86_64.whl (1.2 MB)
+#8 14.21    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 28.2 MB/s eta 0:00:00
+#8 14.24 Downloading textblob-0.18.0-py3-none-any.whl (626 kB)
+#8 14.27    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 626.3/626.3 kB 27.3 MB/s eta 0:00:00
+#8 14.30 Downloading xlrd-2.0.1-py2.py3-none-any.whl (96 kB)
+#8 14.31    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 96.5/96.5 kB 57.9 MB/s eta 0:00:00
+#8 14.35 Downloading xmltodict-0.13.0-py2.py3-none-any.whl (10.0 kB)
+#8 14.39 Downloading aniso8601-10.0.1-py2.py3-none-any.whl (52 kB)
+#8 14.40    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 52.8/52.8 kB 84.5 MB/s eta 0:00:00
+#8 14.46 Downloading asgiref-3.12.1-py3-none-any.whl (25 kB)
+#8 14.49 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+#8 14.52 Downloading fiona-1.10.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.3 MB)
+#8 15.14    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.3/17.3 MB 28.8 MB/s eta 0:00:00
+#8 15.18 Downloading geographiclib-2.1-py3-none-any.whl (40 kB)
+#8 15.18    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.7/40.7 kB 105.0 MB/s eta 0:00:00
+#8 15.22 Downloading imageio-2.37.4-py3-none-any.whl (318 kB)
+#8 15.24    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 318.0/318.0 kB 19.7 MB/s eta 0:00:00
+#8 15.27 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#8 15.33 Downloading lazy_loader-0.5-py3-none-any.whl (8.0 kB)
+#8 15.37 Downloading networkx-3.6.1-py3-none-any.whl (2.1 MB)
+#8 15.44    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 30.5 MB/s eta 0:00:00
+#8 15.48 Downloading pyproj-3.7.2-cp311-cp311-manylinux_2_28_x86_64.whl (9.5 MB)
+#8 15.79    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.5/9.5 MB 31.2 MB/s eta 0:00:00
+#8 15.82 Downloading python_http_client-3.3.7-py3-none-any.whl (8.4 kB)
+#8 15.85 Downloading pywavelets-1.9.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (4.5 MB)
+#8 16.01    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 29.7 MB/s eta 0:00:00
+#8 16.04 Downloading rapidfuzz-3.14.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.2 MB)
+#8 16.15    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 31.3 MB/s eta 0:00:00
+#8 16.18 Downloading shapely-2.1.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (3.1 MB)
+#8 16.28    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 32.5 MB/s eta 0:00:00
+#8 16.31 Downloading smart_open-8.0.1-py3-none-any.whl (73 kB)
+#8 16.32    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 120.6 MB/s eta 0:00:00
+#8 16.35 Downloading sqlparse-0.6.0-py3-none-any.whl (50 kB)
+#8 16.35    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.1/50.1 kB 97.0 MB/s eta 0:00:00
+#8 16.63 Downloading starkbank_ecdsa-2.3.1-py3-none-any.whl (22 kB)
+#8 16.67 Downloading tifffile-2026.3.3-py3-none-any.whl (243 kB)
+#8 16.68    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 244.0/244.0 kB 32.1 MB/s eta 0:00:00
+#8 16.71 Downloading wcwidth-0.8.3-py3-none-any.whl (331 kB)
+#8 16.72    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.7/331.7 kB 47.4 MB/s eta 0:00:00
+#8 16.75 Downloading wtforms-3.2.2-py3-none-any.whl (158 kB)
+#8 16.76    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 158.7/158.7 kB 30.4 MB/s eta 0:00:00
+#8 16.79 Downloading click_plugins-1.1.1.2-py2.py3-none-any.whl (11 kB)
+#8 16.82 Downloading cligj-0.7.2-py3-none-any.whl (7.1 kB)
+#8 17.19 Building wheels for collected packages: Flask-Mail, wordninja
+#8 17.19   Building wheel for Flask-Mail (setup.py): started
+#8 18.18   Building wheel for Flask-Mail (setup.py): finished with status 'done'
+#8 18.18   Created wheel for Flask-Mail: filename=flask_mail-0.9.1-py3-none-any.whl size=7667 sha256=7bff7276744e92f13c113c302d81f9e149bc13f3e4c8d2c6e18f34e2d2d19a8e
+#8 18.18   Stored in directory: /tmp/pip-ephem-wheel-cache-zcllp8s7/wheels/f6/38/ab/b955b60e85ca451344be85d42bd267ef32311bd61cb21e5a1c
+#8 18.18   Building wheel for wordninja (setup.py): started
+#8 19.39   Building wheel for wordninja (setup.py): finished with status 'done'
+#8 19.40   Created wheel for wordninja: filename=wordninja-2.0.0-py3-none-any.whl size=541552 sha256=4e6f69bfa3b584cbb252febe69ec1f204d7d7fc740c9460a000d03ac22f806a5
+#8 19.40   Stored in directory: /tmp/pip-ephem-wheel-cache-zcllp8s7/wheels/e6/66/9c/712044a983337f5d44f90abcd244bd4b8ad28ee64750404b50
+#8 19.40 Successfully built Flask-Mail wordninja
+#8 21.11 Installing collected packages: wordninja, blake3, aniso8601, xmltodict, xlrd, wtforms, wcwidth, tifffile, starkbank-ecdsa, sqlparse, smart-open, shapely, rapidfuzz, PyWavelets, python-http-client, pyproj, psutil, networkx, natsort, lazy_loader, itsdangerous, imageio, geographiclib, cligj, click-plugins, chardet, blinker, asgiref, soundfile, sendgrid, scikit-image, requests_mock, prettytable, Levenshtein, holidays, geopy, gensim, flask, fiona, Django, textblob, geopandas, flask_wtf, flask_restful, Flask-Mail, flask_login
+#8 35.81 Successfully installed Django-4.2.7 Flask-Mail-0.9.1 Levenshtein-0.25.0 PyWavelets-1.9.0 aniso8601-10.0.1 asgiref-3.12.1 blake3-0.4.1 blinker-1.9.0 chardet-5.2.0 click-plugins-1.1.1.2 cligj-0.7.2 fiona-1.10.1 flask-3.0.3 flask_login-0.6.3 flask_restful-0.3.10 flask_wtf-1.2.1 gensim-4.3.2 geographiclib-2.1 geopandas-0.13.2 geopy-2.4.1 holidays-0.29 imageio-2.37.4 itsdangerous-2.2.0 lazy_loader-0.5 natsort-7.1.1 networkx-3.6.1 prettytable-3.10.0 psutil-5.9.5 pyproj-3.7.2 python-http-client-3.3.7 rapidfuzz-3.14.6 requests_mock-1.11.0 scikit-image-0.21.0 sendgrid-6.11.0 shapely-2.1.2 smart-open-8.0.1 soundfile-0.12.1 sqlparse-0.6.0 starkbank-ecdsa-2.3.1 textblob-0.18.0 tifffile-2026.3.3 wcwidth-0.8.3 wordninja-2.0.0 wtforms-3.2.2 xlrd-2.0.1 xmltodict-0.13.0
+#8 35.82 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#8 DONE 44.3s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 2.3s done
+#9 writing image sha256:b7f201e6c68020a9f8bf5250d0bc09ff56cd35b918fcce75976140143ac7a0ad
+#9 writing image sha256:b7f201e6c68020a9f8bf5250d0bc09ff56cd35b918fcce75976140143ac7a0ad done
+#9 naming to docker.io/library/bcb-scale1000:v1 done
+#9 DONE 2.3s
+
+View build details: docker-desktop://dashboard/build/default/default/kwhcbtpz38wnupd744pvo35ln

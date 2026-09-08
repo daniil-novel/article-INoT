@@ -85,6 +85,7 @@ def run(inputs,gate_dir,manifest,out,npm_root):
             c.save(out/'runtime.json',runtime);capture(out,npm_root,Path(c.__file__))
         else:
             provenance=c.read(out/'runtime_provenance.json')
+            if c.read(out/'runtime.json')['prefix']!=prefix:raise ValueError('Resume must use the original CLI runtime path')
             if sha(Path(provenance['native_executable_path']))!=provenance['native_executable_sha256'] or sha(Path(prefix[1]))!=provenance['node_entry_sha256']:raise ValueError('CLI binary changed since initial dispatch')
         command=c.cli_command(prefix,out/'empty',out/'instructions.txt');c.save(session/'command.json',command)
         inner=frozen['inner_manifest'];cells=inner['cells']
@@ -134,7 +135,7 @@ def run(inputs,gate_dir,manifest,out,npm_root):
                     if usage is not None:
                         with lock:known+=c.value_usage(usage)
                 retained='\n'.join(p.read_text(encoding='utf-8',errors='replace')[-12000:] for stage in range(cell['cli_turns']) for p in (out/'turns'/f"{cell['id']}-{stage}"/'events.jsonl',out/'turns'/f"{cell['id']}-{stage}"/'stderr.txt') if p.exists())
-                fatal=any(word in retained.lower() for word in ('usage limit','rate limit','quota','not logged in','unauthorized'))
+                fatal=any(word in retained.lower() for word in ('usage limit','usage_limit','rate limit','rate_limit','quota','not logged in','unauthorized'))
                 row={**cell,'generation_complete':False,'failure_reason':str(exc),'session':session.name,'quota_or_auth_stop':fatal}
                 c.save(out/'failures'/f"{cell['id']}.json",row)
                 with lock:

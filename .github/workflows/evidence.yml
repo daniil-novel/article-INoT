@@ -36,6 +36,17 @@ jobs:
           for manifest in manifests:
               print(manifest.parent.name, verify(manifest.parent))
           PY
+      - name: Verify scale-1000 complete preflight control attempts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from reproducibility.heldout200.evidence import environment_from_gate
+          roots=sorted(Path('reproducibility/results/20260908_scale1000_preflight').glob('controls-*'))
+          assert roots
+          for root in roots:
+              environment_from_gate(root)
+              print('Verified complete control pair:', root.name)
+          PY
       - name: Replay development outcomes without model calls or Docker
         run: |
           python -m reproducibility.assemble_scale collect \
