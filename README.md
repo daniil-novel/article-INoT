@@ -73,8 +73,8 @@
 ## Проверка данных и программы
 
 ```powershell
-python -m pip install -r reproducibility/requirements-revision.txt
-python -m unittest discover -s reproducibility/tests -v
+python -m pip install -r reproducibility/requirements-publication.txt
+python -m pytest reproducibility/tests -q
 python reproducibility/audit_legacy.py
 ```
 

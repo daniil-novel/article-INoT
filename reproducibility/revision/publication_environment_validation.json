@@ -1,0 +1,13 @@
+{
+  "scope": "Fresh isolated Python virtual environment; original generation runtime untouched",
+  "requirements_file": "reproducibility/requirements-publication.txt",
+  "requirements_sha256": "f973d6833fcc0823839c5f67bf656e43a16ba5e98fbbaf9aafddd0e2e472c2e4",
+  "full_software_suite_passed": 95,
+  "subtests_passed": 6,
+  "inot_public_summary_replayed_byte_exact": true,
+  "inot_public_199_candidate_rows_replayed_byte_exact": true,
+  "model_calls_for_verification": 0,
+  "native_evaluator_runs_for_replay": 0,
+  "pip_freeze_file": "publication_clean_pip_freeze.txt",
+  "pip_freeze_sha256": "75fd042731ce516f234fd4ab853c5e3e0224a0ffff7363d60c9047e8ec7daaeb"
+}

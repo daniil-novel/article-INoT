@@ -1,0 +1,15 @@
+{
+  "recorded": "2026-09-08",
+  "scope": "Host Python used for subscription generation orchestration and published statistical analysis; separate from native evaluator container",
+  "python": "3.11.5 (tags/v3.11.5:cce6ba9, Aug 24 2023, 14:38:34) [MSC v.1936 64 bit (AMD64)]",
+  "implementation": "CPython",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "packages": {
+    "numpy": "1.26.4",
+    "scipy": "1.11.4",
+    "pyarrow": "15.0.1",
+    "matplotlib": "3.9.2",
+    "pytest": "9.0.2",
+    "pillow": "10.2.0"
+  }
+}

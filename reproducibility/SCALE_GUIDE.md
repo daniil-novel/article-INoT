@@ -4,6 +4,15 @@ The development block contains 40 task clusters, two labelled repeats and 400 ac
 
 ## What can be checked without new model calls
 
+The published subscription analyses use Python 3.11 with the actual host versions in `requirements-publication.txt`; `revision/analysis_runtime.json` records their provenance. The older `requirements-revision.txt` belongs to the initial alternative API/preparation workflow and is not the environment used for the published subscription result tables. Benchmark containers retain their own independent package freezes.
+
+```powershell
+python -m venv .venv-publication
+.\.venv-publication\Scripts\python -m pip install -r reproducibility/requirements-publication.txt
+.\.venv-publication\Scripts\python -m pytest reproducibility/tests -q
+python -m reproducibility.evidence_manifest verify reproducibility/results/20260908_codex_mini_inot200
+```
+
 Every published evidence directory contains a byte-level `EVIDENCE_MANIFEST.json`. Verify each SHA-256 and file length before using its contents. The raw archives preserve original CRLF where applicable; do not normalize archived files. `audit_codex_pilot.py` checks completed initial/development shards; `heldout200/partial_audit.py` checks terminal original and continuation archives. These audits compare full prompts, complete forwarded histories, original event streams, exact CLI arguments, the captured runtime, result rows and token accounting. A modified artifact is an audit failure, not silently classified as missing quality.
 
 The combined reserved export is produced from audited archives, not hand-entered scores:
@@ -16,6 +25,14 @@ python -m reproducibility.heldout200.assemble collect --archive ORIGINAL_GENERAT
 Replace uppercase placeholders with the actual published or local archive paths. Native subdirectories are named by condition (`direct`, `single_neutral`, `single_roles`, `multi_neutral`, `multi_roles`). Only existing candidate programs are exported; missing assignments remain in the 1,000-cell denominator. Empty format extraction is retained as an observed empty program, not removed. The collector reconstructs exports from original answers and fails on mismatched bytes, controls, image identity, process status or native report coverage.
 
 The published development archive already includes its exact `generation/`, `predictions/`, `evaluations/` and `analysis/` folders. Its 400 records and original evaluator reports are sufficient to reconstruct all tables without spending subscription quota. The initial eight-task run is documented separately in `CODEX_GUIDE.md`.
+
+The complete INoT publication can be replayed from repository root without model calls or new evaluator execution:
+
+```powershell
+python -m reproducibility.heldout200.inot_evidence collect --original reproducibility/results/20260908_codex_mini_inot200/generation/codex-inot200-v1 --continuation reproducibility/results/20260908_codex_mini_inot200/generation/codex-inot200-continuation-v1 --tasks reproducibility/results/20260908_codex_mini_heldout200/controls/attempt2/input/prepared.jsonl --selection reproducibility/results/20260908_codex_mini_inot200/protocols/heldout200_selection.json --gate reproducibility/results/20260908_codex_mini_heldout200/controls/attempt3/heldout200_control_gate.json --protocol reproducibility/results/20260908_codex_mini_inot200/protocols/INOT_PROTOCOL.md --predictions reproducibility/results/20260908_codex_mini_inot200/predictions --native reproducibility/results/20260908_codex_mini_inot200/evaluation --controls reproducibility/results/20260908_codex_mini_heldout200/controls/attempt3 --output tmp/inot-replayed-analysis
+```
+
+The output directory must be new. The replay independently verifies the two original archives, excludes all attempted cells from continuation, reconstructs the exact 199 programs, verifies the native reports and reapplies the original eligibility gate. Its summary and candidate records match the published analysis byte for byte. Preserve generation directory basenames because the original INoT auditor writes an inventory carrying the archive name.
 
 ## Rebuilding the native environment
 

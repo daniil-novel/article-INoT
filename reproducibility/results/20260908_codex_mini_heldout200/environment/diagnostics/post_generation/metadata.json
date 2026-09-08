@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-09-08T03:41:04.280111+00:00",
+  "scope": "Post-generation read-only executable inventory; original controls and eligibility unchanged",
+  "image_id": "sha256:76d84f87bb98a10e358e19d58b84c2eed3dc24c1e8431582ae1dd9874faa7667",
+  "argv": [
+    "docker",
+    "--context",
+    "default",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--read-only",
+    "--cap-drop",
+    "ALL",
+    "--security-opt",
+    "no-new-privileges",
+    "--user",
+    "65532:65532",
+    "--entrypoint",
+    "python",
+    "sha256:76d84f87bb98a10e358e19d58b84c2eed3dc24c1e8431582ae1dd9874faa7667",
+    "-c",
+    "import json,shutil; print(json.dumps({name:shutil.which(name) for name in [\"unzip\",\"top\"]}))"
+  ],
+  "queried_names": [
+    "unzip",
+    "top"
+  ],
+  "exit_code": 0,
+  "output_sha256": "b23e90fe9bbcbc00d85f803baeba343617ae9574b69f80a7d7b02dbf83f02175"
+}
