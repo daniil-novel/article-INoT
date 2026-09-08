@@ -1,0 +1,35 @@
+2026-09-08 08:00:06,406 - INFO - Creating container for pvlib__pvlib-python-1606...
+2026-09-08 08:00:06,471 - INFO - Container for pvlib__pvlib-python-1606 created: 6ad4218387470566619bee2c05be7e752b95a483a988175d63a5d282458a0a34
+2026-09-08 08:00:06,771 - INFO - Container for pvlib__pvlib-python-1606 started: 6ad4218387470566619bee2c05be7e752b95a483a988175d63a5d282458a0a34
+2026-09-08 08:00:06,796 - INFO - Intermediate patch for pvlib__pvlib-python-1606 written to logs/evaluation/pred-20260908T080003Z-8d2350c5/completion-multi_roles--r2/pvlib__pvlib-python-1606/patch.diff, now applying to container...
+2026-09-08 08:00:06,990 - INFO - Failed to apply patch to container: git apply --verbose
+2026-09-08 08:00:07,483 - INFO - Failed to apply patch to container: git apply --verbose --3way
+2026-09-08 08:00:08,224 - INFO - Failed to apply patch to container: git apply --verbose --reject
+2026-09-08 08:00:08,354 - INFO - Failed to apply patch to container: patch --batch --forward --fuzz=5 -p1 -i
+2026-09-08 08:00:08,421 - INFO - >>>>> Patch Apply Failed:
+The next patch would create the file pvlib/tools.py,
+which already exists!  Skipping patch.
+patch unexpectedly ends in middle of line
+The next patch would delete the file tests/test_tools_golden_section.py,
+which does not exist!  Skipping patch.
+patch unexpectedly ends in middle of line
+patch unexpectedly ends in middle of line
+
+2026-09-08 08:00:08,430 - INFO - Traceback (most recent call last):
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 333, in run_instance
+    raise EvaluationError(
+swebench.harness.utils.EvaluationError: Error in evaluation for pvlib__pvlib-python-1606: >>>>> Patch Apply Failed:
+The next patch would create the file pvlib/tools.py,
+which already exists!  Skipping patch.
+patch unexpectedly ends in middle of line
+The next patch would delete the file tests/test_tools_golden_section.py,
+which does not exist!  Skipping patch.
+patch unexpectedly ends in middle of line
+patch unexpectedly ends in middle of line
+
+Check (logs/evaluation/pred-20260908T080003Z-8d2350c5/completion-multi_roles--r2/pvlib__pvlib-python-1606/run_instance.log) for more information.
+
+2026-09-08 08:00:08,431 - INFO - Attempting to stop container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080003Z-8d2350c5...
+2026-09-08 08:00:23,614 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080003Z-8d2350c5 stopped successfully.
+2026-09-08 08:00:23,615 - INFO - Attempting to remove container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080003Z-8d2350c5...
+2026-09-08 08:00:23,663 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080003Z-8d2350c5 removed successfully.

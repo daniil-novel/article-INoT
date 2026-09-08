@@ -1,0 +1,27 @@
+2026-09-08 08:11:04,190 - INFO - Creating container for pvlib__pvlib-python-1606...
+2026-09-08 08:11:04,251 - INFO - Container for pvlib__pvlib-python-1606 created: 1207a2d4b5a4851f9ea1c6f4acd4fa25edd358172c1832c70e8aa4be5115860c
+2026-09-08 08:11:04,433 - INFO - Container for pvlib__pvlib-python-1606 started: 1207a2d4b5a4851f9ea1c6f4acd4fa25edd358172c1832c70e8aa4be5115860c
+2026-09-08 08:11:04,445 - INFO - Intermediate patch for pvlib__pvlib-python-1606 written to logs/evaluation/pred-20260908T081101Z-1639bfe6/completion-multi_neutral--r1/pvlib__pvlib-python-1606/patch.diff, now applying to container...
+2026-09-08 08:11:04,591 - INFO - Failed to apply patch to container: git apply --verbose
+2026-09-08 08:11:04,979 - INFO - Failed to apply patch to container: git apply --verbose --3way
+2026-09-08 08:11:05,515 - INFO - Failed to apply patch to container: git apply --verbose --reject
+2026-09-08 08:11:05,632 - INFO - >>>>> Applied Patch:
+patch unexpectedly ends in middle of line
+patching file tests/test_tools_golden_sect.py
+patch unexpectedly ends in middle of line
+patch unexpectedly ends in middle of line
+
+2026-09-08 08:11:05,689 - INFO - Git diff before:
+
+2026-09-08 08:11:05,699 - INFO - Eval script for pvlib__pvlib-python-1606 written to logs/evaluation/pred-20260908T081101Z-1639bfe6/completion-multi_neutral--r1/pvlib__pvlib-python-1606/eval.sh; copying to container...
+2026-09-08 08:11:14,159 - INFO - Test runtime: 8.36 seconds
+2026-09-08 08:11:14,169 - INFO - Test output for pvlib__pvlib-python-1606 written to logs/evaluation/pred-20260908T081101Z-1639bfe6/completion-multi_neutral--r1/pvlib__pvlib-python-1606/test_output.txt
+2026-09-08 08:11:14,224 - INFO - Git diff after:
+
+2026-09-08 08:11:14,224 - INFO - Grading answer for pvlib__pvlib-python-1606...
+2026-09-08 08:11:14,231 - INFO - report: {'pvlib__pvlib-python-1606': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'infra_failure': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['pvlib/tests/test_tools.py::test__golden_sect_DataFrame_vector']}, 'PASS_TO_PASS': {'success': ['pvlib/tests/test_tools.py::test_build_kwargs[keys0-input_dict0-expected0]', 'pvlib/tests/test_tools.py::test_build_kwargs[keys1-input_dict1-expected1]', 'pvlib/tests/test_tools.py::test_build_kwargs[keys2-input_dict2-expected2]', 'pvlib/tests/test_tools.py::test_build_kwargs[keys3-input_dict3-expected3]', 'pvlib/tests/test_tools.py::test__golden_sect_DataFrame[params0-0.0-1.0-0.5-_obj_test_golden_sect]', 'pvlib/tests/test_tools.py::test__golden_sect_DataFrame[params1-0.0-1.0-0.07230200263994839-_obj_test_golden_sect]', 'pvlib/tests/test_tools.py::test__golden_sect_DataFrame[params2-0.0-100.0-89.14332727531685-_obj_test_golden_sect]', 'pvlib/tests/test_tools.py::test__golden_sect_DataFrame_atol', 'pvlib/tests/test_tools.py::test__golden_sect_DataFrame_nans', 'pvlib/tests/test_tools.py::test_degrees_to_index_1'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pvlib__pvlib-python-1606: resolved: False
+2026-09-08 08:11:14,243 - INFO - Attempting to stop container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T081101Z-1639bfe6...
+2026-09-08 08:11:29,424 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T081101Z-1639bfe6 stopped successfully.
+2026-09-08 08:11:29,425 - INFO - Attempting to remove container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T081101Z-1639bfe6...
+2026-09-08 08:11:29,481 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T081101Z-1639bfe6 removed successfully.

@@ -1,0 +1,31 @@
+2026-09-08 08:02:28,205 - INFO - Creating container for pvlib__pvlib-python-1606...
+2026-09-08 08:02:28,260 - INFO - Container for pvlib__pvlib-python-1606 created: d93218350ff5e63cddbc6c74eda8805c5b4638dbde22551142659cb25cb6d916
+2026-09-08 08:02:28,508 - INFO - Container for pvlib__pvlib-python-1606 started: d93218350ff5e63cddbc6c74eda8805c5b4638dbde22551142659cb25cb6d916
+2026-09-08 08:02:28,536 - INFO - Intermediate patch for pvlib__pvlib-python-1606 written to logs/evaluation/pred-20260908T080225Z-b861f757/completion-single_roles--r2/pvlib__pvlib-python-1606/patch.diff, now applying to container...
+2026-09-08 08:02:28,673 - INFO - Failed to apply patch to container: git apply --verbose
+2026-09-08 08:02:29,043 - INFO - Failed to apply patch to container: git apply --verbose --3way
+2026-09-08 08:02:29,662 - INFO - Failed to apply patch to container: git apply --verbose --reject
+2026-09-08 08:02:29,834 - INFO - Failed to apply patch to container: patch --batch --forward --fuzz=5 -p1 -i
+2026-09-08 08:02:29,927 - INFO - >>>>> Patch Apply Failed:
+patch unexpectedly ends in middle of line
+The next patch would create the file pvlib/tools.py,
+which already exists!  Skipping patch.
+patch unexpectedly ends in middle of line
+patch unexpectedly ends in middle of line
+
+2026-09-08 08:02:29,939 - INFO - Traceback (most recent call last):
+  File "/workspace/swebench/swebench/harness/run_evaluation.py", line 333, in run_instance
+    raise EvaluationError(
+swebench.harness.utils.EvaluationError: Error in evaluation for pvlib__pvlib-python-1606: >>>>> Patch Apply Failed:
+patch unexpectedly ends in middle of line
+The next patch would create the file pvlib/tools.py,
+which already exists!  Skipping patch.
+patch unexpectedly ends in middle of line
+patch unexpectedly ends in middle of line
+
+Check (logs/evaluation/pred-20260908T080225Z-b861f757/completion-single_roles--r2/pvlib__pvlib-python-1606/run_instance.log) for more information.
+
+2026-09-08 08:02:29,940 - INFO - Attempting to stop container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080225Z-b861f757...
+2026-09-08 08:02:45,418 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080225Z-b861f757 stopped successfully.
+2026-09-08 08:02:45,420 - INFO - Attempting to remove container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080225Z-b861f757...
+2026-09-08 08:02:45,476 - INFO - Container sweb.eval.pvlib__pvlib-python-1606.pred-20260908T080225Z-b861f757 removed successfully.
