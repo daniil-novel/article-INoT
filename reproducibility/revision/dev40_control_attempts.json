@@ -1,0 +1,61 @@
+{
+  "schema": "bcb-dev40-control-attempts-v2",
+  "attempts": [
+    {
+      "id": "v1",
+      "image_id": "sha256:8101a3b15aa31a222459258c71d182dadb888d3fb82b005c272172473482019a",
+      "cli_split": null,
+      "gold_counts": {
+        "fail": 2,
+        "pass": 38
+      },
+      "gold_nonpass": [
+        "BigCodeBench/1005",
+        "BigCodeBench/839"
+      ],
+      "incorrect_counts": {
+        "fail": 40
+      },
+      "incorrect_nonstandard": [],
+      "gold_report_sha256": "249754b2abf876b1de85c4b8382bd7b8954d620063032a380e2368058730cac3",
+      "incorrect_report_sha256": "2c6b4fd3033269ee72990644466bff99f8ec03050b10dd5a039037c32ab5b8ba"
+    },
+    {
+      "id": "v2",
+      "image_id": "sha256:5697a0648acccd249a9027f48af42a42a4a8e27b6cdb626906142a480683978d",
+      "cli_split": null,
+      "gold_counts": {
+        "fail": 1,
+        "pass": 39
+      },
+      "gold_nonpass": [
+        "BigCodeBench/1005"
+      ],
+      "incorrect_counts": {
+        "fail": 40
+      },
+      "incorrect_nonstandard": [],
+      "gold_report_sha256": "efa6ddcfc07cc21d5ec16bb06f5cd70f24ffc21d98e717b8c929dedc0c36d0e0",
+      "incorrect_report_sha256": "5b63168b1e3df8d85f05b30bc6dcb91504de3dc619e9c11fe97ef5aa6ef52a72"
+    },
+    {
+      "id": "v3",
+      "image_id": "sha256:5697a0648acccd249a9027f48af42a42a4a8e27b6cdb626906142a480683978d",
+      "cli_split": "instruct",
+      "gold_counts": {
+        "fail": 1,
+        "pass": 39
+      },
+      "gold_nonpass": [
+        "BigCodeBench/1005"
+      ],
+      "incorrect_counts": {
+        "fail": 40
+      },
+      "incorrect_nonstandard": [],
+      "gold_report_sha256": "c6c7bc716d0f8cd3ad073ce7049e8822f509c631163bc6d761e263f0d0c84d38",
+      "incorrect_report_sha256": "3929cee1ea16cb28c5266e347fe5bb2dd4f09045c8742cb261ead65fc9f463a4"
+    }
+  ],
+  "final_gate_sha256": "bbe6aa2b707bae20982bbf662641b51515bacfd44a562f4e36d9e3e6afafcdf7"
+}
