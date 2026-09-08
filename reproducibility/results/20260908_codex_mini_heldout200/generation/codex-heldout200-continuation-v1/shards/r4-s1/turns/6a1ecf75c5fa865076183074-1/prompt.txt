@@ -1,0 +1,64 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a random sine wave function and draw it on a provided matplotlib polar subplot 'ax'. The function randomly selects a color from a predefined list and sets a random position for radial labels.
+The function should output with:
+    str: The color code (as a string) of the plotted function.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+# Constants
+COLORS = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+def task_func(ax):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+# Constants
+COLORS = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+def task_func(ax):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(ax)`:
+
+1. **Validate the axis**
+   - Assume `ax` is a Matplotlib polar axis.
+   - If this were production code, optionally check for `None` or incompatible axis type, but the task likely assumes a valid polar subplot is provided.
+
+2. **Generate the polar domain**
+   - Create an angle array `theta` using `np.linspace(0, 2π, N)`.
+   - Use enough points for a smooth curve, e.g. `N = 200` or `300`.
+
+3. **Build a random sine wave**
+   - Randomly choose parameters to make the curve vary:
+     - frequency / number of oscillations
+     - phase shift
+     - amplitude
+   - Compute radial values using a sine expression like:
+     - `r = offset + amplitude * np.sin(freq * theta + phase)`
+   - Use a positive offset so the polar plot stays visually clean and does not rely on negative radii behavior.
+
+4. **Choose a random color**
+   - Select one element from `COLORS` with `random.choice(COLORS)`.
+   - This selected color is the function’s return value.
+
+5. **Choose a random radial label position**
+   - Set the radial label angle with something like:
+     - `ax.set_rlabel_position(random.randint(0, 359))`
+   - This satisfies the requirement to randomize radial label placement.
+
+6. **Draw the curve**
+   - Plot the generated `theta` and `r` on `ax` using the chosen color.
+   - Optionally set line width for readability.
+
+7. **Return the color code**
+   - Return the selected color string exactly as the output.
+
+### Edge cases to consider
+- **`ax` is not polar**: the plot may not behave as intended. The task assumes a polar axis.
+- **`COLORS` is empty**: `random.choice` would fail, but the provided list is non-empty.
+- **Negative radial values**: sine waves can go negative; using an offset avoids confusing polar behavior.
+- **Very small number of points**: would make the curve jagged; use a sufficiently large `N`.
+- **Random label position**: ensure it is an integer in `[0, 359]` so it is valid for Matplotlib.
+
+If you want, I can also provide the exact implementation in the required code format.

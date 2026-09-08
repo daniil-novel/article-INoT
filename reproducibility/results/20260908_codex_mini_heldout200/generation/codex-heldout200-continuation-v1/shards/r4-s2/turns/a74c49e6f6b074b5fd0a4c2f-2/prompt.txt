@@ -1,0 +1,277 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a backup of a directory and clean the directory afterwards.
+Note that: The function will return the backup directory path and a list of errors (if any).
+The function should output with:
+    tuple: A tuple containing:
+    str: The backup directory path.
+    list: A list of any errors encountered during the operation (empty list if no errors).
+You should write self-contained code starting with:
+```
+import os
+import shutil
+# Constants
+BACKUP_DIR = '/tmp/backup'
+def get_unique_backup_dir():
+    return "/fake/backup/path"
+def task_func(directory):
+```
+FULL SUPPLIED CONTEXT
+import os
+import shutil
+# Constants
+BACKUP_DIR = '/tmp/backup'
+def get_unique_backup_dir():
+    return "/fake/backup/path"
+def task_func(directory):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a function `task_func(directory)` that:
+
+- creates a backup of the given directory
+- cleans the original directory afterward
+- returns a tuple:
+  - `str`: the backup directory path
+  - `list`: errors encountered during the operation, or an empty list if none
+
+The supplied scaffold strongly suggests:
+
+- `BACKUP_DIR = '/tmp/backup'` is the base backup location
+- `get_unique_backup_dir()` should produce a unique destination path under the backup root
+- the final code should be self-contained and start with the provided imports/constants/function names
+
+## Implementation plan
+
+### 1) Validate input
+- Check that `directory` is a valid path-like string.
+- Verify it exists and is a directory.
+- If invalid, return a backup path value if appropriate and add an error message; otherwise decide on a safe fallback behavior.
+
+### 2) Create a unique backup path
+- Use `get_unique_backup_dir()` to get a destination directory path.
+- Ensure the backup target does not collide with an existing backup.
+- Create the backup directory structure if needed.
+
+### 3) Copy the directory contents
+- Copy the source directory into the backup directory.
+- Preserve files, subdirectories, and metadata as much as practical.
+- Prefer `shutil.copytree` or an equivalent recursive copy approach.
+- Collect any copy-related exceptions into the errors list.
+
+### 4) Clean the original directory
+- If backup succeeds, remove the original directory contents.
+- Decide whether to:
+  - remove only contents and keep the directory itself, or
+  - remove the directory and recreate it
+- The safer default is usually to keep the directory and delete its contents.
+- Continue deleting remaining items even if some removals fail, and record each error.
+
+### 5) Return the result
+- Return `(backup_dir_path, errors)`
+- If no issues occurred, `errors` should be `[]`
+
+---
+
+## Edge cases to handle
+
+### Input/path issues
+- `directory` does not exist
+- `directory` is not a directory
+- `directory` is empty
+- path is unreadable or inaccessible due to permissions
+
+### Backup creation issues
+- backup root `/tmp/backup` does not exist
+- backup root cannot be created
+- destination path already exists
+- filesystem errors during copy
+- files are locked or in use
+
+### Cleanup issues
+- some files cannot be deleted due to permissions
+- read-only files
+- nested subdirectories fail to remove
+- cleanup partially succeeds
+
+### Special file types
+- symbolic links
+- sockets, FIFOs, device files
+- very deep directory trees
+- large files
+
+### Consistency concerns
+- source changes while backup is in progress
+- backup succeeds but cleanup fails
+- cleanup starts only after a successful backup
+- partial failures should be reported, not silently ignored
+
+---
+
+## Error-handling strategy
+
+- Use a list of human-readable error strings.
+- Catch exceptions around:
+  - backup directory creation
+  - recursive copy
+  - file removal
+  - directory removal
+- Prefer continuing cleanup after individual file errors, so one bad file does not stop the whole operation.
+- Do not let a single failure crash the function unless the backup itself cannot be created at all.
+
+---
+
+## Recommended behavior
+
+A practical and robust flow is:
+
+1. Validate source directory
+2. Compute unique backup path
+3. Copy source to backup
+4. If copy succeeds, delete contents of source directory
+5. Return backup path and accumulated errors
+
+If you want, I can next provide the actual implementation in the exact required scaffold.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import os
+import shutil
+import uuid
+
+# Constants
+BACKUP_DIR = '/tmp/backup'
+
+def get_unique_backup_dir():
+    return os.path.join(BACKUP_DIR, f"backup-{uuid.uuid4().hex}")
+
+def _is_within(path, parent):
+    try:
+        path = os.path.abspath(path)
+        parent = os.path.abspath(parent)
+        return os.path.commonpath([path, parent]) == parent
+    except Exception:
+        return False
+
+def _safe_makedirs(path, errors):
+    try:
+        os.makedirs(path, exist_ok=True)
+        return True
+    except Exception as exc:
+        errors.append(f"Failed to create backup directory '{path}': {exc}")
+        return False
+
+def _copy_tree(src, dst, errors):
+    try:
+        os.makedirs(dst, exist_ok=True)
+    except Exception as exc:
+        errors.append(f"Failed to create destination '{dst}': {exc}")
+        return
+
+    try:
+        entries = list(os.scandir(src))
+    except Exception as exc:
+        errors.append(f"Failed to list source directory '{src}': {exc}")
+        return
+
+    for entry in entries:
+        src_path = entry.path
+        dst_path = os.path.join(dst, entry.name)
+
+        # Avoid recursively copying the backup root if it is inside the source tree.
+        if _is_within(src_path, BACKUP_DIR):
+            continue
+
+        try:
+            if entry.is_symlink():
+                target = os.readlink(src_path)
+                os.symlink(target, dst_path)
+            elif entry.is_dir(follow_symlinks=False):
+                _copy_tree(src_path, dst_path, errors)
+                try:
+                    shutil.copystat(src_path, dst_path, follow_symlinks=False)
+                except Exception as exc:
+                    errors.append(f"Failed to preserve directory metadata for '{src_path}': {exc}")
+            else:
+                shutil.copy2(src_path, dst_path, follow_symlinks=False)
+        except Exception as exc:
+            errors.append(f"Failed to copy '{src_path}' to '{dst_path}': {exc}")
+
+    try:
+        shutil.copystat(src, dst, follow_symlinks=False)
+    except Exception as exc:
+        errors.append(f"Failed to preserve metadata for '{src}': {exc}")
+
+def _remove_path(path, errors):
+    try:
+        if os.path.islink(path) or os.path.isfile(path):
+            os.unlink(path)
+            return
+        if os.path.isdir(path):
+            try:
+                entries = list(os.scandir(path))
+            except Exception as exc:
+                errors.append(f"Failed to list directory '{path}' for cleanup: {exc}")
+                return
+
+            for entry in entries:
+                child_path = entry.path
+
+                # Never delete the backup root if it is nested inside the source tree.
+                if _is_within(child_path, BACKUP_DIR):
+                    continue
+
+                _remove_path(child_path, errors)
+
+            try:
+                os.rmdir(path)
+            except OSError:
+                # Directory may not be empty due to skipped backup content or an error.
+                pass
+            return
+
+        # Fallback for unusual filesystem entries
+        os.unlink(path)
+    except FileNotFoundError:
+        return
+    except Exception as exc:
+        errors.append(f"Failed to remove '{path}': {exc}")
+
+def task_func(directory):
+    errors = []
+    backup_dir = get_unique_backup_dir()
+
+    try:
+        src = os.fspath(directory)
+    except Exception as exc:
+        errors.append(f"Invalid directory path: {exc}")
+        return backup_dir, errors
+
+    src = os.path.abspath(src)
+
+    if not os.path.exists(src):
+        errors.append(f"Source directory does not exist: '{src}'")
+        return backup_dir, errors
+
+    if not os.path.isdir(src):
+        errors.append(f"Source path is not a directory: '{src}'")
+        return backup_dir, errors
+
+    if not _safe_makedirs(BACKUP_DIR, errors):
+        return backup_dir, errors
+
+    # Create the backup first.
+    _copy_tree(src, backup_dir, errors)
+
+    # Only clean the source if the backup path was created and no copy errors occurred.
+    if not errors:
+        try:
+            entries = list(os.scandir(src))
+        except Exception as exc:
+            errors.append(f"Failed to list source directory '{src}' for cleanup: {exc}")
+            return backup_dir, errors
+
+        for entry in entries:
+            _remove_path(entry.path, errors)
+
+    return backup_dir, errors

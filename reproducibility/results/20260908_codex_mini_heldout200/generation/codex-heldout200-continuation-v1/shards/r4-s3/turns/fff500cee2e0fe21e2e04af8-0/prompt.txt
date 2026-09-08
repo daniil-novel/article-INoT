@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Read a CSV file, convert a column of date strings into datetime objects, and draw a histogram of the year distribution of these dates.
+The function should output with:
+    matplotlib.axes._axes.Axes: A histogram plot object showing the distribution of years.
+You should write self-contained code starting with:
+```
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):

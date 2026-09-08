@@ -1,0 +1,22 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Combine two lists and record the frequency of predefined items in the combined list.
+The function should output with:
+    matplotlib.axes.Axes: A bar chart showing the frequency of predefined items in the combined list.
+You should write self-contained code starting with:
+```
+import collections
+import itertools
+import matplotlib.pyplot as plt
+# Constants
+ITEMS = ['apple', 'banana']
+def task_func(a, b, items=ITEMS):
+```
+FULL SUPPLIED CONTEXT
+import collections
+import itertools
+import matplotlib.pyplot as plt
+# Constants
+ITEMS = ['apple', 'banana']
+def task_func(a, b, items=ITEMS):

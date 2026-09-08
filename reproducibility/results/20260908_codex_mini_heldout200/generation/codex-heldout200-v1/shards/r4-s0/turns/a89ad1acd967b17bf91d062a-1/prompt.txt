@@ -1,0 +1,82 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Updates the passwords in a user table of an SQLite database by hashing them with SHA256, using a provided salt. The function directly modifies the database via the given cursor.
+The function should raise the exception for: TypeError if the salt is not a string
+The function should output with:
+    int: The number of users whose passwords were successfully updated.
+You should write self-contained code starting with:
+```
+import hashlib
+import binascii
+def task_func(salt, cursor):
+```
+FULL SUPPLIED CONTEXT
+import hashlib
+import binascii
+def task_func(salt, cursor):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(salt, cursor)`.
+
+## Requirements summary
+- Accept `salt` and a SQLite `cursor`.
+- If `salt` is not a `str`, raise `TypeError`.
+- Read users from the database, hash each user’s password with SHA256 using the provided salt, and update the table in place.
+- Return the number of users successfully updated as an `int`.
+
+## Planned approach
+1. **Validate input**
+   - Check `isinstance(salt, str)`.
+   - If not, raise `TypeError`.
+
+2. **Fetch user records**
+   - Query the user table for the rows that contain passwords.
+   - For each row, retrieve:
+     - a unique identifier for the row/user
+     - the current password value
+
+3. **Hash passwords**
+   - For each password, create a SHA256 hash using the salt.
+   - Typical construction:
+     - combine salt + password or password + salt consistently
+     - encode as UTF-8
+     - compute SHA256
+     - store the hexadecimal digest
+
+4. **Update database rows**
+   - Use the cursor to update each user’s password with the hashed value.
+   - Do this directly through SQL `UPDATE` statements.
+
+5. **Count successful updates**
+   - Increment a counter for each row successfully updated.
+   - Return that counter.
+
+## Edge cases to handle
+- **Salt type invalid**
+  - `salt` is `None`, `bytes`, `int`, etc. → raise `TypeError`.
+- **Empty string salt**
+  - Valid, since it is still a string.
+- **No users in table**
+  - Return `0`.
+- **Password already hashed**
+  - The task does not specify special handling, so treat all stored values as plaintext and hash them again if they appear in the table.
+- **Null/empty passwords**
+  - If a password is `NULL` or empty, decide consistently:
+    - either hash the empty representation, or
+    - skip invalid rows if the schema/data makes them unusable.
+  - Since the task says update passwords in a user table, the safest default is to hash empty strings and skip only truly unusable rows if needed.
+- **Schema uncertainty**
+  - If the exact table/column names are fixed by the test harness, use those names consistently.
+  - If not, the function may need to assume a standard `users` table with `id` and `password` columns.
+
+## Implementation notes
+- The function should be self-contained and start with:
+  ```python
+  import hashlib
+  import binascii
+  def task_func(salt, cursor):
+  ```
+- Since `binascii` is imported, you can use it to convert the SHA256 digest to a hex string, though `hexdigest()` would also work.
+- Make sure the function returns an `int`, not a string.
+
+If you want, I can now provide the actual implementation in the required format.

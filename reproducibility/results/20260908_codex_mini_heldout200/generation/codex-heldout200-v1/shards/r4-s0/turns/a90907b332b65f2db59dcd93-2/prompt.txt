@@ -1,0 +1,278 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw normal distributions for multiple 'x' and 'y' arrays with labels. Each pair (x, y) represents a different chemical compound in the 'labels' list.
+The function should output with:
+    fig: Matplotlib figure object.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as stats
+def task_func(x, y, labels):
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as stats
+def task_func(x, y, labels):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+No skill used — this is a planning-only Python task, so I’m outlining the implementation approach and edge cases.
+
+## Implementation plan
+
+### 1. Treat the inputs as paired sample sets
+Assume:
+- `x` is a sequence of numeric arrays/lists
+- `y` is a sequence of numeric arrays/lists
+- `labels` is a list of compound names
+
+Each `x[i]` and `y[i]` belong to the same compound `labels[i]`.
+
+If the caller sometimes passes a single 1D array instead of a list of arrays, normalize it into a list first.
+
+---
+
+### 2. Validate input structure
+Check:
+- `len(x) == len(y) == len(labels)`
+- each element of `x` and `y` can be converted to a numeric NumPy array
+
+If lengths do not match, raise a clear `ValueError`.
+
+---
+
+### 3. Clean each array before fitting
+For every `x[i]` and `y[i]`:
+- convert to `np.asarray(..., dtype=float)`
+- flatten to 1D
+- remove `NaN` and `inf` values
+
+This ensures the normal fit does not fail on invalid points.
+
+---
+
+### 4. Fit a normal distribution for each series
+For each cleaned array:
+- compute mean: `mu = np.mean(arr)`
+- compute std: `sigma = np.std(arr, ddof=1)` if enough points exist
+
+Then evaluate the PDF with:
+- `stats.norm.pdf(grid, loc=mu, scale=sigma)`
+
+If there are two series per compound (`x[i]` and `y[i]`), plot both distributions with different line styles or colors.
+
+---
+
+### 5. Build the plotting grid
+Create an x-axis range for each fitted curve:
+- use something like `mu ± 4 * sigma`
+- if `sigma` is very small, widen the range around `mu` by a tiny epsilon
+
+For readability with multiple compounds:
+- either use a shared global grid if the values are on a comparable scale
+- or generate a local grid per curve and plot each on the same axes
+
+A shared grid is simpler; local grids are often better when compounds live on different scales.
+
+---
+
+### 6. Plot all curves on one Matplotlib figure
+Use one figure and one axes:
+- `fig, ax = plt.subplots(...)`
+
+For each compound:
+- plot the `x`-distribution
+- plot the `y`-distribution
+- label each line using the corresponding compound name, e.g.:
+  - `"Compound A - x"`
+  - `"Compound A - y"`
+
+Add:
+- title
+- x-axis label
+- y-axis label
+- legend
+- grid
+
+Finally call `fig.tight_layout()` and return `fig`.
+
+---
+
+## Suggested behavior for ambiguous input
+Because the prompt is slightly ambiguous, the safest interpretation is:
+
+- `x` and `y` are lists of sample arrays
+- each pair `x[i], y[i]` belongs to the same chemical compound
+- the function draws fitted normal PDFs for both arrays
+
+If instead the intent is to plot only one distribution per compound, the structure can be simplified to one array per label.
+
+---
+
+## Edge cases to handle
+
+### 1. Length mismatch
+If `x`, `y`, and `labels` are not the same length:
+- raise `ValueError`
+
+### 2. Empty arrays
+If a series has no valid numeric values after cleaning:
+- skip it or raise an error
+- best practice: raise a clear exception unless silent skipping is desired
+
+### 3. Too few points
+A normal fit is not meaningful with:
+- zero points
+- one point
+
+At least two valid values are needed to estimate variance reliably.
+
+### 4. Zero variance
+If all values are identical:
+- standard deviation becomes 0
+- `stats.norm.pdf` will fail with zero scale
+
+Fix by:
+- using a tiny epsilon, e.g. `1e-8`
+- or plotting a narrow spike-like curve around the mean
+
+### 5. NaN / inf values
+Must be filtered out before computing statistics.
+
+### 6. Non-numeric data
+If an array contains strings or mixed types:
+- conversion to float should fail
+- raise a helpful error
+
+### 7. Very different scales across compounds
+If compounds span very different numeric ranges:
+- a single shared x-axis may make some curves unreadable
+- consider separate subplots if readability is poor
+
+### 8. Too many compounds
+With many labels:
+- the legend may become cluttered
+- use smaller fonts, multiple columns in the legend, or subplots
+
+### 9. Duplicate labels
+If labels repeat:
+- legend entries may be confusing
+- append series type or an index to make them unique
+
+---
+
+## Expected output
+The function should return:
+- `fig`: the Matplotlib `Figure` object
+
+No file saving is necessary unless explicitly requested.
+
+If you want, I can now turn this plan into the actual self-contained function starting with your provided imports and signature.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as stats
+
+def task_func(x, y, labels):
+    """
+    Draw fitted normal distributions for paired x and y sample arrays.
+
+    Parameters
+    ----------
+    x, y : array-like or sequence of array-like
+        Each x[i] and y[i] represent two sample sets for the same compound.
+    labels : sequence of str
+        Compound names corresponding to each pair.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The resulting figure object.
+    """
+    def _as_series_list(data):
+        # Single 1D array/list of scalars -> one series
+        if isinstance(data, np.ndarray):
+            if data.ndim == 1:
+                return [data]
+            return [row for row in data]
+
+        if isinstance(data, (list, tuple)):
+            if len(data) == 0:
+                return []
+            # If it's a flat list of scalars, treat it as one series
+            if all(np.isscalar(v) for v in data):
+                return [data]
+            return list(data)
+
+        return [data]
+
+    def _clean_series(series):
+        arr = np.asarray(series, dtype=float).ravel()
+        arr = arr[np.isfinite(arr)]
+        return arr
+
+    def _fit_normal(arr):
+        if arr.size == 0:
+            raise ValueError("Each input series must contain at least one finite numeric value.")
+        mu = float(np.mean(arr))
+        if arr.size >= 2:
+            sigma = float(np.std(arr, ddof=1))
+        else:
+            sigma = 0.0
+        if not np.isfinite(sigma) or sigma <= 0.0:
+            sigma = 1e-8
+        return mu, sigma
+
+    x_series = _as_series_list(x)
+    y_series = _as_series_list(y)
+    labels = list(labels)
+
+    if not (len(x_series) == len(y_series) == len(labels)):
+        raise ValueError(
+            "x, y, and labels must have the same length: one x/y pair per label."
+        )
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    colors = plt.cm.tab10(np.linspace(0, 1, max(1, len(labels))))
+
+    for i, label in enumerate(labels):
+        x_arr = _clean_series(x_series[i])
+        y_arr = _clean_series(y_series[i])
+
+        x_mu, x_sigma = _fit_normal(x_arr)
+        y_mu, y_sigma = _fit_normal(y_arr)
+
+        x_span = max(4.0 * x_sigma, 1.0)
+        y_span = max(4.0 * y_sigma, 1.0)
+
+        x_grid = np.linspace(x_mu - x_span, x_mu + x_span, 400)
+        y_grid = np.linspace(y_mu - y_span, y_mu + y_span, 400)
+
+        color = colors[i % len(colors)]
+
+        ax.plot(
+            x_grid,
+            stats.norm.pdf(x_grid, loc=x_mu, scale=x_sigma),
+            color=color,
+            linestyle="-",
+            linewidth=2,
+            label=f"{label} - x",
+        )
+        ax.plot(
+            y_grid,
+            stats.norm.pdf(y_grid, loc=y_mu, scale=y_sigma),
+            color=color,
+            linestyle="--",
+            linewidth=2,
+            label=f"{label} - y",
+        )
+
+    ax.set_title("Normal Distributions for Chemical Compounds")
+    ax.set_xlabel("Value")
+    ax.set_ylabel("Probability Density")
+    ax.grid(True, alpha=0.3)
+    ax.legend()
+    fig.tight_layout()
+    return fig

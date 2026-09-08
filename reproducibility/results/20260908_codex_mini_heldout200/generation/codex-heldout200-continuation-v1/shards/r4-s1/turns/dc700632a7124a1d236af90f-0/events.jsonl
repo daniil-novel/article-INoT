@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f32-d957-7f11-aa9d-ce2c6eff1f2e"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport json\nimport math\n\ndef task_func(decimal_value, precision=2):\n    \"\"\"\n    Calculate the square root of a decimal value to the requested precision\n    and return the result encoded as a JSON string.\n    \"\"\"\n    sqrt_value = round(math.sqrt(decimal_value), precision)\n    return json.dumps(sqrt_value)\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2823,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":517,"reasoning_output_tokens":442}}

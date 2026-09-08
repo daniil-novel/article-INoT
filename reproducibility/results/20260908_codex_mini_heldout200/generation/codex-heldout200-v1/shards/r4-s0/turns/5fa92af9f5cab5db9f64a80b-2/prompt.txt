@@ -1,0 +1,178 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Updates the passwords in a user table of an SQLite database by hashing them with SHA256, using a provided salt. The function directly modifies the database via the given cursor.
+The function should raise the exception for: TypeError if the salt is not a string
+The function should output with:
+    int: The number of users whose passwords were successfully updated.
+You should write self-contained code starting with:
+```
+import hashlib
+import binascii
+def task_func(salt, cursor):
+```
+FULL SUPPLIED CONTEXT
+import hashlib
+import binascii
+def task_func(salt, cursor):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+I won’t write the code yet; here’s a clear implementation plan with edge cases.
+
+## Implementation plan
+
+1. **Validate `salt`**
+   - Check that `salt` is an instance of `str`.
+   - If not, immediately raise `TypeError`.
+   - This is the only explicitly required exception.
+
+2. **Read all user password records**
+   - Use the provided SQLite `cursor` to query the user table.
+   - Fetch each user’s identifier plus current password value so each row can be updated individually.
+   - If the table schema has a primary key, use that; otherwise use `rowid` if the table supports it.
+
+3. **Hash each password with SHA-256 + salt**
+   - For every row:
+     - Combine the salt and the existing password text consistently, e.g. `salt + password`.
+     - Encode the combined string to bytes using UTF-8.
+     - Compute `sha256(...)`.
+     - Convert the digest to a lowercase hexadecimal string.
+       - Since `binascii` is imported, you can use `binascii.hexlify(hashlib.sha256(...).digest()).decode("ascii")`.
+       - This yields a 64-character hex digest.
+
+4. **Update the row in place**
+   - Execute an `UPDATE` statement for each user row, setting the password column to the hashed value.
+   - Use parameterized SQL to avoid SQL injection and quoting issues.
+   - Increment a counter only when the update succeeds.
+
+5. **Return the number of updated users**
+   - Return the counter as an `int`.
+   - If no rows are found, return `0`.
+
+---
+
+## Edge cases to handle
+
+- **`salt` is not a string**
+  - Must raise `TypeError`.
+
+- **Empty salt (`""`)**
+  - Allowed if it is still a string, unless the tests specify otherwise.
+
+- **No users in the table**
+  - Return `0`.
+
+- **Passwords already hashed**
+  - The function should still hash the stored value again, because the task says to update the passwords by hashing them.
+
+- **`NULL` / non-string password values**
+  - The task does not specify behavior.
+  - Best practical assumption: password values are text.
+  - If malformed rows exist, you may either let the database/type error surface or skip them, but for typical tests this likely won’t occur.
+
+- **Table schema uncertainty**
+  - The task mentions a “user table” but does not name it explicitly.
+  - The implementation should match the expected schema in the tests.
+  - If possible, prefer updating by primary key or `rowid` to avoid ambiguity.
+
+- **Large tables**
+  - Iterate over rows rather than loading everything into memory if possible.
+
+- **Commit behavior**
+  - Since only a cursor is provided, the function should perform the updates via the cursor.
+  - Whether to call `commit()` depends on whether the cursor exposes a connection and on test expectations; typically this is left to the caller unless the environment requires it.
+
+If you want, I can now turn this plan into the exact self-contained function.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import hashlib
+import binascii
+
+def task_func(salt, cursor):
+    if not isinstance(salt, str):
+        raise TypeError
+
+    def quote_ident(name):
+        return '"' + name.replace('"', '""') + '"'
+
+    def hex_sha256(text):
+        digest = hashlib.sha256(text.encode("utf-8")).digest()
+        return binascii.hexlify(digest).decode("ascii")
+
+    tables = []
+    for row in cursor.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+    ).fetchall():
+        tables.append(row[0])
+
+    def table_priority(name):
+        lname = name.lower()
+        if lname in ("users", "user"):
+            return (0, lname)
+        if "user" in lname:
+            return (1, lname)
+        return (2, lname)
+
+    for table in sorted(tables, key=table_priority):
+        info = cursor.execute(f"PRAGMA table_info({quote_ident(table)})").fetchall()
+        if not info:
+            continue
+
+        columns = [row[1] for row in info]
+        password_col = None
+        for candidate in ("password", "passwd", "pwd"):
+            if candidate in columns:
+                password_col = candidate
+                break
+        if password_col is None:
+            continue
+
+        pk_cols = [row[1] for row in info if row[5]]
+        if pk_cols:
+            select_cols = ", ".join(quote_ident(col) for col in pk_cols + [password_col])
+            rows = cursor.execute(
+                f"SELECT {select_cols} FROM {quote_ident(table)}"
+            ).fetchall()
+
+            where_clause = " AND ".join(f"{quote_ident(col)} = ?" for col in pk_cols)
+            update_sql = (
+                f"UPDATE {quote_ident(table)} "
+                f"SET {quote_ident(password_col)} = ? "
+                f"WHERE {where_clause}"
+            )
+
+            updated = 0
+            for row in rows:
+                old_password = row[-1]
+                if old_password is None:
+                    old_password = ""
+                hashed = hex_sha256(salt + str(old_password))
+                params = (hashed, *row[:-1])
+                cursor.execute(update_sql, params)
+                updated += 1
+        else:
+            rows = cursor.execute(
+                f"SELECT rowid, {quote_ident(password_col)} FROM {quote_ident(table)}"
+            ).fetchall()
+            update_sql = (
+                f"UPDATE {quote_ident(table)} "
+                f"SET {quote_ident(password_col)} = ? "
+                f"WHERE rowid = ?"
+            )
+
+            updated = 0
+            for row in rows:
+                rowid, old_password = row
+                if old_password is None:
+                    old_password = ""
+                hashed = hex_sha256(salt + str(old_password))
+                cursor.execute(update_sql, (hashed, rowid))
+                updated += 1
+
+        try:
+            cursor.connection.commit()
+        except Exception:
+            pass
+
+        return updated
+
+    return 0

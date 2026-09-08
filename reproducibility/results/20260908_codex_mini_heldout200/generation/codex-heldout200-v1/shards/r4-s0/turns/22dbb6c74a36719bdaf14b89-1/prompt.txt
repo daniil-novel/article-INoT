@@ -1,0 +1,119 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Calculate the frequency of each letter in a string and return a bar chart of frequencies. Results are case-insensitive. If non-string input is provided, function will throw an error.
+The function should output with:
+    tuple: A tuple containing:
+    dict: A dictionary with the frequency of each letter.
+    Axes: The bar subplot of 'Letter Frequencies' with 'Letters' on the x-axis and 'Frequency'
+    on the y-axis.
+You should write self-contained code starting with:
+```
+import string
+import matplotlib.pyplot as plt
+def task_func(s):
+```
+FULL SUPPLIED CONTEXT
+import string
+import matplotlib.pyplot as plt
+def task_func(s):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(s)` based on the requirements.
+
+## Goal
+Build a function that:
+1. Accepts a string `s`
+2. Counts the frequency of each letter in a case-insensitive way
+3. Produces a bar chart of those frequencies
+4. Returns:
+   - a `dict` of letter frequencies
+   - a matplotlib `Axes` object for the bar chart
+
+## Expected behavior
+- Input must be a string.
+- If `s` is not a string, the function should raise an error.
+- Letter counting is case-insensitive, so `A` and `a` count together.
+- The chart should be titled **"Letter Frequencies"**.
+- X-axis label: **"Letters"**
+- Y-axis label: **"Frequency"**
+
+## Implementation plan
+
+### 1. Validate input
+- Check whether `s` is an instance of `str`.
+- If not, raise a `TypeError` with a clear message such as:
+  - `"Input must be a string"`
+
+### 2. Normalize the string
+- Convert the string to lowercase using `.lower()` so counting is case-insensitive.
+
+### 3. Filter letters only
+- Count only alphabetic characters.
+- Since `string` is imported, you can use:
+  - `string.ascii_lowercase`
+- Ignore digits, punctuation, spaces, symbols, and other non-letter characters.
+
+### 4. Count frequencies
+- Create a dictionary for letter counts.
+- For each character in the normalized string:
+  - if it is a lowercase letter, increment its count
+- You may use either:
+  - a manual loop with `dict.get()`
+  - or `collections.Counter` if it were available, but it is not imported here, so manual counting is simpler
+
+### 5. Prepare chart data
+- Use the dictionary keys as x-axis labels.
+- Use the corresponding counts as bar heights.
+- Decide on ordering:
+  - alphabetic order is the most predictable and suitable for a frequency chart
+  - optionally, only include letters that appear at least once
+
+### 6. Build the bar chart
+- Create a figure and axes with `plt.subplots()`
+- Plot bars using `ax.bar(...)`
+- Set:
+  - title: `"Letter Frequencies"`
+  - x-label: `"Letters"`
+  - y-label: `"Frequency"`
+
+### 7. Return results
+- Return a tuple:
+  - `(frequency_dict, ax)`
+
+## Edge cases to handle
+1. **Non-string input**
+   - Example: `123`, `None`, `['a']`
+   - Must raise `TypeError`
+
+2. **Empty string**
+   - Return an empty dictionary
+   - Still return a valid `Axes` object with an empty chart
+
+3. **String with no letters**
+   - Example: `"1234!!!"`
+   - Return an empty dictionary
+   - Chart should have no bars
+
+4. **Mixed case input**
+   - Example: `"AaBb"`
+   - Should count as `{'a': 2, 'b': 2}`
+
+5. **Whitespace and punctuation**
+   - Ignore them completely
+
+6. **Repeated letters**
+   - Must accumulate counts correctly
+
+## Suggested output structure
+- If input is valid:
+  - `({'a': 3, 'b': 1, 'c': 2}, ax)`
+- If input is invalid:
+  - raise `TypeError`
+
+If you want, I can now write the full implementation in the exact requested format starting with:
+
+```python
+import string
+import matplotlib.pyplot as plt
+def task_func(s):
+```

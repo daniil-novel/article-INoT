@@ -1,0 +1,94 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Perform the feature selection with SelectKBest (k=2) and return a heatmap of the feature correlations.
+The function should output with:
+    tuple: A tuple containing:
+    list: A list of the selected features.
+    Axes: A heatmap showing the correlation between the selected features.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+import seaborn as sns
+def task_func(df1, df2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+import seaborn as sns
+def task_func(df1, df2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(df1, df2)`:
+
+### Goal
+- Use `SelectKBest` with `k=2` and `f_classif` to select the two best features from `df1` with respect to target `df2`.
+- Return:
+  1. a `list` of the selected feature names
+  2. a seaborn heatmap `Axes` object showing correlations among the selected features
+
+---
+
+### Assumptions
+- `df1` is a pandas `DataFrame` containing candidate feature columns.
+- `df2` is the target vector/series aligned with `df1` rows.
+- `df2` is suitable for `f_classif` (i.e., a classification target with discrete labels).
+
+---
+
+### Steps
+1. **Validate inputs**
+   - Ensure `df1` is a DataFrame.
+   - Ensure `df2` has the same number of rows as `df1`.
+   - Confirm there are at least 2 feature columns available.
+   - Confirm there are no missing values, or decide on a handling strategy if needed.
+
+2. **Run feature selection**
+   - Instantiate:
+     - `selector = SelectKBest(score_func=f_classif, k=2)`
+   - Fit the selector on `df1` and `df2`.
+   - Extract the boolean support mask with `selector.get_support()`.
+
+3. **Identify selected feature names**
+   - Use the mask to select the corresponding column names from `df1.columns`.
+   - Convert them to a Python `list`.
+
+4. **Build correlation matrix**
+   - Create a DataFrame containing only the selected features.
+   - Compute the correlation matrix with `.corr()`.
+
+5. **Create heatmap**
+   - Use `sns.heatmap(corr_matrix, annot=True, cmap=...)` to generate the plot.
+   - Capture the returned `Axes` object.
+
+6. **Return result**
+   - Return a tuple:
+     - selected feature list
+     - heatmap `Axes`
+
+---
+
+### Edge cases to handle
+- **Fewer than 2 features in `df1`**
+  - `SelectKBest(k=2)` cannot work; either raise a clear error or adapt `k` to the available number of features.
+- **Mismatch in row counts between `df1` and `df2`**
+  - Must raise an error.
+- **Non-numeric feature columns**
+  - `f_classif` requires numeric input; non-numeric columns should be removed, converted, or rejected.
+- **Missing values**
+  - `SelectKBest` and correlation computation may fail if NaNs are present; either impute, drop, or raise a clear error.
+- **Constant features**
+  - These may produce invalid/meaningless scores; they should ideally be filtered out.
+- **Target not suitable for classification**
+  - `f_classif` is intended for classification problems; if `df2` is continuous, results may be invalid.
+- **Correlation matrix on only one selected feature**
+  - Not expected with `k=2`, but if adaptation occurs, heatmap still should handle the 1x1 case gracefully.
+
+---
+
+### Output behavior
+- The returned feature list should preserve the selected feature names exactly as they appear in `df1`.
+- The heatmap should visualize only the selected features’ pairwise correlations.
+- Since there are exactly 2 selected features, the heatmap will be a 2x2 correlation matrix.
+
+If you want, I can now turn this plan into the exact self-contained function code.

@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Create SHA256 hashes for all files in the specified directory, including files in subdirectories, and save these hashes in a JSON file named 'hashes.json' in the given directory.
+The function should output with:
+    str: The absolute path of the JSON file ('hashes.json') containing the hashes.
+You should write self-contained code starting with:
+```
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+```
+FULL SUPPLIED CONTEXT
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:

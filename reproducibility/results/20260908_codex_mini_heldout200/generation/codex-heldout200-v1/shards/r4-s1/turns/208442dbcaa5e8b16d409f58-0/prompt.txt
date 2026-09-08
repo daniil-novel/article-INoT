@@ -1,0 +1,20 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates a signed hash of a file's contents using RSA encryption. The file's contents are hashed using SHA-256, and then the hash is signed with a private RSA key stored in 'private.pem'. The signed hash is encoded in base64. Assuming 'empty.txt' is an empty file and a valid 'private.pem' is present, >>> len(task_func('empty.txt')) > 0 True
+The function should output with:
+    str: The base64 encoded signed hash of the file.
+You should write self-contained code starting with:
+```
+import hashlib
+import rsa
+import base64
+def task_func(file_path):
+```
+FULL SUPPLIED CONTEXT
+import hashlib
+import rsa
+import base64
+def task_func(file_path):

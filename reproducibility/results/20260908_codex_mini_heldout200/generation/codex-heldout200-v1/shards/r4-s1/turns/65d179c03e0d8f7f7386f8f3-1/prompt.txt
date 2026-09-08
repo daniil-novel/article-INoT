@@ -1,0 +1,154 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Remove duplicate and stopwords from a string "text." Then, generate a count of n-grams (default is bigrams) in the text.
+The function should output with:
+    dict: The count of the n-grams in the text.
+You should write self-contained code starting with:
+```
+import re
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+from collections import Counter
+# Constants
+STOPWORDS = set(stopwords.words('english'))
+def task_func(text, n=2):
+```
+FULL SUPPLIED CONTEXT
+import re
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+from collections import Counter
+# Constants
+STOPWORDS = set(stopwords.words('english'))
+def task_func(text, n=2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(text, n=2)` based on the prompt.
+
+## Goal
+Take an input string, clean it, remove stopwords and duplicate tokens, then count n-grams (default: bigrams) and return the counts as a dictionary.
+
+---
+
+## Assumed behavior
+Because the prompt says “Remove duplicate and stopwords from a string `text`” and then count n-grams, the most reasonable interpretation is:
+
+1. Normalize the text.
+2. Remove stopwords.
+3. Remove duplicate tokens while preserving first occurrence order.
+4. Build n-grams from the resulting token sequence.
+5. Return a `dict` of n-gram counts.
+
+---
+
+## Implementation plan
+
+### 1. Normalize input text
+- Convert `text` to lowercase so counting is case-insensitive.
+- Use regex to extract word tokens, ignoring punctuation and symbols.
+  - Example: `re.findall(r"\b\w+\b", text.lower())`
+
+This makes tokenization stable and avoids punctuation affecting n-grams.
+
+---
+
+### 2. Remove stopwords
+- Use the provided `STOPWORDS` set.
+- Filter out any token that appears in `STOPWORDS`.
+
+Example:
+- `"This is a simple test"` → `["simple", "test"]`
+
+---
+
+### 3. Remove duplicates while preserving order
+- Build an ordered unique token list.
+- Track seen tokens using a `set`.
+- Keep only the first occurrence of each token.
+
+Example:
+- `["apple", "banana", "apple", "pear"]` → `["apple", "banana", "pear"]`
+
+Preserving order matters because n-grams depend on sequence.
+
+---
+
+### 4. Validate `n`
+- Ensure `n` is a positive integer.
+- If `n <= 0`, return `{}` or handle gracefully.
+- If the number of remaining tokens is less than `n`, return `{}`.
+
+---
+
+### 5. Generate n-grams
+- Create consecutive token tuples of length `n`.
+- For each window, join tokens with a space.
+
+Examples:
+- tokens `["data", "science", "model"]`, `n=2`
+  - `("data science", "science model")`
+- tokens `["a", "b", "c"]`, `n=3`
+  - `("a b c")`
+
+---
+
+### 6. Count n-grams
+- Use `collections.Counter` over the generated n-gram strings.
+- Return `dict(counter)`.
+
+---
+
+## Edge cases to handle
+
+### Empty input
+- `text = ""`
+- Return `{}`
+
+### Input with only stopwords
+- Example: `"the and is"`
+- After filtering, no tokens remain → `{}`
+
+### Input with repeated words only
+- Example: `"hello hello hello"`
+- After deduplication, only `["hello"]`
+- For default `n=2`, return `{}`
+
+### `n` larger than token count
+- Example: `text="one two"`, `n=3`
+- Return `{}`
+
+### Non-string input
+- If needed, convert to string or reject invalid input.
+- Safer option: if `text` is not a string, cast with `str(text)` or return `{}` depending on desired strictness.
+
+### Mixed case and punctuation
+- `"Hello, HELLO!"` should normalize to the same token.
+- Lowercasing and regex tokenization handle this.
+
+### Stopwords with contractions / apostrophes
+- Regex tokenization like `\b\w+\b` may split `"don't"` into `["don", "t"]`.
+- If that matters, use a more permissive regex or accept that limitation.
+
+---
+
+## Complexity
+Let `m` be the number of tokens after tokenization.
+
+- Tokenization/filtering: `O(m)`
+- Deduplication: `O(m)`
+- n-gram generation and counting: `O(m)`
+- Overall: `O(m)` time, `O(m)` space
+
+---
+
+## Suggested function behavior summary
+The final function should:
+1. Lowercase and tokenize the text.
+2. Remove stopwords.
+3. Remove duplicates while preserving order.
+4. Build n-grams from the cleaned tokens.
+5. Return a dictionary mapping each n-gram string to its frequency.
+
+If you want, I can also turn this plan into the full implementation.

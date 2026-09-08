@@ -1,0 +1,23 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate n random Unix timestamps and convert them to strings formatted as UTC DATE_FORMAT. Plot a histogram of the distribution of the generated timestamps. If an output path is provided, save the histogram to the specified path. Otherwise, display the plot.
+The function should output with:
+    list: The list of n formatted timestamps.
+You should write self-contained code starting with:
+```
+import time
+from datetime import datetime
+import random
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(n, output_path=None):
+```
+FULL SUPPLIED CONTEXT
+import time
+from datetime import datetime
+import random
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(n, output_path=None):

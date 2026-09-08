@@ -1,0 +1,134 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Fetches an image from a given URL and returns it as a PIL Image object.
+Note that: The function uses a timeout of 5 seconds for the HTTP request to prevent indefinite waiting in case of unresponsive URLs. The function will not handle redirections or authentication scenarios. It expects a direct link to an image resource.
+The function should raise the exception for: ValueError: This exception is raised in the following scenarios: The URL is invalid or cannot be reached within the timeout period (5 seconds). The response from the server is not a successful HTTP status code (i.e., not in the range 200-299). The content fetched from the URL is not a valid image format that can be handled by PIL.
+The function should output with:
+    PIL.Image.Image: A PIL Image object representing the downloaded image. This
+    object can be manipulated or displayed using PIL's image processing
+    capabilities.
+You should write self-contained code starting with:
+```
+import requests
+from PIL import Image
+import io
+def task_func(url):
+```
+FULL SUPPLIED CONTEXT
+import requests
+from PIL import Image
+import io
+def task_func(url):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(url)` based on the requirements.
+
+## Goal
+Fetch an image from a direct URL and return it as a `PIL.Image.Image` object.
+
+## Required behavior
+- Use `requests` to download the resource.
+- Set a **5-second timeout** on the HTTP request.
+- Do **not** handle redirects or authentication explicitly.
+- Expect a **direct image URL**.
+- Return a `PIL.Image.Image` object.
+- Raise `ValueError` when:
+  1. the URL is invalid,
+  2. the URL cannot be reached within 5 seconds,
+  3. the HTTP response is not successful (`status_code` not in `200–299`),
+  4. the response content is not a valid image that PIL can open.
+
+---
+
+## Implementation plan
+
+### 1. Validate and request the URL
+- Call `requests.get(url, timeout=5)`.
+- Let `requests` handle URL formatting as far as it can.
+- Catch request-related exceptions and convert them to `ValueError`.
+
+### 2. Check HTTP success
+- After receiving the response, verify `response.ok` or `200 <= response.status_code < 300`.
+- If not successful, raise `ValueError`.
+
+### 3. Decode image bytes with PIL
+- Load the response body using `Image.open(io.BytesIO(response.content))`.
+- Force PIL to validate the image contents by calling `img.verify()` or by attempting to fully load it.
+- Reopen the image after verification if needed, because `verify()` can leave the image unusable.
+
+### 4. Return the PIL image
+- Return a usable `PIL.Image.Image` object.
+- A common pattern is:
+  - open image from bytes,
+  - optionally verify,
+  - reopen from bytes,
+  - return the reopened image.
+
+---
+
+## Edge cases to handle
+
+### Invalid URL
+Examples:
+- malformed string,
+- unsupported scheme,
+- empty string.
+
+Handling:
+- Catch exceptions from `requests` and raise `ValueError`.
+
+### Timeout
+- If the server does not respond within 5 seconds, `requests` raises a timeout-related exception.
+- Convert that to `ValueError`.
+
+### Non-success HTTP status
+Examples:
+- `404 Not Found`
+- `500 Internal Server Error`
+- `403 Forbidden`
+
+Handling:
+- Raise `ValueError` for any status outside `200–299`.
+
+### Non-image response
+Examples:
+- HTML page returned instead of image,
+- text file,
+- corrupted binary.
+
+Handling:
+- PIL should fail when opening or verifying.
+- Catch the PIL exception and raise `ValueError`.
+
+### Corrupted or partially valid image bytes
+- The response may have image-like headers but still be invalid.
+- Ensure the image is actually decodable/valid before returning.
+
+### Empty response body
+- `Image.open(...)` should fail or verification should fail.
+- Convert this to `ValueError`.
+
+### Redirects
+- The requirement says redirects are not handled.
+- Since `requests.get` follows redirects by default, if strict non-handling is desired, this would need attention.
+- However, based on the wording, the main expectation is that the function is meant for direct links and does not implement special redirect logic.
+
+---
+
+## Suggested error policy
+Use `ValueError` for all failure cases, with a message that distinguishes the cause if desired, such as:
+- invalid URL,
+- request timed out,
+- HTTP error status,
+- invalid image data.
+
+---
+
+## Minimal execution flow
+1. `requests.get(url, timeout=5)`
+2. verify `response.status_code`
+3. `Image.open(io.BytesIO(response.content))`
+4. ensure image is valid
+5. return image
+
+If you want, I can next provide the actual self-contained implementation for `task_func(url)`.

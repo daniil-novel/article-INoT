@@ -1,0 +1,45 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Removes all special characters, punctuation marks, and spaces from the input string using a regular expression, retaining only alphanumeric characters. Then hashes the cleaned string with SHA256.
+The function should output with:
+    str: The SHA256 hash of the cleaned string.
+You should write self-contained code starting with:
+```
+import re
+import hashlib
+def task_func(input_str):
+```
+FULL SUPPLIED CONTEXT
+import re
+import hashlib
+def task_func(input_str):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Accept the input string**
+   - `task_func(input_str)` takes a single string argument.
+
+2. **Clean the string using a regular expression**
+   - Remove everything except letters and digits.
+   - Use a regex pattern that matches any non-alphanumeric character, e.g. `[^A-Za-z0-9]`.
+   - Replace all matches with an empty string.
+
+3. **Hash the cleaned result with SHA-256**
+   - Encode the cleaned string as UTF-8 bytes.
+   - Compute `hashlib.sha256(...)`.
+   - Convert the digest to a hexadecimal string with `.hexdigest()`.
+
+4. **Return the hash**
+   - The function should return the SHA-256 hex digest string.
+
+Edge cases to handle:
+- **Empty input string**: cleaning results in `""`; hash the empty string normally.
+- **String with only special characters/spaces**: cleaning also results in `""`; hash that.
+- **Already alphanumeric string**: should be hashed unchanged.
+- **Mixed-case letters**: preserve case unless specified otherwise; uppercase and lowercase are distinct.
+- **Non-ASCII alphanumeric characters**:
+  - If “alphanumeric” is intended strictly as ASCII, `[^A-Za-z0-9]` removes them.
+  - If Unicode letters/digits should be kept, a different approach would be needed, but the prompt says “using a regular expression” and usually implies ASCII here.
+- **Non-string input**:
+  - If the environment may pass non-strings, convert with `str(input_str)` before cleaning, or let it fail naturally depending on expected contract.

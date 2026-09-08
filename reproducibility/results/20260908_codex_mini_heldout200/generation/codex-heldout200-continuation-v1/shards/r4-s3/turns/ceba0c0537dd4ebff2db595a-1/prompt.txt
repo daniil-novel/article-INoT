@@ -1,0 +1,158 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generates a password that mirrors the structure of the given text by replacing alphabetic characters with random ascii lowercase letters, digits with random single-digit numbers, spaces wth either a random digit or random lowercase letter at equal probabilities, and leaving other characters unchanged.
+Note that: This function does not handle high Unicode characters and focuses only on ASCII values.
+The function should raise the exception for: ValueError: If the input text is empty.
+The function should output with:
+    str: The generated password.
+You should write self-contained code starting with:
+```
+import string
+import random
+def task_func(text, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import string
+import random
+def task_func(text, seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a function:
+
+```python
+import string
+import random
+def task_func(text, seed=None):
+```
+
+that returns a **password-like string** with the same length and general structure as `text`, applying these rules:
+
+1. **Alphabetic characters**  
+   Replace each ASCII letter with a random **lowercase ASCII letter** (`a-z`).
+
+2. **Digits**  
+   Replace each digit with a random **single digit** (`0-9`).
+
+3. **Spaces**  
+   Replace each space (`' '`) with either:
+   - a random digit, or
+   - a random lowercase letter  
+   with **equal probability**.
+
+4. **Other characters**  
+   Leave all other characters unchanged.
+
+5. **Empty input**  
+   If `text` is empty, raise:
+   ```python
+   ValueError
+   ```
+
+6. **Unicode note**  
+   The function only targets ASCII behavior; high Unicode characters are not specially handled and should be treated as “other characters” unless explicitly matched by the ASCII rules.
+
+7. **Output**  
+   Return a `str`.
+
+---
+
+## Implementation plan
+
+### 1) Validate input
+- If `text == ""`, raise `ValueError`.
+- No other validation is required unless you want to guard against non-string inputs, but the task only explicitly requires the empty-string case.
+
+### 2) Set up deterministic randomness when `seed` is provided
+- If `seed` is not `None`, create a local RNG:
+  ```python
+  rng = random.Random(seed)
+  ```
+- Otherwise use a local RNG anyway:
+  ```python
+  rng = random.Random()
+  ```
+- This avoids mutating global random state and makes testing easier.
+
+### 3) Define replacement character pools
+- Lowercase letters:
+  ```python
+  string.ascii_lowercase
+  ```
+- Digits:
+  ```python
+  string.digits
+  ```
+
+### 4) Process each character in order
+For each character `ch` in `text`:
+
+- If `ch` is an ASCII letter:
+  - append `rng.choice(string.ascii_lowercase)`
+
+- Else if `ch` is a digit:
+  - append `rng.choice(string.digits)`
+
+- Else if `ch == ' '`:
+  - choose randomly between:
+    - `rng.choice(string.ascii_lowercase)`
+    - `rng.choice(string.digits)`
+  - with 50/50 probability
+
+- Else:
+  - append `ch` unchanged
+
+### 5) Build and return the result
+- Collect characters in a list for efficiency.
+- Join them at the end:
+  ```python
+  return "".join(result)
+  ```
+
+---
+
+## Edge cases to handle
+
+1. **Empty string**
+   - Must raise `ValueError`.
+
+2. **Only spaces**
+   - Each space should become either a digit or lowercase letter.
+
+3. **Mixed punctuation**
+   - Punctuation and symbols must remain unchanged.
+
+4. **Unicode letters**
+   - Since the task focuses on ASCII values, avoid using broad Unicode classification if possible.
+   - Prefer explicit checks like `ch in string.ascii_letters` and `ch in string.digits`.
+
+5. **Seed reproducibility**
+   - Same input + same seed should produce the same output.
+
+6. **Length preservation**
+   - Output should always have the same length as input.
+
+7. **Case handling**
+   - Uppercase letters are not preserved as uppercase; they become lowercase letters, per requirement.
+
+---
+
+## Recommended implementation approach
+
+Use explicit ASCII-based checks:
+
+- `ch in string.ascii_letters`
+- `ch in string.digits`
+- `ch == ' '`
+
+This matches the task specification more safely than `str.isalpha()` / `str.isdigit()`, which can include non-ASCII Unicode characters.
+
+---
+
+## Complexity
+
+- **Time:** `O(n)` where `n` is the length of `text`
+- **Space:** `O(n)` for the output buffer
+
+If you want, I can also provide the exact implementation next.

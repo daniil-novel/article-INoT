@@ -1,0 +1,67 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Archives all processed files from a source directory to a target directory. The function identifies processed files by the '_processed' suffix in the filename.
+The function should output with:
+    str: The path to the created archive.
+You should write self-contained code starting with:
+```
+import zipfile
+import os
+import re
+import shutil
+def task_func(source_dir: str, target_dir: str, archive_name: str = 'archive.zip') -> str:
+```
+FULL SUPPLIED CONTEXT
+import zipfile
+import os
+import re
+import shutil
+def task_func(source_dir: str, target_dir: str, archive_name: str = 'archive.zip') -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func`:
+
+1. **Validate inputs**
+   - Check that `source_dir` exists and is a directory.
+   - Check `target_dir`; create it if it does not exist.
+   - Decide how to handle invalid `archive_name`:
+     - usually treat it as a filename and join it to `target_dir`
+     - optionally normalize it with `os.path.basename` to avoid path traversal
+
+2. **Build the archive path**
+   - Compute the full destination path:
+     - `archive_path = os.path.join(target_dir, archive_name)`
+   - If an archive with the same name already exists, overwrite it cleanly.
+
+3. **Identify processed files**
+   - Walk through `source_dir` and collect files whose **filename stem** ends with `_processed`.
+   - Prefer checking the name before the extension, so:
+     - `data_processed.txt` → match
+     - `data.txt` → no match
+     - `data_processed_backup.txt` → no match
+   - If the intended behavior is only top-level files, use `os.listdir`; if all nested files should be included, use `os.walk`.
+
+4. **Exclude the archive itself**
+   - If the archive is being written inside `target_dir` and `target_dir` overlaps with `source_dir`, make sure the output ZIP file is not included in the input scan.
+   - This prevents accidentally archiving the archive.
+
+5. **Create the ZIP archive**
+   - Open `archive_path` with `zipfile.ZipFile(..., mode="w", compression=zipfile.ZIP_DEFLATED)`.
+   - Add each processed file using a relative archive name:
+     - preserve directory structure relative to `source_dir`
+   - This avoids collisions when two subdirectories contain similarly named files.
+
+6. **Return the result**
+   - Return the string path to the created archive.
+
+### Edge cases to handle
+- **No processed files found**: create an empty ZIP and still return its path.
+- **`source_dir` missing or not a directory**: raise an appropriate exception.
+- **`target_dir` does not exist**: create it.
+- **Existing archive file**: overwrite it.
+- **Files with multiple dots in the name**: still correctly detect the `_processed` suffix before the extension.
+- **Nested directories**: preserve relative paths so files don’t overwrite each other.
+- **Permission issues / unreadable files**: let exceptions surface unless you want explicit handling.
+- **Source and target overlap**: ensure the output archive is excluded from the scan.
+
+If you want, I can now turn this plan into the actual self-contained function.

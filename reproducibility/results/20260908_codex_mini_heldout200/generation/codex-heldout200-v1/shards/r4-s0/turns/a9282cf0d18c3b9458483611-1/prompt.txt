@@ -1,0 +1,118 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a series of n sine waves with increasing frequency with a fidelity of 0.01 radians as provided by the ANGLES array. The amplitude of each wave is 1. The function returns a list of numpy arrays with the y values of the sine waves. Additionally, calculate the Fast Fourier Transform (FFT) of the mixed signal and plot the histogram of the magnitude of the FFT data. If n_waves is less than 1, return an empty list for the sine waves, an empty array for the FFT data, and None for the axes object.
+The function should output with:
+    list: A list of numpy arrays with the y values of the sine waves.
+    np.array: FFT data.
+    plt.Axes: The axes object of the plot.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fft import fft
+ANGLES = np.arange(0, 2*np.pi, 0.01)
+def task_func(n_waves, seed=0):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fft import fft
+ANGLES = np.arange(0, 2*np.pi, 0.01)
+def task_func(n_waves, seed=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(n_waves, seed=0)`.
+
+## Requirements recap
+- Input:
+  - `n_waves`: number of sine waves to generate
+  - `seed`: present in signature; may be used if any randomness is introduced, but the task itself does not require randomness
+- Use:
+  - `ANGLES = np.arange(0, 2*np.pi, 0.01)` as the shared angle grid
+- Output:
+  - `list[np.ndarray]`: individual sine waves
+  - `np.ndarray`: FFT data of the mixed signal
+  - `plt.Axes`: axes object for the histogram plot
+- Special case:
+  - If `n_waves < 1`, return:
+    - `[]`
+    - `np.array([])`
+    - `None`
+
+## Implementation plan
+
+### 1) Handle invalid or empty wave count
+- Check `if n_waves < 1`.
+- Return the required empty outputs immediately:
+  - empty list for waves
+  - empty NumPy array for FFT
+  - `None` for axes
+
+### 2) Generate sine waves with increasing frequency
+- Use the provided `ANGLES` array as the x-axis.
+- For each wave index `i` from `1` to `n_waves`:
+  - create `np.sin(i * ANGLES)`
+  - amplitude stays `1`
+- Store each wave in a list.
+- This gives increasing frequency by integer multiples of the base angular frequency.
+
+### 3) Build the mixed signal
+- Sum all generated waves elementwise.
+- The mixed signal should have the same shape as `ANGLES`.
+- If there is only one wave, the mixed signal is just that wave.
+
+### 4) Compute FFT
+- Apply `fft(mixed_signal)`.
+- Return the complex FFT array directly, unless the task or tests expect magnitude; the prompt says “FFT data,” so the raw FFT output is the safest interpretation.
+
+### 5) Plot histogram of FFT magnitude
+- Compute magnitude with `np.abs(fft_data)`.
+- Create a figure/axes pair with `plt.subplots()`.
+- Plot a histogram of the magnitudes on the axes.
+- Add labels/title if desired for clarity:
+  - x-label: magnitude
+  - y-label: count
+  - title: FFT magnitude histogram
+
+### 6) Return all outputs
+- Return:
+  - list of sine wave arrays
+  - FFT array
+  - axes object
+
+## Edge cases to consider
+
+### `n_waves < 1`
+- Must return exactly:
+  - `[]`
+  - `np.array([])`
+  - `None`
+
+### `n_waves == 1`
+- Only one sine wave is generated.
+- Mixed signal equals that wave.
+- FFT still computed and histogram plotted.
+
+### Large `n_waves`
+- The mixed signal is a sum of many sine waves.
+- FFT output size remains equal to the number of angle samples.
+- Histogram should still work on complex FFT magnitudes.
+
+### Non-integer `n_waves`
+- The prompt does not specify type constraints.
+- A robust implementation may coerce to `int` or assume valid integer input.
+- If strict behavior is desired, treat values below 1 as empty and otherwise use `range(int(n_waves))`.
+
+### `seed` parameter
+- The prompt does not require randomness.
+- It can be left unused unless you intentionally introduce random phase shifts or noise.
+- If unused, it should still remain in the signature.
+
+## Recommended behavior summary
+- Deterministic sine waves: `sin(1*ANGLES), sin(2*ANGLES), ..., sin(n_waves*ANGLES)`
+- Mixed signal = sum of all waves
+- FFT computed on the mixed signal
+- Histogram of `abs(FFT)`
+- Graceful empty-output handling when `n_waves < 1`
+
+If you want, I can next turn this plan into the exact self-contained implementation.

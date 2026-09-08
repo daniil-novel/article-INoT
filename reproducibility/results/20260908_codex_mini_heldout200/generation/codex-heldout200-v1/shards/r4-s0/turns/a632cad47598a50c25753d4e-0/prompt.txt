@@ -1,0 +1,18 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Loads a DLL file from a given filepath, calculates its MD5 and SHA256 hashes, and prints these hashes in hexadecimal format. This function is a demonstration of file handling, usage of the hashlib library for hash calculations, and binascii for hexadecimal conversion. Note that the actual operations performed on the loaded DLL are limited to hash calculation.
+The function should output with:
+    str: The actual name of the loaded DLL file.
+You should write self-contained code starting with:
+```
+import ctypes
+import hashlib
+import binascii
+def task_func(filepath):
+```
+FULL SUPPLIED CONTEXT
+import ctypes
+import hashlib
+import binascii
+def task_func(filepath):

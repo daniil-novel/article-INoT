@@ -1,0 +1,91 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a random string of a given length, with each character being either a parenthesis (from the set "(){}[]") or a lowercase English character. For function uses a optional random_seed when sampling characters. >>> string = task_func(34, random_seed=42) >>> print(string) hbrpoigf)cbfnobm(o{rak)vrjnvgfygww >>> string = task_func(23, random_seed=1) >>> print(string) ieqh]{[yng]by)a{rogubbb
+Note that: The function uses the internal string constant BRACKETS for definition of the bracket set.
+The function should output with:
+    str: The generated string.
+You should write self-contained code starting with:
+```
+import string
+import random
+def task_func(length, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import string
+import random
+def task_func(length, random_seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(length, random_seed=None)`.
+
+## Requirements analysis
+
+- The function must return a **random string** of exactly `length` characters.
+- Each character must be chosen from:
+  - lowercase English letters: `a-z`
+  - bracket characters from the internal constant `BRACKETS`, which should be:
+    - `"(){}[]"`
+- If `random_seed` is provided, sampling must be **deterministic**.
+- The function should be self-contained and start with:
+  ```python
+  import string
+  import random
+  def task_func(length, random_seed=None):
+  ```
+- Return type: `str`
+
+## Implementation plan
+
+1. **Define the character pool**
+   - Use `string.ascii_lowercase` for lowercase letters.
+   - Use the internal constant `BRACKETS = "(){}[]"`.
+   - Combine them into one sampling pool:
+     - `alphabet = string.ascii_lowercase + BRACKETS`
+
+2. **Handle randomness**
+   - Prefer creating a local RNG instance:
+     - `rng = random.Random(random_seed)`
+   - This avoids changing global random state and makes the function reproducible for a given seed.
+
+3. **Generate characters**
+   - Draw `length` characters independently with equal probability from the combined pool.
+   - Efficient approach:
+     - build a list of characters using repeated `rng.choice(alphabet)`
+     - join them with `"".join(...)`
+
+4. **Return the final string**
+   - The final output should be exactly `length` characters long.
+
+## Edge cases to consider
+
+- **`length = 0`**
+  - Should return `""` (empty string).
+
+- **`length < 0`**
+  - Recommended behavior: raise `ValueError` because a negative-length string is invalid.
+  - Alternative would be to return `""`, but explicit validation is safer.
+
+- **`random_seed = None`**
+  - Should still work and produce nondeterministic output.
+
+- **`random_seed` as non-integer**
+  - Python’s `random.Random(seed)` accepts many hashable types, but if strict behavior is desired, document or validate this.
+  - Since the task says “optional random_seed,” no special restriction is necessary unless required.
+
+- **Very large `length`**
+  - Time complexity should be `O(length)`.
+  - Memory should be `O(length)` due to the output string construction.
+
+- **Character set correctness**
+  - Ensure only lowercase letters and bracket characters are used.
+  - No uppercase letters, digits, spaces, or punctuation beyond `(){}[]`.
+
+## Expected behavior checklist
+
+- Deterministic output for same `(length, random_seed)`
+- Different outputs for different seeds
+- Correct length
+- Only allowed characters
+- No side effects on global RNG state
+
+If you want, I can proceed to stage 2 and write the actual implementation.

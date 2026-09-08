@@ -1,0 +1,97 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generates 'n' random numbers between 0 and 1, finds those greater than their average, and counts how many are greater than or equal to a specified value, then plots the sorted numbers.
+The function should output with:
+    list: Numbers greater than the average of all generated numbers.
+    int: The count of numbers greater than or equal to the specified value.
+You should write self-contained code starting with:
+```
+import random
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(n, value):
+```
+FULL SUPPLIED CONTEXT
+import random
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(n, value):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(n, value)`.
+
+## Goal
+Generate `n` random numbers in `[0, 1)`, identify those greater than the average of all generated numbers, count how many are `>= value`, and plot the sorted numbers.
+
+## Planned behavior
+The function should:
+1. Generate `n` random floats using `random.random()`.
+2. Compute the average of all generated numbers.
+3. Collect numbers strictly greater than that average.
+4. Sort the generated numbers.
+5. Count how many numbers are `>= value`.
+6. Plot the sorted numbers with `matplotlib.pyplot`.
+7. Return:
+   - `list`: numbers greater than the average
+   - `int`: count of numbers greater than or equal to `value`
+
+## Suggested implementation steps
+1. **Input validation**
+   - Check that `n` is an integer.
+   - Check that `n >= 0`.
+   - Optionally check that `value` is numeric.
+   - If `n == 0`, handle specially to avoid computing an average of an empty list.
+
+2. **Generate random numbers**
+   - Use a list comprehension:
+     - `nums = [random.random() for _ in range(n)]`
+
+3. **Compute average**
+   - Use `statistics.mean(nums)` when `n > 0`.
+   - If `n == 0`, decide on a safe return path before calling `mean`.
+
+4. **Filter numbers greater than average**
+   - Use:
+     - `[x for x in nums if x > avg]`
+
+5. **Sort and count**
+   - Sort numbers:
+     - `sorted_nums = sorted(nums)`
+   - Use `bisect.bisect_left(sorted_nums, value)` to find how many are `< value`.
+   - Then count of `>= value` is:
+     - `len(sorted_nums) - bisect.bisect_left(sorted_nums, value)`
+
+6. **Plot the sorted numbers**
+   - Use `plt.plot(sorted_nums)` or `plt.plot(range(n), sorted_nums)`
+   - Add labels/title if desired.
+   - Call `plt.show()`.
+
+7. **Return result**
+   - Return a tuple like:
+     - `(greater_than_avg_list, count_ge_value)`
+
+## Edge cases to handle
+- **`n = 0`**
+  - No numbers are generated.
+  - Average is undefined, so return `([], 0)` or similar safe behavior.
+- **`n < 0`**
+  - Invalid; raise `ValueError`.
+- **`n` not an integer**
+  - Invalid; raise `TypeError` or `ValueError`.
+- **`value` outside `[0, 1]`**
+  - Still valid logically:
+    - If `value <= 0`, count is `n`
+    - If `value > 1`, count is `0`
+- **All numbers equal?**
+  - With `random.random()` this is extremely unlikely, but the filtering logic still works.
+- **Plotting in non-GUI environments**
+  - `plt.show()` may be problematic in headless setups, but it is still the expected plotting step unless the environment requires saving the figure instead.
+
+## Notes on correctness
+- The “greater than average” comparison must be **strictly greater** (`>`), not `>=`.
+- The count for `value` must be **greater than or equal to** (`>=`), so `bisect_left` is the right tool.
+- Sorting is required before plotting and before using `bisect`.
+
+If you want, I can also turn this plan into the final self-contained code in the exact required format.

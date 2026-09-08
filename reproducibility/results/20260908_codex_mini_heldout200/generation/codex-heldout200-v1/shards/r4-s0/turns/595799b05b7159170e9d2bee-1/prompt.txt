@@ -1,0 +1,72 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Calculate the occurrence of certain words in a collection of sentences and return a bar chart.
+The function should output with:
+    matplotlib.axes._axes.Axes: Axes object of the bar chart displaying the frequencies.
+You should write self-contained code starting with:
+```
+import collections
+import matplotlib.pyplot as plt
+import pandas as pd
+# Constants
+WORDS = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I']
+def task_func(sentences_dict, word_keys):
+```
+FULL SUPPLIED CONTEXT
+import collections
+import matplotlib.pyplot as plt
+import pandas as pd
+# Constants
+WORDS = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I']
+def task_func(sentences_dict, word_keys):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Plan for `task_func(sentences_dict, word_keys)`:
+
+1. **Collect all sentences**
+   - Treat `sentences_dict` as a mapping whose values contain sentences or sentence-like text.
+   - Flatten all text into one iterable of sentences/strings.
+   - Ignore keys; only the sentence content matters.
+
+2. **Normalize text for counting**
+   - Convert text to a consistent case, most likely lowercase.
+   - Tokenize words robustly so punctuation does not interfere.
+   - Use exact word matching rather than substring matching:
+     - `"the"` should count in `"the."`
+     - but not in `"breathe"`.
+
+3. **Count target words**
+   - Build a frequency counter over all tokens using `collections.Counter`.
+   - Count only the words listed in `word_keys`.
+   - Preserve the order of `word_keys` in the chart.
+
+4. **Prepare chart data**
+   - Create two aligned lists:
+     - x-axis labels = `word_keys`
+     - y-axis values = counts for each word
+   - If a word is absent, its count should be `0`.
+
+5. **Create the bar chart**
+   - Use `matplotlib.pyplot` to create a figure and axes.
+   - Plot a bar chart with the word labels on the x-axis and frequencies on the y-axis.
+   - Add axis labels and a title for readability.
+
+6. **Return value**
+   - Return the `matplotlib.axes._axes.Axes` object for the bar chart, as required.
+
+### Edge cases to handle
+- **Empty `sentences_dict`**: return a chart with all zero counts.
+- **Empty `word_keys`**: return an empty bar chart or an axes with no bars.
+- **Case differences**: count `"The"` and `"the"` together unless the spec says otherwise.
+- **Punctuation**: words next to commas, periods, quotes, etc. should still be counted.
+- **Repeated words in `word_keys`**: decide whether to preserve duplicates or deduplicate; preserving input order is usually safest.
+- **Non-string sentence values**: skip or convert safely if the input may contain non-string data.
+- **Missing keys in `word_keys`**: count them as zero.
+
+### Implementation approach
+- Use `collections.Counter` for frequency counting.
+- Use a regex-based tokenizer for reliable word extraction.
+- Build the bar chart with `ax.bar(...)`.
+- Return the `Axes` object directly.
+
+If you want, I can now provide the full implementation code following this plan.

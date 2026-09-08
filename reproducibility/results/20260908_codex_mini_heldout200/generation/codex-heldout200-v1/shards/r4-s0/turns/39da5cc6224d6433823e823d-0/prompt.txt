@@ -1,0 +1,23 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generates a performance report DataFrame for teams, detailing goals and penalties. For each team, the function fetches goal and penalty counts, calculates 'Penalties Cost' using a random multiplier from a predefined list, and computes a 'Performance Score' as the non-negative difference between goals and penalties. Return a Dataframe with colomns 'Team', 'Goals', 'Penalties', 'Penalties Cost' and 'Performance Score'.
+The function should output with:
+    pd.DataFrame: DataFrame with Team, Goals, Penalties, Penalties Cost, Performance Score.
+You should write self-contained code starting with:
+```
+from random import choice
+import numpy as np
+import pandas as pd
+# Constants
+TEAMS = ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+PENALTIES_COSTS = [100, 200, 300, 400, 500]
+def task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS):
+```
+FULL SUPPLIED CONTEXT
+from random import choice
+import numpy as np
+import pandas as pd
+# Constants
+TEAMS = ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+PENALTIES_COSTS = [100, 200, 300, 400, 500]
+def task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS):

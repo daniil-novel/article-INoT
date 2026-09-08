@@ -1,0 +1,98 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generates a performance report DataFrame for teams, detailing goals and penalties. For each team, the function fetches goal and penalty counts, calculates 'Penalties Cost' using a random multiplier from a predefined list, and computes a 'Performance Score' as the non-negative difference between goals and penalties. Return a Dataframe with colomns 'Team', 'Goals', 'Penalties', 'Penalties Cost' and 'Performance Score'.
+The function should output with:
+    pd.DataFrame: DataFrame with Team, Goals, Penalties, Penalties Cost, Performance Score.
+You should write self-contained code starting with:
+```
+from random import choice
+import numpy as np
+import pandas as pd
+# Constants
+TEAMS = ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+PENALTIES_COSTS = [100, 200, 300, 400, 500]
+def task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS):
+```
+FULL SUPPLIED CONTEXT
+from random import choice
+import numpy as np
+import pandas as pd
+# Constants
+TEAMS = ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+PENALTIES_COSTS = [100, 200, 300, 400, 500]
+def task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS)`.
+
+## Implementation plan
+
+1. **Assume aligned team data**
+   - Treat `goals` and `penalties` as ordered sequences aligned with `teams`.
+   - Each index corresponds to one team.
+
+2. **Validate basic shape**
+   - Check that `len(goals) == len(penalties) == len(teams)`.
+   - If lengths differ, raise an error early rather than producing a misaligned report.
+
+3. **Build row data team by team**
+   - Iterate over `teams`, `goals`, and `penalties` together using `zip`.
+   - For each team:
+     - Take the goal count.
+     - Take the penalty count.
+     - Choose one random penalty cost multiplier from `penalties_costs` using `choice(...)`.
+     - Compute `Penalties Cost` as the chosen multiplier applied to the penalty count.
+     - Compute `Performance Score` as `max(0, goals - penalties)`.
+
+4. **Construct the DataFrame**
+   - Create a `pd.DataFrame` from the collected rows.
+   - Ensure the final column order is exactly:
+     - `Team`
+     - `Goals`
+     - `Penalties`
+     - `Penalties Cost`
+     - `Performance Score`
+
+5. **Return the result**
+   - Return the DataFrame directly.
+
+---
+
+## Key edge cases to handle
+
+1. **Mismatched lengths**
+   - Example: 5 teams, but only 4 goal values.
+   - Best behavior: raise `ValueError`.
+
+2. **Empty inputs**
+   - If `teams`, `goals`, and `penalties` are all empty, return an empty DataFrame with the required columns.
+
+3. **Negative goals or penalties**
+   - The task does not specify forbidding them.
+   - `Performance Score` should still be clipped at zero via `max(0, goals - penalties)`.
+   - If strict validation is desired, negative values could instead raise an error, but that would be a design choice not required by the prompt.
+
+4. **Non-numeric values**
+   - If any goal or penalty value is not numeric, multiplication/subtraction may fail.
+   - You can either let Python/Pandas raise naturally or validate types explicitly.
+
+5. **Randomness in `Penalties Cost`**
+   - `choice(penalties_costs)` means the cost can vary each run.
+   - If deterministic behavior is needed for testing, a seed would be required, but the prompt does not request one.
+
+6. **Duplicate team names**
+   - Allowed unless explicitly disallowed.
+   - The DataFrame can still contain repeated names.
+
+---
+
+## Expected behavior summary
+
+For each team, the function should produce one row with:
+- the team name,
+- goals,
+- penalties,
+- a randomly selected penalty cost factor applied to penalties,
+- and a non-negative performance score.
+
+If you want, I can also turn this plan into the exact self-contained function implementation.

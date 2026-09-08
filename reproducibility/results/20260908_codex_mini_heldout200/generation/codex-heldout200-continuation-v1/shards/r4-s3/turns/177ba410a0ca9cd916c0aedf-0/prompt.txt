@@ -1,0 +1,22 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Plots the correlation matrix from numeric columns in a DataFrame and returns a DataFrame where the numeric columns are standardized to have mean 0 and variance 1.
+Note that: Notes: Only numeric columns are considered for the heatmap. Non-numeric columns are ignored.
+The function should raise the exception for: ValueError: If the DataFrame is empty or if no numeric columns are present.
+The function should output with:
+    pandas.DataFrame: Standardized DataFrame.
+    matplotlib.figure.Figure: Figure object containing the heatmap of the correlation matrix.
+You should write self-contained code starting with:
+```
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+def task_func(df):

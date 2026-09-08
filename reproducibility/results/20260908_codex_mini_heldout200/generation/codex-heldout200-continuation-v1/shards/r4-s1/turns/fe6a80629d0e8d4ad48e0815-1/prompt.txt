@@ -1,0 +1,143 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Create a dictionary with a fake event schedule given an event time. The function converts a given epoch in milliseconds into a datetime object in the current system time's timezone. It generates a fake event name using Faker. Then, it uses pytz and regex to check if specified timezones are valid (i.e. in pytz.all_timezones or can be parsed using regex from UTC±HH:MM format), ignoring invalid ones. If none is valid or if timezones were not specified, it selects UTC; otherwise, it randomly selects a valid one using Faker. Finally, the function returns a dictionary with the fake event name as key and a list as value, where the list itself contains a schedule, i.e. a dictionary with keys 'date', 'time', 'timezone'.
+The function should output with:
+    A dictionary containing event names as keys and a list of event details as values.
+    Event details include the date, time, and timezone of the event.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pytz
+import re
+from faker import Faker
+def task_func(epoch_milliseconds, seed=0, timezones=["UTC"]):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pytz
+import re
+from faker import Faker
+def task_func(epoch_milliseconds, seed=0, timezones=["UTC"]):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(epoch_milliseconds, seed=0, timezones=["UTC"])`, including the key edge cases.
+
+## Goal
+Return a dictionary shaped like:
+
+```python
+{
+    "Fake Event Name": [
+        {
+            "date": "YYYY-MM-DD",
+            "time": "HH:MM:SS",
+            "timezone": "Selected/Validated Timezone"
+        }
+    ]
+}
+```
+
+## Implementation plan
+
+### 1) Initialize Faker and seed randomness
+- Create a `Faker()` instance.
+- Seed Faker with the provided `seed` so output is reproducible.
+- If any random choice is needed for timezone selection, make sure it is also derived from the seeded Faker instance.
+
+### 2) Convert epoch milliseconds to datetime
+- Convert `epoch_milliseconds` to seconds by dividing by `1000`.
+- Build a UTC datetime from the epoch.
+- Convert that datetime into the current system timezone using the system’s local timezone.
+  - In standard Python, this can be done via `datetime.fromtimestamp(...).astimezone()`, or by creating a UTC datetime and converting it to local time.
+
+### 3) Generate a fake event name
+- Use `Faker` to generate a plausible fake event name.
+- Keep it as the single key in the returned dictionary.
+
+### 4) Validate candidate timezones
+For each timezone in `timezones`:
+
+- Accept it if:
+  1. It exists in `pytz.all_timezones`, or
+  2. It matches a UTC offset pattern via regex, e.g. `UTC+03:00`, `UTC-05:30`, `UTC+0:00`, etc.
+
+#### Suggested regex idea
+- A regex that checks:
+  - prefix `UTC`
+  - optional `+` or `-`
+  - hours in `0-23`
+  - minutes in `00-59`
+- Example acceptable forms:
+  - `UTC+02:00`
+  - `UTC-07:30`
+  - `UTC+0:00`
+
+Invalid entries should be ignored.
+
+### 5) Select the final timezone
+- If `timezones` is empty, missing, or none of the values are valid:
+  - use `"UTC"`
+- Otherwise:
+  - choose one valid timezone at random using Faker’s seeded randomness
+
+### 6) Build the schedule dictionary
+- Create a schedule dictionary with:
+  - `"date"`: date string from the converted datetime
+  - `"time"`: time string from the converted datetime
+  - `"timezone"`: the chosen valid timezone
+- Put that schedule dictionary inside a list.
+- Return a dictionary mapping the fake event name to that list.
+
+---
+
+## Edge cases to handle
+
+### 1) No timezones provided
+- If `timezones` is `None` or an empty list:
+  - default to `"UTC"`
+
+### 2) All timezones invalid
+- Ignore invalid entries completely.
+- If nothing remains valid, use `"UTC"`.
+
+### 3) Duplicate timezones
+- Duplicates may appear in the input.
+- You can either keep them or deduplicate before selecting.
+- Deduplication is cleaner, but not required unless randomness fairness matters.
+
+### 4) Non-string timezone values
+- If a timezone entry is not a string, skip it.
+- This prevents regex and membership checks from failing.
+
+### 5) Invalid UTC offset formats
+Examples to reject:
+- `UTC+25:00` — hour out of range
+- `UTC+05:60` — minute out of range
+- `utc+02:00` — if case-sensitive handling is used
+- `UTC02:00` — missing sign
+- `GMT+02:00` — wrong prefix if only UTC offsets are supported
+
+### 6) Epoch value boundaries
+- `epoch_milliseconds` may be very large, negative, or zero.
+- Negative timestamps should represent dates before 1970 if supported by the platform.
+- Very large values could raise `OverflowError`/`OSError` on some systems; decide whether to let that propagate or catch it.
+
+### 7) System timezone dependence
+- The converted date/time should reflect the current machine’s timezone.
+- This means output may differ depending on the runtime environment.
+
+### 8) Determinism with seed
+- If reproducibility is important, all randomness should come from the seeded Faker instance.
+- Avoid using the global `random` module unless you seed it too.
+
+---
+
+## Suggested output behavior
+- Always return exactly one event name key.
+- Always return a list containing one schedule dictionary.
+- Always include:
+  - date
+  - time
+  - timezone
+
+If you want, I can also turn this plan into the exact self-contained Python function.

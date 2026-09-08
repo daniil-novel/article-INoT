@@ -1,0 +1,29 @@
+{
+  "scope": "deterministic illustrative examples, not representative frequencies or additional tests",
+  "cases": [
+    {
+      "roles": "single_roles",
+      "neutral": "single_neutral",
+      "direction": "role_only_pass",
+      "task_id": "BigCodeBench/428"
+    },
+    {
+      "roles": "single_roles",
+      "neutral": "single_neutral",
+      "direction": "neutral_only_pass",
+      "task_id": "BigCodeBench/71"
+    },
+    {
+      "roles": "multi_roles",
+      "neutral": "multi_neutral",
+      "direction": "role_only_pass",
+      "task_id": "BigCodeBench/167"
+    },
+    {
+      "roles": "multi_roles",
+      "neutral": "multi_neutral",
+      "direction": "neutral_only_pass",
+      "task_id": "BigCodeBench/31"
+    }
+  ]
+}

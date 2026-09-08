@@ -1,0 +1,169 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate and draw random data in real time for the specified duration.
+The function should output with:
+    tuple: A tuple containing two lists.
+    The first list contains timestamps (as strings) in the format '%H:%M:%S.%f'.
+    The second list contains the generated random values.
+You should write self-contained code starting with:
+```
+import time
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+def task_func(duration):
+```
+FULL SUPPLIED CONTEXT
+import time
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+def task_func(duration):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(duration)`:
+
+### Goal
+Create a function that:
+1. Runs for the requested `duration`.
+2. Generates random integer values in real time.
+3. Records matching timestamps.
+4. Draws the values live with `matplotlib`.
+5. Returns a tuple:
+   - first list: timestamp strings in `'%H:%M:%S.%f'`
+   - second list: generated random values
+
+---
+
+### Planned behavior
+
+#### 1) Validate input
+- Ensure `duration` is a number.
+- Handle non-positive values gracefully:
+  - `duration <= 0` → return empty lists immediately.
+- If needed, convert to `float`.
+
+#### 2) Initialize storage
+- Create:
+  - `timestamps = []`
+  - `values = []`
+- Set up plotting:
+  - `plt.ion()` for interactive live updates
+  - create figure/axes
+  - initialize a line object for efficient updates
+
+#### 3) Real-time loop
+- Capture start time with `time.time()`.
+- While elapsed time is less than `duration`:
+  - Generate a random integer using `randint(...)` within a chosen range.
+  - Record current timestamp using `datetime.now().strftime('%H:%M:%S.%f')`.
+  - Append both to their respective lists.
+  - Update the plot live:
+    - update x-axis with timestamps
+    - update y-axis with values
+    - redraw the figure
+  - Sleep briefly if needed to avoid excessive CPU usage and to simulate real-time sampling.
+
+#### 4) Finalize plot
+- After the loop:
+  - disable interactive mode if appropriate
+  - keep the final plot visible with `plt.show()` if required by environment
+
+#### 5) Return result
+- Return:
+  ```python
+  (timestamps, values)
+  ```
+
+---
+
+### Edge cases to handle
+
+1. **`duration` is zero or negative**
+   - Return `([], [])`.
+
+2. **`duration` is very small**
+   - The loop may produce only one or zero samples.
+   - That is acceptable; return whatever was collected.
+
+3. **`duration` is not numeric**
+   - Best practice: raise `TypeError` or convert if safely possible.
+   - Since the task asks for self-contained code, a clear error is preferable.
+
+4. **Matplotlib running in a non-interactive environment**
+   - Live drawing may not display during execution.
+   - Code should still collect and return data correctly.
+
+5. **Very large duration**
+   - Could generate many points and slow down plotting.
+   - A short sleep or controlled sampling interval helps prevent UI overload.
+
+6. **Timestamp precision**
+   - Multiple samples within the same microsecond are unlikely, but timestamps are still stored as strings as requested.
+
+7. **Plot readability**
+   - If many timestamps accumulate, x-axis labels may overlap.
+   - Optional: rotate labels or limit label frequency.
+
+---
+
+### Implementation notes
+- Use the exact import structure provided.
+- Keep the function self-contained.
+- The function should both **generate data** and **visualize it live** without relying on external helpers.
+- To avoid blocking updates, use `plt.pause(...)` inside the loop instead of only `plt.show()`.
+
+If you want, I can also turn this plan into the actual function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import time
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+
+
+def task_func(duration):
+    try:
+        duration = float(duration)
+    except (TypeError, ValueError) as exc:
+        raise TypeError("duration must be a number") from exc
+
+    if duration <= 0:
+        return ([], [])
+
+    timestamps = []
+    values = []
+
+    plt.ion()
+    fig, ax = plt.subplots()
+    (line,) = ax.plot([], [], marker="o", linewidth=1)
+    ax.set_title("Real-time random data")
+    ax.set_xlabel("Sample")
+    ax.set_ylabel("Random value")
+
+    start = time.time()
+    sample_interval = min(0.05, max(duration / 100.0, 0.005))
+
+    try:
+        while time.time() - start < duration:
+            timestamps.append(datetime.now().strftime("%H:%M:%S.%f"))
+            values.append(randint(0, 100))
+
+            x = list(range(len(values)))
+            line.set_data(x, values)
+            ax.set_xlim(0, max(10, len(values) - 1 if len(values) > 1 else 10))
+            ax.relim()
+            ax.autoscale_view(scalex=False, scaley=True)
+
+            fig.canvas.draw_idle()
+            plt.pause(0.001)
+
+            remaining = duration - (time.time() - start)
+            if remaining > 0:
+                time.sleep(min(sample_interval, remaining))
+    finally:
+        plt.ioff()
+
+    return (timestamps, values)
+```

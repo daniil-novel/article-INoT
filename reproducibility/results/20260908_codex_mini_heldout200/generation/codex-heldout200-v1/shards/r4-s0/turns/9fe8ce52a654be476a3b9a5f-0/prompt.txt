@@ -1,0 +1,17 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate a plot of random numbers such that indices are on the x-axis and generated numbers are on the y-axis.
+The function should output with:
+    Returns a tuple containing:
+    A list of generated random numbers.
+    A matplotlib Axes object representing the plot.
+You should write self-contained code starting with:
+```
+import random
+import matplotlib.pyplot as plt
+def task_func(points: int):
+```
+FULL SUPPLIED CONTEXT
+import random
+import matplotlib.pyplot as plt
+def task_func(points: int):

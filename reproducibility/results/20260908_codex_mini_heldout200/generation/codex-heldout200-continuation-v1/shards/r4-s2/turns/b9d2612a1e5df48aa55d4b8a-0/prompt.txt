@@ -1,0 +1,15 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Perform Principal Component Analysis (PCA) on a list of tuples.
+The function should output with:
+    transformed_data (ndarray): The transformed data.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn.decomposition import PCA
+def task_func(tuples_list, n_components):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn.decomposition import PCA
+def task_func(tuples_list, n_components):

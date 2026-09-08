@@ -1,0 +1,164 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Archive all JSON files in a given directory by moving them to a specified archive directory.
+The function should output with:
+    tuple: A tuple containing a boolean value and a list of error messages.
+    The boolean is True if all files are successfully moved, and False otherwise.
+    The list contains error messages for each file that failed to move.
+You should write self-contained code starting with:
+```
+import os
+import glob
+import shutil
+def task_func(directory, archive_dir='archive'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import glob
+import shutil
+def task_func(directory, archive_dir='archive'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(directory, archive_dir='archive')` to archive all JSON files by moving them into the archive directory.
+
+## Goal
+Move every `*.json` file from `directory` into `archive_dir`, and return:
+
+- `True` if all matching files were moved successfully
+- `False` otherwise
+- a list of error messages for each file that could not be moved
+
+---
+
+## Planned behavior
+
+### 1) Collect JSON files
+- Use `glob.glob(os.path.join(directory, "*.json"))` to find all JSON files in the source directory.
+- Only process files directly inside `directory`, not in subdirectories.
+
+### 2) Ensure archive directory exists
+- Create `archive_dir` if it does not already exist.
+- Use `os.makedirs(archive_dir, exist_ok=True)`.
+
+### 3) Move each file
+- For each JSON file found:
+  - Build destination path in `archive_dir` using the same filename.
+  - Use `shutil.move(source, destination)`.
+
+### 4) Handle failures per file
+- Wrap each move in `try/except`.
+- If moving a file fails:
+  - Append a descriptive error message to the error list.
+  - Continue processing the remaining files.
+
+### 5) Return result
+- `success = (len(errors) == 0)`
+- Return `(success, errors)`.
+
+---
+
+## Edge cases to handle
+
+### Empty source directory
+- If there are no JSON files, return:
+  - `True`
+  - `[]`
+- This means nothing failed.
+
+### Missing source directory
+- If `directory` does not exist, file discovery may fail or return nothing depending on usage.
+- Best approach:
+  - If the source directory itself is invalid/unreadable, return `False` with an error message.
+  - If `glob` finds nothing because the folder is empty, that is not an error.
+
+### Archive directory creation failure
+- If the archive directory cannot be created due to permissions or invalid path:
+  - Return `False`
+  - Include the exception message in the error list
+- If creation fails, no files should be moved afterward.
+
+### Destination file already exists
+- `shutil.move` may overwrite or fail depending on platform and destination conditions.
+- If a conflict occurs, record the error and continue.
+- If overwrite behavior is not desired, the implementation should explicitly check for an existing destination file before moving.
+
+### File locked or unreadable
+- A file may fail to move because it is open, locked, or inaccessible.
+- Catch the exception and store the per-file error.
+
+### Non-JSON files present
+- Ignore them entirely.
+
+### Nested subdirectories
+- Only files matching `*.json` in the top-level directory are archived.
+- JSON files inside subdirectories are not included unless recursive globbing is intentionally added.
+
+### Same source and archive directory
+- If `directory` and `archive_dir` point to the same location, moving files would be nonsensical or error-prone.
+- It is wise to detect this and either:
+  - treat as a no-op, or
+  - return `False` with a clear error message.
+
+---
+
+## Suggested error message format
+Use messages like:
+- `Failed to move /path/file.json: [error details]`
+- `Failed to create archive directory /path/archive: [error details]`
+- `Source directory does not exist: /path/input`
+
+This makes debugging easier and keeps errors specific to each file.
+
+---
+
+## Implementation outline
+1. Initialize `errors = []`
+2. Validate source directory
+3. Create archive directory
+4. Find all `*.json` files in source directory
+5. For each file:
+   - compute destination path
+   - move file
+   - on exception, append error
+6. Return `(len(errors) == 0, errors)`
+
+---
+
+If you want, I can also provide the actual self-contained function implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import os
+import glob
+import shutil
+
+def task_func(directory, archive_dir='archive'):
+    errors = []
+
+    source_dir = os.path.abspath(directory)
+    target_dir = os.path.abspath(archive_dir)
+
+    if not os.path.isdir(source_dir):
+        return False, [f"Source directory does not exist: {directory}"]
+
+    if source_dir == target_dir:
+        return False, [f"Source and archive directories must be different: {directory}"]
+
+    try:
+        os.makedirs(target_dir, exist_ok=True)
+    except Exception as exc:
+        return False, [f"Failed to create archive directory {archive_dir}: {exc}"]
+
+    json_files = glob.glob(os.path.join(source_dir, "*.json"))
+
+    for source_path in json_files:
+        destination_path = os.path.join(target_dir, os.path.basename(source_path))
+        try:
+            if os.path.exists(destination_path):
+                raise FileExistsError(f"destination already exists: {destination_path}")
+            shutil.move(source_path, destination_path)
+        except Exception as exc:
+            errors.append(f"Failed to move {source_path}: {exc}")
+
+    return len(errors) == 0, errors
+```

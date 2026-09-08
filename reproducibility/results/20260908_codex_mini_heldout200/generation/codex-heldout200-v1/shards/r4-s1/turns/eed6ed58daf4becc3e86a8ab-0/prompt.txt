@@ -1,0 +1,21 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Given a constant list of fruits in FRUITS, and a dictionary 'fruit_dict' with keys as people's names and values as their favorite fruit names, record the frequency of each fruits' occurence. Return a bar chart of the number of fruits for each fruit type and return the dictionary with fruit names as keys and their counts as values.
+The function should output with:
+    dict: A dictionary with fruit names as keys and their counts as values.
+    matplotlib.axes.Axes: The axes object of the plot.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+from collections import Counter
+FRUITS = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape', 'Honeydew', 'Indian Prune', 'Jackfruit']
+def task_func(fruit_dict):
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+from collections import Counter
+FRUITS = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape', 'Honeydew', 'Indian Prune', 'Jackfruit']
+def task_func(fruit_dict):

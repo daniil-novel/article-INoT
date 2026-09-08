@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate and draw random data in real time for the specified duration.
+The function should output with:
+    tuple: A tuple containing two lists.
+    The first list contains timestamps (as strings) in the format '%H:%M:%S.%f'.
+    The second list contains the generated random values.
+You should write self-contained code starting with:
+```
+import time
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+def task_func(duration):
+```
+FULL SUPPLIED CONTEXT
+import time
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+def task_func(duration):

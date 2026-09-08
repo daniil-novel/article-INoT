@@ -1,0 +1,269 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a profit report for a list of products based on a specific product dictionary that includes the quantity, price, and profit of each product. Additionally, calculate the average price and profit for all considered products, and plot a bar chart of the profit for each product.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame with columns
+    ['Product', 'Quantity', 'Price', 'Profit', 'Average Price', 'Average Profit'].
+    Axes: A matplotlib Axes object representing the plotted bar chart of profit for each product
+    (None if no products).
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(product_dict, product_keys):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(product_dict, product_keys):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(product_dict, product_keys)`.
+
+## Goal
+Build a function that:
+
+1. Selects products listed in `product_keys` from `product_dict`
+2. Creates a `pandas.DataFrame` with columns:
+   - `Product`
+   - `Quantity`
+   - `Price`
+   - `Profit`
+   - `Average Price`
+   - `Average Profit`
+3. Computes average price and average profit across all included products
+4. Plots a bar chart of `Profit` per product
+5. Returns:
+   - the DataFrame
+   - the matplotlib `Axes` object, or `None` if there are no valid products
+
+---
+
+## Recommended implementation steps
+
+### 1. Initialize containers
+- Create empty lists for:
+  - product names
+  - quantities
+  - prices
+  - profits
+
+These lists will hold the filtered products in the order of `product_keys`.
+
+---
+
+### 2. Iterate through `product_keys`
+For each key in `product_keys`:
+
+- Check whether the key exists in `product_dict`
+- If it exists, extract:
+  - `quantity`
+  - `price`
+  - `profit`
+- Append values to the lists
+
+### Important
+Keep the order from `product_keys`, not from `product_dict`.
+
+---
+
+### 3. Handle missing or invalid products
+If a key in `product_keys` is not present in `product_dict`:
+
+- Best robust behavior: skip it
+- Alternative behavior: raise an error, but skipping is safer for a report-style function
+
+If no valid products remain after filtering:
+- Return an empty DataFrame with the required columns
+- Return `None` for the chart
+
+---
+
+### 4. Build the DataFrame
+Create a DataFrame with columns:
+
+- `Product`
+- `Quantity`
+- `Price`
+- `Profit`
+
+Then compute averages:
+
+- `avg_price = np.mean(prices)` if list is not empty, otherwise `np.nan`
+- `avg_profit = np.mean(profits)` if list is not empty, otherwise `np.nan`
+
+Add these as new columns:
+- `Average Price`
+- `Average Profit`
+
+Each row should contain the same average values, since they represent the overall averages for the selected products.
+
+---
+
+### 5. Plot the bar chart
+If there is at least one valid product:
+
+- Create a matplotlib figure and axes
+- Plot a bar chart with:
+  - x-axis: product names
+  - y-axis: profit values
+- Add:
+  - title, e.g. `"Profit by Product"`
+  - x-label: `"Product"`
+  - y-label: `"Profit"`
+- Optionally rotate x-tick labels if names are long
+
+Return the `Axes` object.
+
+If there are no valid products:
+- Do not create a plot
+- Return `None`
+
+---
+
+## Edge cases to handle
+
+### 1. Empty `product_keys`
+- Output should be an empty DataFrame with the required columns
+- Plot should be `None`
+
+### 2. `product_keys` contains unknown product names
+- Skip missing keys gracefully
+- If all keys are missing, treat it like an empty result
+
+### 3. Empty `product_dict`
+- Same behavior as empty result:
+  - empty DataFrame
+  - `None` for axes
+
+### 4. Non-numeric values in `Quantity`, `Price`, or `Profit`
+- Ideally convert to numeric where needed or rely on valid input
+- If invalid values appear, `np.mean` may fail or produce bad results
+- A robust version should validate or coerce numeric fields
+
+### 5. Duplicate product names in `product_keys`
+- Decide whether duplicates should appear multiple times
+- Usually yes, because the input list defines the report rows
+- If duplicates are not desired, de-duplicate explicitly, but that changes semantics
+
+### 6. Missing fields inside a product entry
+For example, if `product_dict[key]` lacks `profit`:
+- Either skip that product
+- Or raise a clear exception
+- For a report generator, skipping invalid rows is often safer
+
+### 7. No valid rows after filtering
+- Return empty DataFrame with correct columns
+- Return `None` for the plot
+
+---
+
+## Suggested return behavior
+Return:
+```python
+(dataframe, axes)
+```
+
+Where:
+- `dataframe` is always a pandas DataFrame
+- `axes` is a matplotlib Axes object, or `None` when there are no valid products
+
+---
+
+## Pseudocode outline
+```python
+def task_func(product_dict, product_keys):
+    initialize lists
+    for key in product_keys:
+        if key in product_dict:
+            extract quantity, price, profit
+            append to lists
+
+    if no valid products:
+        return empty DataFrame with required columns, None
+
+    compute average price and average profit
+    create DataFrame
+    add average columns
+    create bar chart of profit by product
+    return DataFrame, Axes
+```
+
+---
+
+If you want, I can next turn this plan into the exact self-contained Python implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import numpy as np
+
+def task_func(product_dict, product_keys):
+    """
+    Build a product profit report and plot profit by product.
+
+    Parameters
+    ----------
+    product_dict : dict
+        Mapping from product name to product data. Each product entry is
+        expected to contain quantity, price, and profit values.
+    product_keys : iterable
+        Product names to include in the report, in the desired order.
+
+    Returns
+    -------
+    tuple
+        (DataFrame, Axes or None)
+    """
+    cols = ['Product', 'Quantity', 'Price', 'Profit', 'Average Price', 'Average Profit']
+
+    if product_dict is None:
+        product_dict = {}
+
+    keys = [] if product_keys is None else list(product_keys)
+
+    records = []
+    for key in keys:
+        if key not in product_dict:
+            continue
+
+        entry = product_dict[key]
+        try:
+            if isinstance(entry, dict):
+                quantity = entry.get('quantity', entry.get('Quantity'))
+                price = entry.get('price', entry.get('Price'))
+                profit = entry.get('profit', entry.get('Profit'))
+            else:
+                quantity, price, profit = entry[:3]
+        except Exception:
+            continue
+
+        values = pd.to_numeric(pd.Series([quantity, price, profit]), errors='coerce')
+        if values.isna().any():
+            continue
+
+        records.append([key, values.iloc[0], values.iloc[1], values.iloc[2]])
+
+    if not records:
+        return pd.DataFrame(columns=cols), None
+
+    df = pd.DataFrame(records, columns=['Product', 'Quantity', 'Price', 'Profit'])
+
+    avg_price = float(np.mean(df['Price'].astype(float)))
+    avg_profit = float(np.mean(df['Profit'].astype(float)))
+
+    df['Average Price'] = avg_price
+    df['Average Profit'] = avg_profit
+
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots()
+    ax.bar(df['Product'], df['Profit'])
+    ax.set_title('Profit by Product')
+    ax.set_xlabel('Product')
+    ax.set_ylabel('Profit')
+    if len(df) > 1:
+        plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
+    fig.tight_layout()
+
+    return df, ax

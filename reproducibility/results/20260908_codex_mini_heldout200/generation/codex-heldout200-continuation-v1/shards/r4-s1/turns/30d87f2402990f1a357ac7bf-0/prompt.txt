@@ -1,0 +1,20 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a random sine wave function and draw it on a provided matplotlib polar subplot 'ax'. The function randomly selects a color from a predefined list and sets a random position for radial labels.
+The function should output with:
+    str: The color code (as a string) of the plotted function.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+# Constants
+COLORS = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+def task_func(ax):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+# Constants
+COLORS = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+def task_func(ax):

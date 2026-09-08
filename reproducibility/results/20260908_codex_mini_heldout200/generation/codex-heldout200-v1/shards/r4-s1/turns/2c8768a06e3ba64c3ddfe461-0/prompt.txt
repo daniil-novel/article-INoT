@@ -1,0 +1,16 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Draw a scatter plot with a regression line for two columns from a DataFrame.
+The function should raise the exception for: Raise ValueError if the input df is not a DataFrame, empty, or does not contain the specified columns. Raise TypeError if df use non-numeric data
+The function should output with:
+    Axes: A seaborn axes object.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(df, col1, col2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(df, col1, col2):

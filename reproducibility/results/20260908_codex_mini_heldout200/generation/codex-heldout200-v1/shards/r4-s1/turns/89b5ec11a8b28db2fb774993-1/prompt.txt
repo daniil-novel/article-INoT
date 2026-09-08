@@ -1,0 +1,120 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Draw a scatter plot with a regression line for two columns from a DataFrame.
+The function should raise the exception for: Raise ValueError if the input df is not a DataFrame, empty, or does not contain the specified columns. Raise TypeError if df use non-numeric data
+The function should output with:
+    Axes: A seaborn axes object.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(df, col1, col2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(df, col1, col2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+We need a function:
+
+```python
+import pandas as pd
+import seaborn as sns
+def task_func(df, col1, col2):
+```
+
+that creates a **scatter plot with a regression line** for two DataFrame columns and returns a **seaborn Axes object**.
+
+### 1) Validate the input `df`
+Check, in this order:
+
+1. `df` is a `pandas.DataFrame`
+   - If not, raise `ValueError`.
+
+2. `df` is not empty
+   - If `df.empty` is `True`, raise `ValueError`.
+
+3. Both requested columns exist in `df`
+   - If either `col1` or `col2` is missing, raise `ValueError`.
+
+### 2) Validate data types
+Confirm both columns contain numeric data.
+
+- Use pandas numeric dtype checks for both columns.
+- If either column is not numeric, raise `TypeError`.
+
+This covers cases like:
+- strings,
+- mixed object columns,
+- categorical data,
+- numeric-looking strings stored as text.
+
+### 3) Prepare data for plotting
+Select only the two needed columns.
+
+Potential handling:
+- If there are missing values (`NaN`), drop rows where either column is missing before plotting.
+- This avoids plotting/regression issues and keeps the result clean.
+
+### 4) Create the plot
+Use seaborn’s regression plot functionality, since it naturally draws:
+- scatter points
+- regression line
+
+Best fit:
+- `sns.regplot(x=col1, y=col2, data=df_or_subset)`
+
+This returns a seaborn/matplotlib **Axes** object.
+
+### 5) Return the Axes
+Return the created axes object directly.
+
+---
+
+## Edge cases to account for
+
+### Input validation edge cases
+- `df` is `None`
+- `df` is a list, dict, NumPy array, etc.
+- `df` is a valid DataFrame but has zero rows
+- `col1 == col2`
+  - This should still work if the column exists and is numeric.
+- one or both columns are missing
+
+### Type-related edge cases
+- columns are `object` dtype with numeric-looking strings
+- one column numeric, the other not
+- columns containing booleans
+  - decide whether to treat them as numeric-like or reject them; simplest is to rely on numeric dtype checking rules consistently
+- columns contain datetime or timedelta values
+  - should be rejected as non-numeric unless explicitly converted
+
+### Missing-data edge cases
+- some rows contain `NaN`
+- all rows become invalid after dropping missing values
+- a column has constant values, which may make the regression line degenerate but should not necessarily break the function
+
+### Plotting edge cases
+- too few valid points to fit a regression line
+- extremely large values or outliers
+- duplicate points
+
+---
+
+## Expected behavior summary
+
+- **Raises `ValueError`** if:
+  - `df` is not a DataFrame
+  - `df` is empty
+  - requested columns are missing
+
+- **Raises `TypeError`** if:
+  - either selected column is non-numeric
+
+- **Returns**
+  - a seaborn **Axes** object containing a scatter plot and regression line
+
+If you want, I can now provide the full implementation in the required self-contained format.

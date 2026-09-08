@@ -1,0 +1,17 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Determine the time in seconds until the next turn of the year in a certain time zone from a given date string.
+The function should output with:
+    int: The time in seconds until the next New Year in the specified timezone.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pytz
+from dateutil.parser import parse
+def task_func(date_str, tz_str):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pytz
+from dateutil.parser import parse
+def task_func(date_str, tz_str):

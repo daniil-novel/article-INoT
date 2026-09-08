@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ebb-da23-74e1-b6f0-001496589b37"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"import pandas as pd\nimport numpy as np\n\ndef task_func(data, key, min_value, max_value):\n    if not isinstance(data, pd.DataFrame):\n        raise TypeError(\"data must be a pandas DataFrame\")\n    \n    if min_value > max_value:\n        raise ValueError(\"min_value must be less than or equal to max_value\")\n    \n    if len(data) == 0:\n        data[key] = []\n        return data\n    \n    data[key] = np.random.uniform(min_value, max_value, size=len(data))\n    return data"}}
+{"type":"turn.completed","usage":{"input_tokens":3070,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":357,"reasoning_output_tokens":238}}

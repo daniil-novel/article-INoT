@@ -1,0 +1,101 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generates a performance report DataFrame for teams, detailing goals and penalties. For each team, the function fetches goal and penalty counts, calculates 'Penalties Cost' using a random multiplier from a predefined list, and computes a 'Performance Score' as the non-negative difference between goals and penalties. Return a Dataframe with colomns 'Team', 'Goals', 'Penalties', 'Penalties Cost' and 'Performance Score'.
+The function should output with:
+    pd.DataFrame: DataFrame with Team, Goals, Penalties, Penalties Cost, Performance Score.
+You should write self-contained code starting with:
+```
+from random import choice
+import numpy as np
+import pandas as pd
+# Constants
+TEAMS = ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+PENALTIES_COSTS = [100, 200, 300, 400, 500]
+def task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS):
+```
+FULL SUPPLIED CONTEXT
+from random import choice
+import numpy as np
+import pandas as pd
+# Constants
+TEAMS = ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+PENALTIES_COSTS = [100, 200, 300, 400, 500]
+def task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Stage 1 — Requirements analysis and implementation plan
+
+#### Goal
+Implement `task_func(goals, penalties, teams=TEAMS, penalties_costs=PENALTIES_COSTS)` that returns a `pandas.DataFrame` with one row per team and these columns:
+
+- `Team`
+- `Goals`
+- `Penalties`
+- `Penalties Cost`
+- `Performance Score`
+
+#### Required behavior
+For each team:
+1. Take the corresponding `goals` value.
+2. Take the corresponding `penalties` value.
+3. Pick a random value from `penalties_costs` using `choice`.
+4. Compute `Performance Score = max(goals - penalties, 0)`.
+
+#### Implementation plan
+1. **Validate/align inputs**
+   - Ensure `goals`, `penalties`, and `teams` can be paired row-by-row.
+   - Most robust approach: require all three to have the same length and raise a clear error if not.
+   - If the task expects flexible input, use the shortest shared length, but validation is safer and more predictable.
+
+2. **Build row records**
+   - Iterate over each team with the matching goal and penalty values.
+   - For each row:
+     - randomly select one penalty cost from `penalties_costs`
+     - compute performance score as non-negative difference:
+       - `score = max(goal - penalty, 0)`
+
+3. **Construct the DataFrame**
+   - Create a `pd.DataFrame` from the collected rows/dicts.
+   - Preserve the required column order exactly:
+     - `Team`, `Goals`, `Penalties`, `Penalties Cost`, `Performance Score`
+
+4. **Return the DataFrame**
+   - No printing or side effects.
+
+---
+
+### Edge cases to consider
+1. **Different input lengths**
+   - Example: 5 teams but only 4 goals.
+   - Recommended: raise `ValueError` with a clear message.
+
+2. **Empty inputs**
+   - If all inputs are empty, return an empty DataFrame with the correct columns.
+
+3. **Negative values in goals or penalties**
+   - The specification does not forbid them.
+   - `Performance Score` should still be clamped at zero.
+
+4. **Non-numeric values**
+   - If `goals` or `penalties` contain strings or `None`, arithmetic will fail.
+   - Either allow Python to raise naturally or add explicit type checking if robustness is needed.
+
+5. **`penalties_costs` is empty**
+   - `choice([])` will fail.
+   - Should be validated and rejected early with a helpful error.
+
+6. **Repeated random penalty costs**
+   - This is acceptable because selection is random per team and values may repeat.
+
+7. **Default teams vs custom teams**
+   - If custom `teams` are passed, they should be used instead of the default list.
+
+---
+
+### Notes on expected output
+- The output should be a `pd.DataFrame`.
+- Column order matters.
+- `Performance Score` must never be negative.
+- `Penalties Cost` is stochastic, so results may vary between runs.
+
+If you want, I can proceed to stage 2 and draft the actual implementation.

@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f0c-084e-7df2-828e-07af2afb6341"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport numpy as np\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nimport re\n\ndef task_func(example_str):\n    # Remove all text enclosed in square brackets\n    cleaned_text = re.sub(r\"\\[[^\\[\\]]*\\]\", \" \", example_str)\n    cleaned_text = re.sub(r\"\\s+\", \" \", cleaned_text).strip()\n\n    if not cleaned_text:\n        return {}\n\n    vectorizer = TfidfVectorizer()\n    tfidf_matrix = vectorizer.fit_transform([cleaned_text])\n\n    feature_names = vectorizer.get_feature_names_out()\n    scores = tfidf_matrix.toarray()[0]\n\n    return dict(zip(feature_names, scores))\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2848,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":663,"reasoning_output_tokens":516}}

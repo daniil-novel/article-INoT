@@ -1,0 +1,118 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Write a dictionary to a file as a JSON object and return the written content for verification. This function performs a write operation to store the dictionary data in JSON format and then reads it back to verify the content. Additionally, checks if the file exists using the os library.
+The function should output with:
+    tuple: A tuple containing a boolean indicating the success of the operation and the content that was written.
+    bool: indicating the success of the operation.
+    written_data (json): the content that was written.
+You should write self-contained code starting with:
+```
+import json
+import os
+def task_func(filename, data):
+```
+FULL SUPPLIED CONTEXT
+import json
+import os
+def task_func(filename, data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a self-contained Python function:
+
+```python
+import json
+import os
+def task_func(filename, data):
+```
+
+that:
+
+1. Writes `data` to `filename` as JSON.
+2. Verifies the file exists using `os`.
+3. Reads the file back.
+4. Returns a tuple:
+   - `bool` success flag
+   - the written content for verification
+
+## Proposed interpretation of the return value
+
+Since the task says “return the written content” and also “reads it back to verify the content,” the most practical return is:
+
+```python
+(success: bool, written_data: str)
+```
+
+where `written_data` is the JSON text stored in the file, or the read-back content if you want verification to reflect disk contents exactly.
+
+## Implementation plan
+
+### 1) Convert the dictionary to JSON text
+- Use `json.dumps(data)` to serialize the dictionary.
+- This produces a JSON string suitable for writing.
+- If `data` is not JSON-serializable, the function should fail gracefully.
+
+### 2) Write the JSON text to the file
+- Open the file in text write mode, preferably with UTF-8 encoding:
+  - `with open(filename, "w", encoding="utf-8") as f:`
+- Write the serialized JSON string.
+
+### 3) Check whether the file exists
+- Use `os.path.exists(filename)` after writing.
+- If the file does not exist, treat the operation as failed.
+
+### 4) Read the file back for verification
+- Open the same file in read mode with UTF-8 encoding.
+- Read its contents with `f.read()`.
+- Optionally parse it back with `json.loads(...)` to verify it is valid JSON.
+- Optionally compare the loaded object to the original `data` for stronger verification.
+
+### 5) Return result
+- If writing and verification succeed:
+  - return `(True, read_content)` or `(True, written_json_string)`
+- If anything fails:
+  - return `(False, "")` or `(False, None)` depending on how you want to represent failure consistently
+
+## Edge cases to handle
+
+1. **Non-serializable data**
+   - Example: sets, custom objects, or other unsupported types.
+   - `json.dumps` will raise `TypeError`.
+
+2. **Invalid file path / write permission error**
+   - Example: directory does not exist, file cannot be created, or permission is denied.
+   - Opening the file can raise `OSError` / `IOError`.
+
+3. **File exists but readback fails**
+   - The write may succeed, but reading may fail due to filesystem issues.
+   - Handle read errors separately.
+
+4. **Empty dictionary**
+   - `{}` is valid JSON and should still be written and verified.
+
+5. **Nested dictionaries / lists / numbers / strings**
+   - These are valid JSON values and should serialize correctly.
+
+6. **Overwrite behavior**
+   - Opening with `"w"` truncates existing content.
+   - This is expected unless you want append behavior, which would not be correct for JSON objects.
+
+7. **Unicode characters**
+   - Use UTF-8 encoding to preserve non-ASCII text.
+
+8. **Verification mismatch**
+   - The read-back content should match what was written.
+   - If using `json.dumps` with default formatting, read-back as raw text should match exactly.
+   - If comparing objects, use `json.loads(read_content) == data`.
+
+## Recommended behavior
+
+A robust implementation should:
+
+- wrap the write/read logic in `try/except`
+- use `os.path.exists(filename)` as required
+- return a clear success/failure tuple
+- return the actual JSON content that was written/read for verification
+
+If you want, I can now provide the actual implementation code following this plan.

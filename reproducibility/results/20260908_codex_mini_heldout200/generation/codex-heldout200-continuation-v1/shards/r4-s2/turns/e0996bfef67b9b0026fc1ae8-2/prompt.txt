@@ -1,0 +1,115 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Save all words in a text beginning with the "$" character in a CSV file, excluding any words that are solely composed of punctuation characters.
+Note that: The header of the csv row is "Word"
+The function should output with:
+    str: The absolute path of the saved CSV file.
+You should write self-contained code starting with:
+```
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import csv
+import os
+PUNCTUATION = set(punctuation)
+def task_func(text, filename):
+```
+FULL SUPPLIED CONTEXT
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import csv
+import os
+PUNCTUATION = set(punctuation)
+def task_func(text, filename):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(text, filename)`.
+
+## Goal
+Extract every token from `text` that begins with `$`, skip tokens that are only punctuation, save the results into a CSV file with one column named `Word`, and return the absolute path to that CSV file.
+
+## Plan
+
+1. **Tokenize the input text**
+   - Use `RegexpTokenizer` to split the text into tokens.
+   - Prefer a pattern that preserves tokens containing `$` and attached characters, rather than dropping punctuation automatically.
+   - This avoids missing items like `$token`, `$value,`, or `"$price"`.
+
+2. **Filter tokens**
+   - Keep only tokens whose first character is `$`.
+   - Exclude tokens that are made entirely of punctuation characters.
+   - A practical check is:
+     - token starts with `$`
+     - token is not empty
+     - token contains at least one character not in `PUNCTUATION`
+   - This filters out cases like `$$$`, `$...`, or `$!!!`.
+
+3. **Preserve the extracted words**
+   - Keep tokens in their original order.
+   - Do not deduplicate unless explicitly required.
+   - Keep the original token text as extracted.
+
+4. **Write the CSV file**
+   - Open `filename` for writing with `newline=''` to avoid extra blank lines.
+   - Write the header row exactly as:
+     - `Word`
+   - Write each filtered token as its own row.
+
+5. **Return the saved file path**
+   - Convert `filename` to an absolute path using `os.path.abspath(filename)`.
+   - Return that absolute path string.
+
+## Edge cases to handle
+
+- **Empty text**
+  - Output a CSV containing only the header row.
+
+- **No `$`-prefixed tokens**
+  - Still create the CSV with just the header.
+
+- **Tokens like `$...` or `$$$`**
+  - Exclude them because they are only punctuation.
+
+- **Tokens like `$abc`, `$abc,`, `$1`, `$foo_bar`**
+  - Include them, because they begin with `$` and contain non-punctuation characters.
+
+- **Multiple occurrences of the same word**
+  - Preserve all occurrences unless the task later says otherwise.
+
+- **Filename path issues**
+  - If the path includes directories, create them only if needed and allowed by the environment.
+
+- **Existing file**
+  - Overwrite it, since the task is to save the extracted words to the given filename.
+
+If you want, I can now turn this plan into the exact implementation starting from the provided code stub.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import csv
+import os
+
+PUNCTUATION = set(punctuation)
+
+def task_func(text, filename):
+    tokenizer = RegexpTokenizer(r'\$\S+')
+    tokens = tokenizer.tokenize(text)
+
+    words = [
+        token
+        for token in tokens
+        if token and token[0] == '$' and any(ch not in PUNCTUATION for ch in token)
+    ]
+
+    abs_path = os.path.abspath(filename)
+    dir_name = os.path.dirname(abs_path)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
+
+    with open(abs_path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Word'])
+        for word in words:
+            writer.writerow([word])
+
+    return abs_path

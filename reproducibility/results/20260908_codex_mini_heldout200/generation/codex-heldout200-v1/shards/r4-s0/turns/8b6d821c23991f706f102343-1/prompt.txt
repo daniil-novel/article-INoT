@@ -1,0 +1,95 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Read an image, create a histogram of the image pixel intensities, save the histogram as a PNG file, and return the histogram plot object. The function also displays the original image and its histogram. The limit to the size of the image depends on the hardware capabilities of the system you are working on. A possible size of an image is 20x20.
+The function should raise the exception for: FileNotFoundError: If the image file does not exist at the specified path.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object of the histogram plot.
+You should write self-contained code starting with:
+```
+import cv2
+import os
+from matplotlib import pyplot as plt
+def task_func(image_path='image.jpg', histogram_path='histogram.png'):
+```
+FULL SUPPLIED CONTEXT
+import cv2
+import os
+from matplotlib import pyplot as plt
+def task_func(image_path='image.jpg', histogram_path='histogram.png'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+I will implement `task_func(image_path='image.jpg', histogram_path='histogram.png')` as a self-contained function that:
+
+1. **Checks whether the input file exists**
+   - Use `os.path.exists(image_path)`.
+   - If the file is missing, raise `FileNotFoundError` exactly as required.
+
+2. **Reads the image with OpenCV**
+   - Use `cv2.imread(image_path)`.
+   - If the image cannot be loaded even though the file exists, handle that defensively.
+
+3. **Prepares the image for display and histogramming**
+   - Display the original image in a plot.
+   - For histogram computation, use pixel intensity values.
+   - If the image is color, convert it to grayscale for a single intensity histogram.
+   - If the image is already grayscale, use it directly.
+
+4. **Creates the figure with two visualizations**
+   - Left: the original image.
+   - Right: the histogram of pixel intensities.
+   - Use Matplotlib axes so the histogram plot object can be returned.
+
+5. **Saves the histogram to `histogram_path` as a PNG**
+   - Call `plt.savefig(histogram_path, format='png')` or equivalent.
+   - Ensure the histogram image is written before returning.
+
+6. **Displays the plots**
+   - Call `plt.show()` so both the image and histogram are displayed.
+
+7. **Returns the histogram `matplotlib.axes.Axes` object**
+   - This should be the axes used to draw the histogram bars/line.
+
+---
+
+## Edge cases to handle
+
+- **Missing file**
+  - Must raise `FileNotFoundError`.
+
+- **Unreadable image file**
+  - `cv2.imread` may return `None` even when the file exists.
+  - This should be guarded against to avoid later crashes.
+
+- **Very small images**
+  - Example: `1x1`, `20x20`.
+  - Histogram computation should still work correctly.
+
+- **Color vs grayscale images**
+  - Color images should be converted to grayscale for intensity histogram consistency.
+
+- **Large images / hardware limits**
+  - The prompt notes image size depends on hardware capabilities.
+  - A robust implementation should avoid unnecessary copying and can optionally resize for display if needed, but should preserve correctness for small images like `20x20`.
+
+- **Output path issues**
+  - If the output directory for `histogram_path` does not exist, saving may fail.
+  - The plan should either assume the directory exists or create it if needed.
+
+- **Non-image files with valid paths**
+  - File exists but is not a valid image: handle gracefully rather than assuming success.
+
+---
+
+## Expected behavior summary
+
+- Input: image file path
+- Output:
+  - Saves histogram as a PNG file
+  - Displays original image and histogram
+  - Returns the histogram plot `Axes` object
+- Error:
+  - Raises `FileNotFoundError` if the image file is absent
+
+If you want, I can next provide the actual implementation code following this plan.

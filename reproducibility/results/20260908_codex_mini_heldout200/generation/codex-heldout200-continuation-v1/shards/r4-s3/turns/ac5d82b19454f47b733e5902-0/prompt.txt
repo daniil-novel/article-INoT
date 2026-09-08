@@ -1,0 +1,17 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate a Pandas DataFrame of employees with their details based on the input provided.
+The function should output with:
+    data_df (pd.DataFrame): dataframe with columns: 'Name', 'Age', 'Code', 'Salary', 'Bio', 'Job Title'.
+    The 'Job Title' is randomly assigned from the predefined job titles:
+    'Engineer', 'Manager', 'Analyst', 'Developer', 'Tester'.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from random import randint
+def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from random import randint
+def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:

@@ -1,0 +1,228 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Forecasts the share closing prices for the next 7 days using the ARIMA model and plots the forecast.
+The function should output with:
+    Tuple[List[float], Axes]: A tuple containing:
+    A list with forecasted prices for the next 7 days.
+    A matplotlib Axes object containing the subplot.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from statsmodels.tsa.arima.model import ARIMA
+from typing import List, Tuple
+def task_func(df: pd.DataFrame) -> Tuple[List[float], Axes]:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from statsmodels.tsa.arima.model import ARIMA
+from typing import List, Tuple
+def task_func(df: pd.DataFrame) -> Tuple[List[float], Axes]:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df: pd.DataFrame) -> Tuple[List[float], Axes]` that forecasts the next 7 days of share closing prices with ARIMA and returns both the predictions and a plot.
+
+## Goal
+- Take a DataFrame containing historical stock closing prices.
+- Fit an ARIMA model to the closing-price series.
+- Forecast the next 7 days.
+- Plot historical prices and forecasted values on a matplotlib `Axes`.
+- Return:
+  1. `List[float]` of 7 forecasted prices
+  2. `Axes` object with the subplot
+
+---
+
+## Assumptions
+1. `df` contains a close-price column, likely named one of:
+   - `"Close"`
+   - `"close"`
+   - `"closing_price"`
+   - or similar
+2. If there is a date/index column, the function may use it for plotting, but it is not strictly required.
+3. The data is ordered chronologically or can be sorted by date if a date column exists.
+4. Forecast horizon is fixed at 7 steps.
+
+---
+
+## Implementation Plan
+
+### 1) Validate input DataFrame
+- Ensure `df` is a pandas DataFrame.
+- Check that it is not empty.
+- Identify the closing price column.
+- Confirm the column has enough valid numeric observations for ARIMA.
+
+**Expected behavior if invalid:**
+- Raise a clear `ValueError` with a helpful message.
+
+---
+
+### 2) Extract and clean the closing-price series
+- Select the closing-price column.
+- Convert values to numeric with coercion if needed.
+- Drop missing values.
+- Optionally remove non-finite values (`inf`, `-inf`).
+- Ensure the resulting series is a 1D numeric time series.
+
+**Why this matters:**
+ARIMA requires a clean numeric sequence.
+
+---
+
+### 3) Sort by time if a date column exists
+- If the DataFrame has a date/time column, sort by it.
+- If the index is a DatetimeIndex, use that ordering.
+- Otherwise, preserve the original row order as the time order.
+
+**Plotting note:**
+- If dates are available, use them for the x-axis.
+- If not, use simple integer positions.
+
+---
+
+### 4) Check minimum data length
+- ARIMA needs enough points to fit reliably.
+- If the series is too short, either:
+  - raise a `ValueError`, or
+  - fall back to a simple naive forecast if you want robustness.
+
+**Practical threshold:**
+- At least 10–20 observations is safer, though ARIMA can technically fit with fewer depending on order.
+
+---
+
+### 5) Fit an ARIMA model
+- Use a reasonable default ARIMA order, e.g. `(5, 1, 0)` or a simpler `(1, 1, 1)`.
+- Fit the model on the cleaned closing-price series.
+- Forecast the next 7 periods.
+
+**Important:**
+- Since the task does not specify model selection, choose a fixed order.
+- A differencing term (`d=1`) is often appropriate for stock prices because they are typically non-stationary.
+
+---
+
+### 6) Generate 7-day forecast
+- Use `model.fit().forecast(steps=7)` or equivalent.
+- Convert the forecast result to a plain Python `list[float]`.
+
+**Edge consideration:**
+- Forecasts may come back as NumPy or pandas objects; normalize to floats.
+
+---
+
+### 7) Create the plot
+- Create a figure and axes with `plt.subplots()`.
+- Plot historical closing prices.
+- Plot forecasted values for the next 7 days.
+
+#### If dates are available:
+- Extend the date index by 7 business days or 7 sequential days, depending on the source data.
+- Plot forecast on the future date axis.
+
+#### If dates are unavailable:
+- Use integer positions:
+  - historical: `0..n-1`
+  - forecast: `n..n+6`
+
+---
+
+### 8) Style the plot clearly
+- Add labels:
+  - x-axis: `"Date"` or `"Time"`
+  - y-axis: `"Closing Price"`
+- Add title such as `"ARIMA Forecast for Next 7 Days"`
+- Add legend distinguishing historical vs forecast values
+- Optional: grid for readability
+
+---
+
+### 9) Return values
+- Return a tuple:
+  - `forecast_values: List[float]`
+  - `ax: Axes`
+
+---
+
+## Edge Cases to Handle
+
+### 1) Empty DataFrame
+- Cannot fit a model.
+- Raise `ValueError("Input DataFrame is empty.")`
+
+### 2) Missing closing-price column
+- If no recognizable close column exists, raise a clear error.
+- Optionally support a small set of common column names.
+
+### 3) Non-numeric close values
+- Coerce to numeric.
+- Drop invalid rows.
+- If too many invalid values leave too little data, raise an error.
+
+### 4) Insufficient observations
+- ARIMA may fail or produce unstable results.
+- Raise a helpful error if the cleaned series is too short.
+
+### 5) Constant series
+- ARIMA can be numerically problematic with a flat series.
+- The model may still fit, but if it fails, a fallback could be to repeat the last value 7 times.
+
+### 6) Missing dates / unsorted dates
+- Sort by date if possible.
+- If no date column exists, keep original order.
+
+### 7) NaNs / infinities in the data
+- Clean them before fitting.
+- Remove or interpolate only if appropriate; dropping is simplest.
+
+### 8) Model convergence failure
+- ARIMA fitting can fail for some datasets.
+- A robust implementation can wrap fitting in `try/except` and:
+  - either raise a clear error, or
+  - fall back to a naive forecast using the last observed price.
+
+### 9) Forecast plotting alignment
+- Ensure the forecast x-axis extends correctly beyond the historical period.
+- Avoid overlapping forecast and historical points.
+
+---
+
+## Suggested Robust Behavior
+If you want the function to be resilient:
+1. Try ARIMA fit.
+2. If fitting fails, fallback to:
+   - last value repeated 7 times, or
+   - simple moving average extrapolation.
+3. Still return a valid plot and 7 predictions.
+
+---
+
+## Output Contract
+The final function should always return:
+
+```python
+(List[float], Axes)
+```
+
+Where:
+- the list length is exactly 7
+- the Axes contains both historical and forecast curves
+
+---
+
+## Recommended Simplest Model Choice
+A practical default is:
+- `ARIMA(series, order=(1, 1, 1))`
+
+Reason:
+- good general-purpose baseline for stock price forecasting
+- avoids overfitting more than larger orders
+- usually easier to fit than more complex models
+
+---
+
+If you want, I can next turn this plan into the full self-contained implementation.

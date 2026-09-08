@@ -1,0 +1,172 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a specified (i.e., points_counts) number of random points within a circle of a given radius and plot them using a scatter plot.
+Note that: All settings of the scatter plot are the default version. The aspect ratio of the plot is set to 'equal' to maintain proportions.
+The function should output with:
+    Axes: The matplotlib Axes object representing the scatter plot.
+You should write self-contained code starting with:
+```
+import random
+import math
+import matplotlib.pyplot as plt
+def task_func(points_count=1000, radius=1):
+```
+FULL SUPPLIED CONTEXT
+import random
+import math
+import matplotlib.pyplot as plt
+def task_func(points_count=1000, radius=1):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+### Goal
+Implement `task_func(points_count=1000, radius=1)` that:
+
+1. Generates `points_count` random points uniformly distributed **inside** a circle of the given `radius`.
+2. Plots them as a default Matplotlib scatter plot.
+3. Sets the plot aspect ratio to `'equal'`.
+4. Returns the Matplotlib `Axes` object.
+
+---
+
+### Proposed approach
+
+#### 1) Generate random points uniformly in a disk
+To avoid clustering near the center, do **not** choose radius uniformly.  
+Use polar coordinates with:
+
+- `theta` uniformly from `[0, 2π)`
+- `r` chosen as `radius * sqrt(u)` where `u` is uniform in `[0, 1)`
+
+Then convert to Cartesian:
+
+- `x = r * cos(theta)`
+- `y = r * sin(theta)`
+
+This guarantees uniform distribution over the circle area.
+
+---
+
+#### 2) Collect coordinates
+Create two lists:
+
+- `xs`
+- `ys`
+
+For each point:
+- sample `u` and `theta`
+- compute `r`, `x`, `y`
+- append to the lists
+
+---
+
+#### 3) Create the plot
+Use Matplotlib defaults:
+
+- `fig, ax = plt.subplots()`
+- `ax.scatter(xs, ys)`
+
+Do not customize marker style, color, size, alpha, etc., since the prompt says scatter settings should remain default.
+
+---
+
+#### 4) Set equal aspect ratio
+Call:
+
+- `ax.set_aspect('equal')`
+
+This keeps the circle visually circular instead of distorted.
+
+---
+
+#### 5) Return result
+Return the `Axes` object:
+
+- `return ax`
+
+---
+
+## Edge cases to handle
+
+### 1) `points_count = 0`
+- Should produce an empty scatter plot.
+- Return a valid `Axes` object with no points.
+
+### 2) Negative `points_count`
+- Invalid input.
+- Best behavior: raise `ValueError` with a clear message.
+
+### 3) Negative `radius`
+- Geometrically invalid for a circle radius.
+- Best behavior: raise `ValueError`.
+
+### 4) `radius = 0`
+- All points collapse to the origin `(0, 0)`.
+- This is mathematically valid and should still plot correctly.
+
+### 5) Non-integer `points_count`
+- If the function is intended to accept only a number of points, require an integer.
+- If needed, either:
+  - raise `TypeError` / `ValueError`, or
+  - convert carefully if the environment expects lenient behavior.
+- Safer choice: validate and reject non-integers.
+
+### 6) Non-numeric inputs
+- If `points_count` or `radius` are not numeric, raise an informative error.
+
+---
+
+## Notes on implementation details
+
+- Use `random.random()` for uniform sampling.
+- Use `math.pi`, `math.cos`, and `math.sin`.
+- Keep the function self-contained and avoid extra dependencies.
+- Since the task says “output with: Axes”, the function should return only the `Axes` object, not the figure.
+
+---
+
+## Suggested validation policy
+At the beginning of the function:
+
+- ensure `points_count` is an integer and `points_count >= 0`
+- ensure `radius` is numeric and `radius >= 0`
+
+If invalid, raise `ValueError` with a short explanatory message.
+
+---
+
+If you want, I can now turn this plan into the exact self-contained function code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import random
+import math
+import matplotlib.pyplot as plt
+
+def task_func(points_count=1000, radius=1):
+    if isinstance(points_count, bool) or not isinstance(points_count, int):
+        raise ValueError("points_count must be a non-negative integer")
+    if points_count < 0:
+        raise ValueError("points_count must be non-negative")
+
+    if isinstance(radius, bool) or not isinstance(radius, (int, float)):
+        raise ValueError("radius must be a non-negative number")
+    if radius < 0:
+        raise ValueError("radius must be non-negative")
+
+    xs = []
+    ys = []
+
+    for _ in range(points_count):
+        theta = 2 * math.pi * random.random()
+        r = radius * math.sqrt(random.random())
+        xs.append(r * math.cos(theta))
+        ys.append(r * math.sin(theta))
+
+    fig, ax = plt.subplots()
+    ax.scatter(xs, ys)
+    ax.set_aspect('equal')
+
+    return ax
+```

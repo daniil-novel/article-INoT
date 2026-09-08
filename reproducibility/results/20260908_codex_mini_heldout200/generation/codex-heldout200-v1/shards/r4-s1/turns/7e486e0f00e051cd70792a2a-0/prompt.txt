@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Divide a multi-line string into individual lines, remove stopwords, and count the frequency of each word.
+The function should output with:
+    dict: A dictionary with word frequencies where each key is a unique word and the value is its frequency.
+You should write self-contained code starting with:
+```
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):
+```
+FULL SUPPLIED CONTEXT
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):

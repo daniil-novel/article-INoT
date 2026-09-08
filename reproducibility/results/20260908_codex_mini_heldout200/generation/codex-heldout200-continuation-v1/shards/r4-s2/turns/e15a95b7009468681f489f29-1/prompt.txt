@@ -1,0 +1,87 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Draw the correlation heatmap of the Boston Housing dataset using Seaborn, with an option to save it to a specified file.
+The function should raise the exception for: ValueError: If an error occurs in generating or saving the plot.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object containing the heatmap plot.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+import numpy as np
+def task_func(data_url="http://lib.stat.cmu.edu/datasets/boston", seed=42):
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+import numpy as np
+def task_func(data_url="http://lib.stat.cmu.edu/datasets/boston", seed=42):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Implementation plan
+
+I will implement `task_func` as a self-contained routine that:
+
+1. **Loads the Boston Housing dataset**
+   - Use `pandas` to fetch the dataset from `data_url`.
+   - Parse the dataset into a numeric `DataFrame` with the standard Boston feature columns plus target.
+   - Because the Boston dataset at `http://lib.stat.cmu.edu/datasets/boston` is not in a simple CSV layout, the loader must handle its original multiline numeric format carefully.
+
+2. **Compute the correlation matrix**
+   - Convert the parsed data into a clean numeric `DataFrame`.
+   - Compute `df.corr()` over all available numeric columns.
+
+3. **Draw the heatmap with Seaborn**
+   - Create a matplotlib figure/axes pair.
+   - Use `sns.heatmap(...)` to plot the correlation matrix.
+   - Add a title and optionally format tick labels for readability.
+
+4. **Support saving the plot**
+   - If a save path is provided by the final implementation design, call `fig.savefig(...)`.
+   - Make sure saving happens after the plot is fully drawn.
+
+5. **Return the Axes object**
+   - Return the `matplotlib.axes.Axes` containing the heatmap.
+
+6. **Error handling**
+   - Wrap dataset loading, parsing, plotting, and saving in a `try/except`.
+   - Re-raise any failure as `ValueError` with a clear message such as:
+     - dataset download/parsing failed
+     - plot generation failed
+     - saving failed
+
+---
+
+### Important edge cases to handle
+
+- **Network/download failure**
+  - `data_url` may be unreachable or return unexpected content.
+
+- **Malformed dataset format**
+  - The Boston dataset’s original format is unusual; parsing may fail if lines are incomplete or data layout changes.
+
+- **Non-numeric / missing values**
+  - Correlation requires numeric columns; any parsing issue or NaNs should be handled.
+
+- **Plotting backend issues**
+  - Figure creation or `sns.heatmap` could fail in some environments.
+
+- **Invalid save path**
+  - If saving is enabled, the directory may not exist, be unwritable, or the filename may be invalid.
+
+- **Empty or degenerate data**
+  - If parsing produces no usable numeric columns, correlation and heatmap generation should fail with `ValueError`.
+
+- **Unused `seed` parameter**
+  - The provided signature includes `seed`; since correlation heatmap is deterministic, it may not be needed, but the function should accept it without breaking.
+
+---
+
+### Planned behavior summary
+
+- Input: `data_url` and `seed`
+- Process: load Boston Housing data, compute correlations, plot heatmap
+- Output: `matplotlib.axes.Axes`
+- Failure mode: raise `ValueError` for any error during generation or saving

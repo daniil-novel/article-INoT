@@ -1,0 +1,153 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Backup all '.log' files in a specified directory to a tar.gz file and delete the original files after backup. The backup file is named 'logs_backup.tar.gz' and placed in the specified backup directory.
+The function should raise the exception for: FileNotFoundError: If the specified directory does not exist.
+The function should output with:
+    str: The path to the backup file if logs are found, otherwise returns a message 'No logs found to backup'.
+You should write self-contained code starting with:
+```
+import os
+import glob
+import subprocess
+def task_func(directory, backup_dir='/path/to/backup'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import glob
+import subprocess
+def task_func(directory, backup_dir='/path/to/backup'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(directory, backup_dir='/path/to/backup')` based on the supplied requirements.
+
+## Goal
+Back up all `.log` files from `directory` into a tar.gz archive named `logs_backup.tar.gz` inside `backup_dir`, then delete the original `.log` files after a successful backup.
+
+## Required behavior
+- If `directory` does not exist, raise `FileNotFoundError`.
+- If no `.log` files are found, return:
+  - `"No logs found to backup"`
+- If logs are found and backup succeeds, return:
+  - the full path to the created backup file as a `str`
+
+---
+
+## Implementation plan
+
+### 1. Validate the source directory
+- Check whether `directory` exists and is a directory.
+- If not, raise `FileNotFoundError`.
+- This should happen before any file search or backup work.
+
+### 2. Ensure the backup directory exists
+- Create `backup_dir` if it does not already exist.
+- Use safe directory creation logic so the function works even if the backup directory tree is missing.
+
+### 3. Find all `.log` files
+- Use `glob.glob(os.path.join(directory, '*.log'))` to collect log files.
+- Only include files directly matching the `.log` extension in the specified directory.
+- If the resulting list is empty:
+  - return `"No logs found to backup"`
+
+### 4. Create the tar.gz backup archive
+- Build the archive path:
+  - `os.path.join(backup_dir, 'logs_backup.tar.gz')`
+- Create a compressed tar archive containing all found log files.
+- Store file names in the archive as base names rather than full absolute paths if desirable for cleaner extraction behavior.
+
+### 5. Delete originals only after successful backup
+- Remove each original `.log` file only after the archive has been created successfully.
+- This order is important to avoid data loss if archiving fails.
+
+### 6. Return the backup path
+- On success, return the archive path as a string.
+
+---
+
+## Suggested edge cases to handle
+
+### Directory-related
+- `directory` does not exist → raise `FileNotFoundError`
+- `directory` exists but is not a directory → also raise `FileNotFoundError` or a directory-related error consistently
+
+### No matching files
+- No `.log` files found → return `"No logs found to backup"`
+
+### Backup directory issues
+- `backup_dir` does not exist → create it
+- `backup_dir` is unwritable → let the underlying exception propagate, or handle it if explicit error messaging is desired
+
+### Archive creation failures
+- If tarball creation fails midway, do **not** delete original files
+- Ensure partial/corrupt archives do not cause deletion of source logs
+
+### Deletion failures
+- If archive creation succeeds but deleting one or more `.log` files fails:
+  - The archive should still exist
+  - Consider whether to propagate the exception or collect/report deletion failures
+  - A conservative implementation would raise the deletion error after archive creation
+
+### File matching considerations
+- Only `.log` files should be included
+- Hidden files like `.hidden.log` should be included if they match `*.log`
+- Files with uppercase extensions like `.LOG` will not match unless case-insensitive behavior is explicitly added
+
+### Existing archive overwrite
+- If `logs_backup.tar.gz` already exists, decide whether to overwrite it
+- Likely simplest behavior: overwrite existing archive
+
+---
+
+## Recommended flow
+1. Validate source directory
+2. Create backup directory
+3. Gather `.log` files
+4. If none, return message
+5. Create archive
+6. Delete originals
+7. Return archive path
+
+---
+
+## Notes on the provided imports
+The required starter imports are:
+```python
+import os
+import glob
+import subprocess
+def task_func(directory, backup_dir='/path/to/backup'):
+```
+- `os` and `glob` are sufficient for the core logic.
+- `subprocess` is not necessary for a pure Python implementation, but it can remain imported to satisfy the provided starter format.
+
+If you want, I can also turn this plan into the exact self-contained function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import os
+import glob
+import subprocess
+import tarfile
+
+
+def task_func(directory, backup_dir='/path/to/backup'):
+    if not os.path.isdir(directory):
+        raise FileNotFoundError(f"Specified directory does not exist: {directory}")
+
+    os.makedirs(backup_dir, exist_ok=True)
+
+    log_files = glob.glob(os.path.join(directory, '*.log'))
+    if not log_files:
+        return 'No logs found to backup'
+
+    backup_path = os.path.join(backup_dir, 'logs_backup.tar.gz')
+
+    with tarfile.open(backup_path, 'w:gz') as tar:
+        for log_file in log_files:
+            tar.add(log_file, arcname=os.path.basename(log_file))
+
+    for log_file in log_files:
+        os.remove(log_file)
+
+    return backup_path
+```

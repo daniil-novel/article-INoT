@@ -1,0 +1,94 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Loads a DLL file from a given filepath, calculates its MD5 and SHA256 hashes, and prints these hashes in hexadecimal format. This function is a demonstration of file handling, usage of the hashlib library for hash calculations, and binascii for hexadecimal conversion. Note that the actual operations performed on the loaded DLL are limited to hash calculation.
+The function should output with:
+    str: The actual name of the loaded DLL file.
+You should write self-contained code starting with:
+```
+import ctypes
+import hashlib
+import binascii
+def task_func(filepath):
+```
+FULL SUPPLIED CONTEXT
+import ctypes
+import hashlib
+import binascii
+def task_func(filepath):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(filepath)`:
+
+1. **Validate input**
+   - Ensure `filepath` is a non-empty string.
+   - Optionally normalize the path so it works with absolute/relative inputs.
+
+2. **Load the DLL**
+   - Use `ctypes.CDLL(filepath)` to load the DLL.
+   - Since the task is only a demonstration, do **not** call any DLL functions.
+   - If loading fails, raise or propagate the exception so the caller knows the DLL could not be accessed.
+
+3. **Read DLL file bytes**
+   - Open the file in binary mode: `with open(filepath, "rb") as f: data = f.read()`
+   - Hashing should be done on the raw file contents, not on any runtime-loaded memory representation.
+
+4. **Compute hashes**
+   - Create an MD5 hash object with `hashlib.md5()`
+   - Create a SHA256 hash object with `hashlib.sha256()`
+   - Feed both with the file bytes using `.update(data)`
+
+5. **Convert to hexadecimal**
+   - Use `binascii.hexlify(digest)` to produce hex bytes.
+   - Decode to string with `.decode("ascii")` for printing.
+   - Print both hashes in hexadecimal format.
+
+6. **Return the DLL name**
+   - Extract the actual file name from the path, e.g. with `os.path.basename(filepath)`.
+   - Return that name as a string, matching the requirement that the function outputs the actual DLL file name.
+
+### Edge cases to handle
+- **File does not exist**: opening or loading should fail clearly.
+- **Path is not a DLL**: loading may fail; the function should not silently continue.
+- **Invalid or empty filepath**: raise a meaningful error.
+- **Permission issues**: file may be readable for hashing but not loadable, or vice versa.
+- **Case where DLL loads but file read fails**: still treat as an error since hashes cannot be computed.
+- **Non-ASCII filenames**: basename handling should preserve Unicode safely.
+- **Large DLL files**: if memory usage matters, hash in chunks instead of reading the entire file at once.
+- **Windows-specific behavior**: `ctypes.CDLL` is appropriate for DLL loading in this context.
+
+If you want, I can turn this plan into the exact self-contained implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import ctypes
+import hashlib
+import binascii
+import os
+
+def task_func(filepath):
+    if filepath is None:
+        raise ValueError("filepath must not be None")
+
+    path = os.fspath(filepath)
+    if not isinstance(path, str) or not path.strip():
+        raise ValueError("filepath must be a non-empty string or path-like object")
+
+    # Load the DLL; do not invoke any exported functions.
+    ctypes.CDLL(path)
+
+    md5_hash = hashlib.md5()
+    sha256_hash = hashlib.sha256()
+
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            md5_hash.update(chunk)
+            sha256_hash.update(chunk)
+
+    md5_hex = binascii.hexlify(md5_hash.digest()).decode("ascii")
+    sha256_hex = binascii.hexlify(sha256_hash.digest()).decode("ascii")
+
+    print(md5_hex)
+    print(sha256_hex)
+
+    return os.path.basename(path)
+```

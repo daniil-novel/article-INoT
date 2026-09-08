@@ -1,0 +1,143 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Simulates a random walk in a two-dimensional space and draws the path using matplotlib. The walk is determined by randomly choosing directions at each step. The function generates two numpy arrays representing the x and y coordinates of each step and plots these points to visualize the path of the walk.
+The function should output with:
+    A matplotlib figure object representing the plot of the random walk.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from random import randint
+import math
+def task_func(POINTS=100):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from random import randint
+import math
+def task_func(POINTS=100):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Define the walk domain**
+   - Treat the walk as a 2D lattice walk starting at the origin `(0, 0)`.
+   - Use one step per iteration for a total of `POINTS` steps.
+   - Store the full path as two NumPy arrays:
+     - `x`: x-coordinates of length `POINTS + 1`
+     - `y`: y-coordinates of length `POINTS + 1`
+   - The extra `+1` includes the starting point.
+
+2. **Validate input**
+   - Ensure `POINTS` is a non-negative integer.
+   - If `POINTS < 0`, raise `ValueError`.
+   - If `POINTS` is not an integer type, either:
+     - raise `TypeError`, or
+     - explicitly convert only if that is acceptable for the target environment.
+   - This keeps the function predictable for tests.
+
+3. **Initialize coordinates**
+   - Create NumPy arrays filled with zeros:
+     - `x = np.zeros(POINTS + 1)`
+     - `y = np.zeros(POINTS + 1)`
+   - Use integer dtype if all steps are integer moves.
+
+4. **Generate the random walk**
+   - For each step `i` from `1` to `POINTS`:
+     - Choose one of four directions randomly using `randint(0, 3)`:
+       - `0`: move right  `(x[i] = x[i-1] + 1)`
+       - `1`: move left   `(x[i] = x[i-1] - 1)`
+       - `2`: move up     `(y[i] = y[i-1] + 1)`
+       - `3`: move down   `(y[i] = y[i-1] - 1)`
+   - Copy the unchanged coordinate from the previous step.
+   - This produces a classic 2D random walk.
+
+5. **Plot the path**
+   - Create a Matplotlib figure and axes with `plt.subplots()`.
+   - Plot the path with `ax.plot(x, y, ...)`.
+   - Optionally include:
+     - markers for the path points,
+     - a distinct start marker at `(0, 0)`,
+     - a distinct end marker for the final position.
+   - Set:
+     - equal aspect ratio so distances are visually accurate,
+     - grid lines,
+     - axis labels,
+     - a title.
+
+6. **Return the figure object**
+   - Return the Matplotlib figure object only.
+   - Do not call `plt.show()` inside the function, so the caller can decide how to display or save the plot.
+
+Edge cases to handle:
+
+- **`POINTS = 0`**
+  - The walk contains only the origin.
+  - The function should still return a valid figure with a single point.
+
+- **Negative `POINTS`**
+  - Must be rejected, since a negative number of steps is invalid.
+
+- **Non-integer input**
+  - Decide explicitly whether to reject or coerce.
+  - Rejecting is usually safer for deterministic behavior.
+
+- **Very large `POINTS`**
+  - Preallocating NumPy arrays is efficient.
+  - Plotting a very large number of points may still be slow, so keep the approach simple and linear-time.
+
+- **Randomness / reproducibility**
+  - The function should not depend on hidden state beyond `randint`.
+  - If deterministic behavior is needed for tests, the caller can seed the random generator externally.
+
+- **Headless environments**
+  - Returning the figure object without displaying it makes the function suitable for automated test environments.
+
+If you want, I can also turn this plan into the exact self-contained implementation that matches the required function signature.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from random import randint
+import math
+
+def task_func(POINTS=100):
+    if isinstance(POINTS, bool) or not isinstance(POINTS, (int, np.integer)):
+        raise TypeError("POINTS must be an integer.")
+    if POINTS < 0:
+        raise ValueError("POINTS must be non-negative.")
+
+    x = np.zeros(POINTS + 1, dtype=int)
+    y = np.zeros(POINTS + 1, dtype=int)
+
+    for i in range(1, POINTS + 1):
+        direction = randint(0, 3)
+        x[i] = x[i - 1]
+        y[i] = y[i - 1]
+
+        if direction == 0:      # right
+            x[i] += 1
+        elif direction == 1:    # left
+            x[i] -= 1
+        elif direction == 2:    # up
+            y[i] += 1
+        else:                   # down
+            y[i] -= 1
+
+    fig, ax = plt.subplots()
+    ax.plot(x, y, linewidth=1.5, marker='o', markersize=3)
+
+    ax.scatter([x[0]], [y[0]], color='green', s=60, label='Start', zorder=3)
+    ax.scatter([x[-1]], [y[-1]], color='red', s=60, label='End', zorder=3)
+
+    ax.set_title("2D Random Walk")
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.set_aspect("equal", adjustable="box")
+    ax.grid(True, linestyle="--", alpha=0.5)
+    ax.legend()
+
+    return fig
+```

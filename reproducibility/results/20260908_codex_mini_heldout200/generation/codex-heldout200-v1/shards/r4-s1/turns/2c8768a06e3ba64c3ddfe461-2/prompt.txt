@@ -1,0 +1,114 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw a scatter plot with a regression line for two columns from a DataFrame.
+The function should raise the exception for: Raise ValueError if the input df is not a DataFrame, empty, or does not contain the specified columns. Raise TypeError if df use non-numeric data
+The function should output with:
+    Axes: A seaborn axes object.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(df, col1, col2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(df, col1, col2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df, col1, col2)`.
+
+## Goal
+Create a scatter plot with a regression line for two DataFrame columns and return a seaborn `Axes` object.
+
+## Planned behavior
+1. Validate inputs.
+2. Extract the two specified columns.
+3. Ensure both columns are numeric.
+4. Plot a scatter plot with a fitted regression line.
+5. Return the `Axes` object.
+
+## Validation logic
+### 1) Check that `df` is a DataFrame
+- If `df` is not an instance of `pd.DataFrame`, raise:
+  - `ValueError`
+
+### 2) Check that `df` is not empty
+- If `df.empty` is `True`, raise:
+  - `ValueError`
+
+### 3) Check that both columns exist
+- If either `col1` or `col2` is not in `df.columns`, raise:
+  - `ValueError`
+
+### 4) Check that both columns are numeric
+- Use a numeric dtype check for both columns.
+- If either column is non-numeric, raise:
+  - `TypeError`
+
+## Plotting approach
+- Use `seaborn.regplot(...)` because it draws both:
+  - scatter points
+  - regression line
+- Pass the selected DataFrame columns as `x` and `y`.
+- Capture the returned `Axes` object and return it.
+
+## Suggested return value
+- Return the seaborn/matplotlib `Axes` object produced by the plot call.
+
+## Edge cases to handle
+1. **`df` is `None` or another type**
+   - Raise `ValueError`.
+
+2. **Empty DataFrame**
+   - Raise `ValueError`.
+
+3. **Missing column name**
+   - Raise `ValueError`.
+
+4. **Column exists but contains strings or mixed non-numeric values**
+   - Raise `TypeError`.
+
+5. **Numeric columns with missing values**
+   - Usually acceptable for plotting; seaborn can ignore/drop NaNs in many cases.
+   - No special exception required unless you want stricter behavior.
+
+6. **Column names passed as non-string objects**
+   - If they are not found in `df.columns`, raise `ValueError`.
+
+7. **Constant-valued numeric columns**
+   - Plot should still be created, though the regression line may be flat or poorly defined depending on the data.
+
+## Implementation outline
+- Start with the required imports:
+  - `import pandas as pd`
+  - `import seaborn as sns`
+- Define `task_func(df, col1, col2)`.
+- Perform checks in this order:
+  1. `isinstance(df, pd.DataFrame)`
+  2. `df.empty`
+  3. presence of both columns
+  4. numeric dtype validation
+- Call `sns.regplot(x=df[col1], y=df[col2])`
+- Return the resulting `Axes`
+
+If you want, I can also turn this plan into the exact self-contained function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import seaborn as sns
+
+def task_func(df, col1, col2):
+    if not isinstance(df, pd.DataFrame):
+        raise ValueError("df must be a pandas DataFrame")
+    if df.empty:
+        raise ValueError("df must not be empty")
+    if col1 not in df.columns or col2 not in df.columns:
+        raise ValueError("Specified columns must exist in df")
+    if not pd.api.types.is_numeric_dtype(df[col1]) or not pd.api.types.is_numeric_dtype(df[col2]):
+        raise TypeError("Specified columns must contain numeric data")
+
+    ax = sns.regplot(x=df[col1], y=df[col2])
+    return ax
+```

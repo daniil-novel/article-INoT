@@ -1,0 +1,20 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generates 'n' random numbers between 0 and 1, finds those greater than their average, and counts how many are greater than or equal to a specified value, then plots the sorted numbers.
+The function should output with:
+    list: Numbers greater than the average of all generated numbers.
+    int: The count of numbers greater than or equal to the specified value.
+You should write self-contained code starting with:
+```
+import random
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(n, value):
+```
+FULL SUPPLIED CONTEXT
+import random
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(n, value):

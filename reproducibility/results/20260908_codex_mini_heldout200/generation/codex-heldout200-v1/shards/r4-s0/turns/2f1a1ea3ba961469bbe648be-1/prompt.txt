@@ -1,0 +1,132 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Applies a blur effect to an image using a specified kernel size, then visualizes both the original and blurred images side by side.
+The function should raise the exception for: FileNotFoundError: If the specified image file does not exist. ValueError: If kernel_size is not a positive integer.
+The function should output with:
+    tuple: A tuple containing a numpy.ndarray of the blurred image, and two matplotlib.axes.Axes objects for the plots of the original and blurred images.
+You should write self-contained code starting with:
+```
+import cv2
+import matplotlib.pyplot as plt
+def task_func(image_path, kernel_size):
+```
+FULL SUPPLIED CONTEXT
+import cv2
+import matplotlib.pyplot as plt
+def task_func(image_path, kernel_size):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation Plan
+
+### Goal
+Implement `task_func(image_path, kernel_size)` that:
+
+1. Loads an image from disk.
+2. Applies a blur using the given kernel size.
+3. Displays the original and blurred images side by side.
+4. Returns:
+   - the blurred image as a `numpy.ndarray`
+   - the `Axes` object for the original image plot
+   - the `Axes` object for the blurred image plot
+
+---
+
+## Proposed approach
+
+### 1) Validate inputs
+- Check that `kernel_size` is a **positive integer**.
+- Raise `ValueError` if:
+  - `kernel_size` is not an integer
+  - `kernel_size <= 0`
+- Also treat `bool` as invalid, since `bool` is technically an `int` in Python but should not be accepted here.
+
+### 2) Check image file existence
+- Verify `image_path` points to an existing file before attempting to read it.
+- Raise `FileNotFoundError` if the file does not exist.
+
+### 3) Load the image
+- Use `cv2.imread(image_path, cv2.IMREAD_UNCHANGED)` or default `cv2.imread(image_path)`.
+- If OpenCV returns `None`, treat it as unreadable/missing and raise `FileNotFoundError` as well, since the task only specifies that error for missing file situations.
+
+### 4) Apply blur
+- Use `cv2.blur(image, (kernel_size, kernel_size))`.
+- This is a good fit because:
+  - it accepts any positive integer kernel size
+  - it does not require odd-sized kernels
+- The blurred image should preserve the original shape and dtype.
+
+### 5) Plot original and blurred images side by side
+- Create a figure with two subplots using `plt.subplots(1, 2)`.
+- Display:
+  - original image on the left
+  - blurred image on the right
+- Handle image format correctly:
+  - If the image is color, convert from BGR to RGB before plotting.
+  - If the image is grayscale, plot with `cmap="gray"`.
+
+### 6) Return values
+Return a tuple:
+```python
+(blurred_image, ax_original, ax_blurred)
+```
+
+---
+
+## Edge cases to handle
+
+### Input validation edge cases
+- `kernel_size = 0` → `ValueError`
+- `kernel_size < 0` → `ValueError`
+- `kernel_size = 1` → valid, blur will be effectively the same as original
+- `kernel_size = 3.5`, `"3"`, `None`, etc. → `ValueError`
+- `kernel_size = True` or `False` → should be rejected
+
+### File handling edge cases
+- `image_path` does not exist → `FileNotFoundError`
+- Path exists but is not a readable image → should also raise `FileNotFoundError` based on the stated contract
+- Empty string path → `FileNotFoundError`
+
+### Image content edge cases
+- Grayscale image
+- Color image with 3 channels
+- Image with alpha channel
+- Very small image with a kernel larger than dimensions:
+  - `cv2.blur` still works, but the output may become heavily smoothed
+- Empty/invalid load result from OpenCV
+
+### Plotting edge cases
+- Avoid assuming all images are BGR color images
+- Ensure axes are returned even if the image is grayscale
+- Hide axes for cleaner visualization
+
+---
+
+## Suggested implementation structure
+
+1. Import needed modules:
+   - `cv2`
+   - `matplotlib.pyplot as plt`
+   - `os` or `pathlib` for file existence checking
+
+2. Validate `kernel_size`
+
+3. Validate file existence
+
+4. Load image
+
+5. Blur image
+
+6. Create figure and axes
+
+7. Plot original and blurred images
+
+8. Return blurred image and axes
+
+---
+
+## Design notes
+- Prefer `cv2.blur` over `cv2.GaussianBlur` because the requirement only says “specified kernel size” and does not require odd dimensions.
+- Keep the function self-contained and avoid relying on external state.
+- Do not show or save the plot automatically unless required; just create and populate the axes.
+
+If you want, I can next provide the actual implementation in the exact required format.

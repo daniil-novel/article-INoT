@@ -1,0 +1,70 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generates a password that mirrors the structure of the given text by replacing alphabetic characters with random ascii lowercase letters, digits with random single-digit numbers, spaces wth either a random digit or random lowercase letter at equal probabilities, and leaving other characters unchanged.
+Note that: This function does not handle high Unicode characters and focuses only on ASCII values.
+The function should raise the exception for: ValueError: If the input text is empty.
+The function should output with:
+    str: The generated password.
+You should write self-contained code starting with:
+```
+import string
+import random
+def task_func(text, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import string
+import random
+def task_func(text, seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(text, seed=None)`:
+
+1. **Validate input**
+   - If `text` is an empty string (`""`), raise `ValueError`.
+   - No special handling for `None` is specified, so the function can assume a string input unless you want to guard more broadly.
+
+2. **Optional deterministic randomness**
+   - If `seed` is not `None`, call `random.seed(seed)` so the output is reproducible for the same input and seed.
+   - If `seed` is `None`, use the global random generator normally.
+
+3. **Define character transformation rules**
+   - For each character in `text`:
+     - **Alphabetic ASCII character** (`a-z`, `A-Z`): replace with a random lowercase ASCII letter from `string.ascii_lowercase`.
+     - **Digit** (`0-9`): replace with a random single digit from `'0'` to `'9'`.
+     - **Space character** (`' '`): replace with either:
+       - a random digit, or
+       - a random lowercase letter,
+       with equal probability.
+     - **Any other character**: leave unchanged.
+
+4. **Build the output efficiently**
+   - Iterate through the input string once.
+   - Append each transformed character to a list.
+   - Join the list into the final password string.
+
+5. **Return value**
+   - Return the generated password as a `str`.
+
+## Edge cases to consider
+
+- **Empty string**
+  - Must raise `ValueError`.
+
+- **Mixed content**
+  - Input may contain letters, digits, spaces, punctuation, symbols, and control characters.
+  - Only the specified categories should be transformed.
+
+- **ASCII-only behavior**
+  - The requirement says the function does not handle high Unicode characters.
+  - Practical interpretation: only ASCII letters/digits/spaces get special treatment; everything else remains unchanged.
+
+- **Multiple spaces**
+  - Each space is processed independently and randomly.
+
+- **Determinism with seed**
+  - Same `text` and `seed` should produce the same output.
+
+- **No spaces / no letters / no digits**
+  - Function should still work and simply preserve or transform the applicable characters.
+
+If you want, I can also provide the exact self-contained implementation next.

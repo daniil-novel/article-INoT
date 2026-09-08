@@ -1,0 +1,54 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a DataFrame with population data for a list of cities. The population is generated randomly and rounded up to the next thousand.
+The function should output with:
+    DataFrame: A pandas DataFrame with columns 'City' and 'Population', containing population data for the cities.
+You should write self-contained code starting with:
+```
+import math
+from random import randint
+import pandas as pd
+def task_func(cities_list):
+```
+FULL SUPPLIED CONTEXT
+import math
+from random import randint
+import pandas as pd
+def task_func(cities_list):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Accept the input list**
+   - `cities_list` is expected to be a list-like collection of city names.
+   - Preserve the order of cities as given.
+
+2. **Generate a random population for each city**
+   - For each city, use `randint(...)` to create a random positive integer population.
+   - Since no exact random range is specified, choose a reasonable positive range in the implementation.
+   - Keep the random value per city independent.
+
+3. **Round up to the next thousand**
+   - Apply `math.ceil(population / 1000) * 1000` to each generated population.
+   - This ensures:
+     - values not already divisible by 1000 are rounded upward,
+     - exact multiples of 1000 remain unchanged.
+
+4. **Build the DataFrame**
+   - Create a pandas DataFrame with exactly two columns:
+     - `'City'`
+     - `'Population'`
+   - Each row corresponds to one city from `cities_list`.
+
+5. **Return the result**
+   - Return the constructed DataFrame.
+
+### Edge cases to handle
+- **Empty input list**: return an empty DataFrame with the correct columns.
+- **Duplicate city names**: keep all entries; do not deduplicate unless explicitly required.
+- **Already-rounded population**: if the random number is already a multiple of 1000, leave it unchanged after rounding.
+- **Very small random values**: values below 1000 should still round up to 1000.
+- **Non-string city items**: either keep them as-is or convert to string, depending on the desired strictness; the prompt does not require validation.
+- **Invalid input type**: if robustness is desired, raise a clear error when `cities_list` is not iterable, but this is optional unless specified.
+
+If you want, I can now turn this plan into the exact self-contained function code.

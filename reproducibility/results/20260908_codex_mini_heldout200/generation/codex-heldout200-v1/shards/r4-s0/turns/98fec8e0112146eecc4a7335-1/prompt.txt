@@ -1,0 +1,120 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Extract up to n different English words from a string, ignoring case. The string is split into words and only the English words are retained. If there are fewer than n different English words, all distinct ones are returned.
+The function should output with:
+    List[str]: A list of up to n different English words found in the string.
+You should write self-contained code starting with:
+```
+import re
+import random
+from nltk.corpus import words
+from random import sample
+# Ensure the words corpus is downloaded
+import nltk
+nltk.download('words')
+# Constants
+SAMPLE_ENGLISH_WORDS = set(words.words())  # Correct initialization
+def task_func(s, n):
+```
+FULL SUPPLIED CONTEXT
+import re
+import random
+from nltk.corpus import words
+from random import sample
+# Ensure the words corpus is downloaded
+import nltk
+nltk.download('words')
+# Constants
+SAMPLE_ENGLISH_WORDS = set(words.words())  # Correct initialization
+def task_func(s, n):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(s, n)` based on the supplied requirements.
+
+## Goal
+Return a list of up to `n` **distinct English words** found in the input string `s`, ignoring case.
+
+---
+
+## Plan
+
+### 1. Prepare the English-word lookup
+- Use the provided `SAMPLE_ENGLISH_WORDS = set(words.words())`.
+- For case-insensitive matching, compare against a lowercase version of this set:
+  - either preprocess once into `ENGLISH_WORDS_LOWER = {w.lower() for w in SAMPLE_ENGLISH_WORDS}`
+  - or compare each token using `token.lower()`.
+
+### 2. Split the input string into candidate words
+- Extract word-like tokens from `s`.
+- Since the task says the string is “split into words,” a regex-based tokenization is safer than plain whitespace splitting because it handles punctuation.
+- A reasonable choice is to use `re.findall(r"[A-Za-z]+", s)` to keep alphabetic English-like tokens only.
+  - This avoids punctuation, digits, and symbols.
+  - If you want to preserve contractions/hyphenated forms, that would require broader tokenization, but the task wording suggests plain words.
+
+### 3. Filter to English words
+- For each extracted token:
+  - convert to lowercase
+  - keep it only if it exists in the English-word set
+- This enforces “ignoring case.”
+
+### 4. Remove duplicates while preserving first appearance
+- Maintain:
+  - a `seen` set for deduplication
+  - a `result` list for output order
+- For each valid English word:
+  - if not in `seen`, add it to both `seen` and `result`
+- This returns distinct words in the order they first appear in the string.
+
+### 5. Stop once `n` words are collected
+- If `len(result) == n`, stop early.
+- If fewer than `n` distinct English words exist, return all of them.
+
+### 6. Return the result list
+- Output should be `List[str]`.
+
+---
+
+## Edge cases to handle
+
+### Empty or whitespace-only input
+- Example: `s = ""`, `s = "   "`
+- Return `[]`.
+
+### `n <= 0`
+- If `n` is zero or negative, return `[]`.
+
+### Repeated words with different casing
+- Example: `"Apple apple APPLE"`
+- Should return only one distinct word, e.g. `["apple"]` or the first normalized form you choose.
+- Best practice: return lowercase normalized words for consistency, unless the task expects original casing.
+
+### Punctuation attached to words
+- Example: `"hello, world!"`
+- Tokenization should still detect `hello` and `world`.
+
+### Non-English tokens
+- Example: `"qwerty asdf"`
+- These should be excluded.
+
+### Mixed alphanumeric strings
+- Example: `"abc123 test"`
+- `abc123` should not be treated as a valid word if using alphabetic tokenization.
+
+### Fewer than `n` valid distinct English words
+- Example: `n = 5`, input has only 2 distinct English words
+- Return those 2 only.
+
+### Large input
+- Use a set for membership checks to keep lookup efficient.
+- Early stop once `n` items are found.
+
+---
+
+## Suggested behavior choice
+To make the output deterministic and simple:
+- **Return words in order of first appearance**
+- **Return them normalized to lowercase**
+
+That gives predictable results and matches the “ignoring case” requirement cleanly.
+
+If you want, I can next turn this plan into the exact `task_func(s, n)` implementation.

@@ -1,0 +1,15 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Removes all special characters, punctuation marks, and spaces from the input string using a regular expression, retaining only alphanumeric characters. Then hashes the cleaned string with SHA256.
+The function should output with:
+    str: The SHA256 hash of the cleaned string.
+You should write self-contained code starting with:
+```
+import re
+import hashlib
+def task_func(input_str):
+```
+FULL SUPPLIED CONTEXT
+import re
+import hashlib
+def task_func(input_str):

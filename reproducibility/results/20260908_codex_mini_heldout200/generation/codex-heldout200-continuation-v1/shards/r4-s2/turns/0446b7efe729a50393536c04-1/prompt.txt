@@ -1,0 +1,107 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Scrape data from a given URL and save the scraped data to a CSV file.
+The function should output with:
+    CSV_FILE_PATH (str): The path of the CSV file where the scraped data is saved.
+You should write self-contained code starting with:
+```
+import urllib.request
+from bs4 import BeautifulSoup
+import csv
+import os
+# Constants
+CSV_FILE_PATH = 'scraped_data.csv'
+def task_func(url):
+```
+FULL SUPPLIED CONTEXT
+import urllib.request
+from bs4 import BeautifulSoup
+import csv
+import os
+# Constants
+CSV_FILE_PATH = 'scraped_data.csv'
+def task_func(url):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(url)`:
+
+## Goal
+Fetch the webpage at `url`, extract usable data from the HTML, and save it to `scraped_data.csv` at `CSV_FILE_PATH`. The function should return the CSV file path when done.
+
+## Plan
+
+1. **Validate input**
+   - Check that `url` is a non-empty string.
+   - Optionally ensure it starts with `http://` or `https://`.
+
+2. **Download the page**
+   - Use `urllib.request.urlopen(url)` to retrieve the content.
+   - Handle redirects automatically via `urlopen`.
+   - Read the response bytes and determine the page encoding from the response headers if available.
+   - Decode to text using the detected charset, with a safe fallback like UTF-8 and replacement for invalid characters.
+
+3. **Parse HTML**
+   - Create a `BeautifulSoup` object with the decoded HTML.
+   - Focus on extracting structured content first, preferably HTML tables.
+
+4. **Extract data**
+   - **Primary strategy:** find all `<table>` elements.
+   - For each table:
+     - Read header cells from `<th>` elements if present.
+     - Otherwise infer column names from the first row or generate default names like `col_1`, `col_2`, etc.
+     - For each `<tr>`, extract `<td>` / `<th>` text using `get_text(strip=True)`.
+     - Normalize row lengths so every row matches the same number of columns.
+   - **Fallback strategy if no table exists:**
+     - Extract another structured representation, e.g. page title + paragraph text, or links/text blocks, and save them in a simple CSV schema.
+     - This ensures the function still produces a CSV even for non-table pages.
+
+5. **Write CSV**
+   - Open `CSV_FILE_PATH` with `newline=''` and `encoding='utf-8'`.
+   - Use `csv.writer` or `csv.DictWriter` depending on the extraction structure.
+   - Write a header row.
+   - Write all extracted rows.
+   - If no data is found, still create an empty CSV or a CSV with headers, depending on the chosen fallback behavior.
+
+6. **Return result**
+   - Return `CSV_FILE_PATH` so the caller knows where the file was saved.
+
+## Edge cases to handle
+
+- **Invalid or empty URL**
+  - Raise a clear exception or return a meaningful error.
+
+- **Network failures**
+  - Handle DNS errors, timeouts, connection errors, and HTTP errors gracefully.
+
+- **Non-HTML content**
+  - If the URL returns a file or non-HTML response, either reject it or save a minimal fallback record.
+
+- **Character encoding issues**
+  - Use the response charset when available; otherwise fall back safely to UTF-8.
+
+- **No tables on the page**
+  - Use a fallback extraction method so the CSV is still generated.
+
+- **Uneven table rows**
+  - Some rows may have fewer or more cells than the header.
+  - Pad missing values with empty strings and trim extra values if necessary.
+
+- **Missing headers**
+  - Generate default column names if the table has no `<th>` row.
+
+- **Nested HTML inside cells**
+  - Strip tags and extract clean text with `get_text(strip=True)`.
+
+- **Empty page or no extractable data**
+  - Still create the CSV file, even if it contains only headers or is empty.
+
+- **Multiple tables**
+  - Decide whether to:
+    - merge all tables into one CSV with a `table_index` column, or
+    - write only the first table.
+  - For robustness, merging with a `table_index` column is usually better.
+
+- **CSV formatting issues**
+  - Let the `csv` module handle commas, quotes, and newlines inside cell text.
+
+If you want, I can now turn this plan into the actual self-contained Python implementation.

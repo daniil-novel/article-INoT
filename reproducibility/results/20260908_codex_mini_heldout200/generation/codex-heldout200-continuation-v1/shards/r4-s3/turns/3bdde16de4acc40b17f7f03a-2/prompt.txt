@@ -1,0 +1,171 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates 'n' random numbers between 0 and 1, finds those greater than their average, and counts how many are greater than or equal to a specified value, then plots the sorted numbers.
+The function should output with:
+    list: Numbers greater than the average of all generated numbers.
+    int: The count of numbers greater than or equal to the specified value.
+You should write self-contained code starting with:
+```
+import random
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(n, value):
+```
+FULL SUPPLIED CONTEXT
+import random
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(n, value):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(n, value)` based on the requirements.
+
+## Goal
+Generate `n` random numbers in `[0, 1)`, then:
+
+1. Find the numbers **greater than the average** of all generated numbers.
+2. Count how many numbers are **greater than or equal to `value`**.
+3. Plot the **sorted** generated numbers.
+
+The function should output:
+- a `list` of numbers greater than the average
+- an `int` count of numbers `>= value`
+
+---
+
+## Proposed behavior
+Return a 2-item result, most naturally as:
+
+- `(numbers_greater_than_average, count_ge_value)`
+
+---
+
+## Implementation plan
+
+### 1. Input handling
+- Validate `n`:
+  - If `n` is not an integer, that should be treated as invalid.
+  - If `n < 0`, reject it or handle it safely.
+- `value` can be any numeric threshold, though it is typically expected to be in `[0, 1]`.
+
+### 2. Generate random numbers
+- Use `random.random()` exactly `n` times.
+- Store the numbers in a list.
+
+### 3. Compute the average
+- Use `statistics.mean(numbers)` if the list is non-empty.
+- If `n == 0`, there is no valid average, so handle this as a special case.
+
+### 4. Find numbers greater than the average
+- Build a list containing all generated numbers `x` such that `x > avg`.
+
+### 5. Sort for plotting and counting
+- Sort the generated numbers in ascending order.
+- Plot the sorted numbers with `matplotlib.pyplot`.
+
+### 6. Count numbers `>= value`
+- Since the list is sorted, use `bisect`:
+  - `bisect.bisect_left(sorted_numbers, value)` gives the first position where `value` could be inserted.
+  - Then the count of numbers `>= value` is:
+    - `len(sorted_numbers) - index`
+- This is efficient and matches the imported `bisect` module.
+
+### 7. Plot the sorted numbers
+- Plot the sorted sequence, e.g. as a line plot.
+- Add labels/title if needed.
+- The plot should not interfere with the returned values.
+
+### 8. Return results
+- Return:
+  - the list of numbers above average
+  - the count of numbers `>= value`
+
+---
+
+## Edge cases to handle
+
+### `n = 0`
+- No numbers are generated.
+- Average is undefined.
+- Recommended behavior:
+  - return `[]` and `0`
+  - plot an empty chart or skip plotting gracefully
+
+### `n < 0`
+- Invalid input.
+- Recommended behavior:
+  - raise `ValueError`
+
+### Non-integer `n`
+- Since the task says “generate `n` random numbers,” `n` should be an integer.
+- Recommended behavior:
+  - raise `TypeError` or `ValueError`
+
+### `value` outside `[0, 1]`
+- This is valid mathematically.
+- If `value > 1`, count should be `0`.
+- If `value <= 0`, count should be `n`.
+
+### Duplicate numbers
+- Random floats can still theoretically repeat.
+- `bisect_left` handles duplicates correctly for the `>= value` count.
+
+### Floating-point comparisons
+- Comparing to the average is sensitive to floating-point precision.
+- Use plain `>` as specified; no tolerance unless explicitly required.
+
+### Very large `n`
+- Sorting dominates with `O(n log n)`.
+- The approach remains fine, but plotting very large datasets may be slow.
+
+---
+
+## Complexity
+- Generating numbers: `O(n)`
+- Computing average: `O(n)`
+- Filtering above average: `O(n)`
+- Sorting: `O(n log n)`
+- Counting with `bisect`: `O(log n)`
+- Plotting: depends on `n`
+
+Overall: **`O(n log n)`**
+
+---
+
+If you want, I can also produce the actual self-contained implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import random
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+
+def task_func(n, value):
+    if not isinstance(n, int) or isinstance(n, bool):
+        raise TypeError("n must be an integer")
+    if n < 0:
+        raise ValueError("n must be non-negative")
+
+    numbers = [random.random() for _ in range(n)]
+
+    if numbers:
+        avg = statistics.mean(numbers)
+        above_average = [x for x in numbers if x > avg]
+    else:
+        above_average = []
+
+    sorted_numbers = sorted(numbers)
+    idx = bisect.bisect_left(sorted_numbers, value)
+    count_ge_value = len(sorted_numbers) - idx
+
+    plt.figure()
+    plt.plot(sorted_numbers, marker='o')
+    plt.title("Sorted Random Numbers")
+    plt.xlabel("Index")
+    plt.ylabel("Value")
+    plt.grid(True)
+    plt.show()
+
+    return above_average, count_ge_value

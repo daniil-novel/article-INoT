@@ -1,0 +1,18 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Hashes a password using the PBKDF2 HMAC algorithm with SHA-256 as the hashing algorithm, combined with a randomly generated salt, and returns both the salt and the hashed password, each base64-encoded.
+The function should raise the exception for: ValueError if the password is None or empty
+The function should output with:
+    tuple[bytes, bytes]: A tuple containing the base64-encoded salt and the base64-encoded hashed password as byte strings.
+You should write self-contained code starting with:
+```
+import base64
+import hashlib
+import os
+def task_func(password, SALT_LENGTH = 32):
+```
+FULL SUPPLIED CONTEXT
+import base64
+import hashlib
+import os
+def task_func(password, SALT_LENGTH = 32):

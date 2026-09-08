@@ -1,0 +1,153 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Archives all processed files from a source directory to a target directory. The function identifies processed files by the '_processed' suffix in the filename.
+The function should output with:
+    str: The path to the created archive.
+You should write self-contained code starting with:
+```
+import zipfile
+import os
+import re
+import shutil
+def task_func(source_dir: str, target_dir: str, archive_name: str = 'archive.zip') -> str:
+```
+FULL SUPPLIED CONTEXT
+import zipfile
+import os
+import re
+import shutil
+def task_func(source_dir: str, target_dir: str, archive_name: str = 'archive.zip') -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(source_dir, target_dir, archive_name='archive.zip') -> str` that archives only the processed files from `source_dir` into a ZIP stored in `target_dir`.
+
+## Goal
+Create a ZIP archive containing all files in `source_dir` whose filenames indicate they are processed, i.e. they contain the `_processed` suffix in the filename. Return the full path to the created archive.
+
+---
+
+## Proposed behavior
+
+1. **Scan the source directory**
+   - List files in `source_dir`.
+   - Select only regular files whose names match the processed-file convention.
+
+2. **Identify processed files**
+   - A file is considered processed if its filename contains the `_processed` suffix.
+   - Prefer a filename-based check rather than content inspection.
+   - Likely interpretation: filenames ending with `_processed` before the extension, e.g.:
+     - `report_processed.txt`
+     - `data_processed.csv`
+   - If the requirement is looser, files containing `_processed` anywhere in the basename could also qualify; the implementation should be consistent and documented.
+
+3. **Create target directory if needed**
+   - Ensure `target_dir` exists.
+   - Create missing parent directories if necessary.
+
+4. **Create the archive**
+   - Build the archive path using `target_dir` and `archive_name`.
+   - Open a ZIP file for writing.
+   - Add each selected processed file into the archive.
+   - Preserve only the filename inside the archive unless a relative path is explicitly desired.
+
+5. **Return result**
+   - Return the full path to the created archive as a string.
+
+---
+
+## Suggested implementation outline
+
+### 1. Validate inputs
+- Confirm `source_dir` exists and is a directory.
+- Confirm `target_dir` is usable as a directory path.
+- Optionally validate `archive_name` is non-empty.
+
+### 2. Prepare paths
+- `archive_path = os.path.join(target_dir, archive_name)`
+
+### 3. Collect candidate files
+- Iterate through `os.listdir(source_dir)`.
+- For each entry:
+  - Join with source path.
+  - Keep it only if it is a file.
+  - Check whether the filename matches the processed-file rule.
+
+### 4. Pattern matching
+Use either:
+- simple string logic, or
+- `re` for stricter matching.
+
+Examples of possible matching rules:
+- Ends with `_processed` before extension:
+  - regex: `r'_processed(?=\.[^.]+$|$)'`
+- Contains `_processed` anywhere in the basename:
+  - regex: `r'_processed'`
+
+If the task is about “the `_processed` suffix in the filename,” the first interpretation is safer.
+
+### 5. Create ZIP
+- Use `zipfile.ZipFile(archive_path, 'w', zipfile.ZIP_DEFLATED)`.
+- For each matched file:
+  - add it with `arcname=os.path.basename(file_path)` so the archive does not store full directory structure.
+
+### 6. Return archive path
+- Return `archive_path`.
+
+---
+
+## Edge cases to handle
+
+1. **No processed files found**
+   - Still create an empty archive, or optionally create an archive with no entries.
+   - Return the archive path regardless, unless the task expects an error.
+
+2. **Source directory does not exist**
+   - Raise `FileNotFoundError` or `NotADirectoryError`.
+
+3. **Target directory does not exist**
+   - Create it automatically with `os.makedirs(target_dir, exist_ok=True)`.
+
+4. **Archive name conflicts**
+   - If the archive already exists, decide whether to overwrite it.
+   - Typical ZIP write mode will overwrite existing output.
+
+5. **Hidden files / subdirectories**
+   - Ignore directories.
+   - Ignore non-file entries like symlinks if not intended, or treat them carefully.
+
+6. **Files with multiple dots**
+   - Example: `a_processed.backup.txt`
+   - The matching rule should be based on the basename, not just splitting once.
+
+7. **Case sensitivity**
+   - Decide whether matching is case-sensitive.
+   - Usually `_processed` should be matched exactly as written.
+
+8. **Files already in a zip or archive**
+   - Not relevant unless the source directory contains archive files that also match the suffix.
+
+9. **Non-ASCII filenames**
+   - Ensure `zipfile` handles them correctly; Python generally does.
+
+10. **Permission issues**
+   - Reading source files or writing target archive may fail due to permissions.
+   - Let the exception propagate or handle it with a clear error message.
+
+---
+
+## Recommended conventions
+- Archive only the file names, not absolute paths.
+- Use `zipfile.ZIP_DEFLATED` for compression.
+- Keep the function deterministic: same source contents → same archive contents order if possible.  
+  - You can sort candidate files before adding them.
+
+---
+
+## Minimal algorithm summary
+1. Ensure target directory exists.
+2. Find files in source directory whose filename matches the processed suffix rule.
+3. Create ZIP at `target_dir/archive_name`.
+4. Add matched files to the ZIP.
+5. Return the archive path.
+
+If you want, I can also turn this plan into the actual self-contained implementation.

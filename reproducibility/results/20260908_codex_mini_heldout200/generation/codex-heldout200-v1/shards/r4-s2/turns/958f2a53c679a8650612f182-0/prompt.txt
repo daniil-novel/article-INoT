@@ -1,0 +1,24 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Convert all Unicode string representations of dictionaries in all text files in the specified directory to Python dictionaries.
+Note that: Ensure that the text files in the directory contain valid Unicode string representations of dictionaries.
+The function should raise the exception for: The function would raise a ValueError if there are text file(s) that have invalid dictionary representation
+The function should output with:
+    list: A list of dictionaries extracted from the text files.
+You should write self-contained code starting with:
+```
+import ast
+import os
+import glob
+# Constants
+DIRECTORY = 'data'
+def task_func(directory):
+```
+FULL SUPPLIED CONTEXT
+import ast
+import os
+import glob
+# Constants
+DIRECTORY = 'data'
+def task_func(directory):

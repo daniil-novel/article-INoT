@@ -1,0 +1,155 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Archive a specified project directory into a ZIP file based on the configuration specified in a config file. This function reads a configuration file to determine the project directory and archives this directory into a ZIP file. The ZIP file's name will be the project directory's basename, stored in the specified archive directory. Configuration File Format: [Project] directory=path_to_project_directory
+The function should raise the exception for: FileNotFoundError: If the `config_file_path` does not exist or the specified project directory does not exist. Exception: If the ZIP archive cannot be created.
+The function should output with:
+    bool: True if the ZIP archive is successfully created, otherwise an exception is raised.
+You should write self-contained code starting with:
+```
+import configparser
+import os
+import shutil
+def task_func(config_file_path, archieve_dir ='/home/user/archive'):
+```
+FULL SUPPLIED CONTEXT
+import configparser
+import os
+import shutil
+def task_func(config_file_path, archieve_dir ='/home/user/archive'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(config_file_path, archieve_dir='/home/user/archive')`.
+
+## Goal
+Read a config file, extract the project directory from:
+
+```ini
+[Project]
+directory=path_to_project_directory
+```
+
+Then create a ZIP archive of that directory inside `archieve_dir`, using the project directory’s basename as the ZIP filename.
+
+The function should:
+- return `True` on success
+- raise `FileNotFoundError` if:
+  - `config_file_path` does not exist, or
+  - the project directory from config does not exist
+- raise an exception if the ZIP archive cannot be created
+
+---
+
+## Implementation plan
+
+### 1. Validate the config file path
+- Check whether `config_file_path` exists.
+- If not, raise `FileNotFoundError`.
+
+### 2. Parse the config file
+- Use `configparser.ConfigParser()`.
+- Read the file.
+- Extract `directory` from the `[Project]` section.
+- If the section or key is missing, treat this as an invalid configuration.
+  - The task explicitly mentions only `FileNotFoundError` and generic archive creation exceptions, but malformed config should still be handled safely.
+  - A reasonable choice is to raise a standard exception such as `KeyError` or `ValueError`.
+
+### 3. Validate the project directory
+- Check whether the extracted project directory exists.
+- If not, raise `FileNotFoundError`.
+
+### 4. Prepare the archive output path
+- Ensure `archieve_dir` exists; if needed, create it with `os.makedirs(..., exist_ok=True)`.
+- Determine the archive name using the basename of the project directory.
+  - Example: `/path/to/my_project` → `my_project.zip`
+- Build the full destination path:
+  - `os.path.join(archieve_dir, basename)`
+
+### 5. Create the ZIP archive
+- Use `shutil.make_archive(...)`.
+- Since `make_archive` expects the base name without `.zip`, pass the archive path without the extension.
+- Archive the project directory itself, not just its contents, depending on desired behavior.
+  - Usually pass the directory path as the source root.
+
+### 6. Handle archive creation failures
+- If `shutil.make_archive` fails for any reason, let the exception propagate or wrap it in a more general exception with context.
+- This satisfies the requirement: “Exception: If the ZIP archive cannot be created.”
+
+### 7. Return success
+- If archive creation completes successfully, return `True`.
+
+---
+
+## Important edge cases to account for
+
+### Config-related edge cases
+- `config_file_path` does not exist → `FileNotFoundError`
+- Config file exists but is empty → invalid config
+- Missing `[Project]` section → invalid config
+- Missing `directory` key → invalid config
+- `directory` value is empty or whitespace only → invalid config
+
+### Project directory edge cases
+- The directory path in config does not exist → `FileNotFoundError`
+- The path points to a file instead of a directory → should be treated as invalid project directory
+- The path is relative; resolve correctly relative to current working directory or config file context as intended
+
+### Archive output edge cases
+- `archieve_dir` does not exist → create it
+- `archieve_dir` is not writable → archive creation exception
+- Existing ZIP file with the same name already exists → behavior depends on `make_archive` and filesystem permissions; may overwrite or fail
+- Basename of project directory is empty or invalid:
+  - e.g. root paths like `/` or `C:\`
+  - this can produce an unusable archive name
+- Project directory name contains unusual characters → path handling should still rely on `os.path` safely
+
+### System/runtime edge cases
+- Permission denied when reading config
+- Permission denied when reading project directory contents
+- Permission denied when writing archive
+- Non-ASCII paths or filenames
+- Very large directories causing archive creation failure
+
+---
+
+## Suggested behavior choices
+To keep the function robust and predictable:
+
+- Use `FileNotFoundError` only for missing config file or missing project directory, as requested.
+- Use `ValueError` for malformed config.
+- Use a broad `Exception` only if archive creation fails, possibly with a message like:
+  - `"Failed to create ZIP archive"`
+
+---
+
+## High-level pseudocode
+
+```python
+def task_func(config_file_path, archieve_dir='/home/user/archive'):
+    if config file not found:
+        raise FileNotFoundError
+
+    read config
+    get project directory from [Project] section
+
+    if project directory missing:
+        raise ValueError or KeyError
+
+    if project directory not found:
+        raise FileNotFoundError
+
+    ensure archive directory exists
+
+    archive_name = basename(project directory)
+    archive_path = join(archieve_dir, archive_name)
+
+    try:
+        create zip archive
+    except:
+        raise Exception("Failed to create ZIP archive")
+
+    return True
+```
+
+---
+
+If you want, I can next produce the actual self-contained implementation in the exact required function format.

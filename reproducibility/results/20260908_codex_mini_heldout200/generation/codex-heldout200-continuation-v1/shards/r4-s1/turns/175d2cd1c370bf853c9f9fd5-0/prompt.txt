@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Merge datasets, perform KMeans clustering, then return cluster labels and scatterplot. Each dataset is assumed to contain at least one id column and one feature column. The column to process is specified for df1 and df2 via column1 and column2, respectively. KMeans clustering is applied with k=2 and n_init=10. Resulting scatterplot shows column1 on the x-axis, column2 on the y-axis, and predicted cluster as color.
+The function should output with:
+    labels (numpy.ndarray): Cluster labels for each data point (dtype=int32).
+    ax (matplotlib.axes._axes.Axes): The plotted figure's Axes object.
+You should write self-contained code starting with:
+```
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+```
+FULL SUPPLIED CONTEXT
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df1, df2, column1="feature1", column2="feature2"):

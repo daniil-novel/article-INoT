@@ -1,0 +1,159 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Create a profit report for a list of products based on a specific product dictionary that includes the quantity, price, and profit of each product. Additionally, calculate the average price and profit for all considered products, and plot a bar chart of the profit for each product.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame with columns
+    ['Product', 'Quantity', 'Price', 'Profit', 'Average Price', 'Average Profit'].
+    Axes: A matplotlib Axes object representing the plotted bar chart of profit for each product
+    (None if no products).
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(product_dict, product_keys):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(product_dict, product_keys):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(product_dict, product_keys)`.
+
+## Goal
+Build a function that:
+1. Selects only the products listed in `product_keys` from `product_dict`.
+2. Creates a pandas `DataFrame` with:
+   - `Product`
+   - `Quantity`
+   - `Price`
+   - `Profit`
+   - `Average Price`
+   - `Average Profit`
+3. Computes average price and average profit across the considered products.
+4. Plots a bar chart of profit per product.
+5. Returns a tuple: `(dataframe, ax)` where `ax` is `None` if there are no products to plot.
+
+---
+
+## Assumptions about input
+- `product_dict` is a dictionary keyed by product name.
+- Each value contains quantity, price, and profit information, likely in one of these forms:
+  - a dict like `{"quantity": ..., "price": ..., "profit": ...}`
+  - or a tuple/list with values in a fixed order
+- `product_keys` is an iterable of product names to include.
+- Only products present in both `product_dict` and `product_keys` should be considered.
+
+If the exact inner structure is not guaranteed, the implementation should be defensive and normalize values before building the table.
+
+---
+
+## Implementation steps
+
+### 1. Normalize the selected products
+- Iterate through `product_keys`.
+- For each key:
+  - Check whether it exists in `product_dict`.
+  - If not, skip it.
+  - Extract quantity, price, and profit.
+- Store rows in a list of records like:
+  - `{"Product": ..., "Quantity": ..., "Price": ..., "Profit": ...}`
+
+### 2. Build the DataFrame
+- Use `pd.DataFrame(records)`.
+- Ensure column order is exactly:
+  - `['Product', 'Quantity', 'Price', 'Profit', 'Average Price', 'Average Profit']`
+
+### 3. Compute averages
+- If there is at least one selected product:
+  - `avg_price = mean of Price`
+  - `avg_profit = mean of Profit`
+- Add these values as constant columns for all rows:
+  - `Average Price`
+  - `Average Profit`
+- If there are no valid products:
+  - return an empty DataFrame with the required columns
+  - return `None` for the plot axis
+
+### 4. Plot profit bar chart
+- If the DataFrame is not empty:
+  - create a matplotlib figure and axis
+  - plot a bar chart with:
+    - x-axis: product names
+    - y-axis: profit values
+- Label axes and title appropriately.
+- If there are no products to plot, skip plotting and return `None` for the axis.
+
+### 5. Return result
+- Return:
+  - the DataFrame
+  - the Matplotlib `Axes` object or `None`
+
+---
+
+## Edge cases to handle
+
+### Empty `product_keys`
+- Return an empty DataFrame with the required columns.
+- Return `None` for the Axes.
+
+### No matching keys in `product_dict`
+- Same behavior as above.
+
+### Missing fields in a product entry
+- If a product record is incomplete, either:
+  - skip it, or
+  - raise a clear error
+- Best practical approach: skip invalid entries if the task expects robustness.
+
+### Duplicate keys in `product_keys`
+- Decide whether to preserve duplicates or deduplicate.
+- Typical behavior: preserve order and duplicates only if explicitly listed, but for reporting usually deduplication is better.
+- Since the task says “for a list of products,” preserving order of valid entries is reasonable.
+
+### Non-numeric quantity/price/profit
+- Convert values to numeric if needed.
+- If conversion fails, skip the product or raise an error.
+
+### Negative or zero values
+- Allow them unless the problem statement explicitly forbids them.
+- Negative profit may be valid.
+
+### Plot with a single product
+- Bar chart should still work normally.
+
+### No products after filtering
+- Return `None` for axes exactly as required.
+
+---
+
+## Suggested internal structure
+Use a small helper-like flow inside the function:
+1. Parse entries
+2. Accumulate rows
+3. Create DataFrame
+4. Compute averages
+5. Plot if non-empty
+6. Return `(df, ax)`
+
+---
+
+## Expected output shape
+If there are `n` valid products:
+- DataFrame has `n` rows
+- Columns are:
+  - `Product`
+  - `Quantity`
+  - `Price`
+  - `Profit`
+  - `Average Price`
+  - `Average Profit`
+
+If `n = 0`:
+- Empty DataFrame with those columns
+- `ax = None`
+
+---
+
+If you want, I can now proceed to Stage 2 and write the actual self-contained implementation.

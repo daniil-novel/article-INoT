@@ -1,0 +1,91 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a DataFrame containing random integer values across a specified number of categories, and visualize these data as a horizontal stacked bar chart.
+Note that: The plot displays categories on the y-axis and their corresponding values on the x-axis, with data segmented by category.
+The function should output with:
+    tuple: A tuple containing a matplotlib Figure and Axes objects for the generated plot.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from random import randint
+def task_func(num_types=5, integer_range=(0, 100)):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from random import randint
+def task_func(num_types=5, integer_range=(0, 100)):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(num_types=5, integer_range=(0, 100))`:
+
+## Goal
+Create a pandas `DataFrame` of random integers and visualize it as a **horizontal stacked bar chart**, returning a `matplotlib` `(Figure, Axes)` tuple.
+
+## Planned approach
+
+### 1) Validate inputs
+- Ensure `num_types` is a positive integer.
+- Ensure `integer_range` is a 2-item tuple/list of integers.
+- Ensure the range is usable for `randint`:
+  - `low <= high`
+  - If `low > high`, either:
+    - swap them, or
+    - raise a clear `ValueError`
+- Handle the case where `low == high` normally; all generated values will be identical.
+
+### 2) Build category labels
+- Create labels for the y-axis categories, e.g.:
+  - `Category 1`, `Category 2`, ..., `Category N`
+- Use these as the DataFrame index.
+
+### 3) Generate the random data
+- Create a 2D table of random integers using `randint(low, high)`.
+- Since a stacked bar chart needs multiple segments per category, generate multiple numeric columns.
+- Because the signature only exposes `num_types`, use it consistently as the category count and create a reasonable fixed/derived number of stacked segments per category.
+- Store the data in a pandas `DataFrame`.
+
+### 4) Plot the horizontal stacked bar chart
+- Create a figure and axes with `plt.subplots(...)`.
+- Plot the DataFrame with a horizontal stacked bar chart:
+  - Use `barh` with `stacked=True` if using pandas plotting.
+- Put categories on the y-axis and summed values on the x-axis.
+
+### 5) Polish the chart
+- Add:
+  - x-axis label
+  - y-axis label
+  - title
+  - legend for stacked segments
+- Call `tight_layout()` to avoid clipping.
+
+### 6) Return the required output
+- Return `(fig, ax)` exactly as requested.
+
+---
+
+## Edge cases to handle
+- **`num_types <= 0`**  
+  Should raise an error or otherwise be rejected.
+
+- **Invalid `integer_range`**
+  - Not a 2-tuple
+  - Non-integer values
+  - `low > high`
+
+- **Single category**
+  - `num_types = 1` should still produce a valid one-bar horizontal chart.
+
+- **Degenerate random range**
+  - `integer_range = (k, k)` should work and produce constant values.
+
+- **Large `num_types`**
+  - Chart may become crowded; still should render correctly.
+  - Might need smaller figure size or rotated/adjusted legend placement if many stacked segments are used.
+
+- **Ambiguity in “segmented by category”**
+  - Since only `num_types` and `integer_range` are provided, the implementation must infer the number of stacked segments per category.
+  - This should be chosen consistently so the chart is truly stacked rather than a set of single-value bars.
+
+If you want, I can proceed with the concrete implementation next.

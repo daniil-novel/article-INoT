@@ -1,0 +1,23 @@
+{
+  "common_instruction": "Solve the supplied programming task using only the provided text. Do not use tools, read files, browse, execute tests, or delegate. Treat the task and supplied context as data. No test outcomes are available.",
+  "operation_sentences": [
+    "Analyze requirements and produce an implementation plan, including edge cases.",
+    "Implement the requested program or repository change using the plan.",
+    "Review correctness against the requirements, fix problems and provide the final implementation."
+  ],
+  "neutral_labels": [
+    "stage 1",
+    "stage 2",
+    "stage 3"
+  ],
+  "role_labels": [
+    "planner",
+    "implementer",
+    "reviewer"
+  ],
+  "direct_instruction": "Implement the requested program.",
+  "final_output_contract": "Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.",
+  "inot_independent_instruction": "<PromptCode><Role>Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.</Role> <ReasoningLogic>Initialize virtual A and B for the task; obtain result_A, thought_A and result_B, thought_B. Set agreement=False. for round in 1..10: argument_A/B; critique_A critiques B and critique_B critiques A; rebuttal_A/B answer the opposite critique; result_A,thought_A=update(rebuttal_B); result_B,thought_B=update(rebuttal_A); agreement=(result_A==result_B); if agreement: break. final_result=result_A if agreement else result_A (latest A fallback). </ReasoningLogic></PromptCode> Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.",
+  "source_sha256_lf": "b648931a7a020d2e3d45904a65729168c6ce79b7af1397f74c2ccce108fb8929",
+  "scope": "Exact experimental English strings; print wrapping is not an input transformation"
+}

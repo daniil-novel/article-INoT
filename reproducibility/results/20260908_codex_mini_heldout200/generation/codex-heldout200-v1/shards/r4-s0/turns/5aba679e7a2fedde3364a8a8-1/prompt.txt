@@ -1,0 +1,64 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Perform a linear regression analysis on a given DataFrame.
+The function should output with:
+    score (float): The R-squared score of the model.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+def task_func(df, target):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+def task_func(df, target):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(df, target)`:
+
+1. **Validate inputs**
+   - Ensure `df` is a pandas `DataFrame`.
+   - Ensure `target` is a column name present in `df`.
+   - If the target column is missing, raise a clear error like `KeyError`.
+
+2. **Split features and label**
+   - Set `X = df.drop(columns=[target])`
+   - Set `y = df[target]`
+
+3. **Handle missing values**
+   - Decide on a simple policy, such as dropping rows with missing values in either features or target:
+     - Combine `X` and `y`
+     - Remove rows containing `NaN`
+   - This avoids failures in `LinearRegression.fit`.
+
+4. **Prepare data for regression**
+   - Use only numeric predictors if the task expects raw DataFrame regression.
+   - If non-numeric columns may exist, either:
+     - reject them with a clear error, or
+     - encode them before fitting.
+   - Since the requested imports only include `pandas` and `LinearRegression`, the safest assumption is that the DataFrame is already numeric.
+
+5. **Fit the model**
+   - Create `model = LinearRegression()`
+   - Fit with cleaned data: `model.fit(X_clean, y_clean)`
+
+6. **Compute the score**
+   - Use the model’s built-in coefficient of determination:
+     - `score = model.score(X_clean, y_clean)`
+   - Return this as a Python `float`.
+
+7. **Return value**
+   - Return only the R-squared score, not the model or predictions.
+
+Edge cases to account for:
+- **Missing target column**: should raise an informative error.
+- **Empty DataFrame**: fitting is impossible; handle explicitly.
+- **No feature columns left** after removing target: model cannot be trained.
+- **Missing values**: must be dropped or otherwise handled.
+- **Non-numeric data**: `LinearRegression` cannot fit raw strings/categorical columns.
+- **Too few rows**: R² is not meaningful with very small sample sizes, especially fewer than 2 rows.
+- **Constant target values**: R² can be unstable or unintuitive; still return the computed score unless the task specifies otherwise.
+- **Single-row dataset**: `score` may be undefined; handle gracefully if needed.
+
+If you want, I can also provide the exact implementation code in the required format.

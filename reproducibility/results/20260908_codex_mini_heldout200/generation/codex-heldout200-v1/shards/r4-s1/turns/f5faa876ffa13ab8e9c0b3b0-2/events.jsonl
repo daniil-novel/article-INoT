@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ec5-322b-7cd1-8cbe-62c05aabab89"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport re\nfrom nltk.corpus import stopwords\nfrom collections import Counter\n\nSTOPWORDS = set(stopwords.words('english'))\n\ndef task_func(input_string):\n    if not isinstance(input_string, str):\n        raise TypeError(\"input_string must be a string\")\n    if not input_string.strip():\n        return {}\n\n    words = []\n    for line in input_string.splitlines():\n        tokens = re.findall(r\"[a-zA-Z]+(?:'[a-zA-Z]+)?\", line.lower())\n        words.extend(token for token in tokens if token not in STOPWORDS)\n\n    return dict(Counter(words))\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3230,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":648,"reasoning_output_tokens":516}}

@@ -1,0 +1,87 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Add a new column with random values to the "data" DataFrame.
+The function should raise the exception for: The function will raise an error if the input data is not pandas DataFrame
+The function should output with:
+    DataFrame: Updated DataFrame with the new column added.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(data, key, min_value, max_value):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(data, key, min_value, max_value):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is the implementation plan for `task_func(data, key, min_value, max_value)`.
+
+## Requirements analysis
+
+### Input
+- `data`: expected to be a `pandas.DataFrame`
+- `key`: name of the new column to create
+- `min_value`: lower bound for random values
+- `max_value`: upper bound for random values
+
+### Behavior
+- Add a new column to `data` named `key`
+- Fill that column with random values
+- Return the updated DataFrame
+
+### Error handling
+- If `data` is not a `pandas.DataFrame`, raise an exception
+
+---
+
+## Implementation plan
+
+1. **Validate input type**
+   - Check `isinstance(data, pd.DataFrame)`
+   - If false, raise a `TypeError` or a clear exception indicating the input must be a DataFrame
+
+2. **Generate random values**
+   - Create one random value per row in `data`
+   - Use NumPy random generation
+   - The random values should fall within the interval defined by `min_value` and `max_value`
+
+3. **Add the column**
+   - Assign the generated array to `data[key]`
+
+4. **Return result**
+   - Return the modified DataFrame
+
+---
+
+## Edge cases to handle
+
+1. **`data` is not a DataFrame**
+   - Must raise an error immediately
+
+2. **Empty DataFrame**
+   - Should still return a valid DataFrame with the new column, but no rows
+
+3. **`min_value` greater than `max_value`**
+   - This is invalid for random generation
+   - Should raise an error or validate before generating values
+
+4. **`key` already exists**
+   - Decide whether to overwrite the existing column
+   - Most straightforward behavior: overwrite it with new random values
+
+5. **Non-numeric bounds**
+   - If `min_value` / `max_value` are not numeric, random generation may fail
+   - Should either validate or allow NumPy to raise an appropriate exception
+
+6. **Floating-point vs integer output**
+   - If the task does not specify type, use a consistent random numeric type
+   - If integer values are desired, choose integer random generation; otherwise use floats
+
+---
+
+## Expected output
+- A `pandas.DataFrame` containing all original columns plus the new random-valued column named by `key`
+
+If you want, I can now provide the full self-contained implementation code.

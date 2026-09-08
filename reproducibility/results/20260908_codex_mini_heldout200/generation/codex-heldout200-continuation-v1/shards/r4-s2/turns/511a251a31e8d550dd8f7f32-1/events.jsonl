@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f2e-824d-7b22-8486-33f8433d65c4"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"import numpy as np\nimport itertools\n\ndef task_func(matrix):\n    arr = np.asarray(matrix)\n\n    if arr.ndim != 2:\n        raise ValueError(\"Input must be a 2D numpy array or 2D array-like structure.\")\n\n    sorted_arr = np.sort(arr, axis=None)\n\n    unique_pairs = []\n    seen = set()\n    for pair in itertools.combinations(sorted_arr.tolist(), 2):\n        if pair not in seen:\n            seen.add(pair)\n            unique_pairs.append(pair)\n\n    return sorted_arr, unique_pairs"}}
+{"type":"turn.completed","usage":{"input_tokens":3653,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":378,"reasoning_output_tokens":261}}

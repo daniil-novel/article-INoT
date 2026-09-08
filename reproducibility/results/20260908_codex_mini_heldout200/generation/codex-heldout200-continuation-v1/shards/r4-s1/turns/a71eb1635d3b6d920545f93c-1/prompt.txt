@@ -1,0 +1,160 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Perform an SVM classification of the iris dataset and warn if the accuracy is less than 0.9. The warning action is set to 'always'. The test size for the train-test split is 0.33.
+The function should output with:
+    tuple: A tuple containing:
+    accuracy (float): The accuracy of the SVM classification.
+    warning_msg (str or None): A warning message if the accuracy is below 0.9, None otherwise.
+You should write self-contained code starting with:
+```
+import warnings
+import sklearn.model_selection as model_selection
+import sklearn.svm as svm
+import sklearn.datasets as datasets
+import sklearn.metrics as metrics
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import warnings
+import sklearn.model_selection as model_selection
+import sklearn.svm as svm
+import sklearn.datasets as datasets
+import sklearn.metrics as metrics
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for the task.
+
+## Goal
+Implement `task_func()` to:
+1. Load the Iris dataset.
+2. Split it into train/test sets with `test_size=0.33`.
+3. Train an SVM classifier.
+4. Compute accuracy.
+5. If accuracy is below `0.9`, emit a warning with warning action set to `"always"` and return the warning message.
+6. Return a tuple:
+   - `accuracy` as `float`
+   - `warning_msg` as `str` or `None`
+
+---
+
+## Planned approach
+
+### 1) Keep the required imports and function signature
+The solution must begin exactly with:
+
+```python
+import warnings
+import sklearn.model_selection as model_selection
+import sklearn.svm as svm
+import sklearn.datasets as datasets
+import sklearn.metrics as metrics
+def task_func():
+```
+
+This satisfies the self-contained requirement.
+
+---
+
+### 2) Load the Iris dataset
+Use:
+
+- `datasets.load_iris()`
+
+This gives:
+- feature matrix `X`
+- target vector `y`
+
+---
+
+### 3) Split the dataset
+Use `model_selection.train_test_split(...)` with:
+- `test_size=0.33`
+
+Recommended extra choice:
+- `random_state=<fixed integer>` for reproducibility
+- `stratify=y` to preserve class balance in train/test split
+
+These are not explicitly required, but they make the result deterministic and stable.
+
+---
+
+### 4) Train the SVM classifier
+Use `svm.SVC()` with default settings unless the task implies otherwise.
+
+Fit it on the training data:
+- `classifier.fit(X_train, y_train)`
+
+---
+
+### 5) Predict and compute accuracy
+Predict on the test set:
+- `y_pred = classifier.predict(X_test)`
+
+Compute accuracy:
+- `accuracy = metrics.accuracy_score(y_test, y_pred)`
+
+Convert to plain Python `float` if needed.
+
+---
+
+### 6) Handle warning logic
+If `accuracy < 0.9`:
+
+- set warning action to `"always"` using `warnings.simplefilter("always")`
+- create a warning message such as:
+  - `"Accuracy is below 0.9: {accuracy}"`
+- emit it via `warnings.warn(...)`
+- store the same message in `warning_msg`
+
+Otherwise:
+- `warning_msg = None`
+
+Important detail:
+- The warning should only be triggered when the accuracy is strictly less than `0.9`.
+- If accuracy is exactly `0.9`, no warning should be issued.
+
+---
+
+### 7) Return the required tuple
+Return:
+
+```python
+return accuracy, warning_msg
+```
+
+---
+
+## Edge cases to consider
+
+### Accuracy boundary case
+- If accuracy is exactly `0.9`, do **not** warn.
+- Only warn for `accuracy < 0.9`.
+
+### Determinism
+- Without a fixed `random_state`, the split may vary and the accuracy could fluctuate.
+- A fixed seed is recommended to make behavior reproducible.
+
+### Class balance
+- Iris is balanced, but using `stratify=y` helps ensure both train and test sets preserve class distribution.
+
+### Warning behavior
+- Since warning action must be `"always"`, use `warnings.simplefilter("always")` before calling `warnings.warn(...)`.
+- The function should still return the warning text even if the warning is emitted.
+
+### Output type consistency
+- `accuracy` should be a numeric float.
+- `warning_msg` should be either a string or `None`, never another type.
+
+---
+
+## Suggested implementation structure
+1. Load data
+2. Split data
+3. Train SVM
+4. Predict
+5. Compute accuracy
+6. If below threshold, warn and save message
+7. Return `(accuracy, warning_msg)`
+
+If you want, I can now produce the final code implementation exactly in the required format.

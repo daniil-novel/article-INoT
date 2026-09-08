@@ -1,0 +1,105 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Shuffles the columns of a numpy array randomly, performs Principal Component Analysis (PCA) to reduce the dimensionality to 2 principal components, and returns these components as a pandas DataFrame.
+Note that: PCA reduction will default to the number of features if fewer than 2. An named but empty DataFrame is returned for arrays without features or with empty content.
+The function should raise the exception for: ValueError: If the input array is not 2D.
+The function should output with:
+    pandas.DataFrame: DataFrame with columns 'PC1' and 'PC2' representing the two principal components.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(array, seed=None)`.
+
+## Goal
+Take a 2D NumPy-like array, randomly shuffle its columns, run PCA, and return the first two principal components in a `pandas.DataFrame` with columns:
+
+- `PC1`
+- `PC2`
+
+## Implementation plan
+
+1. **Convert input to a NumPy array**
+   - Use `np.asarray(array)` so the function accepts array-like inputs as well.
+   - Inspect its shape and dimensionality.
+
+2. **Validate dimensionality**
+   - If the input is not 2D (`ndim != 2`), raise:
+     - `ValueError("Input array must be 2D.")`
+   - This check should happen before any PCA logic.
+
+3. **Handle empty/no-feature cases early**
+   - If the array has:
+     - zero rows, or
+     - zero columns, or
+     - no elements at all,
+   - return an empty `pandas.DataFrame` with columns `PC1` and `PC2`.
+   - This satisfies the requirement for “arrays without features or with empty content.”
+
+4. **Shuffle columns randomly**
+   - Create a random permutation of the column indices using the optional `seed`.
+   - Reorder the array columns with that permutation.
+   - If `seed` is provided, use it to make the shuffling reproducible.
+
+5. **Choose PCA component count**
+   - Use `n_components = min(2, number_of_features, number_of_samples)`.
+   - This is safer than only checking the number of features, because PCA also requires the component count not to exceed the available samples.
+   - If the result is `0` due to empty input, return the empty DataFrame as above.
+
+6. **Run PCA**
+   - Fit PCA on the shuffled array and transform it.
+   - The transformed output will have:
+     - 2 columns if possible
+     - 1 column if only one component is valid
+
+7. **Build the output DataFrame**
+   - Create a DataFrame with columns `PC1` and `PC2`.
+   - If PCA returns:
+     - **2 components**: use both directly.
+     - **1 component**: fill `PC1` with the component values and `PC2` with `NaN` so the schema stays consistent.
+   - Preserve row count.
+
+## Edge cases to account for
+
+- **Input is not 2D**
+  - Example: 1D list/array, 3D array
+  - Must raise `ValueError`
+
+- **Empty array**
+  - Example: shape `(0, n)` or `(n, 0)` or no elements
+  - Return empty DataFrame with `PC1`, `PC2`
+
+- **Zero features**
+  - Example: shape `(m, 0)`
+  - Return empty DataFrame with `PC1`, `PC2`
+
+- **Only one feature**
+  - PCA can only produce 1 valid component
+  - Return a DataFrame with:
+    - `PC1` = transformed values
+    - `PC2` = `NaN`
+
+- **Only one sample**
+  - PCA component count must be limited to what is mathematically valid
+  - Using `min(2, n_samples, n_features)` avoids invalid PCA settings
+
+- **Seed handling**
+  - If `seed` is provided, shuffling should be deterministic
+  - If `seed` is `None`, use non-deterministic shuffling
+
+## Output behavior summary
+- Normal case: DataFrame with `PC1` and `PC2`
+- Empty/no-feature case: empty DataFrame with `PC1` and `PC2`
+- Invalid dimensionality: raise `ValueError`
+
+If you want, I can now turn this plan into the full self-contained implementation.

@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Applies a blur effect to an image using a specified kernel size, then visualizes both the original and blurred images side by side.
+The function should raise the exception for: FileNotFoundError: If the specified image file does not exist. ValueError: If kernel_size is not a positive integer.
+The function should output with:
+    tuple: A tuple containing a numpy.ndarray of the blurred image, and two matplotlib.axes.Axes objects for the plots of the original and blurred images.
+You should write self-contained code starting with:
+```
+import cv2
+import matplotlib.pyplot as plt
+def task_func(image_path, kernel_size):
+```
+FULL SUPPLIED CONTEXT
+import cv2
+import matplotlib.pyplot as plt
+def task_func(image_path, kernel_size):

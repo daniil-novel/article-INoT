@@ -1,0 +1,23 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Save all words in a text beginning with the "$" character in a CSV file, excluding any words that are solely composed of punctuation characters.
+Note that: The header of the csv row is "Word"
+The function should output with:
+    str: The absolute path of the saved CSV file.
+You should write self-contained code starting with:
+```
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import csv
+import os
+PUNCTUATION = set(punctuation)
+def task_func(text, filename):
+```
+FULL SUPPLIED CONTEXT
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import csv
+import os
+PUNCTUATION = set(punctuation)
+def task_func(text, filename):

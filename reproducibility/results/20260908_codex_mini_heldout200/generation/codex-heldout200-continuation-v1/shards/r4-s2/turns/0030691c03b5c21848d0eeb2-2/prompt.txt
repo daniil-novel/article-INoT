@@ -1,0 +1,96 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform a linear regression between "age" and "score" in the DataFrame, excluding rows with duplicate names. Plot the regression line and the scatter plot of the data.
+Note that: The function use "Linear Regression" for the plot title. The function use "Age" and "Score" as the xlabel and ylabel respectively.
+The function should raise the exception for: The function will raise a ValueError is input df is not a DataFrame.
+The function should output with:
+    tuple: A tuple containing the matplotlib.pyplot object and the axes object.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(df):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate input**
+   - Check whether `df` is an instance of `pandas.DataFrame`.
+   - If not, raise `ValueError`.
+
+2. **Prepare the data**
+   - Exclude rows with duplicate values in the `name` column.
+   - Keep only the first occurrence of each name, or equivalently drop duplicate names using `drop_duplicates(subset="name", keep="first")`.
+   - From the filtered data, use the `age` and `score` columns for analysis.
+   - Remove rows with missing values in `age` or `score` if present.
+
+3. **Handle regression prerequisites**
+   - Ensure there are enough valid rows after filtering to compute a regression line.
+   - If there are fewer than 2 usable data points, regression cannot be computed; decide whether to let `scipy.stats.linregress` raise an error or explicitly raise a meaningful exception.
+
+4. **Compute linear regression**
+   - Use `stats.linregress(filtered_df["age"], filtered_df["score"])`.
+   - Extract slope and intercept from the result.
+
+5. **Create the plot**
+   - Create a matplotlib figure and axes using `plt.subplots()`.
+   - Plot the scatter points of `age` vs `score`.
+   - Plot the regression line using the fitted slope and intercept.
+   - Set:
+     - title to `"Linear Regression"`
+     - x-axis label to `"Age"`
+     - y-axis label to `"Score"`
+
+6. **Return output**
+   - Return a tuple `(plt, ax)` as requested.
+
+Edge cases to consider:
+- Input is not a DataFrame → raise `ValueError`.
+- Required columns (`name`, `age`, `score`) may be missing.
+- Duplicate names may reduce the dataset to too few rows for regression.
+- Missing or non-numeric values in `age`/`score` could break regression.
+- If all remaining `age` values are identical, linear regression may fail or produce an invalid slope.
+
+If you want, I can now provide the exact implementation code in the required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+
+def task_func(df):
+    if not isinstance(df, pd.DataFrame):
+        raise ValueError("input df is not a DataFrame")
+
+    filtered_df = df.drop_duplicates(subset="name", keep="first").copy()
+
+    filtered_df["age"] = pd.to_numeric(filtered_df["age"], errors="coerce")
+    filtered_df["score"] = pd.to_numeric(filtered_df["score"], errors="coerce")
+    filtered_df = filtered_df.dropna(subset=["age", "score"])
+
+    if len(filtered_df) < 2:
+        raise ValueError("Not enough data points for linear regression")
+
+    regression = stats.linregress(filtered_df["age"], filtered_df["score"])
+
+    fig, ax = plt.subplots()
+    ax.scatter(filtered_df["age"], filtered_df["score"])
+
+    x_line = [filtered_df["age"].min(), filtered_df["age"].max()]
+    y_line = [regression.slope * x + regression.intercept for x in x_line]
+    ax.plot(x_line, y_line)
+
+    ax.set_title("Linear Regression")
+    ax.set_xlabel("Age")
+    ax.set_ylabel("Score")
+
+    return plt, ax
+```

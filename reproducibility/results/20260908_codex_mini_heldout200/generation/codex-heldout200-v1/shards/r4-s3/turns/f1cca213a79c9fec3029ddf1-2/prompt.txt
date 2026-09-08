@@ -1,0 +1,155 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates a palindrome sentence using random words from a specified pool. The sentence's length is randomly chosen between a minimum (MIN_WORDS) and maximum (MAX_WORDS) number of words. The function ensures that the sentence reads the same forwards and backwards. Check if the generated sentence length is within the specified range. >>> sentence = task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL) >>> MIN_WORDS <= len(sentence.split()) <= MAX_WORDS True
+The function should output with:
+    str: The generated palindrome sentence.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+def task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+def task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL)`:
+
+### Goal
+Generate a **palindrome sentence** made of words from `WORDS_POOL`, with a random total word count between `MIN_WORDS` and `MAX_WORDS` inclusive.
+
+A valid result must satisfy:
+
+- `MIN_WORDS <= len(sentence.split()) <= MAX_WORDS`
+- The sequence of words reads the same forwards and backwards
+
+---
+
+### Plan
+
+1. **Validate inputs**
+   - Ensure `MIN_WORDS` and `MAX_WORDS` are integers.
+   - Ensure `MIN_WORDS > 0`.
+   - Ensure `MIN_WORDS <= MAX_WORDS`.
+   - Ensure `WORDS_POOL` is not empty.
+
+2. **Choose a random target length**
+   - Pick `n = random.randint(MIN_WORDS, MAX_WORDS)`.
+   - This guarantees the sentence length is within the required range.
+
+3. **Build a palindrome word sequence**
+   - A palindrome can be built by constructing only half of the words and mirroring them.
+   - For an **even-length** sentence:
+     - Generate `n // 2` random words.
+     - Mirror them in reverse order.
+   - For an **odd-length** sentence:
+     - Generate `n // 2` random words.
+     - Choose one random middle word.
+     - Mirror the first half around the middle word.
+
+4. **Select words from the pool**
+   - For each required position, randomly choose a word from `WORDS_POOL`.
+   - Use `random.choice(WORDS_POOL)` for each slot.
+
+5. **Assemble the sentence**
+   - Combine the word list using `" ".join(words)`.
+   - Return the resulting string.
+
+---
+
+### Edge cases to handle
+
+- **`MIN_WORDS == MAX_WORDS`**
+  - Still valid; the function should generate exactly that many words.
+
+- **`MIN_WORDS = 1`**
+  - A 1-word sentence is trivially a palindrome.
+
+- **Empty `WORDS_POOL`**
+  - Cannot generate a sentence; should raise an error.
+
+- **`MIN_WORDS > MAX_WORDS`**
+  - Invalid range; should raise an error.
+
+- **Non-positive `MIN_WORDS`**
+  - Invalid because sentence length should be at least 1.
+
+- **Pool with only one word**
+  - Still works; the palindrome will repeat the same word.
+
+- **Even vs odd length**
+  - Must support both:
+    - Even: mirrored halves
+    - Odd: mirrored halves plus one center word
+
+---
+
+### Correctness check
+After building the sentence:
+
+- Split it by whitespace
+- Confirm the length is within `[MIN_WORDS, MAX_WORDS]`
+- Confirm the word list is symmetric:
+  - `words == words[::-1]`
+
+---
+
+### Suggested implementation structure
+- Import `numpy as np` and `random` as required
+- Define `task_func`
+- Validate inputs
+- Choose random length
+- Generate palindrome word list
+- Join and return sentence
+
+If you want, I can also turn this plan into the actual self-contained Python implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import numpy as np
+import random
+
+def task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL):
+    # Validate integer inputs
+    if not isinstance(MIN_WORDS, (int, np.integer)) or isinstance(MIN_WORDS, bool):
+        raise TypeError("MIN_WORDS must be an integer.")
+    if not isinstance(MAX_WORDS, (int, np.integer)) or isinstance(MAX_WORDS, bool):
+        raise TypeError("MAX_WORDS must be an integer.")
+
+    if MIN_WORDS <= 0:
+        raise ValueError("MIN_WORDS must be greater than 0.")
+    if MIN_WORDS > MAX_WORDS:
+        raise ValueError("MIN_WORDS must be less than or equal to MAX_WORDS.")
+
+    pool = list(WORDS_POOL)
+    if not pool:
+        raise ValueError("WORDS_POOL must not be empty.")
+
+    # Choose a random target length in the allowed range
+    target_len = random.randint(MIN_WORDS, MAX_WORDS)
+
+    # Build a palindrome sentence
+    half_len = target_len // 2
+    first_half = [random.choice(pool) for _ in range(half_len)]
+
+    if target_len % 2 == 0:
+        words = first_half + first_half[::-1]
+    else:
+        middle_word = random.choice(pool)
+        words = first_half + [middle_word] + first_half[::-1]
+
+    sentence = " ".join(words)
+
+    # Check that generated sentence length is within the specified range
+    actual_len = len(sentence.split())
+    if not (MIN_WORDS <= actual_len <= MAX_WORDS):
+        raise RuntimeError("Generated sentence length is outside the requested range.")
+
+    # Ensure it is a palindrome sentence
+    if words != words[::-1]:
+        raise RuntimeError("Generated sentence is not a palindrome.")
+
+    return sentence
+```

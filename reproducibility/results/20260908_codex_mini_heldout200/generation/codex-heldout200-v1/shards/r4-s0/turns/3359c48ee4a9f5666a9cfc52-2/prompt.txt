@@ -1,0 +1,222 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates histograms for each column in the given DataFrame and checks if the value distributions are uniform. It prints a message for each non-uniform distribution.
+The function should output with:
+    List[plt.Axes]: A list of matplotlib Axes objects, each representing the histogram for a column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(data_dict):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(data_dict):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data_dict)`.
+
+## Goal
+Create histograms for every column in the input DataFrame and assess whether each column’s distribution is uniform. For any column that is not uniform, print a message. Return a `List[plt.Axes]`, one Axes per histogram.
+
+---
+
+## Planned approach
+
+### 1. Build the DataFrame
+- Convert `data_dict` into a `pandas.DataFrame`.
+- Assume `data_dict` is a mapping of column names to column values.
+
+### 2. Select columns to plot
+- Iterate through all DataFrame columns.
+- For each column:
+  - Create a histogram using Matplotlib.
+  - Collect the returned `Axes` object into a list.
+
+### 3. Check uniformity
+- Determine whether the values in a column are uniformly distributed.
+- A practical approach:
+  - Ignore missing values.
+  - For numeric data, compare the observed bin counts against the expected counts for a uniform distribution.
+  - Use a statistical test such as chi-square on histogram bins, or a simpler heuristic if strict statistical testing is not desired.
+- If a column is judged non-uniform, print a message identifying that column.
+
+### 4. Return result
+- Return the list of `Axes` objects.
+
+---
+
+## Suggested uniformity check strategy
+
+### For numeric columns
+- Drop `NaN` values.
+- If there are too few unique values or too few non-null values, skip formal testing and treat as non-uniform or “cannot assess” depending on desired behavior.
+- Build histogram bins, ideally with a fixed number of bins such as 10.
+- Compute observed counts in each bin.
+- Compute expected counts assuming a uniform distribution across bins.
+- If expected counts are valid, apply a chi-square goodness-of-fit test.
+- If the p-value is below a threshold like `0.05`, print that the column is non-uniform.
+
+### For non-numeric columns
+- Since histograms and uniformity checks are less meaningful for arbitrary strings/categories, either:
+  - Treat categories as discrete values and check uniformity over category frequencies, or
+  - Skip formal uniformity testing and print a message that the column type is unsupported for uniformity assessment.
+- If the task expects all columns to be processed, categorical frequency-based uniformity is a reasonable approach.
+
+---
+
+## Edge cases to handle
+
+1. **Empty input**
+   - If the DataFrame has no columns, return an empty list.
+
+2. **All values missing in a column**
+   - Plotting may fail or produce empty histograms.
+   - Handle gracefully, likely by still creating an empty plot or skipping uniformity testing and printing a warning.
+
+3. **Constant columns**
+   - A column with only one unique value is clearly non-uniform.
+   - Print a message and still generate a histogram.
+
+4. **Very small sample sizes**
+   - Statistical tests may be unreliable.
+   - Use a fallback rule, such as requiring a minimum number of non-null values.
+
+5. **Non-numeric columns**
+   - Decide whether to:
+     - Convert categories to counts and plot them, or
+     - Skip with a message.
+   - If not specified, categorical frequency histograms are the most robust choice.
+
+6. **Columns with NaN / None**
+   - Exclude missing values from the distribution test.
+   - Ensure plotting does not crash.
+
+7. **Infinite values**
+   - If present in numeric data, filter them out before histogramming/testing.
+
+8. **Highly skewed or sparse distributions**
+   - These should correctly trigger the non-uniform message.
+
+---
+
+## Implementation structure
+- Import `pandas as pd` and `matplotlib.pyplot as plt`.
+- Inside `task_func(data_dict)`:
+  1. Construct DataFrame.
+  2. Initialize `axes_list = []`.
+  3. Loop over columns.
+  4. For each column:
+     - Prepare cleaned series.
+     - Create a new figure/axes.
+     - Plot histogram.
+     - Test for uniformity.
+     - Print message if non-uniform.
+     - Append the Axes to `axes_list`.
+  5. Return `axes_list`.
+
+---
+
+## Behavior notes
+- The function should be self-contained.
+- It should not rely on external state.
+- Printing should happen only for non-uniform columns.
+- The returned objects must be actual Matplotlib `Axes` instances.
+
+If you want, I can also provide the full implementation code in the required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import matplotlib.pyplot as plt
+import math
+
+def task_func(data_dict):
+    df = pd.DataFrame(data_dict)
+    axes_list = []
+
+    def _is_uniform_from_counts(counts):
+        counts = [float(c) for c in counts if c is not None]
+        total = sum(counts)
+        k = len(counts)
+
+        if total == 0:
+            return True
+        if k <= 1:
+            return False
+
+        # For very small samples, use a simple exact-ish heuristic.
+        if total < 5 * k:
+            return max(counts) - min(counts) <= 1
+
+        expected = total / k
+        chi2 = sum((c - expected) ** 2 / expected for c in counts)
+        df_chi = k - 1
+        if df_chi <= 0:
+            return True
+
+        # Wilson-Hilferty approximation for chi-square survival probability.
+        z = ((chi2 / df_chi) ** (1 / 3) - (1 - 2 / (9 * df_chi))) / math.sqrt(2 / (9 * df_chi))
+        p_value = 0.5 * math.erfc(z / math.sqrt(2))
+        return p_value >= 0.05
+
+    for column in df.columns:
+        series = df[column]
+        fig, ax = plt.subplots()
+
+        non_uniform = False
+
+        if pd.api.types.is_numeric_dtype(series):
+            values = pd.to_numeric(series, errors="coerce")
+            values = values[~values.isin([math.inf, -math.inf])].dropna()
+
+            if values.empty:
+                ax.set_title(f"Histogram of {column}")
+                ax.set_xlabel(column)
+                ax.set_ylabel("Count")
+                axes_list.append(ax)
+                continue
+
+            unique_count = values.nunique(dropna=True)
+
+            if unique_count <= 10:
+                counts_series = values.value_counts().sort_index()
+                x = range(len(counts_series))
+                ax.bar(x, counts_series.values, edgecolor="black")
+                if len(counts_series) <= 20:
+                    ax.set_xticks(list(x))
+                    ax.set_xticklabels([str(v) for v in counts_series.index], rotation=45, ha="right")
+                non_uniform = not _is_uniform_from_counts(counts_series.values.tolist())
+            else:
+                bins = max(2, min(10, int(len(values) ** 0.5)))
+                counts, _, _ = ax.hist(values, bins=bins, edgecolor="black")
+                non_uniform = not _is_uniform_from_counts(counts.tolist())
+        else:
+            values = series.dropna()
+
+            if values.empty:
+                ax.set_title(f"Histogram of {column}")
+                ax.set_xlabel(column)
+                ax.set_ylabel("Count")
+                axes_list.append(ax)
+                continue
+
+            counts_series = values.value_counts().sort_index()
+            x = range(len(counts_series))
+            ax.bar(x, counts_series.values, edgecolor="black")
+            if len(counts_series) <= 20:
+                ax.set_xticks(list(x))
+                ax.set_xticklabels([str(v) for v in counts_series.index], rotation=45, ha="right")
+            non_uniform = not _is_uniform_from_counts(counts_series.values.tolist())
+
+        ax.set_title(f"Histogram of {column}")
+        ax.set_xlabel(column)
+        ax.set_ylabel("Count")
+        fig.tight_layout()
+
+        if non_uniform:
+            print(f"Column '{column}' is not uniformly distributed.")
+
+        axes_list.append(ax)
+
+    return axes_list

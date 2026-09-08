@@ -1,0 +1,121 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Calculate the square root of the given decimal value to a certain precision and then encode the result as a JSON string.
+The function should output with:
+    str: The square root of the decimal value encoded as a JSON string.
+You should write self-contained code starting with:
+```
+import json
+import math
+def task_func(decimal_value, precision=2):
+```
+FULL SUPPLIED CONTEXT
+import json
+import math
+def task_func(decimal_value, precision=2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function:
+
+```python
+import json
+import math
+def task_func(decimal_value, precision=2):
+```
+
+that:
+
+1. Computes the square root of `decimal_value`
+2. Rounds it to the requested `precision`
+3. Returns the result encoded as a **JSON string**
+
+So the function’s return type should be `str`, but the contents should be valid JSON representing the computed numeric value.
+
+---
+
+### Implementation plan
+
+1. **Validate / normalize input**
+   - Accept a numeric `decimal_value` that can be converted to `float`.
+   - Accept `precision` as an integer-like value.
+
+2. **Compute square root**
+   - Use `math.sqrt(decimal_value)` for non-negative inputs.
+
+3. **Apply precision**
+   - Round the result to `precision` decimal places using `round(...)`.
+   - If you want strict formatting consistency, you could also format as a string first, but since the task says JSON string, returning a JSON-encoded number is the most natural interpretation.
+
+4. **Serialize to JSON**
+   - Use `json.dumps(result)` to encode the numeric result into a JSON string.
+
+5. **Return the JSON string**
+
+---
+
+### Edge cases to handle
+
+1. **Negative `decimal_value`**
+   - `math.sqrt` raises `ValueError`.
+   - Decide whether to propagate the error or explicitly raise a clear `ValueError` with a helpful message.
+
+2. **Non-numeric input**
+   - If `decimal_value` cannot be converted to a float, raise `TypeError` or `ValueError`.
+
+3. **Invalid `precision`**
+   - Negative precision is technically supported by `round`, but may not be desired.
+   - Non-integer precision should be converted to `int` or rejected.
+   - Best to validate that precision is an integer and non-negative unless the spec allows otherwise.
+
+4. **Zero**
+   - `sqrt(0)` should return `0.0`, encoded as JSON `"0.0"` or `"0"` depending on rounding/serialization behavior.
+
+5. **Very large or very small values**
+   - Floating-point precision may affect accuracy.
+   - Still acceptable unless arbitrary precision is required.
+
+6. **`NaN` or infinity**
+   - `math.sqrt(float("inf"))` works, but `json.dumps(float("inf"))` produces non-standard JSON unless `allow_nan` behavior is accepted.
+   - `NaN`/`inf` should probably be rejected for robustness.
+
+---
+
+### Suggested behavior choice
+
+A practical, robust version would:
+
+- convert `decimal_value` to `float`
+- ensure it is finite and non-negative
+- ensure `precision` is an integer and non-negative
+- compute `round(math.sqrt(value), precision)`
+- return `json.dumps(result)`
+
+If you want, I can proceed to **stage 2** and write the actual implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import json
+import math
+
+def task_func(decimal_value, precision=2):
+    try:
+        value = float(decimal_value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("decimal_value must be a numeric value") from exc
+
+    if not math.isfinite(value):
+        raise ValueError("decimal_value must be finite")
+    if value < 0:
+        raise ValueError("decimal_value must be non-negative")
+
+    try:
+        prec = int(precision)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("precision must be an integer") from exc
+
+    if prec < 0:
+        raise ValueError("precision must be non-negative")
+
+    result = round(math.sqrt(value), prec)
+    return json.dumps(result)

@@ -1,0 +1,154 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Extracts and visualizes numerical data from a JSON structure based on a specified path of keys.
+The function should raise the exception for: KeyError: If a specified key is not found. ValueError: If no numeric data is found, or the data string is empty or corrupted.
+The function should output with:
+    matplotlib.figure.Figure: A matplotlib figure showing a boxplot of the data values.
+You should write self-contained code starting with:
+```
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+def task_func(json_data: str, key_path: list):
+```
+FULL SUPPLIED CONTEXT
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+def task_func(json_data: str, key_path: list):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(json_data: str, key_path: list)` based on the requirements.
+
+## Goal
+Parse a JSON string, navigate to a value using a sequence of keys, extract numeric data, and return a `matplotlib.figure.Figure` containing a boxplot of those values.
+
+---
+
+## Planned behavior
+
+### 1) Validate input
+- If `json_data` is empty or only whitespace:
+  - raise `ValueError`
+- If JSON parsing fails:
+  - raise `ValueError` for corrupted/invalid JSON
+- If `key_path` is not a list or is empty:
+  - decide policy:
+    - either treat empty path as referring to the root object
+    - or raise `ValueError`
+  - safest interpretation: allow empty path, but only if the root itself contains numeric data
+
+---
+
+### 2) Parse JSON
+- Use `json.loads(json_data)` to convert the string into Python data.
+- On `JSONDecodeError`, raise `ValueError`.
+
+---
+
+### 3) Traverse the key path
+- Start from the parsed JSON root.
+- For each key in `key_path`:
+  - if current object is a dict and key exists, move deeper
+  - otherwise raise `KeyError`
+- This should work for nested dictionaries.
+
+---
+
+### 4) Extract numeric data
+At the target location, support these likely cases:
+- a single numeric value: `int`, `float`, numpy numeric types
+- a list/array-like collection of numeric values
+
+Plan:
+- If the resolved value is a scalar number:
+  - wrap it in a list, e.g. `[value]`
+- If it is a list/tuple/array:
+  - convert to a flat numeric list
+  - ignore non-numeric elements only if you want permissive behavior, but the requirement suggests stricter handling
+- If no numeric data remains after extraction:
+  - raise `ValueError`
+
+Recommended strict rule:
+- If the target is not numeric or not a numeric collection, raise `ValueError`.
+- If any item in the collection is non-numeric, either:
+  - raise `ValueError`, or
+  - filter it out and fail if nothing numeric remains
+- Since the requirement says “if no numeric data is found,” filtering then checking is acceptable, but strict rejection is safer and more predictable.
+
+---
+
+### 5) Build the boxplot
+- Create a figure and axes using matplotlib.
+- Use seaborn or matplotlib to draw a boxplot from the extracted numeric values.
+- Set a title and maybe axis labels for clarity.
+- Return the `Figure` object.
+
+Important:
+- Do **not** call `plt.show()`
+- Return the figure so the caller can display or save it
+
+---
+
+## Recommended edge cases
+
+### Input / JSON errors
+1. Empty string
+   - `ValueError`
+2. Whitespace-only string
+   - `ValueError`
+3. Invalid JSON syntax
+   - `ValueError`
+4. JSON is valid but not a dict/list structure suitable for path traversal
+   - likely `KeyError` or `ValueError` depending on where it fails
+
+### Path traversal errors
+5. Missing key in the path
+   - `KeyError`
+6. Encountering a non-dict before the path ends
+   - `KeyError`
+7. Empty `key_path`
+   - either root-level extraction or `ValueError` if unsupported
+
+### Data validation errors
+8. Target value is `None`
+   - `ValueError`
+9. Target value is a string or object, not numeric
+   - `ValueError`
+10. Target list exists but contains no numeric values
+   - `ValueError`
+11. Target list contains mixed numeric and non-numeric values
+   - decide strict vs permissive, but must fail if no numeric values remain
+
+### Plotting-related concerns
+12. Very small sample size
+   - boxplot still works, but may be visually trivial
+13. Single numeric value
+   - boxplot will render, though whiskers/box may collapse
+14. Extremely large arrays
+   - extraction should remain efficient; use simple iteration / flattening
+
+---
+
+## Suggested implementation structure
+
+1. Parse and validate `json_data`
+2. Traverse the nested path
+3. Normalize the resolved value into a numeric 1D sequence
+4. Validate that at least one numeric value exists
+5. Create and return a matplotlib figure with a boxplot
+
+---
+
+## Notes on interpretation
+A few details are slightly ambiguous in the task, so the implementation should choose one consistent policy:
+- treat only dict keys as valid traversal steps
+- accept scalar numeric targets and numeric sequences
+- raise `ValueError` for bad JSON, empty data, or non-numeric target values
+- raise `KeyError` only when a specified key is missing or traversal cannot continue through the expected structure
+
+If you want, I can next turn this plan into the full self-contained implementation.

@@ -1,0 +1,172 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Stops all running processes with a specific name.
+Note that: The function sends a termination signal to the processes and waits for 1 second. There is no guarantee that all processes will have terminated within this time.
+The function should output with:
+    int: The number of processes stopped. If no processes are found, returns 0.
+You should write self-contained code starting with:
+```
+import subprocess
+import os
+import signal
+import time
+def task_func(process_name: str) -> int:
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import os
+import signal
+import time
+def task_func(process_name: str) -> int:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(process_name: str) -> int`:
+
+1. **Validate input**
+   - If `process_name` is empty or only whitespace, return `0`.
+   - Optionally normalize with `strip()` so accidental spaces do not affect matching.
+
+2. **Collect running processes**
+   - Use `subprocess` to query the process table.
+   - Prefer a command that returns:
+     - PID
+     - executable/command name
+   - Example strategy: call a system process listing utility and parse its output line by line.
+
+3. **Find matching processes**
+   - Match processes whose name equals `process_name` exactly.
+   - If the listing provides full command paths, compare against both:
+     - the full command name
+     - `os.path.basename(...)`
+   - Avoid substring matching, because it can kill unrelated processes with similar names.
+
+4. **Send termination signal**
+   - For each matched PID:
+     - call `os.kill(pid, signal.SIGTERM)`
+   - Keep a counter for every process to which the signal was successfully sent.
+   - If a PID disappears before signaling, ignore that process and continue.
+
+5. **Wait briefly**
+   - Sleep for `1` second using `time.sleep(1)`, as required.
+   - Do not assume all processes will be gone after this wait; only the signal send is guaranteed.
+
+6. **Return result**
+   - Return the number of processes successfully targeted with termination signals.
+   - If no matches were found, return `0`.
+
+Edge cases to handle:
+- **No matching processes**: return `0`.
+- **Processes already exited between listing and kill**: skip them without failing the whole function.
+- **Permission denied / access errors**: ignore or skip individual processes and continue with others.
+- **Duplicate names**: terminate all matches, not just the first one.
+- **Current process name matches input**: ideally avoid killing the running function itself if that would prevent returning; this is a safety consideration unless the task explicitly expects self-termination.
+- **Command name vs full path**: normalize carefully so `/usr/bin/foo` matches `foo`.
+- **Race conditions**: the process list can change between discovery and signaling, so count only successful signal sends.
+
+Implementation shape:
+- Gather matching PIDs.
+- Loop over them and call `os.kill(..., signal.SIGTERM)`.
+- Sleep 1 second.
+- Return the successful count.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import subprocess
+import os
+import signal
+import time
+
+def task_func(process_name: str) -> int:
+    target = (process_name or "").strip()
+    if not target:
+        return 0
+
+    current_pid = os.getpid()
+
+    def normalize(name: str) -> str:
+        base = os.path.basename(name.strip())
+        return base.lower() if os.name == "nt" else base
+
+    def matches(candidate: str) -> bool:
+        cand_base = os.path.basename(candidate.strip())
+        if not cand_base:
+            return False
+
+        cand_norm = normalize(cand_base)
+        target_norm = normalize(target)
+
+        if cand_norm == target_norm:
+            return True
+
+        if os.name == "nt":
+            cand_stem = os.path.splitext(cand_base)[0].lower()
+            target_stem = os.path.splitext(os.path.basename(target))[0].lower()
+            return cand_stem == target_stem
+
+        return False
+
+    pids = []
+
+    try:
+        if os.name == "nt":
+            result = subprocess.run(
+                ["tasklist", "/fo", "csv", "/nh"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            for line in result.stdout.splitlines():
+                line = line.strip()
+                if not line or not line.startswith('"'):
+                    continue
+                parts = line.split('","')
+                if len(parts) < 2:
+                    continue
+                image_name = parts[0].strip('"')
+                pid_part = parts[1].strip('"')
+                try:
+                    pid = int(pid_part)
+                except ValueError:
+                    continue
+                if pid != current_pid and matches(image_name):
+                    pids.append(pid)
+        else:
+            result = subprocess.run(
+                ["ps", "-eo", "pid=,comm="],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            for line in result.stdout.splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                parts = line.split(None, 1)
+                if len(parts) != 2:
+                    continue
+                pid_part, name = parts
+                try:
+                    pid = int(pid_part)
+                except ValueError:
+                    continue
+                if pid != current_pid and matches(name):
+                    pids.append(pid)
+    except Exception:
+        return 0
+
+    if not pids:
+        return 0
+
+    stopped = 0
+    seen = set()
+    for pid in pids:
+        if pid in seen:
+            continue
+        seen.add(pid)
+        try:
+            os.kill(pid, signal.SIGTERM)
+            stopped += 1
+        except (ProcessLookupError, PermissionError, OSError):
+            pass
+
+    time.sleep(1)
+    return stopped

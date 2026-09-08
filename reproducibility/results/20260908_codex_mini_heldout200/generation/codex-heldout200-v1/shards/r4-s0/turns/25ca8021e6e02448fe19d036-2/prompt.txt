@@ -1,0 +1,225 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+This function takes a list of tuples. The first value of each tuple is a string, the other values are numeric. E.g. ('test', 2, 12.4, -2) It calculates the mean over all tuples of the numerical values for each tuple position excluding the first position, and writes the results into a specified text file. The content in the text file is formated as follows: 'Position 'x': 'mean', where x is the current tuple position and 'mean' denotes the computed mean value. Each Position is written in a new line. It returns a list of the calculated mean values. Missing values and non numeric values at positions other than the first are filled / replaced with np.nan. If an empty list is handed to the function an empty list is returned and an empty file is created. The function utilizes the 'numpy' library for numerical operations and the 'itertools' library to handle the iteration through the data structure.
+The function should output with:
+    list: A list of mean values calculated from the numerical data in the tuples.
+You should write self-contained code starting with:
+```
+import numpy as np
+import itertools
+def task_func(data_list, file_name):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import itertools
+def task_func(data_list, file_name):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data_list, file_name)` based on the requirements.
+
+## Goal
+Process a list of tuples where:
+- element 0 of each tuple is a string label
+- elements 1..end are numeric data, but may contain missing or non-numeric values
+- compute the mean for each numeric tuple position across all tuples
+- write one line per position to a text file
+- return the list of computed means
+
+---
+
+## Planned behavior
+
+### 1) Handle the empty input case first
+If `data_list` is empty:
+- create an empty file at `file_name`
+- return `[]`
+
+This must happen before any further processing.
+
+---
+
+### 2) Determine how many numeric positions exist
+Tuples may not all have the same length.
+
+Plan:
+- inspect all tuples
+- compute the maximum tuple length
+- numeric positions are indices `1` through `max_len - 1`
+
+The first position is excluded because it is a string identifier.
+
+---
+
+### 3) Normalize all rows to a numeric matrix-like structure
+For each tuple:
+- ignore position `0`
+- for positions `1..max_len-1`:
+  - if the value is missing because the tuple is too short, use `np.nan`
+  - if the value is not numeric, replace it with `np.nan`
+  - if the value is already numeric, keep it as-is
+
+This produces a consistent 2D numeric structure suitable for NumPy operations.
+
+Use `itertools` for iteration over the tuples and their positions, as required.
+
+---
+
+### 4) Convert to NumPy array
+After normalization:
+- convert the collected numeric values into a `numpy` array of floats
+- this allows `np.nan` support and vectorized mean calculation
+
+---
+
+### 5) Compute means by column
+For each numeric position/column:
+- compute the mean while ignoring `np.nan`
+- use `np.nanmean(...)`
+
+Important:
+- if a column contains only `np.nan`, the mean should also be `np.nan`
+
+---
+
+### 6) Write results to file
+Write one line per numeric position in this format:
+
+```text
+Position x: mean
+```
+
+where:
+- `x` is the tuple position number, starting at `1`
+- `mean` is the computed mean value
+
+Each result must be written on a new line.
+
+If the mean is `np.nan`, write `nan` in the output text.
+
+---
+
+### 7) Return the means as a list
+Return the list of mean values in order of tuple positions:
+- position 1 mean
+- position 2 mean
+- etc.
+
+Use Python numeric types or NumPy scalar equivalents consistently.
+
+---
+
+## Edge cases to account for
+
+### Empty input list
+- return `[]`
+- create empty file
+
+### Tuples of different lengths
+- missing trailing positions become `np.nan`
+
+### Non-numeric values in numeric positions
+Examples:
+- strings like `"abc"`
+- `None`
+- objects that cannot be converted to float
+
+These should be replaced with `np.nan`.
+
+### Numeric strings
+Decide whether to accept values like `"3.14"`:
+- safest interpretation: try conversion to float
+- if convertible, treat as numeric
+- otherwise `np.nan`
+
+### All values missing in a column
+- mean should be `np.nan`
+- file should show `Position x: nan`
+
+### Single tuple input
+- return the numeric values from that tuple, converted to means of a single row
+- still write one line per numeric position
+
+### Tuples with only a string label and no numeric values
+- result should be `[]` or no numeric output lines, depending on whether all tuples have no numeric fields
+- practically, if max tuple length is 1, the file should be empty and the returned list should be empty
+
+### Mixed types like booleans
+- booleans are technically numeric in Python, but may be undesirable
+- if following float conversion strictly, they will become `1.0` / `0.0`
+- mention this as a design choice if needed
+
+---
+
+## Suggested internal logic
+1. If `data_list` is empty:
+   - open file in write mode and close immediately
+   - return `[]`
+2. Determine `max_len` across tuples
+3. For each tuple, build a list of length `max_len - 1`
+   - start from index 1
+   - insert `np.nan` for missing or invalid values
+4. Convert the full list of rows into `np.array(..., dtype=float)`
+5. Compute `np.nanmean` along axis `0`
+6. Write formatted lines to the file
+7. Return the means as a list
+
+---
+
+## Notes on formatting
+The specification says:
+
+> `'Position 'x': 'mean'`
+
+This is best interpreted as plain text lines like:
+- `Position 1: 2.5`
+- `Position 2: nan`
+
+If exact quoting is required by a test, the format should be clarified, but the natural readable interpretation is without extra quotation marks.
+
+---
+
+If you want, I can also turn this plan into the full self-contained implementation now.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import itertools
+
+def task_func(data_list, file_name):
+    if not data_list:
+        with open(file_name, "w", encoding="utf-8"):
+            pass
+        return []
+
+    def _to_nan(value):
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return np.nan
+
+    numeric_rows = []
+    for row in data_list:
+        values = []
+        for item in row[1:]:
+            values.append(_to_nan(item))
+        numeric_rows.append(values)
+
+    columns = list(itertools.zip_longest(*numeric_rows, fillvalue=np.nan))
+
+    if not columns:
+        with open(file_name, "w", encoding="utf-8"):
+            pass
+        return []
+
+    means = []
+    for col in columns:
+        arr = np.asarray(col, dtype=float)
+        if np.all(np.isnan(arr)):
+            means.append(np.nan)
+        else:
+            means.append(float(np.nanmean(arr)))
+
+    with open(file_name, "w", encoding="utf-8") as f:
+        for idx, mean in enumerate(means, start=1):
+            f.write(f"Position {idx}: {mean}\n")
+
+    return means

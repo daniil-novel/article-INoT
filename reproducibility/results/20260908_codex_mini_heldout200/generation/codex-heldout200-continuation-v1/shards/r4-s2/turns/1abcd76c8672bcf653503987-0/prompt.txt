@@ -1,0 +1,21 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+If you have a nested list, replace each sublist with a random letter and return a count of each letter in the final list.
+The function should output with:
+    dict: A dictionary containing count of each letter in the list.
+You should write self-contained code starting with:
+```
+from collections import Counter
+import random
+import string
+# Constants
+LETTERS = string.ascii_letters
+def task_func(list_of_lists):
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+import random
+import string
+# Constants
+LETTERS = string.ascii_letters
+def task_func(list_of_lists):

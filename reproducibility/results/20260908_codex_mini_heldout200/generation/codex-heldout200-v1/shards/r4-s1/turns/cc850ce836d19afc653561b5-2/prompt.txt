@@ -1,0 +1,139 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Standardize a 2D data matrix, calculate the mean value of each row and then visualize the distribution of the mean values with an histogram. - Each row of the matrix represent a data point, its length is the same as that of FEATURE_NAMES. - The plot title should be 'Distribution of Means'.
+The function should output with:
+    tuple: A tuple containing:
+    pandas.DataFrame: A DataFrame containing the standardized data and the mean of each row.
+    Its column names should be FEATURE_NAMES and 'Mean'.
+    matplotlib.axes.Axes: The histogram plot of the distribution of means.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+# Constants
+FEATURE_NAMES = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+def task_func(data_matrix):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+# Constants
+FEATURE_NAMES = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+def task_func(data_matrix):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate input shape**
+   - Accept `data_matrix` as a 2D structure convertible to a pandas DataFrame.
+   - Ensure each row has exactly `len(FEATURE_NAMES)` values.
+   - If the input is not 2D or has the wrong number of columns, raise a clear `ValueError`.
+
+2. **Convert to DataFrame**
+   - Build a `pandas.DataFrame` from `data_matrix` using `FEATURE_NAMES` as column names.
+   - This ensures the output table uses the required feature labels.
+
+3. **Standardize the matrix**
+   - Use `StandardScaler` from `sklearn.preprocessing` to standardize each feature column.
+   - Fit on the input data and transform it.
+   - Create a new DataFrame from the standardized array with the same `FEATURE_NAMES`.
+
+4. **Compute row means**
+   - Calculate the mean across each standardized row.
+   - Add the result as a new column named `"Mean"`.
+
+5. **Prepare output DataFrame**
+   - The final DataFrame should contain:
+     - standardized feature columns named exactly as `FEATURE_NAMES`
+     - one additional column `"Mean"`
+
+6. **Create histogram plot**
+   - Plot the distribution of the row means using `matplotlib.pyplot`.
+   - Use a histogram with a reasonable number of bins, e.g. default or a moderate fixed value.
+   - Set the plot title to **`Distribution of Means`**.
+   - Label axes clearly, e.g. `Mean Value` and `Frequency`.
+
+7. **Return values**
+   - Return a tuple:
+     - the final DataFrame
+     - the histogram `matplotlib.axes.Axes` object
+
+Edge cases to handle:
+- **Empty input**
+  - Return an error or handle gracefully if there are no rows.
+- **Incorrect row length**
+  - Every row must match the number of feature names.
+- **Non-numeric values**
+  - `StandardScaler` requires numeric input; convert or reject invalid data with a helpful error.
+- **Single-row input**
+  - Standardization still works, but the resulting scaled values may be all zeros depending on implementation; ensure the code still returns a valid DataFrame and histogram.
+- **Missing values (`NaN`)**
+  - Decide whether to reject them or let `StandardScaler` fail; best is to check and raise a clear error unless imputation is intended.
+- **Constant columns**
+  - Standardization of zero-variance features should not break; sklearn typically handles this by producing zeros for that column.
+- **Histogram plotting**
+  - If means are all identical, the histogram should still render correctly.
+
+If you want, I can also turn this plan into the full self-contained function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Constants
+FEATURE_NAMES = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+
+def task_func(data_matrix):
+    expected_cols = len(FEATURE_NAMES)
+
+    if data_matrix is None:
+        raise ValueError("data_matrix cannot be None")
+
+    if isinstance(data_matrix, pd.DataFrame):
+        df = data_matrix.copy()
+        if df.shape[0] == 0:
+            raise ValueError("data_matrix must contain at least one row")
+        if df.shape[1] != expected_cols:
+            raise ValueError(f"Each row must have exactly {expected_cols} values.")
+        df = df.iloc[:, :expected_cols]
+        df.columns = FEATURE_NAMES
+    else:
+        rows = list(data_matrix)
+        if len(rows) == 0:
+            raise ValueError("data_matrix must contain at least one row")
+
+        validated_rows = []
+        for idx, row in enumerate(rows):
+            if isinstance(row, (str, bytes)) or not hasattr(row, "__len__"):
+                raise ValueError("data_matrix must be a 2D structure.")
+            if len(row) != expected_cols:
+                raise ValueError(f"Row {idx} must have exactly {expected_cols} values.")
+            validated_rows.append(list(row))
+
+        df = pd.DataFrame(validated_rows, columns=FEATURE_NAMES)
+
+    numeric_df = df.apply(pd.to_numeric, errors="raise")
+
+    if numeric_df.isna().any().any():
+        raise ValueError("data_matrix must not contain missing values (NaN).")
+
+    scaler = StandardScaler()
+    standardized_values = scaler.fit_transform(numeric_df)
+
+    standardized_df = pd.DataFrame(
+        standardized_values,
+        columns=FEATURE_NAMES,
+        index=numeric_df.index,
+    )
+    standardized_df["Mean"] = standardized_df.mean(axis=1)
+
+    fig, ax = plt.subplots()
+    ax.hist(standardized_df["Mean"], bins="auto", edgecolor="black")
+    ax.set_title("Distribution of Means")
+    ax.set_xlabel("Mean Value")
+    ax.set_ylabel("Frequency")
+
+    return standardized_df, ax

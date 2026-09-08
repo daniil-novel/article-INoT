@@ -1,0 +1,108 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generates a DataFrame with random numerical data and visualizes this data in a stacked bar chart for specified categories.
+The function should raise the exception for: ValueError: If the number of columns exceeds the number of available categories.
+The function should output with:
+    matplotlib.axes._axes.Axes: The Axes object displaying the stacked bar chart.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(rows=5, cols=5):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(rows=5, cols=5):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a stage-1 implementation plan for `task_func(rows=5, cols=5)`.
+
+## Goal
+Create a function that:
+1. Generates a `pandas.DataFrame` of random numerical data with shape `(rows, cols)`.
+2. Uses the data to draw a **stacked bar chart**.
+3. Returns the `matplotlib.axes._axes.Axes` object.
+4. Raises `ValueError` if `cols` is greater than the number of available categories.
+
+---
+
+## Planned behavior
+
+### Inputs
+- `rows`: number of observations/bars to generate.
+- `cols`: number of categories/series to plot.
+
+### Data generation
+- Create a DataFrame of random numeric values, likely using `np.random.rand(rows, cols)` or similar.
+- Assign row labels and category labels.
+
+### Category handling
+- Define a fixed list of available categories, e.g.:
+  - `["A", "B", "C", "D", "E"]`
+- If `cols > len(categories)`, raise:
+  - `ValueError("Number of columns exceeds the number of available categories")`
+
+### Plotting
+- Use `DataFrame.plot(kind="bar", stacked=True, ax=ax)` to create the stacked bar chart.
+- Return the `Axes` object.
+
+---
+
+## Edge cases to handle
+
+1. **`cols` exceeds available categories**
+   - Must raise `ValueError`.
+
+2. **`cols == 0`**
+   - Decide whether to support or reject.
+   - Most robust choice: raise `ValueError` because a stacked chart with zero series is meaningless.
+
+3. **`rows == 0`**
+   - DataFrame would be empty; plotting would not be useful.
+   - Likely should raise `ValueError` as well.
+
+4. **Negative `rows` or `cols`**
+   - Should raise `ValueError`.
+
+5. **Non-integer inputs**
+   - If the function is expected to be strict, validate and raise `TypeError` or `ValueError`.
+   - If keeping it simple, allow NumPy/Pandas to fail naturally, but explicit validation is cleaner.
+
+6. **`cols == len(categories)`**
+   - Valid; all categories can be used.
+
+---
+
+## Implementation outline
+
+1. Import required libraries:
+   - `numpy as np`
+   - `pandas as pd`
+   - `matplotlib.pyplot as plt` if needed for figure creation.
+
+2. Define a fixed category list.
+
+3. Validate `rows` and `cols`:
+   - positive integers
+   - `cols <= len(categories)`
+
+4. Generate random data:
+   - `data = np.random.rand(rows, cols)`
+
+5. Build DataFrame:
+   - columns from the first `cols` categories
+   - optional index like `range(rows)`
+
+6. Plot stacked bar chart:
+   - create figure/axes
+   - call `df.plot(kind="bar", stacked=True, ax=ax)`
+
+7. Return `ax`.
+
+---
+
+## Expected output
+- A `matplotlib.axes._axes.Axes` object representing the stacked bar chart.
+
+If you want, I can now produce the actual self-contained implementation in the required format.

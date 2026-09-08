@@ -1,0 +1,127 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Replace all elements in DataFrame columns that do not exist in the target_values array with zeros, and then output the distribution of each column after replacing. - label each plot as the name of the column it corresponds to.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object of the plotted data.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df, target_values=[1, 3, 4]):
+```
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df, target_values=[1, 3, 4]):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Import and function setup**
+   - Use the provided imports:
+     ```python
+     import seaborn as sns
+     import matplotlib.pyplot as plt
+     ```
+   - Define:
+     ```python
+     def task_func(df, target_values=[1, 3, 4]):
+     ```
+   - Work on a copy of `df` so the original DataFrame is not modified.
+
+2. **Validate and normalize inputs**
+   - Confirm `df` is a pandas DataFrame-like object.
+   - Handle the case where `df` is empty:
+     - Still create a figure/axes or return an empty axis gracefully.
+   - Convert `target_values` to a set for efficient membership checking.
+
+3. **Replace non-target values with zero**
+   - For each column in `df`:
+     - Keep values that are in `target_values`.
+     - Replace every other value with `0`.
+   - Best approach:
+     - Use a boolean mask such as `~df[col].isin(target_values)`.
+     - Assign `0` to those positions.
+   - Preserve the original dtype where possible, but expect columns may become numeric/object depending on original content.
+
+4. **Plot distributions after replacement**
+   - Create a matplotlib figure with one subplot per column.
+   - If there is only one column, use a single `Axes` object directly.
+   - For each column:
+     - Plot the distribution of the replaced values.
+     - A discrete/count-style plot is likely most appropriate because values are categorical-like after replacement.
+     - Use seaborn on each axis.
+   - Label each subplot with the corresponding column name:
+     - Set the title to the column name.
+     - Optionally label x-axis as the column name as well for clarity.
+
+5. **Layout and readability**
+   - Use `plt.tight_layout()` to avoid overlap.
+   - Rotate x-ticks if needed for readability, especially if there are many unique values.
+   - Make sure zero is visible in the distribution because it will likely be the dominant replacement value.
+
+6. **Return value**
+   - Return the `matplotlib.axes.Axes` object required by the task.
+   - If there are multiple subplots, the function should return one `Axes` object consistently:
+     - Common choices: return the first axis, or return the last axis.
+   - Since the prompt explicitly asks for `matplotlib.axes.Axes`, avoid returning a figure or seaborn grid object.
+
+7. **Edge cases to handle**
+   - **Empty DataFrame**: return an empty plot/axes without error.
+   - **No columns**: create a blank axis or handle gracefully.
+   - **All values already in `target_values`**: no replacements should occur.
+   - **No values in `target_values`**: all entries become `0`.
+   - **Mixed dtypes in columns**:
+     - Non-numeric columns can still be checked with `isin`, but plotting may require coercion or a count plot.
+   - **Missing values (`NaN`)**:
+     - Since `NaN` is not equal to anything, it will typically be replaced with `0` if not explicitly handled otherwise.
+   - **Single-column DataFrame**:
+     - Ensure the return value is still an `Axes`, not an array of axes.
+
+8. **Expected behavior summary**
+   - Input: DataFrame and list/array of target values.
+   - Processing: replace every cell not in `target_values` with `0`.
+   - Output: distribution plots for each column after replacement, with each plot titled by its column name.
+   - Return: a `matplotlib.axes.Axes` object.
+
+If you want, I can also turn this plan into the exact self-contained function code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df, target_values=[1, 3, 4]):
+    # Work on a copy so the original dataframe is not modified
+    work_df = df.copy()
+
+    target_set = set(target_values)
+
+    # Replace every value not in target_values with 0
+    if hasattr(work_df, "columns"):
+        for col in work_df.columns:
+            mask = ~work_df[col].isin(target_set)
+            work_df.loc[mask, col] = 0
+
+    # Handle empty/no-column dataframes gracefully
+    if not hasattr(work_df, "columns") or len(work_df.columns) == 0:
+        fig, ax = plt.subplots(figsize=(6, 4))
+        ax.set_axis_off()
+        return ax
+
+    n_cols = len(work_df.columns)
+    fig, axes = plt.subplots(n_cols, 1, figsize=(8, 4 * n_cols))
+
+    if n_cols == 1:
+        axes = [axes]
+
+    for ax, col in zip(axes, work_df.columns):
+        # Plot the distribution after replacement
+        sns.countplot(x=work_df[col].astype(str), ax=ax, color="steelblue")
+        ax.set_title(col)
+        ax.set_xlabel(col)
+        ax.set_ylabel("Count")
+        ax.tick_params(axis="x", rotation=45)
+
+    plt.tight_layout()
+    return axes[0]
+```

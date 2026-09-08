@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Hashes a password using the PBKDF2 HMAC algorithm with SHA-256 as the hashing algorithm, combined with a randomly generated salt, and returns both the salt and the hashed password, each base64-encoded.
+The function should raise the exception for: ValueError if the password is None or empty
+The function should output with:
+    tuple[bytes, bytes]: A tuple containing the base64-encoded salt and the base64-encoded hashed password as byte strings.
+You should write self-contained code starting with:
+```
+import base64
+import hashlib
+import os
+def task_func(password, SALT_LENGTH = 32):
+```
+FULL SUPPLIED CONTEXT
+import base64
+import hashlib
+import os
+def task_func(password, SALT_LENGTH = 32):

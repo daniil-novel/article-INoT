@@ -1,0 +1,187 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform the feature selection with SelectKBest (k=2) and return a heatmap of the feature correlations.
+The function should output with:
+    tuple: A tuple containing:
+    list: A list of the selected features.
+    Axes: A heatmap showing the correlation between the selected features.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+import seaborn as sns
+def task_func(df1, df2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+import seaborn as sns
+def task_func(df1, df2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(df1, df2)`.
+
+## Goal
+- Use `SelectKBest` with `k=2` and `f_classif` to choose the 2 most relevant features from `df1` with respect to target `df2`.
+- Build and return a correlation heatmap for the selected features.
+- Output must be a tuple:
+  1. `list` of selected feature names
+  2. `Axes` object containing the heatmap
+
+---
+
+## Assumptions
+- `df1` is a pandas `DataFrame` containing candidate features.
+- `df2` is the target variable, likely a `Series` or single-column `DataFrame`.
+- The task is classification-oriented, since `f_classif` is used.
+- Only numeric features can be fed into `SelectKBest(f_classif)`.
+
+---
+
+## Implementation plan
+
+### 1. Normalize inputs
+- Ensure `df2` is a 1D target array:
+  - If `df2` is a `DataFrame`, extract its first column.
+  - If it is already a `Series`, use it directly.
+
+### 2. Prepare feature matrix
+- Work with `df1` as the feature table.
+- Keep only numeric columns, since `SelectKBest(f_classif)` requires numeric input.
+- If needed, preserve original column names to map selected indices back to feature names.
+
+### 3. Handle missing values
+- `SelectKBest` and `f_classif` do not accept NaNs.
+- Strategy options:
+  - Drop rows with missing values in either `df1` or `df2`
+  - Or impute numeric features if appropriate
+- Since the task is simple and self-contained, dropping rows with missing values is the safest minimal approach.
+
+### 4. Fit feature selector
+- Instantiate:
+  - `selector = SelectKBest(score_func=f_classif, k=2)`
+- Fit on the cleaned numeric feature matrix and target.
+- Obtain selected feature mask with `get_support()`.
+
+### 5. Extract selected feature names
+- Use the mask to filter `df1.columns` (or numeric feature column list).
+- Return them as a Python `list`.
+
+### 6. Build correlation heatmap
+- Compute correlation matrix for the selected features:
+  - `selected_df = cleaned_df[selected_features]`
+  - `corr = selected_df.corr()`
+- Create a heatmap using seaborn:
+  - `ax = sns.heatmap(corr, annot=True, cmap=...)`
+- The function should return the `Axes` object from this plot.
+
+### 7. Return value
+- Return:
+  - `(selected_features, ax)`
+
+---
+
+## Edge cases to account for
+
+### A. Fewer than 2 usable feature columns
+- If there are fewer than 2 numeric columns after filtering, `SelectKBest(k=2)` will fail.
+- Possible handling:
+  - Raise a clear `ValueError`
+  - Or adapt `k` to available feature count
+- Since the task explicitly says `k=2`, the most faithful behavior is to validate and raise a meaningful error if impossible.
+
+### B. Non-numeric columns in `df1`
+- These must be excluded or encoded.
+- Because no encoding is requested, safest approach is to select only numeric columns.
+
+### C. Missing values
+- Must be removed or handled before fitting.
+- If all rows are dropped, raise an informative error.
+
+### D. Constant columns
+- `f_classif` may produce warnings or unhelpful scores for constant features.
+- They can remain, but if all selected features are constant, correlation may yield NaNs.
+- Heatmap should still be created, but values may be undefined.
+
+### E. Target shape issues
+- `df2` may be:
+  - a Series
+  - a one-column DataFrame
+  - a numpy-like object
+- Must be flattened to a 1D vector.
+
+### F. Classification target requirements
+- `f_classif` expects categorical class labels.
+- If `df2` is continuous, the statistical meaning is weak, but the code will still run in many cases.
+- If strict validation is desired, ensure target has discrete classes.
+
+### G. Duplicate column names
+- If `df1` has duplicate names, selected feature reporting can become ambiguous.
+- Ideally, assume unique columns or preserve exact positional selection.
+
+### H. Heatmap for exactly 2 features
+- The correlation matrix will be `2x2`.
+- This is fine and should produce a simple heatmap.
+
+---
+
+## Expected output behavior
+- Example return structure:
+  - `(['feature_a', 'feature_b'], ax)`
+- The heatmap should represent the correlation matrix of those two selected features.
+
+---
+
+If you want, I can now turn this plan into the full self-contained implementation starting from your provided imports and function signature.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def task_func(df1, df2):
+    if not isinstance(df1, pd.DataFrame):
+        df1 = pd.DataFrame(df1)
+
+    if isinstance(df2, pd.DataFrame):
+        if df2.shape[1] == 0:
+            raise ValueError("df2 must contain at least one target column.")
+        y = df2.iloc[:, 0].copy()
+    elif isinstance(df2, pd.Series):
+        y = df2.copy()
+    else:
+        y = pd.Series(df2)
+        if len(y) != len(df1):
+            raise ValueError("df2 must have the same length as df1 when provided as an array-like object.")
+        y.index = df1.index
+
+    X = df1.select_dtypes(include="number").copy()
+    if X.shape[1] < 2:
+        raise ValueError("At least 2 numeric feature columns are required for SelectKBest(k=2).")
+
+    data = pd.concat([X, y.rename("__target__")], axis=1).dropna()
+    if data.empty:
+        raise ValueError("No rows remain after dropping missing values.")
+
+    X_clean = data[X.columns]
+    y_clean = data["__target__"]
+
+    if X_clean.shape[1] < 2:
+        raise ValueError("At least 2 numeric feature columns are required after cleaning.")
+    if y_clean.nunique() < 2:
+        raise ValueError("Target must contain at least two classes.")
+
+    selector = SelectKBest(score_func=f_classif, k=2)
+    selector.fit(X_clean, y_clean)
+
+    selected_features = X_clean.columns[selector.get_support(indices=True)].tolist()
+
+    corr = data[selected_features].corr()
+
+    fig, ax = plt.subplots()
+    sns.heatmap(corr, annot=True, cmap="coolwarm", vmin=-1, vmax=1, ax=ax)
+
+    return selected_features, ax
+```

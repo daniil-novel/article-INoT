@@ -1,0 +1,124 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Apply a random operation (remove, replace, shuffle, or randomize) to substrings in a list of strings. This function processes a list of comma-separated strings by applying one of four random operations to their substrings: remove, replace, shuffle, or randomize. Here, a substring refers to the individual items in the string that are separated by commas, sensitive to leading/trailing whitespace, i.e. 'apple' != 'apple ', and sensitive to case, i.e. 'APPLE' != 'aPPLE'. The choice of operation and the substrings it affects are determined randomly. The operations are: - Remove: Randomly selects and removes a substring. If a string contains only one substring, no 'remove' operation is applied. - Replace: Randomly selects a substring and replaces it with 'random_string'. - Shuffle: Randomly shuffles the order of the substrings. - Randomize: Assigns a new, random order to the substrings. Finally, the function returns a DataFrame with column 'Original String' containing the input strings and the 'Modified String' column containing the strings after applying the random operation.
+The function should output with:
+    df (pd.DataFrame): DataFrame containing original and modified strings.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import random
+import re
+def task_func(data_list, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import random
+import re
+def task_func(data_list, seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+I’ll implement `task_func(data_list, seed=None)` to transform each input comma-separated string independently and return a `pd.DataFrame` with:
+
+- `Original String`
+- `Modified String`
+
+### 1) Input handling
+- Accept `data_list` as a list of strings.
+- If `seed` is provided, initialize Python’s `random` module with it for reproducibility.
+- Process each string in the list one by one.
+
+### 2) Parse each string into substrings
+- Split each input string on literal commas: `s.split(',')`.
+- Do **not** trim whitespace.
+  - This preserves sensitivity to leading/trailing spaces, so `'apple'` and `'apple '` remain distinct.
+- Do **not** alter case.
+  - This preserves sensitivity to case, so `'APPLE'` and `'aPPLE'` remain distinct.
+- Treat each comma-separated item as an independent substring, including empty ones if the string has consecutive commas or leading/trailing commas.
+
+### 3) Randomly choose an operation per string
+For each input string, randomly choose one of:
+- `remove`
+- `replace`
+- `shuffle`
+- `randomize`
+
+### 4) Apply the selected operation
+
+#### Remove
+- Randomly select one substring and delete it.
+- If the string contains only **one** substring, do **not** remove anything.
+  - In that case, keep the string unchanged or fall back to another non-remove operation.
+  - I’d recommend keeping it unchanged only if the spec is interpreted strictly; otherwise a fallback avoids a no-op.
+
+#### Replace
+- Randomly select one substring and replace it with the literal string:
+  - `random_string`
+
+#### Shuffle
+- Randomly permute the order of the substrings.
+
+#### Randomize
+- Randomly assign a new order to the substrings.
+- This is functionally the same as shuffle in implementation unless you want to distinguish them semantically.
+  - Since both mean reordering, using the same shuffle logic is reasonable.
+
+### 5) Reconstruct the modified string
+- Join the resulting substrings back together with commas:
+  - `','.join(parts)`
+- This preserves all original whitespace inside each substring.
+
+### 6) Build the result DataFrame
+- For each input string, store:
+  - original string
+  - modified string
+- Return a DataFrame with exactly the required column names:
+  - `Original String`
+  - `Modified String`
+
+---
+
+## Important edge cases to handle
+
+1. **Single-substring input**
+   - Example: `"apple"`
+   - `remove` cannot be applied.
+   - Decide whether to leave unchanged or reselect an operation.
+
+2. **Empty substrings**
+   - Example: `"a,,b"` or `",a,b,"`
+   - Splitting should preserve empty entries as valid substrings.
+
+3. **Whitespace-sensitive substrings**
+   - Example: `"apple, apple"`
+   - These should be treated as different items because spaces are preserved.
+
+4. **Case-sensitive substrings**
+   - Example: `"Apple,apple"`
+   - These should remain distinct.
+
+5. **Duplicate substrings**
+   - Example: `"x,x,y"`
+   - Shuffle/randomize should operate on positions, not unique values, so duplicates remain valid and preserved.
+
+6. **Seed reproducibility**
+   - With the same `seed`, repeated runs should produce the same result.
+
+7. **Already “randomized” order**
+   - Shuffling a list may occasionally return the same order by chance; that’s acceptable.
+
+8. **Strings with no commas**
+   - Treat as a one-item list; only replace/shuffle/randomize can meaningfully apply.
+
+---
+
+## Implementation note
+The core logic will likely be:
+- split string into list
+- choose random operation
+- mutate list accordingly
+- join back
+- collect rows into a DataFrame
+
+If you want, I can now turn this plan into the full self-contained Python implementation.

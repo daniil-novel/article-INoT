@@ -1,0 +1,20 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Sort a list of news articles by "category" and "title." The news articles are then grouped by "category." >>> articles = [ ...        {'title': 'Der Standard', 'title_url': 'standard', 'id': 2, 'category': 'climate'}, ...        {'title': 'tecky', 'title_url': 'tecky', 'id': 4, 'category': 'climate'}, ...        {'title': 'earth magazine', 'title_url': 'earth', 'id': 4, 'category': 'environment'} ...    ] >>> sorted_articles = task_func(articles) >>> print(sorted_articles) defaultdict(<class 'list'>, {'climate': [{'title': 'Der Standard', 'title_url': 'standard', 'id': 2, 'category': 'climate'}, {'title': 'tecky', 'title_url': 'tecky', 'id': 4, 'category': 'climate'}], 'environment': [{'title': 'earth magazine', 'title_url': 'earth', 'id': 4, 'category': 'environment'}]})
+The function should raise the exception for: ValueError: If dictionary keys do not match the requirements.
+The function should output with:
+    dict: A dictionary where the keys are categories and the values are lists
+    of articles sorted by 'title' in that category. Each article is represented as a dictionary
+    with keys 'title', 'title_url', 'id', and 'category'.
+You should write self-contained code starting with:
+```
+from collections import defaultdict
+from operator import itemgetter
+from itertools import groupby
+def task_func(news_articles):
+```
+FULL SUPPLIED CONTEXT
+from collections import defaultdict
+from operator import itemgetter
+from itertools import groupby
+def task_func(news_articles):

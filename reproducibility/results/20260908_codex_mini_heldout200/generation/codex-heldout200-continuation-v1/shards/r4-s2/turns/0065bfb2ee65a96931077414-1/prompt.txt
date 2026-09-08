@@ -1,0 +1,89 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a random float number from a list of hex strings and then encode the float number in utf-8.
+The function should output with:
+    bytes: The utf-8 encoded float number.
+You should write self-contained code starting with:
+```
+import codecs
+import random
+import struct
+KEYS = ['470FC614', '4A0FC614', '4B9FC614', '4C8FC614', '4D7FC614']
+def task_func(hex_keys=KEYS):
+```
+FULL SUPPLIED CONTEXT
+import codecs
+import random
+import struct
+KEYS = ['470FC614', '4A0FC614', '4B9FC614', '4C8FC614', '4D7FC614']
+def task_func(hex_keys=KEYS):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a stage-1 implementation plan for the task.
+
+## Requirements interpretation
+- Input: a list of hex strings, defaulting to `KEYS`.
+- Action:
+  1. Randomly select one hex string from the list.
+  2. Convert that hex string into raw bytes.
+  3. Interpret those bytes as a floating-point number.
+  4. Encode the float as UTF-8.
+- Output:
+  - A result containing:
+    - `bytes`: the UTF-8 encoded float number.
+
+## Proposed implementation plan
+1. **Select a hex string**
+   - Use `random.choice(hex_keys)` to pick one element from the list.
+
+2. **Convert hex to bytes**
+   - Use `bytes.fromhex নির্বাচled_hex)` or equivalent.
+   - This assumes the string is valid hexadecimal and has an even number of characters.
+
+3. **Interpret bytes as float**
+   - Use `struct.unpack(...)` to decode the 4-byte value into a float.
+   - Likely format: `'>f'` for big-endian IEEE-754 single precision, since the examples look like raw 8-digit hex words.
+   - Convert the result to a Python `float`.
+
+4. **Encode float to UTF-8**
+   - Convert the float to its string form with `str(value)`.
+   - Encode using `.encode('utf-8')`.
+
+5. **Return result**
+   - Return a structure containing the UTF-8 bytes, e.g. `{"bytes": encoded_value}` or the equivalent expected by the surrounding task format.
+
+## Edge cases to handle
+- **Empty list**
+  - `random.choice([])` raises an error.
+  - Should explicitly validate and raise a clear exception like `ValueError("hex_keys must not be empty")`.
+
+- **Invalid hex strings**
+  - Non-hex characters or odd-length strings will fail during `bytes.fromhex`.
+  - Should either let the exception propagate or convert it to a clearer `ValueError`.
+
+- **Wrong byte length**
+  - `struct.unpack('>f', ...)` requires exactly 4 bytes.
+  - If a hex string produces anything other than 4 bytes, raise a clear error.
+
+- **Endianness mismatch**
+  - If the hex strings are intended in little-endian order, `'>f'` would decode incorrectly.
+  - The current data strongly suggests big-endian, but this should be treated as an assumption.
+
+- **Special float values**
+  - Some bit patterns could decode to `nan`, `inf`, or `-inf`.
+  - Encoding them via `str(float_value).encode('utf-8')` will still work, but the string representation may be platform-dependent for `nan`.
+
+- **Duplicate values**
+  - Duplicates in `hex_keys` are fine; random selection can still choose any occurrence.
+
+- **Non-list iterable**
+  - If the function is meant to be flexible, it may accept any sequence/iterable, but `random.choice` specifically requires a sequence.
+  - Best to keep the parameter as a list-like sequence.
+
+## Suggested validation behavior
+- If input is malformed:
+  - Raise `ValueError` with a concise message.
+- Otherwise:
+  - Return the UTF-8 encoded bytes for the randomly selected float string.
+
+If you want, I can now turn this plan into the actual self-contained function.

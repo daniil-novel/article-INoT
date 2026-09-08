@@ -1,0 +1,100 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform a paired t-test for the number of words in two strings, only if the strings produce the same number of words.
+The function should output with:
+    t_statistic (float): The t-statistic, or NaN if tests cannot be performed due to unequal lengths.
+    p_value (float): The p-value, or NaN if tests cannot be performed due to unequal lengths.
+You should write self-contained code starting with:
+```
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+def task_func(text1, text2):
+```
+FULL SUPPLIED CONTEXT
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+def task_func(text1, text2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(text1, text2)`.
+
+## Requirement interpretation
+Because a paired t-test requires two equal-length numeric samples, the most reasonable interpretation is:
+
+- Split each input string into words.
+- Convert each word into a numeric value, most naturally its **length**.
+- Run `ttest_rel` on the two sequences of word lengths.
+- Only do this if both strings contain the **same number of words**.
+- Otherwise return `(np.nan, np.nan)`.
+
+## Implementation plan
+1. **Tokenize each string into words**
+   - Use a regex-based word extractor, e.g. `re.findall(...)`.
+   - This avoids relying on simple whitespace splitting and handles punctuation more robustly.
+
+2. **Convert words to numeric samples**
+   - Map each token to `len(word)`.
+   - This gives two numeric arrays suitable for a paired t-test.
+
+3. **Check sample lengths**
+   - If the number of words differs between `text1` and `text2`, return:
+     - `t_statistic = np.nan`
+     - `p_value = np.nan`
+
+4. **Run paired t-test**
+   - Use `scipy.stats.ttest_rel(sample1, sample2)`.
+   - Extract the statistic and p-value.
+   - Return them as floats.
+
+5. **Return result**
+   - Output a tuple `(t_statistic, p_value)`.
+
+## Edge cases to handle
+- **Unequal word counts**
+  - Must return `(np.nan, np.nan)`.
+
+- **Empty strings**
+  - Both empty: same length, but no words; t-test is not meaningful.
+  - One empty, one non-empty: unequal lengths → `(np.nan, np.nan)`.
+
+- **Single-word strings**
+  - Equal lengths but only one paired observation.
+  - The t-test is statistically undefined or uninformative; safest behavior is to return SciPy’s result, which may be `nan`, or explicitly guard and return `(np.nan, np.nan)`.
+
+- **Strings with punctuation**
+  - Tokenization should ignore punctuation so `"hello, world!"` becomes two words.
+
+- **Multiple spaces / tabs / newlines**
+  - Regex tokenization handles these naturally.
+
+- **Non-ASCII text**
+  - Use a regex approach that is reasonably robust for general Unicode word characters if needed.
+
+- **Zero variance in paired differences**
+  - If all paired word lengths are identical, the t-test may return `nan` due to numerical/variance issues; this is acceptable unless the task specifies otherwise.
+
+## Suggested behavior summary
+- Same number of words → compute paired t-test on word lengths.
+- Different number of words → return `(np.nan, np.nan)`.
+
+If you want, I can now provide the actual implementation in the required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+
+def task_func(text1, text2):
+    words1 = re.findall(r"\b\w+\b", text1)
+    words2 = re.findall(r"\b\w+\b", text2)
+
+    if len(words1) != len(words2):
+        return np.nan, np.nan
+
+    sample1 = np.array([len(word) for word in words1], dtype=float)
+    sample2 = np.array([len(word) for word in words2], dtype=float)
+
+    result = ttest_rel(sample1, sample2)
+    return float(result.statistic), float(result.pvalue)

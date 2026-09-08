@@ -1,0 +1,17 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Remove all special characters, punctuation marks and spaces from a string called "input _ str" using regex and then count the frequency of each word.
+The function should output with:
+    dict: A dictionary with the frequency of each word.
+You should write self-contained code starting with:
+```
+import re
+from nltk import word_tokenize
+from collections import Counter
+def task_func(input_str):
+```
+FULL SUPPLIED CONTEXT
+import re
+from nltk import word_tokenize
+from collections import Counter
+def task_func(input_str):

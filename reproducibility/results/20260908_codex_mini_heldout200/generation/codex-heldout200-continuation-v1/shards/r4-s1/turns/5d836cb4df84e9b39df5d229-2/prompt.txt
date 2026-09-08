@@ -1,0 +1,173 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw a bar chart of the frequency of words in a text beginning with the "$" character. Words that start with the '$' character but consist only of punctuation (e.g., '$!$' and '$.$') are not included in the frequency count. - If there is no word respecting the above conditions, the plot should be None. - The barplot x words on the x-axis and frequencies on the y-axis.
+The function should output with:
+    matplotlib.axes._axes.Axes: The plot showing the frequency of words beginning with the '$' character.
+You should write self-contained code starting with:
+```
+import nltk
+from string import punctuation
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Constants
+PUNCTUATION = set(punctuation)
+def task_func(text):
+```
+FULL SUPPLIED CONTEXT
+import nltk
+from string import punctuation
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Constants
+PUNCTUATION = set(punctuation)
+def task_func(text):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+### Goal
+Create `task_func(text)` that:
+
+1. Finds all words/tokens beginning with `"$"`.
+2. Excludes tokens that are **entirely punctuation** (e.g., `"$!$"`, `"$.$"`).
+3. Counts frequencies of the remaining valid tokens.
+4. Draws a bar chart with:
+   - **x-axis**: the matching words
+   - **y-axis**: their frequencies
+5. Returns the `matplotlib.axes.Axes` object.
+6. If no valid token exists, returns `None`.
+
+---
+
+## Proposed approach
+
+### 1. Tokenize the text
+Use a simple tokenization strategy that preserves `$`-prefixed tokens as whole units.
+
+- A whitespace split is the safest self-contained option for this task.
+- This avoids relying on external NLTK resources like `punkt`.
+
+### 2. Filter valid tokens
+For each token:
+
+- Check `token.startswith("$")`
+- Exclude it if it consists only of punctuation characters
+
+A practical test is:
+
+- `all(ch in PUNCTUATION for ch in token)`  
+  or equivalently `set(token).issubset(PUNCTUATION)`
+
+This correctly excludes:
+- `"$!$"`
+- `"$.$"`
+- `"$"`
+- `"$$"`
+
+and keeps:
+- `"$word"`
+- `"$word!"`
+- `"$123"`
+
+---
+
+### 3. Count frequencies
+Use `collections.Counter` on the filtered tokens.
+
+- Keep tokens exactly as they appear unless normalization is explicitly required.
+- Since the task does not request lowercasing, preserve original form.
+
+---
+
+### 4. Handle empty result
+If no valid `$`-starting words remain after filtering:
+
+- return `None`
+
+Do **not** create an empty plot.
+
+---
+
+### 5. Draw the bar chart
+If there are valid tokens:
+
+- build a seaborn bar plot:
+  - `x = words`
+  - `y = frequencies`
+- set labels:
+  - x-axis: `"Words"`
+  - y-axis: `"Frequency"`
+- optionally rotate x tick labels if there are many words
+
+Return the plot axis.
+
+---
+
+## Edge cases to handle
+
+1. **Empty text**
+   - No tokens found → return `None`
+
+2. **Text with no `$`-starting words**
+   - Example: `"hello world"`
+   - return `None`
+
+3. **Tokens that are only punctuation**
+   - Example: `"$!$"`, `"$.$"`
+   - exclude them from counting
+
+4. **Single valid token**
+   - Plot should still be created with one bar
+
+5. **Repeated valid token**
+   - Frequencies should aggregate correctly
+
+6. **Mixed punctuation attached to valid word**
+   - Example: `"$profit!"`
+   - should count as valid because it is not all punctuation
+
+7. **Whitespace variations**
+   - Multiple spaces, tabs, newlines should not break the logic if using split-based tokenization
+
+---
+
+## Suggested output behavior
+- If valid tokens exist: return the `Axes` from the bar chart
+- Otherwise: return `None`
+
+If you want, I can now provide the exact implementation in the required code format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import nltk
+from string import punctuation
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Constants
+PUNCTUATION = set(punctuation)
+
+from collections import Counter
+
+def task_func(text):
+    tokens = text.split()
+    valid_tokens = [
+        token for token in tokens
+        if token.startswith("$") and not set(token).issubset(PUNCTUATION)
+    ]
+
+    if not valid_tokens:
+        return None
+
+    counts = Counter(valid_tokens)
+    words = list(counts.keys())
+    freqs = list(counts.values())
+
+    fig, ax = plt.subplots(figsize=(max(6, len(words) * 0.8), 4))
+    sns.barplot(x=words, y=freqs, ax=ax, color="steelblue")
+
+    ax.set_xlabel("Words")
+    ax.set_ylabel("Frequency")
+    ax.tick_params(axis="x", rotation=45)
+
+    plt.tight_layout()
+    return ax

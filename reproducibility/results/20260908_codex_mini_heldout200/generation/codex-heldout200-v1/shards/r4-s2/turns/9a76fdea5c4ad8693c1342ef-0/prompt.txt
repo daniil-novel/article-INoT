@@ -1,0 +1,20 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Processes a base64-encoded JSON string, stores the data in a CSV file, and returns the path of the file.
+The function should output with:
+    file_path (str): The path of the file.
+You should write self-contained code starting with:
+```
+import json
+import csv
+import os
+import base64
+def task_func(raw_string, filename, output_dir):
+```
+FULL SUPPLIED CONTEXT
+import json
+import csv
+import os
+import base64
+def task_func(raw_string, filename, output_dir):

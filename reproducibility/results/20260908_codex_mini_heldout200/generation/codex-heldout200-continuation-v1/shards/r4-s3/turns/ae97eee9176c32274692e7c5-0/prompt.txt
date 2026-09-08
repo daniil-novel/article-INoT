@@ -1,0 +1,18 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Create isotropic Gaussian blobs to form clusters and visualize them.
+The function should output with:
+    tuple: A tuple containing:
+    X (numpy.ndarray): The matrix of blob points.
+    y (numpy.ndarray): The vector of blob labels.
+    ax (matplotlib.axes.Axes): The Axes object with the scatter plot.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+def task_func(n_samples=100, centers=3, n_features=2, random_seed=42):
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+def task_func(n_samples=100, centers=3, n_features=2, random_seed=42):

@@ -1,0 +1,104 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform DBSCAN clustering on the data by transforming it into a DataFrame and recording the clusters in a new column named 'Cluster'. Please choose the parameters eps=3 and min_samples=2.
+The function should output with:
+    df (DataFrame): The DataFrame with a new 'Cluster' column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.cluster import DBSCAN
+def task_func(data, cols):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.cluster import DBSCAN
+def task_func(data, cols):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Create a DataFrame**
+   - Convert `data` into a pandas `DataFrame`.
+   - If `data` is already a DataFrame, work on a copy to avoid mutating the original.
+
+2. **Select clustering features**
+   - Use the columns listed in `cols` as the input feature set.
+   - Validate that all requested columns exist in the DataFrame.
+
+3. **Prepare data for DBSCAN**
+   - Extract the selected columns into a matrix-like structure.
+   - Ensure values are numeric and handle any missing values appropriately before clustering.
+
+4. **Run DBSCAN**
+   - Initialize `DBSCAN(eps=3, min_samples=2)`.
+   - Fit the model on the selected columns.
+
+5. **Store results**
+   - Add a new column named `Cluster` to the DataFrame.
+   - Save the DBSCAN labels there.
+   - Remember that DBSCAN uses `-1` for noise points.
+
+6. **Return output**
+   - Return the DataFrame with the added `Cluster` column.
+
+Edge cases to handle:
+- **Empty input data**: return an empty DataFrame with `Cluster` added if possible.
+- **Missing columns in `cols`**: raise a clear error or fail explicitly.
+- **Non-numeric values**: DBSCAN requires numeric input; convert or reject invalid data.
+- **NaN / missing values**: either drop, impute, or raise an error depending on desired behavior.
+- **Single-row or too-small datasets**: DBSCAN may label all points as noise.
+- **Duplicate rows**: valid input; may form clusters if density conditions are met.
+- **Input not already a DataFrame**: convert safely before processing.
+
+If you want, I can now turn this plan into the exact self-contained code stub you requested.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+from sklearn.cluster import DBSCAN
+
+def task_func(data, cols):
+    """
+    Perform DBSCAN clustering on the specified columns and store labels in a new
+    'Cluster' column.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame or array-like
+        Input data.
+    cols : list-like
+        Column names to use for clustering.
+
+    Returns
+    -------
+    df : pandas.DataFrame
+        The DataFrame with a new 'Cluster' column.
+    """
+    df = data.copy() if isinstance(data, pd.DataFrame) else pd.DataFrame(data)
+
+    # Always return a DataFrame with the required output column for empty input
+    if df.empty:
+        df["Cluster"] = pd.Series(dtype=int)
+        return df
+
+    if cols is None:
+        raise ValueError("'cols' must be provided and contain at least one column name.")
+
+    cols = list(cols)
+    if len(cols) == 0:
+        raise ValueError("'cols' must contain at least one column name.")
+
+    missing = [col for col in cols if col not in df.columns]
+    if missing:
+        raise KeyError(f"The following columns are missing from the DataFrame: {missing}")
+
+    X = df[cols].apply(pd.to_numeric, errors="raise")
+
+    if X.isna().any().any():
+        raise ValueError("Selected columns contain missing values; DBSCAN requires complete numeric data.")
+
+    model = DBSCAN(eps=3, min_samples=2)
+    df["Cluster"] = model.fit_predict(X)
+
+    return df
+```

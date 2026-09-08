@@ -1,0 +1,204 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a DataFrame where each row contains random planet-element pairs. Each pair is formatted as 'Planet:Element'. The number of rows is determined by the number of planets, and each row will contain as many planet-element pairs as there are elements.
+The function should output with:
+    pandas.DataFrame: A DataFrame where each cell contains a string in the format 'Planet:Element'.
+    The DataFrame has a number of rows equal to the number of planets and
+    a number of columns equal to the number of elements.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+import itertools
+import pandas as pd
+# Constants
+PLANETS = [
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+]
+ELEMENTS = [
+    "Hydrogen",
+    "Helium",
+    "Oxygen",
+    "Carbon",
+    "Nitrogen",
+    "Magnesium",
+    "Silicon",
+    "Iron",
+    "Nickel",
+]
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+import itertools
+import pandas as pd
+# Constants
+PLANETS = [
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+]
+ELEMENTS = [
+    "Hydrogen",
+    "Helium",
+    "Oxygen",
+    "Carbon",
+    "Nitrogen",
+    "Magnesium",
+    "Silicon",
+    "Iron",
+    "Nickel",
+]
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func()`.
+
+## Goal
+Return a `pandas.DataFrame` with:
+
+- **Rows** = number of planets (`len(PLANETS) = 8`)
+- **Columns** = number of elements (`len(ELEMENTS) = 9`)
+- **Each cell** = a random string in the format `"Planet:Element"`
+
+---
+
+## Plan
+
+### 1) Validate or assume the constant lists
+Use the provided `PLANETS` and `ELEMENTS` constants directly.
+
+- Planets list: 8 items
+- Elements list: 9 items
+
+No external inputs are required, so the function can rely on these constants.
+
+---
+
+### 2) Generate random planet-element pairs for each cell
+For every row and every column:
+
+- randomly choose one planet from `PLANETS`
+- randomly choose one element from `ELEMENTS`
+- format the result as:
+
+```python
+f"{planet}:{element}"
+```
+
+This means the DataFrame values are independent random combinations, not permutations.
+
+---
+
+### 3) Build the 2D data structure
+Create a nested list with shape:
+
+- outer list length = number of planets
+- inner list length = number of elements
+
+So the result will be an `8 x 9` matrix of strings.
+
+You can generate it with:
+- nested loops, or
+- list comprehensions
+
+---
+
+### 4) Create the DataFrame
+Pass the generated matrix into `pd.DataFrame(...)`.
+
+Optionally, use:
+
+- row labels = `PLANETS`
+- column labels = `ELEMENTS`
+
+This makes the output more interpretable, though the task only requires the cell contents and shape.
+
+---
+
+### 5) Return the DataFrame
+The function should return the completed DataFrame object.
+
+---
+
+## Edge cases to consider
+
+### 1) Empty planet or element list
+If either `PLANETS` or `ELEMENTS` is empty:
+
+- the resulting DataFrame would have zero rows or zero columns
+- this would make the output structurally invalid for the intended task
+
+If you want robustness, add a guard such as:
+
+- raise `ValueError` if either list is empty
+
+---
+
+### 2) Duplicate random values
+Because selection is random with replacement:
+
+- the same `"Planet:Element"` pair may appear multiple times
+- this is expected and acceptable unless uniqueness is required
+
+The task does not require unique pairs.
+
+---
+
+### 3) Randomness and reproducibility
+Outputs will differ each run unless a seed is set.
+
+If deterministic behavior is needed for testing, set a seed using either:
+
+- `random.seed(...)`
+- or `np.random.seed(...)`
+
+Since the provided imports include both `random` and `numpy`, either is available. If you use `random.choice`, `random.seed` is sufficient.
+
+---
+
+### 4) Shape consistency
+Ensure the number of generated rows exactly matches `len(PLANETS)` and the number of generated columns exactly matches `len(ELEMENTS)`.
+
+A common mistake would be swapping dimensions; avoid that.
+
+---
+
+### 5) String formatting
+Make sure formatting is exactly:
+
+```python
+"Planet:Element"
+```
+
+with:
+- one colon
+- no extra spaces
+
+---
+
+## Suggested implementation approach
+1. Initialize an empty matrix.
+2. For each planet row:
+   - generate one random element for each element column
+   - append formatted strings to the row
+3. Append each row to the matrix.
+4. Convert the matrix into a DataFrame.
+5. Return the DataFrame.
+
+---
+
+If you want, I can also provide the exact `task_func()` implementation in the required format.

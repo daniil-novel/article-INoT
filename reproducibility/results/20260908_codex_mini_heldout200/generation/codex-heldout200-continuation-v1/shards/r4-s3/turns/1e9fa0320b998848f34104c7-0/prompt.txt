@@ -1,0 +1,23 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Archive files that were changed older than a specified number of days in a given directory. This function searches for files with specific extensions (.txt, .csv, .xlsx, .docx, .pdf) in the given directory. Files older than 'days_old' are moved to an 'archive' subdirectory within the specified directory.
+The function should output with:
+    str: The path of the archive subdirectory where files are moved.
+You should write self-contained code starting with:
+```
+import os
+import glob
+import shutil
+import time
+# Constants
+FILE_EXTENSIONS = ['.txt', '.csv', '.xlsx', '.docx', '.pdf']
+def task_func(my_path: str, days_old: int) -> str:
+```
+FULL SUPPLIED CONTEXT
+import os
+import glob
+import shutil
+import time
+# Constants
+FILE_EXTENSIONS = ['.txt', '.csv', '.xlsx', '.docx', '.pdf']
+def task_func(my_path: str, days_old: int) -> str:

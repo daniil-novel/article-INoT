@@ -1,0 +1,94 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Submits a form on a given webpage using mechanize and extracts the title of the response page.
+Note that: Notes: If the page has no title, it returns 'No Title'.
+The function should output with:
+    str: The title of the page resulting from the form submission.
+You should write self-contained code starting with:
+```
+import mechanize
+from bs4 import BeautifulSoup
+def task_func(url, form_id, data):
+```
+FULL SUPPLIED CONTEXT
+import mechanize
+from bs4 import BeautifulSoup
+def task_func(url, form_id, data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(url, form_id, data)`.
+
+## Goal
+Open a webpage, locate a form by `form_id`, submit it with the provided `data`, then extract and return the title of the resulting page. If the response page has no title, return `"No Title"`.
+
+---
+
+## Implementation plan
+
+1. **Create a mechanize browser**
+   - Instantiate `mechanize.Browser()`.
+   - Optionally disable robots handling if needed for scraping behavior.
+
+2. **Open the target URL**
+   - Use `browser.open(url)` to load the page containing the form.
+
+3. **Locate the form**
+   - Iterate through available forms on the page.
+   - Find the form whose `id` matches `form_id`.
+   - Select that form before submission.
+
+4. **Populate form fields**
+   - For each key-value pair in `data`:
+     - Assign `browser.form[key] = value`.
+   - If a field is missing or not writable, handle gracefully depending on expected robustness.
+
+5. **Submit the form**
+   - Submit the selected form with `browser.submit()`.
+   - Read the response HTML from the returned response object.
+
+6. **Parse the response page**
+   - Use `BeautifulSoup(response.read(), "html.parser")` to parse the returned HTML.
+
+7. **Extract the title**
+   - Look for the `<title>` tag.
+   - If the tag exists and contains non-empty text, return the stripped title text.
+   - Otherwise return `"No Title"`.
+
+---
+
+## Edge cases to handle
+
+1. **Form not found**
+   - If no form has the requested `id`, the function should fail predictably or return a fallback depending on task expectations.
+   - Since the problem statement only specifies title handling, the safest practical approach is to let an exception surface or handle it with a clear fallback if desired.
+
+2. **Missing or empty title**
+   - `<title></title>`, `<title>   </title>`, or no `<title>` tag at all should all produce `"No Title"`.
+
+3. **Multiple forms on the page**
+   - Only the form with the matching `id` should be used.
+
+4. **Missing fields in `data`**
+   - Some submitted keys may not exist in the form. Decide whether to:
+     - skip invalid keys,
+     - or let mechanize raise an error.
+   - For a robust solution, skip fields that are not present or are not assignable.
+
+5. **Non-HTML response**
+   - If submission returns content that is not HTML, BeautifulSoup may still parse it, but title extraction will likely fail and should return `"No Title"`.
+
+6. **Redirects after submission**
+   - mechanize typically follows redirects automatically, so extract the title from the final response page.
+
+7. **Title with extra whitespace or nested content**
+   - Strip surrounding whitespace before returning the title text.
+
+---
+
+## Suggested behavior summary
+- Input: `url`, `form_id`, `data`
+- Action: submit matching form with data
+- Output: page title as `str`
+- Fallback: `"No Title"` when title is absent or empty
+
+If you want, I can also provide the exact self-contained code for this function.

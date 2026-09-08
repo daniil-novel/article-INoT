@@ -1,0 +1,22 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Divide a multi-line string into individual lines, remove stopwords, and count the frequency of each word.
+The function should output with:
+    dict: A dictionary with word frequencies where each key is a unique word and the value is its frequency.
+You should write self-contained code starting with:
+```
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):
+```
+FULL SUPPLIED CONTEXT
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):

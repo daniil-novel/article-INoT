@@ -1,0 +1,103 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a random set of floating-point numbers within a specified range, truncate each value to 3 decimal places, and divide the data into train and test sets based on a given test size.
+Note that: The function use "Value" for the column name in the DataFrames (train set, test set) that being returned.
+The function should output with:
+    tuple: A tuple with two pandas DataFrames (train set, test set).
+You should write self-contained code starting with:
+```
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+def task_func(n_data_points=10000, min_value=0.0, max_value=10.0, test_size=0.2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+def task_func(n_data_points=10000, min_value=0.0, max_value=10.0, test_size=0.2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func` based on the requirements.
+
+## Goal
+Create a function that:
+1. Generates `n_data_points` random floating-point values in the range `[min_value, max_value]`
+2. Truncates each value to **3 decimal places**
+3. Splits the data into **train** and **test** sets using `test_size`
+4. Returns **two pandas DataFrames** with a single column named **`Value`**
+
+---
+
+## Proposed implementation plan
+
+### 1. Generate random floating-point values
+- Use Python’s `random` module to create `n_data_points` numbers uniformly distributed between `min_value` and `max_value`.
+- The generation should include both endpoints conceptually via uniform sampling over the interval.
+
+### 2. Truncate values to 3 decimal places
+- Truncation means cutting off digits after the third decimal place, **not rounding**.
+- A safe approach is:
+  - multiply by 1000
+  - apply truncation toward zero
+  - divide by 1000
+- This preserves the requested behavior for both positive and negative values.
+
+### 3. Build the DataFrame
+- Put the generated values into a pandas DataFrame.
+- The column must be named exactly:
+  - `Value`
+
+### 4. Split into train/test sets
+- Use `train_test_split` from `sklearn.model_selection`.
+- Pass `test_size` directly.
+- Since the task only requires a random split, no stratification is needed.
+
+### 5. Return result
+- Return a tuple:
+  - `(train_df, test_df)`
+- Both should be DataFrames with the same column name `Value`.
+
+---
+
+## Edge cases to consider
+
+### `n_data_points = 0`
+- The function should still work and return two empty DataFrames with column `Value`.
+
+### Very small `n_data_points`
+- If `n_data_points` is 1 and `test_size` is fractional, `train_test_split` may fail because one split becomes empty.
+- The implementation should rely on sklearn behavior, but this is a potential runtime edge case.
+
+### Invalid `test_size`
+- `test_size` must be:
+  - a float in `(0, 1)` or
+  - an integer count in a valid range
+- If invalid, `train_test_split` will raise an error.
+
+### `min_value > max_value`
+- `random.uniform(min_value, max_value)` may still produce a value, but the range is semantically reversed.
+- It’s better to ensure `min_value <= max_value` or let Python’s uniform handle swapped bounds implicitly.
+- If strict validation is desired, this should be checked.
+
+### Negative ranges
+- Truncation must handle negative numbers correctly.
+- Use truncation toward zero rather than floor, because floor would bias negative values downward.
+
+### Equal bounds
+- If `min_value == max_value`, all values should be identical after generation and truncation.
+
+### Precision behavior
+- Avoid rounding functions like `round()` because the requirement explicitly says truncate.
+
+---
+
+## Output contract
+- Input:
+  - `n_data_points`, `min_value`, `max_value`, `test_size`
+- Output:
+  - `tuple[pd.DataFrame, pd.DataFrame]`
+  - train and test DataFrames
+  - each with one column named `Value`
+
+If you want, I can now provide the full implementation code in the exact required format.

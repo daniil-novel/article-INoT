@@ -1,0 +1,148 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Open an image, rotate it around a certain angle, and then display both the original and the rotated images side by side. Additionally, return both images as numpy arrays.
+The function should raise the exception for: FileNotFoundError: If the image file does not exist at the specified path.
+The function should output with:
+    tuple: A tuple containing two numpy arrays, the first representing the original image and
+    the second representing the rotated image. Expands the rotated image to make it large enough to hold the entire rotated image.
+You should write self-contained code starting with:
+```
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+def task_func(img_path, angle):
+```
+FULL SUPPLIED CONTEXT
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+def task_func(img_path, angle):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(img_path, angle)` based on the requirements.
+
+## Goal
+The function should:
+
+1. Open an image from `img_path`
+2. Rotate it by `angle` degrees
+3. Expand the rotated canvas so the full rotated image fits
+4. Display the original and rotated images side by side
+5. Return both as NumPy arrays in a tuple:
+   - `(original_image_array, rotated_image_array)`
+6. Raise `FileNotFoundError` if the image path does not exist
+
+---
+
+## Planned Approach
+
+### 1. Validate the input path
+- First check whether `img_path` exists using `os.path.exists(img_path)`.
+- If it does not exist, raise:
+  ```python
+  FileNotFoundError(f"No such file: {img_path}")
+  ```
+- This satisfies the explicit exception requirement.
+
+### 2. Open the image
+- Use `PIL.Image.open(img_path)` to load the file.
+- Consider wrapping open logic carefully so invalid/unreadable files do not silently fail.
+- The image object should be kept in its original mode unless conversion is necessary for display consistency.
+
+### 3. Convert the original image to a NumPy array
+- Use:
+  ```python
+  original_array = np.array(image)
+  ```
+- This is the array that will be returned as the first element of the tuple.
+
+### 4. Rotate the image with expansion
+- Use PIL’s `rotate` method:
+  ```python
+  rotated_image = image.rotate(angle, expand=True)
+  ```
+- `expand=True` is important because it enlarges the output canvas so the entire rotated image fits without cropping.
+
+### 5. Convert the rotated image to a NumPy array
+- Use:
+  ```python
+  rotated_array = np.array(rotated_image)
+  ```
+- This becomes the second element of the returned tuple.
+
+### 6. Display both images side by side
+- Use `matplotlib.pyplot` with a 1x2 subplot layout:
+  - left: original image
+  - right: rotated image
+- Turn axes off for clean visual presentation.
+- Use `plt.tight_layout()` before `plt.show()`.
+
+### 7. Return the result
+- Return:
+  ```python
+  return original_array, rotated_array
+  ```
+
+---
+
+## Edge Cases to Handle
+
+### 1. File does not exist
+- Must raise `FileNotFoundError`.
+- This is the most important required failure mode.
+
+### 2. Invalid image file
+- If the file exists but is not a valid image, `Image.open` may raise an error such as `UnidentifiedImageError` or `OSError`.
+- The task only explicitly requires `FileNotFoundError`, so other exceptions can naturally propagate.
+
+### 3. Angle values
+- The angle may be:
+  - positive
+  - negative
+  - zero
+  - greater than 360
+- PIL handles all of these correctly.
+- No special normalization is strictly necessary.
+
+### 4. Image modes
+- Images may be RGB, RGBA, grayscale (`L`), etc.
+- `np.array(image)` preserves the underlying mode, so the function should work for all standard PIL modes.
+- For plotting:
+  - grayscale images display correctly with `plt.imshow(..., cmap='gray')` if needed
+  - RGB/RGBA images display directly
+- You may need conditional plotting logic based on array dimensions.
+
+### 5. Transparency / alpha channel
+- If the image has an alpha channel, rotating preserves it.
+- Display should still work, though Matplotlib may render it slightly differently depending on mode.
+
+### 6. Extremely small images
+- Very small images should still rotate and display properly; expanded canvas may introduce a larger rotated bounding box.
+
+---
+
+## Expected Function Behavior Summary
+- Input: image path and rotation angle
+- Output: tuple of two NumPy arrays
+- Side effect: shows a figure with the original and rotated images
+- Failure: raises `FileNotFoundError` if the path does not exist
+
+---
+
+## Implementation Notes
+- Keep the code self-contained.
+- The imports already specified should be used:
+  ```python
+  from PIL import Image
+  import matplotlib.pyplot as plt
+  import numpy as np
+  import os
+  ```
+- The function should start exactly as requested:
+  ```python
+  def task_func(img_path, angle):
+  ```
+
+If you want, I can proceed to stage 2 and provide the full implementation.

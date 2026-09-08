@@ -1,0 +1,167 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a normal distribution with a given length, plot its histogram alongside the probability density function, and return the distribution and the plot.
+Note that: This function use this constant MU (mean): 0, SIGMA (standard deviation): 1
+The function should output with:
+    tuple: A tuple containing:
+    1. numpy array with the normal distribution.
+    2. matplotlib Axes object representing the plot.
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+def task_func(length):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+def task_func(length):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a function:
+
+```python
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+def task_func(length):
+```
+
+that should:
+
+1. Create a normal distribution sample of the requested `length`.
+2. Use fixed parameters:
+   - `MU = 0`
+   - `SIGMA = 1`
+3. Plot:
+   - the histogram of the generated sample
+   - the theoretical probability density function (PDF) of `N(0, 1)` on the same axes
+4. Return:
+   - the generated NumPy array
+   - the Matplotlib `Axes` object
+
+---
+
+## Implementation plan
+
+### 1. Validate / normalize input
+- Treat `length` as the number of random values to generate.
+- Convert it to an integer if needed.
+- Ensure it is non-negative and preferably positive.
+
+### 2. Generate the distribution
+- Use `np.random.normal(loc=0, scale=1, size=length)`.
+
+### 3. Create the plot
+- Create a figure and axes with `plt.subplots()`.
+- Plot the histogram of the generated values using `ax.hist(...)`.
+- Use `density=True` so the histogram is comparable to the PDF.
+- Choose a reasonable number of bins, e.g. 30, or a rule-based choice if desired.
+
+### 4. Overlay the PDF
+- Compute an x-grid covering the sample range, e.g. from `min(sample)` to `max(sample)`.
+- Evaluate the standard normal PDF with `norm.pdf(x, loc=0, scale=1)`.
+- Plot it on the same axes with `ax.plot(...)`.
+
+### 5. Return results
+- Return a tuple:
+  1. the NumPy array sample
+  2. the `Axes` object
+
+---
+
+## Edge cases to handle
+
+### 1. `length == 0`
+- `np.random.normal(..., size=0)` returns an empty array.
+- Histogram and PDF plotting are problematic because there is no sample range.
+- Best options:
+  - raise a clear `ValueError`, or
+  - create an empty array and an empty plot with default PDF range.
+- For robustness, raising `ValueError` is usually cleaner unless empty output is explicitly allowed.
+
+### 2. `length < 0`
+- Invalid sample size.
+- Should raise `ValueError`.
+
+### 3. Non-integer `length`
+- If `length` is a float like `10.0`, it may be safely cast to `int`.
+- If it is not numerically convertible, raise `TypeError` or `ValueError`.
+
+### 4. Very small `length` values
+- For `length = 1`, histogram bins can be visually unhelpful.
+- Still valid, but the plot may look sparse.
+- Using a fixed modest bin count or adaptive bins avoids issues.
+
+### 5. Sample range with identical values
+- Extremely unlikely for normal samples, but if it happens, `min == max` makes PDF x-range degenerate.
+- Add a small padding around the range if needed.
+
+### 6. Randomness / reproducibility
+- No seed is specified.
+- Output will vary between calls.
+- If reproducibility is needed later, a seed parameter could be added, but not required here.
+
+---
+
+## Expected behavior summary
+
+- Input: `length`
+- Output:
+  - `numpy.ndarray` of shape `(length,)`
+  - `matplotlib.axes.Axes`
+- Plot:
+  - histogram of sampled values
+  - overlaid `N(0,1)` PDF curve
+
+If you want, I can proceed to stage 2 and write the implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import numpy as np
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+def task_func(length):
+    MU = 0
+    SIGMA = 1
+
+    try:
+        length = int(length)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("length must be an integer-like value") from exc
+
+    if length < 0:
+        raise ValueError("length must be non-negative")
+
+    distribution = np.random.normal(loc=MU, scale=SIGMA, size=length)
+
+    fig, ax = plt.subplots()
+
+    if length > 0:
+        bins = min(30, max(1, int(np.sqrt(length))))
+        ax.hist(distribution, bins=bins, density=True, alpha=0.6, edgecolor="black", label="Histogram")
+
+        x_min = float(np.min(distribution))
+        x_max = float(np.max(distribution))
+        if np.isclose(x_min, x_max):
+            pad = 1.0
+        else:
+            pad = 0.1 * (x_max - x_min)
+        x = np.linspace(x_min - pad, x_max + pad, 400)
+    else:
+        ax.hist(distribution, bins=30, density=True, alpha=0.6, edgecolor="black", label="Histogram")
+        x = np.linspace(-4, 4, 400)
+
+    ax.plot(x, norm.pdf(x, loc=MU, scale=SIGMA), color="red", linewidth=2, label="N(0,1) PDF")
+    ax.set_xlabel("Value")
+    ax.set_ylabel("Density")
+    ax.set_title("Normal Distribution Histogram and PDF")
+    ax.legend()
+
+    return distribution, ax
+```

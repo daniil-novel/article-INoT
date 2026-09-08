@@ -1,0 +1,148 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Simulates a random walk in a two-dimensional space and draws the path using matplotlib. The walk is determined by randomly choosing directions at each step. The function generates two numpy arrays representing the x and y coordinates of each step and plots these points to visualize the path of the walk.
+The function should output with:
+    A matplotlib figure object representing the plot of the random walk.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from random import randint
+import math
+def task_func(POINTS=100):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from random import randint
+import math
+def task_func(POINTS=100):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Using no extra skill here because this is a planning-only step, not code implementation.
+
+## Requirement analysis
+
+You need a Python function:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from random import randint
+import math
+def task_func(POINTS=100):
+```
+
+that:
+
+1. Simulates a 2D random walk.
+2. Chooses a random direction at each step.
+3. Produces two NumPy arrays:
+   - `x` coordinates
+   - `y` coordinates
+4. Plots the resulting path with matplotlib.
+5. Returns a **matplotlib figure object**.
+
+## Intended behavior
+
+A reasonable interpretation of “randomly choosing directions at each step” is a 4-direction lattice walk:
+
+- right: `(x + 1, y)`
+- left: `(x - 1, y)`
+- up: `(x, y + 1)`
+- down: `(x, y - 1)`
+
+The walk should start at the origin `(0, 0)`.
+
+The output should be a figure containing the path as a line plot, likely with markers so the path is visible.
+
+## Implementation plan
+
+### 1. Validate / normalize input
+- Accept `POINTS` as the number of steps.
+- Convert or require it to be an integer.
+- Handle non-positive values safely.
+
+Suggested policy:
+- If `POINTS <= 0`, create a plot with only the starting point `(0,0)` and return that figure.
+- If `POINTS` is not an integer, either cast to `int` or raise a clear error.  
+  For robustness in a standalone task, casting with `int(POINTS)` is acceptable, but if strictness is preferred, raise `TypeError`.
+
+### 2. Initialize coordinate storage
+- Create arrays of length `POINTS + 1` because the origin is included.
+- Use NumPy arrays for `x` and `y`.
+- Set:
+  - `x[0] = 0`
+  - `y[0] = 0`
+
+### 3. Generate the random walk
+For each step `i` from `1` to `POINTS`:
+- Draw a random integer in `[0, 3]` using `randint(0, 3)`.
+- Map the value to one direction:
+  - `0 -> x += 1`
+  - `1 -> x -= 1`
+  - `2 -> y += 1`
+  - `3 -> y -= 1`
+- Store the updated coordinates in the arrays.
+
+This produces a simple unbiased 2D random walk.
+
+### 4. Plot the path
+- Create a figure and axes with `plt.subplots()`.
+- Plot `x` and `y` using a line plot:
+  - `ax.plot(x, y, ...)`
+- Optionally mark the start and end point.
+- Use equal axis scaling so the walk is not visually distorted:
+  - `ax.set_aspect("equal", adjustable="box")`
+- Add labels/title/grid for readability.
+
+### 5. Return the figure object
+- Return the figure created by `plt.subplots()`.
+- Do not call `plt.show()` inside the function unless explicitly required.
+- The figure object should be suitable for downstream rendering or testing.
+
+## Edge cases to consider
+
+### 1. `POINTS = 0`
+- The function should still return a valid figure.
+- The plot may contain only the origin.
+
+### 2. Negative `POINTS`
+- Best handled by treating as zero steps or raising a `ValueError`.
+- For most robust behavior in a task like this, returning a figure with just the origin is acceptable, but a `ValueError` is also defensible.
+
+### 3. Non-integer input
+Examples:
+- `POINTS = 10.7`
+- `POINTS = "100"`
+
+Possible strategies:
+- Cast to `int` if coercion is acceptable.
+- Otherwise raise `TypeError`.
+
+### 4. Very large `POINTS`
+- Arrays and plotting may become slow or cluttered.
+- Still should work logically, but the plot will be dense.
+
+### 5. Determinism
+- The function is stochastic, so repeated calls produce different paths.
+- If reproducibility is desired, a seed would be needed, but none is requested.
+
+## Expected output characteristics
+
+- A matplotlib `Figure` object.
+- A path starting at `(0,0)`.
+- Two NumPy arrays internally representing the walk coordinates.
+- A visual line plot of the walk.
+
+## Suggested structure of the final code
+
+1. Imports
+2. `task_func(POINTS=100)`
+3. Input handling
+4. Initialize `x`, `y`
+5. Loop over steps and update coordinates
+6. Create plot
+7. Return figure
+
+If you want, I can next provide the actual implementation in the exact required format.

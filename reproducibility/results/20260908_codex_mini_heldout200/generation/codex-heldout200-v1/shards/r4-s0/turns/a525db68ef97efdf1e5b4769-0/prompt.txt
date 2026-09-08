@@ -1,0 +1,18 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Visualize the distribution of goals and penalties for a number of teams and return the data as a DataFrame with colomns 'Team', 'Goals' and 'Penalties'.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame with the goals and penalties for the teams.
+    Axes: A seaborn pairplot visualization of goals and penalties distribution for the teams.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):

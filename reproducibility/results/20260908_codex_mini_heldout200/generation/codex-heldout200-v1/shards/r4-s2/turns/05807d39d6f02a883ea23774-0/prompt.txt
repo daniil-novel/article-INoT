@@ -1,0 +1,24 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Analyze the uniformity of a distribution represented by a dictionary of categories and their counts, and create a description to introduce this distribution.
+Note that: If 'data_dict' is empty, the function returns None and a message "The distribution is uniform." indicating that an empty distribution is considered uniform by default. If 'data_dict' is not empty, it calculates the average count of the categories. The distribution is considered uniform if the absolute difference between each count and the average count is less than or equal to 1e-5. If any count's absolute difference with the average count is more than 1e-5, the distribution is considered not uniform. The function then creates a histogram of the counts using matplotlib, with the number of bins being the lesser of 10 or the number of unique counts. The histogram's x-ticks are labeled with the category names.
+The function should output with:
+    tuple: A tuple containing:
+    matplotlib.axes._axes.Axes: The axes object of the histogram.
+    str: A message indicating whether the distribution is uniform ("The distribution is uniform.")
+    or not ("The distribution is not uniform.").
+You should write self-contained code starting with:
+```
+import collections
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(data_dict):
+```
+FULL SUPPLIED CONTEXT
+import collections
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(data_dict):

@@ -1,0 +1,110 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create SHA256 hashes for all files in the specified directory, including files in subdirectories, and save these hashes in a JSON file named 'hashes.json' in the given directory.
+The function should output with:
+    str: The absolute path of the JSON file ('hashes.json') containing the hashes.
+You should write self-contained code starting with:
+```
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+```
+FULL SUPPLIED CONTEXT
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(directory: str) -> str`:
+
+1. Normalize the input path
+   - Convert `directory` to a `Path`.
+   - Resolve it to an absolute path.
+   - Verify it exists and is a directory.
+
+2. Traverse all files recursively
+   - Walk the directory tree with `rglob("*")`.
+   - Include files in subdirectories.
+   - Process only regular files, not directories.
+
+3. Compute SHA-256 for each file
+   - Open each file in binary mode.
+   - Read in chunks to handle large files efficiently.
+   - Update a `hashlib.sha256()` object incrementally.
+   - Store the hex digest.
+
+4. Build JSON-serializable output
+   - Use relative file paths from the input directory as keys.
+   - Store hashes as string values.
+   - Sort entries by path for deterministic output.
+
+5. Write `hashes.json`
+   - Create the JSON file directly in the given directory.
+   - Write with UTF-8 encoding.
+   - Use pretty formatting if desired, but keep it valid JSON.
+
+6. Return the absolute path
+   - Return the absolute path string of the created `hashes.json`.
+
+Edge cases to handle:
+- Empty directory: produce `{}` in `hashes.json`.
+- Nested subdirectories: include all files recursively.
+- Existing `hashes.json`: decide whether to exclude it from hashing to avoid self-reference and repeated changes; best to skip the output file if it already exists.
+- Non-regular entries: skip directories, symlinks if not intended, and special files.
+- Permission errors: either let them propagate or handle explicitly, depending on expected behavior.
+- Very large files: use chunked reads, not full-file reads.
+- Path portability: prefer relative paths in JSON so output remains stable across machines.
+- Deterministic ordering: sort file paths before hashing/output to make results reproducible.
+
+Suggested output JSON shape:
+```json
+{
+  "subdir/file.txt": "abc123...",
+  "root.bin": "def456..."
+}
+```
+
+If you want, I can also turn this plan into the exact Python implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import os
+import hashlib
+import json
+from pathlib import Path
+
+def task_func(directory: str) -> str:
+    base_dir = Path(directory).expanduser().resolve()
+    if not base_dir.exists():
+        raise FileNotFoundError(f"Directory does not exist: {directory}")
+    if not base_dir.is_dir():
+        raise NotADirectoryError(f"Not a directory: {directory}")
+
+    output_path = base_dir / "hashes.json"
+    hashes = {}
+
+    for path in sorted(base_dir.rglob("*")):
+        if not path.is_file():
+            continue
+        # Avoid self-reference if hashes.json already exists
+        if path.resolve() == output_path.resolve():
+            continue
+
+        rel_path = path.relative_to(base_dir).as_posix()
+        sha256 = hashlib.sha256()
+
+        with path.open("rb") as f:
+            for chunk in iter(lambda: f.read(8192), b""):
+                sha256.update(chunk)
+
+        hashes[rel_path] = sha256.hexdigest()
+
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(hashes, f, ensure_ascii=False, indent=2, sort_keys=True)
+
+    return str(output_path.resolve())
+```

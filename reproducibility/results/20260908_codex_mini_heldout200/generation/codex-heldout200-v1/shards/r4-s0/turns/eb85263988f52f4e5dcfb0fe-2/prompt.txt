@@ -1,0 +1,184 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate random data and visualize it with a stacked bar chart, saving the chart to a file. This function facilitates the exploration and sharing of data distribution across multiple categories.
+The function should output with:
+    tuple: A tuple containing:
+    matplotlib.figure.Figure: The Figure object containing the stacked bar chart.
+    pandas.DataFrame: The DataFrame with randomly generated data.
+    str: The filename where the plot is saved ('test_plot.png').
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(num_groups=5, data_size=5, labels=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(num_groups=5, data_size=5, labels=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+We need a function:
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(num_groups=5, data_size=5, labels=None):
+```
+
+that should:
+
+1. Generate random data.
+2. Visualize it as a **stacked bar chart**.
+3. Save the chart to a file named **`test_plot.png`**.
+4. Return a tuple:
+   - `matplotlib.figure.Figure`
+   - `pandas.DataFrame`
+   - `str` filename (`'test_plot.png'`)
+
+The code should be self-contained and use only the provided imports.
+
+---
+
+### Proposed implementation plan
+
+#### 1) Validate inputs
+- Ensure `num_groups` and `data_size` are integers.
+- Ensure they are positive (`> 0`).
+- If `labels` is provided:
+  - It should be a list-like sequence with length equal to `num_groups`.
+  - If not provided, generate default group labels like `Group 1`, `Group 2`, etc.
+
+#### 2) Generate random data
+- Create a `pandas.DataFrame` of random values using `numpy`.
+- Shape should be:
+  - rows = `data_size`
+  - columns = `num_groups`
+- Use a reproducible or standard random generation approach:
+  - likely `np.random.rand(data_size, num_groups)` for continuous random values in `[0, 1)`.
+- Use the labels as column names.
+
+#### 3) Build the stacked bar chart
+- Create a `matplotlib` figure and axes.
+- Plot the DataFrame as a stacked bar chart using:
+  - `df.plot(kind='bar', stacked=True, ax=ax)`
+- Add chart polish:
+  - title
+  - x-label
+  - y-label
+  - legend
+  - optional tight layout for better spacing
+
+#### 4) Save the figure
+- Save the plot to `'test_plot.png'`.
+- Ensure the figure is saved before returning it.
+
+#### 5) Return results
+- Return:
+  - the `Figure` object
+  - the generated `DataFrame`
+  - the filename string `'test_plot.png'`
+
+---
+
+### Edge cases to handle
+
+1. **`num_groups <= 0`**
+   - Invalid because no categories can be plotted.
+   - Should raise a `ValueError`.
+
+2. **`data_size <= 0`**
+   - Invalid because no rows exist to plot.
+   - Should raise a `ValueError`.
+
+3. **`labels is None`**
+   - Generate default labels automatically.
+
+4. **`labels` length mismatch**
+   - If `labels` has fewer or more items than `num_groups`, raise a `ValueError`.
+
+5. **Non-integer inputs**
+   - If `num_groups` or `data_size` are not integers, either:
+     - explicitly reject them with `TypeError`, or
+     - convert safely if appropriate.
+   - Safer choice: validate and raise `TypeError` for non-integers.
+
+6. **Very large dimensions**
+   - The function should still work, but plotting may become crowded.
+   - No special handling required unless you want to add figure sizing adjustments.
+
+7. **Empty or invalid `labels` values**
+   - If labels contain duplicates, plotting still works, but column names may become ambiguous.
+   - Optionally allow duplicates unless strict uniqueness is desired.
+
+---
+
+### Expected behavior summary
+
+- Input parameters define the size of the random dataset.
+- The function returns a stacked bar chart figure and its underlying data.
+- The plot is always saved as `test_plot.png`.
+- The DataFrame columns correspond to the category labels used in the chart.
+
+If you'd like, I can proceed to **stage 2** and provide the full implementation code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+def task_func(num_groups=5, data_size=5, labels=None):
+    """
+    Generate random data, plot it as a stacked bar chart, save the figure,
+    and return the figure, data, and filename.
+    """
+    # Validate num_groups
+    if isinstance(num_groups, bool) or not isinstance(num_groups, (int, np.integer)):
+        raise TypeError("num_groups must be an integer.")
+    if num_groups <= 0:
+        raise ValueError("num_groups must be greater than 0.")
+
+    # Validate data_size
+    if isinstance(data_size, bool) or not isinstance(data_size, (int, np.integer)):
+        raise TypeError("data_size must be an integer.")
+    if data_size <= 0:
+        raise ValueError("data_size must be greater than 0.")
+
+    num_groups = int(num_groups)
+    data_size = int(data_size)
+
+    # Validate / generate labels
+    if labels is None:
+        labels = [f"Group {i + 1}" for i in range(num_groups)]
+    else:
+        if isinstance(labels, (str, bytes)) or not hasattr(labels, "__len__"):
+            raise TypeError("labels must be a list-like sequence of length num_groups.")
+        if len(labels) != num_groups:
+            raise ValueError("labels must have the same length as num_groups.")
+        labels = list(labels)
+
+    # Generate random data
+    data = np.random.rand(data_size, num_groups)
+    df = pd.DataFrame(data, columns=labels)
+
+    # Create stacked bar chart
+    fig, ax = plt.subplots(figsize=(max(6, num_groups * 1.2), max(4, data_size * 0.8)))
+    df.plot(kind="bar", stacked=True, ax=ax)
+
+    ax.set_title("Stacked Bar Chart of Random Data")
+    ax.set_xlabel("Row Index")
+    ax.set_ylabel("Value")
+    ax.legend(title="Categories", bbox_to_anchor=(1.05, 1), loc="upper left")
+
+    fig.tight_layout()
+
+    # Save figure
+    filename = "test_plot.png"
+    fig.savefig(filename, bbox_inches="tight")
+
+    return fig, df, filename

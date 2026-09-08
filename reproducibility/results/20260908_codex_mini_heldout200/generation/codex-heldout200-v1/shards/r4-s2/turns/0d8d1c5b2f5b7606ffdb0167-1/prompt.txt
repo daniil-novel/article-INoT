@@ -1,0 +1,68 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Convert all Unicode string representations of dictionaries in all text files in the specified directory to Python dictionaries.
+Note that: Ensure that the text files in the directory contain valid Unicode string representations of dictionaries.
+The function should raise the exception for: The function would raise a ValueError if there are text file(s) that have invalid dictionary representation
+The function should output with:
+    list: A list of dictionaries extracted from the text files.
+You should write self-contained code starting with:
+```
+import ast
+import os
+import glob
+# Constants
+DIRECTORY = 'data'
+def task_func(directory):
+```
+FULL SUPPLIED CONTEXT
+import ast
+import os
+import glob
+# Constants
+DIRECTORY = 'data'
+def task_func(directory):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Enumerate text files in the target directory**
+   - Use `glob.glob(os.path.join(directory, '*.txt'))` to find all text files.
+   - Sort the file list to make output deterministic.
+
+2. **Read each file as Unicode text**
+   - Open each file with `encoding='utf-8'`.
+   - Read the full content and strip surrounding whitespace.
+
+3. **Convert the string representation to a Python object**
+   - Use `ast.literal_eval(...)` to safely parse the file content.
+   - This handles valid Python dictionary literals, including Unicode strings.
+
+4. **Validate the parsed result**
+   - Ensure the parsed object is actually a `dict`.
+   - If parsing fails or the result is not a dictionary, raise `ValueError`.
+
+5. **Collect results**
+   - Append each parsed dictionary to a list.
+   - Return the final list of dictionaries.
+
+### Edge cases to handle
+- **Empty directory**: return an empty list.
+- **Empty or whitespace-only file**: treat as invalid and raise `ValueError`.
+- **Invalid dictionary syntax**: raise `ValueError`.
+- **Parsed value is not a dict**: raise `ValueError`.
+- **Unicode content**: supported via UTF-8 file reading and `ast.literal_eval`.
+- **Non-`.txt` files**: ignore them if using `*.txt` glob.
+- **Order of files**: sort file paths before processing to keep output stable.
+
+### Suggested exception behavior
+- Wrap parse/validation errors in `ValueError` with a helpful message indicating which file failed.
+- Let filesystem errors like missing directory propagate naturally unless the task requires otherwise.
+
+### High-level structure
+- Build file list
+- Loop through files
+- Read content
+- Parse with `ast.literal_eval`
+- Validate `dict`
+- Append to results
+- Return results

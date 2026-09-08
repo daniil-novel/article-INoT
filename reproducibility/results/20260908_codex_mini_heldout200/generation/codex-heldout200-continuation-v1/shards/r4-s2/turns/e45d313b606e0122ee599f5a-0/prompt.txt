@@ -1,0 +1,16 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Create a Pandas DataFrame with a specified number of rows filled with random values in [0, 1) and shuffled columns.
+Note that: The columns should be unique and sorted in the ascending order.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with shuffled columns.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(rows, columns=["A", "B", "C", "D", "E"], seed=0) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(rows, columns=["A", "B", "C", "D", "E"], seed=0) -> pd.DataFrame:

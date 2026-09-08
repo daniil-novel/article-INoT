@@ -1,0 +1,149 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Shuffles the columns of a numpy array randomly, performs Principal Component Analysis (PCA) to reduce the dimensionality to 2 principal components, and returns these components as a pandas DataFrame.
+Note that: PCA reduction will default to the number of features if fewer than 2. An named but empty DataFrame is returned for arrays without features or with empty content.
+The function should raise the exception for: ValueError: If the input array is not 2D.
+The function should output with:
+    pandas.DataFrame: DataFrame with columns 'PC1' and 'PC2' representing the two principal components.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a concise implementation plan for `task_func(array, seed=None)`.
+
+## Goal
+- Accept a 2D NumPy array.
+- Randomly shuffle its columns.
+- Run PCA to reduce dimensionality to up to 2 components.
+- Return the result as a `pandas.DataFrame`.
+
+---
+
+## Implementation plan
+
+### 1) Validate input dimensionality
+- Convert the input to a NumPy array if needed.
+- Check `array.ndim`.
+- If the input is not 2D, raise:
+  - `ValueError("Input array must be 2D.")`  
+  or equivalent.
+
+### 2) Handle empty arrays / arrays without usable features
+Return an empty DataFrame immediately if:
+- the array has no elements,
+- it has zero rows,
+- it has zero columns.
+
+Recommended return:
+- `pd.DataFrame(columns=["PC1", "PC2"])`
+
+This satisfies the “named but empty DataFrame” requirement.
+
+### 3) Shuffle columns randomly
+- Use a reproducible random generator when `seed` is provided:
+  - `rng = np.random.default_rng(seed)`
+- Create a column permutation:
+  - `perm = rng.permutation(n_features)`
+- Reorder the array:
+  - `shuffled = array[:, perm]`
+
+### 4) Decide PCA component count safely
+- Base rule from the prompt:
+  - use `min(2, n_features)`
+- Also ensure PCA does not request more components than available samples:
+  - use `min(2, n_features, n_samples)`
+
+This prevents PCA errors when there are too few rows.
+
+### 5) Run PCA
+- Fit PCA on the shuffled array:
+  - `pca = PCA(n_components=component_count)`
+  - `components = pca.fit_transform(shuffled)`
+
+### 6) Build the output DataFrame
+- Create a DataFrame from the PCA output.
+- Use column names:
+  - `["PC1", "PC2"]` when there are 2 components
+  - `["PC1"]` when only 1 component is possible
+- Keep the default row index.
+
+---
+
+## Edge cases to cover
+
+### A. Non-2D input
+Examples:
+- 1D array
+- 3D array  
+Expected:
+- raise `ValueError`
+
+### B. Empty input
+Examples:
+- shape `(0, 0)`
+- shape `(0, n)`
+- shape `(n, 0)`  
+Expected:
+- empty DataFrame with columns `PC1`, `PC2`
+
+### C. Single feature
+- Shape `(n, 1)`
+- PCA can only produce 1 component
+- Return DataFrame with one column: `PC1`
+
+### D. Too few samples
+- Example: shape `(1, n)`
+- PCA cannot produce 2 components
+- Limit to 1 component safely
+
+### E. Seed behavior
+- Same seed should produce the same column shuffle
+- `seed=None` should produce nondeterministic shuffling
+
+### F. Non-numeric data
+- PCA will fail on non-numeric values
+- You can let sklearn raise naturally unless explicit validation is desired
+
+---
+
+## Expected behavior summary
+- **Valid 2D numeric array with at least 2 rows and 2 features** → DataFrame with `PC1`, `PC2`
+- **2D numeric array with only 1 feature or 1 sample** → DataFrame with `PC1` only
+- **Empty or featureless array** → empty DataFrame with `PC1`, `PC2`
+- **Not 2D** → `ValueError`
+
+If you want, I can now turn this plan into the exact self-contained function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+
+def task_func(array, seed=None):
+    arr = np.asarray(array)
+
+    if arr.ndim != 2:
+        raise ValueError("Input array must be 2D.")
+
+    n_samples, n_features = arr.shape
+    if n_samples == 0 or n_features == 0 or arr.size == 0:
+        return pd.DataFrame(columns=["PC1", "PC2"])
+
+    rng = np.random.default_rng(seed)
+    perm = rng.permutation(n_features)
+    shuffled = arr[:, perm]
+
+    n_components = min(2, n_samples, n_features)
+    transformed = PCA(n_components=n_components).fit_transform(shuffled)
+
+    return pd.DataFrame(transformed, columns=["PC1", "PC2"][:n_components])

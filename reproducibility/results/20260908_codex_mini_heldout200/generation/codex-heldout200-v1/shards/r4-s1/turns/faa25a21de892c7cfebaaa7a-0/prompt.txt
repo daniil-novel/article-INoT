@@ -1,0 +1,18 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Sorts the input list in ascending order based on the degree value of its elements, and then calculates the mean, median, and mode of both the sorted list and the same for the magnitude of the fast fourier transform of the degree values upto the nearest integer.
+The function should output with:
+    tuple: A tuple containing the rounded mean, median and mode of the sorted list along with those
+    for the magnitude of the fast fourier transform of the degree values.
+You should write self-contained code starting with:
+```
+import math
+import statistics
+import numpy as np
+def task_func(input_list):
+```
+FULL SUPPLIED CONTEXT
+import math
+import statistics
+import numpy as np
+def task_func(input_list):

@@ -1,0 +1,73 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Connects two 2D numeric arrays (matrices) along the second axis (columns), converts them into a Pandas DataFrame, and returns a string representation of the DataFrame.
+The function should output with:
+    str: The string representation of the DataFrame without the index and header.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(matrix1, matrix2):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(matrix1, matrix2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Accept two inputs**
+   - `matrix1` and `matrix2` are expected to be 2D numeric arrays-like objects.
+   - Treat them as matrices with the same number of rows.
+
+2. **Validate compatibility**
+   - Ensure both inputs can be interpreted as 2D arrays.
+   - Check that they have the same row count.
+   - If row counts differ, column-wise concatenation is not possible.
+
+3. **Concatenate along columns**
+   - Use `np.concatenate(..., axis=1)` or `np.hstack(...)` to join the matrices horizontally.
+   - This produces one combined 2D array.
+
+4. **Convert to Pandas DataFrame**
+   - Wrap the concatenated NumPy array with `pd.DataFrame(...)`.
+
+5. **Return string representation**
+   - Use `DataFrame.to_string(index=False, header=False)` so the output contains:
+     - no row index
+     - no column headers
+   - Return that string.
+
+Edge cases to handle:
+- **Different row counts**: should raise an error naturally or be explicitly checked.
+- **Empty matrices**:
+  - Both empty with compatible shapes should still produce a valid empty/blank DataFrame string.
+  - One empty and one non-empty with mismatched rows should fail.
+- **1D inputs or non-array-like inputs**:
+  - If inputs are not 2D, conversion/concatenation should fail; optionally validate shape first.
+- **Non-numeric values**:
+  - The task says numeric arrays, so non-numeric data is outside the expected contract.
+- **Single-column or single-row matrices**:
+  - Should still concatenate and print correctly.
+
+Expected output format:
+- A plain string containing the DataFrame values separated by spaces, with no index and no header.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import pandas as pd
+
+def task_func(matrix1, matrix2):
+    arr1 = np.asarray(matrix1)
+    arr2 = np.asarray(matrix2)
+
+    if arr1.ndim != 2 or arr2.ndim != 2:
+        raise ValueError("Both inputs must be 2D arrays.")
+
+    if arr1.shape[0] != arr2.shape[0]:
+        raise ValueError("The two matrices must have the same number of rows.")
+
+    combined = np.concatenate((arr1, arr2), axis=1)
+    df = pd.DataFrame(combined)
+    return df.to_string(index=False, header=False)

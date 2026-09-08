@@ -1,0 +1,257 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Forecasts the share closing prices for the next 7 days using the ARIMA model and plots the forecast.
+The function should output with:
+    Tuple[List[float], Axes]: A tuple containing:
+    A list with forecasted prices for the next 7 days.
+    A matplotlib Axes object containing the subplot.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from statsmodels.tsa.arima.model import ARIMA
+from typing import List, Tuple
+def task_func(df: pd.DataFrame) -> Tuple[List[float], Axes]:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from statsmodels.tsa.arima.model import ARIMA
+from typing import List, Tuple
+def task_func(df: pd.DataFrame) -> Tuple[List[float], Axes]:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df: pd.DataFrame) -> Tuple[List[float], Axes]`.
+
+## Requirements summary
+The function must:
+
+1. Take a `pandas.DataFrame`.
+2. Use an ARIMA model to forecast the **share closing prices** for the **next 7 days**.
+3. Return:
+   - `List[float]`: the 7 forecasted prices
+   - `Axes`: a Matplotlib subplot showing the historical series and forecast
+
+The code must be self-contained and start with the provided imports/signature.
+
+---
+
+## Implementation plan
+
+### 1. Identify the closing-price column
+- Inspect `df.columns` to find the column containing closing prices.
+- Common possibilities:
+  - `"Close"`
+  - `"close"`
+  - `"closing_price"`
+- If the data format is fixed by the caller, use that exact column; otherwise, make the selection robust.
+
+### 2. Prepare the time series
+- Extract the closing-price series from the DataFrame.
+- Convert to numeric if needed:
+  - coerce invalid values to `NaN`
+  - drop missing entries
+- Ensure the series is ordered chronologically.
+  - If there is a date column or datetime index, sort by time.
+  - If no time column exists, preserve row order as given.
+
+### 3. Validate input length
+- ARIMA needs enough observations to fit a model.
+- If there are too few points, either:
+  - raise a clear error, or
+  - use a fallback strategy such as repeating the last observed value
+- For this task, a clear exception is usually preferable if the dataset is unusable.
+
+### 4. Fit an ARIMA model
+- Choose a simple baseline ARIMA order, e.g. `(5, 1, 0)` or similar.
+- Fit the model to the closing-price series.
+- If fitting fails due to short length, constant data, or numerical issues:
+  - try a simpler fallback order, such as `(1, 1, 0)` or `(0, 1, 0)`.
+
+### 5. Forecast the next 7 days
+- Use `model_fit.forecast(steps=7)` to generate the predictions.
+- Convert the forecast output to a plain Python `list[float]`.
+
+### 6. Create the plot
+- Create a Matplotlib figure and axes.
+- Plot:
+  - historical closing prices
+  - forecasted values for the next 7 steps
+- Add clear labels:
+  - title
+  - x-axis label
+  - y-axis label
+  - legend
+- Use a line plot for both historical and forecast values.
+- Optionally mark the forecast region differently to make it easy to distinguish.
+
+### 7. Return result
+- Return a tuple:
+  - list of forecasted prices
+  - the `Axes` object
+
+---
+
+## Edge cases to handle
+
+### Missing or invalid close values
+- If closing prices contain `NaN`, strings, or non-numeric values:
+  - convert with `pd.to_numeric(..., errors="coerce")`
+  - drop missing values before fitting
+
+### Empty or nearly empty input
+- If the DataFrame has no usable closing prices:
+  - raise `ValueError("No valid closing price data available")`
+
+### Insufficient data for ARIMA
+- Very short series may not support the chosen ARIMA order.
+- Handle by:
+  - trying a simpler ARIMA order
+  - or raising a clear error if forecasting is impossible
+
+### Constant or nearly constant series
+- ARIMA can fail or produce unstable fits.
+- A fallback ARIMA order or a simple no-differencing model may be needed.
+
+### Unsorted time data
+- If the DataFrame has a date column or datetime index, sort before fitting.
+- Otherwise, use the existing order.
+
+### Nonstandard column names
+- If the closing price column is not named exactly `"Close"`, the function should either:
+  - detect likely alternatives, or
+  - fail with a helpful message explaining the expected column name
+
+### Forecast output shape
+- Ensure the result is always exactly 7 values.
+- Convert any numpy types to native Python `float`.
+
+---
+
+## Suggested behavior
+A practical implementation would:
+
+1. Find the closing-price series.
+2. Clean and validate it.
+3. Fit ARIMA with a simple order.
+4. Forecast 7 days.
+5. Plot historical vs forecast.
+6. Return `(forecast_list, ax)`.
+
+---
+
+If you want, I can next provide the actual implementation code following this plan.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from statsmodels.tsa.arima.model import ARIMA
+from typing import List, Tuple
+
+
+def task_func(df: pd.DataFrame) -> Tuple[List[float], Axes]:
+    """
+    Forecast the next 7 days of share closing prices using an ARIMA model.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input data containing a closing-price column and, optionally, a date column
+        or datetime index.
+
+    Returns
+    -------
+    Tuple[List[float], Axes]
+        A list of 7 forecasted prices and a Matplotlib Axes object with the plot.
+    """
+    if df is None or df.empty:
+        raise ValueError("Input DataFrame is empty.")
+
+    # --- Identify closing-price column ---
+    close_candidates = []
+    for col in df.columns:
+        col_lower = str(col).strip().lower()
+        if col_lower == "close":
+            close_candidates = [col]
+            break
+        if "close" in col_lower:
+            close_candidates.append(col)
+
+    if not close_candidates:
+        raise ValueError("No closing price column found. Expected a column like 'Close'.")
+
+    close_col = close_candidates[0]
+
+    # --- Prepare and clean the series ---
+    data = df.copy()
+
+    # Sort by date if a date-like column or datetime index exists
+    date_col = None
+    for col in data.columns:
+        if col == close_col:
+            continue
+        col_series = data[col]
+        if pd.api.types.is_datetime64_any_dtype(col_series):
+            date_col = col
+            break
+
+    if date_col is not None:
+        data = data.sort_values(by=date_col)
+    elif isinstance(data.index, pd.DatetimeIndex):
+        data = data.sort_index()
+
+    close_series = pd.to_numeric(data[close_col], errors="coerce").dropna()
+
+    if len(close_series) < 3:
+        raise ValueError("No valid closing price data available or too few observations for ARIMA.")
+
+    close_series = close_series.astype(float)
+
+    # --- Fit ARIMA with fallbacks ---
+    candidate_orders = [(5, 1, 0), (3, 1, 0), (1, 1, 0), (0, 1, 0), (1, 0, 0)]
+    model_fit = None
+
+    for order in candidate_orders:
+        try:
+            model = ARIMA(close_series, order=order)
+            model_fit = model.fit()
+            break
+        except Exception:
+            continue
+
+    if model_fit is None:
+        raise ValueError("ARIMA model could not be fit to the provided closing price data.")
+
+    # --- Forecast next 7 days ---
+    forecast_result = model_fit.forecast(steps=7)
+    forecast_values = [float(x) for x in forecast_result.tolist()]
+
+    # --- Build x-axis values for plotting ---
+    if isinstance(data.index, pd.DatetimeIndex):
+        hist_x = data.index[-len(close_series):]
+        last_date = hist_x[-1]
+        future_x = pd.bdate_range(start=last_date + pd.Timedelta(days=1), periods=7)
+    elif date_col is not None and pd.api.types.is_datetime64_any_dtype(data[date_col]):
+        hist_x = data[date_col].iloc[-len(close_series):]
+        last_date = hist_x.iloc[-1]
+        future_x = pd.bdate_range(start=last_date + pd.Timedelta(days=1), periods=7)
+    else:
+        hist_x = range(len(close_series))
+        future_x = range(len(close_series), len(close_series) + 7)
+
+    # --- Plot historical data and forecast ---
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(hist_x, close_series.values, label="Historical Close", color="tab:blue")
+    ax.plot(future_x, forecast_values, label="7-Day Forecast", color="tab:orange", linestyle="--", marker="o")
+
+    ax.set_title("ARIMA Forecast of Share Closing Prices")
+    ax.set_xlabel("Date" if not isinstance(hist_x, range) else "Time Step")
+    ax.set_ylabel("Closing Price")
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    return forecast_values, ax

@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f27-084f-75d3-961d-c7ae1e18cd95"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport requests\nfrom PIL import Image\nimport io\n\n\ndef task_func(url):\n    try:\n        response = requests.get(url, timeout=5, allow_redirects=False)\n        if not (200 <= response.status_code < 300):\n            raise ValueError(\"HTTP response was not successful.\")\n\n        image = Image.open(io.BytesIO(response.content))\n        image.load()\n        return image\n    except (requests.RequestException, Image.UnidentifiedImageError, OSError, ValueError) as e:\n        raise ValueError(\"Unable to fetch or decode image from the provided URL.\") from e\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3806,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":645,"reasoning_output_tokens":516}}

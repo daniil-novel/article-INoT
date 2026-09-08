@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Shuffles the columns of a numpy array randomly, performs Principal Component Analysis (PCA) to reduce the dimensionality to 2 principal components, and returns these components as a pandas DataFrame.
+Note that: PCA reduction will default to the number of features if fewer than 2. An named but empty DataFrame is returned for arrays without features or with empty content.
+The function should raise the exception for: ValueError: If the input array is not 2D.
+The function should output with:
+    pandas.DataFrame: DataFrame with columns 'PC1' and 'PC2' representing the two principal components.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+def task_func(array, seed=None):

@@ -1,0 +1,20 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Calculate the product of a matrix 'P' and a 3D tensor 'T' using numpy and visualize the results as a heatmap.
+Note that: This function only accepts numpy matrices/arrays.
+The function should output with:
+    numpy.ndarray: Resultant product after matrix-tensor multiplication.
+    matplotlib.axes.Axes: Axes object displaying the heatmap of the 2D result.
+You should write self-contained code starting with:
+```
+import numpy as np
+import seaborn as sns
+def task_func(P, T):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import seaborn as sns
+def task_func(P, T):

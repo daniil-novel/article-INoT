@@ -1,0 +1,20 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate random data and visualize it with a stacked bar chart, saving the chart to a file. This function facilitates the exploration and sharing of data distribution across multiple categories.
+The function should output with:
+    tuple: A tuple containing:
+    matplotlib.figure.Figure: The Figure object containing the stacked bar chart.
+    pandas.DataFrame: The DataFrame with randomly generated data.
+    str: The filename where the plot is saved ('test_plot.png').
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(num_groups=5, data_size=5, labels=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(num_groups=5, data_size=5, labels=None):

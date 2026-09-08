@@ -1,0 +1,155 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draws a scatter plot for the specified columns from a pandas DataFrame and fits a linear regression model to the data.
+Note that: Notes: After plotting the scatterplot, this function overlays the predicted regression line on top in red on the same Axes.
+The function should output with:
+    matplotlib.axes._axes.Axes: The Axes object containing the scatter plot and the linear regression line.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+def task_func(df, x_column, y_column):
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+def task_func(df, x_column, y_column):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(df, x_column, y_column)`:
+
+## Goal
+Create a function that:
+1. Takes a pandas DataFrame and two column names.
+2. Draws a scatter plot of `x_column` vs `y_column`.
+3. Fits a linear regression model to the same data.
+4. Overlays the predicted regression line in red on the same Axes.
+5. Returns the `matplotlib.axes._axes.Axes` object.
+
+---
+
+## Planned behavior
+
+### 1) Validate inputs
+- Confirm the specified columns exist in `df`.
+- Extract the two columns.
+- Ensure the selected data can be used numerically by `LinearRegression`.
+
+### 2) Clean / prepare data
+- Use only the two required columns.
+- Handle missing values by dropping rows where either x or y is missing.
+- Convert x data into the 2D shape expected by scikit-learn:
+  - `X = df[[x_column]].values`
+  - `y = df[y_column].values`
+
+### 3) Create scatter plot
+- Create a Matplotlib figure/axes with `plt.subplots()`.
+- Plot the scatter points using `ax.scatter(...)`.
+
+### 4) Fit linear regression
+- Instantiate `LinearRegression()`.
+- Fit the model on `X` and `y`.
+
+### 5) Plot regression line
+- Generate x-values for the line.
+  - Usually sort the x-values or create an evenly spaced grid from min to max.
+- Predict y-values using the fitted model.
+- Plot the line on the same axes in red:
+  - `ax.plot(x_line, y_pred, color='red')`
+
+### 6) Return result
+- Return the `Axes` object.
+
+---
+
+## Important edge cases to handle
+
+### Missing columns
+- If `x_column` or `y_column` is not in `df.columns`, raise a clear error, such as `KeyError` or `ValueError`.
+
+### Missing values
+- Drop rows with `NaN` in either column before fitting or plotting.
+- If too many rows are missing and fewer than 2 valid points remain, fitting is not meaningful.
+
+### Non-numeric data
+- If either column contains strings or mixed types that cannot be converted to numeric, raise a clear error.
+- Optionally, attempt conversion to numeric and fail early if conversion is impossible.
+
+### Constant x-values
+- If all `x_column` values are identical, linear regression can still return a horizontal fit, but the plot line will be vertical in x-space only as points share one x-value.
+- For plotting, if all x are the same, use that constant x for the line and predicted y values, or simply plot the fitted predictions over the same x-values.
+
+### Very small datasets
+- With only one valid point, regression cannot be meaningfully fit.
+- Best behavior: raise a `ValueError` explaining that at least 2 valid rows are required.
+
+### Empty DataFrame after cleaning
+- If all rows are dropped due to missing values, raise a clear error.
+
+### Unsorted x-values
+- If plotting the regression line using the original x order, the line may zig-zag.
+- Better to sort x or create a smooth grid from min to max before plotting.
+
+---
+
+## Suggested implementation structure
+1. Check column names.
+2. Select and clean the two columns.
+3. Convert x to shape `(n_samples, 1)` and y to shape `(n_samples,)`.
+4. Create `fig, ax = plt.subplots()`.
+5. Scatter plot the data.
+6. Fit `LinearRegression`.
+7. Create line x-values and predict y-values.
+8. Plot regression line in red.
+9. Return `ax`.
+
+---
+
+## Output expectation
+- The function should return the `Axes` object, not display the plot automatically.
+- It is okay if the caller later invokes `plt.show()`.
+
+---
+
+## Notes for implementation
+- Since the task explicitly says “self-contained code starting with” the import lines, the final code should include:
+  - `import matplotlib.pyplot as plt`
+  - `from sklearn.linear_model import LinearRegression`
+- If additional imports are needed, keep them minimal and local to the function if possible.
+
+If you want, I can also provide the exact implementation code next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+def task_func(df, x_column, y_column):
+    if x_column not in df.columns:
+        raise KeyError(f"Column '{x_column}' not found in DataFrame.")
+    if y_column not in df.columns:
+        raise KeyError(f"Column '{y_column}' not found in DataFrame.")
+
+    data = df.loc[:, [x_column, y_column]].dropna()
+    if len(data) < 2:
+        raise ValueError("At least 2 valid rows are required to fit a linear regression model.")
+
+    try:
+        data = data.astype(float)
+    except (ValueError, TypeError) as e:
+        raise ValueError("Specified columns must contain numeric data that can be converted to float.") from e
+
+    X = data[[x_column]].values
+    y = data[y_column].values
+
+    fig, ax = plt.subplots()
+    ax.scatter(data[x_column], data[y_column])
+
+    model = LinearRegression()
+    model.fit(X, y)
+
+    x_sorted = sorted(data[x_column].tolist())
+    x_line = [[x] for x in x_sorted]
+    y_line = model.predict(x_line)
+
+    ax.plot(x_sorted, y_line, color="red")
+    return ax

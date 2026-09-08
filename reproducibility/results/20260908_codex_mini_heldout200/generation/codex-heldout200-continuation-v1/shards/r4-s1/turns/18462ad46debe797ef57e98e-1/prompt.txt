@@ -1,0 +1,100 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Filters rows in a dictionary where the 'Name' column values start with a specified letter. First, convert the dict to a DataFrame and then filter rows in this DataFrame.
+The function should output with:
+    pd.Series: A Series of filtered 'Name' column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import time
+# Constants
+LETTERS = list('abcdefghijklmnopqrstuvwxyz')
+def task_func(data, letter):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import time
+# Constants
+LETTERS = list('abcdefghijklmnopqrstuvwxyz')
+def task_func(data, letter):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function:
+
+```python
+import pandas as pd
+import time
+# Constants
+LETTERS = list('abcdefghijklmnopqrstuvwxyz')
+def task_func(data, letter):
+```
+
+that:
+
+1. Takes a dictionary-like `data`.
+2. Converts it into a `pandas.DataFrame`.
+3. Filters rows where the values in the `Name` column start with the specified `letter`.
+4. Returns a `pd.Series` containing the filtered `Name` values.
+
+### Expected behavior
+
+- The function should operate on the `Name` column only.
+- Filtering should be based on string prefix matching: `Name` starts with `letter`.
+- The output must be a `pd.Series` of matching names, not a DataFrame.
+
+### Implementation plan
+
+1. **Convert input to DataFrame**
+   - Use `pd.DataFrame(data)` to normalize the dictionary into tabular form.
+
+2. **Validate / access the `Name` column**
+   - Check that the DataFrame contains `Name`.
+   - If `Name` is missing, decide whether to raise an error or return an empty Series.  
+   - For benchmark-style tasks, returning an empty `pd.Series` is often safer unless explicitly specified otherwise.
+
+3. **Normalize the filter letter**
+   - Since `LETTERS` contains lowercase letters, treat `letter` as lowercase for matching.
+   - Optionally guard against invalid inputs such as empty strings or multi-character strings.
+
+4. **Filter rows**
+   - Use string operations on the `Name` column:
+     - Convert to string safely if needed.
+     - Filter with `.str.startswith(letter)`.
+   - Handle missing values (`NaN`) so they do not cause errors.
+
+5. **Return the filtered `Name` Series**
+   - Select only the matching `Name` values.
+   - Keep the result as a `pd.Series`.
+
+---
+
+### Edge cases to consider
+
+1. **Missing `Name` column**
+   - Example: `data` has other keys but no `Name`.
+   - Recommended handling: return an empty `Series` or raise a clear error.
+
+2. **Empty input data**
+   - If `data` is empty, return an empty `Series`.
+
+3. **Non-string values in `Name`**
+   - If `Name` contains numbers, `None`, or mixed types, string matching can fail unless safely converted.
+   - Best approach: use string conversion carefully or rely on `na=False`.
+
+4. **Case sensitivity**
+   - If names are mixed case, decide whether matching should be case-sensitive.
+   - Given `LETTERS` is lowercase, the intended behavior is likely lowercase matching.
+   - A robust approach is to compare using lowercase versions of both `Name` and `letter`.
+
+5. **Invalid `letter` input**
+   - Empty string, multiple characters, or non-string inputs should be handled gracefully.
+
+6. **No matches**
+   - Return an empty `pd.Series` with the correct dtype/index behavior.
+
+7. **Missing values in `Name`**
+   - Ensure `NaN` does not break filtering.
+
+If you want, I can next turn this plan into the actual self-contained implementation.

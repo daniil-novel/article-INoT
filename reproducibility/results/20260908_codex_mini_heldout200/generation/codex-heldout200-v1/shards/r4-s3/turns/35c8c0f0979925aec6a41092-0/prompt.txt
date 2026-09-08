@@ -1,0 +1,20 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates a numpy array of random samples drawn from a normal distribution and plots the histogram of these samples. This function specifies the mean (mu), standard deviation (sigma), and sample size (sample_size), making it useful for simulating data, conducting statistical experiments, or initializing algorithms that require normally distributed data with visualization.
+Note that: Notes: Plots a histogram of the generated samples to show the distribution. The histogram features: X-axis labeled "Sample values", representing the value of the samples. Y-axis labeled "Frequency", showing how often each value occurs. Title "Histogram of Generated Samples", describing the content of the graph. Number of bins set to 30, to discretize the sample data into 30 intervals. Alpha value of 0.75 for bin transparency, making the histogram semi-transparent. Color 'blue', giving the histogram a blue color.
+The function should output with:
+    ndarray: A numpy array of shape (sample_size,) containing samples drawn from the
+    specified normal distribution.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(mu, sigma, sample_size):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(mu, sigma, sample_size):

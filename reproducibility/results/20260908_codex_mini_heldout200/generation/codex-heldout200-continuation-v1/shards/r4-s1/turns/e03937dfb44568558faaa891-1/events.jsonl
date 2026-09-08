@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f33-64f4-70f2-b37c-53d11c2cc2bd"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport json\nimport math\n\ndef task_func(decimal_value, precision=2):\n    if isinstance(precision, bool) or not isinstance(precision, int):\n        raise TypeError(\"precision must be a non-negative integer\")\n    if precision < 0:\n        raise ValueError(\"precision must be non-negative\")\n\n    value = float(decimal_value)\n    if value < 0:\n        raise ValueError(\"decimal_value must be non-negative\")\n\n    root = math.sqrt(value)\n    formatted = f\"{root:.{precision}f}\"\n    return json.dumps(formatted)\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3255,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":526,"reasoning_output_tokens":401}}

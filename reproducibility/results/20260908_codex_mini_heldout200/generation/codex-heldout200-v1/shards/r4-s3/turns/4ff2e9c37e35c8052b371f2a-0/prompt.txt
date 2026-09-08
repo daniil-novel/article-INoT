@@ -1,0 +1,20 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Calculate the distribution of the maximum values of each row in the matrix, record the histogram and the estimate of the core density of the distribution, and return the skew, kurtosis, and the histogram plot of the distribution.
+The function should output with:
+    tuple: The skewness, the kurtosis of the distribution, and the histogram plot (matplotlib Axes object).
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(matrix):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(matrix):

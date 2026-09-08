@@ -1,0 +1,113 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Normalize data in a csv file using MinMaxScaler from sklearn. Only numeric columns are normalized. Columns with other dtypes are left as they are.
+The function should raise the exception for: ValueError: If input does not have numeric columns.
+The function should output with:
+    DataFrame: A pandas DataFrame with normalized data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+def task_func(file_name: str) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+def task_func(file_name: str) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(file_name: str) -> pd.DataFrame`:
+
+## Goal
+Read a CSV file into a pandas DataFrame, apply `MinMaxScaler` only to numeric columns, and return the transformed DataFrame while preserving non-numeric columns unchanged.
+
+## Plan
+
+1. **Load the CSV**
+   - Use `pd.read_csv(file_name)` to read the file into a DataFrame.
+   - Let pandas raise its own errors for invalid file paths, malformed CSVs, or unreadable input.
+
+2. **Identify numeric columns**
+   - Select columns with numeric dtypes only.
+   - A reliable approach is `df.select_dtypes(include="number")`.
+   - Store the numeric column names for later replacement.
+
+3. **Validate numeric column presence**
+   - If no numeric columns are found, raise:
+     ```python
+     ValueError("If input does not have numeric columns.")
+     ```
+   - This matches the required behavior.
+
+4. **Scale numeric columns**
+   - Create a `MinMaxScaler()`.
+   - Fit and transform only the numeric subset:
+     - `scaled_values = scaler.fit_transform(df[numeric_cols])`
+   - Build a DataFrame from the scaled output using the same index and column names.
+
+5. **Preserve non-numeric columns**
+   - Copy the original DataFrame to avoid modifying input data unexpectedly.
+   - Replace only the numeric columns with the scaled results.
+   - Leave all other columns exactly as they are.
+
+6. **Return the result**
+   - Return the updated DataFrame.
+
+## Edge cases to handle
+
+- **No numeric columns**
+  - Must raise the required `ValueError`.
+
+- **Mixed dtypes**
+  - Only columns with numeric dtypes should be scaled.
+  - Text, datetime, categorical, boolean, and object columns should remain unchanged unless pandas classifies them as numeric.
+    - Note: pandas may treat `bool` as non-numeric depending on selection approach; using `select_dtypes(include="number")` avoids scaling booleans.
+
+- **Single numeric column**
+  - Still valid; `MinMaxScaler` should work on a one-column subset.
+
+- **Missing values**
+  - `MinMaxScaler` does not accept NaNs in standard usage.
+  - If the CSV can contain missing values in numeric columns, the function should either:
+    - let the scaler raise an error, or
+    - pre-handle them if the task later specifies that behavior.
+  - Since no imputation is requested, best to let it fail naturally.
+
+- **Empty CSV / empty DataFrame**
+  - If there are no columns or no rows, behavior should follow pandas/scikit-learn defaults.
+  - If there are columns but no numeric ones, raise the required `ValueError`.
+
+- **Duplicate column names**
+  - Scaling by column selection still works, but assignment should preserve the original structure carefully.
+
+- **Index preservation**
+  - The returned DataFrame should keep the original index unchanged.
+
+## Suggested implementation structure
+- Read CSV
+- Select numeric columns
+- Validate numeric columns
+- Scale numeric columns
+- Assign scaled values back into a copy
+- Return the DataFrame
+
+If you want, I can also provide the exact self-contained code in the required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+def task_func(file_name: str) -> pd.DataFrame:
+    df = pd.read_csv(file_name)
+    numeric_cols = df.select_dtypes(include="number").columns
+
+    if len(numeric_cols) == 0:
+        raise ValueError("If input does not have numeric columns.")
+
+    scaler = MinMaxScaler()
+    result = df.copy()
+    result[numeric_cols] = scaler.fit_transform(df[numeric_cols])
+
+    return result
+```

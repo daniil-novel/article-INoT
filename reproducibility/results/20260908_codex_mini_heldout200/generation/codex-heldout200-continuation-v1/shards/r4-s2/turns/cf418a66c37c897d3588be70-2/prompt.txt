@@ -1,0 +1,97 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Extract all texts not enclosed in square brackets into a string and calculate the TF-IDF values which are returned as a dictionary.
+The function should output with:
+    dict: A dictionary with words as keys and TF-IDF scores as values.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+import re
+def task_func(example_str):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+import re
+def task_func(example_str):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Strip out bracketed content**
+   - Take `example_str` and remove every substring enclosed in square brackets `[...]`.
+   - Use a regex-based cleanup such as:
+     - `re.sub(r'\[[^\]]*\]', ' ', example_str)`
+   - Replace removed spans with a space so adjacent words do not merge accidentally.
+
+2. **Normalize the remaining text**
+   - Collapse repeated whitespace with something like:
+     - `re.sub(r'\s+', ' ', cleaned_text).strip()`
+   - This ensures the TF-IDF input is well-formed.
+
+3. **Handle empty results early**
+   - If the cleaned string is empty after removal, return `{}`.
+   - This avoids errors from vectorization on no content.
+
+4. **Compute TF-IDF**
+   - Create a `TfidfVectorizer`.
+   - Fit it on a one-item corpus:
+     - `vectorizer.fit_transform([cleaned_text])`
+   - Extract the feature names and the vector values.
+   - Map each token to its TF-IDF score in a dictionary.
+
+5. **Return as dictionary**
+   - Output format:
+     - `{word: score, ...}`
+   - Convert scores to plain Python floats for cleanliness.
+
+### Edge cases to consider
+- **No brackets at all**: return TF-IDF for the full text.
+- **All text inside brackets**: return `{}`.
+- **Multiple bracketed segments**: remove all of them.
+- **Empty input string**: return `{}`.
+- **Only punctuation/whitespace outside brackets**: likely returns `{}` after cleaning.
+- **Unbalanced brackets**:
+  - A simple regex removes only well-formed `[...]` spans.
+  - If unbalanced bracket handling is required, a manual parser would be safer.
+- **Nested brackets**:
+  - Regex is not ideal for nesting; if nesting may appear, use a stack-based extraction approach instead.
+- **Single-document TF-IDF behavior**:
+  - With one document, TF-IDF values may be normalized by default.
+  - If raw, unnormalized values are desired, configure `TfidfVectorizer(norm=None)`.
+
+### Suggested implementation shape
+- Import `numpy as np`, `TfidfVectorizer`, and `re`.
+- Define:
+  - `def task_func(example_str):`
+- Clean text, vectorize, build dictionary, return it.
+
+If you want, I can also provide the exact self-contained function code now.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+import re
+
+def task_func(example_str):
+    if not example_str:
+        return {}
+
+    # Remove all text enclosed in square brackets
+    cleaned_text = re.sub(r"\[[^\]]*\]", " ", example_str)
+    cleaned_text = re.sub(r"\s+", " ", cleaned_text).strip()
+
+    if not cleaned_text:
+        return {}
+
+    try:
+        vectorizer = TfidfVectorizer(token_pattern=r"(?u)\b\w+\b")
+        tfidf_matrix = vectorizer.fit_transform([cleaned_text])
+        words = vectorizer.get_feature_names_out()
+        scores = tfidf_matrix.toarray()[0]
+        return {word: float(score) for word, score in zip(words, scores)}
+    except ValueError:
+        return {}
+```

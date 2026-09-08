@@ -1,0 +1,120 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Find and run all .bat files in a given directory, returning their file names and exit codes.
+The function should output with:
+    list of tuples: A list where each tuple contains the file name and its exit code.
+    The exit code is None if the file could not be executed.
+You should write self-contained code starting with:
+```
+import subprocess
+import os
+import sys
+import glob
+def task_func(directory_path):
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import os
+import sys
+import glob
+def task_func(directory_path):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate input**
+   - Accept `directory_path` as a string path.
+   - Optionally check that it exists and is a directory.
+   - If it is invalid, return an empty list or treat it as having no runnable `.bat` files, depending on desired strictness.
+
+2. **Collect `.bat` files**
+   - Use `glob.glob(os.path.join(directory_path, "*.bat"))` to find batch files in the given directory.
+   - If you want Windows-style case-insensitive handling, also consider `*.BAT`, `*.Bat`, etc., or normalize by checking file extensions in a directory listing.
+   - Sort the file list for deterministic output.
+
+3. **Execute each file**
+   - Run each batch file with `subprocess.run`.
+   - On Windows, batch files are best executed through `cmd /c` or with `shell=True`.
+   - Use a quoted path so filenames with spaces work correctly.
+
+4. **Capture exit codes**
+   - If the process runs successfully, store `result.returncode`.
+   - If execution fails before the process can start, store `None`.
+
+5. **Return format**
+   - Return a list of tuples:
+     - `("file_name.bat", exit_code)`
+   - Use the file’s base name, not the full path, unless the requirements explicitly want full paths.
+
+Edge cases to handle:
+- **No `.bat` files found** → return `[]`.
+- **Directory does not exist / is not a directory** → return `[]` or handle gracefully.
+- **Paths with spaces** → quote paths before execution.
+- **Permission errors** → record `None` for that file.
+- **Non-executable / malformed batch file** → record `None` if it cannot be launched.
+- **Uppercase/mixed-case extensions** → include them if you need case-insensitive matching.
+- **Deterministic ordering** → sort file names before running.
+- **Batch file exits with non-zero code** → still return the actual non-zero exit code; only use `None` when execution fails outright.
+
+A practical implementation would therefore:
+- build the file list,
+- run each batch file one by one,
+- catch launch-related exceptions,
+- and return the collected `(filename, exit_code)` tuples.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import subprocess
+import os
+import sys
+import glob
+
+def task_func(directory_path):
+    """
+    Find and run all .bat files in a given directory.
+
+    Returns:
+        list[tuple[str, int | None]]: (file_name, exit_code) for each batch file.
+                                      exit_code is None if execution failed.
+    """
+    if not isinstance(directory_path, str) or not os.path.isdir(directory_path):
+        return []
+
+    try:
+        entries = sorted(os.listdir(directory_path))
+    except OSError:
+        return []
+
+    results = []
+    for name in entries:
+        if not name.lower().endswith(".bat"):
+            continue
+
+        full_path = os.path.join(directory_path, name)
+        if not os.path.isfile(full_path):
+            continue
+
+        exit_code = None
+        try:
+            if os.name == "nt":
+                completed = subprocess.run(
+                    ["cmd", "/c", full_path],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    check=False,
+                )
+            else:
+                completed = subprocess.run(
+                    [full_path],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    check=False,
+                )
+            exit_code = completed.returncode
+        except (OSError, subprocess.SubprocessError, ValueError):
+            exit_code = None
+
+        results.append((name, exit_code))
+
+    return results
+```

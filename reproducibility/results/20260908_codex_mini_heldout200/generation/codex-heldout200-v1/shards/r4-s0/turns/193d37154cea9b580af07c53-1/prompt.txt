@@ -1,0 +1,128 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Archive a specified project directory into a ZIP file based on the configuration specified in a config file. This function reads a configuration file to determine the project directory and archives this directory into a ZIP file. The ZIP file's name will be the project directory's basename, stored in the specified archive directory. Configuration File Format: [Project] directory=path_to_project_directory
+The function should raise the exception for: FileNotFoundError: If the `config_file_path` does not exist or the specified project directory does not exist. Exception: If the ZIP archive cannot be created.
+The function should output with:
+    bool: True if the ZIP archive is successfully created, otherwise an exception is raised.
+You should write self-contained code starting with:
+```
+import configparser
+import os
+import shutil
+def task_func(config_file_path, archieve_dir ='/home/user/archive'):
+```
+FULL SUPPLIED CONTEXT
+import configparser
+import os
+import shutil
+def task_func(config_file_path, archieve_dir ='/home/user/archive'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(config_file_path, archieve_dir='/home/user/archive')`
+
+## Goal
+Read a config file, extract the project directory from:
+
+```ini
+[Project]
+directory=path_to_project_directory
+```
+
+Then archive that directory into a ZIP file named after the project directory’s basename and place it in `archieve_dir`.
+
+Return `True` on success. Raise errors as specified.
+
+---
+
+## Plan
+
+### 1. Validate the config file path
+- Check whether `config_file_path` exists.
+- If it does not exist, raise `FileNotFoundError`.
+
+### 2. Parse the configuration file
+- Use `configparser.ConfigParser()` to read the file.
+- Ensure the config contains a `[Project]` section.
+- Ensure the section contains a `directory` key.
+- Read the project directory path from that key.
+
+### 3. Validate the project directory
+- Check whether the extracted project directory exists.
+- If it does not exist, raise `FileNotFoundError`.
+
+### 4. Prepare the archive output path
+- Determine the project directory basename.
+  - Example: `/path/to/my_project` → `my_project`
+- Build the target ZIP path inside `archieve_dir`:
+  - `archieve_dir/my_project.zip`
+
+### 5. Ensure archive directory is usable
+- If `archieve_dir` does not exist, create it if appropriate.
+- If it cannot be created or is not writable, this should lead to the required archive-creation exception.
+
+### 6. Create the ZIP archive
+- Use `shutil.make_archive` or equivalent ZIP creation logic.
+- Archive the entire project directory.
+- Ensure the ZIP name matches the project directory basename.
+- Ensure the archive is stored in `archieve_dir`.
+
+### 7. Handle archive creation failure
+- If ZIP creation fails for any reason, raise `Exception`.
+
+### 8. Return success
+- If the archive is created successfully, return `True`.
+
+---
+
+## Edge cases to handle
+
+### Config file issues
+- `config_file_path` does not exist → `FileNotFoundError`
+- Config file is empty or malformed → `Exception`
+- Missing `[Project]` section → `Exception`
+- Missing `directory` field → `Exception`
+
+### Project directory issues
+- Directory path in config does not exist → `FileNotFoundError`
+- Path points to a file instead of a directory → `FileNotFoundError` or `Exception` depending on implementation choice, but it should fail clearly
+
+### Archive output issues
+- `archieve_dir` does not exist
+- `archieve_dir` cannot be created
+- No write permission in `archieve_dir`
+- Archive file already exists
+  - Decide whether to overwrite or fail; `shutil.make_archive` may overwrite existing output depending on how it is used, so the implementation should be consistent and safe
+
+### Path/name issues
+- Project directory ends with a trailing slash
+- Project basename is empty or invalid
+- Directory name contains spaces or non-ASCII characters
+- Windows vs Unix path separators
+
+### Runtime/archive issues
+- ZIP creation interrupted
+- Source directory contains unreadable files
+- Very large project directories
+- Symlinks or special files inside the project directory
+
+---
+
+## Recommended implementation behavior
+- Use strict validation before archiving.
+- Raise `FileNotFoundError` only for missing config file or missing project directory, as requested.
+- Raise a generic `Exception` for any archive creation failure.
+- Return `True` only after confirming the archive file exists.
+
+---
+
+## Suggested internal flow
+1. Check config file exists.
+2. Parse config.
+3. Extract `Project.directory`.
+4. Check project directory exists.
+5. Build archive path.
+6. Create archive.
+7. Verify archive file created.
+8. Return `True`.
+
+If you want, I can next turn this into the actual self-contained function implementation matching the required signature.

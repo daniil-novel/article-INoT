@@ -1,0 +1,92 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform a paired t-test for the number of words in two strings, only if the strings produce the same number of words.
+The function should output with:
+    t_statistic (float): The t-statistic, or NaN if tests cannot be performed due to unequal lengths.
+    p_value (float): The p-value, or NaN if tests cannot be performed due to unequal lengths.
+You should write self-contained code starting with:
+```
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+def task_func(text1, text2):
+```
+FULL SUPPLIED CONTEXT
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+def task_func(text1, text2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+1. **Tokenize each string into words**
+   - Use a regex-based splitter such as `re.findall(...)` so punctuation and irregular whitespace are ignored consistently.
+   - This yields two word lists: one for `text1`, one for `text2`.
+
+2. **Check the word counts**
+   - If the two lists do **not** have the same length, the paired test cannot be performed.
+   - In that case, return:
+     - `t_statistic = np.nan`
+     - `p_value = np.nan`
+
+3. **Build paired numeric samples**
+   - Since a t-test needs numeric values, convert each word into a numeric feature.
+   - The natural choice here is **word length**:
+     - `sample1 = [len(word) for word in words1]`
+     - `sample2 = [len(word) for word in words2]`
+   - Convert them to NumPy arrays of `float` before calling `ttest_rel`.
+
+4. **Run the paired t-test**
+   - Call `ttest_rel(sample1, sample2)`.
+   - Extract the returned `t_statistic` and `p_value`.
+
+5. **Return results**
+   - Return the two values as floats.
+   - If SciPy produces `nan` for numerical reasons, propagate those values as-is unless you choose to normalize them.
+
+---
+
+## Edge cases to handle
+
+- **Unequal number of words**
+  - Must return `(np.nan, np.nan)`.
+
+- **Empty strings**
+  - Both strings empty → word lists are empty; t-test is not meaningful.
+  - You may return `(np.nan, np.nan)` or let SciPy produce `nan`, but explicit handling is safer.
+
+- **Single-word inputs**
+  - Even if word counts match, a paired t-test with only one pair is not statistically meaningful.
+  - Best practice: return `(np.nan, np.nan)` when fewer than 2 paired observations exist.
+
+- **Punctuation / multiple spaces / newlines**
+  - Regex tokenization should avoid counting these as words.
+
+- **Unicode or mixed-language text**
+  - Decide on a regex that matches the intended “word” definition consistently.
+
+- **Identical paired samples**
+  - If all word lengths are equal across pairs, the test may yield undefined or degenerate results; allow SciPy’s output to propagate.
+
+If you want, I can also turn this plan into the exact function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+
+def task_func(text1, text2):
+    words1 = re.findall(r"\b\w+\b", text1)
+    words2 = re.findall(r"\b\w+\b", text2)
+
+    if len(words1) != len(words2) or len(words1) < 2:
+        return np.nan, np.nan
+
+    sample1 = np.asarray([len(word) for word in words1], dtype=float)
+    sample2 = np.asarray([len(word) for word in words2], dtype=float)
+
+    t_statistic, p_value = ttest_rel(sample1, sample2)
+    return float(t_statistic), float(p_value)
+```

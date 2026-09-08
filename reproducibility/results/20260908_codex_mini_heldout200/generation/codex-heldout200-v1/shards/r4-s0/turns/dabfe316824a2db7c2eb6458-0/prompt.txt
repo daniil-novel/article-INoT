@@ -1,0 +1,15 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Given a Pandas DataFrame with random numeric values, standardize it with the standard scaler from sklearn.
+The function should output with:
+    df_standardized (DataFrame): The standardized DataFrame.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(df):

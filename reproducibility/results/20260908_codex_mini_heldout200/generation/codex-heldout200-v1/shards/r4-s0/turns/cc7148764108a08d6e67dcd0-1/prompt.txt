@@ -1,0 +1,108 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Remove all special characters, punctuation marks and spaces from a string called "input _ str" using regex and then count the frequency of each word.
+The function should output with:
+    dict: A dictionary with the frequency of each word.
+You should write self-contained code starting with:
+```
+import re
+from nltk import word_tokenize
+from collections import Counter
+def task_func(input_str):
+```
+FULL SUPPLIED CONTEXT
+import re
+from nltk import word_tokenize
+from collections import Counter
+def task_func(input_str):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a function `task_func(input_str)` that:
+
+1. Cleans a string using regex.
+2. Counts the frequency of each word.
+3. Returns a `dict` of word frequencies.
+
+### Important ambiguity
+The prompt says to remove:
+- special characters
+- punctuation marks
+- spaces
+
+But if **all spaces are removed**, words will merge together and word counting becomes impossible.  
+So the practical interpretation is:
+
+- remove punctuation/special characters,
+- normalize whitespace,
+- then tokenize/count words.
+
+If strict removal of spaces is required, that should be clarified because it conflicts with “count the frequency of each word.”
+
+---
+
+## Implementation plan
+
+### 1) Accept the input string
+- Function signature: `task_func(input_str)`
+- If `input_str` is `None` or empty, return `{}`.
+
+### 2) Normalize text
+- Convert to lowercase so counting is case-insensitive.
+- Use regex to replace unwanted characters with spaces, rather than deleting them blindly.
+  - Example idea: keep only letters, digits, and whitespace.
+- Collapse repeated whitespace into a single space.
+
+### 3) Tokenize into words
+- Use `word_tokenize` from NLTK, or alternatively simple regex-based splitting after cleanup.
+- Since the starter code already imports `word_tokenize`, use it after cleaning.
+
+### 4) Count frequencies
+- Use `Counter` to count tokens.
+- Convert the `Counter` object to a regular dictionary before returning, if needed.
+
+### 5) Return result
+- Return a dictionary like `{"hello": 2, "world": 1}`.
+
+---
+
+## Edge cases to handle
+
+1. **Empty string**
+   - Return `{}`.
+
+2. **Only punctuation/special characters**
+   - After cleanup, no tokens remain → return `{}`.
+
+3. **Multiple spaces / mixed whitespace**
+   - Collapse them before tokenization.
+
+4. **Mixed case words**
+   - Normalize to lowercase to avoid treating `Word` and `word` differently.
+
+5. **Numbers in the text**
+   - Decide whether to keep them as tokens.
+   - Recommended: keep alphanumeric tokens unless the task explicitly says to exclude numbers.
+
+6. **Unicode letters**
+   - If text may include non-English letters, regex should ideally preserve Unicode word characters.
+
+7. **Single-word input**
+   - Return that word with frequency `1`.
+
+8. **String with embedded symbols inside words**
+   - Example: `co-op`, `user_name`, `hello!world`
+   - Decide whether to split into separate words or preserve compound forms.
+   - For a straightforward solution, split on non-alphanumeric characters.
+
+---
+
+## Suggested behavior summary
+- Clean text with regex.
+- Preserve word boundaries by replacing unwanted characters with spaces.
+- Tokenize.
+- Count tokens with `Counter`.
+- Return the counts as a dictionary.
+
+If you want, I can now provide the actual self-contained implementation in the exact required format.

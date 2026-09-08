@@ -1,0 +1,110 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generates a DataFrame with random numerical data and visualizes this data in a stacked bar chart for specified categories.
+The function should raise the exception for: ValueError: If the number of columns exceeds the number of available categories.
+The function should output with:
+    matplotlib.axes._axes.Axes: The Axes object displaying the stacked bar chart.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(rows=5, cols=5):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(rows=5, cols=5):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(rows=5, cols=5)`:
+
+## Goal
+Create a function that:
+1. Generates a `pandas.DataFrame` with random numeric data.
+2. Visualizes the data as a **stacked bar chart**.
+3. Uses a fixed set of categories for the bars.
+4. Returns the `matplotlib.axes._axes.Axes` object.
+5. Raises `ValueError` if `cols` is greater than the number of available categories.
+
+---
+
+## Proposed approach
+
+### 1) Define available categories
+- Create a list of category names, for example:
+  - `["A", "B", "C", "D", "E", ...]`
+- The number of categories is the maximum allowed value for `cols`.
+
+### 2) Validate inputs
+- Check whether `cols > len(categories)`.
+- If true, raise:
+  - `ValueError("Number of columns exceeds the number of available categories.")`
+
+Optional but sensible:
+- Ensure `rows` and `cols` are integers.
+- Ensure `rows > 0` and `cols > 0`.
+
+### 3) Generate random data
+- Use `np.random` to create a 2D array of shape `(rows, cols)`.
+- Since the task says numerical data, any random numeric distribution is acceptable:
+  - `np.random.rand(rows, cols)` for values in `[0, 1)`, or
+  - `np.random.randint(...)` if integer data is preferred.
+
+### 4) Build the DataFrame
+- Use the first `cols` categories as column names.
+- Create the DataFrame with `rows` rows and `cols` columns.
+
+### 5) Plot stacked bar chart
+- Create a matplotlib figure/axes with `plt.subplots()`.
+- Call `DataFrame.plot(kind="bar", stacked=True, ax=ax)`.
+
+### 6) Configure the plot
+- Optionally set:
+  - x-label
+  - y-label
+  - title
+  - legend
+- The important output is the `Axes` object.
+
+### 7) Return the Axes
+- Return the `ax` object after plotting.
+
+---
+
+## Edge cases to handle
+
+### 1) `cols` exceeds available categories
+- Must raise `ValueError`.
+
+### 2) `rows == 0` or `cols == 0`
+- A zero-sized DataFrame would not produce a meaningful chart.
+- Best to raise `ValueError` for non-positive dimensions.
+
+### 3) Negative values for `rows` or `cols`
+- Should raise `ValueError`.
+
+### 4) Non-integer inputs
+- If `rows` or `cols` are floats/strings, behavior should be rejected explicitly.
+- Optional: validate and raise `TypeError` or `ValueError`.
+
+### 5) Very large `rows`
+- Plot may become cluttered, but functionally it still works.
+- No special handling required unless you want to limit size.
+
+### 6) Randomness/reproducibility
+- If deterministic behavior is needed, set a seed inside the function or accept one as an optional parameter.
+- Since no seed is specified, randomness can remain uncontrolled.
+
+---
+
+## Expected structure of the implementation
+1. Import `numpy`, `pandas`, and `matplotlib.pyplot`.
+2. Define `task_func(rows=5, cols=5)`.
+3. Validate `rows` and `cols`.
+4. Define available category labels.
+5. Raise `ValueError` if `cols` is too large.
+6. Generate the random DataFrame.
+7. Plot a stacked bar chart.
+8. Return the `Axes` object.
+
+If you want, I can also turn this plan into the exact self-contained implementation.

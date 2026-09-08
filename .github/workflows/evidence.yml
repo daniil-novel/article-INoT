@@ -52,6 +52,23 @@ jobs:
               assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
           print('Published development summary and all 400 candidate records replay exactly')
           PY
+      - name: Replay primary outcomes without model calls or Docker
+        run: |
+          python -m reproducibility.heldout200.assemble collect \
+            --archive reproducibility/results/20260908_codex_mini_heldout200/generation/codex-heldout200-v1 \
+            --continuation reproducibility/results/20260908_codex_mini_heldout200/generation/codex-heldout200-continuation-v1 \
+            --predictions reproducibility/results/20260908_codex_mini_heldout200/predictions \
+            --native reproducibility/results/20260908_codex_mini_heldout200/evaluations \
+            --controls reproducibility/results/20260908_codex_mini_heldout200/controls/attempt3 \
+            --output tmp/ci-primary-replay
+          python - <<'PY'
+          from pathlib import Path
+          actual = Path('tmp/ci-primary-replay')
+          expected = Path('reproducibility/results/20260908_codex_mini_heldout200/analysis')
+          for name in ('summary.json', 'candidate_records.jsonl', 'assignment_availability.json'):
+              assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
+          print('Published primary summary and all 996 candidate records replay exactly')
+          PY
       - name: Replay INoT outcomes without model calls or Docker
         run: |
           python -m reproducibility.heldout200.inot_evidence collect \

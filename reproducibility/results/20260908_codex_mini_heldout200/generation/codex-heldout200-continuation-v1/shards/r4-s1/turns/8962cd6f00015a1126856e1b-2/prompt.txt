@@ -1,0 +1,101 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform an SVM classification of the iris dataset and warn if the accuracy is less than 0.9. The warning action is set to 'always'. The test size for the train-test split is 0.33.
+The function should output with:
+    tuple: A tuple containing:
+    accuracy (float): The accuracy of the SVM classification.
+    warning_msg (str or None): A warning message if the accuracy is below 0.9, None otherwise.
+You should write self-contained code starting with:
+```
+import warnings
+import sklearn.model_selection as model_selection
+import sklearn.svm as svm
+import sklearn.datasets as datasets
+import sklearn.metrics as metrics
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import warnings
+import sklearn.model_selection as model_selection
+import sklearn.svm as svm
+import sklearn.datasets as datasets
+import sklearn.metrics as metrics
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Load the dataset**
+   - Use `datasets.load_iris()` to get features `X` and labels `y`.
+
+2. **Split into train/test sets**
+   - Use `model_selection.train_test_split`.
+   - Set `test_size=0.33` exactly as required.
+   - Prefer `stratify=y` to preserve class proportions across splits.
+   - Optionally set a fixed `random_state` for reproducibility.
+
+3. **Train the SVM classifier**
+   - Create an SVM model with `svm.SVC()`.
+   - Fit it on the training data.
+
+4. **Make predictions**
+   - Predict labels for the test set.
+
+5. **Compute accuracy**
+   - Use `metrics.accuracy_score(y_test, y_pred)`.
+   - Store the result as a Python `float`.
+
+6. **Handle warning logic**
+   - If accuracy is **below 0.9**, emit a warning using `warnings.warn(...)`.
+   - Set the warning action to **"always"** via `warnings.simplefilter("always")` or a `catch_warnings` context.
+   - Return the warning text as a string.
+   - If accuracy is **0.9 or higher**, do not warn and return `None` for the warning message.
+
+7. **Return value**
+   - Return a tuple:
+     - `accuracy` as `float`
+     - `warning_msg` as `str` or `None`
+
+Edge cases to account for:
+- **Accuracy exactly 0.9**: no warning should be issued, since the condition is “below 0.9”.
+- **Warning capture**: if you need the warning text in the return value, capture it explicitly rather than relying only on `warnings.warn`.
+- **Non-deterministic split**: without a fixed `random_state`, results can vary run to run; using one is safer if reproducibility matters.
+- **Class balance**: `stratify=y` helps avoid imbalanced train/test splits that could distort accuracy.
+- **Return types**: ensure accuracy is converted to a plain `float`, not a NumPy scalar.
+
+If you want, I can also turn this plan into the exact self-contained code skeleton starting with your required imports.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import warnings
+import sklearn.model_selection as model_selection
+import sklearn.svm as svm
+import sklearn.datasets as datasets
+import sklearn.metrics as metrics
+
+
+def task_func():
+    X, y = datasets.load_iris(return_X_y=True)
+
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(
+        X,
+        y,
+        test_size=0.33,
+        stratify=y,
+        random_state=42,
+    )
+
+    clf = svm.SVC()
+    clf.fit(X_train, y_train)
+
+    y_pred = clf.predict(X_test)
+    accuracy = float(metrics.accuracy_score(y_test, y_pred))
+
+    warning_msg = None
+    if accuracy < 0.9:
+        msg = f"SVM classification accuracy is below 0.9: {accuracy:.4f}"
+        with warnings.catch_warnings(record=True) as caught_warnings:
+            warnings.simplefilter("always")
+            warnings.warn(msg)
+            warning_msg = str(caught_warnings[-1].message) if caught_warnings else msg
+
+    return accuracy, warning_msg

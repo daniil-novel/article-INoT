@@ -1,0 +1,22 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate all subsets of a given size from a tuple and draw a histogram of the sums of the subsets. Additionally, return the Axes object of the plotted histogram and the combinations of the subsets and their sums.
+The function should output with:
+    matplotlib.axes.Axes: Axes object of the plotted histogram.
+    list: List of all the combinations of subsets.
+    list: List of the sums of all the subsets.
+You should write self-contained code starting with:
+```
+import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(elements, subset_size):
+```
+FULL SUPPLIED CONTEXT
+import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(elements, subset_size):

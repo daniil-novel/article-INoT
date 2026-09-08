@@ -1,0 +1,155 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Read a YAML file, apply the cosine to a specific key from the data, and then write the modified data back into the YAML file.
+The function should output with:
+    data (dict): A dictionary representation of the modified YAML data.
+You should write self-contained code starting with:
+```
+import math
+import yaml
+def task_func(yaml_path, key):
+```
+FULL SUPPLIED CONTEXT
+import math
+import yaml
+def task_func(yaml_path, key):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(yaml_path, key)`:
+
+### Goal
+- Read YAML from `yaml_path`
+- Find the specified top-level `key`
+- Replace its value with `math.cos(value)`
+- Write the updated data back to the same YAML file
+- Return the modified YAML data as a `dict`
+
+---
+
+## Assumptions
+- `key` refers to a **top-level** mapping key in the YAML file.
+- The value at `key` is numeric and represents an angle in **radians**, since `math.cos()` expects radians.
+- The YAML file contains a mapping/dictionary, not a list or scalar.
+
+---
+
+## Steps
+
+1. **Open and read the YAML file**
+   - Use `yaml.safe_load()` to parse the file.
+   - If the file is empty, treat it as an empty dict `{}`.
+
+2. **Validate parsed content**
+   - Ensure the loaded object is a dictionary.
+   - If not, raise an appropriate error because the task requires dictionary-style YAML data.
+
+3. **Check that the key exists**
+   - If `key` is not present, raise `KeyError`.
+   - This avoids silently modifying nothing.
+
+4. **Validate the value**
+   - Retrieve `data[key]`.
+   - Ensure it is a real numeric type (`int` or `float`), but not `bool`.
+   - If the value is invalid or non-numeric, raise `TypeError` or `ValueError`.
+
+5. **Apply cosine**
+   - Compute `math.cos(data[key])`.
+   - Store the result back in `data[key]`.
+
+6. **Write updated data back to YAML**
+   - Use `yaml.safe_dump()` to serialize the modified dictionary.
+   - Overwrite the original file at `yaml_path`.
+
+7. **Return the updated dictionary**
+   - The function should return the modified `data` dict.
+
+---
+
+## Edge cases to handle
+
+- **Empty YAML file**
+  - `safe_load()` may return `None`; convert to `{}`.
+
+- **Non-dictionary YAML**
+  - Example: a list or scalar at the root.
+  - Should raise an error, since the function expects a dict.
+
+- **Missing key**
+  - Raise `KeyError`.
+
+- **Non-numeric value**
+  - Example: string, list, nested dict.
+  - Raise `TypeError` or `ValueError`.
+
+- **Boolean value**
+  - `bool` is a subclass of `int` in Python, so explicitly exclude it.
+
+- **Special float values**
+  - `math.cos(float('nan'))` yields `nan`
+  - `math.cos(float('inf'))` raises `ValueError`
+  - Decide whether to let Python raise naturally or pre-check.
+
+- **YAML syntax errors**
+  - Let parser exceptions propagate, or wrap them if you want friendlier error messages.
+
+- **File write issues**
+  - Permission or path errors should propagate naturally.
+
+---
+
+## Suggested function behavior
+- Strict and predictable:
+  - validate input structure
+  - fail fast on missing/invalid key values
+  - overwrite the YAML file only if the update is valid
+
+---
+
+## Pseudocode outline
+```python
+def task_func(yaml_path, key):
+    read YAML into data
+    if data is None: data = {}
+    if data is not dict: error
+
+    if key not in data: error
+    value = data[key]
+    if value is not numeric or is bool: error
+
+    data[key] = math.cos(value)
+
+    write data back to yaml_path
+    return data
+```
+
+If you want, I can also turn this plan into the exact self-contained Python implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import math
+import yaml
+
+def task_func(yaml_path, key):
+    with open(yaml_path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+
+    if data is None:
+        data = {}
+
+    if not isinstance(data, dict):
+        raise TypeError("YAML root must be a dictionary")
+
+    if key not in data:
+        raise KeyError(key)
+
+    value = data[key]
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise TypeError("The value for the specified key must be numeric")
+
+    data[key] = math.cos(value)
+
+    with open(yaml_path, "w", encoding="utf-8") as f:
+        yaml.safe_dump(data, f, sort_keys=False)
+
+    return data
+```

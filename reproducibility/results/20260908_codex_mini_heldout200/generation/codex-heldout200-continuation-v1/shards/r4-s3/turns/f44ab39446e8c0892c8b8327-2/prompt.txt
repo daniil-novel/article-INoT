@@ -1,0 +1,151 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Switch to a specific version of Python and add a specific path to sys.path.
+Note that: This function changes the global Python version and should be used carefully.
+The function should output with:
+    python_version (str): The Python version that was switched to.
+You should write self-contained code starting with:
+```
+import sys
+import subprocess
+# Constants
+PYTHON_VERSION = '3.8'
+PATH_TO_APPEND = '/path/to/whatever'
+def task_func(python_version=PYTHON_VERSION, path_to_append=PATH_TO_APPEND):
+```
+FULL SUPPLIED CONTEXT
+import sys
+import subprocess
+# Constants
+PYTHON_VERSION = '3.8'
+PATH_TO_APPEND = '/path/to/whatever'
+def task_func(python_version=PYTHON_VERSION, path_to_append=PATH_TO_APPEND):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(python_version=PYTHON_VERSION, path_to_append=PATH_TO_APPEND)`:
+
+### Goal
+- Make the process use a specified Python version.
+- Append a given path to `sys.path`.
+- Return or output `python_version` as a `str`.
+
+### Planned behavior
+1. **Validate inputs**
+   - Ensure `python_version` is a non-empty string.
+   - Ensure `path_to_append` is a non-empty string.
+
+2. **Append to `sys.path`**
+   - Check whether `path_to_append` is already present.
+   - If not present, append it to `sys.path`.
+   - Do this before any imports that may depend on the path.
+
+3. **Switch Python version carefully**
+   - Because Python cannot truly change its interpreter version inside the same running process, the implementation should treat this as a **process-level switch**.
+   - Use `subprocess` to invoke the target Python executable/version if available.
+   - If the target interpreter is already active, no switch is needed.
+   - If switching requires restarting the process, the function should document or enforce that behavior clearly.
+
+4. **Return/output**
+   - Return the selected `python_version` as a string.
+   - If the function is designed to print instead of return, print the version explicitly, but returning is cleaner.
+
+---
+
+### Edge cases to handle
+- **Requested version is the same as the current interpreter**
+  - Skip switching and only ensure `sys.path` is updated.
+
+- **Requested version is unavailable**
+  - Example: `python3.8` is not installed or not on `PATH`.
+  - The function should fail gracefully with a clear error message.
+
+- **Path already exists in `sys.path`**
+  - Avoid duplicate entries.
+
+- **Invalid or empty path**
+  - If `path_to_append` is empty or malformed, raise a meaningful error.
+
+- **Version string format issues**
+  - Accept values like `"3.8"` consistently.
+  - If a different format is needed by the platform, normalize it before lookup.
+
+- **Platform-specific executable naming**
+  - Windows and Unix-like systems may resolve Python executables differently.
+
+- **Subprocess failure**
+  - Handle non-zero exit codes, missing executables, or permission issues.
+
+- **Global side effects**
+  - Switching interpreter version affects the whole process, so the function should be used only when such side effects are acceptable.
+
+---
+
+### Important limitation
+A running Python process cannot truly “switch” its interpreter version in-place. The practical implementation must either:
+- launch a new interpreter with `subprocess`, or
+- restart the current program under the desired Python executable.
+
+If you want, I can next turn this plan into the actual self-contained implementation matching your required starter code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import sys
+import subprocess
+
+# Constants
+PYTHON_VERSION = '3.8'
+PATH_TO_APPEND = '/path/to/whatever'
+
+
+def task_func(python_version=PYTHON_VERSION, path_to_append=PATH_TO_APPEND):
+    """
+    Best-effort switch to the requested Python version and append a path to sys.path.
+
+    Note:
+        A running Python process cannot truly change its interpreter version in-place.
+        This function therefore validates the requested version, probes for an
+        available interpreter with subprocess when possible, and returns the
+        requested version string.
+
+    Returns:
+        str: The Python version that was requested.
+    """
+    if not isinstance(python_version, str) or not python_version.strip():
+        raise ValueError("python_version must be a non-empty string.")
+    if not isinstance(path_to_append, str) or not path_to_append.strip():
+        raise ValueError("path_to_append must be a non-empty string.")
+
+    selected_version = python_version.strip()
+
+    if path_to_append not in sys.path:
+        sys.path.append(path_to_append)
+
+    current_version = f"{sys.version_info.major}.{sys.version_info.minor}"
+
+    if selected_version != current_version:
+        probe_commands = []
+
+        if sys.platform.startswith("win"):
+            probe_commands.extend([
+                ["py", f"-{selected_version}", "-c", "import sys; print(sys.version.split()[0])"],
+                [f"python{selected_version}", "-c", "import sys; print(sys.version.split()[0])"],
+            ])
+        else:
+            probe_commands.extend([
+                [f"python{selected_version}", "-c", "import sys; print(sys.version.split()[0])"],
+                [f"python{selected_version[0]}", "-c", "import sys; print(sys.version.split()[0])"],
+            ])
+
+        for command in probe_commands:
+            try:
+                subprocess.run(
+                    command,
+                    check=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                break
+            except (FileNotFoundError, subprocess.CalledProcessError):
+                continue
+
+    return selected_version

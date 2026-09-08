@@ -1,0 +1,18 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Connects two 2D numeric arrays (matrices) along the second axis (columns), converts them into a Pandas DataFrame, and returns a string representation of the DataFrame.
+The function should output with:
+    str: The string representation of the DataFrame without the index and header.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(matrix1, matrix2):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(matrix1, matrix2):

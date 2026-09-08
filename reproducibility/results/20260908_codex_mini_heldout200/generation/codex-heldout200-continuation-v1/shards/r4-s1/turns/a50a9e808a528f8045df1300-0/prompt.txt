@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates a bar chart representing the distribution of specified items across given locations. The function takes a DataFrame with 'Item' and 'Location' columns and plots the count of each item per location. If lists of items and locations are provided, the chart will only include those specified, otherwise it defaults to a predefined list.
+The function should raise the exception for: ValueError: If 'df' is not a DataFrame, or if 'Item' or 'Location' columns are missing.
+The function should output with:
+    matplotlib.axes.Axes: Axes object with the plotted bar chart.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(df, items=None, locations=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(df, items=None, locations=None):

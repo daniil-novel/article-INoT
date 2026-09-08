@@ -1,0 +1,23 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Finds all words in a text, that are seperated by whitespace, beginning with the "$" character and computes their number of occurences. >>> text = "$hello this i$s a $test $test $test" >>> task_func(text) Word  Frequency 0  $hello          1 1   $test          3
+Note that: The function ignores words that are entirely made up of punctuation, even if they start with a '$'.
+The function should raise the exception for: ValueError: if text is not a string
+The function should output with:
+    DataFrame: A pandas DataFrame with two columns: "Word" and "Frequency".
+    "Word" contains the '$' prefixed words, and "Frequency" contains their occurrences.
+You should write self-contained code starting with:
+```
+import nltk
+from string import punctuation
+import pandas as pd
+def task_func(text):
+```
+FULL SUPPLIED CONTEXT
+import nltk
+from string import punctuation
+import pandas as pd
+def task_func(text):

@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a random set of floating-point numbers within a specified range, truncate each value to 3 decimal places, and divide the data into train and test sets based on a given test size.
+Note that: The function use "Value" for the column name in the DataFrames (train set, test set) that being returned.
+The function should output with:
+    tuple: A tuple with two pandas DataFrames (train set, test set).
+You should write self-contained code starting with:
+```
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+def task_func(n_data_points=10000, min_value=0.0, max_value=10.0, test_size=0.2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+def task_func(n_data_points=10000, min_value=0.0, max_value=10.0, test_size=0.2):

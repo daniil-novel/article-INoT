@@ -1,0 +1,18 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Create a grade report for a list of students across various subjects. Each student's grades are randomly generated, and the report includes the average grade for each student. The randomness is seeded for reproducibility if a seed is provided.
+The function should output with:
+    DataFrame: A pandas DataFrame containing each student's grades across the subjects and their average grade.
+    Columns are ['Student', 'Subject1', 'Subject2', ..., 'Average Grade'].
+You should write self-contained code starting with:
+```
+import pandas as pd
+import statistics
+import random
+def task_func(students, subjects, seed=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import statistics
+import random
+def task_func(students, subjects, seed=None):

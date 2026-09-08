@@ -1,0 +1,80 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a Pandas DataFrame of employees with their details based on the input provided.
+The function should output with:
+    data_df (pd.DataFrame): dataframe with columns: 'Name', 'Age', 'Code', 'Salary', 'Bio', 'Job Title'.
+    The 'Job Title' is randomly assigned from the predefined job titles:
+    'Engineer', 'Manager', 'Analyst', 'Developer', 'Tester'.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from random import randint
+def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from random import randint
+def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Define the function exactly as requested**
+   - Start with:
+     ```python
+     import pandas as pd
+     from random import randint
+     def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:
+     ```
+   - Keep the code self-contained and use only the provided imports.
+
+2. **Prepare the fixed job title pool**
+   - Create a list of allowed titles:
+     - `"Engineer"`
+     - `"Manager"`
+     - `"Analyst"`
+     - `"Developer"`
+     - `"Tester"`
+
+3. **Randomly choose one job title**
+   - Use `randint(0, 4)` to select an index from the list.
+   - Assign the chosen title to the `"Job Title"` field.
+
+4. **Build the employee record**
+   - Create a single-row dictionary using the function inputs:
+     - `"Name"` → `name`
+     - `"Age"` → `age`
+     - `"Code"` → `code`
+     - `"Salary"` → `salary`
+     - `"Bio"` → `bio`
+     - `"Job Title"` → randomly selected title
+
+5. **Construct the DataFrame**
+   - Convert the dictionary into a `pd.DataFrame` with one row.
+   - Ensure the column order is exactly:
+     - `Name`, `Age`, `Code`, `Salary`, `Bio`, `Job Title`
+
+6. **Return the DataFrame**
+   - The function should return the resulting `pd.DataFrame`.
+
+Edge cases to consider:
+
+- **Empty strings**
+  - `name`, `code`, or `bio` may be empty; the function should still return a valid DataFrame.
+
+- **Non-ideal numeric values**
+  - `age` could be zero or negative.
+  - `salary` could be zero, negative, or a float/int value.
+  - Unless validation is explicitly required, preserve values as given.
+
+- **Randomness**
+  - The job title should vary between calls.
+  - If reproducibility is needed later, a seed would be required, but none is specified here.
+
+- **Type mismatches**
+  - If callers pass unexpected types, pandas will still store them, but the function should assume inputs follow the signature.
+
+- **Column order**
+  - Important to preserve exact output schema, since tests may check column names and ordering.
+
+If you want, I can also provide the final implementation code in the exact required format.

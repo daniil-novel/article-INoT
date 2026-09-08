@@ -1,0 +1,83 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Merge / Concatenate multiple CSV files from a specified directory into a single Pandas DataFrame. If an empty list of files is passed, an empty DataFrame is returned.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with the merged data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import os
+def task_func(data_dir: str, csv_files: list) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import os
+def task_func(data_dir: str, csv_files: list) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(data_dir: str, csv_files: list) -> pd.DataFrame`:
+
+## Requirements interpretation
+- Read multiple CSV files from a given directory.
+- Concatenate them into one Pandas DataFrame.
+- If `csv_files` is empty, return an empty DataFrame.
+- Output type must be `pd.DataFrame`.
+- The code must be self-contained and begin with:
+  ```python
+  import pandas as pd
+  import os
+  def task_func(data_dir: str, csv_files: list) -> pd.DataFrame:
+  ```
+
+## Implementation plan
+1. **Handle the empty input case first**
+   - If `csv_files` is empty (`[]`), return `pd.DataFrame()` immediately.
+   - This avoids unnecessary file operations and satisfies the requirement.
+
+2. **Prepare full file paths**
+   - For each filename in `csv_files`, build the full path using `os.path.join(data_dir, filename)`.
+   - This ensures compatibility across operating systems.
+
+3. **Read each CSV file**
+   - Use `pd.read_csv(...)` for each path.
+   - Store each resulting DataFrame in a list.
+
+4. **Concatenate the DataFrames**
+   - Use `pd.concat(dfs, ignore_index=True)` to merge them into one DataFrame.
+   - `ignore_index=True` resets the row index in the combined result.
+
+5. **Return the merged DataFrame**
+   - If one or more files were read successfully, return the concatenated DataFrame.
+
+## Edge cases to consider
+- **Empty `csv_files` list**
+  - Return `pd.DataFrame()`.
+
+- **Single CSV file**
+  - `pd.concat` still works, but you may optionally return that one DataFrame directly; not required.
+
+- **Different columns across files**
+  - `pd.concat` will align columns by name and fill missing values with `NaN`.
+
+- **Duplicate column names**
+  - Pandas will preserve them, but this can lead to ambiguous data; still valid unless otherwise specified.
+
+- **Invalid file paths / missing files**
+  - `pd.read_csv` will raise an error if a file does not exist.  
+  - Since no special error-handling behavior is specified, let the exception propagate unless you want to make the function more defensive.
+
+- **Empty CSV files**
+  - Reading an empty file may raise `EmptyDataError`.  
+  - Again, unless the task requires graceful handling, this can be left as-is.
+
+- **Non-CSV filenames in the list**
+  - The function will attempt to read them as CSVs anyway; behavior depends on file contents.
+
+- **Mixed relative/absolute names**
+  - `os.path.join` handles normal relative filenames; absolute paths in `csv_files` will override `data_dir` behavior in standard Python path joining.
+
+## Suggested behavior summary
+- `[]` → `pd.DataFrame()`
+- Otherwise → read all CSVs under `data_dir`, concatenate them row-wise, and return the combined DataFrame.
+
+If you want, I can now produce the full implementation code in the required format.

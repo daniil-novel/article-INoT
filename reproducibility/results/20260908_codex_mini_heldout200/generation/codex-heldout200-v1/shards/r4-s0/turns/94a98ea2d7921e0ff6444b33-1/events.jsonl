@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07eea-c17f-7e90-817a-ce67d60ee5bb"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"import numpy as np\nimport pandas as pd\n\ndef task_func(matrix1, matrix2):\n    arr1 = np.asarray(matrix1)\n    arr2 = np.asarray(matrix2)\n\n    if arr1.ndim != 2 or arr2.ndim != 2:\n        raise ValueError(\"Both inputs must be 2D arrays.\")\n\n    if arr1.shape[0] != arr2.shape[0]:\n        raise ValueError(\"The two matrices must have the same number of rows.\")\n\n    combined = np.concatenate((arr1, arr2), axis=1)\n    df = pd.DataFrame(combined)\n    return df.to_string(index=False, header=False)"}}
+{"type":"turn.completed","usage":{"input_tokens":3184,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":658,"reasoning_output_tokens":516}}

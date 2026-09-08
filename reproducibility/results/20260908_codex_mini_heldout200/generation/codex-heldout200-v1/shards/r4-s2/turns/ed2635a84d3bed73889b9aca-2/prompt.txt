@@ -1,0 +1,114 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a random poker hand consisting of five cards, and count the frequency of each card rank. The function creates a list of five cards where each card is a string made up of a rank and a suit (e.g., "10H" for Ten of Hearts). It then counts the frequency of each card rank in the hand using a Counter dictionary.
+The function should output with:
+    tuple: A tuple containing two elements:
+    hand (list): A list of five cards.
+    rank_count (counter): A Counter dictionary of card ranks with their frequencies in the hand.
+You should write self-contained code starting with:
+```
+from collections import Counter
+import random
+# Constants
+HAND_RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+SUITS = ['H', 'D', 'C', 'S']
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+import random
+# Constants
+HAND_RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+SUITS = ['H', 'D', 'C', 'S']
+def task_func():
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a self-contained Python function `task_func()` that:
+
+1. Builds a random poker hand of exactly **5 cards**.
+2. Represents each card as a string: **rank + suit**  
+   - Example: `"10H"`, `"AS"`, `"7D"`
+3. Counts how many times each **rank** appears in the hand using `collections.Counter`.
+4. Returns a **tuple**:
+   - `hand`: list of 5 card strings
+   - `rank_count`: `Counter` of rank frequencies
+
+The provided header must stay as-is:
+
+```python
+from collections import Counter
+import random
+# Constants
+HAND_RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+SUITS = ['H', 'D', 'C', 'S']
+def task_func():
+```
+
+---
+
+### Implementation plan
+
+1. **Create a full deck**
+   - Generate all 52 possible cards by combining each rank in `HAND_RANKS` with each suit in `SUITS`.
+   - Each card should be a string like `rank + suit`.
+
+2. **Draw 5 cards**
+   - Use `random.sample(deck, 5)` so the hand contains **unique cards** and behaves like a real poker deal.
+   - Store the result in `hand`.
+
+3. **Extract ranks from the hand**
+   - For each card string, take the rank portion.
+   - Since `"10"` has two characters while other ranks have one, use:
+     - `card[:-1]` for the rank
+     - `card[-1]` for the suit
+   - Only the rank is needed for counting.
+
+4. **Count rank frequencies**
+   - Build a list of ranks from the 5 cards.
+   - Pass it to `Counter(...)` to get frequency counts.
+
+5. **Return the result**
+   - Return `(hand, rank_count)`.
+
+---
+
+### Edge cases and considerations
+
+- **Duplicate cards**
+  - If cards are drawn with replacement, duplicates could appear, which is not ideal for a poker hand.
+  - Use `random.sample` to avoid duplicates.
+
+- **Two-character rank `"10"`**
+  - Parsing must handle `"10"` correctly.
+  - Avoid assumptions that rank is always one character.
+
+- **Card format consistency**
+  - Ensure every generated card is exactly rank + suit, with no separators.
+  - This keeps rank extraction reliable.
+
+- **Hand size**
+  - The function should always return exactly 5 cards.
+  - Since the deck has 52 cards, sampling 5 is always valid.
+
+- **Return types**
+  - `hand` should be a `list`
+  - `rank_count` should be a `Counter`
+
+If you want, I can proceed to stage 2 and provide the actual implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+from collections import Counter
+import random
+# Constants
+HAND_RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+SUITS = ['H', 'D', 'C', 'S']
+
+def task_func():
+    deck = [rank + suit for rank in HAND_RANKS for suit in SUITS]
+    hand = random.sample(deck, 5)
+    rank_count = Counter(card[:-1] for card in hand)
+    return hand, rank_count
+```

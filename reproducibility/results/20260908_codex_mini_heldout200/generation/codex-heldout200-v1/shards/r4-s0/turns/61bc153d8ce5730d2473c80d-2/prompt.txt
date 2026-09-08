@@ -1,0 +1,150 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Find and run all .bat files in a given directory, returning their file names and exit codes.
+The function should output with:
+    list of tuples: A list where each tuple contains the file name and its exit code.
+    The exit code is None if the file could not be executed.
+You should write self-contained code starting with:
+```
+import subprocess
+import os
+import sys
+import glob
+def task_func(directory_path):
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import os
+import sys
+import glob
+def task_func(directory_path):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a function:
+
+```python
+import subprocess
+import os
+import sys
+import glob
+def task_func(directory_path):
+```
+
+that:
+
+1. Looks in the given directory for all `.bat` files.
+2. Runs each `.bat` file.
+3. Returns a list of tuples:
+   - first item: the file name
+   - second item: its exit code
+4. If a file cannot be executed, its exit code must be `None`.
+
+## Implementation plan
+
+### 1) Validate and normalize the input path
+- Accept `directory_path` as a string.
+- Check whether it points to an existing directory.
+- If it does not, return an empty list.
+
+### 2) Find `.bat` files
+- Use `glob.glob(os.path.join(directory_path, "*.bat"))` to collect matching files.
+- Prefer sorting the result so output order is deterministic.
+- Use only files directly inside the directory unless recursion is explicitly required.
+
+### 3) Execute each batch file
+- For each `.bat` file:
+  - Extract the file name with `os.path.basename(...)`.
+  - Run it through Windows shell execution, typically via:
+    - `subprocess.run(["cmd", "/c", bat_path], ...)`
+- Capture the return code from the completed process.
+- Append `(file_name, return_code)` to the output list.
+
+### 4) Handle execution failures
+- Wrap execution in `try/except`.
+- If launching the file raises an exception, append:
+  - `(file_name, None)`
+
+### 5) Return final result
+- Return the full list of tuples after processing all `.bat` files.
+
+---
+
+## Edge cases to consider
+
+### Invalid directory
+- If `directory_path` does not exist or is not a directory:
+  - return `[]`
+
+### No `.bat` files found
+- Return `[]`
+
+### File execution errors
+Treat these as non-executable and return `None` for exit code:
+- permission issues
+- missing `cmd.exe`
+- unsupported environment
+- OS errors while starting the process
+- unexpected subprocess exceptions
+
+### Non-zero exit codes
+- A batch file that runs but fails should still return its actual exit code, not `None`.
+
+### Filenames with spaces or special characters
+- Use path-safe subprocess invocation, not a shell-constructed command string.
+
+### Duplicate filenames in different locations
+- Since only one directory is searched non-recursively, duplicates are not expected.
+- Return the basename of each file as requested.
+
+### Case sensitivity
+- `.bat` matching should work for normal Windows usage.
+- If broader compatibility is needed, you could also consider `.BAT`, but on Windows globbing usually handles this adequately.
+
+---
+
+## Suggested behavior summary
+
+- Input invalid or no files: `[]`
+- File executed successfully: `("script.bat", 0)` or another integer exit code
+- File failed to launch: `("script.bat", None)`
+
+If you want, I can next turn this plan into the full self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import subprocess
+import os
+import sys
+import glob
+
+def task_func(directory_path):
+    try:
+        directory_path = os.fspath(directory_path)
+    except TypeError:
+        return []
+
+    if not os.path.isdir(directory_path):
+        return []
+
+    bat_files = set(glob.glob(os.path.join(directory_path, "*.bat")))
+    bat_files.update(glob.glob(os.path.join(directory_path, "*.BAT")))
+    bat_files = sorted(bat_files)
+
+    results = []
+    for bat_path in bat_files:
+        file_name = os.path.basename(bat_path)
+        try:
+            completed = subprocess.run(
+                ["cmd", "/c", bat_path],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
+            results.append((file_name, completed.returncode))
+        except Exception:
+            results.append((file_name, None))
+
+    return results
+```

@@ -1,0 +1,25 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Scales the values in a given dictionary using MinMaxScaler and plots the scaled data.
+The function should output with:
+    pandas.DataFrame containing the scaled data.
+    matplotlib Axes object that displays the plot of the scaled data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+# Constants
+PLOT_TITLE = "Scaled Values"
+def task_func(data_dict):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+# Constants
+PLOT_TITLE = "Scaled Values"
+def task_func(data_dict):

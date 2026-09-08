@@ -1,0 +1,124 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate and draw random data in real time for the specified duration.
+The function should output with:
+    tuple: A tuple containing two lists.
+    The first list contains timestamps (as strings) in the format '%H:%M:%S.%f'.
+    The second list contains the generated random values.
+You should write self-contained code starting with:
+```
+import time
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+def task_func(duration):
+```
+FULL SUPPLIED CONTEXT
+import time
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+def task_func(duration):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(duration)` based on the supplied requirements.
+
+## Requirement analysis
+
+The function must:
+
+1. Run for a specified `duration` in seconds.
+2. Generate random data repeatedly during that time.
+3. Record:
+   - timestamps as strings formatted with `'%H:%M:%S.%f'`
+   - corresponding random integer values
+4. Draw the data in real time using `matplotlib`.
+5. Return a tuple of two lists:
+   - `([timestamp_str1, timestamp_str2, ...], [value1, value2, ...])`
+
+## Proposed behavior
+
+### Core flow
+- Initialize two empty lists:
+  - one for timestamps
+  - one for random values
+- Start a timer using `time.time()` or `datetime.now()`
+- In a loop, continue generating points until the elapsed time reaches `duration`
+- On each iteration:
+  1. capture current time
+  2. format it as `'%H:%M:%S.%f'`
+  3. generate a random integer with `randint(...)`
+  4. append both to their lists
+  5. update the plot in real time
+  6. sleep briefly to avoid a busy loop and control sampling rate
+- After the loop, optionally finalize the plot and return the tuple
+
+## Plotting plan
+
+Since the requirement says “draw random data in real time”:
+- Create a figure and line object once before the loop
+- Inside the loop:
+  - update the line with the collected values
+  - refresh the axes
+  - call `plt.pause(...)` to allow GUI events and redraw
+- Use timestamps on the x-axis if feasible, but because there may be many points and the timestamps are strings, it may be simpler to:
+  - plot against an index internally for responsiveness
+  - still preserve timestamps in the returned result
+
+## Data format details
+
+- Timestamps:
+  - use `datetime.now().strftime('%H:%M:%S.%f')`
+- Random values:
+  - use `randint(a, b)` with a chosen range, e.g. `0` to `100`
+  - the exact range is not specified, so use a reasonable default
+
+## Edge cases to handle
+
+1. **`duration <= 0`**
+   - Should likely return empty lists immediately
+   - Could still create an empty plot or skip plotting entirely
+
+2. **Non-numeric `duration`**
+   - If the caller passes a string or invalid type, the function should either:
+     - raise a clear error, or
+     - attempt conversion to float
+   - Best practice: convert to `float` and let invalid values fail naturally with a clear exception
+
+3. **Very short duration**
+   - The loop may execute only once or not at all
+   - The function should still return valid tuple/list structures
+
+4. **Very long duration**
+   - The lists may grow large
+   - Plot updates can become slow, so `plt.pause(...)` should be small and the loop should not refresh too aggressively
+
+5. **Plot backend unavailable**
+   - In some environments, interactive plotting may not work
+   - The function should still collect and return data even if plotting is limited
+
+6. **Window closed by user**
+   - If the plot window is closed during execution, data collection should ideally still continue or stop gracefully
+   - At minimum, avoid crashing if plotting fails
+
+7. **Timestamp collisions**
+   - Multiple points can share the same timestamp string if generated very quickly
+   - This is acceptable because the lists are parallel and indexed in order
+
+## Suggested implementation structure
+
+1. Import and initialize plot
+2. Validate/normalize `duration`
+3. Set up empty result lists
+4. Start timing
+5. Loop until elapsed time exceeds `duration`
+6. Generate timestamp/value pair
+7. Append to lists
+8. Update plot in real time
+9. Return `(timestamps, values)`
+
+## Important design choice
+
+Because the timestamps are required as strings, they are best preserved exactly in the returned data. For plotting, using the raw string timestamps directly may be cumbersome; a numeric x-axis with labels or just plotting by sample index is the simplest robust approach.
+
+If you want, I can now produce the actual self-contained implementation for `task_func(duration)`.

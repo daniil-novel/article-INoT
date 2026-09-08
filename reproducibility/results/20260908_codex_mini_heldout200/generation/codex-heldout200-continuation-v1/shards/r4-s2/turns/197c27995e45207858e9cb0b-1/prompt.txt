@@ -1,0 +1,117 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Scans a specified IP address range and checks if a specified port is open on each IP. The function returns a dictionary with IP addresses as keys and a boolean indicating the port's status (True if open, False otherwise).
+The function should output with:
+    dict: A dictionary mapping IP addresses to their port status (True if open).
+You should write self-contained code starting with:
+```
+import socket
+from ipaddress import IPv4Network
+from threading import Thread
+def task_func(ip_range, port):
+```
+FULL SUPPLIED CONTEXT
+import socket
+from ipaddress import IPv4Network
+from threading import Thread
+def task_func(ip_range, port):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(ip_range, port)`:
+
+### Goal
+Scan every IP in the given IPv4 range and determine whether a TCP port is open on each host, returning a dictionary:
+- **key**: IP address
+- **value**: `True` if the port is open, otherwise `False`
+
+---
+
+### Plan
+
+1. **Normalize and validate inputs**
+   - Accept `ip_range` as either:
+     - a CIDR string like `"192.168.1.0/24"`, or
+     - an `IPv4Network` object.
+   - Convert string input to `IPv4Network`.
+   - Validate `port` is an integer in the range `1..65535`.
+   - If validation fails, raise a clear exception.
+
+2. **Enumerate target IPs**
+   - Use `IPv4Network.hosts()` so the scan skips:
+     - network address
+     - broadcast address
+   - Convert each host to string for dictionary keys, unless the calling convention expects `IPv4Address` objects.
+
+3. **Probe port availability**
+   - For each IP, attempt a TCP connection to `(ip, port)`.
+   - Use `socket.socket(...)` with a short timeout to avoid hanging on filtered/offline hosts.
+   - Use `connect_ex()` rather than `connect()`:
+     - returns `0` when the connection succeeds
+     - returns nonzero for closed/unreachable ports
+   - Map result to boolean:
+     - `True` if `connect_ex() == 0`
+     - `False` otherwise
+
+4. **Run checks concurrently**
+   - Use threads to speed up scanning across multiple hosts.
+   - Spawn one worker thread per IP, or use a bounded worker strategy if the range may be large.
+   - Because `Thread` is already imported, the implementation should use it directly.
+
+5. **Collect results safely**
+   - Store results in a shared dictionary.
+   - Ensure thread-safe writes:
+     - either rely on CPython’s atomic single-dict-item assignment, or
+     - use a lock for strict safety and portability.
+   - Wait for all threads to finish before returning the dictionary.
+
+6. **Return final mapping**
+   - Return the dictionary containing one entry per scanned host.
+
+---
+
+### Edge cases to handle
+
+- **Invalid IP range**
+  - Example: malformed CIDR string or non-IPv4 input.
+  - Should raise `ValueError` or a similar clear exception.
+
+- **Invalid port**
+  - Negative values, zero, values above `65535`, or non-integers.
+  - Should be rejected early.
+
+- **Empty usable host set**
+  - Example: `/32` network still has one usable host; smaller networks may have no usable hosts depending on input.
+  - The function should return an empty dictionary if there are no hosts to scan.
+
+- **Hosts that are offline, filtered, or firewalled**
+  - Must not crash or hang.
+  - Treat them as `False`.
+
+- **Connection timeouts**
+  - Use a timeout to keep the scan bounded.
+  - Timeout should result in `False`.
+
+- **DNS / hostname input**
+  - If input is not an IPv4 CIDR, do not assume hostname resolution unless explicitly required.
+  - Best to restrict to IPv4 network notation for predictable behavior.
+
+- **Large ranges**
+  - Thread-per-host can be heavy for large networks.
+  - If large ranges are expected, consider a bounded worker pool, but if the task is small/medium scan-oriented, simple threads are acceptable.
+
+---
+
+### Expected behavior summary
+For input like:
+- `ip_range = "192.168.1.0/30"`
+- `port = 80`
+
+the function should return something like:
+```python
+{
+    "192.168.1.1": False,
+    "192.168.1.2": True
+}
+```
+
+If you want, I can next provide the full self-contained implementation.

@@ -1,0 +1,20 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Archive all JSON files in a given directory by moving them to a specified archive directory.
+The function should output with:
+    tuple: A tuple containing a boolean value and a list of error messages.
+    The boolean is True if all files are successfully moved, and False otherwise.
+    The list contains error messages for each file that failed to move.
+You should write self-contained code starting with:
+```
+import os
+import glob
+import shutil
+def task_func(directory, archive_dir='archive'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import glob
+import shutil
+def task_func(directory, archive_dir='archive'):

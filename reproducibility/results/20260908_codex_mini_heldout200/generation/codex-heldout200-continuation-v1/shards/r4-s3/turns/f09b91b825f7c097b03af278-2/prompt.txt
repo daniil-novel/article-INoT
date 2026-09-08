@@ -1,0 +1,172 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform exploratory data analysis on a dataframe. This function converts the 'date' column to an ordinal format, creates a correlation matrix, and generates a pair plot of the dataframe. The title of the plot is 'Correlation Matrix'.
+The function should raise the exception for: ValueError: If the dataframe is empty, if required columns are missing, or if 'date' column is not in datetime format.
+The function should output with:
+    matplotlib.figure.Figure: The figure object for the correlation matrix heatmap.
+    seaborn.axisgrid.PairGrid: The PairGrid object for the pair plot.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(df):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df)` based on the requirements.
+
+## Goal
+Create an exploratory data analysis function that:
+1. Validates the input dataframe.
+2. Converts the `date` column to ordinal values.
+3. Computes and visualizes a correlation matrix.
+4. Generates a pair plot of the dataframe.
+5. Returns:
+   - `matplotlib.figure.Figure` for the correlation heatmap
+   - `seaborn.axisgrid.PairGrid` for the pair plot
+
+---
+
+## Implementation Plan
+
+### 1. Validate input dataframe
+Before any plotting or transformation:
+- Check whether `df` is empty.
+  - If empty, raise `ValueError`.
+- Check that required columns exist.
+  - At minimum, `date` must be present.
+  - Since the task refers to “required columns” generally, validate that the dataframe has at least the columns needed for the analysis; in this case, the only explicitly required one is `date`.
+- Check that `date` is already in datetime format.
+  - If not, raise `ValueError` instead of converting it automatically, because the requirement explicitly says to error when `date` is not datetime.
+
+### 2. Prepare a numeric analysis dataframe
+- Make a copy of the input dataframe to avoid mutating the caller’s object.
+- Convert the `date` column from datetime to ordinal:
+  - Use a vectorized conversion based on `.map(datetime.toordinal)` or equivalent.
+- If the dataframe contains non-numeric columns besides `date`, they will need to be handled carefully for correlation and pair plots:
+  - Correlation matrix should be computed only on numeric columns.
+  - Pair plot should also use numeric columns, since seaborn pairplot does not work well with arbitrary object columns.
+
+### 3. Build the correlation matrix
+- Select numeric columns from the transformed dataframe.
+- Compute the correlation matrix with `.corr()`.
+- Create a matplotlib figure and axes.
+- Draw the heatmap with seaborn:
+  - Include annotations if desired.
+  - Set the plot title to exactly `"Correlation Matrix"`.
+
+### 4. Generate the pair plot
+- Use seaborn `pairplot` on the numeric dataframe.
+- Ensure the `date` ordinal column is included in the pair plot if it is numeric after conversion.
+- Store the returned `PairGrid` object.
+
+### 5. Return outputs
+Return a tuple:
+- `(fig, pair_grid)`
+
+Where:
+- `fig` is the `matplotlib.figure.Figure` used for the correlation matrix heatmap.
+- `pair_grid` is the `seaborn.axisgrid.PairGrid` object from the pair plot.
+
+---
+
+## Edge Cases to Handle
+
+### Empty dataframe
+- `df.empty == True`
+- Raise `ValueError`
+
+### Missing `date` column
+- If `"date"` not in `df.columns`
+- Raise `ValueError`
+
+### `date` column not datetime dtype
+- If `df["date"]` is not datetime-like
+- Raise `ValueError`
+- Do not silently coerce strings to datetime, because the task requires an exception here.
+
+### Non-numeric columns
+- Correlation should ignore them.
+- Pair plot should be created only from numeric columns to avoid seaborn errors.
+
+### Too few numeric columns
+- If there are fewer than 2 numeric columns, pair plot may still be degenerate or uninformative.
+- Decide whether to:
+  - Still create the pair plot if seaborn supports it, or
+  - Raise a `ValueError` if no usable numeric data exists.
+- Since the task does not explicitly require this error, the safest plan is to raise only when there are no numeric columns after preprocessing.
+
+### Missing values
+- Correlation handles missing values by pairwise deletion.
+- Pair plot may drop rows with missing values internally or may plot with gaps.
+- No special exception is required unless plotting fails.
+
+### Datetime conversion issues
+- Since the function must error if `date` is not datetime format, any conversion failure is not expected to be handled via coercion.
+- Use dtype inspection rather than parsing.
+
+---
+
+## Suggested Structure
+1. Imports are already provided.
+2. Define `task_func(df)`.
+3. Validate dataframe.
+4. Copy dataframe and convert `date` to ordinal.
+5. Compute numeric subset.
+6. Create heatmap figure with title `"Correlation Matrix"`.
+7. Create and return pair plot.
+8. Return both objects.
+
+---
+
+## Expected Output Behavior
+- Successful call: returns a tuple `(fig, pair_grid)`.
+- Invalid input: raises `ValueError` for:
+  - empty dataframe
+  - missing required columns
+  - `date` not datetime format
+
+If you want, I can also provide the exact code implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def task_func(df):
+    # Validate input
+    if df is None or df.empty:
+        raise ValueError("DataFrame is empty.")
+    if "date" not in df.columns:
+        raise ValueError("Required column 'date' is missing.")
+    if not pd.api.types.is_datetime64_any_dtype(df["date"]):
+        raise ValueError("'date' column must be in datetime format.")
+
+    # Work on a copy to avoid mutating caller data
+    data = df.copy()
+
+    # Convert datetime date to ordinal
+    data["date"] = data["date"].map(lambda x: x.toordinal() if pd.notna(x) else x)
+
+    # Keep only numeric columns for correlation and pair plot
+    numeric_df = data.select_dtypes(include="number")
+    if numeric_df.empty:
+        raise ValueError("No numeric columns available for analysis.")
+
+    # Correlation matrix heatmap
+    corr = numeric_df.corr()
+
+    fig, ax = plt.subplots(figsize=(10, 8))
+    sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
+    ax.set_title("Correlation Matrix")
+
+    # Pair plot
+    pair_grid = sns.pairplot(numeric_df)
+
+    return fig, pair_grid

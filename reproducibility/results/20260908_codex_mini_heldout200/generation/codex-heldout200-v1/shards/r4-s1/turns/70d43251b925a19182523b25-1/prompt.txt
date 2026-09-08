@@ -1,0 +1,138 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Remove duplicate and stopwords from a string "text." Then, generate a count of n-grams (default is bigrams) in the text.
+The function should output with:
+    dict: The count of the n-grams in the text.
+You should write self-contained code starting with:
+```
+import re
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+from collections import Counter
+# Constants
+STOPWORDS = set(stopwords.words('english'))
+def task_func(text, n=2):
+```
+FULL SUPPLIED CONTEXT
+import re
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+from collections import Counter
+# Constants
+STOPWORDS = set(stopwords.words('english'))
+def task_func(text, n=2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(text, n=2)` based on the supplied requirements.
+
+## Requirements interpretation
+
+The function should:
+
+1. Take a string `text`.
+2. Remove:
+   - stopwords
+   - duplicate tokens
+3. Build n-grams from the remaining tokens, where `n` defaults to `2` (bigrams).
+4. Return a `dict` mapping each n-gram to its count.
+
+## Proposed behavior
+
+### Tokenization
+- Convert the input text into words using a simple regex-based tokenizer.
+- A reasonable choice is to extract alphabetic word tokens and normalize them to lowercase.
+
+### Stopword removal
+- Remove any token that appears in `STOPWORDS`.
+
+### Duplicate removal
+- Remove duplicate tokens while preserving first occurrence order.
+- This makes the n-gram generation operate on a de-duplicated token sequence.
+
+### N-gram generation
+- After filtering, create consecutive n-length tuples from the token list.
+- Count them with `Counter`.
+- Return the counter as a regular dictionary.
+
+---
+
+## Suggested processing steps
+
+1. **Validate input**
+   - Ensure `text` is a string.
+   - Ensure `n` is a positive integer.
+
+2. **Normalize text**
+   - Lowercase the text.
+   - Extract tokens using regex.
+
+3. **Filter stopwords**
+   - Remove tokens found in `STOPWORDS`.
+
+4. **Remove duplicates**
+   - Keep only the first occurrence of each token.
+   - Preserve order using a `seen` set.
+
+5. **Generate n-grams**
+   - If there are fewer than `n` tokens, return `{}`.
+   - Otherwise, create n-grams as tuples of words.
+
+6. **Count n-grams**
+   - Use `Counter`.
+   - Return `dict(counter)`.
+
+---
+
+## Edge cases to handle
+
+### 1. Empty input
+- Input: `""`
+- Result: return `{}`
+
+### 2. Input with only stopwords
+- Example: `"the and is"`
+- After filtering, no tokens remain → return `{}`
+
+### 3. Input with too few tokens for n-grams
+- Example: `"hello"` with `n=2`
+- No bigrams possible → return `{}`
+
+### 4. Duplicate removal reducing token count
+- Example: `"cat dog cat dog"`
+- After deduplication, tokens may become `["cat", "dog"]`
+- Bigram count would be `{("cat", "dog"): 1}`
+
+### 5. Non-string input
+- Example: `None`, `123`
+- Recommended behavior: raise `TypeError`
+
+### 6. Invalid `n`
+- `n <= 0` or non-integer values
+- Recommended behavior: raise `ValueError` or `TypeError`
+
+### 7. Punctuation and mixed case
+- Example: `"Hello, HELLO!"`
+- Lowercasing and regex tokenization should treat them consistently
+
+### 8. Apostrophes / contractions
+- Example: `"don't"`
+- Decide whether to keep as one token or split; regex choice should be consistent with the tokenization strategy
+
+---
+
+## Ambiguity to resolve
+
+There is one important ambiguity in the prompt:
+
+> “Remove duplicate and stopwords from a string”
+
+This could mean either:
+- remove duplicate **words before** n-gram generation, or
+- remove duplicate **n-grams** after generation.
+
+Given the wording, the most natural interpretation is:
+- remove duplicate **tokens/words first**, then generate n-grams.
+
+If you want, I can next provide the actual self-contained implementation following this plan.

@@ -1,0 +1,113 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Create a Pandas DataFrame with a specified number of rows filled with random values in [0, 1) and shuffled columns.
+Note that: The columns should be unique and sorted in the ascending order.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with shuffled columns.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(rows, columns=["A", "B", "C", "D", "E"], seed=0) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(rows, columns=["A", "B", "C", "D", "E"], seed=0) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func` based on the requirements.
+
+## Goal
+Create a `pd.DataFrame` with:
+- `rows` rows
+- random values in `[0, 1)`
+- columns that are:
+  - unique
+  - sorted in ascending order before shuffling
+  - finally returned in shuffled order
+
+The function must be deterministic with respect to `seed`.
+
+---
+
+## Planned behavior
+
+### 1) Normalize and validate inputs
+- `rows` should be treated as the number of rows.
+- `columns` is the list of column labels.
+- `seed` controls randomness.
+
+Validation / assumptions:
+- `rows` should be a non-negative integer.
+- `columns` should be iterable and contain sortable labels.
+- If duplicates exist in `columns`, remove them so the final set of columns is unique.
+
+---
+
+### 2) Make column labels unique and sorted
+- Convert `columns` into a unique collection.
+- Sort it in ascending order.
+
+Example:
+- input: `["D", "B", "A", "B", "C"]`
+- unique + sorted: `["A", "B", "C", "D"]`
+
+---
+
+### 3) Generate random data
+- Use a reproducible NumPy random generator initialized with `seed`.
+- Create a 2D array of shape:
+  - `(rows, number_of_columns)`
+- Fill it with random values in `[0, 1)` using `rng.random(...)`.
+
+---
+
+### 4) Shuffle the column order
+- Create a random permutation of the sorted unique columns.
+- Reorder both:
+  - the column labels
+  - the data columns
+- This ensures the values stay aligned with their shuffled labels.
+
+---
+
+### 5) Build and return the DataFrame
+- Construct `pd.DataFrame(data, columns=shuffled_columns)`
+- Return it.
+
+---
+
+## Edge cases to handle
+
+### `rows = 0`
+- Return an empty DataFrame with the expected shuffled column labels.
+
+### `columns` is empty
+- Return a DataFrame with `rows` rows and zero columns.
+
+### Duplicate column names
+- Must be deduplicated before generating the DataFrame.
+
+### Non-string column labels
+- If labels are comparable, sorting works.
+- If not comparable, sorting may fail; the implementation should assume sortable labels unless stricter validation is desired.
+
+### Negative `rows`
+- Should ideally raise an error or be handled explicitly, since NumPy cannot create a negative-sized array.
+
+### Reproducibility
+- Using `seed` must produce the same output across runs.
+
+---
+
+## Implementation outline
+1. Validate `rows`.
+2. Convert `columns` to a unique sorted list.
+3. Initialize `np.random.default_rng(seed)`.
+4. Generate random array of shape `(rows, len(columns))`.
+5. Shuffle the column indices.
+6. Apply the same permutation to both data and column names.
+7. Return the resulting DataFrame.
+
+If you want, I can now provide the full self-contained implementation.

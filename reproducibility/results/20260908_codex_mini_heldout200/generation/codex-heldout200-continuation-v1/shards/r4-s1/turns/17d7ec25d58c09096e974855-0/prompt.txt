@@ -1,0 +1,23 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Reads a JSON file containing a list of dictionaries. For each key across all dictionaries, calculates the mean and median of its values using numpy. Visualizes the mean and median using bar charts. Returns the results and plots.
+The function should output with:
+    result (dict): each key corresponds to those in the input dictionaries, and the corresponding
+    value is another dict with keys 'mean' and 'median', representing the calculated statistics.
+    plots  (list[matplotlib.axes._axes.Axes]): A list of bar charts, one for
+    each key in the dictionaries, visualizing the mean and median values.
+You should write self-contained code starting with:
+```
+import json
+import numpy as np
+from collections import defaultdict
+import matplotlib.pyplot as plt
+def task_func(input_file):
+```
+FULL SUPPLIED CONTEXT
+import json
+import numpy as np
+from collections import defaultdict
+import matplotlib.pyplot as plt
+def task_func(input_file):

@@ -1,0 +1,94 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Merge / Concatenate multiple CSV files from a specified directory into a single Pandas DataFrame. If an empty list of files is passed, an empty DataFrame is returned.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with the merged data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import os
+def task_func(data_dir: str, csv_files: list) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import os
+def task_func(data_dir: str, csv_files: list) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(data_dir: str, csv_files: list) -> pd.DataFrame`:
+
+## Goal
+Read multiple CSV files from `data_dir`, concatenate them into one Pandas DataFrame, and return an empty DataFrame if `csv_files` is empty.
+
+---
+
+## Implementation plan
+
+1. **Import dependencies**
+   - Use `pandas as pd`
+   - Use `os` for safe path joining
+
+2. **Handle empty input early**
+   - If `csv_files` is empty, return `pd.DataFrame()` immediately.
+   - This satisfies the requirement that an empty list produces an empty DataFrame.
+
+3. **Build full file paths**
+   - For each filename in `csv_files`, join it with `data_dir` using `os.path.join(data_dir, file_name)`.
+   - This makes the function work regardless of whether `data_dir` ends with a separator.
+
+4. **Read each CSV into a DataFrame**
+   - Loop through the generated paths and call `pd.read_csv(...)` on each.
+   - Store each DataFrame in a list.
+
+5. **Concatenate all DataFrames**
+   - Use `pd.concat(dataframes, ignore_index=True)` to merge them into one DataFrame.
+   - `ignore_index=True` ensures the result has a clean continuous index.
+
+6. **Return the merged DataFrame**
+   - Output the concatenated result.
+
+---
+
+## Edge cases to consider
+
+### 1. Empty file list
+- Input: `csv_files = []`
+- Expected result: `pd.DataFrame()`
+
+### 2. File paths vs file names
+- If `csv_files` contains only names like `"a.csv"`, join them with `data_dir`.
+- If full paths are accidentally passed, joining may produce incorrect paths.
+- Usually the task implies filenames relative to `data_dir`, so joining is appropriate.
+
+### 3. Missing files
+- If one of the files does not exist, `pd.read_csv` will raise an error.
+- Decide whether to let the error propagate or handle it explicitly.
+- Since no special error-handling requirement is given, letting it raise is acceptable.
+
+### 4. Empty CSV file
+- A completely empty CSV may raise `pd.errors.EmptyDataError`.
+- You may choose to let it fail naturally or handle it if robustness is needed.
+
+### 5. Different columns across files
+- `pd.concat` will union columns across files.
+- Missing columns in some files will be filled with `NaN`.
+
+### 6. Different row counts / duplicate indexes
+- `ignore_index=True` prevents index collisions and produces a fresh index.
+
+### 7. Non-CSV files in the list
+- If a non-CSV file is included, `pd.read_csv` may fail or read incorrectly.
+- Since the input is specified as CSV files, no extra filtering is strictly necessary.
+
+### 8. Encoding / delimiter issues
+- If files use non-default encoding or separators, `pd.read_csv` defaults may fail.
+- The task does not specify custom parsing options, so default CSV parsing is reasonable.
+
+---
+
+## Expected behavior summary
+- **Input:** directory path + list of CSV filenames
+- **Output:** one merged `pd.DataFrame`
+- **Special case:** empty list returns empty DataFrame
+
+If you want, I can also turn this plan into the exact implementation code.

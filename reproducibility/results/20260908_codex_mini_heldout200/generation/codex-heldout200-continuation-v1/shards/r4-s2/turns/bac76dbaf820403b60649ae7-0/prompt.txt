@@ -1,0 +1,15 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Perform DBSCAN clustering on the data by transforming it into a DataFrame and recording the clusters in a new column named 'Cluster'. Please choose the parameters eps=3 and min_samples=2.
+The function should output with:
+    df (DataFrame): The DataFrame with a new 'Cluster' column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.cluster import DBSCAN
+def task_func(data, cols):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.cluster import DBSCAN
+def task_func(data, cols):

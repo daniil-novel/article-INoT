@@ -1,0 +1,115 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Visualize the distribution of goals and penalties for a number of teams and return the data as a DataFrame with colomns 'Team', 'Goals' and 'Penalties'.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame with the goals and penalties for the teams.
+    Axes: A seaborn pairplot visualization of goals and penalties distribution for the teams.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for the required function.
+
+## Requirements interpretation
+You need a function:
+
+```python
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):
+```
+
+that:
+
+1. Takes two inputs: `goals` and `penalties`
+2. Builds a pandas `DataFrame` with columns:
+   - `Team`
+   - `Goals`
+   - `Penalties`
+3. Creates a seaborn visualization of the distribution of `Goals` and `Penalties`
+4. Returns a tuple:
+   - the `DataFrame`
+   - the seaborn pairplot object
+
+## Implementation plan
+1. **Validate input lengths**
+   - Ensure `goals` and `penalties` have the same number of items.
+   - If not, raise a `ValueError`.
+
+2. **Create team labels**
+   - Since no explicit team names are provided, generate default labels such as:
+     - `"Team 1"`, `"Team 2"`, ..., `"Team n"`
+
+3. **Build the DataFrame**
+   - Construct a `DataFrame` with:
+     - `Team`: generated labels
+     - `Goals`: values from `goals`
+     - `Penalties`: values from `penalties`
+
+4. **Create the visualization**
+   - Use `sns.pairplot()` on the DataFrame, selecting numeric columns `Goals` and `Penalties`.
+   - This will show the distribution and relationship between the two variables.
+
+5. **Return the result**
+   - Return `(df, plot)`.
+
+## Important edge cases to handle
+1. **Mismatched lengths**
+   - Example: `goals` has 5 values, `penalties` has 4.
+   - Should raise an error because each team must have both values.
+
+2. **Empty inputs**
+   - If both are empty, the DataFrame will be empty and `pairplot` may fail or produce no useful figure.
+   - Best handling: either raise a `ValueError` or allow the empty DataFrame but be aware the plot may not be meaningful.
+
+3. **Non-numeric values**
+   - If `goals` or `penalties` contain strings or invalid values, seaborn may fail.
+   - Best handling: either let pandas/seaborn raise naturally or validate before plotting.
+
+4. **Missing values (`None` / `NaN`)**
+   - These may affect the plot.
+   - Decide whether to keep them, drop them, or raise an error. For robustness, it is often safest to reject them or let plotting handle them.
+
+5. **Single team**
+   - With only one row, the DataFrame is valid, but the pairplot may be limited or visually uninformative.
+   - Still valid unless the plotting function errors.
+
+## Note on return type
+The prompt says the second returned item is an **Axes**, but `sns.pairplot()` actually returns a **PairGrid**, not a single Axes object.  
+So the implementation should return the object produced by `sns.pairplot()`.
+
+If you want, I can now provide the full implementation in code form.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import seaborn as sns
+
+def task_func(goals, penalties):
+    goals = list(goals)
+    penalties = list(penalties)
+
+    if len(goals) != len(penalties):
+        raise ValueError("goals and penalties must have the same length.")
+    if len(goals) == 0:
+        raise ValueError("goals and penalties must not be empty.")
+
+    df = pd.DataFrame({
+        "Team": [f"Team {i + 1}" for i in range(len(goals))],
+        "Goals": goals,
+        "Penalties": penalties
+    })
+
+    plot = sns.pairplot(df, vars=["Goals", "Penalties"])
+
+    return df, plot
+```

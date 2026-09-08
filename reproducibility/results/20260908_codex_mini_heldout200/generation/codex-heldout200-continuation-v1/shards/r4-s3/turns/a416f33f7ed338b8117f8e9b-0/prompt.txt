@@ -1,0 +1,22 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Read a CSV file, convert a column of date strings into datetime objects, and draw a histogram of the year distribution of these dates.
+The function should output with:
+    matplotlib.axes._axes.Axes: A histogram plot object showing the distribution of years.
+You should write self-contained code starting with:
+```
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):

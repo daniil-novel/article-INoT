@@ -1,0 +1,52 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generates a random walk of a specified length. A random walk is a path that consists of a series of random steps on some mathematical space. In this case, the steps are either +1 or -1, chosen with equal probability.
+The function should raise the exception for: ValueError: If `length` is negative.
+The function should output with:
+    np.array: A numpy array representing the positions of the walk at each step. Starts at 0.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+def task_func(length=10000, seed=0):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+def task_func(length=10000, seed=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(length=10000, seed=0)`:
+
+1. **Validate input**
+   - Check whether `length < 0`.
+   - If so, raise `ValueError` with an appropriate message.
+   - Optional but sensible: if `length` is not an integer-like value, decide whether to coerce or let NumPy/Python fail naturally. Since the requirement only mandates negative-length handling, the main hard check is negativity.
+
+2. **Initialize randomness**
+   - Use the provided `seed` to make the walk reproducible.
+   - Since both `numpy` and `random` are imported, choose one random source consistently.
+   - Best approach here: use `random.seed(seed)` and draw steps with `random.choice([-1, 1])`, or use NumPy’s RNG consistently. Either is fine, but keep it deterministic.
+
+3. **Generate steps**
+   - Create a sequence of `length` steps.
+   - Each step must be independently chosen from `{+1, -1}` with equal probability.
+
+4. **Compute positions**
+   - Start the walk at position `0`.
+   - Convert the step sequence into cumulative positions.
+   - The returned array should include the starting position.
+   - Therefore, for `length = n`, return an array of size `n + 1`:
+     - index `0` = `0`
+     - index `i` = position after `i` steps
+
+5. **Return value**
+   - Return a `np.array` containing the walk positions.
+   - Use an integer dtype if possible, since all positions are integers.
+
+### Edge cases to handle
+- **`length < 0`**: raise `ValueError`.
+- **`length == 0`**: return an array containing only the starting point, i.e. `[0]`.
+- **Large `length`**: ensure the implementation is efficient enough; vectorized generation and cumulative sum is preferable.
+- **Reproducibility**: same `seed` should produce the same walk every time.
+- **Start position**: confirm the walk begins at `0`, not after the first step.

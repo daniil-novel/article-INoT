@@ -1,0 +1,28 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate temperature data for the specified number of hours, save it in a CSV file, and plot the data using matplotlib. Data Structure: The function uses a dictionary to manage the generated temperature data with keys: 'Time', 'Temperature', and 'Category'.
+The function should output with:
+    tuple:
+    str: The path of the generated CSV file.
+    Axes: The plot object for further manipulation or saving.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+import pandas as pd
+TEMP_CATEGORIES = ['Cold', 'Normal', 'Hot']
+FILE_PATH = 'custom_data.csv'
+def task_func(hours, file_path=FILE_PATH):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+from random import randint
+import matplotlib.pyplot as plt
+import pandas as pd
+TEMP_CATEGORIES = ['Cold', 'Normal', 'Hot']
+FILE_PATH = 'custom_data.csv'
+def task_func(hours, file_path=FILE_PATH):

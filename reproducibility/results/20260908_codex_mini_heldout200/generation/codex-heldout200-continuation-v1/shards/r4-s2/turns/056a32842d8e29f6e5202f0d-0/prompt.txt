@@ -1,0 +1,20 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Analyzes numerical data from a CSV file. The function reads the CSV file, converts string representations of numbers with commas into floating point numbers, calculates the mean and standard deviation for each numerical column, generates a histogram plot for each numerical column, and performs an ANOVA test to check the statistical significance of differences between means of numerical columns (if applicable).
+Note that: The function assumes that all columns in the CSV file contain numerical data or string representations of numerical data. The ANOVA test is only performed if there are two or more numerical columns. Compute two columns "F-value" and "P-value" for each pair of numerical columns.
+The function should output with:
+    means (pd.Series): Mean values of each numerical column.
+    std_devs (pd.Series): Standard deviation values of each numerical column.
+    axes (list[matplotlib.axes.Axes]): List of histogram plots for each numerical column.
+    anova_results (pd.DataFrame): ANOVA test results for each pair of numerical columns (if more than one numerical column is present).
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.feature_selection import f_oneway
+def task_func(data_file_path: str):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.feature_selection import f_oneway
+def task_func(data_file_path: str):

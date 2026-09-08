@@ -1,0 +1,17 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Extract all texts not enclosed in square brackets into a string and calculate the TF-IDF values which are returned as a dictionary.
+The function should output with:
+    dict: A dictionary with words as keys and TF-IDF scores as values.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+import re
+def task_func(example_str):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+import re
+def task_func(example_str):

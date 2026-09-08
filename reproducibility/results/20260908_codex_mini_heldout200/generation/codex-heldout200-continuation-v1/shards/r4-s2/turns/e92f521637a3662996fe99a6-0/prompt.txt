@@ -1,0 +1,16 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Converts a dictionary to a pandas DataFrame and Find the positions of a particular item in a the resulting DataFrame and record its frequency distribution. Optionally, return a random sample of these positions, with an option to set a random seed for reproducibility. >>> dictionary =  { ...         1: ['road', 'car', 'traffic'], ...         2: ['car', 'light', 'candle'] ...     } >>> positions = task_func(dictionary, 'car') >>> print(positions) ([(0, 2), (1, 1)],          1       2 0     road     car 1      car   light 2  traffic  candle)
+The function should output with:
+    list: A list of positions (row index, column name) where the item is found.
+    DataFrame: The converted dictionary.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from random import randint, seed
+def task_func(dictionary, item, sample_size=None, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from random import randint, seed
+def task_func(dictionary, item, sample_size=None, random_seed=None):

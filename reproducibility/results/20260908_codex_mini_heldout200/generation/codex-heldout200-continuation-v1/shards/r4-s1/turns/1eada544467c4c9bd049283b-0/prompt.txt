@@ -1,0 +1,17 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Merge two dataframes based on the 'id' column, perform a chi-square independence test on the merged dataframe, and draw a heatmap of the contingency table created from the features in column1, column2.
+The function should output with:
+    tuple: A tuple containing:
+    p (float): The p-value of the Chi-Squared test.
+    heatmap (matplotlib.pyplot.Axes): Seaborn heatmap of the contingency table.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+from scipy.stats import chi2_contingency
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+```
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+from scipy.stats import chi2_contingency
+def task_func(df1, df2, column1="feature1", column2="feature2"):

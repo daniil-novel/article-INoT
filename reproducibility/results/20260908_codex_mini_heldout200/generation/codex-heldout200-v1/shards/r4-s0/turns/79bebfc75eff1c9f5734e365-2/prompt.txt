@@ -1,0 +1,167 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform linear regression analysis with specified characteristics and targets. The function should merge two dataframes based on the 'id' column, perform linear regression using columns specified in features to predict the target, and plot the residuals.
+The function should output with:
+    dict: A dictionary containing:
+    'coefficients': Regression coefficients (list).
+    'intercept': Regression intercept (float).
+    'residuals_plot': A matplotlib Axes object representing the residuals plot, with the title 'Residuals Plot', x-axis label 'Predicted Values', and y-axis label 'Residuals'.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+def task_func(df1, df2, features=["feature1", "feature2", "feature3"], target="target"):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+def task_func(df1, df2, features=["feature1", "feature2", "feature3"], target="target"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Merge the input dataframes**
+   - Join `df1` and `df2` on the `'id'` column.
+   - Use an **inner join** so only rows present in both dataframes are used for regression.
+   - If there are overlapping non-`id` column names, handle them via merge suffixes or ensure the needed feature/target columns remain identifiable.
+
+2. **Validate required columns**
+   - Confirm that all columns listed in `features` plus `target` exist in the merged dataframe.
+   - If any are missing, raise a clear `ValueError`.
+   - Optionally verify that `'id'` exists in both input dataframes.
+
+3. **Prepare regression data**
+   - Extract feature matrix `X = merged[features]`.
+   - Extract target vector `y = merged[target]`.
+   - Remove rows with missing values in any required feature or target column before fitting.
+   - Ensure the selected columns are numeric; if not, either raise an error or rely on pandas/sklearn to fail with a meaningful message.
+
+4. **Fit linear regression**
+   - Create `LinearRegression()`.
+   - Fit the model on `X` and `y`.
+
+5. **Compute predictions and residuals**
+   - Predict target values using the fitted model.
+   - Compute residuals as:
+     - `residuals = y - y_pred`
+   - These residuals will be used for the plot.
+
+6. **Create residuals plot**
+   - Build a matplotlib figure and axes.
+   - Plot predicted values on the x-axis and residuals on the y-axis.
+   - Use a scatter plot for clarity.
+   - Add:
+     - title: **`Residuals Plot`**
+     - x-axis label: **`Predicted Values`**
+     - y-axis label: **`Residuals`**
+   - Return the `Axes` object, not the figure.
+
+7. **Return result dictionary**
+   - Return a dictionary with:
+     - `'coefficients'`: model coefficients as a list
+     - `'intercept'`: model intercept as a float
+     - `'residuals_plot'`: the matplotlib `Axes` object
+
+Edge cases to account for:
+- **No matching `id` values** after merge → empty dataframe, should raise an informative error.
+- **Missing feature or target columns** → raise `ValueError`.
+- **NaN values** in required columns → drop those rows before fitting, or fail clearly if no rows remain.
+- **Non-numeric data** in features/target → regression cannot run; should raise an informative error.
+- **Single remaining row** after filtering → fitting may technically work, but results may be degenerate; still handle gracefully.
+- **Column name collisions** from the merge → ensure the intended feature/target columns are used unambiguously.
+
+If you want, I can next turn this plan into the exact self-contained implementation starting with the required imports and function signature.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+
+def task_func(df1, df2, features=["feature1", "feature2", "feature3"], target="target"):
+    """
+    Merge df1 and df2 on 'id', fit a linear regression model, and plot residuals.
+
+    Returns
+    -------
+    dict
+        {
+            'coefficients': list,
+            'intercept': float,
+            'residuals_plot': matplotlib.axes.Axes
+        }
+    """
+    # Validate merge key
+    if "id" not in df1.columns or "id" not in df2.columns:
+        raise ValueError("Both input dataframes must contain an 'id' column.")
+
+    # Merge dataframes
+    merged = pd.merge(df1, df2, on="id", how="inner", suffixes=("_df1", "_df2"))
+
+    if merged.empty:
+        raise ValueError("No matching 'id' values were found between df1 and df2.")
+
+    # Helper to resolve column names after merge
+    def resolve_column(col_name):
+        if col_name in merged.columns:
+            return col_name
+
+        candidates = [f"{col_name}_df1", f"{col_name}_df2"]
+        existing = [c for c in candidates if c in merged.columns]
+
+        if len(existing) == 1:
+            return existing[0]
+        if len(existing) > 1:
+            # Deterministic preference if the same-named column appears in both inputs
+            return existing[0]
+
+        raise ValueError(f"Required column '{col_name}' was not found in the merged dataframe.")
+
+    # Resolve required columns
+    resolved_features = [resolve_column(col) for col in features]
+    resolved_target = resolve_column(target)
+
+    required_cols = resolved_features + [resolved_target]
+
+    # Keep only required columns and drop rows with missing values
+    data = merged[required_cols].dropna()
+
+    if data.empty:
+        raise ValueError("No rows remaining after dropping missing values in required columns.")
+
+    # Ensure all required columns are numeric
+    non_numeric = [
+        col for col in required_cols
+        if not pd.api.types.is_numeric_dtype(data[col])
+    ]
+    if non_numeric:
+        raise ValueError(
+            "All features and the target must be numeric. Non-numeric columns: "
+            + ", ".join(non_numeric)
+        )
+
+    X = data[resolved_features]
+    y = data[resolved_target]
+
+    # Fit linear regression
+    model = LinearRegression()
+    model.fit(X, y)
+
+    # Predictions and residuals
+    y_pred = model.predict(X)
+    residuals = y - y_pred
+
+    # Residuals plot
+    fig, ax = plt.subplots()
+    ax.scatter(y_pred, residuals)
+    ax.set_title("Residuals Plot")
+    ax.set_xlabel("Predicted Values")
+    ax.set_ylabel("Residuals")
+
+    return {
+        "coefficients": model.coef_.tolist(),
+        "intercept": float(model.intercept_),
+        "residuals_plot": ax,
+    }

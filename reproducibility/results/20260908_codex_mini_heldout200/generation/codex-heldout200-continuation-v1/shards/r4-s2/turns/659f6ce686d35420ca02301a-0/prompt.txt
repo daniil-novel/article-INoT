@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Converts string-formatted weights to floats and plots a scatter plot of weight against height. This function takes a dictionary with two keys: 'Weight_String' and 'Height'. The 'Weight_String' key should contain a list of weight values in string format, while the 'Height' key should have a list of corresponding height values in numerical format. If the input dictionary is not provided, the function uses a default dataset. The function then converts the string-formatted weights into float, and plots a scatter plot to visualize the relationship between weight and height.
+The function should raise the exception for: ValueError: If any of the values in the 'Weight_String' key are not formatted as strings. This validation ensures that the weight data is in the expected format for conversion to float.
+The function should output with:
+    ax (matplotlib.axes._axes.Axes): A scatter plot with weight on the x-axis and height on the y-axis, titled "Weight vs Height".
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(data=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(data=None):

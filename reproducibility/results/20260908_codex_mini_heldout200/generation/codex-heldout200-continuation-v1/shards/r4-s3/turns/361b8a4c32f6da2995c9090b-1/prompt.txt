@@ -1,0 +1,122 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Identify duplicate entries in a DataFrame and record the age distribution for the duplicate names. This function takes a DataFrame with 'name' and 'age' columns. If age is provided as floats, they will be rounded down to the nearest integer. Age must not be negative, otherwise the function raises ValueError. Then, the function identifies duplicate names and records the age distribution. It returns a Counter object with the age distribution and a histogram plot showing the distribution of ages for duplicate names, with age on the x-axis and count on the y-axis. Bins are calculated based on the minimum and maximum ages found among the duplicates, adjusted by .5 to ensure that integer ages fall squarely within bins.
+The function should raise the exception for: ValueError: If the DataFrame is empty or if age is negative.
+The function should output with:
+    Counter: Age distribution among duplicate names.
+    plt.Axes or None: Histogram plot displaying age distribution, or None if there are no duplicates.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+from collections import Counter
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame) -> (Counter, plt.Axes):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+from collections import Counter
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame) -> (Counter, plt.Axes):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+### Goal
+Implement `task_func(df: pd.DataFrame) -> (Counter, plt.Axes)` that:
+
+1. Validates the input DataFrame.
+2. Normalizes `age` values by flooring floats to integers.
+3. Rejects negative ages with `ValueError`.
+4. Detects duplicate `name` entries.
+5. Returns:
+   - a `Counter` of ages among duplicate-name rows
+   - a histogram `plt.Axes` showing the age distribution for duplicates, or `None` if there are no duplicates
+
+---
+
+## Planned approach
+
+### 1) Validate input
+- Check whether the DataFrame is empty.
+  - If empty: raise `ValueError`.
+- Verify that required columns exist:
+  - `name`
+  - `age`
+- If either column is missing, it is reasonable to raise `ValueError` as invalid input, even though the prompt explicitly mentions only empty DataFrame and negative age.
+
+### 2) Normalize ages
+- Treat ages as numeric values.
+- If ages are floats, floor them to the nearest lower integer:
+  - e.g. `23.9 -> 23`
+  - `23.0 -> 23`
+- Convert the normalized ages to integer type for counting and plotting.
+- Check for negative values after normalization.
+  - If any age is negative, raise `ValueError`.
+
+### 3) Identify duplicate names
+- Determine which `name` values appear more than once.
+- Select all rows whose name is duplicated.
+  - Important: if a name appears 3 times, all 3 rows belong to the duplicate set, not just the repeated occurrences.
+
+### 4) Build the age distribution
+- From the duplicate-name rows, count ages using `collections.Counter`.
+- The returned `Counter` should map each age to its frequency among duplicate-name rows.
+
+### 5) Handle “no duplicates” case
+- If no names are duplicated:
+  - return the age `Counter` for the empty duplicate set, i.e. `Counter()`
+  - return `None` for the plot
+
+### 6) Build histogram plot
+- If duplicates exist:
+  - compute minimum and maximum duplicate ages
+  - build bin edges so integer ages sit in the center of bins:
+    - use boundaries offset by `0.5`
+    - e.g. for ages 20 through 25, bins should be something like:
+      - `19.5, 20.5, 21.5, ..., 25.5`
+- Plot a histogram with:
+  - x-axis: age
+  - y-axis: count
+- Return the Matplotlib `Axes` object.
+
+---
+
+## Edge cases to account for
+
+### Input validation
+- **Empty DataFrame** → raise `ValueError`
+- **Missing `name` or `age` column** → raise `ValueError`
+- **Non-numeric age values** → should be treated as invalid input
+- **NaN / infinite ages** → should be treated as invalid input unless you explicitly choose to exclude them
+
+### Age normalization
+- **Float ages** → floor before counting
+- **Age exactly an integer in float form** → still becomes the same integer
+- **Negative age after flooring** → raise `ValueError`
+  - Example: `-0.2` floors to `-1`, so it should be rejected
+
+### Duplicate handling
+- **No duplicate names** → return empty `Counter`, `None`
+- **All rows duplicated** → count all ages from all rows
+- **Same name with different ages** → each row contributes its own age to the distribution
+
+### Histogram binning
+- **Single unique duplicate age** → still create a valid histogram with one bin centered on that age
+- **Wide age range** → bins should span from `min_age - 0.5` to `max_age + 0.5`
+- Ensure bins are aligned so integer ages fall squarely within them
+
+---
+
+## Expected output behavior
+- If duplicates exist:
+  - `Counter({...})`
+  - `plt.Axes` instance
+- If no duplicates exist:
+  - `Counter()`
+  - `None`
+
+If you want, I can next turn this plan into the actual self-contained function implementation.

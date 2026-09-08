@@ -1,0 +1,15 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Merge / Concatenate multiple CSV files from a specified directory into a single Pandas DataFrame. If an empty list of files is passed, an empty DataFrame is returned.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with the merged data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import os
+def task_func(data_dir: str, csv_files: list) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import os
+def task_func(data_dir: str, csv_files: list) -> pd.DataFrame:

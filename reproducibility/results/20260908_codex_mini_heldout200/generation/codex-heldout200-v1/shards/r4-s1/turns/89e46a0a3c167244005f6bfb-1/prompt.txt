@@ -1,0 +1,123 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Converts an Excel file (.xls or .xlsx) to a CSV file by reading the contents of the Excel file and writing them to a new CSV file with the same name but a different extension. Allows specifying separate paths for the Excel file source and the CSV file destination.
+Note that: This function assumes the active sheet is the one to be converted.
+The function should output with:
+    str: The name of the created CSV file.
+You should write self-contained code starting with:
+```
+import os
+import csv
+from openpyxl import load_workbook
+def task_func(file_name, excel_file_path, csv_file_path) -> str:
+```
+FULL SUPPLIED CONTEXT
+import os
+import csv
+from openpyxl import load_workbook
+def task_func(file_name, excel_file_path, csv_file_path) -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(file_name, excel_file_path, csv_file_path) -> str`, including important edge cases.
+
+## Goal
+Convert the **active sheet** of an Excel workbook into a CSV file, writing the result to a destination path and returning the **name of the created CSV file**.
+
+---
+
+## Planned approach
+
+### 1. Validate inputs
+- Check that `excel_file_path` exists and is a file.
+- Check that `csv_file_path` is usable:
+  - If it is a directory, create the output CSV inside it.
+  - If it is a full file path, write directly there.
+- Ensure `file_name` is suitable for the output name:
+  - If it already ends with `.csv`, keep it.
+  - Otherwise, replace any Excel extension with `.csv`.
+
+### 2. Determine output filename/path
+- Build the CSV filename from `file_name` if provided.
+- If `csv_file_path` is a directory, join it with the CSV filename.
+- If `csv_file_path` is a file path, use it directly.
+- Make sure the final output ends with `.csv`.
+
+### 3. Load the workbook
+- Use `openpyxl.load_workbook(excel_file_path, data_only=True)` to read cell values rather than formulas.
+- Use the **active sheet** only, per requirement.
+
+### 4. Read rows from the active sheet
+- Iterate through `worksheet.iter_rows(values_only=True)`.
+- Convert each row into CSV-compatible values:
+  - `None` should become empty strings.
+  - Keep strings, numbers, dates, and booleans as-is or convert to strings where needed by CSV writer.
+- Preserve row order and column order.
+
+### 5. Write CSV output
+- Open the target file with `newline=""` and UTF-8 encoding.
+- Use `csv.writer`.
+- Write each row from the active worksheet directly to CSV.
+
+### 6. Return value
+- Return the **name of the created CSV file**, not necessarily the full path.
+- If the task expects a path-like output, clarify that consistently in the implementation.
+- Most likely return `os.path.basename(output_csv_path)`.
+
+---
+
+## Important edge cases
+
+### Excel format support
+- `openpyxl` supports **.xlsx/.xlsm**, but **not legacy .xls**.
+- Since the task mentions `.xls or .xlsx`, you should decide one of these:
+  1. **Strict support for openpyxl-compatible files only**, and raise a clear error for `.xls`.
+  2. Add a separate reader for `.xls` if available in the environment.
+- Because the provided imports only include `openpyxl`, the safest plan is to:
+  - support `.xlsx`/`.xlsm`
+  - fail clearly for `.xls`
+
+### Empty workbook / empty sheet
+- If the active sheet has no data, create an empty CSV file.
+- Still return the output filename.
+
+### Formula cells
+- With `data_only=True`, formula results are written if cached values exist.
+- If not, cells may appear empty.
+
+### Missing destination directory
+- If the destination directory does not exist, either:
+  - create it, or
+  - raise an informative exception.
+- A robust implementation would create it.
+
+### Overwriting existing CSV
+- Decide whether to overwrite silently or prevent overwrite.
+- The simplest behavior is overwrite.
+
+### File name/path ambiguity
+- The signature includes both `file_name` and `csv_file_path`, so the intended meaning may be ambiguous.
+- A practical rule:
+  - `file_name` controls the output CSV name
+  - `csv_file_path` controls the destination folder or full target path
+
+### Non-string cell values
+- Excel cells can contain numbers, booleans, dates, and `None`.
+- `csv.writer` can handle most values, but `None` should usually be converted to `""` for cleaner CSV output.
+
+### Special characters / commas / quotes / newlines
+- Let `csv.writer` handle quoting automatically.
+- This avoids malformed CSV when cell values contain commas or line breaks.
+
+---
+
+## Suggested implementation structure
+1. Normalize/derive output filename.
+2. Validate source file and destination.
+3. Load workbook.
+4. Select `workbook.active`.
+5. Iterate rows and write them with `csv.writer`.
+6. Return the created CSV filename.
+
+---
+
+If you want, I can next turn this plan into the actual self-contained function body.

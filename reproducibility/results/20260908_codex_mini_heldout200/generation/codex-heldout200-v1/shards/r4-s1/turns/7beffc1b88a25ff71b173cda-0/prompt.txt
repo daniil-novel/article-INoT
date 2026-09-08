@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Combine two lists and record the frequency of predefined items in the combined list.
+The function should output with:
+    matplotlib.axes.Axes: A bar chart showing the frequency of predefined items in the combined list.
+You should write self-contained code starting with:
+```
+import collections
+import itertools
+import matplotlib.pyplot as plt
+# Constants
+ITEMS = ['apple', 'banana']
+def task_func(a, b, items=ITEMS):
+```
+FULL SUPPLIED CONTEXT
+import collections
+import itertools
+import matplotlib.pyplot as plt
+# Constants
+ITEMS = ['apple', 'banana']
+def task_func(a, b, items=ITEMS):

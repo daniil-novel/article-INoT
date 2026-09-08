@@ -1,0 +1,140 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Switch to a specific version of Python and add a specific path to sys.path.
+Note that: This function changes the global Python version and should be used carefully.
+The function should output with:
+    python_version (str): The Python version that was switched to.
+You should write self-contained code starting with:
+```
+import sys
+import subprocess
+# Constants
+PYTHON_VERSION = '3.8'
+PATH_TO_APPEND = '/path/to/whatever'
+def task_func(python_version=PYTHON_VERSION, path_to_append=PATH_TO_APPEND):
+```
+FULL SUPPLIED CONTEXT
+import sys
+import subprocess
+# Constants
+PYTHON_VERSION = '3.8'
+PATH_TO_APPEND = '/path/to/whatever'
+def task_func(python_version=PYTHON_VERSION, path_to_append=PATH_TO_APPEND):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements Analysis
+
+You need a function:
+
+```python
+def task_func(python_version=PYTHON_VERSION, path_to_append=PATH_TO_APPEND):
+```
+
+that:
+
+1. **Attempts to switch to a specific Python version**
+2. **Adds a path to `sys.path`**
+3. **Returns or outputs the Python version used/switched to**
+4. Uses the provided constants:
+   - `PYTHON_VERSION = '3.8'`
+   - `PATH_TO_APPEND = '/path/to/whatever'`
+
+## Important interpretation
+
+In a normal running Python process, you **cannot truly change the interpreter version globally at runtime**. The phrase “switch to a specific version of Python” usually means one of these:
+
+- invoke a different Python executable via `subprocess`
+- rely on an external version manager such as `pyenv`, `conda`, or a system-specific launcher
+- simulate/record the requested version in the function’s output
+
+So the implementation should be careful to distinguish between:
+
+- **requested version** (`python_version`)
+- **actually running interpreter version** (`sys.version_info` / `sys.version`)
+- **environmental switching mechanism** if one exists externally
+
+## Implementation plan
+
+### 1. Validate inputs
+- Ensure `python_version` is a non-empty string.
+- Ensure `path_to_append` is a string.
+- Optionally normalize `path_to_append`:
+  - strip whitespace
+  - ignore if empty after stripping
+
+### 2. Add path to `sys.path`
+- If `path_to_append` is valid and not already present, append it to `sys.path`.
+- Avoid duplicates.
+- Preserve current path order unless the task explicitly requires priority insertion.
+
+### 3. Handle Python version switching logic
+Because runtime version switching is not directly supported:
+
+- If the task is meant to **select** a version externally, the function can:
+  - attempt to locate or invoke a matching Python executable, or
+  - document that it is recording the target version while operating in the current interpreter.
+
+Given the supplied context only imports `sys` and `subprocess`, a practical implementation would likely:
+- use `subprocess` to check whether a Python executable matching `python_version` exists,
+- and then return the requested version if found/selected.
+
+### 4. Produce the required output
+- The function should output the Python version as a string.
+- Likely return a dictionary or a structured result including:
+  - `python_version`: the version string
+  - possibly status information if useful
+
+Since the prompt explicitly says:
+> The function should output with: `python_version (str): The Python version that was switched to.`
+
+the function should at minimum make that version available in its result.
+
+## Edge cases to handle
+
+### Input-related
+- `python_version` is `None`
+- `python_version` is an empty string
+- `python_version` contains whitespace or unexpected formatting
+- `path_to_append` is `None`
+- `path_to_append` is empty or whitespace-only
+
+### `sys.path`-related
+- Path is already in `sys.path`
+- Path does not exist on disk
+- Path is not a string
+- Path contains trailing separators or platform-specific formatting differences
+
+### Version-switching-related
+- Requested Python version is not installed
+- `subprocess` call fails
+- No external version manager is available
+- Environment cannot actually switch interpreter version from inside the current process
+
+### Platform/environment-related
+- Windows vs Unix path semantics
+- `subprocess` executable naming differences:
+  - `python3.8`
+  - `python3`
+  - `py -3.8` on Windows
+- Permission issues when invoking subprocesses or inspecting environment
+
+## Recommended behavior
+
+A robust implementation should:
+
+1. Add the path to `sys.path` safely
+2. Treat the supplied `python_version` as the target version
+3. Attempt version selection only if a supported mechanism is available
+4. Fall back gracefully if switching is impossible
+5. Return the version string clearly
+
+## Suggested result shape
+
+A good output would be something like:
+
+- `python_version`: the version requested/selected
+- optionally:
+  - `path_added`: whether the path was appended
+  - `status`: success/fallback/failure
+
+If you want, I can proceed to **stage 2** and write the implementation plan as pseudocode, or directly produce the code.

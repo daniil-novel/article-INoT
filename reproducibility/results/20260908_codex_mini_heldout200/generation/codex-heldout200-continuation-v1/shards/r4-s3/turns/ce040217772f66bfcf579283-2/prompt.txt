@@ -1,0 +1,121 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw a circle with a given radius on the polar chart 'ax' and set radial ticks. This function manipulates plot data using matplotlib.
+Note that: If the radius is negative this function will raise ValueError. If 'ax' is not a polar plot this function will raise TypeError.
+The function should output with:
+    matplotlib.axes._axes.Axes: The modified Axes object with the circle plotted.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(ax, radius):
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(ax, radius):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Implementation plan for `task_func(ax, radius)`
+
+#### Goal
+Modify a Matplotlib **polar** `Axes` object by:
+1. Drawing a circle of the given `radius`.
+2. Setting radial ticks.
+3. Returning the modified `Axes`.
+
+---
+
+### Planned behavior
+
+1. **Validate the radius**
+   - If `radius < 0`, raise `ValueError`.
+   - This is a hard failure because a negative radius is invalid for the requested circle.
+
+2. **Validate the axes**
+   - Check that `ax` is a polar axes.
+   - If it is not a polar plot, raise `TypeError`.
+   - This ensures the function only operates on the expected coordinate system.
+
+3. **Draw the circle**
+   - Create theta values spanning a full revolution, e.g. from `0` to `2π`.
+   - Use a constant radial value equal to `radius`.
+   - Plot the curve on `ax` using polar coordinates.
+   - This produces a circle centered at the origin of the polar chart.
+
+4. **Set radial ticks**
+   - Configure radial ticks so the plot is readable and reflects the circle’s scale.
+   - A practical choice is to set ticks from `0` up to `radius` or a reasonable range around it.
+   - If `radius == 0`, ensure ticks still remain valid and do not break plotting.
+
+5. **Return the axes**
+   - Return the same modified `ax` object.
+
+---
+
+### Edge cases to handle
+
+1. **Negative radius**
+   - Must raise `ValueError`.
+   - Example: `radius = -1`.
+
+2. **Non-polar axes**
+   - Must raise `TypeError`.
+   - Example: passing a regular Cartesian `Axes`.
+
+3. **Zero radius**
+   - Valid input.
+   - The “circle” collapses to a point at the origin.
+   - Radial ticks should still be set safely.
+
+4. **Non-numeric radius**
+   - Not explicitly specified, but should naturally fail if comparisons or plotting are impossible.
+   - If desired, can be allowed to propagate standard Python/NumPy errors.
+
+5. **Large radius**
+   - Should still plot correctly.
+   - Radial ticks may need to scale appropriately so the circle remains visible.
+
+---
+
+### Expected structure of the implementation
+
+- Import `matplotlib.pyplot as plt` and `numpy as np`.
+- Define `task_func(ax, radius)`.
+- Perform validation first.
+- Generate theta values with NumPy.
+- Plot the circle on the polar axes.
+- Set radial tick marks.
+- Return `ax`.
+
+---
+
+### Notes for implementation
+- The function should **not** create a new figure unless necessary; it should work with the provided `ax`.
+- The circle should be drawn using polar coordinates, not by converting to Cartesian manually.
+- The function should preserve the input `Axes` object and return it after modification.
+
+If you want, I can proceed to stage 2 and write the actual implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import matplotlib.pyplot as plt
+import numpy as np
+
+def task_func(ax, radius):
+    if getattr(ax, "name", None) != "polar":
+        raise TypeError("ax must be a polar Axes")
+    if radius < 0:
+        raise ValueError("radius must be non-negative")
+
+    theta = np.linspace(0, 2 * np.pi, 361)
+    r = np.full_like(theta, radius, dtype=float)
+    ax.plot(theta, r)
+
+    if radius == 0:
+        ax.set_rticks([0])
+        ax.set_ylim(0, 1)
+    else:
+        ax.set_rticks(np.linspace(0, radius, 5))
+        ax.set_ylim(0, radius)
+
+    return ax

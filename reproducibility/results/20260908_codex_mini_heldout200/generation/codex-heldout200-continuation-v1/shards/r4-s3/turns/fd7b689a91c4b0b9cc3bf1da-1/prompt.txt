@@ -1,0 +1,117 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Count the number of words and punctuation marks in a string.
+The function should output with:
+    tuple: A tuple containing the number of words and punctuation marks.
+You should write self-contained code starting with:
+```
+import re
+import string
+# Constants
+PUNCTUATION = string.punctuation
+def task_func(text):
+```
+FULL SUPPLIED CONTEXT
+import re
+import string
+# Constants
+PUNCTUATION = string.punctuation
+def task_func(text):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(text)`:
+
+### Goal
+Return a tuple:
+
+```python
+(word_count, punctuation_count)
+```
+
+where:
+- `word_count` = number of words in the input string
+- `punctuation_count` = number of punctuation characters in the input string
+
+---
+
+### Proposed approach
+
+1. **Count words with a regular expression**
+   - Use a regex that matches word-like tokens.
+   - A practical choice is something like:
+     - `r"\b\w+\b"` for basic word counting
+   - This counts sequences of letters/digits/underscore as words.
+
+2. **Count punctuation marks character-by-character**
+   - Use `string.punctuation`, which is already provided as `PUNCTUATION`.
+   - Count every character in `text` that appears in `PUNCTUATION`.
+
+3. **Return the result as a tuple**
+   - `(number_of_words, number_of_punctuation_marks)`
+
+---
+
+### Suggested implementation logic
+
+- If `text` is empty, return `(0, 0)`.
+- Otherwise:
+  - `words = re.findall(r"\b\w+\b", text)`
+  - `word_count = len(words)`
+  - `punctuation_count = sum(1 for ch in text if ch in PUNCTUATION)`
+- Return `(word_count, punctuation_count)`
+
+---
+
+### Edge cases to consider
+
+1. **Empty string**
+   - Input: `""`
+   - Expected: `(0, 0)`
+
+2. **String with only spaces or whitespace**
+   - Input: `"   \n\t"`
+   - Expected: `(0, 0)`
+
+3. **String with only punctuation**
+   - Input: `"!!!,.."`.
+   - Expected: `(0, 5)` if all punctuation characters are counted individually
+
+4. **Mixed text**
+   - Input: `"Hello, world!"`
+   - Words: `Hello`, `world` → `2`
+   - Punctuation: `,`, `!` → `2`
+
+5. **Numbers and underscores**
+   - With `\w+`, tokens like `"abc123"` or `"foo_bar"` count as words.
+   - If the intended definition of “word” is stricter, this may need adjustment.
+
+6. **Consecutive punctuation**
+   - Input: `"Wait!!!"`
+   - Punctuation count should be `3`
+
+7. **Unicode punctuation**
+   - `string.punctuation` only includes ASCII punctuation.
+   - Characters like `“` or `…` will not be counted unless explicitly handled.
+   - If the task expects only ASCII punctuation, `string.punctuation` is correct.
+
+8. **Non-string input**
+   - If inputs might not be strings, decide whether to:
+     - raise an error, or
+     - convert to `str(text)`
+   - Usually best to assume valid string input unless specified otherwise.
+
+---
+
+### Complexity
+- Time: `O(n)` where `n` is the length of the string
+- Space: `O(k)` for regex matches, where `k` is the number of matched words
+
+---
+
+### Final behavior summary
+The function should:
+- count words using regex
+- count punctuation using `PUNCTUATION`
+- return a 2-item tuple with both counts
+
+If you want, I can also provide the exact implementation now.

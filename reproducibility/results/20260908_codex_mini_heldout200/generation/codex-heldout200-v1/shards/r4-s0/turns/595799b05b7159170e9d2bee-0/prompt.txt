@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Calculate the occurrence of certain words in a collection of sentences and return a bar chart.
+The function should output with:
+    matplotlib.axes._axes.Axes: Axes object of the bar chart displaying the frequencies.
+You should write self-contained code starting with:
+```
+import collections
+import matplotlib.pyplot as plt
+import pandas as pd
+# Constants
+WORDS = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I']
+def task_func(sentences_dict, word_keys):
+```
+FULL SUPPLIED CONTEXT
+import collections
+import matplotlib.pyplot as plt
+import pandas as pd
+# Constants
+WORDS = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I']
+def task_func(sentences_dict, word_keys):

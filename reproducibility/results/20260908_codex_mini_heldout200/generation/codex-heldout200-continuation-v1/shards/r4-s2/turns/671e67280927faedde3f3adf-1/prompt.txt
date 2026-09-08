@@ -1,0 +1,69 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a CSV file on a specific file path with fake personal data. The personal data consists of the following columns: - Name: random names generated with faker - Age: random age values: 20<=age<=60 - Address: random adresses generated with faker - Email: random email adresses generated with faker Newlines '\n' in the generated addresses get replaced with ', '. The number of rows in the CSV file is determined by num_rows. >>> path = task_func('test.csv', 5, random_seed=12) >>> with open(path, 'r') as file: >>>     reader = csv.reader(file) >>>     rows = list(reader) >>> print(rows) [ ['Name', 'Age', 'Address', 'Email'], ['Matthew Estrada', '50', '7479 Angela Shore, South Michael, MA 28059', 'johnstonjames@example.net'], ['Gabrielle Sullivan', '37', '83167 Donna Dale, Nicoleside, GA 91836', 'peterswilliam@example.org'], ['Jason Carlson', '53', '013 Kelly Lake Suite 414, West Michael, NY 75635', 'anthonycarson@example.com'], ['Alexander Lowe', '42', '183 Christian Harbor, South Joshuastad, PA 83984', 'palmermicheal@example.com'], ['John Benjamin', '29', '8523 Rhonda Avenue, Rosemouth, HI 32166', 'masonjohn@example.org'] ]
+The function should raise the exception for: ValueError: If num_rows is not an integer >= 0.
+The function should output with:
+    str: The file path of the generated CSV file.
+You should write self-contained code starting with:
+```
+import csv
+import random
+from faker import Faker
+def task_func(file_path, num_rows, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import csv
+import random
+from faker import Faker
+def task_func(file_path, num_rows, random_seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate inputs**
+   - Check that `num_rows` is an integer and `num_rows >= 0`.
+   - Raise `ValueError` if invalid.
+   - Treat `bool` as invalid as well, since it is not a meaningful row count.
+
+2. **Initialize randomness**
+   - If `random_seed` is provided:
+     - Seed Python’s `random` module with `random.seed(random_seed)`.
+     - Seed Faker deterministically, e.g. by creating a `Faker()` instance and seeding it with `seed_instance(random_seed)` or using `Faker.seed(random_seed)` before generation.
+   - This ensures reproducible names, addresses, emails, and ages.
+
+3. **Prepare Faker**
+   - Create a `Faker` instance.
+   - Use it to generate:
+     - `name()`
+     - `address()`
+     - `email()`
+
+4. **Create CSV output**
+   - Open `file_path` for writing with `newline=''` so CSV formatting is correct.
+   - Use `csv.writer`.
+   - Write the header row exactly as:
+     - `Name, Age, Address, Email`
+
+5. **Generate rows**
+   - For each row from `0` to `num_rows - 1`:
+     - Generate a fake name.
+     - Generate an age with `random.randint(20, 60)`.
+     - Generate a fake address.
+     - Replace all newline characters in the address with `", "`.
+     - Generate a fake email.
+     - Write the row to the CSV.
+
+6. **Return value**
+   - Return `file_path` as a string.
+
+Edge cases to handle:
+- `num_rows = 0` → file should still be created with only the header row.
+- `num_rows < 0`, non-integer values, and `bool` values → raise `ValueError`.
+- Addresses containing multiple newline characters → replace all of them with `", "`.
+- Deterministic output when `random_seed` is supplied.
+- Existing file at `file_path` should be overwritten by normal write mode behavior.
+
+Expected behavior:
+- The generated CSV should match the requested column order and row count.
+- Age values must always be within `20..60` inclusive.
+- The function should return the path to the generated file.

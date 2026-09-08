@@ -1,0 +1,96 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Convert a list of Unix timestamps to date objects, create a Pandas DataFrame, and draw a histogram. - The date format should be as DATE_FORMAT. - The DataFrame should have 'Timestamp' and 'Datetime' as column names. - If the list of timestamps is empty, raise a ValueError with the message "Input list of timestamps is empty".
+The function should raise the exception for: ValueError("Input list of timestamps is empty."): If the list of timestamps is empty.
+The function should output with:
+    pandas.DataFrame: A pandas DataFrame containing the original Unix timestamps and the converted datetime objects.
+    Axes: The Axes object of the histogram plot. The histogram will have 10 bins by default, representing the distribution of the datetime objects.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(timestamps):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(timestamps):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate input**
+   - Check whether `timestamps` is empty.
+   - If empty, raise `ValueError("Input list of timestamps is empty.")`.
+   - Note: the prompt mentions the message both with and without a trailing period; use the exact string required by the exception example to avoid mismatch.
+
+2. **Convert Unix timestamps**
+   - For each Unix timestamp in the list, convert it to a Python `datetime` object.
+   - Use a consistent conversion method for all items, e.g. local time via `datetime.fromtimestamp(...)` unless the surrounding project expects UTC.
+   - Preserve the original numeric timestamp values alongside the converted datetime values.
+
+3. **Build the DataFrame**
+   - Create a `pandas.DataFrame` with exactly these columns:
+     - `Timestamp`
+     - `Datetime`
+   - `Timestamp` should contain the original Unix timestamps.
+   - `Datetime` should contain the converted datetime objects.
+
+4. **Draw the histogram**
+   - Create a Matplotlib histogram using the datetime values from the `Datetime` column.
+   - Use the default `10` bins unless otherwise specified.
+   - Return the `Axes` object produced by the plot.
+
+5. **Apply date formatting**
+   - Use `DATE_FORMAT = "%Y-%m-%d %H:%M:%S"` when formatting datetime values for display or plotting labels if needed.
+   - Keep the DataFrame `Datetime` column as datetime objects unless formatting as strings is explicitly required downstream.
+
+Edge cases to handle:
+- **Empty input list** → raise `ValueError`.
+- **Single timestamp** → DataFrame should still be created; histogram will have one value.
+- **Repeated timestamps** → duplicates should be preserved and appear in the histogram.
+- **Negative timestamps** → valid if the platform supports pre-1970 dates.
+- **Non-integer timestamps** → decide whether to accept floats; Python datetime conversion supports them, but document behavior.
+- **Invalid types** (`None`, strings, mixed types) → likely raise a type-related exception during conversion.
+- **Very large timestamps** → may raise `OverflowError` or platform-specific errors.
+- **Timezone ambiguity** → `fromtimestamp` is local-time dependent; if deterministic UTC behavior is required, the implementation should use UTC consistently.
+
+Expected outputs:
+- A `pandas.DataFrame`
+- A Matplotlib `Axes` object
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+def task_func(timestamps):
+    if not timestamps:
+        raise ValueError("Input list of timestamps is empty.")
+
+    datetimes = [datetime.fromtimestamp(ts) for ts in timestamps]
+    df = pd.DataFrame({
+        "Timestamp": timestamps,
+        "Datetime": datetimes,
+    })
+
+    fig, ax = plt.subplots()
+    ax.hist(pd.to_datetime(df["Datetime"]), bins=10)
+
+    ax.set_xlabel("Datetime")
+    ax.set_ylabel("Frequency")
+    ax.xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter(DATE_FORMAT))
+    fig.autofmt_xdate()
+
+    return df, ax
+```

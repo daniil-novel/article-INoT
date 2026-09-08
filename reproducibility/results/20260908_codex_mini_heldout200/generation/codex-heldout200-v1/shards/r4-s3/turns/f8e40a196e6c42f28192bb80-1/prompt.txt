@@ -1,0 +1,199 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generates a palindrome sentence using random words from a specified pool. The sentence's length is randomly chosen between a minimum (MIN_WORDS) and maximum (MAX_WORDS) number of words. The function ensures that the sentence reads the same forwards and backwards. Check if the generated sentence length is within the specified range. >>> sentence = task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL) >>> MIN_WORDS <= len(sentence.split()) <= MAX_WORDS True
+The function should output with:
+    str: The generated palindrome sentence.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+def task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+def task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL)`.
+
+## Goal
+Generate a **palindrome sentence** made of random words from `WORDS_POOL`, with a word count chosen randomly in the inclusive range:
+
+`MIN_WORDS <= sentence_length <= MAX_WORDS`
+
+The returned value must be a **string**.
+
+---
+
+## Core idea
+A sentence is a palindrome **by words** if the list of words reads the same forwards and backwards.
+
+Example:
+- `["cat", "dog", "cat"]`
+- `["a", "b", "c", "b", "a"]`
+
+So the safest approach is:
+
+1. Randomly choose a target length `L`
+2. Build the first half of the sentence with random words
+3. Mirror that half to form the second half
+4. Add a center word if `L` is odd
+5. Join the words with spaces
+
+This guarantees the sentence is palindromic.
+
+---
+
+## Proposed algorithm
+
+### 1) Validate / normalize inputs
+Check that:
+- `MIN_WORDS <= MAX_WORDS`
+- `WORDS_POOL` is not empty when a positive-length sentence is needed
+- lengths are integers or can be safely treated as integers
+
+Optional robustness:
+- If `MIN_WORDS` or `MAX_WORDS` is negative, reject or handle explicitly
+- If `MIN_WORDS == 0`, decide whether an empty sentence is allowed
+
+---
+
+### 2) Pick a random sentence length
+Choose:
+
+- `L = random.randint(MIN_WORDS, MAX_WORDS)`
+
+This gives an inclusive random integer length.
+
+---
+
+### 3) Build a palindrome word sequence
+Let:
+- `half = L // 2`
+
+Then:
+- Generate `half` random words for the first half
+- If `L` is odd, generate one center word
+- Mirror the first half in reverse order for the second half
+
+Structure:
+- even length: `first_half + reversed(first_half)`
+- odd length: `first_half + [middle_word] + reversed(first_half)`
+
+This guarantees word-level palindromicity.
+
+---
+
+### 4) Convert to sentence string
+Join with spaces:
+
+- `" ".join(words)`
+
+Return the resulting string.
+
+---
+
+## Why this works
+If the sequence is built as:
+
+- `A B C B A`
+
+then splitting by spaces returns the same word list forwards and backwards.
+
+So:
+- `sentence.split() == sentence.split()[::-1]`
+
+Also, the sentence length in words will exactly match the randomly chosen `L`, so it will be within the requested range.
+
+---
+
+## Edge cases to handle
+
+### 1) `MIN_WORDS > MAX_WORDS`
+This is invalid input.
+
+Possible handling:
+- raise `ValueError`
+- or swap them, but that changes the contract, so validation is better
+
+---
+
+### 2) Empty `WORDS_POOL`
+If the sentence length is greater than 0, generation is impossible.
+
+Possible handling:
+- raise `ValueError`
+
+If `L == 0` is allowed, returning `""` may be acceptable, but that depends on the intended specification.
+
+---
+
+### 3) `WORDS_POOL` has only one word
+That is valid.
+- The function can repeatedly use the same word
+- Example: `["echo", "echo", "echo"]`
+
+---
+
+### 4) Odd vs even target length
+Must be handled carefully:
+- even: mirror the full first half
+- odd: insert a center word before mirroring
+
+---
+
+### 5) `MIN_WORDS == MAX_WORDS`
+Then the length is fixed, not random.
+Still valid.
+
+---
+
+### 6) Zero-length sentence
+If `MIN_WORDS == MAX_WORDS == 0`, the result would be:
+- `""`
+
+This is technically a palindrome of zero words, but only if that is allowed by the task.
+
+---
+
+### 7) Non-string words in `WORDS_POOL`
+If the pool may contain non-strings, convert them to strings before joining.
+
+---
+
+### 8) Repeated words
+Repeated words are fine and do not break the palindrome property.
+
+---
+
+## Recommended implementation strategy
+Use Python’s `random` module for word selection and sentence length, since it’s already imported.
+
+High-level pseudocode:
+
+```python
+def task_func(MIN_WORDS, MAX_WORDS, WORDS_POOL):
+    validate inputs
+    L = random.randint(MIN_WORDS, MAX_WORDS)
+    half = L // 2
+    first_half = [random.choice(WORDS_POOL) for _ in range(half)]
+    if L % 2 == 1:
+        middle = random.choice(WORDS_POOL)
+        words = first_half + [middle] + first_half[::-1]
+    else:
+        words = first_half + first_half[::-1]
+    return " ".join(map(str, words))
+```
+
+---
+
+## Required correctness checks
+After generation, the sentence should satisfy:
+
+- `MIN_WORDS <= len(sentence.split()) <= MAX_WORDS`
+- `sentence.split() == sentence.split()[::-1]`
+
+---
+
+If you want, I can proceed to **stage 2** and write the self-contained implementation.

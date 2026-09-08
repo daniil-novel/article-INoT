@@ -1,0 +1,140 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Merge two dataframes on the 'id' column and then scale the numeric features. This function merges two dataframes via outer join on the 'id' column, and scales the merged dataframe's numeric features from df1 to have a mean of 0 and standard deviation of 1. It also returns a pair plot of the scaled features from df1.
+The function should output with:
+    merged_df (pd.DataFrame): The partially scaled and merged dataframe.
+    pair_plot (seaborn.axisgrid.PairGrid): Pair plot of the scaled dataframe.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+def task_func(df1, df2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+def task_func(df1, df2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(df1, df2)` based on the requirements.
+
+## Goal
+- Merge `df1` and `df2` using an **outer join** on the `'id'` column.
+- **Scale only the numeric feature columns from `df1`** to mean `0` and standard deviation `1`.
+- Return:
+  - `merged_df`: the merged dataframe with the selected `df1` numeric columns scaled
+  - `pair_plot`: a `seaborn.axisgrid.PairGrid` showing the scaled features from `df1`
+
+---
+
+## Proposed implementation plan
+
+### 1. Validate inputs
+Check that:
+- `df1` and `df2` are pandas DataFrames
+- both contain the `'id'` column
+
+If `'id'` is missing in either dataframe, the function should fail clearly with a helpful error message.
+
+---
+
+### 2. Identify numeric columns in `df1`
+- Select numeric columns from `df1`
+- Exclude `'id'` from scaling, even if it is numeric
+
+This gives the feature set to be standardized and used in the pair plot.
+
+---
+
+### 3. Scale numeric feature columns from `df1`
+- Use `StandardScaler`
+- Fit and transform only the numeric feature columns from `df1`
+- Replace those columns in a copy of `df1` with scaled values
+
+Important:
+- Non-numeric columns in `df1` should remain unchanged
+- The `'id'` column should remain unchanged
+- If there are missing values, `StandardScaler` cannot handle them directly, so the code should either:
+  - leave them unscaled if the project expects clean data, or
+  - explicitly handle/drop/impute them before scaling
+  Since the task does not mention imputation, the safest implementation is to assume inputs are already suitable or to preserve NaNs where possible after scaling logic is applied carefully.
+
+---
+
+### 4. Merge `df1` and `df2`
+- Perform `pd.merge(..., how='outer', on='id')`
+- Merge the scaled version of `df1` with `df2`
+
+This ensures:
+- all `id` values from both dataframes are retained
+- unmatched rows appear with `NaN` in missing columns
+
+---
+
+### 5. Build the pair plot
+- Create a pair plot from the **scaled numeric columns of `df1`**
+- Use the scaled dataframe derived from `df1`, not the merged dataframe
+
+This ensures the plot reflects only the standardized features from `df1`, as requested.
+
+---
+
+### 6. Return outputs
+Return:
+- `merged_df`
+- `pair_plot`
+
+---
+
+## Edge cases to handle
+
+### 1. Missing `'id'` column
+- If either dataframe lacks `'id'`, raise `ValueError`
+
+### 2. No numeric columns in `df1`
+- If `df1` has no numeric columns besides `'id'`, there is nothing to scale
+- The merged dataframe can still be returned
+- For the pair plot, you should either:
+  - create a plot from an empty/single-column dataframe carefully, or
+  - return an empty/default PairGrid-like object only if supported
+- In practice, a more robust approach is to guard this case explicitly and create the plot only when at least one numeric column exists
+
+### 3. Only one numeric column in `df1`
+- Pair plot should still be possible, but it will be minimal
+- StandardScaler works fine on one column
+
+### 4. Constant numeric column
+- StandardScaler will transform a constant column to all zeros
+- This is acceptable and should not be treated as an error
+
+### 5. Duplicate `'id'` values
+- Outer merge with duplicate ids can produce a many-to-many explosion
+- If duplicates are not intended, the function may warn or assume inputs are pre-cleaned
+- If robustness is desired, document that duplicates may expand rows after merge
+
+### 6. Missing values in numeric columns
+- StandardScaler does not accept NaNs directly in standard sklearn workflows
+- If NaNs are present, you need a strategy:
+  - reject with a clear error, or
+  - impute before scaling
+- Since the task does not request imputation, a clear validation error is safer
+
+### 7. Non-numeric columns in `df1`
+- These should remain unchanged in the merged dataframe
+- They should not be included in scaling or pair plotting
+
+### 8. Outer join introducing NaNs
+- This is expected behavior
+- The merge result may contain missing values in columns from either dataframe
+
+---
+
+## Suggested behavior summary
+- Scale only `df1` numeric columns except `'id'`
+- Merge scaled `df1` with `df2` using outer join on `'id'`
+- Generate pair plot from scaled `df1` numeric columns
+- Preserve non-numeric data and missing rows from outer join
+
+If you want, I can now produce the actual self-contained implementation in the exact required format.

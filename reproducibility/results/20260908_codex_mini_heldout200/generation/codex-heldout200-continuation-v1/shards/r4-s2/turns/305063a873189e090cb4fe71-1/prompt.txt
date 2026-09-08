@@ -1,0 +1,132 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Handles an HTTP GET request to retrieve a static file from the server. This function processes an HTTP GET request, extracts the filename from it, checks the existence of the file in the server's directory, and returns an HTTP response. The response either contains the file content (if found) or an appropriate error message (if not found or if the request is invalid).
+The function should output with:
+    str: An HTTP response string, which includes the status code, content length (for 200 OK responses), and the file content
+    or an error message.
+You should write self-contained code starting with:
+```
+import re
+import os
+def task_func(request):
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+def task_func(request):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(request)`:
+
+## Goal
+Handle an HTTP `GET` request for a static file and return:
+- a valid HTTP response string with file content when the file exists
+- an error response string when the request is invalid or the file is missing
+
+## Inputs and expected behavior
+- Input: `request` as a raw HTTP request string
+- Output: a single `str` containing:
+  - `HTTP/1.1 200 OK` plus `Content-Length` and file contents, or
+  - an error status/message such as `400 Bad Request` or `404 Not Found`
+
+## Plan
+
+### 1) Validate the request format
+- Check that `request` is a string and not empty.
+- Split the request into lines using `\r\n` or `\n`.
+- Parse the first line as the request line.
+- Ensure it matches the HTTP GET form:
+  - `GET <path> HTTP/1.1`
+- If malformed, return a `400 Bad Request` response.
+
+### 2) Extract the filename/path
+- From the request line, take the requested path.
+- Normalize the path:
+  - remove leading `/`
+  - reject empty paths if no file is specified
+- If the path is URL-like or contains query parameters, ignore query string after `?` if needed.
+- Treat the extracted value as a filename relative to the server directory.
+
+### 3) Prevent unsafe path access
+- Reject traversal attempts such as:
+  - `../`
+  - `..\`
+  - absolute paths
+- Only allow files inside the server’s working directory.
+- If path is unsafe, return `400 Bad Request` or `403 Forbidden` depending on desired policy.
+
+### 4) Check file existence
+- Use `os.path.isfile()` to verify that the target exists and is a regular file.
+- If missing, return `404 Not Found`.
+
+### 5) Read file content
+- Open the file in text mode or binary mode depending on expected output format.
+- Since the function returns a string HTTP response, text mode is simplest.
+- Read the entire file content.
+- Compute `Content-Length` based on the exact byte length if possible, or character length if the problem expects simple string length. Prefer byte length for HTTP correctness.
+
+### 6) Build success response
+- Return a string like:
+  - `HTTP/1.1 200 OK\r\nContent-Length: <len>\r\n\r\n<file content>`
+- Ensure headers and body are separated by a blank line.
+- Preserve file contents exactly as read.
+
+### 7) Build error responses
+Define clear responses for common failure cases:
+- Invalid request → `HTTP/1.1 400 Bad Request`
+- File not found → `HTTP/1.1 404 Not Found`
+- Optional: permission/read failure → `HTTP/1.1 403 Forbidden` or `500 Internal Server Error`
+
+## Edge cases to handle
+1. **Empty request**
+   - Return `400 Bad Request`
+
+2. **Non-GET method**
+   - Return `400 Bad Request` or `405 Method Not Allowed`
+   - Since the prompt asks specifically for GET handling, `400` is acceptable unless a stricter response is desired
+
+3. **Malformed request line**
+   - Missing HTTP version
+   - Missing path
+   - Extra/invalid tokens
+   - Return `400 Bad Request`
+
+4. **Root path `/`**
+   - Decide whether to reject it or map it to a default file like `index.html`
+   - If no default file is specified, return `400` or `404`
+
+5. **Path traversal**
+   - Reject `../secret.txt`, `/../../etc/passwd`, etc.
+
+6. **File exists but is not readable**
+   - Return `403 Forbidden` or `500 Internal Server Error`
+
+7. **Binary file content**
+   - If binary files are possible, reading as text may fail or corrupt data
+   - If only text files are expected, text mode is fine
+
+8. **Large files**
+   - Whole-file read is simple and acceptable for this task
+   - `Content-Length` must match the content returned
+
+9. **Unicode / encoding issues**
+   - Use a stable encoding such as UTF-8 when reading text files
+   - Handle decoding errors gracefully if necessary
+
+## Suggested implementation structure
+- Helper to parse request line
+- Helper to sanitize/validate filename
+- Helper to format HTTP responses
+- Main `task_func(request)`:
+  1. parse
+  2. validate
+  3. locate file
+  4. read file
+  5. return formatted response
+
+## Output format recommendation
+- Keep responses minimal and deterministic
+- Always include the status line
+- Include `Content-Length` only for successful responses, as requested
+
+If you want, I can now turn this plan into the full self-contained Python implementation.

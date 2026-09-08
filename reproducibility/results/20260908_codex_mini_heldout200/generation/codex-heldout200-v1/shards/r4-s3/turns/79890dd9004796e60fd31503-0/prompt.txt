@@ -1,0 +1,17 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Normalize data in a csv file using MinMaxScaler from sklearn. Only numeric columns are normalized. Columns with other dtypes are left as they are.
+The function should raise the exception for: ValueError: If input does not have numeric columns.
+The function should output with:
+    DataFrame: A pandas DataFrame with normalized data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+def task_func(file_name: str) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+def task_func(file_name: str) -> pd.DataFrame:

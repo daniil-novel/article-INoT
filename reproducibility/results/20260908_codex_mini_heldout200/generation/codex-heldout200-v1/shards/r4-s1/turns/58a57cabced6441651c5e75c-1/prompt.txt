@@ -1,0 +1,66 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Standardize a 2D data matrix, calculate the mean value of each row and then visualize the distribution of the mean values with an histogram. - Each row of the matrix represent a data point, its length is the same as that of FEATURE_NAMES. - The plot title should be 'Distribution of Means'.
+The function should output with:
+    tuple: A tuple containing:
+    pandas.DataFrame: A DataFrame containing the standardized data and the mean of each row.
+    Its column names should be FEATURE_NAMES and 'Mean'.
+    matplotlib.axes.Axes: The histogram plot of the distribution of means.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+# Constants
+FEATURE_NAMES = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+def task_func(data_matrix):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+# Constants
+FEATURE_NAMES = ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"]
+def task_func(data_matrix):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Plan for `task_func(data_matrix)`:
+
+1. **Validate and normalize input**
+   - Accept the input as a 2D matrix-like structure.
+   - Convert it to a NumPy array or pandas DataFrame-like 2D structure internally.
+   - Verify it is 2-dimensional and that each row has exactly `len(FEATURE_NAMES)` columns.
+   - Raise a clear error if the shape is invalid, the matrix is empty, or the data cannot be interpreted as numeric.
+
+2. **Standardize the data**
+   - Use `StandardScaler` to standardize each feature/column independently.
+   - This produces a matrix with the same shape as the input.
+   - Preserve row order because each row represents one data point.
+
+3. **Build the output DataFrame**
+   - Create a `pandas.DataFrame` from the standardized matrix.
+   - Set column names to `FEATURE_NAMES`.
+   - Compute the mean across each row using the standardized values.
+   - Add a new column named `"Mean"` containing those row means.
+
+4. **Create the histogram**
+   - Plot the distribution of the `"Mean"` values using a histogram.
+   - Use `matplotlib.pyplot` to generate the plot.
+   - Set the plot title exactly to: **`Distribution of Means`**.
+   - Return the `Axes` object for the histogram.
+
+5. **Return value**
+   - Return a tuple:
+     - the DataFrame with standardized feature values plus `"Mean"`,
+     - the histogram `Axes`.
+
+### Edge cases to handle
+- **Empty input**: no rows or no columns should fail cleanly.
+- **Wrong number of features**: each row must match `FEATURE_NAMES` length exactly.
+- **1D input**: should be rejected because the task requires a 2D matrix.
+- **Non-numeric values**: should raise an error before or during scaling.
+- **Constant columns**: `StandardScaler` handles these by producing zeros for that feature.
+- **Single-row input**: still valid; row mean should be computed and plotted, though histogram may be trivial.
+- **NaN/inf values**: should be rejected or handled explicitly, since scaling and mean calculation can break or mislead.
+
+If you want, I can next produce the full implementation.

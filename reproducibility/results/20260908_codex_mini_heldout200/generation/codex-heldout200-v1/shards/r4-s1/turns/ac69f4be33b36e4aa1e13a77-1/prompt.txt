@@ -1,0 +1,108 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Sorts the input list in ascending order based on the degree value of its elements, and then calculates the mean, median, and mode of both the sorted list and the same for the magnitude of the fast fourier transform of the degree values upto the nearest integer.
+The function should output with:
+    tuple: A tuple containing the rounded mean, median and mode of the sorted list along with those
+    for the magnitude of the fast fourier transform of the degree values.
+You should write self-contained code starting with:
+```
+import math
+import statistics
+import numpy as np
+def task_func(input_list):
+```
+FULL SUPPLIED CONTEXT
+import math
+import statistics
+import numpy as np
+def task_func(input_list):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(input_list)`.
+
+## Assumptions
+- The elements in `input_list` are already numeric degree values, or can be converted to numbers.
+- “Up to the nearest integer” means the final statistical outputs are rounded to the nearest integer.
+- For the FFT part, we compute the magnitude of the FFT of the numeric degree values and then take statistics from that magnitude list.
+
+## Plan
+
+### 1. Normalize the input
+- Convert each element to a numeric value suitable for sorting and FFT.
+- If needed, use a helper to extract a “degree value” from each element.
+- Ensure the resulting list contains only real numbers.
+
+### 2. Sort the degree values
+- Sort the numeric list in ascending order.
+- This sorted list is used for the first set of statistics.
+
+### 3. Compute statistics for the sorted list
+- Calculate:
+  - mean
+  - median
+  - mode
+- If there are multiple modes, choose one deterministically:
+  - either the smallest mode, or
+  - the first mode returned by a stable rule.
+- Round each statistic to the nearest integer.
+
+### 4. Compute FFT magnitudes
+- Apply FFT to the numeric degree list.
+- Take the magnitude of the complex FFT output using absolute value.
+- If the requirement is interpreted strictly as “up to the nearest integer,” round FFT magnitudes to the nearest integer before computing their statistics.
+
+### 5. Compute statistics for FFT magnitudes
+- Calculate:
+  - mean
+  - median
+  - mode
+- Round each statistic to the nearest integer.
+
+### 6. Return the result
+- Return a tuple containing 6 rounded values in this order:
+  1. mean of sorted list
+  2. median of sorted list
+  3. mode of sorted list
+  4. mean of FFT magnitudes
+  5. median of FFT magnitudes
+  6. mode of FFT magnitudes
+
+## Edge Cases to Handle
+
+### Empty input
+- Statistics are undefined.
+- Decide one of:
+  - return a tuple of zeros, or
+  - raise a clear `ValueError`.
+- For robustness in coding tasks, returning zeros is often safer unless otherwise specified.
+
+### Single element
+- Mean, median, and mode are all that element.
+- FFT magnitude list will also be simple and should still work.
+
+### Multiple modes
+- `statistics.mode` behavior can vary by Python version.
+- Use a deterministic rule for ties, such as selecting the smallest value among the modes.
+
+### Non-numeric elements
+- If elements cannot be converted to numbers, handle gracefully:
+  - either raise `TypeError`, or
+  - define a conversion/extraction helper if objects carry degree data.
+
+### Negative values
+- Sorting and statistics work normally.
+- FFT magnitudes are non-negative by definition.
+
+### Floating-point values
+- Rounding may introduce `.5` behavior; use standard Python rounding rules consistently.
+
+### Large lists
+- FFT and statistics should still be efficient enough for typical inputs.
+- Use NumPy arrays for FFT performance.
+
+## Implementation Notes
+- `statistics.mean`, `statistics.median`, and `statistics.mode` are appropriate for the list stats.
+- `numpy.fft.fft` and `numpy.abs` should be used for the FFT magnitude calculation.
+- Convert final outputs to plain integers if the task expects “rounded” results.
+
+If you want, I can next turn this plan into the exact self-contained function.

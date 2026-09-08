@@ -1,0 +1,24 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Convert a list of Unix timestamps to date objects, create a Pandas DataFrame, and draw a histogram. - The date format should be as DATE_FORMAT. - The DataFrame should have 'Timestamp' and 'Datetime' as column names. - If the list of timestamps is empty, raise a ValueError with the message "Input list of timestamps is empty".
+The function should raise the exception for: ValueError("Input list of timestamps is empty."): If the list of timestamps is empty.
+The function should output with:
+    pandas.DataFrame: A pandas DataFrame containing the original Unix timestamps and the converted datetime objects.
+    Axes: The Axes object of the histogram plot. The histogram will have 10 bins by default, representing the distribution of the datetime objects.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(timestamps):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(timestamps):

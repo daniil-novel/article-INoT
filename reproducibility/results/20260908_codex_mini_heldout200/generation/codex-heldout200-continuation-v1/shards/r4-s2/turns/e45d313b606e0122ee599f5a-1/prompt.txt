@@ -1,0 +1,67 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Create a Pandas DataFrame with a specified number of rows filled with random values in [0, 1) and shuffled columns.
+Note that: The columns should be unique and sorted in the ascending order.
+The function should output with:
+    pd.DataFrame: A pandas DataFrame with shuffled columns.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(rows, columns=["A", "B", "C", "D", "E"], seed=0) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(rows, columns=["A", "B", "C", "D", "E"], seed=0) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate inputs**
+   - Treat `rows` as the number of rows to generate.
+   - Ensure `rows` is an integer and `rows >= 0`.
+   - Handle `columns` as an iterable of column labels.
+   - Do not mutate the default list argument in place.
+
+2. **Normalize column names**
+   - Convert `columns` to a list copy.
+   - Remove duplicates so all column names are unique.
+   - Sort the resulting column names in ascending order.
+   - If the input contains non-comparable mixed types, either:
+     - convert everything to strings before sorting, or
+     - require comparable labels and let Python raise naturally.
+   - Prefer a deterministic rule, such as string-based sorting, if robustness is desired.
+
+3. **Set up reproducible randomness**
+   - Use `np.random.default_rng(seed)` for modern, reproducible random generation.
+   - This ensures the same `seed` always produces the same DataFrame.
+
+4. **Generate random data**
+   - Create an array of shape `(rows, number_of_columns)` with values in `[0, 1)`.
+   - Use `rng.random((rows, n_cols))`.
+
+5. **Build the DataFrame**
+   - Construct `pd.DataFrame(data, columns=sorted_unique_columns)`.
+
+6. **Resolve the “shuffled columns” requirement**
+   - The prompt contains a conflict:
+     - “shuffled columns”
+     - “columns should be unique and sorted in ascending order”
+   - The safest interpretation is to return columns in **sorted ascending order**, because that is explicitly stated.
+   - If a shuffled order is strictly required, that would conflict with sorted order; in that case, you would need to clarify the spec.
+   - For implementation under the given note, prioritize sorted unique columns.
+
+7. **Return the DataFrame**
+   - Return the final `pd.DataFrame`.
+
+Edge cases to handle:
+- `rows == 0` → return an empty DataFrame with the requested columns.
+- `columns` is empty after deduplication → return a DataFrame with `rows` rows and no columns.
+- Duplicate names in `columns` → remove duplicates before sorting.
+- `rows < 0` → raise a clear error.
+- Non-integer `rows` → either cast explicitly if appropriate or raise `TypeError/ValueError`.
+- Column labels of mixed, non-sortable types → normalize to strings or document expected input types.
+- `seed=None` → allow non-deterministic output if using `default_rng(None)`.
+
+If you want, I can next turn this plan into the exact self-contained function implementation.

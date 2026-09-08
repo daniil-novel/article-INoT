@@ -1,0 +1,76 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a random string of a given length, with each character being either a parenthesis (from the set "(){}[]") or a lowercase English character. For function uses a optional random_seed when sampling characters. >>> string = task_func(34, random_seed=42) >>> print(string) hbrpoigf)cbfnobm(o{rak)vrjnvgfygww >>> string = task_func(23, random_seed=1) >>> print(string) ieqh]{[yng]by)a{rogubbb
+Note that: The function uses the internal string constant BRACKETS for definition of the bracket set.
+The function should output with:
+    str: The generated string.
+You should write self-contained code starting with:
+```
+import string
+import random
+def task_func(length, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import string
+import random
+def task_func(length, random_seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Define the character pool**
+   - Use the internal constant `BRACKETS = "(){}[]"`.
+   - Combine it with lowercase English letters from `string.ascii_lowercase`.
+   - Final allowed character set:
+     - letters: `a-z`
+     - brackets: `(){}[]`
+
+2. **Handle randomness**
+   - If `random_seed` is provided, create a local random generator:
+     - `rng = random.Random(random_seed)`
+   - Otherwise, use an unseeded local generator:
+     - `rng = random.Random()`
+   - This avoids modifying global random state.
+
+3. **Generate the string**
+   - For `length` times, choose one character uniformly at random from the allowed pool.
+   - Join the selected characters into one string and return it.
+
+4. **Output**
+   - Return the generated string directly as `str`.
+
+Edge cases to consider:
+
+- **`length = 0`**  
+  Return an empty string.
+
+- **Negative `length`**  
+  Decide on behavior explicitly; the safest approach is to raise `ValueError` because a string cannot have negative length.
+
+- **Non-integer `length`**  
+  If strict validation is desired, raise `TypeError` for non-integers.  
+  If not, the function may fail naturally when used in `range(length)`.
+
+- **`random_seed` is `None`**  
+  Produce non-deterministic output.
+
+- **`random_seed` is any hashable seed supported by `random.Random`**  
+  Use it directly for reproducible results.
+
+- **Very large `length`**  
+  The algorithm should still work in linear time `O(length)` and memory proportional to the output size.
+
+Suggested structure of the code:
+
+- imports:
+  - `import string`
+  - `import random`
+- function:
+  - `def task_func(length, random_seed=None):`
+- inside function:
+  - define `BRACKETS`
+  - define character pool
+  - create local RNG
+  - generate and return the string
+
+If you want, I can also turn this plan into the exact self-contained implementation.

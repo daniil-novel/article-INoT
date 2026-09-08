@@ -1,0 +1,117 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Transforms categorical data into a numerical format suitable for machine learning algorithms using sklearn's LabelEncoder. This function generates a DataFrame that pairs original categorical values with their numerical encodings.
+The function should output with:
+    DataFrame: A DataFrame with columns 'Category' and 'Encoded', where 'Category' is the original data and 'Encoded'
+    is the numerical representation.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+def task_func(data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data)` that uses `sklearn.preprocessing.LabelEncoder` and returns a DataFrame with `Category` and `Encoded` columns.
+
+## Goal
+Convert categorical input into numeric labels and return a mapping table:
+- `Category`: original categorical values
+- `Encoded`: integer codes assigned by `LabelEncoder`
+
+## Plan
+
+### 1) Normalize the input
+Accept `data` as a pandas Series, list, NumPy array, or similar iterable.
+- Convert it into a 1D sequence suitable for `LabelEncoder`.
+- If the input is already a Series, use it directly or convert to a list/array for consistency.
+
+### 2) Validate the input
+Before encoding:
+- Ensure the input is not `None`.
+- Ensure it is 1-dimensional.
+- Ensure it contains at least one value.
+
+If the input is empty, return an empty DataFrame with the expected columns.
+
+### 3) Handle missing values
+Decide how to treat missing categories:
+- Option A: keep missing values if supported by the input type.
+- Option B: filter them out before encoding.
+- Option C: raise a clear error if missing values are not allowed.
+
+For robustness, the safest approach is to either drop missing values or explicitly document how they are handled.
+
+### 4) Fit the `LabelEncoder`
+Use:
+- `le = LabelEncoder()`
+- `le.fit(data_cleaned)`
+
+This creates a consistent integer encoding based on sorted unique category values.
+
+### 5) Build the mapping DataFrame
+Create the output table by pairing:
+- `le.classes_` → original category values in sorted order
+- `le.transform(le.classes_)` → corresponding numeric codes
+
+This yields a stable one-to-one mapping DataFrame.
+
+### 6) Return the DataFrame
+Return a DataFrame with:
+- `Category`
+- `Encoded`
+
+## Edge cases to consider
+
+### Empty input
+- Return an empty DataFrame with the correct columns.
+- Avoid calling `fit` on an empty sequence.
+
+### Single unique category
+- The output should still work and produce one row:
+  - category → 0
+
+### Duplicate values in input
+- `LabelEncoder` deduplicates internally, so the mapping DataFrame should list each unique category once.
+
+### Mixed data types
+- Example: strings and numbers mixed together.
+- `LabelEncoder` may fail when values cannot be consistently compared/sorted.
+- Best to either:
+  - convert everything to string first, or
+  - raise an error for mixed-type inputs.
+
+### Missing values
+- `NaN`/`None` can complicate encoding.
+- Decide on a policy: drop them, convert them to a placeholder string, or raise an error.
+
+### Already numeric categories
+- `LabelEncoder` can encode numeric labels too.
+- Still valid if the goal is to map categories to consecutive integers.
+
+### Input order vs encoded order
+- `LabelEncoder.classes_` is sorted lexicographically/numerically, not by first appearance.
+- If preserving original order matters, a different mapping strategy would be needed, but for this task `LabelEncoder`’s standard behavior is appropriate.
+
+## Expected output shape
+If input is something like:
+`['red', 'blue', 'red', 'green']`
+
+The output mapping DataFrame should look like:
+- `blue -> 0`
+- `green -> 1`
+- `red -> 2`
+
+## Implementation outline
+1. Import pandas and LabelEncoder.
+2. Define `task_func(data)`.
+3. Normalize and validate input.
+4. Fit `LabelEncoder`.
+5. Create a DataFrame from `le.classes_` and encoded values.
+6. Return the DataFrame.
+
+If you want, I can also provide the actual self-contained implementation next.

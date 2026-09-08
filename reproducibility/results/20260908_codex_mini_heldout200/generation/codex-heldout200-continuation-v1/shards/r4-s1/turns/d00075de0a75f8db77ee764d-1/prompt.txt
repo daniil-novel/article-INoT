@@ -1,0 +1,116 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Merge datasets, perform KMeans clustering, then return cluster labels and scatterplot. Each dataset is assumed to contain at least one id column and one feature column. The column to process is specified for df1 and df2 via column1 and column2, respectively. KMeans clustering is applied with k=2 and n_init=10. Resulting scatterplot shows column1 on the x-axis, column2 on the y-axis, and predicted cluster as color.
+The function should output with:
+    labels (numpy.ndarray): Cluster labels for each data point (dtype=int32).
+    ax (matplotlib.axes._axes.Axes): The plotted figure's Axes object.
+You should write self-contained code starting with:
+```
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+```
+FULL SUPPLIED CONTEXT
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(df1, df2, column1="feature1", column2="feature2")`.
+
+## Goal
+- Take one feature column from `df1` and one feature column from `df2`.
+- Merge them into a 2D dataset.
+- Run `KMeans(n_clusters=2, n_init=10)`.
+- Return:
+  - `labels`: a `numpy.ndarray` of cluster labels with dtype `int32`
+  - `ax`: the `matplotlib.axes._axes.Axes` object containing the scatterplot
+
+## Planned approach
+
+### 1) Validate inputs
+- Confirm `column1` exists in `df1`.
+- Confirm `column2` exists in `df2`.
+- Confirm both selected columns can be treated as numeric.
+
+### 2) Build the merged clustering dataset
+- Select only the two relevant feature columns:
+  - x-values from `df1[column1]`
+  - y-values from `df2[column2]`
+- Merge them into a two-column dataset for clustering.
+- Since the function signature does not provide explicit id column names, the safest default plan is:
+  - align rows by index order after resetting indices
+  - require the same number of usable rows in both inputs
+- If rows are not aligned or counts differ, raise a clear error.
+
+### 3) Handle missing values
+- Remove or reject rows where either selected value is missing.
+- Keep x/y pairs synchronized so labels match plotted points.
+
+### 4) Fit KMeans
+- Run:
+  - `KMeans(n_clusters=2, n_init=10)`
+- Fit on the merged 2D array.
+- Get predicted labels with `fit_predict` or `predict` after fitting.
+
+### 5) Prepare output labels
+- Convert labels to `numpy.ndarray` with dtype `int32`.
+- Ensure the output length matches the number of plotted points.
+
+### 6) Create the scatterplot
+- Create a figure and axes with `plt.subplots()`.
+- Plot:
+  - x-axis: `column1`
+  - y-axis: `column2`
+  - color: predicted cluster label
+- Use a scatterplot with a colormap suitable for 2 clusters.
+- Label axes with the provided column names.
+
+### 7) Return values
+- Return `(labels, ax)`.
+
+---
+
+## Edge cases to handle
+
+### Missing columns
+- If `column1` is absent from `df1` or `column2` is absent from `df2`, raise an informative error.
+
+### Non-numeric values
+- If selected columns contain strings or mixed types, either:
+  - coerce to numeric and reject invalid entries, or
+  - raise a clear error
+- KMeans requires numeric input.
+
+### Missing data
+- If either selected column contains NaN/None:
+  - drop paired missing rows consistently, or
+  - raise an error if strict behavior is preferred
+
+### Unequal row counts
+- If merging by index alignment, `df1` and `df2` must have compatible lengths after cleaning.
+- If lengths differ, the function should fail clearly rather than silently misalign data.
+
+### Too few samples
+- KMeans with `k=2` requires at least 2 valid samples.
+- If fewer than 2 usable rows remain after cleaning, raise an error.
+
+### Not enough distinct points
+- If all selected points are identical or nearly identical, KMeans may produce degenerate clustering or warnings.
+- The implementation should either:
+  - allow it and rely on scikit-learn, or
+  - detect it and raise a helpful error
+
+### Duplicate row alignment concerns
+- If a future implementation chooses to merge by id, duplicate ids could create duplicated matches.
+- Since no id-column parameter is provided, index-based alignment is the simplest reliable strategy.
+
+---
+
+## Assumption to keep explicit
+Because the function signature only provides `column1` and `column2`, the plan assumes:
+- `column1` is the feature to take from `df1`
+- `column2` is the feature to take from `df2`
+- rows are paired in their current order unless a clearer id-based merge rule is available
+
+If you want, I can now turn this plan into the final self-contained implementation.

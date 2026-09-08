@@ -1,0 +1,21 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Merge two dataframes on the 'id' column and then scale the numeric features. This function merges two dataframes via outer join on the 'id' column, and scales the merged dataframe's numeric features from df1 to have a mean of 0 and standard deviation of 1. It also returns a pair plot of the scaled features from df1.
+The function should output with:
+    merged_df (pd.DataFrame): The partially scaled and merged dataframe.
+    pair_plot (seaborn.axisgrid.PairGrid): Pair plot of the scaled dataframe.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+def task_func(df1, df2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+def task_func(df1, df2):

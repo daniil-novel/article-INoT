@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform a paired t-test for the number of words in two strings, only if the strings produce the same number of words.
+The function should output with:
+    t_statistic (float): The t-statistic, or NaN if tests cannot be performed due to unequal lengths.
+    p_value (float): The p-value, or NaN if tests cannot be performed due to unequal lengths.
+You should write self-contained code starting with:
+```
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+def task_func(text1, text2):
+```
+FULL SUPPLIED CONTEXT
+import re
+import numpy as np
+from scipy.stats import ttest_rel
+def task_func(text1, text2):

@@ -1,0 +1,168 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Merge two dataframes based on the 'id' column, perform a chi-square independence test on the merged dataframe, and draw a heatmap of the contingency table created from the features in column1, column2.
+The function should output with:
+    tuple: A tuple containing:
+    p (float): The p-value of the Chi-Squared test.
+    heatmap (matplotlib.pyplot.Axes): Seaborn heatmap of the contingency table.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+from scipy.stats import chi2_contingency
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+```
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+from scipy.stats import chi2_contingency
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(df1, df2, column1="feature1", column2="feature2")`.
+
+## Goal
+Merge `df1` and `df2` on the `id` column, build a contingency table using `column1` and `column2`, run a chi-square test of independence, and return:
+
+1. `p`: the p-value from `chi2_contingency`
+2. `heatmap`: a Seaborn heatmap of the contingency table as a `matplotlib.pyplot.Axes`
+
+---
+
+## Implementation Plan
+
+### 1) Validate required columns
+- Confirm both dataframes contain an `id` column.
+- Confirm the merged result contains `column1` and `column2`.
+- If any required column is missing, raise a clear error.
+
+### 2) Merge the dataframes
+- Perform an inner join on `id` so only rows present in both dataframes are included.
+- This avoids mismatched records and keeps the contingency table consistent.
+
+### 3) Prepare data for contingency analysis
+- Extract the two categorical features:
+  - `column1`
+  - `column2`
+- Remove rows where either of these values is missing, since `chi2_contingency` cannot use NaNs.
+
+### 4) Build the contingency table
+- Use a frequency table of `column1` vs `column2`:
+  - rows = categories from `column1`
+  - columns = categories from `column2`
+- A pivot/crosstab-style table is appropriate.
+
+### 5) Run the chi-square independence test
+- Pass the contingency table to `chi2_contingency`.
+- Capture the p-value from the result.
+- The p-value indicates whether the two categorical variables are statistically independent.
+
+### 6) Draw the heatmap
+- Use `sns.heatmap` on the contingency table.
+- Return the resulting `Axes` object.
+- Include labels and possibly annotation for readability.
+
+### 7) Return the result
+- Return a tuple:
+  - `(p, heatmap_axes)`
+
+---
+
+## Edge Cases to Handle
+
+### Missing `id` column
+- If either dataframe lacks `id`, the merge cannot happen.
+- Raise a `KeyError` or `ValueError` with a descriptive message.
+
+### Missing feature columns
+- If `column1` or `column2` is absent after merge, raise an error early.
+
+### Empty merged dataframe
+- If the inner join produces no rows, the contingency table will be empty.
+- Handle this explicitly with a clear error message.
+
+### Missing values in feature columns
+- Rows with NaN in either categorical column should be dropped before building the contingency table.
+
+### Non-categorical / numeric data
+- Chi-square works on categorical frequency counts.
+- If values are numeric but represent categories, they can still be treated as labels.
+- If the data are continuous, the contingency-table approach may not be meaningful, but the function can still operate if values are discrete.
+
+### Insufficient categories
+- If one dimension has only one category, chi-square independence is not meaningful.
+- The function should either:
+  - raise a clear error, or
+  - allow the test to run but note that the result is degenerate.
+- Best practice: validate that the contingency table has at least 2 rows and 2 columns.
+
+### Zero-count categories
+- Some category combinations may not appear.
+- This is fine; `chi2_contingency` can handle zeros as long as the table has valid shape.
+
+### Duplicate `id` values
+- If either dataframe has repeated `id`s, the merge may create multiple rows per `id`.
+- This is allowed syntactically, but could affect interpretation.
+- Optionally, note this in comments or documentation.
+
+---
+
+## Expected Output Behavior
+- `p`: float p-value from the chi-square test.
+- `heatmap`: the Axes object returned by `sns.heatmap(...)`.
+
+---
+
+If you want, I can proceed to stage 2 and write the actual self-contained function code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import seaborn as sns
+from scipy.stats import chi2_contingency
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+    """
+    Merge two dataframes on 'id', run a chi-square independence test on
+    the contingency table built from `column1` and `column2`, and plot a heatmap.
+
+    Returns
+    -------
+    tuple
+        (p_value, heatmap_axes)
+    """
+    if "id" not in df1.columns:
+        raise KeyError("df1 must contain an 'id' column.")
+    if "id" not in df2.columns:
+        raise KeyError("df2 must contain an 'id' column.")
+
+    merged = df1.merge(df2, on="id", how="inner")
+
+    if column1 not in merged.columns:
+        raise KeyError(f"'{column1}' not found after merging the dataframes.")
+    if column2 not in merged.columns:
+        raise KeyError(f"'{column2}' not found after merging the dataframes.")
+
+    data = merged[[column1, column2]].dropna()
+
+    if data.empty:
+        raise ValueError("No valid rows remain after removing missing values.")
+
+    contingency_table = pd.crosstab(data[column1], data[column2])
+
+    if contingency_table.shape[0] < 2 or contingency_table.shape[1] < 2:
+        raise ValueError(
+            "Chi-square test requires at least 2 categories in each variable."
+        )
+
+    _, p, _, _ = chi2_contingency(contingency_table)
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.heatmap(contingency_table, annot=True, fmt="d", cmap="YlGnBu", ax=ax)
+    ax.set_xlabel(column2)
+    ax.set_ylabel(column1)
+    ax.set_title("Contingency Table Heatmap")
+
+    return p, ax
+```

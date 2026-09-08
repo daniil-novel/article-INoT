@@ -1,0 +1,142 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Finds all words in a text, that are seperated by whitespace, beginning with the "$" character and computes their number of occurences. >>> text = "$hello this i$s a $test $test $test" >>> task_func(text) Word  Frequency 0  $hello          1 1   $test          3
+Note that: The function ignores words that are entirely made up of punctuation, even if they start with a '$'.
+The function should raise the exception for: ValueError: if text is not a string
+The function should output with:
+    DataFrame: A pandas DataFrame with two columns: "Word" and "Frequency".
+    "Word" contains the '$' prefixed words, and "Frequency" contains their occurrences.
+You should write self-contained code starting with:
+```
+import nltk
+from string import punctuation
+import pandas as pd
+def task_func(text):
+```
+FULL SUPPLIED CONTEXT
+import nltk
+from string import punctuation
+import pandas as pd
+def task_func(text):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(text)` based on the requirements.
+
+## Requirements breakdown
+
+- Input: `text`
+  - Must be a string.
+  - Otherwise raise `ValueError`.
+- Tokenization:
+  - Split the text by whitespace.
+  - Inspect each whitespace-separated token as-is.
+- Selection rule:
+  - Keep tokens that begin with `"$"`.
+  - Ignore tokens that are entirely punctuation, even if they start with `"$"`.
+- Output:
+  - Return a `pandas.DataFrame` with columns:
+    - `Word`
+    - `Frequency`
+  - Each row contains a unique qualifying word and its number of occurrences.
+
+## Proposed algorithm
+
+1. **Validate input type**
+   - If `text` is not an instance of `str`, raise `ValueError`.
+
+2. **Split into tokens**
+   - Use whitespace splitting, e.g. `text.split()`.
+   - This treats spaces, tabs, and newlines as separators.
+
+3. **Filter valid `$`-prefixed tokens**
+   - For each token:
+     - Check whether it starts with `"$"`.
+     - Check whether it is not entirely punctuation.
+   - A token like `"$hello"` should be counted.
+   - A token like `"$!!!"` or just `"$"` should be ignored.
+
+4. **Count occurrences**
+   - Count each valid token exactly as it appears.
+   - Counting should be case-sensitive.
+   - Example: `"$Test"` and `"$test"` are different words.
+
+5. **Build the DataFrame**
+   - Create a dataframe with:
+     - `Word`: unique valid tokens
+     - `Frequency`: counts
+   - Keep a stable order, preferably by first appearance, unless otherwise specified.
+
+## Edge cases to handle
+
+- **Non-string input**
+  - `None`, numbers, lists, etc. → raise `ValueError`.
+
+- **Empty string**
+  - Return an empty DataFrame with the right columns.
+
+- **Whitespace-only string**
+  - Return an empty DataFrame.
+
+- **Multiple spaces / tabs / newlines**
+  - Should still split correctly.
+
+- **Tokens that are only punctuation**
+  - Examples: `"$"`, `"$!!!"`, `"$$$"`
+  - These should be ignored if they are entirely punctuation.
+
+- **Mixed punctuation tokens**
+  - Example: `"$hello,"`
+  - This is not entirely punctuation, so it can be counted if it begins with `"$"`.
+
+- **Repeated tokens**
+  - Count all occurrences accurately.
+
+- **No valid `$` words**
+  - Return an empty DataFrame.
+
+## Expected behavior on the example
+
+Input:
+```python
+"$hello this i$s a $test $test $test"
+```
+
+Valid tokens:
+- `$hello`
+- `$test`
+- `$test`
+- `$test`
+
+Output should be a DataFrame equivalent to:
+
+| Word   | Frequency |
+|--------|-----------|
+| $hello | 1         |
+| $test  | 3         |
+
+If you want, I can next provide the actual self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import nltk
+from string import punctuation
+import pandas as pd
+
+def task_func(text):
+    if not isinstance(text, str):
+        raise ValueError("text must be a string")
+    
+    counts = {}
+    
+    for word in text.split():
+        if not word.startswith("$"):
+            continue
+        if all(ch in punctuation for ch in word):
+            continue
+        counts[word] = counts.get(word, 0) + 1
+    
+    return pd.DataFrame(
+        {"Word": list(counts.keys()), "Frequency": list(counts.values())},
+        columns=["Word", "Frequency"]
+    )
+```

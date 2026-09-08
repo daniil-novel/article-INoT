@@ -1,0 +1,132 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Determine the time in seconds until the next turn of the year in a certain time zone from a given date string.
+The function should output with:
+    int: The time in seconds until the next New Year in the specified timezone.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pytz
+from dateutil.parser import parse
+def task_func(date_str, tz_str):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pytz
+from dateutil.parser import parse
+def task_func(date_str, tz_str):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a practical implementation plan for `task_func(date_str, tz_str)`:
+
+## Goal
+Return the number of seconds from the given date/time to the next New Year moment in the specified timezone.
+
+That means the target is always:
+- `Jan 1, 00:00:00` of the **next calendar year**
+- interpreted in `tz_str`
+
+---
+
+## Implementation plan
+
+### 1) Parse the input datetime
+Use `dateutil.parser.parse(date_str)` to convert the string into a `datetime`.
+
+- If the parsed datetime is **timezone-aware**, keep that awareness.
+- If it is **naive** (no timezone info), treat it as being in the provided timezone `tz_str`.
+
+### 2) Resolve the target timezone
+Create a pytz timezone object with:
+
+- `pytz.timezone(tz_str)`
+
+This gives the timezone against which the New Year boundary should be measured.
+
+### 3) Normalize the input datetime into the target timezone
+You need the input moment expressed in the target timezone before computing the next New Year.
+
+- If the parsed datetime is naive:
+  - localize it using the target timezone
+- If it is aware:
+  - convert it with `astimezone(target_tz)`
+
+This ensures the year boundary is computed correctly for the specified timezone, not the original one.
+
+### 4) Build the next New Year datetime
+From the timezone-adjusted datetime:
+
+- take its year
+- construct `Jan 1 00:00:00` of `year + 1` in the same timezone
+
+For example:
+- if current local time is in 2026, target is `2027-01-01 00:00:00`
+- even if it is already `2026-01-01 00:00:00`, the next New Year is still `2027-01-01 00:00:00`
+
+### 5) Compute the time difference
+Subtract the current localized datetime from the target New Year datetime.
+
+- use `timedelta.total_seconds()`
+- convert to `int` for the required integer result
+
+### 6) Return the integer seconds
+Return the computed integer number of seconds.
+
+---
+
+## Edge cases to handle
+
+### A) Input datetime already includes timezone info
+Example: `"2025-12-31T23:00:00+02:00"`
+
+- convert it into `tz_str` before calculating
+- do **not** assume the datetime is already in the target timezone
+
+### B) Naive datetime string
+Example: `"2025-12-31 23:00:00"`
+
+- interpret it as local time in `tz_str`
+- localize with pytz
+
+### C) Exact New Year moment
+Example: `"2025-01-01 00:00:00"`
+
+- the answer should usually be the time until the **next** New Year, i.e. one full year ahead
+- do not return `0`
+
+### D) Daylight saving time transitions
+Some local times may be ambiguous or nonexistent in certain timezones.
+
+- localizing naive datetimes during DST transitions can raise exceptions in pytz
+- you should decide whether to let those exceptions propagate or handle them explicitly
+- if robustness is desired, validate or catch `AmbiguousTimeError` / `NonExistentTimeError`
+
+### E) Leap years
+No special handling needed if you construct the target datetime as `year + 1, Jan 1, 00:00:00`
+
+### F) Invalid timezone strings
+`pytz.timezone(tz_str)` can raise an exception if the timezone name is invalid.
+
+- either let it propagate
+- or convert it to a clearer error if the task expects graceful handling
+
+### G) Invalid date strings
+`parse(date_str)` may fail for malformed input.
+
+- likewise, let it raise or handle it if required
+
+---
+
+## Suggested behavior summary
+- Parse input datetime
+- Convert/localize to requested timezone
+- Compute next `Jan 1 00:00:00` in that timezone
+- Return integer seconds between them
+
+---
+
+## Complexity
+- Time: O(1)
+- Memory: O(1)
+
+If you want, I can now turn this plan into the actual self-contained Python function.

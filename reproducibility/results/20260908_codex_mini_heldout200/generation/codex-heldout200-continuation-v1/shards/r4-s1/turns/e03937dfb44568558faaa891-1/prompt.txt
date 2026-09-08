@@ -1,0 +1,60 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Calculate the square root of the given decimal value to a certain precision and then encode the result as a JSON string.
+The function should output with:
+    str: The square root of the decimal value encoded as a JSON string.
+You should write self-contained code starting with:
+```
+import json
+import math
+def task_func(decimal_value, precision=2):
+```
+FULL SUPPLIED CONTEXT
+import json
+import math
+def task_func(decimal_value, precision=2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Parse/normalize inputs**
+   - Treat `decimal_value` as a numeric input.
+   - Convert it to `float` if needed, so the function can handle ints, floats, or numeric strings consistently.
+   - Validate `precision` as a non-negative integer.
+
+2. **Handle invalid cases early**
+   - If `precision < 0`, raise `ValueError`.
+   - If `decimal_value < 0`, raise `ValueError` because square root of a negative real number is not supported here.
+   - If conversion to `float` fails, let Python raise a `TypeError`/`ValueError` naturally or raise a clear error.
+
+3. **Compute the square root**
+   - Use `math.sqrt(decimal_value)` after validation.
+
+4. **Format to the requested precision**
+   - Use fixed-point formatting like `f"{root:.{precision}f}"`.
+   - This ensures the result is rounded to the specified number of decimal places.
+   - If `precision == 0`, the formatted result should still be a valid string like `"3"`.
+
+5. **Encode as JSON string**
+   - Wrap the formatted result with `json.dumps(...)`.
+   - This produces a JSON string value such as `"\"1.41\""` as the function return value.
+
+6. **Return the JSON string**
+   - The function should return the JSON-encoded string, not a raw float.
+
+Edge cases to consider:
+- `decimal_value = 0` → result should be `"0.00"` for default precision.
+- Very small positive numbers → rounding may produce `"0.00"` at low precision.
+- Large numbers → formatting should still work.
+- `precision = 0` → return a JSON string of the integer-rounded square root.
+- Negative `decimal_value` → raise an error.
+- Non-integer `precision` values → either reject or coerce explicitly; rejecting is safer.
+- `decimal_value` as a string like `"4.0"` → should work if converted to `float`.
+
+If you want, I can now turn this plan into the exact self-contained Python implementation starting with:
+
+```python
+import json
+import math
+def task_func(decimal_value, precision=2):
+```

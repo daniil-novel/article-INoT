@@ -1,0 +1,15 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Calculate the square root of the given decimal value to a certain precision and then encode the result as a JSON string.
+The function should output with:
+    str: The square root of the decimal value encoded as a JSON string.
+You should write self-contained code starting with:
+```
+import json
+import math
+def task_func(decimal_value, precision=2):
+```
+FULL SUPPLIED CONTEXT
+import json
+import math
+def task_func(decimal_value, precision=2):

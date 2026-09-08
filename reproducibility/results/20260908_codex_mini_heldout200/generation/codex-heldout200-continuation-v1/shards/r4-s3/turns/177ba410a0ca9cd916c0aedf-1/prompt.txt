@@ -1,0 +1,159 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Plots the correlation matrix from numeric columns in a DataFrame and returns a DataFrame where the numeric columns are standardized to have mean 0 and variance 1.
+Note that: Notes: Only numeric columns are considered for the heatmap. Non-numeric columns are ignored.
+The function should raise the exception for: ValueError: If the DataFrame is empty or if no numeric columns are present.
+The function should output with:
+    pandas.DataFrame: Standardized DataFrame.
+    matplotlib.figure.Figure: Figure object containing the heatmap of the correlation matrix.
+You should write self-contained code starting with:
+```
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df)` based on the requirements.
+
+## Goal
+Create a function that:
+
+1. **Validates input**
+2. **Selects only numeric columns**
+3. **Standardizes numeric columns** to mean `0` and variance `1`
+4. **Plots a correlation heatmap** using only numeric columns
+5. **Returns**:
+   - a standardized `pandas.DataFrame`
+   - a `matplotlib.figure.Figure`
+
+---
+
+## Planned behavior
+
+### 1) Input validation
+Raise `ValueError` when:
+
+- the DataFrame is empty
+- there are no numeric columns in the DataFrame
+
+This should happen before any plotting or scaling work.
+
+---
+
+### 2) Identify numeric columns
+Use only numeric columns for both:
+
+- standardization
+- correlation heatmap
+
+Non-numeric columns should be ignored for the heatmap.
+
+For the returned DataFrame, the safest interpretation is:
+
+- **keep non-numeric columns unchanged**
+- **replace numeric columns with standardized values**
+
+---
+
+### 3) Standardize numeric columns
+Use `StandardScaler` to transform numeric columns:
+
+- mean becomes approximately `0`
+- variance becomes approximately `1`
+
+Implementation idea:
+
+- make a copy of the input DataFrame
+- extract numeric columns
+- fit/transform those columns with `StandardScaler`
+- write the scaled values back into the copied DataFrame
+
+---
+
+### 4) Compute correlation matrix for numeric columns
+Use the numeric subset only.
+
+- correlation matrix should be based on numeric columns after selection
+- non-numeric columns are excluded entirely
+
+---
+
+### 5) Create heatmap figure
+Use Matplotlib + Seaborn:
+
+- create a figure and axes
+- draw the correlation heatmap with annotations if desired
+- add title and layout adjustments
+- return the `Figure` object
+
+The function should not show the plot directly unless explicitly required; it should return the figure.
+
+---
+
+## Edge cases to handle
+
+### Empty DataFrame
+Example: `pd.DataFrame()`
+
+- raise `ValueError`
+
+### No numeric columns
+Example: all columns are strings/categories
+
+- raise `ValueError`
+
+### Single numeric column
+- correlation matrix will be `1 x 1`
+- heatmap should still work
+
+### Mixed-type DataFrame
+- numeric columns standardized
+- non-numeric columns left unchanged in the returned DataFrame
+- excluded from heatmap
+
+### Constant numeric column
+- `StandardScaler` will transform it to all zeros
+- correlation involving that column may produce `NaN`
+- heatmap should still render; NaNs can appear in the matrix
+
+### Missing values in numeric columns
+- not explicitly specified
+- if present, `StandardScaler` may fail depending on the input
+- since the task does not define special missing-value handling, keep behavior simple unless you want to add an explicit preprocessing rule
+
+---
+
+## Expected output
+The function should return something like:
+
+```python
+standardized_df, fig
+```
+
+Where:
+
+- `standardized_df` is the DataFrame with standardized numeric columns
+- `fig` is the heatmap figure object
+
+---
+
+## Recommended implementation flow
+1. Check if `df` is empty → raise `ValueError`
+2. Select numeric columns
+3. If none found → raise `ValueError`
+4. Copy the DataFrame
+5. Standardize numeric columns using `StandardScaler`
+6. Compute correlation matrix from numeric columns
+7. Create and configure the heatmap figure
+8. Return standardized DataFrame and figure
+
+If you want, I can now produce the full self-contained implementation starting with the exact import block you provided.

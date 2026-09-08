@@ -1,0 +1,131 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Fetches a web page from a given URL, decodes its content from a specified encoding, and returns the parsed HTML using BeautifulSoup. If specified, 'lxml' is used as the parser for improved performance. In case of any failure (like network issues, invalid URL, or decoding errors), the function returns None.
+Note that: Notes: The function returns None if the URL is empty or None. Network errors, HTTP errors, and decoding issues are caught and result in None being returned. If the HTTP response status code is 200 (indicating success), the content is decoded using the specified encoding If the response status code is not 200, it implies an unsuccessful HTTP request (e.g., 404 Not Found, 403 Forbidden). In such cases, the function returns None, indicating that the webpage could not be successfully retrieved or was not available.
+The function should output with:
+    BeautifulSoup object if the fetch and parse are successful.
+    None if the URL is invalid, the request fails, or parsing fails.
+You should write self-contained code starting with:
+```
+from bs4 import BeautifulSoup
+import requests
+# Constants
+URL = "http://example.com"
+def task_func(url=URL, from_encoding="cp1251", use_lxml=False):
+```
+FULL SUPPLIED CONTEXT
+from bs4 import BeautifulSoup
+import requests
+# Constants
+URL = "http://example.com"
+def task_func(url=URL, from_encoding="cp1251", use_lxml=False):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+The function `task_func(url=URL, from_encoding="cp1251", use_lxml=False)` must:
+
+- Fetch a web page from `url`
+- Only proceed when the HTTP response status is `200`
+- Decode the raw response bytes using `from_encoding`
+- Parse the decoded HTML with `BeautifulSoup`
+- Use `lxml` as the parser when `use_lxml=True`, otherwise use the default parser
+- Return:
+  - a `BeautifulSoup` object on success
+  - `None` on any failure
+
+### Failure conditions to handle
+
+Return `None` if:
+
+- `url` is `None`
+- `url` is empty or blank
+- the URL is invalid
+- the request fails due to network problems
+- the HTTP status code is not `200`
+- decoding fails because the encoding is invalid or incompatible
+- parsing fails for any reason
+
+### Implementation plan
+
+1. **Validate input early**
+   - Check whether `url` is missing, `None`, or empty after stripping whitespace.
+   - If invalid, return `None` immediately.
+
+2. **Send HTTP request**
+   - Use `requests.get(url)` to fetch the page.
+   - Optionally include a timeout to avoid hanging indefinitely.
+   - Catch `requests.RequestException` and return `None`.
+
+3. **Check HTTP status**
+   - If `response.status_code != 200`, return `None`.
+   - Do not attempt to decode or parse unsuccessful responses.
+
+4. **Decode response content**
+   - Decode `response.content` with the supplied `from_encoding`.
+   - Catch decoding-related exceptions:
+     - `UnicodeDecodeError`
+     - `LookupError` for unknown encodings
+     - `TypeError` if the encoding value is invalid
+   - Return `None` on decode failure.
+
+5. **Parse HTML**
+   - Choose parser:
+     - `"lxml"` if `use_lxml` is `True`
+     - `"html.parser"` otherwise
+   - Create `BeautifulSoup(decoded_html, parser)`.
+   - If parsing raises an exception, return `None`.
+
+6. **Return result**
+   - On success, return the `BeautifulSoup` object.
+
+### Edge cases to consider
+
+- **`url=None`**
+  - Must return `None`, not raise an error.
+
+- **Empty string / whitespace-only URL**
+  - Treat as invalid and return `None`.
+
+- **Malformed URL**
+  - `requests` may raise an exception; catch and return `None`.
+
+- **DNS / connection / timeout failures**
+  - Catch all request exceptions and return `None`.
+
+- **HTTP errors like 403 / 404 / 500**
+  - Even if a response exists, status not equal to `200` means return `None`.
+
+- **Unsupported or wrong encoding name**
+  - `decode()` can fail with `LookupError`; return `None`.
+
+- **Encoding mismatch**
+  - If bytes cannot be decoded with the specified encoding, return `None`.
+
+- **Invalid parser choice**
+  - If `use_lxml=True` but `lxml` is unavailable, BeautifulSoup may fail; return `None`.
+
+- **Non-HTML content**
+  - BeautifulSoup can often still parse it, but if parsing raises unexpectedly, return `None`.
+
+- **Unexpected exceptions**
+  - To satisfy the “any failure returns `None`” requirement, use a broad safety net around the full fetch/decode/parse process.
+
+### Suggested control flow
+
+```text
+if url is invalid:
+    return None
+try:
+    response = requests.get(...)
+    if response.status_code != 200:
+        return None
+    decoded = response.content.decode(from_encoding)
+    parser = "lxml" if use_lxml else "html.parser"
+    soup = BeautifulSoup(decoded, parser)
+    return soup
+except any relevant failure:
+    return None
+```
+
+If you want, I can proceed to stage 2 and provide the actual self-contained implementation.

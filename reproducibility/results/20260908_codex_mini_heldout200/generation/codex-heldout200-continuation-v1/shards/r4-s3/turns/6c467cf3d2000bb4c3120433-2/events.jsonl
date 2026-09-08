@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f34-65a3-7b33-8ad2-c2f0f5e16212"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport math\nimport itertools\nfrom functools import reduce\n\ndef task_func(numbers):\n    if not numbers:\n        return 0.0\n\n    if any(x <= 0 for x in numbers):\n        raise ValueError(\"all numbers must be positive\")\n\n    # Each number appears in exactly 2^(n-1) non-empty combinations.\n    factor = 1 << (len(numbers) - 1)\n    total_log = sum(math.log(x) for x in numbers)\n    return float(factor * total_log)\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3699,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":1972,"reasoning_output_tokens":1856}}

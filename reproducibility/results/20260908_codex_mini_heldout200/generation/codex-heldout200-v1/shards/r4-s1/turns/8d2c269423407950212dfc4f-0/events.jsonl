@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07eb0-ec99-7600-8842-419ea7aac43d"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport math\nimport yaml\n\ndef task_func(yaml_path, key):\n    with open(yaml_path, \"r\", encoding=\"utf-8\") as f:\n        data = yaml.safe_load(f)\n\n    if data is None:\n        data = {}\n\n    if key not in data:\n        raise KeyError(f\"Key {key!r} not found in YAML data\")\n\n    data[key] = math.cos(data[key])\n\n    with open(yaml_path, \"w\", encoding=\"utf-8\") as f:\n        yaml.safe_dump(data, f, sort_keys=False, allow_unicode=True)\n\n    return data\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2564,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":421,"reasoning_output_tokens":285}}

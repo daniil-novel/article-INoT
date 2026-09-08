@@ -1,0 +1,22 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Searches for executable files in a specified directory that match a given regular expression pattern. Optionally executes any matching files and returns a list of standard outputs from the executed files or the paths of the found files.
+The function should output with:
+    results (list): If execute_files is True, a list of standard outputs from the executed files.
+    If execute_files is False, a list of paths of the found files.
+    Each element in the list corresponds to an executed file or a found file.
+You should write self-contained code starting with:
+```
+import re
+import os
+import subprocess
+def task_func(dir_path, exe_pattern, execute_files=True):
+```
+FULL SUPPLIED CONTEXT
+import re
+import os
+import subprocess
+def task_func(dir_path, exe_pattern, execute_files=True):

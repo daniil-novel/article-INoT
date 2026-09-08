@@ -1,0 +1,105 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Filters rows in a DataFrame based on the starting letter of the values in the 'Word' column. It then calculates the lengths of these words and returns a box plot representing the distribution of these lengths.
+The function should output with:
+    Axes: A box plot visualizing the distribution of the word lengths for words starting
+    with the specified letter. If the DataFrame is empty or the 'Word' column is missing,
+    returns None.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+import time
+def task_func(df, letter):
+```
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+import time
+def task_func(df, letter):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df, letter)`.
+
+## Goal
+- Filter rows in `df` where values in the `'Word'` column start with the specified `letter`.
+- Compute the length of each matching word.
+- Return a Seaborn box plot (`Axes`) showing the distribution of those lengths.
+- If `df` is empty or the `'Word'` column is missing, return `None`.
+
+---
+
+## Planned approach
+
+### 1. Validate input DataFrame
+- Check whether `df` is `None` or empty.
+- Check whether `'Word'` exists in `df.columns`.
+- If either condition fails, return `None`.
+
+### 2. Normalize the filter letter
+- Use the provided `letter` as the prefix filter.
+- Decide whether matching should be:
+  - **case-sensitive**: only exact starting character matches, or
+  - **case-insensitive**: compare using lowercase/uppercase normalization.
+- A practical choice is case-insensitive matching for robustness, unless the task expects exact case.
+
+### 3. Clean the `'Word'` values
+- Consider only valid string values in the `'Word'` column.
+- Exclude missing values (`NaN`, `None`) and non-string entries.
+- Optionally strip whitespace before checking the starting character.
+
+### 4. Filter rows by starting letter
+- Select rows where the cleaned word starts with `letter`.
+- If `letter` is empty or invalid, the function should likely return `None` or an empty plot decision should be defined.
+- Recommended: if no rows match, return an empty box plot or `None` depending on expected behavior. Since the prompt only specifies `None` for empty df or missing column, returning an axes with no data is also acceptable, but should be handled intentionally.
+
+### 5. Compute word lengths
+- For each filtered word, compute `len(word)`.
+- Store these lengths in a temporary list/Series.
+
+### 6. Build the box plot
+- Use Seaborn to create a box plot from the word lengths.
+- The plot should show the distribution of lengths for all words starting with the chosen letter.
+- Return the matplotlib `Axes` object produced by the plotting call.
+
+---
+
+## Edge cases to handle
+1. **Empty DataFrame**
+   - Return `None`.
+
+2. **Missing `'Word'` column**
+   - Return `None`.
+
+3. **`df` is `None`**
+   - Treat like invalid input and return `None`.
+
+4. **No words match the letter**
+   - Decide one of:
+     - return an empty plot axes, or
+     - return `None`.
+   - If consistency with the prompt is preferred, returning an axes is fine unless the environment expects a non-empty plot only.
+
+5. **Non-string values in `'Word'`**
+   - Ignore them safely to avoid errors.
+
+6. **Missing values in `'Word'`**
+   - Exclude them before filtering.
+
+7. **Letter casing differences**
+   - If case-insensitive matching is desired, normalize both `letter` and words before comparison.
+
+8. **Leading/trailing whitespace in words**
+   - Optionally strip whitespace before checking the prefix.
+
+9. **Multiple-character `letter` input**
+   - If allowed, treat it as a prefix string rather than a single character.
+   - If only a single letter is intended, validate accordingly.
+
+---
+
+## Expected output
+- Returns a Seaborn/matplotlib `Axes` object containing a box plot of word lengths.
+- Returns `None` only for the explicitly required invalid cases:
+  - empty DataFrame
+  - missing `'Word'` column
+
+If you want, I can also provide a precise pseudocode version next.

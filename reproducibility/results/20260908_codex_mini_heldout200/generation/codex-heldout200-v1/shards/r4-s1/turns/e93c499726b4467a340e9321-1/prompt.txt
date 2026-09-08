@@ -1,0 +1,133 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Normalizes a given dataset using MinMax scaling and calculates the average of each row. This average is then added as a new column 'Average' to the resulting DataFrame. The function also visualizes these averages in a plot.
+The function should output with:
+    DataFrame: A pandas DataFrame where data is normalized, with an additional column 'Average' representing the
+    mean of each row.
+    Axes: A matplotlib Axes object showing a bar subplot of the average values across the dataset.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+def task_func(data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data)` based on the requirements.
+
+## Goal
+Given a dataset, the function should:
+
+1. Normalize all numeric values using **MinMax scaling**.
+2. Compute the **mean of each row** from the normalized data.
+3. Add that mean as a new column named **`Average`**.
+4. Create a **matplotlib bar plot** visualizing the row averages.
+5. Return:
+   - a **pandas DataFrame** with the normalized values plus `Average`
+   - a **matplotlib Axes** object for the bar chart
+
+---
+
+## Planned approach
+
+### 1. Accept and standardize input
+- The function should accept `data` in a form that can be converted into a pandas `DataFrame`.
+- If `data` is already a `DataFrame`, use it directly.
+- Otherwise, convert it to a `DataFrame`.
+
+### 2. Select columns to normalize
+- Identify numeric columns only.
+- Non-numeric columns should not be passed to `MinMaxScaler`.
+- If there are no numeric columns, the function should handle this gracefully.
+
+### 3. Apply MinMax scaling
+- Use `MinMaxScaler` to scale the numeric columns into the range `[0, 1]`.
+- Preserve original column names and row index.
+
+### 4. Compute row averages
+- For each row, calculate the mean across the normalized numeric columns.
+- Store the result in a new column called `Average`.
+
+### 5. Build the output DataFrame
+- Start from the normalized numeric data.
+- If non-numeric columns exist and should be preserved, decide whether to include them.  
+  Based on the task wording, the output should primarily be the normalized data plus `Average`.
+- Ensure the `Average` column is added as the final column.
+
+### 6. Create the visualization
+- Create a matplotlib figure and axes using `plt.subplots()`.
+- Plot the row averages as a bar chart.
+- Use row positions or index labels on the x-axis.
+- Set axis labels and title for readability.
+
+### 7. Return results
+- Return a tuple:
+  - the resulting `DataFrame`
+  - the `Axes` object
+
+---
+
+## Edge cases to handle
+
+### 1. Empty input
+- If `data` is empty, return an empty DataFrame and an empty plot or a valid Axes with no bars.
+
+### 2. No numeric columns
+- Since MinMax scaling only applies to numeric data, if none are present:
+  - either return an empty normalized DataFrame with `Average` as `NaN`
+  - or raise a clear error
+- The safest implementation is to handle this gracefully and document the behavior.
+
+### 3. Single numeric column
+- Row average will simply equal the scaled value in that column.
+- Ensure the code still works with a one-column input.
+
+### 4. Constant-valued columns
+- MinMaxScaler transforms constant columns into zeros.
+- This should be accepted and not treated as an error.
+
+### 5. Missing values
+- `MinMaxScaler` does not handle NaNs directly in all cases.
+- Decide whether to:
+  - let the error surface naturally,
+  - fill missing values before scaling,
+  - or drop missing rows.
+- Since the task doesn’t specify imputation, the implementation should at least be explicit about expected behavior.
+
+### 6. Mixed-type columns
+- Only numeric columns should be scaled.
+- Strings, categories, or other non-numeric fields should be ignored unless explicitly preserved.
+
+### 7. Non-DataFrame input
+- Lists, arrays, or dict-like inputs should be converted to `DataFrame` if possible.
+
+### 8. Index preservation
+- Keep the original row index where possible so the bar plot and output DataFrame align with input rows.
+
+---
+
+## Suggested structure of the function
+1. Convert input to DataFrame
+2. Extract numeric subset
+3. Scale numeric subset with `MinMaxScaler`
+4. Compute row-wise mean
+5. Add `Average` column
+6. Plot bar chart of `Average`
+7. Return DataFrame and Axes
+
+---
+
+## Expected output shape
+- If the input has `n` rows and `m` numeric columns, the output DataFrame will have:
+  - `m + 1` columns total
+  - the extra column being `Average`
+
+---
+
+If you want, I can also provide the exact self-contained Python implementation next.

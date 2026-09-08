@@ -1,0 +1,202 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a report on students' grades in a class, including a count of each grade out of all possible grades and a bar chart. Note: Grades are case-insensitive but whitespace-sensitive. Those not in possible grades are ignored.
+The function should output with:
+    Tuple[DataFrame, Axes]:
+    A pandas DataFrame with 'Grade' as the named index and their 'Count' as values.
+    A bar chart plot (matplotlib's Axes object) visualizing 'Grade Distribution', with 'Grade' on the
+    x-axis and 'Number of Students' on the y-axis.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
+def task_func(student_grades, possible_grades=["A", "B", "C", "D", "F"]):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
+def task_func(student_grades, possible_grades=["A", "B", "C", "D", "F"]):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan for `task_func(student_grades, possible_grades=["A", "B", "C", "D", "F"])`.
+
+## Requirements summary
+The function must:
+
+1. Accept `student_grades` and an optional `possible_grades`.
+2. Treat grades as **case-insensitive**:
+   - `"a"`, `"A"`, `"a "`?  
+   - Only case-insensitive, **not** whitespace-normalized.
+3. Treat whitespace as **sensitive**:
+   - `"A"` and `" A"` and `"A "` are different strings.
+4. Ignore any grades not found in `possible_grades`.
+5. Return a tuple:
+   - a `pandas.DataFrame` with:
+     - index named `"Grade"`
+     - one column `"Count"`
+   - a matplotlib `Axes` object with a bar chart:
+     - title: `"Grade Distribution"`
+     - x-axis label: `"Grade"`
+     - y-axis label: `"Number of Students"`
+
+---
+
+## Planned approach
+
+### 1) Normalize the allowed grades
+Build a canonical mapping from lowercase grade text to the original grade label from `possible_grades`.
+
+Example:
+- `possible_grades = ["A", "B", "C", "D", "F"]`
+- mapping:
+  - `"a" -> "A"`
+  - `"b" -> "B"`
+  - etc.
+
+This ensures input grades can be matched case-insensitively while preserving the display order and labels from `possible_grades`.
+
+### 2) Filter and count student grades
+Iterate through `student_grades` and:
+
+- convert each grade to lowercase for matching
+- do **not** strip whitespace
+- keep it only if the lowercase form exists in the allowed mapping
+
+Then count the normalized labels using `Counter`.
+
+Important: because whitespace is sensitive, `"A "` should **not** match `"A"`.
+
+### 3) Build the DataFrame
+Construct a DataFrame with:
+
+- index = all `possible_grades` in their original order
+- values = counts, using 0 when a grade does not appear
+- index name = `"Grade"`
+- column name = `"Count"`
+
+This guarantees the output includes all possible grades, even those with zero occurrences.
+
+### 4) Create the bar chart
+Use `matplotlib` to create a bar chart from the counts.
+
+Chart requirements:
+- title: `"Grade Distribution"`
+- x-axis label: `"Grade"`
+- y-axis label: `"Number of Students"`
+
+The x-axis categories should follow the `possible_grades` order.
+
+### 5) Return both objects
+Return:
+```python
+(dataframe, axes)
+```
+
+---
+
+## Edge cases to handle
+
+### Empty `student_grades`
+- Should return a DataFrame with all possible grades and all counts = 0.
+- Bar chart should still render with zero-height bars.
+
+### Empty `possible_grades`
+- Result should be an empty DataFrame with index name `"Grade"` and a valid Axes.
+- Chart will have no bars.
+
+### Mixed-case grades
+- `"a"`, `"A"`, `"a"` all count as `"A"`.
+
+### Grades with whitespace
+- `"A "` should **not** count as `"A"`.
+- `" A"` should **not** count as `"A"`.
+- This follows the “whitespace-sensitive” rule.
+
+### Invalid grades
+- Any grade not matching an entry in `possible_grades` after lowercase comparison should be ignored.
+
+### Duplicate values in `possible_grades`
+- Best to preserve order and only count according to the provided sequence.
+- If duplicates exist, the implementation should ideally avoid duplicate index entries or define a consistent behavior; simplest is to assume unique possible grades, since that is the natural interpretation.
+
+### Non-string grades
+- If `student_grades` contains `None` or numbers, the function should either:
+  - safely ignore them, or
+  - convert to string only if that is explicitly desired.
+- For robustness, safest plan is to ignore non-string entries when matching.
+
+---
+
+## Output shape expectations
+
+### DataFrame
+Example structure:
+```python
+       Count
+Grade
+A          3
+B          1
+C          0
+D          2
+F          0
+```
+
+### Axes
+A bar chart with:
+- x: grades
+- y: counts
+- title: `"Grade Distribution"`
+
+---
+
+## Implementation notes
+- Use `Counter` for counting.
+- Use `pd.DataFrame(..., index=possible_grades)` or equivalent to ensure full grade coverage and correct order.
+- Use `plt.subplots()` to create the figure and axes.
+- Keep the code self-contained starting with the supplied imports and function signature.
+
+If you want, I can next provide the actual implementation code in the exact required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
+
+def task_func(student_grades, possible_grades=["A", "B", "C", "D", "F"]):
+    def normalize(grade):
+        return grade.lower() if isinstance(grade, str) else grade
+
+    # Keep the first occurrence of each normalized possible grade, preserving order
+    canonical_grades = []
+    seen = set()
+    for grade in possible_grades:
+        key = normalize(grade)
+        if key not in seen:
+            seen.add(key)
+            canonical_grades.append(grade)
+
+    allowed = {normalize(grade): grade for grade in canonical_grades}
+
+    counts = Counter()
+    for grade in student_grades:
+        key = normalize(grade)
+        if key in allowed:
+            counts[allowed[key]] += 1
+
+    df = pd.DataFrame(
+        {"Count": [counts.get(grade, 0) for grade in canonical_grades]},
+        index=canonical_grades,
+    )
+    df.index.name = "Grade"
+
+    fig, ax = plt.subplots()
+    ax.bar(canonical_grades, [counts.get(grade, 0) for grade in canonical_grades])
+    ax.set_title("Grade Distribution")
+    ax.set_xlabel("Grade")
+    ax.set_ylabel("Number of Students")
+
+    return df, ax
+```

@@ -1,0 +1,155 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Calculate the product of a matrix 'P' and a 3D tensor 'T' using numpy and visualize the results as a heatmap.
+Note that: This function only accepts numpy matrices/arrays.
+The function should output with:
+    numpy.ndarray: Resultant product after matrix-tensor multiplication.
+    matplotlib.axes.Axes: Axes object displaying the heatmap of the 2D result.
+You should write self-contained code starting with:
+```
+import numpy as np
+import seaborn as sns
+def task_func(P, T):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import seaborn as sns
+def task_func(P, T):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a concise implementation plan for `task_func(P, T)`.
+
+## Goal
+- Accept only NumPy arrays/matrices.
+- Compute a matrix–tensor product.
+- Visualize the numeric result as a **2D heatmap**.
+- Return:
+  - the resultant `numpy.ndarray`
+  - the `matplotlib.axes.Axes` object
+
+## Planned approach
+
+### 1. Validate inputs
+- Check that both `P` and `T` are instances of `numpy.ndarray`.
+- Reject Python lists, tuples, scalars, or other types with a clear `TypeError`.
+- Ensure both inputs are numeric arrays.
+
+### 2. Validate shapes
+- Confirm `P` is 2D.
+- Confirm `T` is 3D.
+- Check that the dimensions are compatible for the chosen multiplication rule.
+
+Because “matrix × 3D tensor” is ambiguous, the implementation should use a **deterministic contraction rule** and enforce it. The result must be 2D to support a heatmap.
+
+### 3. Compute the product
+- Use NumPy linear algebra operations (`np.matmul`, `np.tensordot`, or equivalent) to perform the multiplication.
+- If the raw multiplication produces more than 2 dimensions, either:
+  - explicitly reduce it to 2D in a documented way, or
+  - raise a `ValueError` if the task definition requires a strictly 2D result.
+
+The safest choice for a heatmap-oriented function is to require the final product to be 2D.
+
+### 4. Prepare data for plotting
+- Convert the result to a plotting-friendly numeric array.
+- If needed, cast to float for stable visualization.
+- Handle NaN/inf values gracefully if they appear.
+
+### 5. Create the heatmap
+- Create a Matplotlib figure and axes.
+- Use `seaborn.heatmap(result_2d, ax=ax)` to visualize the output.
+- Return the axes object.
+
+### 6. Return values
+- Return a tuple:
+  - the computed `numpy.ndarray`
+  - the `Axes` instance used for the heatmap
+
+---
+
+## Edge cases to handle
+
+### Input type issues
+- `P` or `T` is not a `numpy.ndarray` → `TypeError`
+- Array dtype is non-numeric/object → `TypeError` or `ValueError`
+
+### Shape issues
+- `P` is not 2D
+- `T` is not 3D
+- Inner dimensions do not align for multiplication
+- The computed result is not 2D and cannot be meaningfully reduced
+
+### Data issues
+- Empty arrays
+- Singleton dimensions, e.g. shapes like `(1, n)` or `(n, 1, k)`
+- Very large values causing color-scale distortion
+- NaN/inf values in the result
+
+### Visualization issues
+- Heatmap of empty result
+- Heatmap of a constant matrix, where color scaling may be uniform
+- Result not suitable for 2D plotting
+
+---
+
+## Recommended behavior choice
+Since the task explicitly asks for a **2D heatmap**, the implementation should preferably:
+- validate that the multiplication yields a 2D array, and
+- raise a clear error if it does not.
+
+This keeps the function unambiguous and reliable.
+
+If you want, I can now produce the full self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import numpy as np
+import seaborn as sns
+
+def task_func(P, T):
+    """
+    Multiply a 2D matrix P by a 3D tensor T, then reduce the tensor contraction
+    to a 2D array for heatmap visualization.
+
+    Returns
+    -------
+    tuple
+        (result: numpy.ndarray, ax: matplotlib.axes.Axes)
+    """
+    # Validate input types
+    if not isinstance(P, np.ndarray) or not isinstance(T, np.ndarray):
+        raise TypeError("P and T must both be numpy.ndarray instances.")
+
+    # Validate numeric, real-valued data
+    if not np.issubdtype(P.dtype, np.number) or not np.issubdtype(T.dtype, np.number):
+        raise TypeError("P and T must contain numeric values.")
+    if np.iscomplexobj(P) or np.iscomplexobj(T):
+        raise TypeError("P and T must be real-valued arrays.")
+
+    # Validate shapes
+    if P.ndim != 2:
+        raise ValueError("P must be a 2D matrix.")
+    if T.ndim != 3:
+        raise ValueError("T must be a 3D tensor.")
+    if P.shape[1] != T.shape[0]:
+        raise ValueError(
+            f"Incompatible shapes: P.shape={P.shape} and T.shape={T.shape}. "
+            "Expected P.shape[1] == T.shape[0]."
+        )
+
+    # Matrix-tensor multiplication: (m, n) x (n, p, q) -> (m, p, q)
+    contracted = np.tensordot(P, T, axes=([1], [0]))
+
+    # Reduce to 2D for heatmap visualization
+    result = np.sum(contracted, axis=-1)
+
+    if result.size == 0:
+        raise ValueError("The resulting array is empty and cannot be plotted as a heatmap.")
+
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots()
+    sns.heatmap(result, ax=ax)
+    ax.set_title("Matrix-Tensor Product Heatmap")
+
+    return result, ax
+```

@@ -1,0 +1,71 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Perform a linear regression between "age" and "score" in the DataFrame, excluding rows with duplicate names. Plot the regression line and the scatter plot of the data.
+Note that: The function use "Linear Regression" for the plot title. The function use "Age" and "Score" as the xlabel and ylabel respectively.
+The function should raise the exception for: The function will raise a ValueError is input df is not a DataFrame.
+The function should output with:
+    tuple: A tuple containing the matplotlib.pyplot object and the axes object.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(df):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(df)`:
+
+1. **Validate input type**
+   - Check whether `df` is a `pandas.DataFrame`.
+   - If not, raise `ValueError` with a clear message.
+   - This satisfies the explicit exception requirement.
+
+2. **Prepare the data**
+   - Work on a copy of the DataFrame to avoid mutating the caller’s data.
+   - Remove rows with duplicate names so that only non-duplicated `name` values remain.
+     - Recommended interpretation: exclude *all* rows whose `name` appears more than once.
+   - Keep only the columns needed for the regression: `age` and `score`.
+   - Drop rows where `age` or `score` is missing (`NaN`).
+
+3. **Ensure numeric regression inputs**
+   - Confirm `age` and `score` can be used numerically.
+   - If needed, convert them to numeric with coercion and remove rows that become invalid.
+   - This prevents `linregress` from failing on non-numeric values.
+
+4. **Check for enough data**
+   - Linear regression needs at least 2 valid points.
+   - If fewer than 2 rows remain after filtering, raise a `ValueError` explaining that there is insufficient data for regression.
+
+5. **Compute the regression**
+   - Use `scipy.stats.linregress(clean_df["age"], clean_df["score"])`.
+   - Extract slope and intercept for the regression line.
+
+6. **Create the plot**
+   - Create a matplotlib figure and axes.
+   - Plot the scatter points for `age` vs `score`.
+   - Plot the regression line over the same x-range.
+   - Set:
+     - title: `"Linear Regression"`
+     - x-label: `"Age"`
+     - y-label: `"Score"`
+
+7. **Return value**
+   - Return a tuple containing the `matplotlib.pyplot` object and the axes object:
+     - `(plt, ax)`
+
+Edge cases to consider:
+- `df` is not a DataFrame → raise `ValueError`.
+- Required columns like `name`, `age`, or `score` are missing.
+- Duplicate names remove too many rows, leaving no data.
+- Missing or non-numeric `age`/`score` values.
+- Only one valid row remains after filtering.
+- All remaining `age` values are identical, which can make regression meaningless or unstable.
+- Empty DataFrame input.
+
+If you want, I can now turn this plan into the exact self-contained function code.

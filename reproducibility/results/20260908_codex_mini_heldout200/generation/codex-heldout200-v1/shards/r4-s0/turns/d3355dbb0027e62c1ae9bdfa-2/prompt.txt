@@ -1,0 +1,158 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a DataFrame containing random integer values across a specified number of categories, and visualize these data as a horizontal stacked bar chart.
+Note that: The plot displays categories on the y-axis and their corresponding values on the x-axis, with data segmented by category.
+The function should output with:
+    tuple: A tuple containing a matplotlib Figure and Axes objects for the generated plot.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from random import randint
+def task_func(num_types=5, integer_range=(0, 100)):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from random import randint
+def task_func(num_types=5, integer_range=(0, 100)):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(num_types=5, integer_range=(0, 100))` that matches the requested horizontal stacked bar chart behavior.
+
+## Plan
+
+### 1) Validate and normalize inputs
+- Ensure `num_types` is a positive integer.
+- Ensure `integer_range` is a 2-tuple/list of length 2.
+- If the bounds are reversed, swap them so the lower value comes first.
+- Handle the case where both bounds are equal, which would make all generated values identical.
+
+### 2) Generate category labels
+- Create category names like:
+  - `Type 1`, `Type 2`, ..., `Type N`
+- These will be used on the y-axis.
+
+### 3) Build a random integer DataFrame
+- Generate a `pandas.DataFrame` containing random integers.
+- For a stacked bar chart, the DataFrame should have:
+  - one row per category, and
+  - multiple numeric columns representing stacked segments.
+- Since the function only provides `num_types`, a practical interpretation is to use `num_types` both as:
+  - the number of categories, and
+  - the number of stacked segments per category.
+- Use `randint(integer_range[0], integer_range[1])` for each cell.
+
+### 4) Create the horizontal stacked bar chart
+- Create a Matplotlib figure and axes with `plt.subplots()`.
+- Plot each DataFrame column as a horizontal bar segment using `ax.barh(...)`.
+- Maintain a running `left` offset array so each new segment stacks to the right of the previous one.
+- Set the y-axis ticks to the category labels.
+
+### 5) Style the plot
+- Add axis labels:
+  - y-axis: categories
+  - x-axis: values
+- Add a title describing the plot.
+- Add a legend for the stacked segments.
+- Optionally call `tight_layout()` for better spacing.
+
+### 6) Return the required output
+- Return a tuple:
+  - `(fig, ax)`
+
+---
+
+## Edge cases to handle
+- **`num_types <= 0`**: should raise a clear error or be coerced only if that’s intended.
+- **`integer_range` malformed**: not a 2-element tuple/list.
+- **`integer_range[0] > integer_range[1]`**: swap values to avoid invalid random generation.
+- **`integer_range[0] == integer_range[1]`**: valid, but all values are the same.
+- **Very small range like `(0, 1)`**: bars may be sparse, but still valid.
+- **Large `num_types`**: chart may become crowded; still functional, but labels may need rotation or a larger figure.
+- **All-zero rows**: stacked bars would have zero width; still valid, but visually empty.
+- **Negative ranges**: `randint` supports them, and the stacked bars will still render, though interpretation may be less typical.
+
+---
+
+## Suggested structure
+1. Input checks
+2. Generate category names
+3. Create random DataFrame
+4. Plot stacked `barh`
+5. Configure labels/legend/title
+6. Return `(fig, ax)`
+
+If you want, I can also provide the exact implementation code for this plan.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import matplotlib.pyplot as plt
+from random import randint
+
+
+def task_func(num_types=5, integer_range=(0, 100)):
+    """
+    Generate a DataFrame of random integers and plot it as a horizontal stacked bar chart.
+
+    Parameters
+    ----------
+    num_types : int, optional
+        Number of categories/rows to generate.
+    integer_range : tuple, optional
+        Inclusive lower and upper bounds for random integers.
+
+    Returns
+    -------
+    tuple
+        (fig, ax) matplotlib Figure and Axes objects.
+    """
+    # Validate num_types
+    if not isinstance(num_types, int) or num_types <= 0:
+        raise ValueError("num_types must be a positive integer.")
+
+    # Validate integer_range
+    if (
+        not isinstance(integer_range, (tuple, list))
+        or len(integer_range) != 2
+    ):
+        raise ValueError("integer_range must be a tuple or list of length 2.")
+
+    low, high = integer_range
+    if not isinstance(low, int) or not isinstance(high, int):
+        raise ValueError("integer_range bounds must be integers.")
+
+    if low > high:
+        low, high = high, low
+
+    # Generate category labels
+    categories = [f"Type {i + 1}" for i in range(num_types)]
+
+    # Create a DataFrame of random integers:
+    # one row per category, one column per stacked segment
+    data = {
+        f"Segment {j + 1}": [randint(low, high) for _ in range(num_types)]
+        for j in range(num_types)
+    }
+    df = pd.DataFrame(data, index=categories)
+
+    # Plot horizontal stacked bar chart
+    fig, ax = plt.subplots(figsize=(8, max(4, num_types * 0.6)))
+
+    left = [0] * num_types
+    y_positions = range(num_types)
+
+    for column in df.columns:
+        values = df[column].tolist()
+        ax.barh(y_positions, values, left=left, label=column)
+        left = [l + v for l, v in zip(left, values)]
+
+    ax.set_yticks(list(y_positions))
+    ax.set_yticklabels(categories)
+    ax.set_xlabel("Values")
+    ax.set_ylabel("Categories")
+    ax.set_title("Horizontal Stacked Bar Chart")
+    ax.legend(title="Segments", loc="best")
+
+    fig.tight_layout()
+    return fig, ax

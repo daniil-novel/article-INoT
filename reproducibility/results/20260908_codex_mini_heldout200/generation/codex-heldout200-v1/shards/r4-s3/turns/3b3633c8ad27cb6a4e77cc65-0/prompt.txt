@@ -1,0 +1,19 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate a category distribution within a specified range and return as a DataFrame.
+The function should output with:
+    DataFrame: A pandas DataFrame that has two columns: 'Category' (category names) and 'Count' (count of each category).
+You should write self-contained code starting with:
+```
+import pandas as pd
+import random
+# Constants
+CATEGORIES = ['A', 'B', 'C', 'D', 'E']
+def task_func(value_range=(0, 100)):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import random
+# Constants
+CATEGORIES = ['A', 'B', 'C', 'D', 'E']
+def task_func(value_range=(0, 100)):

@@ -1,0 +1,119 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Appends randomly generated sales data for specified fruits over a given range of days to a DataFrame, and returns a seaborn boxplot of the sales.
+The function should raise the exception for: TypeError: If 'df' is not a pandas DataFrame. ValueError: If 'df' is not empty or  If 'sales_lower_bound' is not less than 'sales_upper_bound'.
+The function should output with:
+    Tuple[pd.DataFrame, sns.axisgrid.FacetGrid]: Updated DataFrame with sales data and a seaborn boxplot of the sales.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+import itertools
+from datetime import datetime, timedelta
+import seaborn as sns
+def task_func(df, fruits=None, days=None, seed=None, sales_lower_bound=1, sales_upper_bound=50):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+import itertools
+from datetime import datetime, timedelta
+import seaborn as sns
+def task_func(df, fruits=None, days=None, seed=None, sales_lower_bound=1, sales_upper_bound=50):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func` based on the requirements.
+
+## Goal
+Build a function that:
+
+1. Validates inputs.
+2. Generates random sales data for given fruits across a set of days.
+3. Appends that data to the provided empty DataFrame.
+4. Returns:
+   - the updated `pd.DataFrame`
+   - a seaborn boxplot as a `sns.axisgrid.FacetGrid`
+
+---
+
+## Implementation Plan
+
+### 1. Validate `df`
+- Check that `df` is an instance of `pandas.DataFrame`.
+  - If not, raise `TypeError`.
+- Check that `df` is empty.
+  - If not empty, raise `ValueError`.
+
+### 2. Validate sales bounds
+- Ensure `sales_lower_bound < sales_upper_bound`.
+  - If not, raise `ValueError`.
+
+### 3. Normalize optional inputs
+- If `fruits` is `None`, assign a sensible default list of fruit names.
+- If `days` is `None`, assign a sensible default day range or count.
+  - Since the task says “over a given range of days,” define a consistent internal interpretation, such as a list of day offsets or a date range.
+
+### 4. Set randomness
+- If `seed` is provided:
+  - initialize NumPy randomness with that seed for reproducible output.
+
+### 5. Generate the sales records
+- Use `itertools.product` to create all combinations of:
+  - each fruit
+  - each day in the chosen range
+- For each combination:
+  - generate a random sales value within the requested bounds.
+- Use `datetime` and `timedelta` to construct actual date values if needed.
+
+### 6. Build the new DataFrame
+- Create a DataFrame with at least these columns:
+  - fruit
+  - date/day
+  - sales
+- Append/concatenate this generated data to the input `df`.
+- Return the resulting updated DataFrame.
+
+### 7. Create the seaborn boxplot
+- Use a seaborn function that returns a `FacetGrid`, such as `sns.catplot(kind="box", ...)`.
+- Plot sales distribution grouped by fruit.
+- Ensure the plot is based on the newly generated data or the full updated DataFrame, depending on intended output.
+- Return the plot object.
+
+### 8. Return value
+- Return a tuple:
+  - updated `pd.DataFrame`
+  - seaborn `FacetGrid`
+
+---
+
+## Edge Cases to Handle
+
+### Input validation edge cases
+- `df` is not a DataFrame → `TypeError`
+- `df` is a DataFrame but not empty → `ValueError`
+- `sales_lower_bound >= sales_upper_bound` → `ValueError`
+
+### Data generation edge cases
+- `fruits` is empty or not iterable
+- `days` is empty, zero, negative, or invalid type
+- `seed` is `None` → allow nondeterministic output
+- duplicate fruits or repeated days → acceptable, but should be handled naturally
+
+### Plotting edge cases
+- No generated rows → boxplot cannot be meaningfully created
+- Only one fruit/day combination → plot should still work, but may look trivial
+- Extremely small sample sizes → boxplot may be less informative, but should still render
+
+---
+
+## Recommended internal data columns
+Use a simple schema such as:
+- `fruit`
+- `date`
+- `sales`
+
+This makes the seaborn boxplot straightforward and keeps the function easy to understand.
+
+---
+
+If you want, I can also turn this plan into the full self-contained implementation.

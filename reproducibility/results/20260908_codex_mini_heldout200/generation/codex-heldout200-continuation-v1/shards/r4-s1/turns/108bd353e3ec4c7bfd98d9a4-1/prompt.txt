@@ -1,0 +1,210 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Reads a JSON file containing a list of dictionaries. For each key across all dictionaries, calculates the mean and median of its values using numpy. Visualizes the mean and median using bar charts. Returns the results and plots.
+The function should output with:
+    result (dict): each key corresponds to those in the input dictionaries, and the corresponding
+    value is another dict with keys 'mean' and 'median', representing the calculated statistics.
+    plots  (list[matplotlib.axes._axes.Axes]): A list of bar charts, one for
+    each key in the dictionaries, visualizing the mean and median values.
+You should write self-contained code starting with:
+```
+import json
+import numpy as np
+from collections import defaultdict
+import matplotlib.pyplot as plt
+def task_func(input_file):
+```
+FULL SUPPLIED CONTEXT
+import json
+import numpy as np
+from collections import defaultdict
+import matplotlib.pyplot as plt
+def task_func(input_file):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(input_file)` based on the requirements.
+
+## Goal
+Read a JSON file containing a list of dictionaries, aggregate values by key across all dictionaries, compute:
+- `mean`
+- `median`
+
+using NumPy, then visualize each key’s statistics with a bar chart. Return:
+- `result`: a dict of stats per key
+- `plots`: a list of `matplotlib.axes._axes.Axes` objects
+
+---
+
+## Proposed behavior
+
+### Input
+- `input_file`: path to a JSON file
+- Expected JSON shape: a list of dictionaries, e.g.
+  ```json
+  [
+    {"a": 1, "b": 2},
+    {"a": 3, "b": 4}
+  ]
+  ```
+
+### Output
+- `result`:
+  ```python
+  {
+      "a": {"mean": 2.0, "median": 2.0},
+      "b": {"mean": 3.0, "median": 3.0}
+  }
+  ```
+- `plots`: a list of Axes, one per key, each containing a bar chart with bars for `mean` and `median`
+
+---
+
+## Implementation plan
+
+### 1) Load and validate JSON
+- Open `input_file`
+- Parse JSON with `json.load`
+- Validate that the top-level object is a list
+- Validate that each item in the list is a dictionary
+
+If the structure is invalid, raise an informative exception.
+
+---
+
+### 2) Collect values by key
+- Use `defaultdict(list)` to accumulate all values for each key across all dictionaries
+- For each dictionary:
+  - iterate through its items
+  - append each value to the corresponding key’s list
+
+This naturally handles:
+- missing keys in some dictionaries
+- keys appearing in only some entries
+
+---
+
+### 3) Filter/normalize values before statistics
+Since mean/median require numeric data:
+- keep numeric values only
+- reject or skip non-numeric values
+
+Recommended handling:
+- accept `int`, `float`, and NumPy numeric types
+- optionally exclude `bool` because it is technically an `int` subclass in Python but usually not intended as numeric data here
+
+If a key has no valid numeric values after filtering:
+- set `mean` and `median` to `np.nan`
+- still generate a plot for consistency, or optionally an empty plot with a note
+
+---
+
+### 4) Compute statistics
+For each key:
+- convert its list of values to a NumPy array
+- compute:
+  - `np.mean(values)`
+  - `np.median(values)`
+- store in:
+  ```python
+  result[key] = {"mean": ..., "median": ...}
+  ```
+
+Preserve key order based on first appearance in the input for deterministic output.
+
+---
+
+### 5) Create bar charts
+For each key:
+- create a new figure/axes with `plt.subplots()`
+- plot two bars:
+  - `mean`
+  - `median`
+- label the x-axis with `["mean", "median"]`
+- set a title such as `Statistics for <key>`
+- add y-axis label like `Value`
+
+Append the `Axes` object to `plots`.
+
+---
+
+### 6) Return values
+Return:
+```python
+return result, plots
+```
+
+---
+
+## Edge cases to handle
+
+### 1) Empty JSON list
+- Result should be an empty dict
+- Plots should be an empty list
+
+### 2) Keys missing in some dictionaries
+- Just ignore missing entries for that key
+- Compute stats from available values only
+
+### 3) Non-numeric values
+Examples:
+- strings
+- nested objects
+- lists
+- `None`
+
+Recommended: skip them or raise a clear error.
+- If robustness is preferred, skip invalid values and continue
+- If strictness is preferred, raise `TypeError`
+
+### 4) Mixed numeric types
+- `int`, `float`, and NumPy numeric values should work fine
+- Values can be converted to `float` or passed directly to NumPy
+
+### 5) Single value for a key
+- mean and median are both that value
+
+### 6) No valid numeric values for a key
+- return `np.nan` for both stats
+- still create a corresponding plot, or skip the plot if you want to avoid empty visuals
+- the requirement suggests one plot per key, so keeping the plot is better
+
+### 7) Large numbers / precision
+- NumPy handles them well, but floating-point output may include decimals even for whole-number inputs
+
+### 8) Duplicate keys across dictionaries
+- expected and handled by aggregation
+
+### 9) Invalid top-level JSON structure
+- if the file contains an object instead of a list, or non-dict list items, raise an error
+
+---
+
+## Suggested structure of the code
+1. Imports
+2. `task_func(input_file)`
+3. Load JSON
+4. Aggregate values by key
+5. Compute stats
+6. Plot each key’s mean/median
+7. Return `(result, plots)`
+
+---
+
+## Notes on plotting
+- Since the return type is a list of `Axes`, each key should likely get its own subplot/figure
+- If using `plt.subplots()` in a loop:
+  - each call produces one `Axes`
+  - append that axes to the returned list
+- Avoid calling `plt.show()` inside the function unless explicitly required; returning the axes is enough
+
+---
+
+If you want, I can now turn this plan into the full self-contained implementation starting exactly with:
+
+```python
+import json
+import numpy as np
+from collections import defaultdict
+import matplotlib.pyplot as plt
+def task_func(input_file):
+```

@@ -1,0 +1,95 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Fetches data from a given CSV URL and returns a pandas DataFrame sorted based on the specified column. >>> task_func("http://example.com/data.csv", sort_by_column="price") id   title  price 2   3  Cherry    0.2 0   1   Apple    0.3 1   2  Banana    0.5
+The function should raise the exception for: Exception: If the response status code is not 200.
+The function should output with:
+    DataFrame: The pandas DataFrame that sorted based on the specified column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import requests
+from io import StringIO
+def task_func(csv_url, sort_by_column="title"):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import requests
+from io import StringIO
+def task_func(csv_url, sort_by_column="title"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(csv_url, sort_by_column="title")`:
+
+1. **Make the HTTP request**
+   - Use `requests.get(csv_url)` to fetch the CSV content.
+   - Check `response.status_code`.
+   - If it is **not 200**, raise an `Exception` as required.
+
+2. **Load CSV into a DataFrame**
+   - Convert the response text into a file-like object using `StringIO(response.text)`.
+   - Read it with `pd.read_csv(...)` to obtain a pandas DataFrame.
+
+3. **Sort by the requested column**
+   - Sort the DataFrame using `sort_values(by=sort_by_column)`.
+   - Preserve the default ascending order unless otherwise specified.
+   - Optionally reset the index after sorting with `reset_index(drop=True)` if a clean sequential index is desired.
+
+4. **Return the sorted DataFrame**
+   - Output the pandas DataFrame sorted by `sort_by_column`.
+
+## Edge cases to consider
+
+- **Non-200 HTTP response**
+  - Must raise `Exception`.
+  - This is explicitly required.
+
+- **Missing sort column**
+  - If `sort_by_column` does not exist in the CSV, `pandas` will raise a `KeyError`.
+  - No custom handling is required unless you want to provide a clearer message.
+
+- **Empty CSV**
+  - `pd.read_csv` may raise an error if the file is empty or malformed.
+  - Let pandas handle it unless the task requires custom handling.
+
+- **Malformed CSV content**
+  - If the response body is not valid CSV, `pd.read_csv` may fail.
+  - This can be left to pandas exceptions.
+
+- **Mixed data types in the sort column**
+  - Sorting may behave unexpectedly if the column contains mixed types or missing values.
+  - Default pandas sorting should still work in most standard cases.
+
+- **Missing values in the sort column**
+  - Pandas sorts `NaN` values to the end by default.
+  - This is usually acceptable unless the task specifies otherwise.
+
+## Expected behavior on the sample
+For CSV data like:
+
+- `id,title,price`
+- `1,Apple,0.3`
+- `2,Banana,0.5`
+- `3,Cherry,0.2`
+
+Sorting by `price` should return rows in this order:
+
+1. Cherry — `0.2`
+2. Apple — `0.3`
+3. Banana — `0.5`
+
+If you want, I can also provide the exact implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import requests
+from io import StringIO
+
+def task_func(csv_url, sort_by_column="title"):
+    response = requests.get(csv_url)
+    if response.status_code != 200:
+        raise Exception(f"Request failed with status code {response.status_code}")
+
+    df = pd.read_csv(StringIO(response.text))
+    return df.sort_values(by=sort_by_column)
+```

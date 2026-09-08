@@ -1,0 +1,18 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate all subsets of a given size from a tuple and calculate the product of the sums of the subsets. Additionally, return the top_n sums of the subsets. If the subset size is larger than the tuple length, return 1. If the subset size is 0, return 1.
+The function should output with:
+    int: The product of the sums of the subsets.
+    list: The top_n sums of the subsets as a pandas Series.
+You should write self-contained code starting with:
+```
+import itertools
+import math
+from pandas import Series
+def task_func(elements, subset_size, top_n=2):
+```
+FULL SUPPLIED CONTEXT
+import itertools
+import math
+from pandas import Series
+def task_func(elements, subset_size, top_n=2):

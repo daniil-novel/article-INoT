@@ -1,0 +1,16 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generates a DataFrame with random numerical data and visualizes this data in a stacked bar chart for specified categories.
+The function should raise the exception for: ValueError: If the number of columns exceeds the number of available categories.
+The function should output with:
+    matplotlib.axes._axes.Axes: The Axes object displaying the stacked bar chart.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+def task_func(rows=5, cols=5):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+def task_func(rows=5, cols=5):

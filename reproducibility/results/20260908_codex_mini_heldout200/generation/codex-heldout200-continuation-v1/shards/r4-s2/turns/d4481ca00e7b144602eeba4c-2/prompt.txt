@@ -1,0 +1,125 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Open an image, rotate it around a certain angle, and then display both the original and the rotated images side by side. Additionally, return both images as numpy arrays.
+The function should raise the exception for: FileNotFoundError: If the image file does not exist at the specified path.
+The function should output with:
+    tuple: A tuple containing two numpy arrays, the first representing the original image and
+    the second representing the rotated image. Expands the rotated image to make it large enough to hold the entire rotated image.
+You should write self-contained code starting with:
+```
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+def task_func(img_path, angle):
+```
+FULL SUPPLIED CONTEXT
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+def task_func(img_path, angle):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(img_path, angle)`:
+
+## Goal
+- Load an image from `img_path`
+- Rotate it by `angle` degrees
+- Expand the canvas so the full rotated image fits
+- Display original and rotated images side by side
+- Return both images as NumPy arrays
+
+## Planned approach
+
+1. **Validate file existence**
+   - Check `os.path.exists(img_path)`.
+   - If the file does not exist, raise `FileNotFoundError`.
+
+2. **Open the image**
+   - Use `PIL.Image.open(img_path)` inside a context or carefully manage the object.
+   - Convert the image to a consistent mode if needed:
+     - Keep as-is if you want to preserve channels.
+     - Optionally convert to `RGB` for uniform output and easier plotting.
+
+3. **Convert original image to NumPy array**
+   - Use `np.array(original_image)` to produce the first returned array.
+
+4. **Rotate the image**
+   - Use `Image.rotate(angle, expand=True)`.
+   - `expand=True` is required so the output canvas grows enough to contain the full rotated image.
+
+5. **Convert rotated image to NumPy array**
+   - Use `np.array(rotated_image)` to produce the second returned array.
+
+6. **Display images side by side**
+   - Create a figure with two subplots using `plt.subplots(1, 2, figsize=(...))`.
+   - Show the original image in the first subplot.
+   - Show the rotated image in the second subplot.
+   - Hide axes and add titles like `"Original"` and `"Rotated"`.
+
+7. **Return the result**
+   - Return a tuple:
+     - `(original_array, rotated_array)`
+
+## Edge cases to handle
+
+- **Nonexistent file**
+  - Must raise `FileNotFoundError`.
+
+- **Invalid image file**
+  - `Image.open` may raise an exception if the file exists but is not a valid image.
+  - The requirements only explicitly demand `FileNotFoundError`, so other exceptions can be left to propagate naturally unless you want extra robustness.
+
+- **Angle values**
+  - Accept integers, floats, negative angles, and angles larger than 360.
+  - PIL handles these without special preprocessing.
+
+- **Image mode differences**
+  - Images may be grayscale (`L`), RGBA, palette-based (`P`), etc.
+  - If consistency matters, convert to `RGB`; otherwise preserve original mode and return arrays accordingly.
+
+- **Large images**
+  - Plotting very large images may be slow, but still valid.
+  - No special handling is required unless performance is a concern.
+
+## Expected behavior summary
+- Input: image path + rotation angle
+- Output: `(original_numpy_array, rotated_numpy_array)`
+- Display: side-by-side visualization
+- Rotation: expanded canvas to avoid clipping
+- Error: `FileNotFoundError` if path is missing
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+
+def task_func(img_path, angle):
+    if not os.path.isfile(img_path):
+        raise FileNotFoundError(f"No such file: '{img_path}'")
+
+    with Image.open(img_path) as img:
+        img = img.convert("RGB")
+        original_array = np.array(img)
+
+        rotated_img = img.rotate(angle, expand=True)
+        rotated_array = np.array(rotated_img)
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+
+    axes[0].imshow(original_array)
+    axes[0].set_title("Original")
+    axes[0].axis("off")
+
+    axes[1].imshow(rotated_array)
+    axes[1].set_title(f"Rotated ({angle}°)")
+    axes[1].axis("off")
+
+    plt.tight_layout()
+    plt.show()
+
+    return original_array, rotated_array
+```

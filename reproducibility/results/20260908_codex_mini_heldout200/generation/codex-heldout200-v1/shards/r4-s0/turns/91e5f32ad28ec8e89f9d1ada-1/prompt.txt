@@ -1,0 +1,111 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Download and keep a zip file from a URL, extract its contents to the specified directory, and return the list of extracted files.
+The function should output with:
+    list: A list of filenames of the extracted files.
+You should write self-contained code starting with:
+```
+import requests
+import os
+import zipfile
+def task_func(url, destination_directory, headers=None):
+```
+FULL SUPPLIED CONTEXT
+import requests
+import os
+import zipfile
+def task_func(url, destination_directory, headers=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(url, destination_directory, headers=None)`.
+
+## Goal
+- Download a ZIP archive from `url`
+- Keep the ZIP file on disk
+- Extract its contents into `destination_directory`
+- Return a `list` of the extracted file names
+
+## Planned behavior
+
+### 1) Prepare the destination directory
+- If `destination_directory` does not exist, create it.
+- Accept both relative and absolute paths.
+- Ensure the path is writable before proceeding.
+
+### 2) Download the ZIP file
+- Use `requests.get(url, headers=headers, stream=True)`.
+- If `headers` is `None`, pass an empty/default header set.
+- Check HTTP status and fail clearly on non-200 responses.
+- Save the response body to a `.zip` file on disk rather than holding it all in memory.
+
+### 3) Keep the ZIP file
+- Store the downloaded archive inside `destination_directory`.
+- Choose a stable filename:
+  - preferably from the URL path basename, or
+  - fall back to a default name like `downloaded.zip` if the URL does not provide one.
+- Do not delete the ZIP after extraction.
+
+### 4) Validate and extract the archive
+- Open the saved file using `zipfile.ZipFile`.
+- Verify that it is a valid ZIP archive.
+- Extract each member into `destination_directory`.
+
+### 5) Collect returned file names
+- Return a list of extracted **file** names, not directories.
+- For nested archive paths, return the archive member path or relative extracted path so names remain meaningful and unique.
+- Exclude directory entries from the result list.
+
+---
+
+## Important edge cases to handle
+
+### Network / download issues
+- Invalid URL
+- Connection timeout
+- DNS/network failure
+- HTTP error status codes like 404/500
+- Empty response body
+
+### File and path issues
+- `destination_directory` does not exist
+- No permission to create/write files
+- Destination path is invalid or points to a file instead of a directory
+- ZIP filename derived from the URL is empty or unsafe
+
+### ZIP-specific issues
+- Response is not a valid ZIP file
+- Corrupted ZIP archive
+- ZIP contains only directories
+- ZIP contains duplicate names
+- ZIP contains nested folders
+
+### Security considerations
+- Prevent ZIP path traversal (“zip slip”):
+  - reject entries whose extracted target would escape `destination_directory`
+- Avoid overwriting unintended files outside the destination tree
+
+### Output edge cases
+- If no files are extracted, return an empty list
+- If there are duplicate archive member names, decide whether to:
+  - keep all extracted paths in the list, or
+  - deduplicate returned names
+  - Best default: return every extracted file entry as processed, while ensuring extraction is safe.
+
+---
+
+## Suggested implementation structure
+1. Validate/create destination folder
+2. Derive archive filename
+3. Download ZIP to disk in streaming mode
+4. Open ZIP and iterate members
+5. Safely extract files
+6. Build and return list of extracted file names
+
+If you want, I can now produce the actual self-contained implementation starting with:
+
+```python
+import requests
+import os
+import zipfile
+def task_func(url, destination_directory, headers=None):
+```

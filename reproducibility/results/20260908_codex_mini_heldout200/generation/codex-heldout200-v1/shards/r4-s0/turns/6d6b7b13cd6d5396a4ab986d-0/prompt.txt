@@ -1,0 +1,17 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Visualize the distribution of goals and penalties for a number of teams and return the data as a DataFrame with colomns 'Team', 'Goals' and 'Penalties'.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame with the goals and penalties for the teams.
+    Axes: A seaborn pairplot visualization of goals and penalties distribution for the teams.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):

@@ -1,0 +1,59 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate a plot of random numbers such that indices are on the x-axis and generated numbers are on the y-axis.
+The function should output with:
+    Returns a tuple containing:
+    A list of generated random numbers.
+    A matplotlib Axes object representing the plot.
+You should write self-contained code starting with:
+```
+import random
+import matplotlib.pyplot as plt
+def task_func(points: int):
+```
+FULL SUPPLIED CONTEXT
+import random
+import matplotlib.pyplot as plt
+def task_func(points: int):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(points: int)`:
+
+1. **Validate input**
+   - Check that `points` is an integer.
+   - If `points` is negative, decide on behavior:
+     - Prefer raising `ValueError` because a negative number of points is invalid.
+   - Handle `points == 0` as a valid edge case by returning an empty list and an empty plot.
+
+2. **Generate random data**
+   - Create a list of `points` random numbers using `random.random()` or `random.randint(...)` depending on the desired range.
+   - Since the prompt says “random numbers” without a range, a standard choice is floats in `[0.0, 1.0)`.
+   - Store them in a list so they can be returned directly.
+
+3. **Create x-axis indices**
+   - Build x values as `range(points)` or `list(range(points))`.
+   - These represent the indices for the generated numbers.
+
+4. **Plot the data**
+   - Create a matplotlib figure and axes using `plt.subplots()`.
+   - Plot x values against the random numbers with `ax.plot(...)` or `ax.scatter(...)`.
+   - Since the requirement says “indices are on the x-axis and generated numbers are on the y-axis,” either line or scatter is acceptable, but scatter may better emphasize individual random points.
+
+5. **Add basic plot labels**
+   - Set x-axis label to something like `"Index"`.
+   - Set y-axis label to something like `"Random Number"`.
+   - Optionally add a title such as `"Random Numbers vs Index"`.
+
+6. **Return values**
+   - Return a tuple:
+     - the list of generated random numbers
+     - the matplotlib `Axes` object
+
+7. **Edge cases to consider**
+   - `points = 0`: return `([], ax)` with an empty plot.
+   - `points = 1`: ensure a single point plots correctly.
+   - Non-integer input: either let Python fail naturally or explicitly raise `TypeError`.
+   - Negative input: raise `ValueError`.
+   - Very large `points`: generation and plotting may be slow, but the logic should still work.
+
+If you want, I can now turn this plan into the exact self-contained Python function.

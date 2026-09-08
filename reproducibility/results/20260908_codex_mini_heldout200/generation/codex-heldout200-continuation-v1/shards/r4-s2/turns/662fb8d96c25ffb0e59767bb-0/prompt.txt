@@ -1,0 +1,20 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform a linear regression between "age" and "score" in the DataFrame, excluding rows with duplicate names. Plot the regression line and the scatter plot of the data.
+Note that: The function use "Linear Regression" for the plot title. The function use "Age" and "Score" as the xlabel and ylabel respectively.
+The function should raise the exception for: The function will raise a ValueError is input df is not a DataFrame.
+The function should output with:
+    tuple: A tuple containing the matplotlib.pyplot object and the axes object.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(df):

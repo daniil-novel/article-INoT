@@ -1,0 +1,78 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Scans the specified IP address range and pings each IP to check if it is active. The function returns a dictionary with IP addresses as keys and a boolean value indicating their active status (True if the ping is successful, False otherwise).
+The function should raise the exception for: subprocess.CalledProcessError: If a ping command fails due to a subprocess error.
+The function should output with:
+    dict: A dictionary mapping IP addresses to their active status.
+You should write self-contained code starting with:
+```
+import subprocess
+from ipaddress import IPv4Network
+def task_func(ip_range):
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+from ipaddress import IPv4Network
+def task_func(ip_range):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(ip_range)`.
+
+## Goal
+Scan all IPs in the given IPv4 range, ping each one once, and return a dictionary:
+
+- key: IP address
+- value: `True` if ping succeeds, `False` otherwise
+
+## Plan
+
+1. **Normalize the input into an `IPv4Network`**
+   - Accept `ip_range` as something that `IPv4Network` can parse.
+   - Convert it with `IPv4Network(ip_range)` or `IPv4Network(ip_range, strict=False)` if you want to allow non-network base addresses.
+   - If the input is invalid, let the resulting `ValueError` propagate unless the task later specifies otherwise.
+
+2. **Choose which addresses to scan**
+   - Prefer iterating with `network.hosts()` so you scan usable host addresses only.
+   - This avoids network and broadcast addresses in normal subnets.
+   - Note: for `/31` and `/32`, `hosts()` has special behavior and still yields the relevant usable addresses.
+
+3. **Build the ping command**
+   - For each IP, run a single ping request.
+   - Use platform-appropriate arguments:
+     - Windows: `ping -n 1 -w <timeout_ms> <ip>`
+     - Linux/macOS: `ping -c 1 -W <timeout_sec> <ip>`
+   - Avoid `shell=True` for safety.
+   - Suppress stdout/stderr unless debugging is needed.
+
+4. **Determine active/inactive status**
+   - If the ping command exits successfully, store `True`.
+   - If it returns a non-zero exit code, store `False`.
+   - Convert the IP object to string for the dictionary key, e.g. `"192.168.1.1"`.
+
+5. **Handle subprocess errors**
+   - The task specifically mentions `subprocess.CalledProcessError`.
+   - If you use `check=True`, that exception can be raised on non-zero exit status.
+   - Decide consistently whether unreachable hosts should map to `False` or raise.  
+     - Typical behavior: unreachable host → `False`.
+     - Unexpected subprocess invocation failure → allow the exception to propagate.
+   - If the expected grader requires `CalledProcessError` to propagate, do not swallow it.
+
+6. **Return the final dictionary**
+   - The result should map every scanned IP to its active status.
+
+## Edge cases to consider
+
+- **Invalid input**: malformed IP range string, e.g. `"999.1.1.0/24"` → `ValueError`.
+- **Single-host network**: `/32` should still work and return one entry.
+- **Tiny subnets**: `/31` may include two usable addresses.
+- **Unreachable hosts**: should be represented as `False`.
+- **Ping command unavailable**: may raise `FileNotFoundError` or another subprocess-related error.
+- **Platform differences**: ping flags differ across Windows vs Unix-like systems.
+- **Large networks**: scanning is sequential and may be slow for big ranges.
+
+## Recommended output shape
+Use a dictionary like:
+
+- `{"192.168.1.1": True, "192.168.1.2": False, ...}`
+
+If you want, I can also turn this plan into the exact self-contained implementation.

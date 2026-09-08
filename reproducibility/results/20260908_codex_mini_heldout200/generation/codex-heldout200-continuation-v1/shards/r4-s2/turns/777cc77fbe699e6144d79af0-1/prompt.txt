@@ -1,0 +1,139 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Create a backup of a directory and clean the directory afterwards.
+Note that: The function will return the backup directory path and a list of errors (if any).
+The function should output with:
+    tuple: A tuple containing:
+    str: The backup directory path.
+    list: A list of any errors encountered during the operation (empty list if no errors).
+You should write self-contained code starting with:
+```
+import os
+import shutil
+# Constants
+BACKUP_DIR = '/tmp/backup'
+def get_unique_backup_dir():
+    return "/fake/backup/path"
+def task_func(directory):
+```
+FULL SUPPLIED CONTEXT
+import os
+import shutil
+# Constants
+BACKUP_DIR = '/tmp/backup'
+def get_unique_backup_dir():
+    return "/fake/backup/path"
+def task_func(directory):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(directory)` based on the requirements.
+
+## Goal
+Create a backup copy of `directory`, then clean the original directory afterward.  
+Return:
+
+- `backup_dir_path` (`str`)
+- `errors` (`list`)
+
+## Planned behavior
+
+### 1) Prepare result container
+- Initialize `errors = []`.
+- Determine a unique backup path using `get_unique_backup_dir()`.
+- If that helper returns a path that already exists, make sure the final backup path is unique before copying.
+
+### 2) Validate input
+- Check that `directory` exists.
+- Check that it is actually a directory.
+- If invalid:
+  - add an error message to `errors`
+  - return `(backup_dir_path, errors)` or a sensible fallback path if backup path cannot be determined
+
+### 3) Create the backup directory
+- Create the backup destination directory if needed.
+- Use safe directory creation logic so existing parent folders do not cause failure.
+
+### 4) Copy the directory contents
+- Copy everything from `directory` into the backup directory.
+- Preserve file metadata where appropriate.
+- Handle:
+  - files
+  - subdirectories
+  - symbolic links, if present
+- If any file fails to copy:
+  - record the error
+  - continue copying remaining items if possible, so one bad file does not abort the whole operation
+
+### 5) Clean the original directory afterward
+- After the backup attempt, remove the contents of the original directory.
+- Prefer removing only contents, not necessarily the directory itself, unless the intended definition of “clean” means delete and recreate it.
+- If removal of some entries fails:
+  - record the error
+  - continue cleaning other entries
+
+### 6) Return final result
+- Return a tuple:
+  - backup directory path as a string
+  - list of all errors encountered
+
+---
+
+## Suggested control flow
+1. Initialize `errors`
+2. Determine backup path
+3. Validate source directory
+4. Create backup destination
+5. Copy source contents to backup
+6. Clean source directory
+7. Return `(backup_path, errors)`
+
+---
+
+## Important edge cases
+
+### Invalid source path
+- `directory` does not exist
+- `directory` is not a directory
+- path is unreadable
+
+### Backup path issues
+- backup location already exists
+- no permission to create backup directory
+- backup path is invalid
+
+### Copy failures
+- permission denied on a file/subdirectory
+- file is in use
+- special files or broken symlinks
+- disk full
+- path length issues
+
+### Cleanup failures
+- permission denied while deleting source files
+- read-only files
+- files changed during operation
+- nested directory deletion errors
+
+### Partial success
+- Some files may back up successfully while others fail.
+- Some files may clean successfully while others fail.
+- The function should not crash if partial operations fail; instead, collect errors.
+
+### Non-empty destination naming
+- If the backup directory name is generated from a fixed value, ensure uniqueness to avoid overwriting previous backups.
+
+### Symbolic links
+- Decide whether to preserve symlinks as links or copy their targets.
+- Be consistent and document the behavior.
+
+---
+
+## Recommended error handling strategy
+- Catch exceptions per file/directory operation where possible.
+- Store human-readable error messages in `errors`.
+- Avoid raising unless the function is meant to be strictly fail-fast.
+- Always attempt cleanup even if some backup steps fail, unless doing so would risk data loss.
+
+---
+
+If you want, I can next turn this plan into the actual self-contained Python implementation starting from the provided scaffold.

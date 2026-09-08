@@ -1,0 +1,195 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Archive all JSON files in a given directory by moving them to a specified archive directory.
+The function should output with:
+    tuple: A tuple containing a boolean value and a list of error messages.
+    The boolean is True if all files are successfully moved, and False otherwise.
+    The list contains error messages for each file that failed to move.
+You should write self-contained code starting with:
+```
+import os
+import glob
+import shutil
+def task_func(directory, archive_dir='archive'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import glob
+import shutil
+def task_func(directory, archive_dir='archive'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function:
+
+```python
+import os
+import glob
+import shutil
+def task_func(directory, archive_dir='archive'):
+```
+
+that:
+
+- finds all JSON files in `directory`
+- moves them into `archive_dir`
+- returns a tuple:
+
+```python
+(bool, list[str])
+```
+
+where:
+
+- `bool` is `True` only if every JSON file was moved successfully
+- `list[str]` contains one error message per file that failed to move
+
+---
+
+### Implementation plan
+
+1. **Validate / normalize input paths**
+   - Accept `directory` and `archive_dir` as path strings.
+   - Optionally normalize with `os.path.abspath()` to avoid path confusion.
+   - Check whether `directory` exists and is a directory.
+   - If `directory` is invalid, return `False` with a descriptive error message.
+
+2. **Ensure the archive directory exists**
+   - Create `archive_dir` if it does not already exist.
+   - Use `os.makedirs(archive_dir, exist_ok=True)`.
+   - If creation fails, return `False` with the error message.
+
+3. **Collect JSON files**
+   - Use `glob.glob(os.path.join(directory, "*.json"))`.
+   - This should be non-recursive unless explicitly required otherwise.
+   - Filter to actual files if necessary with `os.path.isfile()`.
+
+4. **Move files one by one**
+   - For each JSON file:
+     - build destination path using `os.path.join(archive_dir, os.path.basename(file_path))`
+     - attempt `shutil.move(source, destination)`
+   - Wrap each move in `try/except` so one failure does not stop the rest.
+
+5. **Track failures**
+   - Maintain a list of error messages.
+   - For each failed move, append a message including:
+     - source file name/path
+     - exception text
+   - Continue processing remaining files.
+
+6. **Determine overall success**
+   - If the error list is empty, return `(True, [])`
+   - Otherwise return `(False, errors)`
+
+---
+
+### Important edge cases to handle
+
+1. **Source directory does not exist**
+   - Return `False` and an error message.
+   - Do not attempt file scanning.
+
+2. **Source path exists but is not a directory**
+   - Return `False` and an error message.
+
+3. **No JSON files found**
+   - This should usually count as success:
+     - nothing failed
+     - return `(True, [])`
+   - Unless you want to treat “no files found” as informational only; the task wording suggests success is fine.
+
+4. **Archive directory creation fails**
+   - For example due to permissions or invalid path.
+   - Return `False` with the error.
+
+5. **Destination file already exists**
+   - Decide a consistent policy.
+   - Safer plan: treat as a failure for that file and record an error.
+   - This avoids accidental overwrite.
+
+6. **Archive directory is inside the source directory**
+   - Since the glob pattern is only `*.json` directly under `directory`, files already inside `archive_dir` are not reprocessed.
+   - Still, destination collisions may occur if names match existing files.
+
+7. **Permission errors / locked files**
+   - Catch exceptions from `shutil.move`.
+   - Record the failure and continue with the rest.
+
+8. **Unreadable or invalid file paths**
+   - Treat as per-file failures, not fatal to the whole operation unless path setup itself is broken.
+
+9. **Case sensitivity**
+   - `*.json` may not match `.JSON` on some systems depending on platform behavior.
+   - If you need to support uppercase extensions too, you’d need to scan more broadly and check `.lower().endswith(".json")`.
+
+10. **Same source and archive directory**
+    - If `directory == archive_dir`, moving files to the same location is unnecessary and may cause errors.
+    - Best to detect and either:
+      - treat as a no-op success if files are already in place, or
+      - return `False` with a clear error.
+    - The cleaner choice is to reject this as an invalid configuration.
+
+---
+
+### Suggested behavior summary
+
+- **Success case:** all `.json` files moved, return `(True, [])`
+- **Partial failure:** some files moved, some failed, return `(False, [messages...])`
+- **Setup failure:** invalid directory or archive creation failure, return `(False, [message...])`
+
+---
+
+If you want, I can next produce the actual self-contained implementation following this plan.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import os
+import glob
+import shutil
+
+
+def task_func(directory, archive_dir='archive'):
+    errors = []
+
+    try:
+        source_dir = os.path.abspath(directory)
+    except Exception as exc:
+        return False, [f"Invalid source directory {directory!r}: {exc}"]
+
+    try:
+        archive_path = os.path.abspath(archive_dir)
+    except Exception as exc:
+        return False, [f"Invalid archive directory {archive_dir!r}: {exc}"]
+
+    if not os.path.exists(source_dir):
+        return False, [f"Source directory does not exist: {source_dir}"]
+
+    if not os.path.isdir(source_dir):
+        return False, [f"Source path is not a directory: {source_dir}"]
+
+    if source_dir == archive_path:
+        return False, ["Archive directory must be different from source directory."]
+
+    try:
+        os.makedirs(archive_path, exist_ok=True)
+    except Exception as exc:
+        return False, [f"Failed to create archive directory {archive_path}: {exc}"]
+
+    json_files = [
+        path
+        for path in glob.glob(os.path.join(source_dir, "*"))
+        if os.path.isfile(path) and path.lower().endswith(".json")
+    ]
+
+    for src in sorted(json_files):
+        dst = os.path.join(archive_path, os.path.basename(src))
+        try:
+            if os.path.exists(dst):
+                raise FileExistsError(f"Destination file already exists: {dst}")
+            shutil.move(src, dst)
+        except Exception as exc:
+            errors.append(f"Failed to move {src} -> {dst}: {exc}")
+
+    return len(errors) == 0, errors
+```

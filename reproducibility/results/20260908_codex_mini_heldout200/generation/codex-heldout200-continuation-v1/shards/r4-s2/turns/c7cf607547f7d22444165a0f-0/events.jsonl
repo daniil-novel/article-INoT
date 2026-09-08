@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f0a-046c-7dc1-a192-62c5dfe57186"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nfrom bs4 import BeautifulSoup\nimport requests\n\n# Constants\nURL = \"http://example.com\"\n\n\ndef task_func(url=URL, from_encoding=\"cp1251\", use_lxml=False):\n    if not url or not isinstance(url, str) or not url.strip():\n        return None\n\n    try:\n        response = requests.get(url)\n\n        if response.status_code != 200:\n            return None\n\n        decoded_html = response.content.decode(from_encoding)\n        parser = \"lxml\" if use_lxml else \"html.parser\"\n        return BeautifulSoup(decoded_html, parser)\n    except Exception:\n        return None\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":3079,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":1170,"reasoning_output_tokens":1034}}

@@ -1,0 +1,127 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Read a CSV file, convert a column of date strings into datetime objects, and draw a histogram of the year distribution of these dates.
+The function should output with:
+    matplotlib.axes._axes.Axes: A histogram plot object showing the distribution of years.
+You should write self-contained code starting with:
+```
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date')` that reads a CSV, parses dates, and returns a histogram `Axes` of the year distribution.
+
+## Implementation plan
+
+### 1. Load the CSV
+- Use `pandas.read_csv(csv_path)` to load the file into a DataFrame.
+- Validate that `date_column` exists in the DataFrame.
+  - If missing, raise a clear `KeyError` or `ValueError` with the column name.
+
+### 2. Convert the date column to datetime
+- Apply parsing to the specified column using `dateutil.parser.parse`.
+- Recommended approach:
+  - Convert each non-null value with a helper function that:
+    - Accepts strings, timestamps, or date-like values.
+    - Returns a `pd.Timestamp` or `datetime.datetime`.
+    - Handles invalid values safely.
+- Use `errors='coerce'`-like behavior manually:
+  - Invalid/unparseable date strings should become `NaT` / `None` and be excluded from the histogram.
+
+### 3. Extract the year values
+- From the parsed datetime series, extract `.dt.year`.
+- Drop missing years caused by invalid or missing dates.
+- Optionally cast to integer for cleaner plotting.
+
+### 4. Create the histogram
+- Use Matplotlib to create a figure/axes pair:
+  - `fig, ax = plt.subplots()`
+- Plot the year distribution on `ax`:
+  - Use `ax.hist(years, bins=...)`
+- Choose bins appropriately:
+  - For integer years, bins should align with years.
+  - A good default is one bin per year range, e.g. `range(min_year, max_year + 2)`.
+- Label axes:
+  - x-axis: `Year`
+  - y-axis: `Count`
+  - title: something like `Distribution of Years`
+
+### 5. Return the `Axes`
+- Return the `ax` object, not the figure.
+- This matches the requested output type: `matplotlib.axes._axes.Axes`.
+
+---
+
+## Edge cases to handle
+
+### Missing file or unreadable CSV
+- If the CSV path does not exist or cannot be read:
+  - Let `pandas.read_csv` raise naturally, or catch and raise a clearer error.
+
+### Missing date column
+- If `date_column` is absent:
+  - Raise an explicit error before parsing.
+
+### Empty CSV or empty date column
+- If the DataFrame is empty or all date values are missing/unparseable:
+  - Still return an empty histogram axes.
+  - Optionally display a message like “No valid dates found”.
+
+### Invalid date strings
+- Examples: `"abc"`, `"2023-13-40"`, malformed text.
+- These should not crash the function.
+- Skip or coerce them out of the year list.
+
+### Mixed data types in the date column
+- The column may contain:
+  - Strings
+  - `datetime` objects
+  - `NaN`
+  - Integers or other types
+- Parsing helper should be robust to all of these.
+
+### Timezone-aware values
+- If some parsed values are timezone-aware and others are naive:
+  - Normalize them before extracting the year.
+- Year extraction should still work as long as values are converted to datetime-like objects.
+
+### Very small year range
+- If only one year is present:
+  - Ensure histogram still renders with a sensible bin setup.
+
+### Large date range
+- If the data spans many years:
+  - Use integer year bins so the histogram remains interpretable.
+
+---
+
+## Suggested helper logic
+
+A clean internal flow would be:
+
+1. Read CSV.
+2. Verify column exists.
+3. Parse each entry in `date_column` using `parse`.
+4. Store parsed datetimes in a new column or series.
+5. Extract years and drop missing values.
+6. Plot histogram with year-aligned bins.
+7. Return the `Axes`.
+
+---
+
+## Output behavior
+- The function should be self-contained.
+- It should start exactly with the provided imports and signature.
+- The return value must be a Matplotlib `Axes` object containing the histogram.
+
+If you want, I can also turn this plan into the full implementation code.

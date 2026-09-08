@@ -1,0 +1,189 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Extracts and visualizes numerical data from a JSON structure based on a specified path of keys.
+The function should raise the exception for: KeyError: If a specified key is not found. ValueError: If no numeric data is found, or the data string is empty or corrupted.
+The function should output with:
+    matplotlib.figure.Figure: A matplotlib figure showing a boxplot of the data values.
+You should write self-contained code starting with:
+```
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+def task_func(json_data: str, key_path: list):
+```
+FULL SUPPLIED CONTEXT
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+def task_func(json_data: str, key_path: list):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(json_data: str, key_path: list)`.
+
+## Goal
+- Parse a JSON string.
+- Traverse the JSON object along `key_path`.
+- Extract numeric values from the target node.
+- Plot those values as a **boxplot**.
+- Return a `matplotlib.figure.Figure`.
+
+## Planned behavior
+
+### 1) Validate and parse input JSON
+- If `json_data` is empty or only whitespace, raise `ValueError`.
+- Use `json.loads(json_data)` to parse.
+- If parsing fails (`JSONDecodeError`), raise `ValueError` for corrupted JSON.
+
+### 2) Traverse the JSON by `key_path`
+- Start from the parsed root object.
+- For each key in `key_path`:
+  - Require the current object to be a `dict`.
+  - If the key is missing, raise `KeyError`.
+  - Move to `current = current[key]`.
+- If `key_path` is empty:
+  - Use the root object directly as the data source.
+
+### 3) Extract numeric values
+- Recursively collect numeric data from the target node.
+- Accept:
+  - `int`
+  - `float`
+- Exclude `bool` values explicitly, since `bool` is a subclass of `int` in Python.
+- If the node is:
+  - a list/tuple: recurse into elements
+  - a dict: recurse into values
+  - a scalar number: collect it
+  - anything else: ignore it
+- After collection:
+  - If no numeric values were found, raise `ValueError`.
+
+### 4) Create the boxplot
+- Build a figure using `matplotlib`.
+- Use either:
+  - `plt.boxplot(values)`, or
+  - `seaborn.boxplot(y=values)`
+- Set a title/axis labels for clarity.
+- Return the figure object.
+
+---
+
+## Edge cases to handle
+
+### Input-related
+- **Empty string / whitespace-only JSON**
+  - Raise `ValueError`
+- **Invalid JSON syntax**
+  - Raise `ValueError`
+- **`key_path` is not usable**
+  - If the structure cannot be traversed as dicts, raise `KeyError` when a required key is missing or the path is invalid.
+
+### Traversal-related
+- **Missing key in the path**
+  - Raise `KeyError`
+- **Intermediate node is not a dict**
+  - Raise `KeyError` because the specified path cannot continue
+- **Empty `key_path`**
+  - Treat the root JSON object as the target
+
+### Data-related
+- **No numeric data at target location**
+  - Raise `ValueError`
+- **Mixed types**
+  - Extract only numeric entries, ignore non-numeric ones
+- **Booleans in the data**
+  - Do not treat `True`/`False` as numeric values
+- **Nested lists/dicts**
+  - Recursively search them for numbers
+- **Single numeric value**
+  - Still plot it; boxplot should work with one value
+- **NaN / Infinity**
+  - Best to exclude them from numeric data to avoid invalid plots
+
+---
+
+## Suggested implementation structure
+1. Parse JSON with error handling.
+2. Traverse to the target node using `key_path`.
+3. Recursively collect numeric values from the node.
+4. Validate that at least one numeric value exists.
+5. Create and return the boxplot figure.
+
+---
+
+## Notes / assumptions
+- The phrase “specified path of keys” strongly suggests dictionary-key traversal, not list indexing.
+- If you want list indices to be supported too, that should be added explicitly; otherwise, treat non-dict traversal as invalid for the key path.
+- The output should be a `matplotlib.figure.Figure`, not shown automatically unless the caller does so.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import json
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+def task_func(json_data: str, key_path: list):
+    """
+    Extract numeric values from a JSON structure at the specified key path
+    and return a matplotlib Figure containing a boxplot.
+
+    Raises:
+        ValueError: If JSON is empty/corrupted, or no numeric data is found.
+        KeyError: If a specified key is missing or the path cannot be traversed.
+    """
+    if json_data is None or not isinstance(json_data, str) or not json_data.strip():
+        raise ValueError("JSON data is empty or invalid.")
+
+    try:
+        data = json.loads(json_data)
+    except json.JSONDecodeError as e:
+        raise ValueError("JSON data is corrupted or invalid.") from e
+
+    if key_path is None:
+        key_path = []
+
+    current = data
+    for key in key_path:
+        if not isinstance(current, dict):
+            raise KeyError(f"Cannot traverse key '{key}' through a non-dict object.")
+        if key not in current:
+            raise KeyError(f"Key '{key}' not found.")
+        current = current[key]
+
+    def collect_numeric(obj):
+        values = []
+
+        if isinstance(obj, dict):
+            for v in obj.values():
+                values.extend(collect_numeric(v))
+        elif isinstance(obj, (list, tuple)):
+            for item in obj:
+                values.extend(collect_numeric(item))
+        else:
+            is_number = isinstance(obj, (int, float, np.number)) and not isinstance(obj, (bool, np.bool_))
+            if is_number:
+                val = float(obj)
+                if np.isfinite(val):
+                    values.append(val)
+
+        return values
+
+    values = collect_numeric(current)
+
+    if not values:
+        raise ValueError("No numeric data found at the specified path.")
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+    sns.boxplot(x=values, ax=ax, color="skyblue")
+    ax.set_title("Boxplot of Extracted Numeric Data")
+    ax.set_xlabel("Values")
+    ax.set_yticks([])
+
+    plt.tight_layout()
+    return fig
+```

@@ -1,0 +1,16 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generates a random walk of a specified length. A random walk is a path that consists of a series of random steps on some mathematical space. In this case, the steps are either +1 or -1, chosen with equal probability.
+The function should raise the exception for: ValueError: If `length` is negative.
+The function should output with:
+    np.array: A numpy array representing the positions of the walk at each step. Starts at 0.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+def task_func(length=10000, seed=0):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+def task_func(length=10000, seed=0):

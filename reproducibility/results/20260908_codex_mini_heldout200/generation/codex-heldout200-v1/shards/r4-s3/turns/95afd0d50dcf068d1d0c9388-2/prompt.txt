@@ -1,0 +1,105 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generates a numpy array of random samples drawn from a normal distribution and plots the histogram of these samples. This function specifies the mean (mu), standard deviation (sigma), and sample size (sample_size), making it useful for simulating data, conducting statistical experiments, or initializing algorithms that require normally distributed data with visualization.
+Note that: Notes: Plots a histogram of the generated samples to show the distribution. The histogram features: X-axis labeled "Sample values", representing the value of the samples. Y-axis labeled "Frequency", showing how often each value occurs. Title "Histogram of Generated Samples", describing the content of the graph. Number of bins set to 30, to discretize the sample data into 30 intervals. Alpha value of 0.75 for bin transparency, making the histogram semi-transparent. Color 'blue', giving the histogram a blue color.
+The function should output with:
+    ndarray: A numpy array of shape (sample_size,) containing samples drawn from the
+    specified normal distribution.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(mu, sigma, sample_size):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(mu, sigma, sample_size):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(mu, sigma, sample_size)`:
+
+1. **Generate random samples**
+   - Use `np.random.normal(loc=mu, scale=sigma, size=sample_size)` to create a NumPy array of samples from a normal distribution.
+   - Ensure the returned object is a NumPy `ndarray` with shape `(sample_size,)`.
+
+2. **Plot the histogram**
+   - Create a histogram of the generated samples using `plt.hist(...)`.
+   - Use the required settings:
+     - `bins=30`
+     - `alpha=0.75`
+     - `color='blue'`
+   - Add axis labels:
+     - X-axis: `"Sample values"`
+     - Y-axis: `"Frequency"`
+   - Add title:
+     - `"Histogram of Generated Samples"`
+
+3. **Display the plot**
+   - Call `plt.show()` so the histogram is rendered.
+
+4. **Return the data**
+   - Return the generated NumPy array so the function output matches the required `ndarray` type.
+
+## Edge cases to consider
+
+- **`sample_size = 0`**
+  - `np.random.normal(..., size=0)` should return an empty array.
+  - The histogram will be empty but should still be valid.
+
+- **`sample_size` is not an integer**
+  - If a float or non-integer is passed, NumPy may raise an error or behave unexpectedly.
+  - Best practice: validate that `sample_size` is an integer or can be safely converted to one.
+
+- **Negative `sample_size`**
+  - Invalid; should raise a clear error before calling NumPy.
+
+- **`sigma < 0`**
+  - Invalid standard deviation; NumPy raises an error.
+  - Should be validated explicitly.
+
+- **`sigma = 0`**
+  - Produces all samples equal to `mu`.
+  - Histogram will collapse to a single value, which is still valid.
+
+- **Non-numeric `mu` or `sigma`**
+  - Should be rejected or allowed to fail naturally through NumPy.
+  - Prefer explicit validation if robustness is desired.
+
+- **Very large `sample_size`**
+  - May consume significant memory and make plotting slow.
+  - The function should still work, but performance should be noted.
+
+## Expected behavior summary
+- Input: `mu`, `sigma`, `sample_size`
+- Output: `ndarray` of shape `(sample_size,)`
+- Side effect: displays a histogram with the specified formatting
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import matplotlib.pyplot as plt
+
+def task_func(mu, sigma, sample_size):
+    if sigma < 0:
+        raise ValueError("sigma must be non-negative")
+
+    if isinstance(sample_size, bool):
+        raise TypeError("sample_size must be an integer")
+
+    if not float(sample_size).is_integer():
+        raise ValueError("sample_size must be an integer")
+
+    sample_size = int(sample_size)
+
+    if sample_size < 0:
+        raise ValueError("sample_size must be non-negative")
+
+    samples = np.random.normal(loc=mu, scale=sigma, size=sample_size)
+
+    plt.hist(samples, bins=30, alpha=0.75, color="blue")
+    plt.xlabel("Sample values")
+    plt.ylabel("Frequency")
+    plt.title("Histogram of Generated Samples")
+    plt.show()
+
+    return samples

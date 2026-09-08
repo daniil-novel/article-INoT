@@ -1,0 +1,20 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Perform exploratory data analysis on a dataframe. This function converts the 'date' column to an ordinal format, creates a correlation matrix, and generates a pair plot of the dataframe. The title of the plot is 'Correlation Matrix'.
+The function should raise the exception for: ValueError: If the dataframe is empty, if required columns are missing, or if 'date' column is not in datetime format.
+The function should output with:
+    matplotlib.figure.Figure: The figure object for the correlation matrix heatmap.
+    seaborn.axisgrid.PairGrid: The PairGrid object for the pair plot.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+def task_func(df):

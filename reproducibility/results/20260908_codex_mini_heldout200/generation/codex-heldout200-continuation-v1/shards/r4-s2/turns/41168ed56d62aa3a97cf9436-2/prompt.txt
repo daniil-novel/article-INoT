@@ -1,0 +1,130 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a report on students' grades in a class, including a count of each grade out of all possible grades and a bar chart. Note: Grades are case-insensitive but whitespace-sensitive. Those not in possible grades are ignored.
+The function should output with:
+    Tuple[DataFrame, Axes]:
+    A pandas DataFrame with 'Grade' as the named index and their 'Count' as values.
+    A bar chart plot (matplotlib's Axes object) visualizing 'Grade Distribution', with 'Grade' on the
+    x-axis and 'Number of Students' on the y-axis.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
+def task_func(student_grades, possible_grades=["A", "B", "C", "D", "F"]):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
+def task_func(student_grades, possible_grades=["A", "B", "C", "D", "F"]):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Normalize the set of valid grades**
+   - Treat matching as **case-insensitive**:
+     - Compare grades using something like `lower()` or `casefold()`.
+   - Treat matching as **whitespace-sensitive**:
+     - Do **not** use `.strip()`.
+     - `"A"` and `" A"` must be considered different.
+   - Build a lookup from normalized possible grades to their canonical display form.
+
+2. **Count only valid student grades**
+   - Iterate through `student_grades`.
+   - For each grade:
+     - Normalize case only.
+     - If it matches one of the possible grades, count it.
+     - Otherwise ignore it.
+   - Use `Counter` for counting.
+
+3. **Ensure all possible grades appear in the report**
+   - Even if a grade has zero students, include it in the result.
+   - Preserve the order of `possible_grades` in the output.
+
+4. **Build the pandas DataFrame**
+   - Create a DataFrame with:
+     - index = grade labels
+     - one column named `Count`
+   - Set the index name to `"Grade"` so the result is a DataFrame with a named index.
+   - Counts should be integers.
+
+5. **Create the bar chart**
+   - Use matplotlib to plot a bar chart from the same grade/count data.
+   - Set:
+     - title: `"Grade Distribution"`
+     - x-axis label: `"Grade"`
+     - y-axis label: `"Number of Students"`
+   - Return the `Axes` object, not the figure.
+
+6. **Return value**
+   - Return a tuple:
+     - `(dataframe, axes)`
+
+Edge cases to handle:
+
+- **Empty `student_grades`**
+  - Return all possible grades with count `0`.
+
+- **Grades with different capitalization**
+  - `"a"`, `"A"`, `"a"` should all count as `"A"`.
+
+- **Grades containing whitespace**
+  - `"A "` or `" B"` should **not** match `"A"` or `"B"` because whitespace is significant.
+
+- **Invalid grades**
+  - Values not in `possible_grades` should be ignored completely.
+
+- **Duplicate entries in `possible_grades`**
+  - Ideally deduplicate while preserving order, or ensure counts are written once per canonical grade.
+
+- **Non-string inputs**
+  - If present, decide whether to ignore them or convert to string consistently.
+  - Safest plan: only count values that can be meaningfully compared as strings, while avoiding unintended stripping.
+
+If you want, I can also turn this plan into the full implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
+
+def task_func(student_grades, possible_grades=["A", "B", "C", "D", "F"]):
+    # Build a case-insensitive lookup for valid grades while preserving
+    # the first canonical display form and the original order.
+    canonical_grades = []
+    normalized_to_canonical = {}
+    for grade in possible_grades:
+        if not isinstance(grade, str):
+            grade = str(grade)
+        normalized = grade.casefold()
+        if normalized not in normalized_to_canonical:
+            normalized_to_canonical[normalized] = grade
+            canonical_grades.append(grade)
+
+    # Count only valid grades from student_grades, case-insensitively.
+    counts = Counter()
+    for grade in student_grades:
+        if not isinstance(grade, str):
+            continue
+        normalized = grade.casefold()
+        if normalized in normalized_to_canonical:
+            counts[normalized_to_canonical[normalized]] += 1
+
+    # Ensure all possible grades appear, even with zero count.
+    data = {
+        "Count": [int(counts.get(grade, 0)) for grade in canonical_grades]
+    }
+    df = pd.DataFrame(data, index=canonical_grades)
+    df.index.name = "Grade"
+
+    # Create the bar chart.
+    fig, ax = plt.subplots()
+    ax.bar(df.index.tolist(), df["Count"].tolist())
+    ax.set_title("Grade Distribution")
+    ax.set_xlabel("Grade")
+    ax.set_ylabel("Number of Students")
+
+    return df, ax
+```

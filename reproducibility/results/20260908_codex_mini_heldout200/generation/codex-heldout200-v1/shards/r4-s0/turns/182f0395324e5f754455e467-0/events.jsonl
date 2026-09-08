@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ebb-18e8-7392-924b-7b04923efa8c"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport re\nimport numpy as np\nfrom scipy.stats import ttest_rel\ndef task_func(text1, text2):\n    words1 = re.findall(r\"\\b\\w+\\b\", text1)\n    words2 = re.findall(r\"\\b\\w+\\b\", text2)\n\n    if len(words1) != len(words2) or len(words1) == 0:\n        return np.nan, np.nan\n\n    lengths1 = np.array([len(word) for word in words1], dtype=float)\n    lengths2 = np.array([len(word) for word in words2], dtype=float)\n\n    result = ttest_rel(lengths1, lengths2)\n    return float(result.statistic), float(result.pvalue)\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2659,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":952,"reasoning_output_tokens":792}}

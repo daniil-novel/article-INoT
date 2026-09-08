@@ -1,0 +1,206 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Analyzes numerical data from a CSV file. The function reads the CSV file, converts string representations of numbers with commas into floating point numbers, calculates the mean and standard deviation for each numerical column, generates a histogram plot for each numerical column, and performs an ANOVA test to check the statistical significance of differences between means of numerical columns (if applicable).
+Note that: The function assumes that all columns in the CSV file contain numerical data or string representations of numerical data. The ANOVA test is only performed if there are two or more numerical columns. Compute two columns "F-value" and "P-value" for each pair of numerical columns.
+The function should output with:
+    means (pd.Series): Mean values of each numerical column.
+    std_devs (pd.Series): Standard deviation values of each numerical column.
+    axes (list[matplotlib.axes.Axes]): List of histogram plots for each numerical column.
+    anova_results (pd.DataFrame): ANOVA test results for each pair of numerical columns (if more than one numerical column is present).
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.feature_selection import f_oneway
+def task_func(data_file_path: str):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.feature_selection import f_oneway
+def task_func(data_file_path: str):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(data_file_path: str)`:
+
+### 1) Read the CSV
+- Load the file into a `pandas.DataFrame` with `pd.read_csv(data_file_path)`.
+- Assume every column should represent numeric data, either already numeric or stored as strings.
+
+### 2) Normalize and convert all columns to numeric
+For each column:
+- Convert values to strings if needed.
+- Replace comma decimal separators with dots, e.g. `"12,5"` → `"12.5"`.
+- Strip surrounding whitespace.
+- Apply `pd.to_numeric(..., errors="coerce")` so invalid entries become `NaN`.
+
+This yields a cleaned numeric DataFrame suitable for statistics and plotting.
+
+### 3) Identify numerical columns
+- Since the task assumes all columns are numeric-like, treat all successfully converted columns as numerical columns.
+- Keep columns even if some entries became `NaN`; `pandas` will ignore them in mean/std calculations.
+
+### 4) Compute summary statistics
+- Compute column-wise:
+  - `means = numeric_df.mean()`
+  - `std_devs = numeric_df.std()`
+- These should be returned as `pd.Series`.
+
+### 5) Generate histogram plots
+- Create one histogram per numerical column.
+- Best approach:
+  - Create a Matplotlib figure with one subplot per column.
+  - Plot each cleaned column’s non-NaN values using `ax.hist(...)`.
+- Return the list of axes objects in the same order as the columns.
+
+### 6) Perform pairwise ANOVA tests
+- Only run ANOVA if there are at least 2 numerical columns.
+- Compute results for each pair of columns using combinations of column names.
+- For each pair:
+  - Drop missing values from both series.
+  - Run one-way ANOVA.
+  - Store:
+    - the two column names,
+    - `"F-value"`,
+    - `"P-value"`.
+
+- Return the results as a `pd.DataFrame`.
+
+### 7) Output structure
+Return:
+- `means` (`pd.Series`)
+- `std_devs` (`pd.Series`)
+- `axes` (`list[matplotlib.axes.Axes]`)
+- `anova_results` (`pd.DataFrame`)
+
+---
+
+## Edge cases to handle
+
+### A) Comma-formatted numbers
+- Values like `"3,14"` should be converted to `3.14`.
+- Be careful not to break already valid numbers.
+
+### B) Missing or invalid values
+- If a cell cannot be parsed as a number, convert it to `NaN`.
+- Means/std devs should ignore `NaN`.
+- Histograms should use only valid numeric values.
+
+### C) Columns with all invalid values
+- A column may become entirely `NaN` after conversion.
+- In that case:
+  - mean and std dev will be `NaN`,
+  - histogram will be empty or should be handled gracefully,
+  - ANOVA involving that column should either be skipped or return `NaN` results.
+
+### D) Too few valid observations for ANOVA
+- ANOVA requires enough data in each group.
+- If a pair has no valid observations or only one valid point in a group, return `NaN` for F and P or skip safely.
+
+### E) Constant columns
+- If a column has zero variance, ANOVA may produce warnings or degenerate results.
+- Handle without crashing; return whatever the statistical function yields, or `NaN` if it fails.
+
+### F) One numerical column only
+- Still compute mean, std dev, and histogram.
+- Return an empty ANOVA DataFrame.
+
+### G) Empty CSV
+- If the file has no usable rows/columns, return empty or all-`NaN` outputs consistently and avoid plotting failures.
+
+---
+
+## Suggested result schema for ANOVA DataFrame
+Use columns like:
+- `Column 1`
+- `Column 2`
+- `F-value`
+- `P-value`
+
+One row per pair of numerical columns.
+
+If you want, I can also turn this plan into the exact self-contained function implementation matching the required import/header.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+from itertools import combinations
+
+try:
+    from scipy.stats import f_oneway
+except Exception:  # pragma: no cover
+    f_oneway = None
+
+
+def task_func(data_file_path: str):
+    try:
+        df = pd.read_csv(data_file_path)
+    except pd.errors.EmptyDataError:
+        df = pd.DataFrame()
+
+    def _to_numeric(series: pd.Series) -> pd.Series:
+        return pd.to_numeric(
+            series.astype(str).str.strip().str.replace(",", ".", regex=False),
+            errors="coerce",
+        )
+
+    numeric_df = df.apply(_to_numeric) if not df.empty or len(df.columns) > 0 else pd.DataFrame()
+
+    means = numeric_df.mean() if not numeric_df.empty or len(numeric_df.columns) > 0 else pd.Series(dtype=float)
+    std_devs = numeric_df.std() if not numeric_df.empty or len(numeric_df.columns) > 0 else pd.Series(dtype=float)
+
+    axes = []
+    if len(numeric_df.columns) > 0:
+        fig, axes_arr = plt.subplots(
+            nrows=len(numeric_df.columns),
+            ncols=1,
+            figsize=(8, 4 * len(numeric_df.columns)),
+            squeeze=False,
+        )
+        axes = list(axes_arr.ravel())
+
+        for ax, col in zip(axes, numeric_df.columns):
+            values = numeric_df[col].dropna().to_numpy()
+            if values.size > 0:
+                bins = min(10, max(1, values.size))
+                ax.hist(values, bins=bins, edgecolor="black")
+            ax.set_title(f"Histogram of {col}")
+            ax.set_xlabel(col)
+            ax.set_ylabel("Frequency")
+    else:
+        axes = []
+
+    anova_rows = []
+    columns = list(numeric_df.columns)
+    if len(columns) >= 2:
+        for col1, col2 in combinations(columns, 2):
+            x = numeric_df[col1].dropna()
+            y = numeric_df[col2].dropna()
+
+            f_value = float("nan")
+            p_value = float("nan")
+
+            if len(x) >= 2 and len(y) >= 2 and f_oneway is not None:
+                try:
+                    with warnings.catch_warnings():
+                        warnings.simplefilter("ignore")
+                        res = f_oneway(x, y)
+                    f_value = float(res.statistic)
+                    p_value = float(res.pvalue)
+                except Exception:
+                    f_value = float("nan")
+                    p_value = float("nan")
+
+            anova_rows.append(
+                {
+                    "Column 1": col1,
+                    "Column 2": col2,
+                    "F-value": f_value,
+                    "P-value": p_value,
+                }
+            )
+
+    anova_results = pd.DataFrame(anova_rows, columns=["Column 1", "Column 2", "F-value", "P-value"])
+
+    return means, std_devs, axes, anova_results
+```

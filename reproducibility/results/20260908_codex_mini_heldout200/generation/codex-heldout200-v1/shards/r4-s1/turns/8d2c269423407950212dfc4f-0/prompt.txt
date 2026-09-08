@@ -1,0 +1,16 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Read a YAML file, apply the cosine to a specific key from the data, and then write the modified data back into the YAML file.
+The function should output with:
+    data (dict): A dictionary representation of the modified YAML data.
+You should write self-contained code starting with:
+```
+import math
+import yaml
+def task_func(yaml_path, key):
+```
+FULL SUPPLIED CONTEXT
+import math
+import yaml
+def task_func(yaml_path, key):

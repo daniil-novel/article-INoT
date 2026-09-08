@@ -1,0 +1,135 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Merge two dataframes based on the 'id' column, perform a chi-square independence test on the merged dataframe, and draw a heatmap of the contingency table created from the features in column1, column2.
+The function should output with:
+    tuple: A tuple containing:
+    p (float): The p-value of the Chi-Squared test.
+    heatmap (matplotlib.pyplot.Axes): Seaborn heatmap of the contingency table.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+from scipy.stats import chi2_contingency
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+```
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+from scipy.stats import chi2_contingency
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(df1, df2, column1="feature1", column2="feature2")`.
+
+## Goal
+- Merge `df1` and `df2` on the `id` column.
+- Build a contingency table from `column1` and `column2`.
+- Run a chi-square independence test on that contingency table.
+- Draw a seaborn heatmap of the contingency table.
+- Return:
+  - `p`: the chi-square test p-value
+  - `heatmap`: the matplotlib Axes object from seaborn
+
+---
+
+## Implementation Plan
+
+### 1. Validate inputs
+- Confirm both inputs are DataFrames.
+- Confirm both dataframes contain the `id` column.
+- Confirm `column1` exists in `df1` and `column2` exists in `df2` after merge or in the merged result depending on naming behavior.
+- If any required column is missing, raise a clear `KeyError` or `ValueError`.
+
+### 2. Merge the dataframes
+- Perform an inner join on `id` so only rows present in both dataframes are kept.
+- Use suffixes if needed to avoid column name collisions.
+- After merging, ensure the target columns are accessible:
+  - `column1` should come from `df1`
+  - `column2` should come from `df2`
+- If the merge results in zero rows, handle this as an invalid case.
+
+### 3. Prepare the contingency table
+- Create a contingency table using `pd.crosstab(merged[column1], merged[column2])`.
+- This produces counts for each combination of the two categorical features.
+
+### 4. Handle chi-square edge conditions
+Before calling `chi2_contingency`, check whether the contingency table is suitable:
+- At least 2 rows and 2 columns are needed for a meaningful independence test.
+- If the table has only one row or one column, chi-square is not valid.
+- If all counts are zero or the table is empty, the test cannot be computed.
+
+### 5. Run chi-square test
+- Call `chi2_contingency(contingency_table)`.
+- Capture the p-value from the returned result.
+- Ignore the statistic/dof/expected frequencies unless needed internally.
+
+### 6. Plot heatmap
+- Use `sns.heatmap(contingency_table, annot=True, fmt="d", cmap=...)`.
+- Store the returned Axes object.
+- Optionally set labels/title for readability:
+  - title like `"Contingency Table Heatmap"`
+  - x-label = `column2`
+  - y-label = `column1`
+
+### 7. Return results
+- Return a tuple:
+  - first element: `p` as a float
+  - second element: the heatmap Axes object
+
+---
+
+## Edge Cases to Handle
+
+### Missing columns
+- `id` missing in either dataframe.
+- `column1` missing in `df1`.
+- `column2` missing in `df2`.
+
+### Empty merge result
+- No matching `id` values between dataframes.
+- Return should not attempt chi-square on an empty table.
+
+### Non-categorical data
+- Chi-square and crosstab are most appropriate for categorical-like values.
+- If values are numeric but discrete, they still work.
+- If values are continuous, contingency table may become too sparse or nearly one row per value; document this limitation.
+
+### Single-category data
+- If `column1` or `column2` has only one unique value after merge, chi-square cannot test independence properly.
+- Need to raise an error or return a safe fallback.
+
+### Missing values
+- `NaN` values in either target column may create incomplete categories.
+- Decide whether to:
+  - let `crosstab` drop them implicitly, or
+  - explicitly drop rows with missing values before building the table.
+- Best practice: drop rows with missing values in the two target columns before crosstab.
+
+### Duplicate ids
+- If either dataframe contains repeated `id` values, merge may create duplicated combinations.
+- This is acceptable if intended, but it can inflate counts.
+- If uniqueness is required, the function should document that behavior or validate uniqueness.
+
+### Sparse tables / low expected counts
+- Chi-square assumptions may be violated when counts are too small.
+- The test still runs, but p-value interpretation may be unreliable.
+- No need to block execution, but this should be noted.
+
+---
+
+## Expected Output Behavior
+- `p` should be a plain float.
+- `heatmap` should be the Axes returned by seaborn, not a figure.
+- The function should not print anything unless explicitly desired.
+- The returned heatmap should reflect the contingency table from the merged data.
+
+---
+
+## Suggested Internal Flow
+1. Merge on `id`
+2. Drop missing values in the two relevant columns
+3. Create crosstab
+4. Validate crosstab shape
+5. Run `chi2_contingency`
+6. Plot heatmap
+7. Return `(p, ax)`
+
+If you want, I can also provide the actual self-contained implementation next.

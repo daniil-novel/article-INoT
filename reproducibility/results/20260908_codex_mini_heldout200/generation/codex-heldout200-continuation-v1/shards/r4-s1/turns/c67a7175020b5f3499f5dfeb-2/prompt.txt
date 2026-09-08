@@ -1,0 +1,186 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Merge datasets, perform KMeans clustering, then return cluster labels and scatterplot. Each dataset is assumed to contain at least one id column and one feature column. The column to process is specified for df1 and df2 via column1 and column2, respectively. KMeans clustering is applied with k=2 and n_init=10. Resulting scatterplot shows column1 on the x-axis, column2 on the y-axis, and predicted cluster as color.
+The function should output with:
+    labels (numpy.ndarray): Cluster labels for each data point (dtype=int32).
+    ax (matplotlib.axes._axes.Axes): The plotted figure's Axes object.
+You should write self-contained code starting with:
+```
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+```
+FULL SUPPLIED CONTEXT
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is a clear implementation plan for `task_func(df1, df2, column1="feature1", column2="feature2")`:
+
+## Goal
+- Merge `df1` and `df2`
+- Extract the two specified feature columns
+- Run `KMeans(n_clusters=2, n_init=10)`
+- Return:
+  - `labels`: cluster assignments as `numpy.ndarray` with `dtype=int32`
+  - `ax`: Matplotlib `Axes` with a scatterplot of `column1` vs `column2`, colored by cluster
+
+---
+
+## Proposed implementation steps
+
+### 1. Identify the join key
+- Each dataset is assumed to contain at least one id column.
+- Since only feature column names are provided, the function should automatically determine the id column(s).
+- Best approach:
+  - Find common column names between `df1` and `df2`
+  - Exclude `column1` and `column2` from the candidate join keys
+  - Use the remaining common id-like column(s) to merge
+- If multiple common id columns exist, merge on all of them to preserve alignment.
+
+### 2. Merge datasets
+- Perform an inner merge so only rows present in both datasets are used.
+- This is the safest choice for clustering, because KMeans requires aligned paired observations.
+- Keep only the columns needed for clustering and plotting:
+  - `column1` from `df1`
+  - `column2` from `df2`
+  - plus join keys used for alignment
+
+### 3. Validate required columns
+- Confirm that:
+  - `column1` exists in `df1`
+  - `column2` exists in `df2`
+- If either is missing, raise a clear error.
+- Also validate that a valid merge key exists between the two dataframes.
+
+### 4. Clean the merged data
+- Select the two feature columns after merge.
+- Ensure they are numeric.
+- Handle missing values:
+  - Either drop rows with NaN in either feature column
+  - or raise an error if missing data is not acceptable
+- For clustering, drop or reject rows with infinite values as well.
+
+### 5. Build the clustering matrix
+- Construct a 2D NumPy array with shape `(n_samples, 2)`:
+  - first column = `column1`
+  - second column = `column2`
+- Use this matrix as input to KMeans.
+
+### 6. Run KMeans
+- Use:
+  - `KMeans(n_clusters=2, n_init=10)`
+- Fit on the 2D feature matrix.
+- Extract labels from `fit_predict` or `fit(...).labels_`.
+- Cast labels to `np.int32`.
+
+### 7. Create the scatterplot
+- Create a Matplotlib figure and axes if one does not already exist.
+- Plot:
+  - x-axis: `column1`
+  - y-axis: `column2`
+  - color: predicted cluster labels
+- Use a scatterplot with a colormap suitable for 2 clusters.
+- Add axis labels and optionally a title.
+
+### 8. Return outputs
+- Return:
+  - `labels` as `np.ndarray(dtype=np.int32)`
+  - `ax` as the plotted Matplotlib Axes object
+
+---
+
+## Edge cases to handle
+
+### Missing feature columns
+- If `column1` is not in `df1` or `column2` is not in `df2`, fail fast with a helpful message.
+
+### No common id column
+- If there is no shared id-like column to merge on, the function should raise an error.
+- Do not guess a merge key silently.
+
+### Multiple candidate id columns
+- If multiple shared non-feature columns exist, merge on all of them to avoid accidental mismatches.
+- Be careful not to include feature columns in the merge keys.
+
+### Duplicate ids
+- Duplicate ids in either dataframe may create many-to-many merges and inflate rows unexpectedly.
+- The function should either:
+  - allow it explicitly, or
+  - deduplicate / warn / validate uniqueness before merging
+- Safer behavior is to detect many-to-many expansion and reject it if unintended.
+
+### Missing values after merge
+- Rows with NaNs in either feature column cannot be used for KMeans.
+- Drop them before clustering, or raise an informative error.
+
+### Non-numeric values
+- If feature columns contain strings or mixed types, clustering will fail.
+- Convert or validate that both columns are numeric.
+
+### Too few rows
+- KMeans with `k=2` requires at least 2 samples.
+- If fewer than 2 valid rows remain after merge/cleaning, raise an error.
+
+### Degenerate data
+- If all points are identical or nearly identical, KMeans may return unstable or trivial clusters.
+- This is not necessarily an exception, but should be recognized as a possible limitation.
+
+### Plotting behavior
+- If there are only a few points, the scatterplot may overlap heavily.
+- Color should clearly represent cluster labels.
+- Returning the `Axes` object ensures the caller can further customize or save the plot.
+
+---
+
+## Suggested output contract
+- `labels`: shape `(n_samples,)`, `dtype=int32`
+- `ax`: Matplotlib Axes containing the scatterplot
+
+---
+
+If you want, I can turn this plan into the full self-contained implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+def task_func(df1, df2, column1="feature1", column2="feature2"):
+    if column1 not in df1.columns:
+        raise ValueError(f"'{column1}' not found in df1.")
+    if column2 not in df2.columns:
+        raise ValueError(f"'{column2}' not found in df2.")
+
+    common_keys = [c for c in df1.columns if c in df2.columns and c not in {column1, column2}]
+    if not common_keys:
+        raise ValueError("No common id column found to merge df1 and df2.")
+
+    left = df1[common_keys + [column1]].rename(columns={column1: "__feature1__"})
+    right = df2[common_keys + [column2]].rename(columns={column2: "__feature2__"})
+
+    merged = left.merge(right, on=common_keys, how="inner")
+    if merged.empty:
+        raise ValueError("Merge produced no rows; cannot perform clustering.")
+
+    x = pd.to_numeric(merged["__feature1__"], errors="coerce").to_numpy(dtype=float)
+    y = pd.to_numeric(merged["__feature2__"], errors="coerce").to_numpy(dtype=float)
+
+    features = np.column_stack((x, y))
+    valid_mask = np.isfinite(features).all(axis=1)
+    features = features[valid_mask]
+
+    if features.shape[0] < 2:
+        raise ValueError("At least 2 valid merged rows are required for KMeans clustering.")
+
+    model = KMeans(n_clusters=2, n_init=10)
+    labels = model.fit_predict(features).astype(np.int32, copy=False)
+
+    fig, ax = plt.subplots()
+    ax.scatter(features[:, 0], features[:, 1], c=labels, cmap="viridis")
+    ax.set_xlabel(column1)
+    ax.set_ylabel(column2)
+
+    return labels, ax

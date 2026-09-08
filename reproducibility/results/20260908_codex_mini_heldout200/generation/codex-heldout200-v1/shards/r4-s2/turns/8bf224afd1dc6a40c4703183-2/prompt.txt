@@ -1,0 +1,111 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a random set of floating-point numbers within a specified range, truncate each value to 3 decimal places, and divide the data into train and test sets based on a given test size.
+Note that: The function use "Value" for the column name in the DataFrames (train set, test set) that being returned.
+The function should output with:
+    tuple: A tuple with two pandas DataFrames (train set, test set).
+You should write self-contained code starting with:
+```
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+def task_func(n_data_points=10000, min_value=0.0, max_value=10.0, test_size=0.2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+def task_func(n_data_points=10000, min_value=0.0, max_value=10.0, test_size=0.2):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Generate random floating-point data**
+   - Create `n_data_points` random floats uniformly distributed in `[min_value, max_value)`.
+   - Use Python’s `random.uniform(min_value, max_value)` in a loop or list comprehension.
+
+2. **Truncate to 3 decimal places**
+   - Convert each generated value to a value truncated, not rounded, to 3 decimal places.
+   - A safe way is:
+     - `int(value * 1000) / 1000` for non-negative ranges.
+     - If negative values are possible, use a truncation method that handles sign correctly, such as `math.trunc(value * 1000) / 1000`.
+
+3. **Build the DataFrame**
+   - Create a pandas DataFrame with exactly one column named **`Value`**.
+   - The column should contain the truncated floating-point values.
+
+4. **Split into train and test sets**
+   - Use `train_test_split` from `sklearn.model_selection`.
+   - Pass the DataFrame as the input.
+   - Use the provided `test_size` parameter.
+   - Set a `random_state` if reproducibility is desired; otherwise, the split will vary across runs.
+
+5. **Return format**
+   - Return a tuple: `(train_df, test_df)`.
+   - Both outputs must be pandas DataFrames and preserve the `Value` column name.
+
+Edge cases to handle:
+- **`n_data_points = 0`**: should return two empty DataFrames with the `Value` column.
+- **`test_size` too small or too large**: values like `0`, `1`, or invalid fractions can cause `train_test_split` errors.
+- **`n_data_points = 1` with fractional `test_size`**: may fail because one split can become empty.
+- **`min_value > max_value`**: should be rejected or handled by swapping, but validation is preferable.
+- **`min_value == max_value`**: all generated values will be identical.
+- **Negative ranges**: truncation must still work correctly; avoid naive `int()` if sign handling matters.
+- **Non-numeric inputs**: should raise a clear error.
+- **Very large `n_data_points`**: prefer an efficient list comprehension and avoid unnecessary intermediate structures.
+
+Recommended validation checks:
+- Ensure `n_data_points` is a non-negative integer.
+- Ensure `test_size` is a float in `(0, 1)` or a valid split size accepted by `train_test_split`.
+- Ensure `min_value` and `max_value` are numeric and `min_value <= max_value`.
+
+If you want, I can also turn this plan into the exact self-contained function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import random
+from sklearn.model_selection import train_test_split
+import math
+
+def task_func(n_data_points=10000, min_value=0.0, max_value=10.0, test_size=0.2):
+    if not isinstance(n_data_points, int) or isinstance(n_data_points, bool) or n_data_points < 0:
+        raise ValueError("n_data_points must be a non-negative integer.")
+    
+    if not isinstance(min_value, (int, float)) or isinstance(min_value, bool):
+        raise ValueError("min_value must be numeric.")
+    if not isinstance(max_value, (int, float)) or isinstance(max_value, bool):
+        raise ValueError("max_value must be numeric.")
+    if min_value > max_value:
+        raise ValueError("min_value must be less than or equal to max_value.")
+    
+    if not isinstance(test_size, (int, float)) or isinstance(test_size, bool):
+        raise ValueError("test_size must be numeric.")
+    
+    if n_data_points == 0:
+        empty_df = pd.DataFrame(columns=["Value"])
+        return empty_df.copy(), empty_df.copy()
+    
+    values = [
+        math.trunc(random.uniform(min_value, max_value) * 1000) / 1000.0
+        for _ in range(n_data_points)
+    ]
+    data = pd.DataFrame({"Value": values})
+    
+    if n_data_points == 1:
+        # A one-row dataset cannot be split into two non-empty sets.
+        return data.iloc[0:0].reset_index(drop=True), data.reset_index(drop=True)
+    
+    if isinstance(test_size, float):
+        if not (0 < test_size < 1):
+            raise ValueError("test_size as a float must be between 0 and 1.")
+        # Ensure both splits are non-empty for small datasets.
+        n_test = max(1, min(n_data_points - 1, math.ceil(n_data_points * test_size)))
+        train_df, test_df = train_test_split(data, test_size=n_test, shuffle=True)
+    else:
+        if test_size <= 0 or test_size >= n_data_points:
+            raise ValueError("test_size as an int must be between 1 and n_data_points - 1.")
+        train_df, test_df = train_test_split(data, test_size=test_size, shuffle=True)
+    
+    return train_df.reset_index(drop=True), test_df.reset_index(drop=True)
+```

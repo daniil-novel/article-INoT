@@ -1,0 +1,168 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate random data and visualize it with a stacked bar chart, saving the chart to a file. This function facilitates the exploration and sharing of data distribution across multiple categories.
+The function should output with:
+    tuple: A tuple containing:
+    matplotlib.figure.Figure: The Figure object containing the stacked bar chart.
+    pandas.DataFrame: The DataFrame with randomly generated data.
+    str: The filename where the plot is saved ('test_plot.png').
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(num_groups=5, data_size=5, labels=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+def task_func(num_groups=5, data_size=5, labels=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(num_groups=5, data_size=5, labels=None)`.
+
+## Goal
+Create random tabular data, plot it as a stacked bar chart, save the chart to `test_plot.png`, and return:
+
+1. the `matplotlib.figure.Figure`
+2. the generated `pandas.DataFrame`
+3. the filename string `'test_plot.png'`
+
+---
+
+## Implementation plan
+
+### 1. Validate inputs
+Check that:
+
+- `num_groups` is a positive integer
+- `data_size` is a positive integer
+- if `labels` is provided, it should be a sequence with length equal to `num_groups`
+
+Recommended behavior:
+- Raise `ValueError` for invalid sizes
+- Raise `ValueError` if label count does not match `num_groups`
+
+---
+
+### 2. Generate category labels
+If `labels is None`, create default group labels such as:
+
+- `Group 1`, `Group 2`, ..., `Group N`
+
+If labels are provided:
+- use them directly
+- optionally convert them to strings for plotting consistency
+
+---
+
+### 3. Generate random data
+Create a 2D random array with shape:
+
+- `(data_size, num_groups)`
+
+Possible choices:
+- random integers, e.g. `np.random.randint(...)`
+- or random floats, e.g. `np.random.rand(...)`
+
+For a stacked bar chart, non-negative values are best.
+
+Then build a `DataFrame`:
+- rows represent stacked bars / items
+- columns represent groups/categories
+
+Example structure:
+- index: `Item 1 ... Item data_size`
+- columns: group labels
+
+---
+
+### 4. Create the stacked bar chart
+Use matplotlib to:
+
+- create a figure and axes
+- plot each column as a stacked layer
+- maintain a cumulative `bottom` array so bars stack correctly
+
+Implementation idea:
+- initialize `bottom = np.zeros(data_size)`
+- loop over each group/column
+- call `ax.bar(...)` with `bottom=bottom`
+- update `bottom += values`
+
+Add basic presentation elements:
+- title
+- x-axis label
+- y-axis label
+- legend
+
+---
+
+### 5. Save the figure
+Save the chart to:
+
+- `test_plot.png`
+
+Use:
+- `fig.savefig("test_plot.png")`
+
+Do this before returning.
+
+---
+
+### 6. Return the required tuple
+Return:
+
+```python
+(fig, df, "test_plot.png")
+```
+
+Where:
+- `fig` is the matplotlib figure
+- `df` is the generated DataFrame
+- the string is the saved filename
+
+---
+
+## Edge cases to handle
+
+### 1. `num_groups <= 0` or `data_size <= 0`
+- Invalid configuration
+- Raise `ValueError`
+
+### 2. `labels` length mismatch
+- If `labels` is provided and its length is not `num_groups`, raise `ValueError`
+
+### 3. `num_groups = 1`
+- The chart should still render correctly as a single stacked segment per bar
+
+### 4. `data_size = 1`
+- The chart should still render correctly with one bar
+
+### 5. Duplicate labels
+- Not necessarily an error, but may make the legend confusing
+- Optional: document that labels should ideally be unique
+
+### 6. Non-string labels
+- Convert to strings if needed, or require string-like labels
+- Best to normalize to strings for plotting reliability
+
+### 7. Random reproducibility
+- The task does not require deterministic output
+- If desired, a fixed seed could be added internally, but only if reproducibility is important
+
+---
+
+## Suggested structure of the code
+1. imports
+2. function definition
+3. input validation
+4. label preparation
+5. random data creation
+6. DataFrame creation
+7. plotting
+8. saving
+9. return tuple
+
+If you want, I can also turn this plan into the exact self-contained function implementation.

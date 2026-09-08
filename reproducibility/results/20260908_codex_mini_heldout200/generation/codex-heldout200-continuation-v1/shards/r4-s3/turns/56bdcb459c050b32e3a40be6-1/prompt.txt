@@ -1,0 +1,153 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Identify duplicate entries in a DataFrame and record the age distribution for the duplicate names. This function takes a DataFrame with 'name' and 'age' columns. If age is provided as floats, they will be rounded down to the nearest integer. Age must not be negative, otherwise the function raises ValueError. Then, the function identifies duplicate names and records the age distribution. It returns a Counter object with the age distribution and a histogram plot showing the distribution of ages for duplicate names, with age on the x-axis and count on the y-axis. Bins are calculated based on the minimum and maximum ages found among the duplicates, adjusted by .5 to ensure that integer ages fall squarely within bins.
+The function should raise the exception for: ValueError: If the DataFrame is empty or if age is negative.
+The function should output with:
+    Counter: Age distribution among duplicate names.
+    plt.Axes or None: Histogram plot displaying age distribution, or None if there are no duplicates.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+from collections import Counter
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame) -> (Counter, plt.Axes):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+from collections import Counter
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df: pd.DataFrame) -> (Counter, plt.Axes):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(df)`.
+
+## Goal
+Given a DataFrame with columns `name` and `age`:
+
+1. Validate input.
+2. Normalize ages by flooring floats to integers.
+3. Reject negative ages with `ValueError`.
+4. Find duplicate names.
+5. Build a `Counter` for the age distribution among duplicate-name rows.
+6. Draw a histogram of those ages, with integer-centered bins.
+7. Return `(Counter, Axes or None)`.
+
+---
+
+## Implementation plan
+
+### 1) Validate the DataFrame
+- Raise `ValueError` if `df` is empty.
+- Also ensure the required columns exist:
+  - `name`
+  - `age`
+- If either is missing, it’s reasonable to raise `KeyError` or `ValueError`; the task explicitly requires only empty/negative-age errors, but column validation is still prudent.
+
+---
+
+### 2) Normalize the `age` column
+- Convert age values to integer ages by rounding down:
+  - Use something like `np.floor(...)` then cast to `int`.
+- This should work for float ages such as `21.9 -> 21`.
+- Preserve integer values as-is.
+- If age values are not numeric, pandas/numpy conversion will likely fail; this can be allowed to surface naturally unless the task requires stricter handling.
+
+---
+
+### 3) Check for negative ages
+- After flooring, check whether any age is `< 0`.
+- If yes, raise `ValueError`.
+- This should happen before building the distribution or plot.
+
+---
+
+### 4) Identify duplicate names
+- Determine which `name` values occur more than once.
+- Important interpretation:
+  - Include **all rows** whose `name` is duplicated, not just the later repeated rows.
+  - Example: if `"Alice"` appears 3 times, all 3 ages count toward the duplicate-name age distribution.
+
+---
+
+### 5) Extract ages for duplicate-name rows
+- Filter the DataFrame to only rows whose `name` is in the duplicate-name set.
+- Collect the normalized ages from those rows.
+- If there are no duplicate names:
+  - Return `Counter()` and `None`.
+
+---
+
+### 6) Build the age distribution Counter
+- Use `Counter(ages_for_duplicates)` to count age frequencies.
+- Example output:
+  - `{20: 2, 21: 1, 25: 4}`
+
+---
+
+### 7) Build the histogram plot
+- If duplicates exist:
+  - Compute minimum and maximum ages among duplicate rows.
+  - Create bins centered on integers using `±0.5` offsets:
+    - `bins = np.arange(min_age - 0.5, max_age + 1.5, 1)`
+  - This ensures integer ages fall neatly into separate bins.
+- Plot with seaborn or matplotlib:
+  - `ax = sns.histplot(...)`
+  - Use `x=ages_for_duplicates`
+  - Set `bins=bins`
+- Label axes:
+  - x-axis: `Age`
+  - y-axis: `Count`
+- The function should return the `Axes` object.
+
+---
+
+## Edge cases to handle
+
+### Empty DataFrame
+- Must raise `ValueError`.
+
+### No duplicates
+- Return:
+  - `Counter()`
+  - `None`
+
+### Float ages
+- Floor them to the nearest lower integer before any counting or plotting.
+
+### Negative ages
+- Must raise `ValueError`, even if only one negative value is present.
+
+### All rows duplicate
+- This is fine; all rows contribute to the distribution.
+
+### Duplicate names with same age repeated
+- Count each row occurrence separately in the `Counter`.
+
+### Single duplicate-age value
+- Histogram bins should still work with a one-value range:
+  - e.g. age 18 -> bins `[17.5, 18.5]`
+
+### Non-numeric ages
+- Not explicitly specified; likely should fail naturally during numeric conversion unless you want to add explicit validation.
+
+---
+
+## Suggested flow in code
+1. Check `df.empty`
+2. Check required columns
+3. Floor ages to integers
+4. Reject negative ages
+5. Find duplicated names
+6. If none, return `Counter(), None`
+7. Compute age distribution `Counter`
+8. Compute bins from min/max duplicate ages with `±0.5`
+9. Draw histogram
+10. Return `(counter, ax)`
+
+---
+
+If you want, I can next provide the full implementation following this plan.

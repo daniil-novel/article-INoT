@@ -1,0 +1,24 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Draw a bar chart of the frequency of words in a text beginning with the "$" character. Words that start with the '$' character but consist only of punctuation (e.g., '$!$' and '$.$') are not included in the frequency count. - If there is no word respecting the above conditions, the plot should be None. - The barplot x words on the x-axis and frequencies on the y-axis.
+The function should output with:
+    matplotlib.axes._axes.Axes: The plot showing the frequency of words beginning with the '$' character.
+You should write self-contained code starting with:
+```
+import nltk
+from string import punctuation
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Constants
+PUNCTUATION = set(punctuation)
+def task_func(text):
+```
+FULL SUPPLIED CONTEXT
+import nltk
+from string import punctuation
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Constants
+PUNCTUATION = set(punctuation)
+def task_func(text):

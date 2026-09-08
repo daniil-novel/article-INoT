@@ -1,0 +1,128 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Calculate the product of a matrix 'P' and a 3D tensor 'T' using numpy and visualize the results as a heatmap.
+Note that: This function only accepts numpy matrices/arrays.
+The function should output with:
+    numpy.ndarray: Resultant product after matrix-tensor multiplication.
+    matplotlib.axes.Axes: Axes object displaying the heatmap of the 2D result.
+You should write self-contained code starting with:
+```
+import numpy as np
+import seaborn as sns
+def task_func(P, T):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import seaborn as sns
+def task_func(P, T):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a concrete implementation plan for `task_func(P, T)`.
+
+## Goal
+- Accept only NumPy array-like inputs (`numpy.ndarray` / `numpy.matrix`).
+- Compute a matrix–tensor product.
+- Produce a 2D numeric result suitable for a heatmap.
+- Return:
+  1. the product as a `numpy.ndarray`
+  2. the `matplotlib.axes.Axes` object from the heatmap
+
+## Planned approach
+
+### 1) Validate inputs
+Check that:
+- `P` and `T` are NumPy objects, not Python lists/scalars.
+- `P` is 2D.
+- `T` is 3D.
+- Both contain numeric data.
+
+If any condition fails, raise a clear exception:
+- `TypeError` for non-NumPy or non-numeric inputs
+- `ValueError` for wrong dimensionality or incompatible shapes
+
+### 2) Normalize to plain arrays
+Convert both inputs with `np.asarray(...)` so:
+- `numpy.matrix` semantics do not interfere
+- the result is a standard `ndarray`
+
+This keeps computation predictable.
+
+### 3) Check shape compatibility
+For multiplication to work, the contracting dimension must match:
+- `P.shape[1] == T.shape[0]`
+
+If not, raise `ValueError` with a message describing the mismatch.
+
+### 4) Make the tensor multiplication yield a 2D result
+Since the output must be visualized as a heatmap, ensure the final product is 2D.
+
+A practical convention is:
+- reshape the 3D tensor from shape `(a, b, c)` to `(a, b*c)`
+- compute `result = P @ T.reshape(T.shape[0], -1)`
+
+This gives a 2D array with shape:
+- `(P.shape[0], T.shape[1] * T.shape[2])`
+
+That 2D output is directly suitable for a heatmap.
+
+### 5) Plot the heatmap
+Use Seaborn:
+- `ax = sns.heatmap(result, cmap=..., cbar=True, annot=False)`
+
+Return the `Axes` object from Seaborn.
+
+### 6) Return values
+Return:
+- `result` as `numpy.ndarray`
+- `ax` as the heatmap axes
+
+---
+
+## Edge cases to handle
+
+### Shape mismatches
+- `P.shape[1] != T.shape[0]`
+- Should fail early with a clear error.
+
+### Wrong number of dimensions
+- `P` not 2D
+- `T` not 3D
+- Should reject rather than guess.
+
+### Empty arrays
+- Zero-sized dimensions in `P` or `T`
+- Multiplication may technically work, but the heatmap may be empty or meaningless.
+- Decide whether to allow or reject; rejecting with `ValueError` is usually safer.
+
+### Non-numeric data
+- Object, string, or mixed dtypes
+- Heatmaps require numeric values.
+- Reject with `TypeError`.
+
+### `np.matrix` input
+- Convert to `ndarray` before multiplication to avoid matrix-specific behavior.
+
+### Very large outputs
+- The heatmap may become unreadable if `T.shape[1] * T.shape[2]` is huge.
+- Still compute correctly, but keep annotations off and avoid extra decoration.
+
+### NaN / inf values
+- These are allowed by NumPy, but the heatmap may show gaps or extreme colors.
+- No special handling required unless you want to clean or mask them.
+
+### Complex values
+- Seaborn heatmaps are intended for real-valued data.
+- Best to reject complex input or convert explicitly only if that matches the task expectations.
+
+---
+
+## Implementation summary
+1. Validate `P` and `T`.
+2. Convert both to `ndarray`.
+3. Check `P.ndim == 2` and `T.ndim == 3`.
+4. Verify `P.shape[1] == T.shape[0]`.
+5. Reshape `T` to 2D and compute `P @ T_reshaped`.
+6. Plot the result with `sns.heatmap`.
+7. Return `(result, ax)`.
+
+If you want, I can next turn this plan into the exact self-contained function body.

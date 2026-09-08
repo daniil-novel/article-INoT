@@ -1,0 +1,120 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Replace a random substring (a sequence of characters between two commas or at the beginning/end of the string) in a list of strings with a random string (comprising ascii lowercase characters) with the same length as the substituted characters.
+The function should output with:
+    DataFrame: A pandas DataFrame with two columns - 'Original String' and 'Modified String'.
+    'Original String' contains the original strings from the input list, and 'Modified String'
+    contains the modified strings where a random substring has been replaced.
+You should write self-contained code starting with:
+```
+import random
+import string
+import pandas as pd
+def task_func(data_list, seed=0):
+```
+FULL SUPPLIED CONTEXT
+import random
+import string
+import pandas as pd
+def task_func(data_list, seed=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+We need a function:
+
+```python
+import random
+import string
+import pandas as pd
+def task_func(data_list, seed=0):
+```
+
+that:
+
+1. Takes a list of strings.
+2. For each string, chooses **one random substring segment**:
+   - a segment **between commas**, or
+   - the prefix before the first comma, or
+   - the suffix after the last comma.
+3. Replaces that segment with a random string made only of **ASCII lowercase letters**.
+4. The replacement must have the **same length** as the chosen segment.
+5. Returns a **pandas DataFrame** with columns:
+   - `Original String`
+   - `Modified String`
+
+---
+
+## Planned implementation approach
+
+### 1) Seed randomness
+- Use `random.seed(seed)` so results are reproducible.
+
+### 2) Process each input string independently
+For each string:
+- Split by commas using `s.split(',')`.
+- This naturally handles:
+  - no commas → one segment
+  - leading commas → empty first segment
+  - trailing commas → empty last segment
+  - consecutive commas → empty middle segments
+
+### 3) Choose one segment to replace
+- Randomly select one segment index from the split parts.
+- Replace only that segment, leaving commas in place.
+
+### 4) Generate the replacement string
+- Use `random.choices(string.ascii_lowercase, k=len(segment))`.
+- Join characters into a string.
+- If the selected segment is empty, the replacement is also empty.
+
+### 5) Rebuild the string
+- Recombine the segments with commas:
+  - `','.join(parts)`
+
+### 6) Build the DataFrame
+- Collect original and modified strings in two lists.
+- Return `pd.DataFrame({...})`.
+
+---
+
+## Important edge cases to handle
+
+1. **Empty input list**
+   - Should return an empty DataFrame with the correct columns.
+
+2. **String with no commas**
+   - Entire string is treated as one substring and replaced.
+
+3. **Leading / trailing commas**
+   - Example: `",abc"` or `"abc,"`
+   - Empty segments should be valid candidates.
+
+4. **Consecutive commas**
+   - Example: `"a,,b"`
+   - Middle empty segment should be treated as a valid substring candidate.
+
+5. **Empty string**
+   - `""` becomes `[""]`
+   - Replacement length is 0, so output stays `""`.
+
+6. **All segments empty**
+   - Example: `","`, `",,"`
+   - Choosing any empty segment should still work.
+
+7. **Non-ASCII or special characters in original strings**
+   - Only the replacement uses lowercase ASCII.
+   - Original content should remain unchanged except for the selected segment.
+
+---
+
+## Suggested behavior summary
+
+- Preserve commas exactly.
+- Replace exactly one segment per input string.
+- Keep output lengths consistent with the original structure, except the chosen segment content changes.
+- Return a DataFrame with one row per input string.
+
+---
+
+If you want, I can next provide the actual self-contained implementation.

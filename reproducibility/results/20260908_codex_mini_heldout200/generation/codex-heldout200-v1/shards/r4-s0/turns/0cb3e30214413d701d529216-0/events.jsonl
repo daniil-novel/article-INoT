@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ec8-5d8f-7f13-be48-ec8879e7393f"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport numpy as np\nfrom scipy.stats import norm\n\ndef task_func(data: np.ndarray, threshold: float = 2.0) -> list:\n    data = np.asarray(data, dtype=float).ravel()\n\n    if data.size == 0:\n        return [], float(\"nan\"), float(\"nan\")\n\n    mean, std = norm.fit(data)\n    var = float(std ** 2)\n\n    if std == 0:\n        return [], float(mean), var\n\n    z_scores = (data - mean) / std\n    outliers = np.flatnonzero(np.abs(z_scores) > threshold).tolist()\n\n    return outliers, float(mean), var\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2803,"cached_input_tokens":2048,"cache_write_input_tokens":0,"output_tokens":1079,"reasoning_output_tokens":933}}

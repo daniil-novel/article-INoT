@@ -1,0 +1,191 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Plots a histogram for a specified column of a pandas DataFrame and overlays it with a fitted normal distribution curve.
+The function should output with:
+    matplotlib.axes._axes.Axes: The matplotlib Axes object with the plot.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+def task_func(df, column, bins=30, density=True, alpha=0.6, color="g", seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+def task_func(df, column, bins=30, density=True, alpha=0.6, color="g", seed=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(df, column, bins=30, density=True, alpha=0.6, color="g", seed=None)`.
+
+## Goal
+Create a matplotlib histogram for one DataFrame column and overlay a fitted normal distribution curve. Return the `Axes` object.
+
+## Expected behavior
+- Select the specified `column` from `df`
+- Clean the data so the plot can be computed reliably
+- Plot histogram using the provided styling parameters
+- Fit a normal distribution to the column values
+- Overlay the normal PDF curve on top of the histogram
+- Return the matplotlib `Axes`
+
+---
+
+## Implementation plan
+
+### 1. Validate inputs
+- Confirm `df` behaves like a pandas DataFrame.
+- Confirm `column` exists in `df`.
+- Raise a clear error if the column is missing.
+
+### 2. Extract and clean the data
+- Take the target column values.
+- Drop missing values (`NaN` / `None`).
+- Convert to numeric if needed, or rely on the column already being numeric.
+- Remove non-finite values if present (`inf`, `-inf`).
+
+### 3. Handle empty or unusable data
+- If no valid values remain after cleaning, raise an informative error.
+- If there is only one valid value, normal fitting is not meaningful; still plot a degenerate histogram if possible, but the overlay curve may not be well-defined. Prefer raising or handling gracefully.
+
+### 4. Fit the normal distribution
+- Compute mean and standard deviation from the cleaned values.
+- Use `scipy.stats.norm.fit(data)` or equivalent to estimate parameters.
+- Guard against zero standard deviation:
+  - If all values are identical, the normal curve collapses and PDF computation will fail or be degenerate.
+  - In that case, either skip the curve or show a narrow/degenerate approximation.
+
+### 5. Build the histogram
+- Create a figure and axis using `plt.subplots()` if needed.
+- Plot histogram with:
+  - `bins=bins`
+  - `density=density`
+  - `alpha=alpha`
+  - `color=color`
+- Store histogram range automatically from the data.
+
+### 6. Create x-values for the fitted curve
+- Generate a smooth array over the data range, for example:
+  - from `min(data)` to `max(data)` with 200–1000 points
+- If all values are the same, widen the x-range slightly around that value to make plotting possible.
+
+### 7. Plot the normal distribution curve
+- Evaluate the fitted normal PDF on the x-grid:
+  - `norm.pdf(x, loc=mu, scale=sigma)`
+- If histogram uses `density=False`, scale the PDF to match histogram counts:
+  - multiply by `len(data) * bin_width`
+- If `density=True`, plot the PDF directly.
+
+### 8. Finalize the plot
+- Add axis labels and a title, if helpful.
+- Optionally add a legend.
+- Return the `Axes` object.
+
+---
+
+## Important edge cases
+
+### Missing or invalid column
+- `column` not in `df` should raise `KeyError` or `ValueError` with a clear message.
+
+### Non-numeric data
+- If the column contains strings or mixed types:
+  - either convert coercively to numeric and drop invalid entries
+  - or raise a type error if strict behavior is preferred
+
+### Missing values
+- `NaN` values should be ignored in both histogram and fit.
+
+### Infinite values
+- `inf` / `-inf` should be removed before fitting.
+
+### Empty cleaned data
+- If all values are invalid after cleaning, raise an error.
+
+### Single value
+- A normal fit is not meaningful.
+- The curve may be skipped or handled specially.
+
+### Constant-valued data
+- Standard deviation becomes zero.
+- `norm.pdf` with `scale=0` is invalid.
+- Use a fallback strategy:
+  - skip curve and show histogram only
+  - or draw a vertical reference line at the constant value
+
+### `density=False`
+- Histogram shows counts, but normal PDF is a density.
+- The curve should be rescaled to count units to visually match the histogram.
+
+### Reproducibility / `seed`
+- The task does not require randomness.
+- `seed` is likely unused unless you choose to add jitter or sampling.
+- Best to accept it but not rely on it.
+
+### Very small or very large values
+- Use robust x-range generation to avoid numerical issues.
+- Avoid overfitting plotting range too tightly if there are outliers.
+
+---
+
+## Suggested return behavior
+- Return the `Axes` object containing the histogram and overlay curve.
+- If no axis is provided in the function signature, create one internally and return it.
+
+If you want, I can next provide the actual implementation code in the exact required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+import pandas as pd
+
+def task_func(df, column, bins=30, density=True, alpha=0.6, color="g", seed=None):
+    if seed is not None:
+        np.random.seed(seed)
+
+    try:
+        series = df[column]
+    except Exception as exc:
+        raise KeyError(f"Column {column!r} not found in DataFrame.") from exc
+
+    values = pd.to_numeric(series, errors="coerce").to_numpy(dtype=float)
+    values = values[np.isfinite(values)]
+
+    if values.size == 0:
+        raise ValueError(f"Column {column!r} contains no finite numeric values.")
+
+    fig, ax = plt.subplots()
+    ax.hist(values, bins=bins, density=density, alpha=alpha, color=color, label="Histogram")
+
+    mu, sigma = norm.fit(values)
+    if not np.isfinite(sigma) or sigma <= 0:
+        sigma = np.finfo(float).eps
+
+    data_min = float(np.min(values))
+    data_max = float(np.max(values))
+
+    if data_min == data_max:
+        pad = max(1.0, abs(data_min) * 0.1)
+        x_min, x_max = data_min - pad, data_max + pad
+    else:
+        pad = 0.1 * (data_max - data_min)
+        x_min, x_max = data_min - pad, data_max + pad
+
+    x = np.linspace(x_min, x_max, 401)
+    y = norm.pdf(x, loc=mu, scale=sigma)
+
+    if not density:
+        _, edges = np.histogram(values, bins=bins)
+        bin_widths = np.diff(edges)
+        bin_width = float(np.mean(bin_widths)) if bin_widths.size else 1.0
+        y = y * values.size * bin_width
+
+    ax.plot(x, y, "r-", linewidth=2, label="Fitted normal PDF")
+    ax.set_xlabel(str(column))
+    ax.set_ylabel("Density" if density else "Count")
+    ax.set_title(f"Histogram of {column} with fitted normal curve")
+    ax.legend()
+
+    return ax

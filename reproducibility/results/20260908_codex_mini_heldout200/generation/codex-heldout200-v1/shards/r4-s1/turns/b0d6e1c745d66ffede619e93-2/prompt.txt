@@ -1,0 +1,132 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Hashes a password using the PBKDF2 HMAC algorithm with SHA-256 as the hashing algorithm, combined with a randomly generated salt, and returns both the salt and the hashed password, each base64-encoded.
+The function should raise the exception for: ValueError if the password is None or empty
+The function should output with:
+    tuple[bytes, bytes]: A tuple containing the base64-encoded salt and the base64-encoded hashed password as byte strings.
+You should write self-contained code starting with:
+```
+import base64
+import hashlib
+import os
+def task_func(password, SALT_LENGTH = 32):
+```
+FULL SUPPLIED CONTEXT
+import base64
+import hashlib
+import os
+def task_func(password, SALT_LENGTH = 32):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(password, SALT_LENGTH=32)`.
+
+## Requirements analysis
+
+The function must:
+
+1. Accept a password.
+2. Reject invalid passwords:
+   - raise `ValueError` if `password is None`
+   - raise `ValueError` if `password` is empty
+3. Generate a random salt of length `SALT_LENGTH` bytes.
+4. Derive a password hash using:
+   - PBKDF2-HMAC
+   - SHA-256
+5. Base64-encode:
+   - the salt
+   - the derived hash
+6. Return a tuple of two `bytes` objects:
+   - `(base64_salt, base64_hash)`
+
+## Implementation plan
+
+1. **Validate input**
+   - Check `password is None`
+   - Check for emptiness
+   - If either condition is true, raise `ValueError`
+
+2. **Normalize password to bytes**
+   - PBKDF2 requires bytes input
+   - If `password` is a string, encode it as UTF-8
+   - If it is already bytes, use it directly
+   - If supporting only byte-like input is preferred, document that clearly
+   - Keep this step consistent so hashing is deterministic
+
+3. **Generate random salt**
+   - Use `os.urandom(SALT_LENGTH)` to create a cryptographically secure salt
+
+4. **Derive hash**
+   - Use `hashlib.pbkdf2_hmac`
+   - Parameters:
+     - hash name: `"sha256"`
+     - password bytes
+     - generated salt
+     - iteration count: choose a reasonable secure default if not otherwise specified
+   - The output should be raw bytes
+
+5. **Base64-encode outputs**
+   - Encode the salt with `base64.b64encode(salt)`
+   - Encode the hash with `base64.b64encode(derived_hash)`
+   - Both results remain `bytes`
+
+6. **Return result**
+   - Return `(encoded_salt, encoded_hash)`
+
+## Edge cases to consider
+
+- `password is None` → raise `ValueError`
+- `password == ""` or `password == b""` → raise `ValueError`
+- Non-string / non-bytes password types:
+  - decide whether to reject them or convert them if they support bytes conversion
+- `SALT_LENGTH <= 0`
+  - should be treated as invalid, ideally raising `ValueError`
+- Very large password values
+  - hashing still works, but may be slower
+- Unicode passwords
+  - if strings are accepted, ensure UTF-8 encoding is used consistently
+- Return types
+  - output must be `tuple[bytes, bytes]`, not strings
+
+## Suggested behavior summary
+
+- Input: password
+- Process: validate → encode → salt generation → PBKDF2-HMAC-SHA256 → base64 encode
+- Output: `(base64_salt_bytes, base64_hash_bytes)`
+
+If you want, I can next provide the actual implementation in the required format.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import base64
+import hashlib
+import os
+
+def task_func(password, SALT_LENGTH = 32):
+    if password is None:
+        raise ValueError("password cannot be None")
+
+    if not isinstance(SALT_LENGTH, int) or SALT_LENGTH <= 0:
+        raise ValueError("SALT_LENGTH must be a positive integer")
+
+    if isinstance(password, str):
+        if password == "":
+            raise ValueError("password cannot be empty")
+        password_bytes = password.encode("utf-8")
+    elif isinstance(password, (bytes, bytearray, memoryview)):
+        password_bytes = bytes(password)
+        if len(password_bytes) == 0:
+            raise ValueError("password cannot be empty")
+    else:
+        raise TypeError("password must be a string or bytes-like object")
+
+    salt = os.urandom(SALT_LENGTH)
+    hashed_password = hashlib.pbkdf2_hmac(
+        "sha256",
+        password_bytes,
+        salt,
+        100000,
+    )
+
+    encoded_salt = base64.b64encode(salt)
+    encoded_hash = base64.b64encode(hashed_password)
+
+    return encoded_salt, encoded_hash

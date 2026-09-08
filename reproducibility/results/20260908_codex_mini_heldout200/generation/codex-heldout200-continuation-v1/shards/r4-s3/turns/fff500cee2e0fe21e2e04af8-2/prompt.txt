@@ -1,0 +1,166 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Read a CSV file, convert a column of date strings into datetime objects, and draw a histogram of the year distribution of these dates.
+The function should output with:
+    matplotlib.axes._axes.Axes: A histogram plot object showing the distribution of years.
+You should write self-contained code starting with:
+```
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):
+```
+FULL SUPPLIED CONTEXT
+import os
+import pandas as pd
+from dateutil.parser import parse
+OUTPUT_DIR = './output'
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+We need to implement `task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date')` so that it:
+
+1. Reads a CSV file.
+2. Converts the specified date-string column into datetime values.
+3. Extracts the year from each valid date.
+4. Draws a histogram of the year distribution.
+5. Returns a `matplotlib.axes._axes.Axes` object.
+
+---
+
+## Proposed approach
+
+### 1) Load the CSV
+- Use `pandas.read_csv(csv_path)` to load the file into a DataFrame.
+- Verify that `date_column` exists.
+
+### 2) Parse dates
+- Convert each value in `date_column` to a datetime object.
+- Since `dateutil.parser.parse` is imported, use it to handle flexible date string formats.
+- Apply parsing row by row, because real CSV date strings may not follow a single format.
+
+### 3) Handle invalid / missing values
+- Any value that is:
+  - missing (`NaN`, empty string),
+  - malformed,
+  - unparseable,
+  should be treated as invalid and excluded from the histogram.
+- This prevents the function from failing on dirty data.
+
+### 4) Extract year values
+- From each successfully parsed datetime, collect `dt.year`.
+- Build a list/Series of years for plotting.
+
+### 5) Plot histogram
+- Use Matplotlib to create a histogram of the year values.
+- Since the function must return an `Axes`, create a figure/axes pair via `plt.subplots()`.
+- Plot years on the axes with sensible binning:
+  - either auto bins,
+  - or integer-year bins for cleaner year-based distribution.
+- Label axes and add a title for clarity.
+
+### 6) Return the axes
+- Return the `Axes` object, not the figure.
+
+---
+
+## Edge cases to account for
+
+### Missing column
+- If `date_column` is not in the CSV, the function should fail clearly, e.g. with `KeyError` or `ValueError`.
+
+### Empty CSV / no valid dates
+- If the file is empty or all rows are invalid/unparseable:
+  - still create and return an empty histogram axes,
+  - or plot no bars with a message in the title/axes.
+- Avoid crashing on empty data.
+
+### Mixed date formats
+- Dates may appear as:
+  - `2021-05-03`
+  - `03/05/2021`
+  - `May 3, 2021`
+  - timestamps with time components
+- Using `dateutil.parser.parse` supports these variations.
+
+### Invalid strings
+- Strings like `"unknown"`, `"N/A"`, `"not a date"` should be skipped.
+- Parsing should be wrapped in safe error handling.
+
+### Timezones / timestamps
+- If parsed datetimes include timezone info, year extraction should still work correctly.
+
+### Non-string values
+- The column may contain numbers, floats, or already-datetime-like values.
+- Parsing should convert them robustly or skip them if invalid.
+
+### Large datasets
+- For large CSVs, row-wise parsing may be slower, but it is acceptable for correctness unless optimization is specifically required.
+
+### Output object type
+- Ensure the returned object is the histogram `Axes`.
+- Do not return the parsed DataFrame unless the task explicitly asks for it.
+
+---
+
+## Implementation shape
+
+The code will likely follow this structure:
+
+1. Import pandas, parse, and matplotlib.
+2. Define `task_func(...)`.
+3. Read CSV.
+4. Parse dates safely.
+5. Extract years.
+6. Plot histogram.
+7. Return `ax`.
+
+---
+
+If you want, I can proceed to stage 2 and write the actual self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import os
+import pandas as pd
+from dateutil.parser import parse
+import matplotlib.pyplot as plt
+
+OUTPUT_DIR = './output'
+
+def task_func(csv_path=os.path.join(OUTPUT_DIR, 'data.csv'), date_column='date'):
+    df = pd.read_csv(csv_path)
+
+    if date_column not in df.columns:
+        raise KeyError(f"Column {date_column!r} not found in CSV.")
+
+    def _safe_parse(value):
+        if pd.isna(value):
+            return pd.NaT
+        try:
+            return parse(str(value))
+        except (ValueError, TypeError, OverflowError):
+            return pd.NaT
+
+    # Convert the date column to datetime objects
+    df[date_column] = df[date_column].apply(_safe_parse)
+
+    # Extract years from valid datetimes
+    years = df[date_column].dropna().map(lambda x: x.year)
+
+    # Plot histogram of year distribution
+    fig, ax = plt.subplots()
+    if not years.empty:
+        min_year = int(years.min())
+        max_year = int(years.max())
+        ax.hist(years, bins=range(min_year, max_year + 2), edgecolor='black')
+    else:
+        ax.hist([], bins=1, edgecolor='black')
+
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Count')
+    ax.set_title('Year Distribution of Dates')
+
+    return ax

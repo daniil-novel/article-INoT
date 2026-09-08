@@ -1,0 +1,106 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Replace all elements in DataFrame columns that do not exist in the target_values array with zeros, and then output the distribution of each column after replacing. - label each plot as the name of the column it corresponds to.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object of the plotted data.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df, target_values=[1, 3, 4]):
+```
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df, target_values=[1, 3, 4]):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(df, target_values=[1, 3, 4])`.
+
+## Goal
+For every column in the input DataFrame:
+
+1. Replace any value **not present** in `target_values` with `0`.
+2. Plot the distribution of the transformed column.
+3. Label each plot with the **column name**.
+4. Return the `matplotlib.axes.Axes` object for the plotted data.
+
+---
+
+## Planned behavior
+
+### Input
+- `df`: a pandas DataFrame
+- `target_values`: list/array-like of allowed values; defaults to `[1, 3, 4]`
+
+### Processing steps
+1. Make a copy of the DataFrame to avoid mutating the input.
+2. For each column:
+   - Replace values not in `target_values` with `0`.
+   - Plot the distribution of the resulting column using seaborn/matplotlib.
+3. Ensure the plot title or axis label clearly identifies the column name.
+4. Return the Axes object.
+
+---
+
+## Plotting strategy
+Since the task asks for the “distribution of each column,” a reasonable interpretation is to plot each column separately, likely using:
+- `sns.histplot(...)` for numeric/categorical-like distributions after replacement, or
+- `sns.countplot(...)` if the data is treated categorically after replacement.
+
+Because the output must be a single `Axes` object, the implementation should:
+- create one figure/axes,
+- plot one column at a time,
+- or, if plotting multiple columns, return the last Axes or a container of axes is not allowed by the signature.
+
+Most likely, the intended behavior is one plot per column, with the final returned Axes being the last plot created. If the task expects a single visual per call, it may be better to arrange subplots and return the Axes array; however, the stated return type is singular `Axes`, so the safest interpretation is a single plot per column in sequence, returning the current axes.
+
+---
+
+## Edge cases to handle
+
+1. **Empty DataFrame**
+   - No columns to process.
+   - Should return an Axes object anyway, likely an empty plot with a message or blank axes.
+
+2. **Columns with all values outside `target_values`**
+   - Entire column becomes zeros.
+   - Distribution plot should still work.
+
+3. **Columns containing NaN / missing values**
+   - `NaN` is not in `target_values`, so it should be replaced with `0` as well, unless explicitly excluded.
+   - Need to ensure the replacement logic handles missing values safely.
+
+4. **Non-numeric columns**
+   - If columns contain strings or mixed types, membership replacement still works, but plotting may need categorical handling.
+   - The safest approach is to transform values first, then plot counts/distribution based on the transformed values.
+
+5. **Duplicate target values**
+   - If `target_values` contains duplicates, it should still behave correctly; set conversion may help.
+
+6. **Single-column DataFrame**
+   - Should still produce a valid plot and return its Axes.
+
+7. **Values already equal to 0**
+   - If `0` is not in `target_values`, original zeros will remain zeros only if replacement preserves them; otherwise they will be replaced with `0` anyway, which is effectively unchanged.
+
+---
+
+## Implementation notes
+- Use a copy: `df_copy = df.copy()`
+- Convert allowed values to a set for efficient membership checks.
+- Replace values via `Series.where(...)`, `applymap`, or vectorized masking depending on column dtype.
+- Use `plt.gca()` or the object returned by seaborn for the Axes.
+- Add a title or axis label matching the column name, e.g.:
+  - `ax.set_title(column_name)`
+
+---
+
+## Expected final function characteristics
+- Self-contained
+- Uses `seaborn` and `matplotlib.pyplot`
+- Does not modify the original DataFrame
+- Returns a `matplotlib.axes.Axes` object
+- Produces a labeled distribution plot for each processed column
+
+If you want, I can proceed to **stage 2** and write the actual implementation.

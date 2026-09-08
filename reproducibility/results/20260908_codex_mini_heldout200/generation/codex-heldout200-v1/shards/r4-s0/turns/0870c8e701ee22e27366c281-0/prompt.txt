@@ -1,0 +1,23 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate synthetic data using a simple regression model, fit a linear regression model to the data, and return the predicted values along with the coefficients and intercept of the model.
+The function should output with:
+    tuple: A tuple containing:
+    predictions (numpy.ndarray): The predicted values of the test set.
+    coefficients (numpy.ndarray): Coefficients of the linear regression model.
+    intercept (float): Intercept of the linear regression model.
+    mse (float): Mean squared error of the model predictions.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+def task_func(n_samples=100, n_features=10, random_seed=None):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+def task_func(n_samples=100, n_features=10, random_seed=None):

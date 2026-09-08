@@ -1,0 +1,96 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Given a Pandas DataFrame with random numeric values, standardize it with the standard scaler from sklearn.
+The function should output with:
+    df_standardized (DataFrame): The standardized DataFrame.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function:
+
+```python
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+```
+
+that takes a Pandas DataFrame of numeric values and returns:
+
+- `df_standardized` — a DataFrame where each column is standardized using `sklearn.preprocessing.StandardScaler`.
+
+### Expected behavior
+
+For each column independently:
+
+- subtract the column mean
+- divide by the column standard deviation
+- preserve the original column names
+- preserve the original index
+- return a Pandas DataFrame, not a NumPy array
+
+### Implementation plan
+
+1. **Accept the input DataFrame**
+   - Assume `df` is a Pandas DataFrame.
+   - Optionally validate the type for safety.
+
+2. **Create and apply `StandardScaler`**
+   - Instantiate `StandardScaler()`.
+   - Fit and transform the DataFrame values.
+
+3. **Rebuild the DataFrame**
+   - `StandardScaler` returns a NumPy array.
+   - Wrap the result back into `pd.DataFrame`.
+   - Use:
+     - `columns=df.columns`
+     - `index=df.index`
+
+4. **Return the standardized DataFrame**
+   - Return it as `df_standardized`.
+
+### Edge cases to consider
+
+1. **Empty DataFrame**
+   - Should return an empty DataFrame with the same structure.
+   - `StandardScaler` may fail on completely empty input, so this may need a guard.
+
+2. **Non-numeric columns**
+   - `StandardScaler` cannot process strings/categories directly.
+   - If the task guarantees numeric data, no special handling is needed.
+   - Otherwise, either:
+     - raise a clear error, or
+     - standardize only numeric columns.
+
+3. **Constant columns**
+   - Columns with zero variance will produce all zeros after scaling.
+   - This is expected behavior.
+
+4. **Missing values**
+   - If NaNs are present, behavior depends on sklearn version and input.
+   - If the task expects clean numeric data, no extra handling is necessary.
+   - Otherwise, decide whether to impute, drop, or let sklearn handle/error.
+
+5. **Single-row DataFrame**
+   - Standard deviation is zero for each column, so output will typically be zeros.
+
+6. **Single-column DataFrame**
+   - Works normally; output should still be a DataFrame with one standardized column.
+
+### Output contract
+
+The function should return:
+
+- `df_standardized: pd.DataFrame`
+
+with the same shape, index, and column labels as the input.

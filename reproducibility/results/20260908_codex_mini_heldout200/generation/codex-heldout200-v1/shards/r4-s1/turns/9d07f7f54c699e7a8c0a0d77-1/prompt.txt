@@ -1,0 +1,71 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Create a list of random sinusoidal values and plot them in a graph.
+The function should output with:
+    Axes object: The plot of the sinusoidal wave.
+You should write self-contained code starting with:
+```
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+# Constants
+RANGE = 10000
+SIZE = 1000
+PI = np.pi
+def task_func(size=SIZE, frequency=1):
+```
+FULL SUPPLIED CONTEXT
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+# Constants
+RANGE = 10000
+SIZE = 1000
+PI = np.pi
+def task_func(size=SIZE, frequency=1):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Define the function behavior**
+   - `task_func(size=SIZE, frequency=1)` will generate `size` sinusoidal samples.
+   - Use a random phase, random amplitude, or random x-values depending on interpretation; to satisfy “random sinusoidal values,” a practical approach is:
+     - create `x` values over a range,
+     - add randomness to the sinusoid parameters or add noise to the y-values,
+     - plot the resulting wave.
+   - Return the **Matplotlib Axes object**.
+
+2. **Generate data**
+   - Create `x` as a NumPy array of length `size`.
+   - Use a sinusoidal formula such as:
+     - `y = amplitude * sin(2π * frequency * x / size + phase) + noise`
+   - Introduce randomness with Python’s `random` or NumPy random functions.
+   - Keep values bounded and visually meaningful.
+
+3. **Plotting**
+   - Create a figure and axes with `plt.subplots()`.
+   - Plot the generated `x` and `y` values on the axes.
+   - Add labels, title, and optionally a grid for readability.
+
+4. **Return value**
+   - Return the `Axes` object only, as requested.
+   - Do not show the plot unless explicitly needed; returning the axes keeps the function reusable.
+
+5. **Edge cases to handle**
+   - `size <= 0`: return an empty plot or raise a clear `ValueError`.
+   - `size == 1`: plot a single point or short array safely.
+   - `frequency <= 0`: either allow it as a constant/degenerate case or validate and raise `ValueError`.
+   - Non-integer `size`: validate or cast carefully.
+   - Very large `size`: should still work efficiently with NumPy vectorization.
+   - Randomness reproducibility: optionally allow seeding if deterministic output is desired.
+
+6. **Expected implementation details**
+   - Use the provided imports exactly as given.
+   - Keep the code self-contained.
+   - Ensure the function starts with:
+     ```python
+     def task_func(size=SIZE, frequency=1):
+     ```
+   - Make sure the function produces a sinusoidal graph with randomized characteristics and returns an Axes object.

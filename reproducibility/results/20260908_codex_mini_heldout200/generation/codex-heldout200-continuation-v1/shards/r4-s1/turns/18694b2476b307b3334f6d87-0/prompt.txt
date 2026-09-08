@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Generate all subsets of a given size from a tuple and draw a histogram of the sums of the subsets. Additionally, return the Axes object of the plotted histogram and the combinations of the subsets and their sums.
+The function should output with:
+    matplotlib.axes.Axes: Axes object of the plotted histogram.
+    list: List of all the combinations of subsets.
+    list: List of the sums of all the subsets.
+You should write self-contained code starting with:
+```
+import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(elements, subset_size):
+```
+FULL SUPPLIED CONTEXT
+import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(elements, subset_size):

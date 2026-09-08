@@ -1,0 +1,62 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Generate all subsets of a given size from a tuple and draw a histogram of the sums of the subsets. Additionally, return the Axes object of the plotted histogram and the combinations of the subsets and their sums.
+The function should output with:
+    matplotlib.axes.Axes: Axes object of the plotted histogram.
+    list: List of all the combinations of subsets.
+    list: List of the sums of all the subsets.
+You should write self-contained code starting with:
+```
+import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(elements, subset_size):
+```
+FULL SUPPLIED CONTEXT
+import itertools
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(elements, subset_size):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Validate inputs**
+   - Check that `subset_size` is an integer.
+   - Reject negative `subset_size` with `ValueError`.
+   - If `subset_size > len(elements)`, decide on a consistent behavior:
+     - either return empty results and an empty histogram, or
+     - raise `ValueError`.
+   - Since the task says “generate all subsets,” the most practical behavior is to return empty lists and plot an empty histogram if no combinations exist.
+
+2. **Generate combinations**
+   - Use `itertools.combinations(elements, subset_size)` to generate all subsets of the requested size.
+   - Convert the iterator to a list so it can be returned directly.
+
+3. **Compute subset sums**
+   - For each combination, compute its sum using `sum(...)` or `np.sum(...)`.
+   - Store these in a list in the same order as the combinations.
+
+4. **Create the histogram**
+   - Create a Matplotlib figure and axes with `plt.subplots()`.
+   - Plot the histogram of the sums using `ax.hist(subset_sums, ...)`.
+   - Add labels and a title for clarity, e.g.:
+     - x-axis: `"Sum of subset"`
+     - y-axis: `"Frequency"`
+     - title: `"Histogram of subset sums"`
+
+5. **Return values**
+   - Return a 3-tuple:
+     - the `matplotlib.axes.Axes` object,
+     - the list of combinations,
+     - the list of subset sums.
+
+Edge cases to handle:
+- **`subset_size == 0`**: `itertools.combinations` returns one empty tuple; its sum should be `0`.
+- **`elements` is empty**:
+  - if `subset_size == 0`, return `[()]` and `[0]`;
+  - otherwise, no combinations exist.
+- **`subset_size > len(elements)`**: no valid subsets.
+- **Duplicate values in `elements`**: combinations are based on positions, so duplicates are preserved as separate entries.
+- **Non-numeric elements**: summing will fail; if needed, document that inputs must be numeric.
+- **Very large inputs**: number of combinations may grow quickly, so memory/time usage can become large because all combinations are materialized into a list.

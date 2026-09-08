@@ -1,0 +1,90 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Divide a multi-line string into individual lines, remove stopwords, and count the frequency of each word.
+The function should output with:
+    dict: A dictionary with word frequencies where each key is a unique word and the value is its frequency.
+You should write self-contained code starting with:
+```
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):
+```
+FULL SUPPLIED CONTEXT
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Normalize the input**
+   - Treat `input_string` as the full multiline text.
+   - If it is empty or contains only whitespace/newlines, return `{}` immediately.
+   - Optionally validate type and raise `TypeError` if the input is not a string.
+
+2. **Split into lines**
+   - Use `input_string.splitlines()` to divide the text into individual lines.
+   - This handles `\n`, `\r\n`, and other newline styles cleanly.
+
+3. **Tokenize each line**
+   - Convert each line to lowercase so that counting is case-insensitive.
+   - Use `re.findall(...)` to extract words and ignore punctuation.
+   - A practical pattern is something like:
+     - words made of letters, or
+     - words with apostrophes if you want to keep contractions together.
+   - Skip empty tokens.
+
+4. **Remove stopwords**
+   - Compare each token against `STOPWORDS`.
+   - Only keep tokens not present in the stopword set.
+
+5. **Count frequencies**
+   - Feed the filtered tokens into `Counter`.
+   - Convert the resulting counter to a plain dictionary before returning.
+
+6. **Return result**
+   - Return a `dict` mapping each unique non-stopword to its frequency.
+
+### Edge cases to handle
+- **Empty or whitespace-only input** → return `{}`.
+- **Multiple blank lines** → should not produce tokens.
+- **Punctuation-heavy text** → punctuation should be ignored during tokenization.
+- **Mixed capitalization** → normalize to lowercase before filtering/counting.
+- **Repeated words across lines** → all occurrences should be counted together.
+- **Only stopwords present** → return `{}`.
+- **Contractions like “don’t”** → decide whether to keep them as one token or split them; be consistent.
+- **Non-letter characters / numbers** → decide whether they should be included; if not, the regex should exclude them.
+- **Very large input** → `Counter` remains efficient for frequency counting.
+
+### Expected behavior summary
+- Input: multiline string
+- Processing: split lines → tokenize → lowercase → remove stopwords → count
+- Output: dictionary of word frequencies
+
+If you want, I can also provide the exact implementation matching the required starter code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+
+STOPWORDS = set(stopwords.words('english'))
+
+def task_func(input_string):
+    if not isinstance(input_string, str):
+        raise TypeError("input_string must be a string")
+    if not input_string.strip():
+        return {}
+
+    words = []
+    for line in input_string.splitlines():
+        tokens = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", line.lower())
+        words.extend(token for token in tokens if token not in STOPWORDS)
+
+    return dict(Counter(words))
+```

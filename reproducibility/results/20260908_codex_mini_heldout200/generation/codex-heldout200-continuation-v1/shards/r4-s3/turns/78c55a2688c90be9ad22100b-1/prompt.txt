@@ -1,0 +1,134 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Scales the values in a given dictionary using MinMaxScaler and plots the scaled data.
+The function should output with:
+    pandas.DataFrame containing the scaled data.
+    matplotlib Axes object that displays the plot of the scaled data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+# Constants
+PLOT_TITLE = "Scaled Values"
+def task_func(data_dict):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+# Constants
+PLOT_TITLE = "Scaled Values"
+def task_func(data_dict):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+### Requirements analysis
+
+You need a function `task_func(data_dict)` that:
+
+1. Takes a Python dictionary of values.
+2. Scales the values using `sklearn.preprocessing.MinMaxScaler`.
+3. Produces:
+   - a `pandas.DataFrame` with the scaled results
+   - a `matplotlib.axes.Axes` object showing a plot of the scaled data
+
+The provided starter code already fixes the imports and a plot title constant:
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+# Constants
+PLOT_TITLE = "Scaled Values"
+def task_func(data_dict):
+```
+
+---
+
+### Implementation plan
+
+#### 1. Convert input dictionary to a DataFrame
+- Build a `pandas.DataFrame` from `data_dict`.
+- This is the most natural format for `MinMaxScaler`, which expects tabular numeric data.
+- Preserve the original keys as column names.
+
+#### 2. Validate the input
+Before scaling, ensure the data can actually be processed:
+- The dictionary should not be empty.
+- Values should be numeric or convertible to numeric.
+- All dictionary entries should have compatible lengths if the dict contains sequences.
+- If the input is malformed, either raise a clear exception or let pandas/sklearn fail naturally with a meaningful error.
+
+#### 3. Apply MinMax scaling
+- Create `MinMaxScaler()`.
+- Fit and transform the DataFrame values.
+- Reconstruct a DataFrame from the scaled array:
+  - same column names
+  - same index if applicable
+
+#### 4. Plot the scaled data
+- Create a figure and axis using `plt.subplots()`.
+- Plot the scaled DataFrame on the axis using a line plot or DataFrame plot.
+- Set the plot title to `PLOT_TITLE`.
+- Optionally include labels/legend for readability.
+
+#### 5. Return the required outputs
+- Return the scaled `DataFrame`.
+- Return the `Axes` object used for plotting.
+
+---
+
+### Edge cases to account for
+
+#### Empty dictionary
+- `pd.DataFrame({})` is valid but empty.
+- `MinMaxScaler` cannot scale empty data.
+- Decide whether to:
+  - raise `ValueError("data_dict must not be empty")`, or
+  - return an empty DataFrame and empty plot
+- A clear error is usually better.
+
+#### Non-numeric values
+- `MinMaxScaler` only works on numeric data.
+- If values contain strings, mixed types, or objects, conversion may fail.
+- Plan to validate/convert numeric values and raise a clear error if not possible.
+
+#### Unequal-length sequences in the dictionary
+- Example: `{"a": [1, 2], "b": [3]}`.
+- `pandas.DataFrame` will raise an error because columns have inconsistent lengths.
+- This should be surfaced clearly.
+
+#### Single value / constant column
+- If a column has the same value for all rows, MinMaxScaler maps it to `0.0` for that feature.
+- This is expected behavior and should not be treated as an error.
+
+#### NaN / missing values
+- Depending on sklearn version and data shape, NaNs may propagate or require handling.
+- Decide whether to:
+  - leave them as-is,
+  - drop rows/columns with NaNs,
+  - or raise an error.
+- Since the task does not specify imputation, a simple validation/error approach is safest.
+
+#### Single row or single column
+- Scaling a single row gives all zeros because min equals max per feature.
+- Plotting a single column/row should still work, but may look trivial.
+- Ensure plotting logic does not assume multiple series.
+
+#### Plotting behavior
+- If the DataFrame is empty after validation, plotting should not proceed.
+- Ensure the function returns the actual `Axes` object, not just the figure.
+
+---
+
+### Suggested behavior summary
+
+A robust implementation would:
+- Convert `data_dict` to `DataFrame`
+- Validate that it is non-empty and numeric
+- Apply `MinMaxScaler`
+- Wrap results back into a `DataFrame`
+- Plot the scaled data on a `matplotlib` axis
+- Return `(scaled_df, ax)`
+
+If you want, I can next provide the full implementation in the exact required format.

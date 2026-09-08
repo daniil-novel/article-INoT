@@ -1,0 +1,136 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Count the occurrences of each value in the specified columns in multiple CSV files.
+The function should output with:
+    dict: A dictionary where keys are column names and values are dictionaries
+    with unique values in the column as keys and their counts as values.
+You should write self-contained code starting with:
+```
+import collections
+import pandas as pd
+def task_func(my_tuple, path_csv_files):
+```
+FULL SUPPLIED CONTEXT
+import collections
+import pandas as pd
+def task_func(my_tuple, path_csv_files):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(my_tuple, path_csv_files)`.
+
+## Goal
+Count the occurrences of each distinct value in the specified columns across multiple CSV files, and return a nested dictionary:
+
+```python
+{
+    "column_name1": {value1: count, value2: count, ...},
+    "column_name2": {value1: count, ...},
+}
+```
+
+## Expected inputs
+- `my_tuple`: a tuple of column names to analyze.
+- `path_csv_files`: one or more CSV file paths to read and aggregate.
+
+## Implementation plan
+
+### 1. Normalize inputs
+- Treat `my_tuple` as the list of target columns.
+- Treat `path_csv_files` as either:
+  - a single file path, or
+  - an iterable of file paths.
+- If needed, normalize into a list so the rest of the logic can loop uniformly.
+
+### 2. Initialize aggregation storage
+- Create a dictionary for counts per target column.
+- Use `collections.Counter` for each column to simplify accumulation.
+
+Example structure:
+```python
+{
+    col1: collections.Counter(),
+    col2: collections.Counter(),
+}
+```
+
+### 3. Read each CSV file
+- For every CSV path:
+  - Load the file with `pandas.read_csv(...)`.
+  - Process only the columns that are both:
+    - requested in `my_tuple`, and
+    - present in the current DataFrame.
+
+### 4. Count values per column
+For each selected column:
+- Extract the series.
+- Decide how to handle missing values:
+  - Most likely skip `NaN` values, since they are not “unique values” in the usual sense.
+- Convert values to hashable/countable forms if needed.
+- Update the corresponding `Counter` with the column’s non-missing values.
+
+### 5. Combine counts across files
+- Because the counters are updated file by file, counts from all CSVs will accumulate automatically.
+
+### 6. Build the final output dictionary
+- Convert each `Counter` to a plain `dict`.
+- Return a dictionary mapping each requested column name to its value-count dictionary.
+
+---
+
+## Edge cases to handle
+
+### Missing columns in some files
+- If a requested column is absent from a CSV file:
+  - skip it for that file,
+  - do not fail unless the specification requires strict validation.
+
+### Empty files
+- An empty CSV may raise `EmptyDataError` or produce an empty DataFrame.
+- Handle by skipping that file or returning empty counts for requested columns.
+
+### Missing values
+- Decide whether to:
+  - ignore `NaN`/`None`, or
+  - count them as a separate category.
+- Standard behavior is to ignore them unless specified otherwise.
+
+### Non-string values
+- Columns may contain integers, floats, booleans, timestamps, etc.
+- `Counter` can count these directly as long as they are hashable.
+
+### Mixed types in a column
+- Pandas may infer mixed dtypes; counting still works, but values like `1` and `"1"` will be counted separately.
+
+### Duplicate column names in CSV
+- If a CSV has duplicated headers, pandas may mangle names depending on settings.
+- Usually acceptable to rely on default `read_csv` behavior.
+
+### Path input variations
+- If `path_csv_files` is a single path instead of a list/tuple, normalize it to a list.
+- If it is empty, return a dictionary with the requested columns mapped to empty dicts.
+
+### File read errors
+- If a file does not exist or is unreadable, decide whether to:
+  - raise the exception, or
+  - skip the file.
+- The safest default in a coding task is usually to let the exception surface unless robustness is requested.
+
+---
+
+## Suggested internal logic
+1. Create `result = {col: Counter() for col in my_tuple}`
+2. Loop over CSV files.
+3. Read CSV into `df`.
+4. For each requested column present in `df`:
+   - `result[col].update(df[col].dropna().tolist())`
+5. Return `{col: dict(counter) for col, counter in result.items()}`
+
+---
+
+## Output behavior
+- The returned dictionary should include all requested columns from `my_tuple`, even if:
+  - the column does not appear in any file, or
+  - the column only contains missing values.
+- In those cases, the value should be `{}`.
+
+If you want, I can next turn this plan into the exact self-contained function code starting with the provided imports.

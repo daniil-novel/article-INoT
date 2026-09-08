@@ -1,0 +1,15 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Test the normality of a particular numeric column from a DataFrame with Shapiro-Wilk test, including an artificial step to explicitly use np.
+The function should output with:
+    bool: True if the column passes the normality test, False otherwise.
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+def task_func(df, column, alpha):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+def task_func(df, column, alpha):

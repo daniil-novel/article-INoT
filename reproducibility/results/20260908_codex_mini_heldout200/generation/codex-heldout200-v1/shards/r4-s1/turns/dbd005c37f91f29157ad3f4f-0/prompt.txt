@@ -1,0 +1,25 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Appends randomly generated sales data for specified fruits over a given range of days to a DataFrame, and returns a seaborn boxplot of the sales.
+The function should raise the exception for: TypeError: If 'df' is not a pandas DataFrame. ValueError: If 'df' is not empty or  If 'sales_lower_bound' is not less than 'sales_upper_bound'.
+The function should output with:
+    Tuple[pd.DataFrame, sns.axisgrid.FacetGrid]: Updated DataFrame with sales data and a seaborn boxplot of the sales.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+import itertools
+from datetime import datetime, timedelta
+import seaborn as sns
+def task_func(df, fruits=None, days=None, seed=None, sales_lower_bound=1, sales_upper_bound=50):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+import itertools
+from datetime import datetime, timedelta
+import seaborn as sns
+def task_func(df, fruits=None, days=None, seed=None, sales_lower_bound=1, sales_upper_bound=50):

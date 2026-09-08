@@ -1,0 +1,21 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create isotropic Gaussian blobs to form clusters and visualize them.
+The function should output with:
+    tuple: A tuple containing:
+    X (numpy.ndarray): The matrix of blob points.
+    y (numpy.ndarray): The vector of blob labels.
+    ax (matplotlib.axes.Axes): The Axes object with the scatter plot.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+def task_func(n_samples=100, centers=3, n_features=2, random_seed=42):
+```
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+def task_func(n_samples=100, centers=3, n_features=2, random_seed=42):

@@ -1,0 +1,128 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Create SHA256 hashes for all files in the specified directory, including files in subdirectories, and save these hashes in a JSON file named 'hashes.json' in the given directory.
+The function should output with:
+    str: The absolute path of the JSON file ('hashes.json') containing the hashes.
+You should write self-contained code starting with:
+```
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+```
+FULL SUPPLIED CONTEXT
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(directory: str) -> str` that meets the requirements.
+
+## Goal
+- Traverse the given directory recursively.
+- Compute SHA256 for every file found.
+- Save the results to `hashes.json` inside the same directory.
+- Return the **absolute path** to that JSON file.
+
+---
+
+## Proposed data format
+Use a JSON object mapping each file’s path to its SHA256 hash, for example:
+
+```json
+{
+  "subdir/file.txt": "abc123...",
+  "another.bin": "def456..."
+}
+```
+
+I recommend storing **relative paths** from `directory` so the output is portable and easier to read.
+
+---
+
+## Implementation plan
+
+### 1. Normalize and validate the input directory
+- Convert `directory` to a `Path`.
+- Resolve it to an absolute path.
+- Ensure it exists and is a directory.
+- If not, raise an appropriate error such as `FileNotFoundError` or `NotADirectoryError`.
+
+### 2. Walk the directory recursively
+- Use `os.walk()` or `Path.rglob("*")` to inspect all nested files.
+- Only process regular files.
+- Skip directories and other non-file entries.
+
+### 3. Exclude the output file itself
+- Since the JSON file will be written into the same directory, make sure `hashes.json` is **not included** in the hashed file list.
+- This avoids self-referential behavior, especially if the function is run multiple times.
+
+### 4. Compute SHA256 for each file
+- Open each file in **binary mode**.
+- Read in chunks, not all at once, to support large files efficiently.
+- Update a `hashlib.sha256()` object incrementally.
+- Store the final hex digest.
+
+### 5. Build the results dictionary
+- Use relative file paths as keys.
+- Store hash strings as values.
+- Sort paths before writing for deterministic output.
+
+### 6. Write `hashes.json`
+- Save the dictionary to `<directory>/hashes.json`.
+- Use UTF-8 encoding.
+- Write formatted JSON, likely with indentation for readability.
+
+### 7. Return the absolute path
+- Return `str(path_to_hashes_json.resolve())`.
+
+---
+
+## Edge cases to handle
+
+### Empty directory
+- Should still create `hashes.json`.
+- The JSON content should be an empty object `{}`.
+
+### Existing `hashes.json`
+- Should not be included in the hash list.
+- It will be overwritten with the new output.
+
+### Nested subdirectories
+- Must be traversed recursively and included.
+
+### Large files
+- Must be hashed in chunks to avoid memory issues.
+
+### Non-regular files
+- Skip symlinks, sockets, pipes, etc. unless explicitly needed.
+- Safer to hash only regular files.
+
+### Permission errors
+- If a file cannot be read, decide whether to:
+  - propagate the exception, or
+  - skip it and continue.
+- For a straightforward implementation, propagating is acceptable unless the task expects resilience.
+
+### Deterministic output
+- Sort file paths before writing so repeated runs produce stable JSON ordering.
+
+---
+
+## Notes on the function signature
+The code should begin exactly with:
+
+```python
+import os
+import hashlib
+import json
+from pathlib import Path
+def task_func(directory: str) -> str:
+```
+
+So the implementation should fit within that structure and use standard library only.
+
+If you want, I can next provide the actual implementation.

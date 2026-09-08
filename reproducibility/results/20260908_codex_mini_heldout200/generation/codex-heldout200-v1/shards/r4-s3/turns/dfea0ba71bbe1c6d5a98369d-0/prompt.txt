@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Add a new column with random values to the "data" DataFrame.
+The function should raise the exception for: The function will raise an error if the input data is not pandas DataFrame
+The function should output with:
+    DataFrame: Updated DataFrame with the new column added.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(data, key, min_value, max_value):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(data, key, min_value, max_value):

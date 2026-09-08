@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07ed3-b722-7df2-b799-3c3bc17ce791"}
+{"type":"turn.started"}
+{"type":"error","message":"stream disconnected before completion: Transport error: network error: error decoding response body"}
+{"type":"turn.failed","error":{"message":"stream disconnected before completion: Transport error: network error: error decoding response body"}}

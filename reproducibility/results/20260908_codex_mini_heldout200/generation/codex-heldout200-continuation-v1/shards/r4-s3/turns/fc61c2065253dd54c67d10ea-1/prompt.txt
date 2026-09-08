@@ -1,0 +1,146 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Count the total number of brackets (i.e., '(', ')', '{', '}', '[', ']') in a pandas DataFrame. >>> df = pd.DataFrame({'Test': ['(a)', 'b', '[[[[))c']}) >>> task_func(df) 8
+Note that: The function uses a specific pattern '[(){}[\]]' to identify brackets.
+The function should raise the exception for: TypeError: If input is not a DataFrame
+The function should output with:
+    int: The total number of brackets.
+You should write self-contained code starting with:
+```
+import re
+import pandas as pd
+def task_func(df: pd.DataFrame) -> int:
+```
+FULL SUPPLIED CONTEXT
+import re
+import pandas as pd
+def task_func(df: pd.DataFrame) -> int:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(df: pd.DataFrame) -> int`:
+
+## Goal
+Count every bracket character in all cells of a pandas `DataFrame`, where brackets are:
+
+- `(`
+- `)`
+- `{`
+- `}`
+- `[`
+- `]`
+
+The specification says to use the pattern:
+
+```python
+[(){}[\]]
+```
+
+and to raise `TypeError` if the input is not a `DataFrame`.
+
+---
+
+## Planned approach
+
+### 1) Validate input type
+- First check whether `df` is an instance of `pd.DataFrame`.
+- If not, raise:
+  ```python
+  TypeError("Input must be a pandas DataFrame")
+  ```
+  or a similar clear message.
+
+### 2) Extract all values from the DataFrame
+- Convert the DataFrame values into a flat sequence of cell contents.
+- This can be done via `df.astype(str).values.ravel()` or by iterating through all cells.
+- Converting to string is useful because bracket counting should work for any cell type, not only strings.
+
+### 3) Count brackets in each cell using regex
+- For each cell string, use `re.findall(r'[(){}[\]]', cell_str)` to find all bracket characters.
+- Count the matches and accumulate them into a total.
+
+### 4) Return total count
+- Return the final integer count.
+
+---
+
+## Important edge cases
+
+### Non-DataFrame input
+Examples:
+- `None`
+- list
+- dict
+- numpy array
+- scalar value
+
+Expected behavior:
+- raise `TypeError`
+
+---
+
+### Empty DataFrame
+- If `df` has no rows or columns, the result should be `0`.
+
+---
+
+### Mixed data types in cells
+Example:
+- strings
+- integers
+- floats
+- `None`
+- `NaN`
+- timestamps
+
+Plan:
+- Convert all values to string before regex matching.
+- This ensures the function does not fail on non-string entries.
+
+---
+
+### Nested or repeated brackets
+Example:
+- `"[[[[))c"` should count all bracket characters individually.
+- The function counts occurrences, not balanced pairs.
+
+---
+
+### Brackets mixed with other characters
+Example:
+- `"a(b)c{d}[e]"`
+- Only bracket characters should be counted; all other characters ignored.
+
+---
+
+### Multicolumn DataFrames
+- Count brackets across all columns, not just one column.
+
+---
+
+### Missing values
+- `NaN`/`None` should not contribute bracket counts.
+- After string conversion, they become `"nan"` / `"None"`, which contain no bracket characters, so count remains unchanged.
+
+---
+
+## Expected behavior on the sample
+Input:
+```python
+df = pd.DataFrame({'Test': ['(a)', 'b', '[[[[))c']})
+```
+
+Bracket counts:
+- `"(a)"` → 2
+- `"b"` → 0
+- `"[[[[))c"` → 6
+
+Total = `8`
+
+---
+
+## Implementation notes
+- Use `re.findall` with the exact bracket pattern.
+- Sum counts across every cell.
+- Keep the function self-contained and minimal.
+
+If you want, I can also provide the final code implementation next.

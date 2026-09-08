@@ -1,0 +1,129 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Calculate the distribution of the maximum values of each row in the matrix, record the histogram and the estimate of the core density of the distribution, and return the skew, kurtosis, and the histogram plot of the distribution.
+The function should output with:
+    tuple: The skewness, the kurtosis of the distribution, and the histogram plot (matplotlib Axes object).
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(matrix):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(matrix):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s the implementation plan and requirement analysis for `task_func(matrix)`.
+
+## Goal
+Given a matrix, compute the **maximum value of each row**, analyze the distribution of those row maxima, and return:
+
+1. **Skewness** of the row-max distribution
+2. **Kurtosis** of the row-max distribution
+3. A **histogram plot** of the row-max distribution as a `matplotlib.axes.Axes` object
+
+---
+
+## Planned approach
+
+### 1) Normalize and validate input
+- Convert `matrix` to a NumPy array with `np.asarray(matrix)`.
+- Ensure it behaves like a 2D matrix.
+- If the input is empty or cannot produce row maxima, handle gracefully.
+
+### 2) Compute row maxima
+- For each row, compute:
+  - `row_maxima = np.max(matrix, axis=1)`
+- If missing values are expected, decide whether to:
+  - use `np.nanmax` to ignore NaNs, or
+  - treat NaNs as invalid input
+- Since the task does not specify NaN handling, the safest default is to use standard `np.max` and let invalid values propagate, unless you want robustness.
+
+### 3) Compute distribution statistics
+- Use SciPy statistics functions on the row maxima:
+  - `stats.skew(row_maxima)`
+  - `stats.kurtosis(row_maxima)`
+- By default, SciPy’s kurtosis is **excess kurtosis** (`fisher=True`), so that is likely the intended interpretation unless otherwise specified.
+- These metrics describe shape of the distribution of row maxima.
+
+### 4) Build the histogram plot
+- Create a figure and axis:
+  - `fig, ax = plt.subplots()`
+- Plot histogram of the row maxima:
+  - `ax.hist(row_maxima, bins='auto', density=True, alpha=0.7, edgecolor='black')`
+- Since the prompt mentions “estimate of the core density of the distribution,” a density-normalized histogram is a good fit.
+- Optionally, if desired and valid, overlay a smooth density estimate such as KDE, but the required output only asks for the histogram plot object.
+
+### 5) Return result
+- Return a tuple:
+  - `(skewness, kurtosis, ax)`
+
+---
+
+## Edge cases to handle
+
+### Empty input
+- If `matrix` has no rows or no elements:
+  - skewness/kurtosis are undefined
+  - histogram is meaningless
+- Decide whether to raise an exception or return `nan` values with an empty plot.
+- Most robust behavior: raise a clear `ValueError` for empty input.
+
+### Single row
+- If the matrix has only one row:
+  - row maxima is a 1-element array
+  - skewness and kurtosis are undefined or may return `nan`
+- This is acceptable if documented, but results may be `nan`.
+
+### Single column
+- Row maxima are simply the row values themselves.
+- No special handling needed.
+
+### Constant row maxima
+- If all row maxima are identical:
+  - standard deviation is zero
+  - skewness and kurtosis are not informative and often become `nan`
+- This should be expected behavior.
+
+### NaN / inf values
+- If the matrix contains `NaN` or `inf`:
+  - `np.max` may propagate issues
+  - `stats.skew` / `stats.kurtosis` may return `nan`
+- If robustness matters, decide whether to:
+  - reject non-finite values
+  - or use `np.nanmax` and filter finite maxima before statistics
+
+### Non-2D or ragged input
+- If input is not rectangular or not matrix-like:
+  - converting to `np.asarray` may produce an object array
+- Best to validate shape and raise an error if it is not 2D numeric data.
+
+---
+
+## Expected output behavior
+The function should return:
+
+```python
+(skewness_value, kurtosis_value, ax)
+```
+
+where:
+- `skewness_value`: float
+- `kurtosis_value`: float
+- `ax`: matplotlib `Axes` object containing the histogram
+
+---
+
+## Summary of intended implementation
+1. Convert input to NumPy array.
+2. Validate it is a non-empty 2D numeric matrix.
+3. Compute row-wise maxima.
+4. Calculate skewness and kurtosis of those maxima.
+5. Plot a density-normalized histogram.
+6. Return skewness, kurtosis, and the plot axis.
+
+If you want, I can next produce the full self-contained implementation starting exactly with the required import block and function signature.

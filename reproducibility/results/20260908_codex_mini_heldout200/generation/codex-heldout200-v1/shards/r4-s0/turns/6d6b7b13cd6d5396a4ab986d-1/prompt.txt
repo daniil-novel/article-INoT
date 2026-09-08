@@ -1,0 +1,64 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Visualize the distribution of goals and penalties for a number of teams and return the data as a DataFrame with colomns 'Team', 'Goals' and 'Penalties'.
+The function should output with:
+    tuple: A tuple containing:
+    DataFrame: A pandas DataFrame with the goals and penalties for the teams.
+    Axes: A seaborn pairplot visualization of goals and penalties distribution for the teams.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(goals, penalties):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(goals, penalties)`:
+
+1. **Validate inputs**
+   - Confirm `goals` and `penalties` are iterable sequence-like collections.
+   - Check that they have the same length.
+   - Handle empty input explicitly:
+     - return an empty DataFrame with columns `Team`, `Goals`, `Penalties`
+     - and an empty/placeholder pairplot object if needed.
+   - Optionally verify values are numeric or can be converted to numeric.
+
+2. **Build the DataFrame**
+   - Create one row per team.
+   - Since no team names are supplied, generate default labels such as:
+     - `Team 1`, `Team 2`, ..., `Team n`
+   - Construct a pandas DataFrame with exactly these columns:
+     - `Team`
+     - `Goals`
+     - `Penalties`
+
+3. **Create the visualization**
+   - Use `seaborn.pairplot` on the DataFrame.
+   - Plot only the numeric columns `Goals` and `Penalties`.
+   - Use `Team` as a `hue` if the goal is to distinguish teams visually.
+   - Keep the plot readable:
+     - choose a reasonable marker size or palette if many teams exist
+     - use a diagonal distribution plot (`hist` or `kde`) as appropriate
+
+4. **Return value**
+   - Return a tuple:
+     - the DataFrame
+     - the seaborn pairplot object
+
+5. **Important note about return type**
+   - `seaborn.pairplot` returns a `PairGrid`, not a plain matplotlib `Axes`.
+   - If the task specification says “Axes,” the practical object produced by `pairplot` is still the correct visualization handle to return in the tuple.
+
+Edge cases to account for:
+- `goals` and `penalties` have different lengths
+- one or both inputs are empty
+- non-numeric or mixed-type values
+- `None` values / missing data
+- very large number of teams causing an overcrowded hue legend
+- scalar values accidentally passed instead of sequences
+
+If you want, I can also turn this plan into the exact self-contained function implementation.

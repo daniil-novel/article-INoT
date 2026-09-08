@@ -1,0 +1,185 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Appends randomly generated sales data for specified fruits over a given range of days to a DataFrame, and returns a seaborn boxplot of the sales.
+The function should raise the exception for: TypeError: If 'df' is not a pandas DataFrame. ValueError: If 'df' is not empty or  If 'sales_lower_bound' is not less than 'sales_upper_bound'.
+The function should output with:
+    Tuple[pd.DataFrame, sns.axisgrid.FacetGrid]: Updated DataFrame with sales data and a seaborn boxplot of the sales.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+import itertools
+from datetime import datetime, timedelta
+import seaborn as sns
+def task_func(df, fruits=None, days=None, seed=None, sales_lower_bound=1, sales_upper_bound=50):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+import itertools
+from datetime import datetime, timedelta
+import seaborn as sns
+def task_func(df, fruits=None, days=None, seed=None, sales_lower_bound=1, sales_upper_bound=50):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func` based on the requirements.
+
+## Goal
+Build a function that:
+
+1. Validates inputs.
+2. Generates random sales data for given fruits across a set of days.
+3. Appends that data to the provided empty DataFrame.
+4. Returns:
+   - the updated `pd.DataFrame`
+   - a seaborn boxplot as a `sns.axisgrid.FacetGrid`
+
+---
+
+## Implementation Plan
+
+### 1. Validate `df`
+- Check that `df` is an instance of `pandas.DataFrame`.
+  - If not, raise `TypeError`.
+- Check that `df` is empty.
+  - If not empty, raise `ValueError`.
+
+### 2. Validate sales bounds
+- Ensure `sales_lower_bound < sales_upper_bound`.
+  - If not, raise `ValueError`.
+
+### 3. Normalize optional inputs
+- If `fruits` is `None`, assign a sensible default list of fruit names.
+- If `days` is `None`, assign a sensible default day range or count.
+  - Since the task says “over a given range of days,” define a consistent internal interpretation, such as a list of day offsets or a date range.
+
+### 4. Set randomness
+- If `seed` is provided:
+  - initialize NumPy randomness with that seed for reproducible output.
+
+### 5. Generate the sales records
+- Use `itertools.product` to create all combinations of:
+  - each fruit
+  - each day in the chosen range
+- For each combination:
+  - generate a random sales value within the requested bounds.
+- Use `datetime` and `timedelta` to construct actual date values if needed.
+
+### 6. Build the new DataFrame
+- Create a DataFrame with at least these columns:
+  - fruit
+  - date/day
+  - sales
+- Append/concatenate this generated data to the input `df`.
+- Return the resulting updated DataFrame.
+
+### 7. Create the seaborn boxplot
+- Use a seaborn function that returns a `FacetGrid`, such as `sns.catplot(kind="box", ...)`.
+- Plot sales distribution grouped by fruit.
+- Ensure the plot is based on the newly generated data or the full updated DataFrame, depending on intended output.
+- Return the plot object.
+
+### 8. Return value
+- Return a tuple:
+  - updated `pd.DataFrame`
+  - seaborn `FacetGrid`
+
+---
+
+## Edge Cases to Handle
+
+### Input validation edge cases
+- `df` is not a DataFrame → `TypeError`
+- `df` is a DataFrame but not empty → `ValueError`
+- `sales_lower_bound >= sales_upper_bound` → `ValueError`
+
+### Data generation edge cases
+- `fruits` is empty or not iterable
+- `days` is empty, zero, negative, or invalid type
+- `seed` is `None` → allow nondeterministic output
+- duplicate fruits or repeated days → acceptable, but should be handled naturally
+
+### Plotting edge cases
+- No generated rows → boxplot cannot be meaningfully created
+- Only one fruit/day combination → plot should still work, but may look trivial
+- Extremely small sample sizes → boxplot may be less informative, but should still render
+
+---
+
+## Recommended internal data columns
+Use a simple schema such as:
+- `fruit`
+- `date`
+- `sales`
+
+This makes the seaborn boxplot straightforward and keeps the function easy to understand.
+
+---
+
+If you want, I can also turn this plan into the full self-contained implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import numpy as np
+import itertools
+from datetime import datetime, timedelta
+import seaborn as sns
+from typing import Tuple
+
+
+def task_func(
+    df,
+    fruits=None,
+    days=None,
+    seed=None,
+    sales_lower_bound=1,
+    sales_upper_bound=50,
+) -> Tuple[pd.DataFrame, sns.axisgrid.FacetGrid]:
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("'df' must be a pandas DataFrame.")
+    if not df.empty:
+        raise ValueError("'df' must be empty.")
+    if sales_lower_bound >= sales_upper_bound:
+        raise ValueError("'sales_lower_bound' must be less than 'sales_upper_bound'.")
+
+    default_fruits = ["apple", "banana", "orange"]
+
+    if fruits is None:
+        fruits = default_fruits
+    else:
+        fruits = list(fruits)
+        if not fruits:
+            fruits = default_fruits
+
+    if days is None:
+        day_values = list(range(7))
+    elif isinstance(days, int):
+        day_values = list(range(days)) if days > 0 else list(range(7))
+    else:
+        day_values = list(days)
+        if not day_values:
+            day_values = list(range(7))
+
+    rng = np.random.default_rng(seed)
+    base_date = datetime(2020, 1, 1)
+
+    records = []
+    for fruit, day in itertools.product(fruits, day_values):
+        if isinstance(day, (int, np.integer)):
+            date_value = base_date + timedelta(days=int(day))
+        elif isinstance(day, datetime):
+            date_value = day
+        else:
+            date_value = day
+
+        sales_value = float(rng.uniform(sales_lower_bound, sales_upper_bound))
+        records.append({"fruit": fruit, "date": date_value, "sales": sales_value})
+
+    generated_df = pd.DataFrame(records, columns=["fruit", "date", "sales"])
+    updated_df = pd.concat([df.copy(), generated_df], ignore_index=True)
+
+    plot = sns.catplot(data=updated_df, x="fruit", y="sales", kind="box")
+
+    return updated_df, plot
+```

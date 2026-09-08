@@ -1,0 +1,90 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a Pandas DataFrame of employees with their details based on the input provided.
+The function should output with:
+    data_df (pd.DataFrame): dataframe with columns: 'Name', 'Age', 'Code', 'Salary', 'Bio', 'Job Title'.
+    The 'Job Title' is randomly assigned from the predefined job titles:
+    'Engineer', 'Manager', 'Analyst', 'Developer', 'Tester'.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from random import randint
+def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from random import randint
+def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Accept the five input fields**
+   - `name`, `age`, `code`, `salary`, `bio`.
+
+2. **Randomly assign a job title**
+   - Define the allowed titles:
+     - `Engineer`
+     - `Manager`
+     - `Analyst`
+     - `Developer`
+     - `Tester`
+   - Use `randint(0, 4)` to pick one title uniformly at random.
+
+3. **Build a one-row Pandas DataFrame**
+   - Create a dictionary with keys in the required column order:
+     - `Name`
+     - `Age`
+     - `Code`
+     - `Salary`
+     - `Bio`
+     - `Job Title`
+   - Put the provided values into the dictionary and the random title into `Job Title`.
+   - Convert the dictionary to `pd.DataFrame(...)`.
+
+4. **Return the DataFrame**
+   - The function should return the DataFrame object directly.
+
+Edge cases to consider:
+
+- **Empty strings** for `name`, `code`, or `bio`
+  - Should still be stored as-is without modification.
+
+- **Numeric edge cases**
+  - `age` may be `0`, negative, or unusually large.
+  - `salary` may be `0`, negative, or a float with many decimals.
+  - The function should preserve the given values rather than validate unless explicitly required.
+
+- **Special characters / Unicode**
+  - Names, codes, and bios may contain non-ASCII characters, punctuation, or line breaks.
+
+- **Randomness**
+  - Job title selection is nondeterministic.
+  - Tests should verify that the title is one of the allowed values, not a specific one.
+
+- **Column order**
+  - Ensure the DataFrame columns are exactly in the specified order, since downstream checks may be strict.
+
+- **Single-row output**
+  - Because the function signature provides a single employee’s details, the output should be a one-row DataFrame, not a list or multi-row table.
+
+If you want, I can also provide the exact implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+from random import randint
+
+def task_func(name: str, age: int, code: str, salary: float, bio: str) -> pd.DataFrame:
+    job_titles = ['Engineer', 'Manager', 'Analyst', 'Developer', 'Tester']
+    job_title = job_titles[randint(0, 4)]
+
+    data_df = pd.DataFrame([{
+        'Name': name,
+        'Age': age,
+        'Code': code,
+        'Salary': salary,
+        'Bio': bio,
+        'Job Title': job_title
+    }])
+
+    return data_df

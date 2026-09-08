@@ -1,0 +1,61 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Test the normality of a particular numeric column from a DataFrame with Shapiro-Wilk test, including an artificial step to explicitly use np.
+The function should output with:
+    bool: True if the column passes the normality test, False otherwise.
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+def task_func(df, column, alpha):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+def task_func(df, column, alpha):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a concise implementation plan for `task_func(df, column, alpha)`.
+
+## Goal
+Use the **Shapiro-Wilk test** to determine whether a numeric DataFrame column is consistent with a normal distribution.
+
+## Expected behavior
+- Return **`True`** if the column **passes** the normality test.
+- Return **`False`** otherwise.
+- The function should be self-contained and begin with:
+  ```python
+  import numpy as np
+  from scipy import stats
+  def task_func(df, column, alpha):
+  ```
+
+## Planned approach
+1. **Extract the target column** from `df`.
+2. **Explicitly use `np`** by converting the column values to a NumPy array, e.g.:
+   - `values = np.asarray(df[column])`
+3. **Clean the data**:
+   - Keep only finite numeric values using `np.isfinite(...)`
+   - Remove `NaN`, `inf`, `-inf`
+4. **Check sample size**:
+   - Shapiro-Wilk requires enough observations; if fewer than 3 valid values remain, return `False`.
+5. **Run Shapiro-Wilk test**:
+   - `stat, p_value = stats.shapiro(values)`
+6. **Decision rule**:
+   - Return `True` if `p_value > alpha`
+   - Return `False` otherwise
+
+## Edge cases to handle
+- **Missing column**: if `column` is not in `df`, the function should return `False` or fail gracefully.
+- **Non-numeric data**: if the column contains strings or mixed types, return `False` after conversion fails or filtering removes all usable values.
+- **Too few samples**: fewer than 3 valid observations should return `False`.
+- **All values identical**: Shapiro-Wilk may issue warnings or produce degenerate results; safest behavior is to treat this as `False` unless the test explicitly yields a valid pass.
+- **NaN / infinite values**: filter them out before testing.
+- **Invalid `alpha`**:
+  - If `alpha` is not in `(0, 1)`, return `False` or handle defensively.
+
+## Notes
+- The null hypothesis of Shapiro-Wilk is: **the data is normally distributed**.
+- So “passes normality test” means we **fail to reject** the null hypothesis, i.e. `p_value > alpha`.
+
+If you want, I can next provide the actual implementation in the required format.

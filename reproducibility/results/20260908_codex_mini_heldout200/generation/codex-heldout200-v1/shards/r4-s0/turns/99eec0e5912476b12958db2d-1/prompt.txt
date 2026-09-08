@@ -1,0 +1,94 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Select a random person from a dataset of people and their attributes (name, age, city) provided as a global variable DATA. Add a UTC timestamp to the person's data which is passed as an argument utc_datetime 'timestamp'. Finally, encode that person's data as a JSON string.
+The function should output with:
+    str: The person's data encoded as a JSON string.
+You should write self-contained code starting with:
+```
+import json
+import random
+# Constants
+DATA = [
+    {'name': 'John', 'age': 30, 'city': 'New York'},
+    {'name': 'Peter', 'age': 35, 'city': 'London'},
+    {'name': 'Susan', 'age': 25, 'city': 'Sydney'},
+    {'name': 'Alice', 'age': 28, 'city': 'Paris'},
+    {'name': 'Bob', 'age': 40, 'city': 'Tokyo'},
+    {'name': 'Charlie', 'age': 22, 'city': 'Beijing'},
+    {'name': 'David', 'age': 33, 'city': 'Mumbai'},
+    {'name': 'Eve', 'age': 27, 'city': 'Berlin'},
+    {'name': 'Frank', 'age': 32, 'city': 'Moscow'},
+    {'name': 'Grace', 'age': 29, 'city': 'Rome'}
+]
+def task_func(utc_datetime, seed=0):
+```
+FULL SUPPLIED CONTEXT
+import json
+import random
+# Constants
+DATA = [
+    {'name': 'John', 'age': 30, 'city': 'New York'},
+    {'name': 'Peter', 'age': 35, 'city': 'London'},
+    {'name': 'Susan', 'age': 25, 'city': 'Sydney'},
+    {'name': 'Alice', 'age': 28, 'city': 'Paris'},
+    {'name': 'Bob', 'age': 40, 'city': 'Tokyo'},
+    {'name': 'Charlie', 'age': 22, 'city': 'Beijing'},
+    {'name': 'David', 'age': 33, 'city': 'Mumbai'},
+    {'name': 'Eve', 'age': 27, 'city': 'Berlin'},
+    {'name': 'Frank', 'age': 32, 'city': 'Moscow'},
+    {'name': 'Grace', 'age': 29, 'city': 'Rome'}
+]
+def task_func(utc_datetime, seed=0):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Implementation plan
+
+1. **Use the provided dataset**
+   - Work only with the global `DATA` list of person dictionaries.
+   - Each person has `name`, `age`, and `city`.
+
+2. **Make selection reproducible**
+   - Initialize a local random generator with `seed`.
+   - Use that generator to pick one person from `DATA`.
+   - This ensures the same input seed always selects the same person.
+
+3. **Avoid mutating the original dataset**
+   - Copy the selected person’s dictionary before modifying it.
+   - Add the new timestamp field to the copy, not to `DATA`.
+
+4. **Add the UTC timestamp**
+   - Store the passed-in `utc_datetime` value under the key `"timestamp"`.
+   - Keep the value as-is unless the task explicitly requires formatting/conversion.
+
+5. **Serialize to JSON**
+   - Convert the updated person dictionary to a JSON string with `json.dumps(...)`.
+   - Return that string as the function result.
+
+---
+
+## Edge cases to consider
+
+- **Empty `DATA`**
+  - If the dataset is empty, random selection will fail.
+  - Decide whether to raise a clear error or handle it explicitly.
+
+- **Non-deterministic global RNG**
+  - Avoid using the global `random` state directly if reproducibility matters.
+  - Use a seeded local instance instead.
+
+- **Mutable original record**
+  - If the selected dictionary is modified in place, the global dataset changes unexpectedly.
+  - Use `.copy()` or equivalent shallow copy.
+
+- **Timestamp value type**
+  - `utc_datetime` may be a string, datetime-like object, or another serializable value.
+  - If it is not JSON-serializable by default, conversion may be needed.
+
+- **JSON serialization issues**
+  - If the timestamp is a custom object, `json.dumps` may fail.
+  - Ensure the timestamp is in a JSON-friendly form.
+
+- **Single-item dataset**
+  - Selection should still work correctly if `DATA` contains only one person.
+
+If you want, I can now provide the actual self-contained implementation.

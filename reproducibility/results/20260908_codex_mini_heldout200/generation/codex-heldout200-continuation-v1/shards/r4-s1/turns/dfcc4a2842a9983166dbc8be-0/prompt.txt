@@ -1,0 +1,23 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a dictionary with a fake event schedule given an event time. The function converts a given epoch in milliseconds into a datetime object in the current system time's timezone. It generates a fake event name using Faker. Then, it uses pytz and regex to check if specified timezones are valid (i.e. in pytz.all_timezones or can be parsed using regex from UTC±HH:MM format), ignoring invalid ones. If none is valid or if timezones were not specified, it selects UTC; otherwise, it randomly selects a valid one using Faker. Finally, the function returns a dictionary with the fake event name as key and a list as value, where the list itself contains a schedule, i.e. a dictionary with keys 'date', 'time', 'timezone'.
+The function should output with:
+    A dictionary containing event names as keys and a list of event details as values.
+    Event details include the date, time, and timezone of the event.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pytz
+import re
+from faker import Faker
+def task_func(epoch_milliseconds, seed=0, timezones=["UTC"]):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pytz
+import re
+from faker import Faker
+def task_func(epoch_milliseconds, seed=0, timezones=["UTC"]):

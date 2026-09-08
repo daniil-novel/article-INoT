@@ -1,0 +1,22 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a "shopping cart" (Counter object) for each list in list_of_lists. The items in the cart are randomly selected from a predefined list of possible items (POSSIBLE_ITEMS). The frequency of each item in the cart corresponds to the length of the list.
+The function should output with:
+    baskets (list): A list of Counters, each representing a 'shopping cart'.
+You should write self-contained code starting with:
+```
+from collections import Counter
+from random import choice, seed
+# Constants
+POSSIBLE_ITEMS = ['apple', 'banana', 'cherry', 'date', 'elderberry']
+def task_func(list_of_lists):
+```
+FULL SUPPLIED CONTEXT
+from collections import Counter
+from random import choice, seed
+# Constants
+POSSIBLE_ITEMS = ['apple', 'banana', 'cherry', 'date', 'elderberry']
+def task_func(list_of_lists):

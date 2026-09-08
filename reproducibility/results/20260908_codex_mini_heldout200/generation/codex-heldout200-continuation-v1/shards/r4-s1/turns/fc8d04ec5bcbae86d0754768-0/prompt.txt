@@ -1,0 +1,17 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Submits a form on a given webpage using mechanize and extracts the title of the response page.
+Note that: Notes: If the page has no title, it returns 'No Title'.
+The function should output with:
+    str: The title of the page resulting from the form submission.
+You should write self-contained code starting with:
+```
+import mechanize
+from bs4 import BeautifulSoup
+def task_func(url, form_id, data):
+```
+FULL SUPPLIED CONTEXT
+import mechanize
+from bs4 import BeautifulSoup
+def task_func(url, form_id, data):

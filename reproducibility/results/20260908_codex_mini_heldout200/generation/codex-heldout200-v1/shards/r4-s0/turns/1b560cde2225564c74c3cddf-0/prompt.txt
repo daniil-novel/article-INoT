@@ -1,0 +1,18 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Read an image, create a histogram of the image pixel intensities, save the histogram as a PNG file, and return the histogram plot object. The function also displays the original image and its histogram. The limit to the size of the image depends on the hardware capabilities of the system you are working on. A possible size of an image is 20x20.
+The function should raise the exception for: FileNotFoundError: If the image file does not exist at the specified path.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object of the histogram plot.
+You should write self-contained code starting with:
+```
+import cv2
+import os
+from matplotlib import pyplot as plt
+def task_func(image_path='image.jpg', histogram_path='histogram.png'):
+```
+FULL SUPPLIED CONTEXT
+import cv2
+import os
+from matplotlib import pyplot as plt
+def task_func(image_path='image.jpg', histogram_path='histogram.png'):

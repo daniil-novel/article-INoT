@@ -1,0 +1,22 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Replace certain values in a DataFrame with a dictionary mapping and calculate the Pearson correlation coefficient between each pair of columns.
+Note that: This function operates on DataFrames containing numeric or categorical data that can be replaced with numeric values, as correlation calculations require numeric data. This function using pearson method to calculate the correlation matrix.
+The function should raise the exception for: This function will raise a ValueError is input df is not a DataFrame.
+The function should output with:
+    DataFrame: A DataFrame with the correlation coefficients between each pair of columns. The format of the DataFrame is a square matrix with column and index labels matching the columns of the input DataFrame.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+# Constants
+COLUMNS = ['column1', 'column2', 'column3', 'column4', 'column5']
+def task_func(df, dct):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+# Constants
+COLUMNS = ['column1', 'column2', 'column3', 'column4', 'column5']
+def task_func(df, dct):

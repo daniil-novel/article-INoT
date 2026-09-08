@@ -1,0 +1,127 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Calculate the product of matrix "P" and 3D tensor "T" then return dataframe of normalized results. This function performs matrix-tensor multiplication between a matrix "P" and a 3D tensor "T" using numpy. It checks if the shapes of P and T are compatible for multiplication, raising a ValueError if they are not. The function then normalizes the resulting 2D array using sklearn's StandardScaler. The final output is returned as a pandas DataFrame, with columns named feature_0, feature_1, ..., feature_n, where n is the number of features in the flattened result of the matrix-tensor multiplication.
+The function should output with:
+    pandas.DataFrame: A DataFrame with the normalized result.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(P, T):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(P, T):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Using the Python-focused skill set here because the task is a Python implementation plan.
+
+## Requirements analysis
+
+We need a function:
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(P, T):
+```
+
+that:
+
+1. Accepts a matrix `P` and a 3D tensor `T`.
+2. Validates that they are shape-compatible for matrix-tensor multiplication.
+3. Computes the product with NumPy.
+4. Flattens/reshapes the result into a 2D array suitable for `StandardScaler`.
+5. Normalizes the data using `StandardScaler`.
+6. Returns the normalized result as a `pandas.DataFrame`.
+7. Uses column names:
+   - `feature_0`, `feature_1`, ..., `feature_n`
+
+## Implementation plan
+
+### 1) Convert inputs to NumPy arrays
+- Coerce `P` and `T` to `np.asarray(...)` so the function can accept lists or array-like inputs.
+- Confirm that `P` is 2D and `T` is 3D.
+
+### 2) Validate shapes
+- Check dimensionality first:
+  - `P.ndim == 2`
+  - `T.ndim == 3`
+- Check multiplication compatibility.
+- The exact compatibility rule depends on the intended contraction:
+  - Most likely: `P.shape[1] == T.shape[0]` if multiplying matrix columns by the tensor’s first axis.
+- If incompatible, raise `ValueError` with a clear message.
+
+### 3) Perform the multiplication
+- Use a NumPy operation appropriate for matrix-tensor multiplication.
+- A likely choice is `np.tensordot(P, T, axes=([1], [0]))`, which contracts:
+  - the second axis of `P`
+  - with the first axis of `T`
+- This yields a tensor result that reflects the matrix-tensor product.
+
+### 4) Flatten result into 2D
+- StandardScaler expects a 2D array of shape `(n_samples, n_features)`.
+- Reshape the product result into 2D before scaling.
+- A safe generic approach is:
+  - keep the first dimension as samples if it exists,
+  - flatten the remaining dimensions into features.
+- If the product is already 2D, keep it unchanged.
+
+### 5) Normalize with StandardScaler
+- Fit and transform the 2D result:
+  - `scaled = StandardScaler().fit_transform(flattened_result)`
+- This standardizes each feature column independently.
+
+### 6) Build the DataFrame
+- Create column names matching the number of features:
+  - `feature_0`, `feature_1`, ..., `feature_{n-1}`
+- Return `pd.DataFrame(scaled, columns=feature_names)`.
+
+## Edge cases to handle
+
+1. **Wrong input dimensions**
+   - `P` is not 2D
+   - `T` is not 3D
+   - Should raise `ValueError`
+
+2. **Incompatible shapes**
+   - Example: `P.shape[1] != T.shape[0]`
+   - Should raise `ValueError`
+
+3. **Non-numeric data**
+   - If arrays contain strings or mixed types, NumPy/scikit-learn may fail.
+   - Best to let the conversion/scaling raise naturally or explicitly validate numeric dtype.
+
+4. **Empty arrays**
+   - Zero-sized dimensions can break multiplication or scaling.
+   - Should be rejected with a clear error.
+
+5. **Single sample or single feature after flattening**
+   - `StandardScaler` can still work, but output may be all zeros for constant columns.
+   - Ensure reshaping preserves a valid 2D shape.
+
+6. **Constant features**
+   - If a feature has zero variance, `StandardScaler` outputs zeros for that column.
+   - This is expected behavior.
+
+7. **NaN or infinite values**
+   - `StandardScaler` does not handle these well.
+   - Either reject them explicitly or allow scikit-learn to raise an error.
+
+8. **Ambiguity in multiplication semantics**
+   - Since “matrix-tensor multiplication” can be interpreted differently, the implementation should document the chosen contraction rule clearly.
+   - If the intended behavior differs, the shape validation and NumPy operation should match that convention.
+
+## Recommended behavior summary
+
+- Validate inputs strictly.
+- Use a deterministic NumPy contraction rule.
+- Flatten the result into a 2D matrix for scaling.
+- Normalize with `StandardScaler`.
+- Return a DataFrame with `feature_i` columns.
+
+If you want, I can now produce the actual self-contained implementation.

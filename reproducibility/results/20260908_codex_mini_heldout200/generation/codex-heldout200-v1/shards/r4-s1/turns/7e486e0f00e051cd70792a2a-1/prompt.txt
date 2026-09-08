@@ -1,0 +1,149 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Divide a multi-line string into individual lines, remove stopwords, and count the frequency of each word.
+The function should output with:
+    dict: A dictionary with word frequencies where each key is a unique word and the value is its frequency.
+You should write self-contained code starting with:
+```
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):
+```
+FULL SUPPLIED CONTEXT
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+STOPWORDS = set(stopwords.words('english'))
+def task_func(input_string):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Using no extra skill here, because you asked for a requirements analysis and implementation plan rather than code changes.
+
+## Requirements analysis
+
+You need a function:
+
+```python
+def task_func(input_string):
+```
+
+with the following behavior:
+
+- Accept a **multi-line string**
+- Split it into individual lines
+- Extract words from those lines
+- Remove English stopwords using `STOPWORDS`
+- Count frequencies of the remaining words
+- Return a `dict` mapping each unique word to its count
+
+The provided imports suggest the intended approach:
+
+- `re` for word extraction
+- `stopwords` from NLTK for stopword filtering
+- `Counter` for frequency counting
+
+## Recommended implementation plan
+
+### 1. Validate and normalize input
+- If `input_string` is empty, return `{}`.
+- If `input_string` is not a string, decide whether to:
+  - raise a `TypeError`, or
+  - convert to string defensively
+- For this kind of task, raising `TypeError` is usually cleaner unless the prompt says otherwise.
+
+### 2. Split into lines
+- Use `input_string.splitlines()` to handle:
+  - `\n`
+  - `\r\n`
+  - `\r`
+- This is safer than `split('\n')`.
+
+### 3. Tokenize each line into words
+- Use a regex to extract words from each line.
+- A good default is something like:
+  - `re.findall(r"\b\w+\b", line.lower())`
+- Lowercasing is recommended so:
+  - `"The"` and `"the"` are counted together
+
+### 4. Filter out stopwords
+- Remove tokens that appear in `STOPWORDS`.
+- Since stopwords are usually lowercase, token normalization to lowercase should happen before filtering.
+
+### 5. Count word frequencies
+- Collect filtered words into a list and pass to `Counter`.
+- Convert the result to a plain dictionary before returning if needed.
+
+### 6. Return result
+- Return a dictionary of `{word: frequency}`.
+- If no valid words remain after filtering, return `{}`.
+
+---
+
+## Edge cases to handle
+
+### Empty or whitespace-only input
+- Example: `""`, `"   \n  "`
+- Expected output: `{}`
+
+### Multiple lines and mixed line endings
+- Example input containing `\n`, `\r\n`, or `\r`
+- `splitlines()` handles these correctly
+
+### Punctuation
+- Example: `"Hello, world!"`
+- Regex should strip punctuation and extract `hello`, `world`
+
+### Case differences
+- Example: `"The the THE"`
+- Normalize to lowercase so counts are merged
+
+### Stopwords only
+- Example: `"the and if but"`
+- After filtering, result should be `{}`
+
+### Numbers and alphanumeric tokens
+- Decide whether to keep them:
+  - `\w+` will keep numbers like `2024`
+- If numbers should be excluded, the regex would need tightening, but the prompt does not require that explicitly
+
+### Apostrophes and contractions
+- Example: `"don't"`
+- A simple regex may split this into `don` and `t`
+- If preserving contractions matters, use a more specialized pattern
+- For a basic solution, this is acceptable unless the tests expect otherwise
+
+### Non-string input
+- Example: `None`, `123`
+- Best to handle explicitly, typically with `TypeError`
+
+---
+
+## Suggested output behavior
+
+Examples:
+
+- Input:
+  ```text
+  This is a test.
+  This test is simple.
+  ```
+- Output:
+  ```python
+  {"test": 2, "simple": 1}
+  ```
+  assuming `this`, `is`, and `a` are filtered as stopwords
+
+---
+
+## Implementation strategy summary
+
+1. Check input type and empty case  
+2. Split text into lines  
+3. Lowercase and regex-tokenize each line  
+4. Filter tokens against `STOPWORDS`  
+5. Count remaining tokens with `Counter`  
+6. Return the counts as a dictionary  
+
+If you want, I can next provide the actual self-contained implementation following this plan.

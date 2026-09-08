@@ -1,0 +1,206 @@
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a list of random sinusoidal values and plot them in a graph.
+The function should output with:
+    Axes object: The plot of the sinusoidal wave.
+You should write self-contained code starting with:
+```
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+# Constants
+RANGE = 10000
+SIZE = 1000
+PI = np.pi
+def task_func(size=SIZE, frequency=1):
+```
+FULL SUPPLIED CONTEXT
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+# Constants
+RANGE = 10000
+SIZE = 1000
+PI = np.pi
+def task_func(size=SIZE, frequency=1):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for the task.
+
+## Requirements analysis
+
+You need a self-contained Python function:
+
+```python
+def task_func(size=SIZE, frequency=1):
+```
+
+that:
+
+1. Creates a list of sinusoidal values with some randomness.
+2. Plots those values on a graph.
+3. Returns the `Axes` object for the plot.
+
+Given the provided imports and constants:
+
+- `random` can be used to introduce randomness.
+- `numpy` and `math` can be used to compute sine values.
+- `matplotlib.pyplot` should be used to create the plot.
+- `SIZE` is the default number of points.
+- `RANGE = 10000` suggests a large domain for random sampling.
+- `PI = np.pi` is available for sine-related calculations.
+
+---
+
+## Recommended implementation approach
+
+### 1. Validate inputs
+Before generating data, check:
+
+- `size` is a positive integer.
+- `frequency` is numeric.
+
+If `size <= 0`, the function should not try to plot an empty series; it should raise a clear error.
+
+### 2. Generate random sample positions
+To create “random sinusoidal values,” choose random x-values from a range such as `[0, RANGE)`.
+
+Possible strategy:
+
+- Generate `size` random x-values.
+- Sort them so the plot line looks continuous rather than jagged from random ordering.
+
+This uses the randomness while still producing a readable wave.
+
+### 3. Compute sinusoidal y-values
+For each x-value, compute something like:
+
+- `y = sin(2 * PI * frequency * x / RANGE)`
+
+This gives a sinusoidal pattern over the selected range.
+
+If desired, randomness can also be added to the amplitude, phase, or small noise, but the simplest interpretation is random sample positions on a sine wave.
+
+### 4. Plot the data
+Use Matplotlib to:
+
+- Create a figure and axes.
+- Plot `x` vs `y`.
+- Optionally use markers or a line.
+- Add title and axis labels for readability.
+
+### 5. Return the `Axes` object
+The function should return the axes used for plotting, not the figure or raw data.
+
+---
+
+## Edge cases to handle
+
+### `size <= 0`
+- No meaningful plot can be produced.
+- Raise `ValueError("size must be positive")`.
+
+### `size = 1`
+- The plot will contain only one point.
+- This is valid, but the “wave” will not be visually meaningful.
+
+### `frequency = 0`
+- The sine wave becomes a flat line at `0`.
+- This is mathematically valid and can be allowed unless you want to reject it.
+
+### Negative `frequency`
+- Mathematically valid; it flips the wave direction.
+- Usually safe to allow.
+
+### Non-integer `size`
+- If `size` is not an integer, the function should either:
+  - reject it with `TypeError` / `ValueError`, or
+  - coerce it to `int` if that behavior is acceptable.
+- Safer approach: require an integer.
+
+### Very large `size`
+- Plotting a very large list may be slow.
+- Since `SIZE = 1000`, this is not a practical issue by default, but the function should still work reasonably for moderate larger values.
+
+### Duplicate x-values
+- If using random integers, duplicates can happen.
+- To avoid visual clutter, either allow them or use unique sampling if appropriate.
+- If using `random.sample`, uniqueness is guaranteed, but only if `size <= RANGE`.
+
+---
+
+## Suggested output behavior
+
+The function should return:
+
+- a Matplotlib `Axes` object containing the sinusoidal plot.
+
+Optional but useful:
+
+- label x-axis and y-axis
+- set a title
+- enable grid for readability
+
+---
+
+## Summary of the plan
+
+1. Validate `size` and `frequency`.
+2. Generate random x-values.
+3. Sort x-values for a cleaner plot.
+4. Compute sine-based y-values using `frequency`.
+5. Plot with Matplotlib.
+6. Return the `Axes` object.
+
+If you want, I can now turn this plan into the full implementation code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+
+# Constants
+RANGE = 10000
+SIZE = 1000
+PI = np.pi
+
+
+def task_func(size=SIZE, frequency=1):
+    """
+    Create a random sinusoidal series and plot it.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+        The axes object containing the sinusoidal plot.
+    """
+    if not isinstance(size, int):
+        raise TypeError("size must be an integer")
+    if size <= 0:
+        raise ValueError("size must be positive")
+    if not isinstance(frequency, (int, float, np.integer, np.floating)):
+        raise TypeError("frequency must be a numeric value")
+
+    # Generate random x-values and sort them for a readable wave plot.
+    if size <= RANGE:
+        x_values = sorted(random.sample(range(RANGE), size))
+    else:
+        x_values = sorted(random.randint(0, RANGE - 1) for _ in range(size))
+
+    # Compute sinusoidal y-values.
+    y_values = [math.sin(2 * PI * frequency * x / RANGE) for x in x_values]
+
+    # Plot and return the Axes object.
+    fig, ax = plt.subplots()
+    ax.plot(x_values, y_values, color="blue", linewidth=1.5)
+    ax.set_title("Random Sinusoidal Values")
+    ax.set_xlabel("Random X")
+    ax.set_ylabel("Sinusoidal Value")
+    ax.grid(True, alpha=0.3)
+
+    return ax
+```

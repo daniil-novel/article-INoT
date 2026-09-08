@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Replace a random substring (a sequence of characters between two commas or at the beginning/end of the string) in a list of strings with a random string (comprising ascii lowercase characters) with the same length as the substituted characters.
+The function should output with:
+    DataFrame: A pandas DataFrame with two columns - 'Original String' and 'Modified String'.
+    'Original String' contains the original strings from the input list, and 'Modified String'
+    contains the modified strings where a random substring has been replaced.
+You should write self-contained code starting with:
+```
+import random
+import string
+import pandas as pd
+def task_func(data_list, seed=0):
+```
+FULL SUPPLIED CONTEXT
+import random
+import string
+import pandas as pd
+def task_func(data_list, seed=0):

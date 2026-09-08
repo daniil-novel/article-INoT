@@ -1,0 +1,119 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Converts string-formatted weights to floats and plots a scatter plot of weight against height. This function takes a dictionary with two keys: 'Weight_String' and 'Height'. The 'Weight_String' key should contain a list of weight values in string format, while the 'Height' key should have a list of corresponding height values in numerical format. If the input dictionary is not provided, the function uses a default dataset. The function then converts the string-formatted weights into float, and plots a scatter plot to visualize the relationship between weight and height.
+The function should raise the exception for: ValueError: If any of the values in the 'Weight_String' key are not formatted as strings. This validation ensures that the weight data is in the expected format for conversion to float.
+The function should output with:
+    ax (matplotlib.axes._axes.Axes): A scatter plot with weight on the x-axis and height on the y-axis, titled "Weight vs Height".
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+def task_func(data=None):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+def task_func(data=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data=None)` that matches the requirements.
+
+## Goal
+Create a function that:
+- accepts an optional dictionary with keys:
+  - `'Weight_String'`: list of weights as strings
+  - `'Height'`: list of corresponding numeric heights
+- converts weight strings to floats
+- plots a scatter plot of weight vs height
+- returns a Matplotlib `Axes` object
+- raises `ValueError` if any item in `'Weight_String'` is not a string
+
+---
+
+## Implementation plan
+
+### 1) Function setup
+- Keep the required signature:
+  ```python
+  import pandas as pd
+  import seaborn as sns
+  def task_func(data=None):
+  ```
+- If `data is None`, use a built-in default dataset with the same structure:
+  - a list of string weights
+  - a list of numeric heights
+
+### 2) Validate input structure
+- Ensure `data` is dictionary-like when provided.
+- Verify both required keys exist:
+  - `'Weight_String'`
+  - `'Height'`
+- If either key is missing, raise a `ValueError` with a clear message.
+
+### 3) Validate weight format
+- Check every element in `data['Weight_String']`.
+- If any value is not of type `str`, raise `ValueError`.
+- This validation should happen before conversion to float.
+
+### 4) Convert weights to floats
+- Convert each string weight to `float`.
+- If a string cannot be converted (e.g., `"abc"`), let or raise `ValueError`.
+- This produces the x-axis values.
+
+### 5) Validate heights
+- Ensure `'Height'` contains numeric values.
+- Recommended checks:
+  - list lengths match
+  - values are numeric or convertible to numeric
+- If lengths differ, raise `ValueError` because plotting requires aligned pairs.
+
+### 6) Build a DataFrame
+- Create a `pandas.DataFrame` with columns such as:
+  - `Weight`
+  - `Height`
+- Use the converted float weights and the provided heights.
+
+### 7) Create the scatter plot
+- Use `seaborn.scatterplot` to plot:
+  - x-axis: `Weight`
+  - y-axis: `Height`
+- Set the title exactly to:
+  - `"Weight vs Height"`
+- Also set axis labels for clarity.
+
+### 8) Return the plot axis
+- Return the Matplotlib axes object used for the scatter plot.
+- The expected output is:
+  - `ax (matplotlib.axes._axes.Axes)`
+
+---
+
+## Edge cases to handle
+
+### Required validation failures
+- `data` is `None` → use default dataset
+- `data` is not a dictionary → raise `ValueError`
+- missing `'Weight_String'` or `'Height'` key → raise `ValueError`
+- any item in `'Weight_String'` is not a string → raise `ValueError`
+
+### Data quality issues
+- weight strings contain invalid numeric text like `"abc"` → `ValueError`
+- heights contain non-numeric values → `ValueError` or numeric coercion failure
+- the two lists have different lengths → `ValueError`
+- empty lists → plot would be empty; decide whether to allow or reject, but validation is recommended if meaningful output is required
+
+### Type robustness
+- weight values such as `10`, `10.5`, `None` inside `'Weight_String'` should fail validation because they are not strings
+- whitespace in strings like `" 12.5 "` should be acceptable if `float()` is used
+- numeric heights may be ints or floats
+
+---
+
+## Expected behavior summary
+- Input dictionary missing → use default data
+- Valid input → convert weight strings to floats and return a scatter plot axis
+- Invalid weight formats → raise `ValueError`
+- Plot title must be exactly:
+  - `"Weight vs Height"`
+
+If you want, I can also turn this plan into the exact self-contained Python implementation.

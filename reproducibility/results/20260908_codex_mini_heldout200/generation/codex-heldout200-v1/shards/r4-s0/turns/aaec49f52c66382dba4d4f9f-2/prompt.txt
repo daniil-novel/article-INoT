@@ -1,0 +1,166 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Download and keep a zip file from a URL, extract its contents to the specified directory, and return the list of extracted files.
+The function should output with:
+    list: A list of filenames of the extracted files.
+You should write self-contained code starting with:
+```
+import requests
+import os
+import zipfile
+def task_func(url, destination_directory, headers=None):
+```
+FULL SUPPLIED CONTEXT
+import requests
+import os
+import zipfile
+def task_func(url, destination_directory, headers=None):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(url, destination_directory, headers=None)`.
+
+## Goal
+- Download a ZIP file from `url`
+- Save the ZIP file so it is retained
+- Extract its contents into `destination_directory`
+- Return a `list` of extracted file names
+
+## Planned approach
+
+1. **Ensure the output directory exists**
+   - Use `os.makedirs(destination_directory, exist_ok=True)`.
+
+2. **Download the ZIP file**
+   - Call `requests.get(url, headers=headers, stream=True)`.
+   - Check for HTTP errors with `raise_for_status()`.
+
+3. **Persist the ZIP locally**
+   - Save the response body to a `.zip` file on disk, inside `destination_directory` or alongside it.
+   - Keep the ZIP file after extraction, per requirement.
+   - A reasonable name can be derived from the URL path, or fall back to something like `downloaded.zip`.
+
+4. **Validate that the downloaded file is a ZIP**
+   - Try opening it with `zipfile.ZipFile(...)`.
+   - If the file is invalid, raise an appropriate exception.
+
+5. **Extract safely**
+   - Iterate through archive members.
+   - Prevent path traversal:
+     - Normalize each target path with `os.path.abspath`.
+     - Ensure each extracted path stays within `destination_directory`.
+   - Extract only valid archive entries.
+
+6. **Collect extracted file names**
+   - Return a list of extracted file names.
+   - Usually this should include file paths relative to `destination_directory`, not the absolute disk path.
+   - Exclude directory entries unless you explicitly want them.
+
+## Edge cases to handle
+
+- **`headers` is `None`**
+  - Pass it directly to `requests.get`; requests accepts `None`.
+
+- **Bad HTTP response**
+  - 404, 500, etc. should raise via `raise_for_status()`.
+
+- **Non-zip content**
+  - The URL may return HTML or another file type.
+  - Catch `zipfile.BadZipFile`.
+
+- **Empty ZIP archive**
+  - Return an empty list.
+
+- **ZIP contains directories**
+  - Directories should generally not be included in the returned list of filenames.
+
+- **Nested paths in ZIP**
+  - Extract them correctly while preserving structure.
+
+- **Zip Slip / path traversal**
+  - Reject entries like `../../evil.txt` or absolute paths.
+
+- **Existing files in destination**
+  - Decide whether to overwrite; default extraction behavior overwrites files if written.
+  - If overwrite behavior matters, document it.
+
+- **Network failures / timeouts**
+  - Let request exceptions propagate unless you want to wrap them.
+
+- **Large files**
+  - Use streamed download to avoid loading the whole archive into memory.
+
+## Suggested return behavior
+- Return a `list[str]` of extracted file names, likely in archive order.
+- Example: `["file1.txt", "subdir/file2.csv"]`
+
+## Notes for implementation
+- Keep the downloaded ZIP file on disk after extraction.
+- Use only the provided imports:
+  - `requests`
+  - `os`
+  - `zipfile`
+- The function should match the required signature exactly:
+  ```python
+  import requests
+  import os
+  import zipfile
+  def task_func(url, destination_directory, headers=None):
+  ```
+
+If you want, I can also turn this plan into the final implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import requests
+import os
+import zipfile
+
+def task_func(url, destination_directory, headers=None):
+    os.makedirs(destination_directory, exist_ok=True)
+
+    # Choose a local filename for the downloaded ZIP and keep it after extraction.
+    base_name = url.split("?")[0].split("#")[0].rstrip("/").split("/")[-1]
+    if not base_name:
+        base_name = "downloaded.zip"
+    elif not base_name.lower().endswith(".zip"):
+        base_name += ".zip"
+
+    zip_path = os.path.join(destination_directory, base_name)
+
+    # Download the ZIP file in streaming mode.
+    response = requests.get(url, headers=headers, stream=True)
+    response.raise_for_status()
+
+    with open(zip_path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                f.write(chunk)
+
+    extracted_files = []
+    base_dir = os.path.abspath(destination_directory)
+
+    # Validate and extract safely.
+    with zipfile.ZipFile(zip_path, "r") as zf:
+        for member in zf.infolist():
+            member_name = member.filename
+
+            # Skip directory entries.
+            if member_name.endswith("/"):
+                continue
+
+            # Prevent path traversal / zip slip.
+            target_path = os.path.abspath(os.path.join(destination_directory, member_name))
+            if os.path.commonpath([base_dir, target_path]) != base_dir:
+                raise ValueError("Unsafe ZIP entry path detected: {}".format(member_name))
+
+            os.makedirs(os.path.dirname(target_path), exist_ok=True)
+
+            with zf.open(member, "r") as source, open(target_path, "wb") as target:
+                while True:
+                    chunk = source.read(8192)
+                    if not chunk:
+                        break
+                    target.write(chunk)
+
+            extracted_files.append(os.path.relpath(target_path, destination_directory))
+
+    return extracted_files

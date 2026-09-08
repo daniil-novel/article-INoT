@@ -1,0 +1,97 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a list of pandas Series objects, where each Series is indexed by the elements of a sub-list from `list_of_lists`. Each Series contains unique integers starting from 1 and going up to the length of the respective sub-list. These integers are shuffled randomly to create a unique ordering for each Series.
+Note that: The function uses numpy's random shuffle, which modifies the sequence in-place. Therefore, each call to the function may produce different Series values unless the random seed is set beforehand.
+The function should output with:
+    series_list (list of pandas.Series): This function returns a list. Each element in this list is a pandas Series object.
+    The Series objects are indexed by the elements of the sub-lists provided in `list_of_lists`. The values in each Series
+    are unique integers that are randomly shuffled.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import numpy as np
+def task_func(list_of_lists):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import numpy as np
+def task_func(list_of_lists):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(list_of_lists)`.
+
+## Goal
+Create a list of `pandas.Series` objects, one per sub-list in `list_of_lists`.
+
+- Each Series index = elements of the corresponding sub-list
+- Each Series values = integers from `1` to `len(sub_list)`
+- Values must be randomly shuffled independently for each Series
+- Uses `numpy.random.shuffle`, so results vary unless a random seed is fixed externally
+
+---
+
+## Implementation Plan
+
+1. **Initialize an output container**
+   - Create an empty Python list, e.g. `series_list = []`.
+
+2. **Iterate through each sub-list**
+   - For every `sub_list` in `list_of_lists`:
+     - Determine its length `n`.
+
+3. **Build the value sequence**
+   - Create an array of integers from `1` to `n` inclusive:
+     - `values = np.arange(1, n + 1)`
+
+4. **Shuffle the values in place**
+   - Apply `np.random.shuffle(values)`
+   - This modifies the array directly and produces a random permutation
+
+5. **Construct the Series**
+   - Use the sub-list elements as the index:
+     - `series = pd.Series(values, index=sub_list)`
+   - This creates a Series whose labels come from the sub-list and whose values are the shuffled integers
+
+6. **Append to the result list**
+   - Add the Series to `series_list`
+
+7. **Return the result**
+   - Return `series_list`
+
+---
+
+## Edge Cases to Handle
+
+1. **Empty sub-list**
+   - If a sub-list is empty, the result should be an empty `Series`
+   - `np.arange(1, 1)` will produce an empty array, which is fine
+
+2. **Repeated index values in a sub-list**
+   - Pandas allows duplicate index labels
+   - The Series will still be created, but indexing behavior may be ambiguous
+   - No special handling is strictly required unless uniqueness is desired
+
+3. **Non-hashable index elements**
+   - Pandas Series indices must be hashable
+   - If elements in a sub-list are unhashable objects like lists or dicts, Series creation will fail
+
+4. **Non-list iterable input**
+   - The function expects `list_of_lists`, but if the outer container is any iterable of iterables, it may still work
+   - If strict validation is needed, it could be added, but the task does not require it
+
+5. **Single-element sub-list**
+   - Output should be a Series with one value: `1`
+   - Shuffling has no visible effect
+
+6. **Randomness**
+   - Since `np.random.shuffle` is in-place and random, repeated calls can produce different outputs
+   - If deterministic output is needed, the caller should set a random seed before calling the function
+
+---
+
+## Expected Behavior Summary
+For each sub-list:
+- index labels = original elements of the sub-list
+- values = shuffled permutation of `1..len(sub_list)`
+
+If you want, I can proceed to **stage 2** and write the full self-contained function code.

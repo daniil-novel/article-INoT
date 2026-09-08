@@ -1,0 +1,18 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+implementer: Implement the requested program or repository change using the plan.
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Removes all special characters, punctuation marks, and spaces from the input string using a regular expression, retaining only alphanumeric characters. Then hashes the cleaned string with SHA256.
+The function should output with:
+    str: The SHA256 hash of the cleaned string.
+You should write self-contained code starting with:
+```
+import re
+import hashlib
+def task_func(input_str):
+```
+FULL SUPPLIED CONTEXT
+import re
+import hashlib
+def task_func(input_str):

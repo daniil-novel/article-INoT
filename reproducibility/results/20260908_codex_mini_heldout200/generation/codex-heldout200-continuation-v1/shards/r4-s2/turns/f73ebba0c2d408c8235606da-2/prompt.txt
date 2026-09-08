@@ -1,0 +1,92 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Test the normality of a particular numeric column from a DataFrame with Shapiro-Wilk test, including an artificial step to explicitly use np.
+The function should output with:
+    bool: True if the column passes the normality test, False otherwise.
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+def task_func(df, column, alpha):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+def task_func(df, column, alpha):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan for `task_func(df, column, alpha)`:
+
+### Goal
+Return `True` if the selected DataFrame column appears normally distributed under the Shapiro–Wilk test at significance level `alpha`; otherwise return `False`.
+
+### Steps
+1. **Extract the target column**
+   - Read `df[column]` from the DataFrame.
+   - Convert the values to a NumPy array explicitly using `np.asarray(...)` to satisfy the requirement to use `np`.
+
+2. **Clean the data**
+   - Remove missing values (`NaN`, `None`) before testing.
+   - Keep only finite numeric values if needed (`np.isfinite(...)`).
+   - Ensure the data are in 1D form.
+
+3. **Validate sample size**
+   - Shapiro–Wilk requires enough observations to be meaningful.
+   - If the cleaned column has fewer than 3 values, the test is not valid; return `False`.
+
+4. **Run Shapiro–Wilk test**
+   - Use `stats.shapiro(clean_values)` to obtain:
+     - `statistic`
+     - `p_value`
+
+5. **Decision rule**
+   - Return `True` if `p_value > alpha`
+   - Return `False` otherwise
+   - This means the null hypothesis of normality is not rejected.
+
+---
+
+### Edge cases to handle
+- **Column missing from DataFrame**
+  - If `column` does not exist, the function should fail naturally or be guarded; best practice is to raise an informative exception.
+- **Non-numeric values**
+  - If the column contains strings or mixed types, conversion/testing may fail.
+  - Recommended approach: coerce or require numeric input.
+- **Missing values**
+  - Drop them before testing.
+- **Too few samples**
+  - If fewer than 3 valid observations remain, return `False`.
+- **Constant values**
+  - Shapiro–Wilk may warn or behave poorly on nearly constant data.
+  - If all remaining values are identical, treat as non-normal and return `False`.
+- **Invalid `alpha`**
+  - `alpha` should be in `(0, 1)`.
+  - If not, either raise a `ValueError` or document that callers must pass a valid significance level.
+
+---
+
+### Intended behavior summary
+- `True` → cannot reject normality
+- `False` → reject normality or data are unsuitable for the test
+
+If you want, I can also provide the exact implementation next.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import numpy as np
+from scipy import stats
+
+def task_func(df, column, alpha):
+    if not 0 < alpha < 1:
+        raise ValueError("alpha must be between 0 and 1")
+
+    values = np.asarray(df[column].to_numpy(dtype=float, na_value=np.nan))
+    values = values[np.isfinite(values)]
+
+    if values.size < 3:
+        return False
+
+    if np.all(values == values[0]):
+        return False
+
+    _, p_value = stats.shapiro(values)
+    return bool(p_value > alpha)

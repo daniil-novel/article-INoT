@@ -1,0 +1,112 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Convert a list of Unix timestamps to date objects, create a Pandas DataFrame, and draw a histogram. - The date format should be as DATE_FORMAT. - The DataFrame should have 'Timestamp' and 'Datetime' as column names. - If the list of timestamps is empty, raise a ValueError with the message "Input list of timestamps is empty".
+The function should raise the exception for: ValueError("Input list of timestamps is empty."): If the list of timestamps is empty.
+The function should output with:
+    pandas.DataFrame: A pandas DataFrame containing the original Unix timestamps and the converted datetime objects.
+    Axes: The Axes object of the histogram plot. The histogram will have 10 bins by default, representing the distribution of the datetime objects.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(timestamps):
+```
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+# Constants
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+def task_func(timestamps):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here is a clear implementation plan for `task_func(timestamps)`.
+
+## Requirements summary
+The function must:
+
+1. Accept a list of Unix timestamps.
+2. Convert each timestamp to a datetime object.
+3. Build a `pandas.DataFrame` with exactly these columns:
+   - `Timestamp`
+   - `Datetime`
+4. Draw a histogram of the datetime values.
+5. Return:
+   - the DataFrame
+   - the Matplotlib `Axes` object for the histogram
+6. Raise `ValueError` if the input list is empty.
+
+---
+
+## Implementation plan
+
+### 1. Validate input
+- Check whether `timestamps` is empty.
+- If it is empty, raise:
+  - `ValueError("Input list of timestamps is empty")`
+- Note: the prompt contains a small inconsistency because it also mentions
+  `ValueError("Input list of timestamps is empty.")` with a period.
+  The exact message should be clarified, but the safer interpretation is to match the explicitly stated message without the period unless tests specify otherwise.
+
+### 2. Convert timestamps to datetime objects
+- For each Unix timestamp in the input list:
+  - convert it using `datetime.fromtimestamp(...)`
+- Store the resulting datetime objects in a list.
+
+### 3. Create the DataFrame
+- Build a `pd.DataFrame` with:
+  - column `Timestamp` containing the original timestamps
+  - column `Datetime` containing the converted datetime objects
+
+### 4. Draw the histogram
+- Create a Matplotlib figure/axes pair.
+- Plot a histogram of the datetime values.
+- Use 10 bins by default.
+- Since datetime objects are not always directly ideal for histogram binning, convert them internally to a numeric date representation for plotting if needed, while keeping the DataFrame values as datetime objects.
+- Format the x-axis tick labels using `DATE_FORMAT` so the plot remains readable.
+
+### 5. Return values
+- Return:
+  - the DataFrame
+  - the histogram `Axes` object
+
+---
+
+## Edge cases to handle
+
+### Empty input
+- Must raise `ValueError`.
+
+### Single timestamp
+- Should still create a valid one-row DataFrame and a histogram axis.
+
+### Duplicate timestamps
+- Allowed; histogram should reflect repeated values.
+
+### Negative Unix timestamps
+- Should be supported if the platform/Python datetime conversion allows them.
+
+### Non-numeric or invalid timestamp values
+- `datetime.fromtimestamp` may raise `TypeError`, `OSError`, or `OverflowError`.
+- Unless the specification says otherwise, let these errors propagate naturally.
+
+### Timezone behavior
+- `datetime.fromtimestamp` returns naive local datetimes.
+- If deterministic UTC output is desired, `datetime.utcfromtimestamp` would be better, but that is not explicitly required here.
+
+### Large timestamp values
+- May overflow datetime conversion limits; let conversion errors propagate.
+
+---
+
+## Expected output structure
+- **DataFrame**
+  - `Timestamp`: original Unix timestamps
+  - `Datetime`: corresponding datetime objects
+- **Axes**
+  - histogram plot with 10 bins
+
+If you want, I can proceed to stage 2 and write the actual self-contained implementation.

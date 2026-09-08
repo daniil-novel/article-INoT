@@ -1,0 +1,21 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Find and run all .bat files in a given directory, returning their file names and exit codes.
+The function should output with:
+    list of tuples: A list where each tuple contains the file name and its exit code.
+    The exit code is None if the file could not be executed.
+You should write self-contained code starting with:
+```
+import subprocess
+import os
+import sys
+import glob
+def task_func(directory_path):
+```
+FULL SUPPLIED CONTEXT
+import subprocess
+import os
+import sys
+import glob
+def task_func(directory_path):

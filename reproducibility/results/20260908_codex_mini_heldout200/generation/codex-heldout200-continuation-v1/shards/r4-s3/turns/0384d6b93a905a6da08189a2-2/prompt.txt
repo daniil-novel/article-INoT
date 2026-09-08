@@ -1,0 +1,212 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a Pandas DataFrame of products with their ID, quantity, code, price, product, and description based on a specified string of product data. The input string is expected to be divided into segments by newlines. Each segment is expected to be further split into parts by whitespace: ID, quantity, code, price, and a product description. The function will remove trailing whitespaces in each field and assign a product name per unique code. Product name is randomly sampled from: ['Apple', 'Banana', 'Orange', 'Pear', 'Grape']. The same product name will be assigned to each code for each input s, however different codes can be mapped to the same name. >>> s = '1 10 A10B 100 This is a description with spaces\\n2 20 B20C 200 Another description example' >>> df = task_func(s) >>> df ID  Quantity  Code  Price Product                        Description 0  1        10  A10B    100    Pear  This is a description with spaces 1  2        20  B20C    200    Pear        Another description example
+The function should output with:
+    data_df (pd.DataFrame): DataFrame with columns: ['ID', 'Quantity', 'Code', 'Price', 'Product', 'Description'].
+    Quantity and Price are expected to be integers.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import re
+import random
+def task_func(s: str, seed: int = 0) -> pd.DataFrame:
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import re
+import random
+def task_func(s: str, seed: int = 0) -> pd.DataFrame:
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(s: str, seed: int = 0) -> pd.DataFrame`, including edge cases.
+
+## Goal
+Parse a multiline product string into a `pandas.DataFrame` with columns:
+
+`['ID', 'Quantity', 'Code', 'Price', 'Product', 'Description']`
+
+Rules:
+- Each line represents one product record.
+- Fields are separated by whitespace.
+- The first 4 fields are:
+  1. ID
+  2. Quantity
+  3. Code
+  4. Price
+- Everything after the 4th token is the description.
+- `Quantity` and `Price` must be integers.
+- Assign a product name per unique `Code`, chosen randomly from:
+  `['Apple', 'Banana', 'Orange', 'Pear', 'Grape']`
+- The same `Code` must always map to the same `Product` within one call.
+- Different codes may map to the same product name.
+- Trailing whitespace in fields should be removed.
+
+---
+
+## Implementation plan
+
+### 1. Initialize randomness
+- Use `random.seed(seed)` so the output is reproducible for the same input and seed.
+- This also makes testing predictable.
+
+### 2. Prepare parsing structures
+- Create:
+  - an empty list `rows` to store parsed records
+  - a dictionary `code_to_product = {}` to store the mapping from each unique code to a product name
+- Define the allowed product names list:
+  - `products = ['Apple', 'Banana', 'Orange', 'Pear', 'Grape']`
+
+### 3. Split input into lines
+- Use `s.splitlines()` to handle newline-separated segments robustly.
+- Ignore empty lines or lines containing only whitespace.
+
+### 4. Parse each line
+For each non-empty line:
+1. Strip leading/trailing whitespace from the line.
+2. Split using whitespace: `parts = line.split()`
+3. Validate there are at least 5 parts:
+   - `ID`, `Quantity`, `Code`, `Price`, and at least one description token
+4. Extract:
+   - `id_str = parts[0]`
+   - `quantity_str = parts[1]`
+   - `code = parts[2].strip()`
+   - `price_str = parts[3]`
+   - `description = " ".join(parts[4:]).strip()`
+
+### 5. Convert numeric fields
+- Convert `ID`, `Quantity`, and `Price` to integers if possible.
+- The prompt explicitly requires `Quantity` and `Price` to be integers.
+- The example output also shows `ID` as numeric, so treating `ID` as integer is consistent and practical.
+
+### 6. Assign product name by code
+- If `code` is not yet in `code_to_product`:
+  - choose a random product name using `random.choice(products)`
+  - store it in the mapping
+- For repeated occurrences of the same code:
+  - reuse the same mapped product name
+
+### 7. Build row records
+- Append each parsed record as a dictionary:
+  - `ID`
+  - `Quantity`
+  - `Code`
+  - `Price`
+  - `Product`
+  - `Description`
+
+### 8. Create the DataFrame
+- Build `pd.DataFrame(rows, columns=[...])` with the required column order.
+- Return the DataFrame.
+
+---
+
+## Edge cases to handle
+
+### 1. Empty input string
+- Return an empty DataFrame with the required columns.
+
+### 2. Blank lines
+- Skip them safely.
+
+### 3. Extra spaces or tabs
+- `split()` naturally handles multiple whitespace characters, so no special handling needed.
+
+### 4. Description contains spaces
+- Must join all tokens after the first four back into one string.
+
+### 5. Duplicate product codes
+- Must map to the same product name within the same function call.
+
+### 6. Different codes mapping to same product
+- Allowed and expected, so use `random.choice`, not a unique-only assignment.
+
+### 7. Malformed lines
+Examples:
+- fewer than 5 tokens
+- non-integer `Quantity` or `Price`
+- non-integer `ID` if you choose to parse it as int
+
+Recommended approach:
+- Raise a `ValueError` with a helpful message, since the format is supposed to be strict.
+
+### 8. Trailing whitespace in fields
+- Strip line and description.
+- `split()` already removes extra spaces around tokens.
+
+### 9. Trailing newline at end of input
+- Safe with `splitlines()` and blank-line skipping.
+
+---
+
+## Expected behavior on the sample
+Input:
+```python
+s = '1 10 A10B 100 This is a description with spaces\n2 20 B20C 200 Another description example'
+```
+
+Output shape:
+- 2 rows
+- columns:
+  `ID, Quantity, Code, Price, Product, Description`
+
+Both rows for the same run should use the same deterministic random mapping for each code.
+
+---
+
+## Notes on reproducibility
+Because a `seed` argument is provided:
+- setting `random.seed(seed)` at the start is the simplest way to ensure stable output
+- this is especially important because the product assignment is random
+
+If you want, I can also turn this plan into the exact implementation code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+import pandas as pd
+import re
+import random
+
+def task_func(s: str, seed: int = 0) -> pd.DataFrame:
+    columns = ["ID", "Quantity", "Code", "Price", "Product", "Description"]
+    if not s or not s.strip():
+        return pd.DataFrame(columns=columns)
+
+    rng = random.Random(seed)
+    product_names = ["Apple", "Banana", "Orange", "Pear", "Grape"]
+    code_to_product = {}
+    rows = []
+
+    for line in s.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        parts = re.split(r"\s+", line, maxsplit=4)
+        if len(parts) < 5:
+            raise ValueError(f"Malformed line: {line!r}")
+
+        id_str, quantity_str, code, price_str, description = parts
+        code = code.strip()
+        description = description.strip()
+
+        try:
+            row_id = int(id_str.strip())
+            quantity = int(quantity_str.strip())
+            price = int(price_str.strip())
+        except ValueError as e:
+            raise ValueError(f"Invalid numeric value in line: {line!r}") from e
+
+        if code not in code_to_product:
+            code_to_product[code] = rng.choice(product_names)
+
+        rows.append(
+            {
+                "ID": row_id,
+                "Quantity": quantity,
+                "Code": code,
+                "Price": price,
+                "Product": code_to_product[code],
+                "Description": description,
+            }
+        )
+
+    return pd.DataFrame(rows, columns=columns)

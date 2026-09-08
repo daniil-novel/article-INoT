@@ -1,0 +1,85 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Transforms categorical data into a numerical format suitable for machine learning algorithms using sklearn's LabelEncoder. This function generates a DataFrame that pairs original categorical values with their numerical encodings.
+The function should output with:
+    DataFrame: A DataFrame with columns 'Category' and 'Encoded', where 'Category' is the original data and 'Encoded'
+    is the numerical representation.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+def task_func(data):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+def task_func(data):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data)`.
+
+## Goal
+Convert categorical input data into numeric labels using `sklearn.preprocessing.LabelEncoder`, and return a `pandas.DataFrame` with:
+
+- `Category`: the original unique categorical values
+- `Encoded`: the corresponding integer encodings
+
+## Expected behavior
+1. Accept an input sequence of categorical values.
+2. Fit a `LabelEncoder` on the data.
+3. Produce encoded integer labels.
+4. Build a DataFrame pairing each original category with its encoded value.
+5. Return that DataFrame.
+
+## Implementation approach
+- Convert the input to a pandas Series or NumPy-like array if needed so `LabelEncoder` can consume it.
+- Use `LabelEncoder().fit_transform(data)` to obtain encoded labels.
+- Get the learned class ordering from `label_encoder.classes_`.
+- Construct `pd.DataFrame({"Category": classes, "Encoded": encoded_values})`.
+
+## Important detail
+`LabelEncoder` sorts categories lexicographically/alphabetically before assigning integers. That means the encoding order is determined by the sorted unique labels, not by first appearance in the data.
+
+## Edge cases to handle
+1. **Empty input**
+   - If `data` is empty, `LabelEncoder` will fail.
+   - Decide whether to:
+     - return an empty DataFrame with the correct columns, or
+     - raise a clear `ValueError`.
+   - Safer behavior: return an empty DataFrame with columns `Category` and `Encoded`.
+
+2. **Missing values (`None`, `np.nan`)**
+   - `LabelEncoder` does not handle mixed missing values gracefully in many cases.
+   - You may need to either:
+     - reject missing values with a clear error, or
+     - treat them as a separate category by converting values to strings first.
+   - Since the task says categorical data, the simplest robust approach is to validate and reject missing values unless explicitly intended.
+
+3. **Non-iterable input**
+   - If `data` is a scalar instead of a list/Series/array, encoding should fail cleanly.
+   - Validate input is iterable.
+
+4. **Mixed data types**
+   - `LabelEncoder` may error if categories are not consistently comparable in some situations.
+   - Best to expect homogeneous categorical values such as all strings or all integers.
+
+5. **Duplicate values**
+   - Duplicates are expected and should be deduplicated implicitly by `LabelEncoder`.
+
+## Output format
+Return a DataFrame like:
+
+| Category | Encoded |
+|----------|---------|
+| a        | 0       |
+| b        | 1       |
+| c        | 2       |
+
+## Suggested structure of the function
+- Validate input
+- Handle empty input
+- Fit `LabelEncoder`
+- Build DataFrame from `classes_` and encoded labels
+- Return the DataFrame
+
+If you want, I can now provide the exact implementation code for `task_func(data)` in the required format.

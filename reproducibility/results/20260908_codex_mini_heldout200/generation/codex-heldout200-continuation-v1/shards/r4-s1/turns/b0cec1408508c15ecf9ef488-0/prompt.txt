@@ -1,0 +1,19 @@
+planner: Analyze requirements and produce an implementation plan, including edge cases.
+TASK
+Perform the feature selection with SelectKBest (k=2) and return a heatmap of the feature correlations.
+The function should output with:
+    tuple: A tuple containing:
+    list: A list of the selected features.
+    Axes: A heatmap showing the correlation between the selected features.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+import seaborn as sns
+def task_func(df1, df2):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+import seaborn as sns
+def task_func(df1, df2):

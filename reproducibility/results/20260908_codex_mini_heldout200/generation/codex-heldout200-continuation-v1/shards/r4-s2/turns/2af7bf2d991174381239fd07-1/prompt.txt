@@ -1,0 +1,86 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Fetches data from a given dictionary that includes a CSV URL and returns a pandas DataFrame sorted based on two specified columns. >>> task_func({"URL": "http://example.com/test.csv"}, "price") id   title  price 2   3  Cherry    0.2 0   1   Apple    0.3 1   2  Banana    0.5
+The function should raise the exception for: This function will raise a ValueError if the dictionary is empty or the key "URL" does not exist in the dictionary.
+The function should output with:
+    DataFrame: The pandas DataFrame sorted based on the specified column.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import requests
+from io import StringIO
+def task_func(csv_url_dict, sort_by_column="title"):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import requests
+from io import StringIO
+def task_func(csv_url_dict, sort_by_column="title"):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a clear implementation plan for `task_func(csv_url_dict, sort_by_column="title")` based on the supplied requirements.
+
+## Requirements summary
+- Input:
+  - `csv_url_dict`: a dictionary expected to contain a CSV URL under the key `"URL"`.
+  - `sort_by_column`: the column name to sort by, defaulting to `"title"`.
+- Behavior:
+  1. Validate the input dictionary.
+  2. Read the CSV from the URL.
+  3. Load it into a pandas DataFrame.
+  4. Sort the DataFrame by the requested column.
+  5. Return the sorted DataFrame.
+- Errors:
+  - Raise `ValueError` if:
+    - the dictionary is empty, or
+    - `"URL"` is missing from the dictionary.
+
+## Implementation plan
+1. **Validate the dictionary**
+   - Check whether `csv_url_dict` is empty.
+   - Check whether it contains the key `"URL"`.
+   - If either check fails, raise `ValueError` with a helpful message.
+
+2. **Extract the CSV URL**
+   - Read `csv_url_dict["URL"]`.
+
+3. **Fetch the CSV content**
+   - Use `requests.get(url)`.
+   - Optionally call `raise_for_status()` so HTTP errors are surfaced clearly.
+
+4. **Parse CSV into a DataFrame**
+   - Convert the response text into a file-like object with `StringIO`.
+   - Pass that into `pd.read_csv(...)`.
+
+5. **Sort the DataFrame**
+   - Sort by `sort_by_column` using `DataFrame.sort_values(...)`.
+   - If the requirement truly expects a secondary sort key, use a stable sort or a column list, but with the provided signature the primary sort column is the only explicit sorting input.
+
+6. **Return the DataFrame**
+   - Return the sorted DataFrame directly.
+
+## Edge cases to handle
+- **Empty dictionary**
+  - Must raise `ValueError`.
+- **Missing `"URL"` key**
+  - Must raise `ValueError`.
+- **Invalid URL / network failure**
+  - `requests` may raise exceptions; decide whether to let them propagate or catch and re-raise with context.
+- **Non-CSV response**
+  - `pd.read_csv` may fail if the content is malformed.
+- **Missing `sort_by_column` in the CSV**
+  - `sort_values` will raise an error; this should probably be allowed unless the prompt requires custom handling.
+- **Duplicate values in the sort column**
+  - Sorting should still work; row order among ties depends on sort stability.
+- **Empty CSV**
+  - `pd.read_csv` may return an empty DataFrame or raise depending on content.
+- **Unexpected URL types**
+  - If `"URL"` is not a string, `requests.get` may fail; validation could optionally enforce string type.
+
+## Notes on ambiguity
+The prompt mentions “sorted based on two specified columns,” but the function signature only exposes one explicit sort argument: `sort_by_column`.  
+So the safest interpretation is:
+- sort by `sort_by_column`, and
+- if a secondary key is needed, it would need to be derived from an unstated requirement or added to the signature.
+
+If you want, I can next turn this plan into the final self-contained implementation.

@@ -1,0 +1,118 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a specified (i.e., points_counts) number of random points within a circle of a given radius and plot them using a scatter plot.
+Note that: All settings of the scatter plot are the default version. The aspect ratio of the plot is set to 'equal' to maintain proportions.
+The function should output with:
+    Axes: The matplotlib Axes object representing the scatter plot.
+You should write self-contained code starting with:
+```
+import random
+import math
+import matplotlib.pyplot as plt
+def task_func(points_count=1000, radius=1):
+```
+FULL SUPPLIED CONTEXT
+import random
+import math
+import matplotlib.pyplot as plt
+def task_func(points_count=1000, radius=1):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a self-contained Python function:
+
+```python
+import random
+import math
+import matplotlib.pyplot as plt
+def task_func(points_count=1000, radius=1):
+```
+
+that:
+
+1. Generates exactly `points_count` random points inside a circle of given `radius`.
+2. Plots them with `matplotlib.pyplot.scatter`.
+3. Uses the default scatter style settings.
+4. Sets the plot aspect ratio to `'equal'` so the circle is not visually distorted.
+5. Returns the `Axes` object containing the scatter plot.
+
+## Implementation plan
+
+### 1) Validate / interpret inputs
+- Treat `points_count` as the number of points to generate.
+- Treat `radius` as the circle radius.
+- If possible, keep behavior simple and permissive:
+  - `points_count = 0` should produce an empty scatter plot.
+  - `radius = 0` should place all points at the origin.
+- If stricter handling is desired, reject invalid values such as:
+  - negative `points_count`
+  - negative `radius`
+  - non-numeric inputs
+
+### 2) Generate points uniformly inside the circle
+To ensure uniform distribution over area, do **not** choose radius uniformly. Instead:
+- Sample angle `theta` uniformly from `[0, 2π)`.
+- Sample `u` uniformly from `[0, 1)`.
+- Convert to radial distance using `r = radius * sqrt(u)`.
+- Convert to Cartesian coordinates:
+  - `x = r * cos(theta)`
+  - `y = r * sin(theta)`
+
+This gives points uniformly distributed across the disk.
+
+### 3) Collect coordinates
+- Build two lists: `xs` and `ys`.
+- Repeat the sampling process `points_count` times.
+- Append each generated point to the lists.
+
+### 4) Create the scatter plot
+- Create a figure and axes with `plt.subplots()`.
+- Plot points using `ax.scatter(xs, ys)`.
+- Do not pass styling arguments, so the scatter plot remains at its default appearance.
+
+### 5) Preserve circle proportions
+- Call `ax.set_aspect('equal', adjustable='box')` or equivalent.
+- This ensures the rendered shape is geometrically correct.
+
+### 6) Return the Axes object
+- Return the `Axes` instance, not the figure.
+- This matches the required output specification.
+
+## Edge cases to account for
+
+1. **`points_count = 0`**
+   - Return an empty scatter plot.
+   - Still return a valid `Axes`.
+
+2. **`radius = 0`**
+   - All generated points should be `(0, 0)`.
+
+3. **Negative `points_count`**
+   - Should ideally raise `ValueError`.
+
+4. **Negative `radius`**
+   - Should ideally raise `ValueError` because a radius cannot be negative.
+
+5. **Non-integer `points_count`**
+   - Decide whether to:
+     - coerce to `int`, or
+     - require an integer and raise `TypeError`/`ValueError`.
+   - Safer choice: require a nonnegative integer.
+
+6. **Non-numeric `radius`**
+   - Should raise an error.
+
+7. **Large `points_count`**
+   - Use list accumulation efficiently; the algorithm is linear in the number of points and should be fine for typical sizes.
+
+## Expected structure of the final code
+- Imports at top.
+- Function definition with the required signature.
+- Input checks.
+- Random point generation loop.
+- Scatter plot creation.
+- Equal aspect ratio setting.
+- Return `Axes`.
+
+If you want, I can next provide the full implementation code for `task_func`.

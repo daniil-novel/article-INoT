@@ -1,0 +1,119 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Generate a plot of random numbers such that indices are on the x-axis and generated numbers are on the y-axis.
+The function should output with:
+    Returns a tuple containing:
+    A list of generated random numbers.
+    A matplotlib Axes object representing the plot.
+You should write self-contained code starting with:
+```
+import random
+import matplotlib.pyplot as plt
+def task_func(points: int):
+```
+FULL SUPPLIED CONTEXT
+import random
+import matplotlib.pyplot as plt
+def task_func(points: int):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s a stage-1 implementation plan based on the requirements.
+
+## Requirements analysis
+
+You need a function:
+
+```python
+import random
+import matplotlib.pyplot as plt
+def task_func(points: int):
+```
+
+that:
+
+1. Generates `points` random numbers.
+2. Plots them with:
+   - x-axis = indices
+   - y-axis = generated values
+3. Returns a tuple containing:
+   - the list of generated random numbers
+   - a `matplotlib.axes.Axes` object for the plot
+
+## Planned behavior
+
+### Input
+- `points`: number of random values to generate.
+
+### Output
+- A 2-tuple:
+  1. `numbers`: `list` of random floats
+  2. `ax`: a `matplotlib.axes.Axes` object containing the plot
+
+## Implementation plan
+
+1. **Validate or normalize input**
+   - Ensure `points` is an integer-like positive value.
+   - Decide how to handle invalid inputs:
+     - if `points < 0`, likely raise `ValueError`
+     - if `points == 0`, return an empty list and an empty plot, or raise `ValueError` depending on expected behavior
+   - Since the task does not specify error handling, the safest approach is:
+     - allow `points == 0` and produce an empty plot
+     - reject negative values with `ValueError`
+
+2. **Generate random data**
+   - Use `random.random()` to create `points` values in `[0.0, 1.0)`.
+   - Store them in a list.
+
+3. **Create plot**
+   - Use `plt.subplots()` to create a figure and axes.
+   - Plot indices on the x-axis:
+     - likely `range(points)` so indices run from `0` to `points - 1`
+   - Plot generated numbers on the y-axis.
+   - Use a line plot or marker plot; a line plot with markers is a good default for point sequences.
+
+4. **Label the plot**
+   - Set x-axis label to something like `"Index"`.
+   - Set y-axis label to something like `"Random number"`.
+   - Optionally set a title.
+
+5. **Return values**
+   - Return `(numbers, ax)`.
+
+## Edge cases to handle
+
+1. **`points = 0`**
+   - Return `[]` and an Axes with no data plotted.
+   - Ensure plotting code does not fail on empty input.
+
+2. **Negative `points`**
+   - Raise `ValueError("points must be non-negative")`.
+
+3. **Very large `points`**
+   - Plotting and list generation may be slow or memory-heavy.
+   - No special handling required unless performance constraints are given.
+
+4. **Non-integer input**
+   - Since the annotation says `int`, you can assume integer input.
+   - If you want robustness, you may check `isinstance(points, int)` and reject others.
+
+5. **Randomness reproducibility**
+   - Not required by the task.
+   - If deterministic behavior were needed, a seed parameter would be necessary, but it is not part of the spec.
+
+## Recommended plot details
+
+- X values: `0, 1, 2, ..., points-1`
+- Y values: generated random numbers
+- Style: markers and/or lines
+- Return the `Axes` object, not the figure
+
+## Expected structure of final code
+
+- imports
+- function definition
+- input validation
+- data generation
+- plot creation
+- return statement
+
+If you want, I can proceed to stage 2 and write the actual self-contained implementation.

@@ -1,0 +1,104 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Fetches a web page from a given URL, decodes its content from a specified encoding, and returns the parsed HTML using BeautifulSoup. If specified, 'lxml' is used as the parser for improved performance. In case of any failure (like network issues, invalid URL, or decoding errors), the function returns None.
+Note that: Notes: The function returns None if the URL is empty or None. Network errors, HTTP errors, and decoding issues are caught and result in None being returned. If the HTTP response status code is 200 (indicating success), the content is decoded using the specified encoding If the response status code is not 200, it implies an unsuccessful HTTP request (e.g., 404 Not Found, 403 Forbidden). In such cases, the function returns None, indicating that the webpage could not be successfully retrieved or was not available.
+The function should output with:
+    BeautifulSoup object if the fetch and parse are successful.
+    None if the URL is invalid, the request fails, or parsing fails.
+You should write self-contained code starting with:
+```
+from bs4 import BeautifulSoup
+import requests
+# Constants
+URL = "http://example.com"
+def task_func(url=URL, from_encoding="cp1251", use_lxml=False):
+```
+FULL SUPPLIED CONTEXT
+from bs4 import BeautifulSoup
+import requests
+# Constants
+URL = "http://example.com"
+def task_func(url=URL, from_encoding="cp1251", use_lxml=False):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Keep the required module header**
+   - Start exactly with:
+     ```python
+     from bs4 import BeautifulSoup
+     import requests
+     # Constants
+     URL = "http://example.com"
+     def task_func(url=URL, from_encoding="cp1251", use_lxml=False):
+     ```
+   - Implement everything inside `task_func`.
+
+2. **Validate the input URL early**
+   - If `url` is `None` or an empty string, return `None` immediately.
+   - Optionally also treat whitespace-only strings as invalid by stripping and checking emptiness.
+
+3. **Send the HTTP request safely**
+   - Use `requests.get(url, timeout=...)` with a reasonable timeout to avoid hanging.
+   - Catch all request-related failures with `requests.exceptions.RequestException`, including:
+     - invalid URL / missing scheme
+     - connection errors
+     - timeout
+     - DNS / network issues
+     - redirects or other request-layer failures
+
+4. **Check HTTP status code**
+   - Only continue if `response.status_code == 200`.
+   - For any non-200 status code, return `None`:
+     - 404
+     - 403
+     - 500
+     - etc.
+
+5. **Decode the response content manually**
+   - Decode `response.content` using the provided `from_encoding`.
+   - Use strict decoding so decoding problems raise an exception and can be handled.
+   - Catch decoding-related issues and return `None`, including:
+     - `UnicodeDecodeError`
+     - `LookupError` for invalid/unknown encoding names
+   - This avoids relying on `response.text`, since the task explicitly says to decode using the specified encoding.
+
+6. **Parse HTML with BeautifulSoup**
+   - Choose parser based on `use_lxml`:
+     - if `True`, use `"lxml"`
+     - otherwise use the default parser or `"html.parser"`
+   - Create the soup from the decoded HTML string.
+
+7. **Handle parsing failures**
+   - If BeautifulSoup raises an error because the requested parser is unavailable or parsing fails unexpectedly, return `None`.
+   - In particular, if `"lxml"` is requested but not installed, the code should not crash; it should return `None`.
+
+8. **Return the result**
+   - On success, return the `BeautifulSoup` object.
+   - On any failure, return `None`.
+
+## Edge cases to cover
+- `url is None`
+- `url == ""` or whitespace-only
+- malformed URL like `"example.com"` or `"htp://bad"`
+- network timeouts
+- DNS failures / no internet
+- HTTP 403 / 404 / 500 responses
+- non-UTF encodings, especially incorrect `from_encoding`
+- invalid encoding name
+- HTML that decodes but is malformed
+- `"lxml"` requested but unavailable
+- empty response body with status 200
+- non-HTML content returned with status 200
+- unexpected exceptions during parsing
+
+## Recommended behavior details
+- Prefer a single `try` block around:
+  - `requests.get`
+  - status code check
+  - decoding
+  - BeautifulSoup construction
+- Return `None` for any caught exception or unsuccessful status.
+- Keep the function small and deterministic.
+
+If you want, I can also provide the exact implementation next.

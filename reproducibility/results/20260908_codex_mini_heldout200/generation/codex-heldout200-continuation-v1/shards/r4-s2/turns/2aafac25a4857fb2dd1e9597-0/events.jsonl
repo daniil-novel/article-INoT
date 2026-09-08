@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a07f19-cd45-7813-93cf-033709aa0f54"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport numpy as np\nimport pandas as pd\n\n\ndef task_func(rows, columns=[\"A\", \"B\", \"C\", \"D\", \"E\"], seed=0) -> pd.DataFrame:\n    if not isinstance(rows, (int, np.integer)):\n        raise TypeError(\"rows must be an integer\")\n    if rows < 0:\n        raise ValueError(\"rows must be non-negative\")\n\n    unique_sorted_columns = sorted(set(columns))\n    rng = np.random.default_rng(seed)\n    shuffled_columns = rng.permutation(unique_sorted_columns)\n\n    data = rng.random((rows, len(unique_sorted_columns)))\n    return pd.DataFrame(data, columns=shuffled_columns)\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2927,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":872,"reasoning_output_tokens":726}}

@@ -1,0 +1,28 @@
+Implement the requested program.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Create a list of random sinusoidal values and plot them in a graph.
+The function should output with:
+    Axes object: The plot of the sinusoidal wave.
+You should write self-contained code starting with:
+```
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+# Constants
+RANGE = 10000
+SIZE = 1000
+PI = np.pi
+def task_func(size=SIZE, frequency=1):
+```
+FULL SUPPLIED CONTEXT
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+# Constants
+RANGE = 10000
+SIZE = 1000
+PI = np.pi
+def task_func(size=SIZE, frequency=1):

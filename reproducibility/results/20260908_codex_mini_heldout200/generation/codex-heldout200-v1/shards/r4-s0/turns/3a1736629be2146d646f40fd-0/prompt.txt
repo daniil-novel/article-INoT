@@ -1,0 +1,21 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate all subsets of a given size from a tuple and calculate the product of the sums of the subsets. Additionally, return the top_n sums of the subsets. If the subset size is larger than the tuple length, return 1. If the subset size is 0, return 1.
+The function should output with:
+    int: The product of the sums of the subsets.
+    list: The top_n sums of the subsets as a pandas Series.
+You should write self-contained code starting with:
+```
+import itertools
+import math
+from pandas import Series
+def task_func(elements, subset_size, top_n=2):
+```
+FULL SUPPLIED CONTEXT
+import itertools
+import math
+from pandas import Series
+def task_func(elements, subset_size, top_n=2):

@@ -1,0 +1,66 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Save all words in a text beginning with the "$" character in a CSV file, excluding any words that are solely composed of punctuation characters.
+Note that: The header of the csv row is "Word"
+The function should output with:
+    str: The absolute path of the saved CSV file.
+You should write self-contained code starting with:
+```
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import csv
+import os
+PUNCTUATION = set(punctuation)
+def task_func(text, filename):
+```
+FULL SUPPLIED CONTEXT
+from nltk.tokenize import RegexpTokenizer
+from string import punctuation
+import csv
+import os
+PUNCTUATION = set(punctuation)
+def task_func(text, filename):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Implementation plan:
+
+1. **Tokenize the input text**
+   - Use `RegexpTokenizer` to split the text into tokens while keeping punctuation-separated items available for filtering.
+   - A reasonable pattern is one that captures non-whitespace sequences, so words like `"$profit"` stay intact.
+
+2. **Filter for `$`-prefixed words**
+   - Keep only tokens where `token.startswith("$")` is `True`.
+   - Exclude tokens that are made entirely of punctuation characters.
+   - A robust check is: include the token only if it contains at least one character not in `PUNCTUATION`.
+
+3. **Prepare the CSV output**
+   - Open the target file with `csv.writer(..., newline="", encoding="utf-8")`.
+   - Write the header row exactly as:
+     - `Word`
+
+4. **Write filtered words**
+   - Write each retained `$`-word as its own row in the single-column CSV.
+
+5. **Return the absolute path**
+   - Convert `filename` to an absolute path using `os.path.abspath(filename)`.
+   - Return that absolute path as the function result.
+
+Edge cases to handle:
+
+- **Empty text**: write only the header row and return the absolute path.
+- **No matching `$` words**: same as above.
+- **Tokens like `$!!!` or `$$$`**: exclude them because they are punctuation-only.
+- **Tokens like `$a`, `$123`, `$price!`**:
+  - Keep them if the token begins with `$` and contains at least one non-punctuation character.
+- **Duplicate tokens**:
+  - The task does not request deduplication, so preserve every occurrence in order.
+- **Filename without `.csv` extension**:
+  - Do not modify it unless explicitly required; just write to the given path.
+- **Platform path differences**:
+  - Always return the absolute path so the caller gets a full resolvable location.
+
+In short, the function should:
+- tokenize,
+- filter `$`-prefixed non-punctuation-only tokens,
+- write a CSV with header `Word`,
+- and return `os.path.abspath(filename)`.

@@ -1,0 +1,123 @@
+implementer: Implement the requested program or repository change using the plan.
+TASK
+Calculate the distribution of the maximum values of each row in the matrix, record the histogram and the estimate of the core density of the distribution, and return the skew, kurtosis, and the histogram plot of the distribution.
+The function should output with:
+    tuple: The skewness, the kurtosis of the distribution, and the histogram plot (matplotlib Axes object).
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(matrix):
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(matrix):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(matrix)` based on the requirements.
+
+## Goal
+Given a 2D matrix, compute the distribution of the **maximum value in each row**, then return:
+
+1. **Skewness** of that distribution  
+2. **Kurtosis** of that distribution  
+3. A **histogram plot** of the row-wise maxima as a `matplotlib Axes` object
+
+The function should be self-contained and start with:
+
+```python
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+def task_func(matrix):
+```
+
+---
+
+## Planned approach
+
+### 1. Convert input to a NumPy array
+- Accept any array-like input.
+- Convert using `np.asarray(matrix)` for consistency.
+
+### 2. Validate shape
+- Ensure the input is 2-dimensional.
+- If it is not 2D, raise a clear error or handle appropriately.
+- Since the task is about “each row” maxima, rows must exist.
+
+### 3. Compute row-wise maxima
+- Use `np.max(matrix, axis=1)` to get one maximum per row.
+- This produces the sample for the distribution.
+
+### 4. Compute distribution statistics
+- Use `scipy.stats.skew(row_maxima)` for skewness.
+- Use `scipy.stats.kurtosis(row_maxima)` for kurtosis.
+- Decide whether to use default Fisher kurtosis or not:
+  - `stats.kurtosis(..., fisher=True)` returns excess kurtosis.
+  - The prompt just says “kurtosis,” so the default is usually acceptable unless otherwise specified.
+- If the sample is very small, these metrics may be unstable or undefined.
+
+### 5. Create histogram plot
+- Create a figure and axes using `plt.subplots()`.
+- Plot histogram of row maxima with `ax.hist(...)`.
+- Add axis labels and a title for clarity.
+- Return the `Axes` object, not the figure.
+
+### 6. Return output
+- Return a tuple:
+  ```python
+  (skewness, kurtosis, ax)
+  ```
+
+---
+
+## Edge cases to handle
+
+### Empty input
+- If `matrix` is empty, row maxima cannot be computed.
+- Should raise a meaningful error, such as `ValueError`.
+
+### Non-2D input
+- A 1D array has no rows in the intended sense.
+- A 3D or higher-dimensional array is also invalid for this task.
+- Raise `ValueError` if `matrix.ndim != 2`.
+
+### Rows containing NaN
+- `np.max` will propagate NaN if any row contains NaN.
+- If NaN handling is needed, use `np.nanmax`, but only if the task expects missing-value tolerance.
+- If not specified, standard behavior is fine, but it should be noted.
+
+### All values identical
+- Skewness and kurtosis may be undefined or return `nan` due to zero variance.
+- The function should still return values, but this is an important behavior to be aware of.
+
+### Very small number of rows
+- For one row, skewness and kurtosis are not meaningful.
+- For two or three rows, estimates may be unstable.
+- The function can still compute them, but results may be `nan` or warnings may occur.
+
+### Non-numeric input
+- If the matrix contains strings or mixed types, conversion or max computation will fail.
+- Let NumPy/SciPy raise an error, or validate numeric dtype up front.
+
+---
+
+## Suggested output format
+The final function should return something like:
+
+```python
+(skewness_value, kurtosis_value, histogram_axes)
+```
+
+---
+
+## Optional enhancements
+- Add labels and grid to the histogram.
+- Allow configurable histogram bins.
+- Optionally compute and annotate the mean/median of row maxima.
+- Use `stats.skew(row_maxima, nan_policy='omit')` and `stats.kurtosis(..., nan_policy='omit')` if missing values should be ignored.
+
+If you want, I can next provide the **full implementation code** matching this plan.

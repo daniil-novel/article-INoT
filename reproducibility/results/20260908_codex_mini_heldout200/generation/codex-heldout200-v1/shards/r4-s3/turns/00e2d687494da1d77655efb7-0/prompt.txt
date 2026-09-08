@@ -1,0 +1,68 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Generate a DataFrame where each row contains random planet-element pairs. Each pair is formatted as 'Planet:Element'. The number of rows is determined by the number of planets, and each row will contain as many planet-element pairs as there are elements.
+The function should output with:
+    pandas.DataFrame: A DataFrame where each cell contains a string in the format 'Planet:Element'.
+    The DataFrame has a number of rows equal to the number of planets and
+    a number of columns equal to the number of elements.
+You should write self-contained code starting with:
+```
+import numpy as np
+import random
+import itertools
+import pandas as pd
+# Constants
+PLANETS = [
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+]
+ELEMENTS = [
+    "Hydrogen",
+    "Helium",
+    "Oxygen",
+    "Carbon",
+    "Nitrogen",
+    "Magnesium",
+    "Silicon",
+    "Iron",
+    "Nickel",
+]
+def task_func():
+```
+FULL SUPPLIED CONTEXT
+import numpy as np
+import random
+import itertools
+import pandas as pd
+# Constants
+PLANETS = [
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+]
+ELEMENTS = [
+    "Hydrogen",
+    "Helium",
+    "Oxygen",
+    "Carbon",
+    "Nitrogen",
+    "Magnesium",
+    "Silicon",
+    "Iron",
+    "Nickel",
+]
+def task_func():

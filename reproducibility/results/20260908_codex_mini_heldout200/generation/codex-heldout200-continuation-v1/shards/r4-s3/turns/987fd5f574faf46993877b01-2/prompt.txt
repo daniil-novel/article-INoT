@@ -1,0 +1,165 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Find all combinations of columns from a given DataFrame so that the absolute correlation between them is greater than a certain threshold.
+The function should output with:
+    corr_combinations (list): A list of tuples where each tuple contains two column names.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from itertools import combinations
+# Constants
+MIN_PERCENTAGE = 0.75
+def task_func(data, cols, percentage):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from itertools import combinations
+# Constants
+MIN_PERCENTAGE = 0.75
+def task_func(data, cols, percentage):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data, cols, percentage)`.
+
+## Goal
+Return `corr_combinations`, a list of `(col1, col2)` tuples for all column pairs in `cols` whose **absolute correlation** is **strictly greater than** `percentage`.
+
+---
+
+## Plan
+
+### 1) Validate and normalize inputs
+- Ensure `data` is a pandas `DataFrame`.
+- Ensure `cols` is iterable and contains at least 2 column names.
+- If `percentage` is `None`, use `MIN_PERCENTAGE`.
+- Optionally clamp or validate `percentage` to a sensible range, e.g. `[0, 1]`, since correlations are in that range.
+
+---
+
+### 2) Filter/select usable columns
+- Keep only columns from `cols` that actually exist in `data`.
+- Since correlation is meaningful for numeric data:
+  - Select only numeric columns from the requested set, or
+  - Convert/ignore non-numeric columns if needed.
+- If fewer than 2 usable numeric columns remain, return an empty list.
+
+---
+
+### 3) Compute pairwise correlations
+- Use `itertools.combinations(usable_cols, 2)` to generate all unique column pairs.
+- For each pair:
+  - Compute correlation with `data[col1].corr(data[col2])`.
+  - Use absolute value: `abs(corr_value)`.
+  - Exclude pairs where correlation is `NaN` (common if a column is constant or has too many missing values).
+  - Keep the pair if `abs(corr_value) > percentage`.
+
+---
+
+### 4) Build output
+- Append qualifying pairs as tuples to `corr_combinations`.
+- Return `corr_combinations`.
+
+---
+
+## Edge cases to handle
+
+### Missing/invalid columns
+- If a column in `cols` is not present in `data`, ignore it or handle explicitly.
+- Best behavior for robustness: skip missing columns rather than failing.
+
+### Non-numeric columns
+- Correlation cannot be computed on arbitrary strings/categories directly.
+- Either:
+  - filter to numeric columns only, or
+  - let `corr()` return `NaN` and skip those pairs.
+- Filtering numeric columns is safer and clearer.
+
+### Constant columns
+- If a column has zero variance, correlation with any other column is undefined (`NaN`).
+- Such pairs should be ignored.
+
+### Missing values
+- `pandas.Series.corr()` automatically handles pairwise missing data by aligning and ignoring `NaN`s.
+- If too few overlapping values remain, result may still be `NaN`; skip those pairs.
+
+### Duplicate column names in `cols`
+- If `cols` contains duplicates, combinations may produce repeated work.
+- Deduplicate `cols` while preserving order if needed.
+
+### Threshold behavior
+- The requirement says “greater than a certain threshold,” so use:
+  - `abs(corr) > percentage`
+  - not `>=`
+- Make sure this is applied to the absolute value.
+
+### Too few columns
+- If there are fewer than 2 valid columns, return `[]`.
+
+---
+
+## Suggested implementation structure
+1. Initialize `corr_combinations = []`
+2. Resolve `percentage`
+3. Filter valid numeric columns from `cols`
+4. Loop over `combinations(cols, 2)`
+5. Compute correlation and compare with threshold
+6. Return `corr_combinations`
+
+---
+
+If you want, I can also turn this plan into the exact self-contained function code.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+from itertools import combinations
+
+# Constants
+MIN_PERCENTAGE = 0.75
+
+def task_func(data, cols, percentage):
+    corr_combinations = []
+
+    # Validate inputs
+    if not isinstance(data, pd.DataFrame):
+        return corr_combinations
+
+    if percentage is None:
+        percentage = MIN_PERCENTAGE
+
+    try:
+        percentage = float(percentage)
+    except (TypeError, ValueError):
+        percentage = MIN_PERCENTAGE
+
+    # Correlation is always in [-1, 1]
+    if percentage < 0:
+        percentage = 0.0
+    if percentage > 1:
+        return corr_combinations
+
+    # Normalize and deduplicate columns while preserving order
+    try:
+        unique_cols = list(dict.fromkeys(cols))
+    except TypeError:
+        return corr_combinations
+
+    # Keep only existing numeric columns
+    usable_cols = []
+    for col in unique_cols:
+        if col in data.columns:
+            series = data[col]
+            if isinstance(series, pd.Series) and pd.api.types.is_numeric_dtype(series):
+                usable_cols.append(col)
+
+    if len(usable_cols) < 2:
+        return corr_combinations
+
+    # Find qualifying pairs
+    for col1, col2 in combinations(usable_cols, 2):
+        corr_value = data[col1].corr(data[col2])
+        if pd.notna(corr_value) and abs(corr_value) > percentage:
+            corr_combinations.append((col1, col2))
+
+    return corr_combinations
+```

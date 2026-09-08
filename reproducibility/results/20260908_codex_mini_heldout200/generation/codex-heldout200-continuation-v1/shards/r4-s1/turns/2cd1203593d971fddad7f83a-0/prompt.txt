@@ -1,0 +1,20 @@
+stage 1: Analyze requirements and produce an implementation plan, including edge cases.
+stage 2: Implement the requested program or repository change using the plan.
+stage 3: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Extract all URLs from a string-serialized JSON dict using a specific URL pattern and return a dict with the URLs as keys and the number of times they appear as values.
+The function should output with:
+    dict: A dict with URLs as keys and the number of times they appear as values.
+You should write self-contained code starting with:
+```
+import re
+import json
+from collections import Counter
+def task_func(json_str, top_n=10):
+```
+FULL SUPPLIED CONTEXT
+import re
+import json
+from collections import Counter
+def task_func(json_str, top_n=10):

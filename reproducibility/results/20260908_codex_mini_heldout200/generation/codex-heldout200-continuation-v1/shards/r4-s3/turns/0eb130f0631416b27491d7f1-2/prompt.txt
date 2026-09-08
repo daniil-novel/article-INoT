@@ -1,0 +1,170 @@
+reviewer: Review correctness against the requirements, fix problems and provide the final implementation.
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+TASK
+Scales the values in a given dictionary using MinMaxScaler and plots the scaled data.
+The function should output with:
+    pandas.DataFrame containing the scaled data.
+    matplotlib Axes object that displays the plot of the scaled data.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+# Constants
+PLOT_TITLE = "Scaled Values"
+def task_func(data_dict):
+```
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+# Constants
+PLOT_TITLE = "Scaled Values"
+def task_func(data_dict):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+Here’s an implementation plan for `task_func(data_dict)`.
+
+## Goal
+Take a dictionary of numeric values, scale them to the range `[0, 1]` using `MinMaxScaler`, then plot the scaled results and return:
+
+1. a `pandas.DataFrame` with the scaled data
+2. a `matplotlib.axes.Axes` object for the plot
+
+---
+
+## Planned Approach
+
+### 1. Validate and prepare input
+- Accept `data_dict` as the input dictionary.
+- Convert it into a `pandas.DataFrame`.
+- Ensure values are in a format compatible with `MinMaxScaler`:
+  - ideally numeric scalars or numeric lists/arrays
+  - if the dictionary is simple like `{"a": 10, "b": 20}`, transform it into a one-column DataFrame
+- Preserve keys as the index or as a column label, depending on the intended visualization style.
+
+### 2. Apply MinMax scaling
+- Instantiate `MinMaxScaler()`.
+- Fit and transform the numeric data.
+- Wrap the scaled result back into a `DataFrame` with:
+  - the same index as the input
+  - sensible column names copied from the original data
+
+### 3. Plot the scaled data
+- Create a plot using `matplotlib`.
+- Since the output must be an `Axes`, use `fig, ax = plt.subplots()`.
+- Plot the scaled values on the axes:
+  - if there is one numeric series, use a line or bar plot
+  - if there are multiple columns, plot each series on the same axes with a legend
+- Set the plot title to `PLOT_TITLE`
+- Label axes appropriately, e.g.:
+  - x-axis: keys / samples
+  - y-axis: scaled value
+
+### 4. Return values
+- Return:
+  - the scaled `DataFrame`
+  - the `Axes` object
+
+---
+
+## Edge Cases to Handle
+
+### Empty input
+- If `data_dict` is empty:
+  - return an empty `DataFrame`
+  - return an `Axes` object with the title set, but no plotted data
+
+### Non-numeric values
+- If values contain strings, `None`, or other non-numeric objects:
+  - either raise a clear error
+  - or convert where appropriate if the structure is predictable
+- Since `MinMaxScaler` requires numeric input, invalid values should be rejected clearly.
+
+### Constant values
+- If all values in a column are identical:
+  - `MinMaxScaler` will typically map them all to `0.0`
+- Ensure the plot still renders correctly.
+
+### Single value
+- If only one element is present:
+  - scaling should still work
+  - the plot should not fail due to lack of multiple points
+
+### Nested or irregular dict values
+- If dictionary values are lists of different lengths or mixed shapes:
+  - reject input or normalize it before scaling
+- `MinMaxScaler` expects a consistent 2D numeric structure.
+
+### Missing values (`NaN`)
+- Decide whether to:
+  - allow them and let scaling fail, or
+  - fill/drop them before scaling
+- For robustness, explicitly handle or reject them.
+
+---
+
+## Suggested Output Structure
+- `scaled_df`: a `DataFrame` with scaled numeric values
+- `ax`: the axes containing the plot
+
+---
+
+## Implementation Notes
+- Use `pd.DataFrame(data_dict)` or `pd.DataFrame.from_dict(...)` depending on the input shape.
+- Use `MinMaxScaler().fit_transform(...)` on the numeric values only.
+- Use `ax.plot(...)` for line charts or `ax.bar(...)` for categorical keys if the input is a single series.
+- Keep the code self-contained and minimal.
+
+If you want, I can also turn this plan into the exact function implementation.
+PREVIOUS STAGE 2 (COMPLETE OUTPUT)
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+
+# Constants
+PLOT_TITLE = "Scaled Values"
+
+
+def task_func(data_dict):
+    if not isinstance(data_dict, dict):
+        raise TypeError("data_dict must be a dictionary.")
+
+    fig, ax = plt.subplots()
+    ax.set_title(PLOT_TITLE)
+    ax.set_xlabel("Key")
+    ax.set_ylabel("Scaled Value")
+
+    if not data_dict:
+        return pd.DataFrame(), ax
+
+    scalar_like = all(pd.api.types.is_scalar(v) for v in data_dict.values())
+
+    if scalar_like:
+        df = pd.DataFrame({"value": pd.Series(data_dict)})
+    else:
+        df = pd.DataFrame(data_dict)
+
+    try:
+        df = df.apply(pd.to_numeric, errors="raise")
+    except Exception as exc:
+        raise ValueError("data_dict must contain only numeric values.") from exc
+
+    if df.isna().any().any():
+        raise ValueError("data_dict contains missing or irregular values.")
+
+    scaler = MinMaxScaler()
+    scaled_values = scaler.fit_transform(df)
+
+    scaled_df = pd.DataFrame(scaled_values, index=df.index, columns=df.columns)
+
+    if scaled_df.shape[1] == 1:
+        ax.bar(scaled_df.index.astype(str), scaled_df.iloc[:, 0].values)
+    else:
+        for column in scaled_df.columns:
+            ax.plot(scaled_df.index.astype(str), scaled_df[column].values, marker="o", label=str(column))
+        ax.legend()
+
+    return scaled_df, ax
+```

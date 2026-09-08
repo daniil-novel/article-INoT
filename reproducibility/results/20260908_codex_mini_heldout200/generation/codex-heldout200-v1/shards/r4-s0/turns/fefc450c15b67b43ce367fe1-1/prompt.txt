@@ -1,0 +1,123 @@
+stage 2: Implement the requested program or repository change using the plan.
+TASK
+Extracts a URL from a string and sends it to a REST API via a POST request. The URL is included in the JSON payload, and an authorization token is used in the headers for API access. If multiple URL is in myString, then use the first one
+The function should output with:
+    dict: The response from the API, which varies based on the API's implementation.
+You should write self-contained code starting with:
+```
+import re
+import json
+import requests
+def task_func(myString, token):
+```
+FULL SUPPLIED CONTEXT
+import re
+import json
+import requests
+def task_func(myString, token):
+
+PREVIOUS STAGE 1 (COMPLETE OUTPUT)
+## Requirements analysis
+
+You need a Python function:
+
+```python
+def task_func(myString, token):
+```
+
+that:
+
+1. Scans `myString` for URLs.
+2. Uses the **first URL only** if more than one is present.
+3. Sends that URL to a REST API using a **POST** request.
+4. Includes the URL in the **JSON request body**.
+5. Includes the authorization token in the **request headers**.
+6. Returns the API response as a `dict`.
+
+---
+
+## Implementation plan
+
+### 1) Validate inputs
+- Confirm `myString` is usable as text.
+- Confirm `token` is present and non-empty.
+- If input is invalid, decide on a consistent failure behavior:
+  - either raise a clear exception, or
+  - return an error dict.
+
+### 2) Extract the first URL
+- Use a regex to find URLs in `myString`.
+- Prefer a pattern that matches `http://` or `https://`.
+- If multiple URLs exist, take the **first match only**.
+
+### 3) Build the request payload
+- Create a JSON object containing the extracted URL.
+- The exact key name should match the API contract; if unspecified, a reasonable default is something like:
+  - `{"url": extracted_url}`
+
+### 4) Prepare headers
+- Include JSON content type:
+  - `Content-Type: application/json`
+- Add authorization header using the provided token.
+- Common convention:
+  - `Authorization: Bearer <token>`
+- If the API expects a different format, adapt accordingly.
+
+### 5) Send the POST request
+- Use `requests.post(...)`.
+- Pass the payload via `json=...` so it is serialized correctly.
+- Consider adding a timeout to avoid hanging indefinitely.
+
+### 6) Parse the response
+- Try to decode the response as JSON.
+- Return the decoded JSON as a `dict`.
+- If the response is not valid JSON, decide whether to:
+  - raise an error, or
+  - return a fallback dict with raw text.
+
+### 7) Handle failures cleanly
+- Network errors
+- Timeout errors
+- HTTP error status codes
+- JSON decoding failures
+
+---
+
+## Edge cases to handle
+
+### URL extraction
+- No URL found in `myString`
+- Multiple URLs present: use only the first
+- URL followed by punctuation, e.g. `"https://a.com."`
+- URLs with query strings or fragments
+- URLs wrapped in quotes or brackets
+- Non-HTTP URLs like `ftp://...` if not supported
+
+### Input issues
+- `myString` is `None`
+- `myString` is not a string
+- `token` is `None` or empty
+- `myString` contains whitespace only
+
+### API/request issues
+- Invalid or expired token
+- Server returns 4xx/5xx
+- Response body is empty
+- Response is not JSON
+- Request times out
+- Network is unavailable
+
+### Output consistency
+- Ensure the function always returns a `dict` when successful
+- If errors are returned instead of raised, keep the error structure consistent
+
+---
+
+## Assumptions
+
+- The API accepts a JSON body with a single URL field.
+- The authorization header uses Bearer-token format unless otherwise specified.
+- The function should return the API’s JSON response directly.
+- If no URL is found, the function should fail gracefully rather than sending an empty request.
+
+If you want, I can next provide the actual self-contained implementation.
