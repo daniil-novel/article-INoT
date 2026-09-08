@@ -26,8 +26,8 @@ def capture(argv: list[str]) -> str:
 
 def ids(path: Path) -> list[str]:
     out = [str(json.loads(line)["task_id"]) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    if len(out) != 200 or len(set(out)) != 200:
-        raise ValueError("input must contain exactly 200 unique task IDs")
+    if not out or len(set(out)) != len(out):
+        raise ValueError("input must contain nonempty unique task IDs")
     return out
 
 def validate_observed_ids(observed, assigned):

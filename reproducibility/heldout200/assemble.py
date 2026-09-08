@@ -120,7 +120,7 @@ def collect_native(assembled,predictions,native,gate_dir,out):
     if len(records)!=len(assembled['rows']):raise ValueError('Not every observed candidate was evaluated')
     summary=summarize(records,assembled['assigned_task_ids'])
     summary['generation_availability']={s:sum(v==s for v in assembled['assignment_availability'].values()) for s in ('completed','submitted_incomplete','never_started')}
-    summary['submitted_turn_usage']={name:{k:report[k] for k in ('known_total_tokens','known_api_equivalent_usd','unknown_usage_turns','submitted_cells','completed_cells')} for name,report in assembled['generation_audits'].items()}
+    summary['submitted_turn_usage']={name:{k:report[k] for k in ('known_total_tokens','known_api_equivalent_usd','unknown_usage_turns','submitted_cells','completed_cells','submitted_turns','turns_without_supported_valuation')} for name,report in assembled['generation_audits'].items()}
     summary['execution_amended']=True
     out.mkdir(parents=True)
     (out/'candidate_records.jsonl').write_bytes(b''.join(c.canonical(r)+b'\n' for r in records))

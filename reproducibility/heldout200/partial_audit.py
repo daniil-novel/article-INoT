@@ -118,7 +118,8 @@ def audit_shard(shard, expected_manifest, tasks, allowed_cells=None):
     known=[i for i in inventory if i['observed_usage'] is not None]
     return {'shard':shard.name,'archive_state':state['state'],'rows':valid,'cells':availability,
             'assigned_cells':len(cells),'submitted_cells':sum(v!='never_started' for v in availability.values()),
-            'completed_cells':len(valid),'turn_inventory':inventory,
+            'completed_cells':len(valid),'turn_inventory':inventory,'submitted_turns':len(inventory),
+            'turns_without_supported_valuation':sum(i['api_equivalent_usd'] is None for i in inventory),
             'known_total_tokens':sum(i['observed_usage']['input_tokens']+i['observed_usage']['output_tokens'] for i in known),
             'known_api_equivalent_usd':sum(i['api_equivalent_usd'] for i in inventory if i['api_equivalent_usd'] is not None),
             'unknown_usage_turns':len(inventory)-len(known)}
@@ -160,6 +161,8 @@ def audit_archive(archive):
             'all_assignment_availability':availability,'rows':[r for s in reports for r in s['rows']],
             'shards':reports,'submitted_cells':sum(s['submitted_cells'] for s in reports),
             'completed_cells':sum(s['completed_cells'] for s in reports),
+            'submitted_turns':sum(s['submitted_turns'] for s in reports),
+            'turns_without_supported_valuation':sum(s['turns_without_supported_valuation'] for s in reports),
             'known_total_tokens':sum(s['known_total_tokens'] for s in reports),
             'known_api_equivalent_usd':sum(s['known_api_equivalent_usd'] for s in reports),
             'unknown_usage_turns':sum(s['unknown_usage_turns'] for s in reports)}
