@@ -19,7 +19,9 @@ The scientific line is: engineering task with shared context → internal role o
 
 Steps:
 1. Completed: compare original and current manuscripts and establish the integration/evidence map.
-2. In progress: write a coherent bilingual architectural and analytical frame and connect every result to it.
-3. Pending: independent coherence review, LaTeX/PDF build and visual QA, exact evidence checks, README/About update, scoped commits and publication.
+2. Completed: write a coherent bilingual architectural and analytical frame and connect every result to it.
+3. In progress: independent coherence review, LaTeX/PDF build and visual QA, exact evidence checks, README/About update, scoped commits and publication.
 
 No new model generation, paid API use or retrospective change to the primary inference is planned. Existing untracked author research notes remain untouched. Previously unresolved factual disclosures and external-baseline limitations stay explicit.
+
+Independent content review found no material contradiction between the integrated architectural frame, conditional algebra and unchanged experimental record. The single-pass core and later native evaluator remain explicitly distinct from an adaptive deployed agent.

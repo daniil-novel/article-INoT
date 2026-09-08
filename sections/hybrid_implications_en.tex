@@ -1,0 +1,24 @@
+\subsection{What the evidence means for the architecture}
+The architectural result concerns where the prescribed work is placed. SR retains the planning--implementation--review instruction in a single call and has lower observed resource use than its three-call counterpart MR. The SR--SN contrast answers a different question: it changes the role labels while holding both operations and call count fixed. Its lower resource mean does not establish a quality benefit from role segregation. Moreover, D uses fewer resources than SR within the main factorial batch. The evidence therefore supports examining a compact internal configuration, while leaving the necessity of its role structure unproven.
+
+External verification remains essential to the meaning of the reported outcome: it distinguishes a generated program from a program passing the retained executable contract. Since every condition receives the same evaluator, its presence cannot explain an advantage unique to Hybrid-INoT. Nor does an offline test result demonstrate that a deployed agent can autonomously repair a failure. The separate INoT* comparison extends the architectural question to a different internal-dialogue instruction; it does not change the definition of the SR core.
+
+\subsection{Design extensions and their evidence requirements}
+\begin{table}[htbp]\centering\small
+\caption{Architectural questions and the reach of the current evidence. These organize the discussion; they are not additional confirmatory tests.}
+\label{tab:hybrid-scope}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.23\textwidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}\toprule
+Question & Current contribution & Evidence still required\\\midrule
+Shared-context efficiency with preserved quality & Conditional token balance; component quality/resource comparisons without compression & A controlled context-length intervention and externally justified quality-preservation criterion\\
+Economic value of preliminary screening & A prospective break-even condition & Integrated screening/rerun policy with final verified outcomes and all costs\\
+Boundary under parallel tools & Explicitly outside fixed text-only generation & Matched serial/parallel tool workflows on independent subtasks; latency and verified quality\\\bottomrule
+\end{tabularx}\end{table}
+
+For example, let a small preliminary checker cost $c_s$, let an expensive rerun have constant cost $c_r$, and let rerun probabilities under two policies be $\rho_0$ and $\rho_1$. Under exactly one preliminary check and at most one rerun, the change in expected inference cost is
+\begin{equation}
+\Delta C=c_s+(\rho_1-\rho_0)c_r.
+\label{eq:hybrid-screen}
+\end{equation}
+The augmented policy costs less exactly when $c_s<(\rho_0-\rho_1)c_r$. This conditional identity carries forward the economic design question, but supplies no estimate of the policy effect: a checker can reduce reruns simply by accepting wrong candidates. A useful policy also needs verified quality and a prospectively justified acceptance rule. No small-model screening or rerun policy is executed in the primary study.
+
+Likewise, independent tools may benefit from external parallelism even when a single role call uses fewer tokens. The present serial stage sequence does not test this latency question. Compression, adaptive mode selection and verification-driven correction would each alter the intervention and require a separate comparison. They are possible extensions of Hybrid-INoT, not validated components hidden inside the reported resource difference.
