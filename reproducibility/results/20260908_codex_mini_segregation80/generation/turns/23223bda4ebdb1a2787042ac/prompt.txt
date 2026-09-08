@@ -1,0 +1,22 @@
+TASK
+Perform K-Means clustering on the given data by first turning it into a DataFrame with two columns "x" and "y" and then return the labels and centroids.
+The function should output with:
+    tuple: The labels and centroids as numpy arrays.
+    kmeans.labels_: A NumPy array where each element is the cluster label assigned to each data point.
+    kmeans.cluster_centers_: A NumPy array containing the coordinates of the cluster centers.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.cluster import KMeans
+def task_func(x_list, y_list, n_clusters=2, random_state=0):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.cluster import KMeans
+def task_func(x_list, y_list, n_clusters=2, random_state=0):

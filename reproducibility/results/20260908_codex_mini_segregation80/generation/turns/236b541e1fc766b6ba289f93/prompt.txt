@@ -1,0 +1,22 @@
+TASK
+Read SQLite3 table via pandas and export to a CSV file.
+The function should output with:
+    str: The absolute path of the exported CSV file.
+You should write self-contained code starting with:
+```
+import sqlite3
+import pandas as pd
+import os
+def task_func(db_name, table_name, csv_path="data.csv"):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import sqlite3
+import pandas as pd
+import os
+def task_func(db_name, table_name, csv_path="data.csv"):

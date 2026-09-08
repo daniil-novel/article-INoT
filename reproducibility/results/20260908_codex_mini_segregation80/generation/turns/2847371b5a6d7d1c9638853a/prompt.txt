@@ -1,0 +1,21 @@
+TASK
+Standardize the 'age' and 'income' columns for each group by 'id' in a Pandas DataFrame, and return the standardized DataFrame.
+The function should raise the exception for: This function will raise ValueError if the DataFrame does not have the 'id', 'age', and 'income' columns.
+The function should output with:
+    DataFrame: The pandas DataFrame after standardizing 'age' and 'income' columns.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(df):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+def task_func(df):

@@ -1,0 +1,23 @@
+TASK
+Convert the encoding of a CSV file from one encoding to another and return a list of dictionaries along with the converted CSV data as a string.
+Note that: The default filename to use if not specified is 'sample.csv'. The default delimiter is ','.
+The function should output with:
+    tuple: A tuple containing:
+    list: A list of dictionaries. Each dictionary represents a row in the CSV file.
+    str: The converted CSV data as a string.
+You should write self-contained code starting with:
+```
+import csv
+import io
+def task_func(filename, from_encoding='cp1251', to_encoding='utf8', delimiter=','):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import csv
+import io
+def task_func(filename, from_encoding='cp1251', to_encoding='utf8', delimiter=','):

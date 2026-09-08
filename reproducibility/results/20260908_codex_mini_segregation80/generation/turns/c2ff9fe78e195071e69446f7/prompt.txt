@@ -1,0 +1,21 @@
+TASK
+Backs up a given source folder to the specified backup directory, then deletes the source folder.
+The function should raise the exception for: ValueError: If the source folder does not exist. Exception: If an error occurs while deleting the source folder.
+The function should output with:
+    bool: True if the operation is successful, False otherwise.
+You should write self-contained code starting with:
+```
+import os
+import shutil
+def task_func(src_folder, backup_dir):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import os
+import shutil
+def task_func(src_folder, backup_dir):

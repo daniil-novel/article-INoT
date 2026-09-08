@@ -1,0 +1,21 @@
+TASK
+Calculate the difference between the ASCII values of each pair of adjacent letters in the input word. After calculating the difference, calculate the entropy of the differences.
+The function should output with:
+    np.ndarray: A numpy array containing the difference between the ASCII values of each pair of adjacent letters in the word.
+    float: The entropy of the differences.
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+def task_func(word: str) -> np.ndarray:
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+def task_func(word: str) -> np.ndarray:

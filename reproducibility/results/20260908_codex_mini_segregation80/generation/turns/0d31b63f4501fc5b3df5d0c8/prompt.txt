@@ -1,0 +1,20 @@
+TASK
+Renames all files in a directory that match a particular pattern with a given replacement string.
+The function should output with:
+    Returns a boolean value. True if the operation was successful, otherwise False.
+You should write self-contained code starting with:
+```
+import os
+import re
+def task_func(pattern: str, replacement: str, directory: str) -> bool:
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import os
+import re
+def task_func(pattern: str, replacement: str, directory: str) -> bool:

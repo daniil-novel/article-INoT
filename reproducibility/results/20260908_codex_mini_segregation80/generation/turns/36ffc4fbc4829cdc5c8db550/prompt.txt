@@ -1,0 +1,20 @@
+TASK
+Visualize a 2D numeric array (matrix) as a heatmap using matplotlib, specifying a cmap for the color mapping and interpolation to control the pixel rendering.
+The function should output with:
+    ax (matplotlib.axes._axes.Axes): The Axes object with the heatmap of th 'hot' colormap.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(matrix):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import matplotlib.pyplot as plt
+def task_func(matrix):

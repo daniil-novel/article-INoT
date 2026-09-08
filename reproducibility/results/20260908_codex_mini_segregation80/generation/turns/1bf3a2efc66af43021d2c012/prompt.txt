@@ -1,0 +1,21 @@
+TASK
+Create an SQLite3 table and fill it with random data using the provided database and table names. The function populates the table with columns 'name', 'age', 'height' using random data from the following constants: - NAMES: List of names ['John', 'Jane', 'Steve', 'Emma', 'Liam', 'Olivia'] - AGES: Range of ages from 18 to 65. - HEIGHTS: Range of heights from 150cm to 200cm.
+The function should raise the exception for: ValueError: If num_entries is negative.
+The function should output with:
+    str: The absolute path of the SQLite3 database file.
+You should write self-contained code starting with:
+```
+import sqlite3
+from random import choice, seed
+import os
+def task_func(db_name, table_name, num_entries, random_seed=None):
+```
+
+Use three internal checkpoints in this one response.
+PLANNER: Analyze the requirements and edge cases and form a concise plan. IMPLEMENTER: Implement the requested function using that plan. REVIEWER: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import sqlite3
+from random import choice, seed
+import os
+def task_func(db_name, table_name, num_entries, random_seed=None):

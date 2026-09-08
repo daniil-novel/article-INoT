@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a0803c-a899-7c61-bac6-849a96a5b44b"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\n# Constants\nFEATURES = ['feature '+str(i) for i in range(1, 11)]\nTARGET = 'target'\ndef task_func(df):\n    if not isinstance(df, pd.DataFrame):\n        raise ValueError(\"input df must be a pandas DataFrame\")\n\n    X = df[FEATURES]\n    y = df[TARGET]\n\n    model = LinearRegression()\n    model.fit(X, y)\n    return model\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2908,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":526,"reasoning_output_tokens":406}}

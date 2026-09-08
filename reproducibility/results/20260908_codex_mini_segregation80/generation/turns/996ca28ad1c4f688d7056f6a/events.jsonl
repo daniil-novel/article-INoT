@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a08033-c85c-7aa1-9e4d-39e79fe24829"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nfrom functools import reduce\nfrom itertools import permutations\nimport math\n\ndef task_func(numbers):\n    if not isinstance(numbers, list):\n        raise TypeError(\"numbers must be a list of integers\")\n\n    for n in numbers:\n        if type(n) is not int:\n            raise TypeError(\"numbers must be a list of integers\")\n        if n < 0:\n            raise ValueError(\"numbers must not contain negative values\")\n\n    if len(numbers) == 0:\n        return [], []\n\n    perm = list(permutations(numbers))\n    fac = [sum(math.factorial(x) for x in p) for p in perm]\n    return fac, perm\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2931,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":827,"reasoning_output_tokens":683}}

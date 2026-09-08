@@ -1,0 +1,776 @@
+{
+  "date": "2026-09-08 09:05",
+  "eval": {
+    "BigCodeBench/560": [
+      {
+        "task_id": "BigCodeBench/560",
+        "solution": "from datetime import datetime\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n\ndef task_func(data):\n    df = pd.DataFrame(data).copy()\n\n    def _find_col(columns, target):\n        target = target.lower()\n        for col in columns:\n            if str(col).lower() == target:\n                return col\n        for col in columns:\n            if target in str(col).lower():\n                return col\n        return None\n\n    def _infer_year(frame):\n        now_year = datetime.now().year\n\n        year_col = _find_col(frame.columns, \"year\")\n        if year_col is not None and not frame.empty:\n            years = pd.to_numeric(frame[year_col], errors=\"coerce\").dropna()\n            if not years.empty:\n                return int(years.iloc[0])\n\n        for candidate in [\"date\", \"datetime\", \"month\"]:\n            col = _find_col(frame.columns, candidate)\n            if col is not None and not frame.empty:\n                dt = pd.to_datetime(frame[col], errors=\"coerce\")\n                dt = dt.dropna()\n                if not dt.empty:\n                    return int(dt.iloc[0].year)\n\n        if isinstance(frame.index, pd.DatetimeIndex) and len(frame.index) > 0:\n            return int(frame.index[0].year)\n\n        return now_year\n\n    def _month_labels_and_order(month_series):\n        month_to_num = {\n            \"jan\": 1, \"january\": 1,\n            \"feb\": 2, \"february\": 2,\n            \"mar\": 3, \"march\": 3,\n            \"apr\": 4, \"april\": 4,\n            \"may\": 5,\n            \"jun\": 6, \"june\": 6,\n            \"jul\": 7, \"july\": 7,\n            \"aug\": 8, \"august\": 8,\n            \"sep\": 9, \"sept\": 9, \"september\": 9,\n            \"oct\": 10, \"october\": 10,\n            \"nov\": 11, \"november\": 11,\n            \"dec\": 12, \"december\": 12,\n        }\n\n        numeric = pd.to_numeric(month_series, errors=\"coerce\")\n        if numeric.notna().all():\n            ordinals = numeric.astype(int)\n            if ordinals.between(1, 12).all():\n                labels = pd.to_datetime(ordinals, format=\"%m\").dt.strftime(\"%b\")\n            else:\n                labels = ordinals.astype(str)\n            return ordinals, labels\n\n        dt = pd.to_datetime(month_series, errors=\"coerce\")\n        if dt.notna().all():\n            return dt.dt.month, dt.dt.strftime(\"%b\")\n\n        normalized = month_series.astype(str).str.strip().str.lower()\n        mapped = normalized.map(month_to_num)\n        if mapped.notna().all():\n            ordinals = mapped.astype(int)\n            labels = pd.to_datetime(ordinals, format=\"%m\").dt.strftime(\"%b\")\n            return ordinals, labels\n\n        return pd.Series(range(len(month_series)), index=month_series.index), month_series.astype(str)\n\n    month_col = _find_col(df.columns, \"month\")\n    value_col = _find_col(df.columns, \"value\")\n\n    if month_col is None and len(df.columns) >= 1:\n        month_col = df.columns[0]\n    if value_col is None and len(df.columns) >= 2:\n        value_col = df.columns[1]\n\n    year = _infer_year(df)\n    fig, ax = plt.subplots()\n\n    if month_col is None or value_col is None or df.empty:\n        ax.set_title(f\"Monthly Data for {year}\")\n        ax.set_xlabel(\"Month\")\n        ax.set_ylabel(\"Value\")\n        return ax\n\n    plot_df = df[[month_col, value_col]].copy()\n    plot_df = plot_df.dropna(subset=[month_col, value_col])\n\n    if plot_df.empty:\n        ax.set_title(f\"Monthly Data for {year}\")\n        ax.set_xlabel(\"Month\")\n        ax.set_ylabel(\"Value\")\n        return ax\n\n    plot_df[value_col] = pd.to_numeric(plot_df[value_col], errors=\"coerce\")\n    plot_df = plot_df.dropna(subset=[value_col])\n\n    if plot_df.empty:\n        ax.set_title(f\"Monthly Data for {year}\")\n        ax.set_xlabel(\"Month\")\n        ax.set_ylabel(\"Value\")\n        return ax\n\n    month_order, month_labels = _month_labels_and_order(plot_df[month_col])\n    plot_df = plot_df.assign(_month_order=month_order.values, _month_label=month_labels.values)\n    plot_df = plot_df.sort_values(\"_month_order\")\n\n    x = range(len(plot_df))\n    ax.bar(x, plot_df[value_col].values)\n    ax.set_xticks(list(x))\n    ax.set_xticklabels(plot_df[\"_month_label\"].astype(str).tolist())\n\n    ax.set_title(f\"Monthly Data for {year}\")\n    ax.set_xlabel(\"Month\")\n    ax.set_ylabel(\"Value\")\n\n    return ax",
+        "status": "fail",
+        "details": {
+          "test_basic_functionality": "Traceback (most recent call last):\n  File \"__test__.py\", line 132, in test_basic_functionality\n  File \"__test__.py\", line 7, in task_func\n  File \"/usr/local/lib/python3.11/site-packages/pandas/core/frame.py\", line 886, in __init__\n    raise ValueError(\"DataFrame constructor not properly called!\")\nValueError: DataFrame constructor not properly called!\n",
+          "test_full_year_data": "Traceback (most recent call last):\n  File \"__test__.py\", line 139, in test_full_year_data\n  File \"__test__.py\", line 7, in task_func\n  File \"/usr/local/lib/python3.11/site-packages/pandas/core/frame.py\", line 886, in __init__\n    raise ValueError(\"DataFrame constructor not properly called!\")\nValueError: DataFrame constructor not properly called!\n",
+          "test_partial_year_data": "Traceback (most recent call last):\n  File \"__test__.py\", line 143, in test_partial_year_data\n  File \"__test__.py\", line 7, in task_func\n  File \"/usr/local/lib/python3.11/site-packages/pandas/core/frame.py\", line 886, in __init__\n    raise ValueError(\"DataFrame constructor not properly called!\")\nValueError: DataFrame constructor not properly called!\n"
+        }
+      }
+    ],
+    "BigCodeBench/444": [
+      {
+        "task_id": "BigCodeBench/444",
+        "solution": "import numpy as np\nimport matplotlib.pyplot as plt\n\ndef task_func(n_points=100, random_seed=None):\n    \"\"\"\n    Generate random 3D points in [0, 1) and plot them in a 3D scatter plot.\n\n    Parameters\n    ----------\n    n_points : int, optional\n        Number of points to generate, by default 100.\n    random_seed : int or None, optional\n        Seed for the random number generator, by default None.\n\n    Returns\n    -------\n    tuple\n        (points, plot) where points is an ndarray of shape (n_points, 3)\n        and plot is a matplotlib 3D Axes object.\n    \"\"\"\n    if n_points < 0:\n        raise ValueError(\"n_points must be non-negative\")\n\n    rng = np.random.default_rng(random_seed)\n    points = rng.random((n_points, 3))\n\n    fig = plt.figure()\n    ax = fig.add_subplot(111, projection=\"3d\")\n    ax.scatter(points[:, 0], points[:, 1], points[:, 2], s=20)\n\n    ax.set_xlabel(\"X\")\n    ax.set_ylabel(\"Y\")\n    ax.set_zlabel(\"Z\")\n    ax.set_xlim(0, 1)\n    ax.set_ylim(0, 1)\n    ax.set_zlim(0, 1)\n\n    return points, ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/992": [
+      {
+        "task_id": "BigCodeBench/992",
+        "solution": "import sys\nimport sqlite3\n\n# Constants\nPATH_TO_APPEND = \"path/to/whatever\"\nDATABASE = \"path/to/database.db\"\n\n\ndef task_func(path_to_append=PATH_TO_APPEND, database=DATABASE):\n    path_str = str(path_to_append)\n\n    if path_str not in sys.path:\n        sys.path.append(path_str)\n\n    db_path = str(database)\n    conn = sqlite3.connect(db_path)\n    try:\n        conn.execute(\n            \"CREATE TABLE IF NOT EXISTS appended_paths (\"\n            \"path TEXT PRIMARY KEY\"\n            \")\"\n        )\n        conn.execute(\n            \"INSERT OR IGNORE INTO appended_paths (path) VALUES (?)\",\n            (path_str,),\n        )\n        conn.commit()\n    finally:\n        conn.close()\n\n    return path_str",
+        "status": "fail",
+        "details": {
+          "test_basic_path_insertion": "Traceback (most recent call last):\n  File \"__test__.py\", line 50, in test_basic_path_insertion\nsqlite3.OperationalError: no such table: paths\n",
+          "test_database_creation": "Traceback (most recent call last):\n  File \"__test__.py\", line 93, in test_database_creation\nsqlite3.OperationalError: no such table: paths\n",
+          "test_existing_path": "Traceback (most recent call last):\n  File \"__test__.py\", line 66, in test_existing_path\nsqlite3.OperationalError: no such table: paths\n",
+          "test_multiple_paths": "Traceback (most recent call last):\n  File \"__test__.py\", line 79, in test_multiple_paths\nsqlite3.OperationalError: no such table: paths\n"
+        }
+      }
+    ],
+    "BigCodeBench/412": [
+      {
+        "task_id": "BigCodeBench/412",
+        "solution": "import json\nimport base64\nimport unicodedata\n\n\ndef task_func(json_file: str) -> dict:\n    \"\"\"\n    Read a JSON file whose values are base64-encoded UTF-8 strings, decode each\n    value, normalize it to Unicode NFC, and return a dictionary with the same keys.\n    \"\"\"\n    with open(json_file, \"r\", encoding=\"utf-8\") as f:\n        data = json.load(f)\n\n    result = {}\n    for key, encoded_value in data.items():\n        decoded_bytes = base64.b64decode(encoded_value)\n        decoded_text = decoded_bytes.decode(\"utf-8\")\n        result[key] = unicodedata.normalize(\"NFC\", decoded_text)\n\n    return result",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/735": [
+      {
+        "task_id": "BigCodeBench/735",
+        "solution": "import numpy as np\nfrom itertools import chain\n\ndef task_func(L):\n    def _flatten(items):\n        for x in items:\n            if isinstance(x, (list, tuple, np.ndarray)):\n                yield from _flatten(x)\n            else:\n                yield x\n\n    flat = list(_flatten(L))\n    if not flat:\n        return {\"mean\": np.nan, \"variance\": np.nan}\n\n    arr = np.asarray(flat, dtype=float)\n    return {\n        \"mean\": float(np.mean(arr)),\n        \"variance\": float(np.var(arr)),\n    }",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/742": [
+      {
+        "task_id": "BigCodeBench/742",
+        "solution": "import pandas as pd\nfrom sklearn.preprocessing import MinMaxScaler\nimport numbers\n\ndef task_func(list_of_pairs):\n    pairs = list(list_of_pairs) if list_of_pairs is not None else []\n    if not pairs:\n        raise Exception(\"If the input array is empty.\")\n    \n    categories = []\n    values = []\n    for pair in pairs:\n        if not isinstance(pair, (list, tuple)) or len(pair) != 2:\n            raise ValueError(\"Values are not numeric.\")\n        category, value = pair\n        if not isinstance(value, numbers.Real) or isinstance(value, bool):\n            raise ValueError(\"Values are not numeric.\")\n        categories.append(category)\n        values.append(float(value))\n    \n    scaler = MinMaxScaler()\n    normalized_values = scaler.fit_transform([[v] for v in values]).ravel()\n    \n    return pd.DataFrame({\n        \"Category\": categories,\n        \"Value\": normalized_values\n    })",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/255": [
+      {
+        "task_id": "BigCodeBench/255",
+        "solution": "import matplotlib\nimport numpy as np\n# Constants\nFUNCTIONS = [np.sin, np.cos, np.tan]\nimport matplotlib.axes\n\n\ndef task_func(ax, func_index):\n    if not isinstance(ax, matplotlib.axes.Axes):\n        raise ValueError(\"The input ax must be a matplotlib Axes instance.\")\n\n    func = FUNCTIONS[func_index]\n\n    theta = np.linspace(0.0, 2.0 * np.pi, 2000)\n    with np.errstate(all=\"ignore\"):\n        r = func(theta)\n\n    r = np.asarray(r, dtype=float)\n    r[~np.isfinite(r)] = np.nan\n    r = np.clip(r, -10.0, 10.0)\n\n    ax.plot(theta, r)\n    ax.set_rlabel_position(func_index * 45)\n    ax.grid(True)\n\n    return ax",
+        "status": "fail",
+        "details": {
+          "test_sine_function": "Traceback (most recent call last):\n  File \"__test__.py\", line 41, in test_sine_function\n  File \"/usr/local/lib/python3.11/site-packages/numpy/testing/_private/utils.py\", line 1504, in assert_allclose\n    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),\n  File \"/usr/local/lib/python3.11/contextlib.py\", line 81, in inner\n    return func(*args, **kwds)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/numpy/testing/_private/utils.py\", line 713, in assert_array_compare\n    raise AssertionError(msg)\nAssertionError: \nNot equal to tolerance rtol=1e-07, atol=1e-05\n\n(shapes (2000,), (1000,) mismatch)\n x: array([ 0.000000e+00,  3.143159e-03,  6.286287e-03, ..., -6.286287e-03,\n       -3.143159e-03, -2.449294e-16])\n y: array([ 0.000000e+00,  6.289433e-03,  1.257862e-02,  1.886730e-02,\n        2.515525e-02,  3.144219e-02,  3.772789e-02,  4.401210e-02,\n        5.029457e-02,  5.657505e-02,  6.285329e-02,  6.912904e-02,...\n"
+        }
+      }
+    ],
+    "BigCodeBench/1107": [
+      {
+        "task_id": "BigCodeBench/1107",
+        "solution": "from datetime import datetime\nimport pytz\n\n# Constants\nDATE_FORMAT = '%Y-%m-%d %H:%M:%S'\n\n\ndef task_func(unix_timestamp, target_timezone):\n    \"\"\"\n    Convert a Unix timestamp to a formatted date-time string in the target timezone.\n\n    Args:\n        unix_timestamp: Unix timestamp as int, float, or numeric string.\n        target_timezone: Timezone name understood by pytz, or a tzinfo-compatible object.\n\n    Returns:\n        str: Date and time formatted as '%Y-%m-%d %H:%M:%S' in the target timezone.\n    \"\"\"\n    try:\n        timestamp = float(unix_timestamp)\n    except (TypeError, ValueError) as exc:\n        raise ValueError(\"unix_timestamp must be a numeric Unix timestamp\") from exc\n\n    if isinstance(target_timezone, str):\n        tz = pytz.timezone(target_timezone)\n    else:\n        tz = target_timezone\n\n    utc_dt = datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.UTC)\n    local_dt = utc_dt.astimezone(tz)\n    return local_dt.strftime(DATE_FORMAT)",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/59": [
+      {
+        "task_id": "BigCodeBench/59",
+        "solution": "import wikipedia\nfrom wordcloud import WordCloud\nimport matplotlib.pyplot as plt\n\ndef task_func(page_title):\n    try:\n        page = wikipedia.page(page_title)\n    except Exception:\n        return None\n\n    text = getattr(page, \"content\", \"\")\n    if not isinstance(text, str) or not text.strip():\n        return None\n\n    try:\n        cloud = WordCloud(\n            width=800,\n            height=400,\n            background_color=\"white\",\n            collocations=False,\n        ).generate(text)\n    except Exception:\n        return None\n\n    fig, ax = plt.subplots(figsize=(10, 5))\n    ax.imshow(cloud, interpolation=\"bilinear\")\n    ax.axis(\"off\")\n    return ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/539": [
+      {
+        "task_id": "BigCodeBench/539",
+        "solution": "import sqlite3\nfrom random import choice, seed\nimport os\n\ndef task_func(db_name, table_name, num_entries, random_seed=None):\n    if num_entries < 0:\n        raise ValueError(\"num_entries must be non-negative\")\n\n    if random_seed is not None:\n        seed(random_seed)\n\n    names = ['John', 'Jane', 'Steve', 'Emma', 'Liam', 'Olivia']\n    ages = list(range(18, 66))\n    heights = list(range(150, 201))\n\n    db_path = os.path.abspath(db_name)\n\n    def quote_identifier(identifier):\n        return '\"' + identifier.replace('\"', '\"\"') + '\"'\n\n    table_sql = quote_identifier(table_name)\n\n    rows = [\n        (choice(names), choice(ages), choice(heights))\n        for _ in range(num_entries)\n    ]\n\n    with sqlite3.connect(db_path) as conn:\n        cur = conn.cursor()\n        cur.execute(\n            f\"\"\"\n            CREATE TABLE IF NOT EXISTS {table_sql} (\n                name TEXT,\n                age INTEGER,\n                height INTEGER\n            )\n            \"\"\"\n        )\n        cur.execute(f\"DELETE FROM {table_sql}\")\n        if rows:\n            cur.executemany(\n                f\"INSERT INTO {table_sql} (name, age, height) VALUES (?, ?, ?)\",\n                rows\n            )\n        conn.commit()\n\n    return db_path",
+        "status": "fail",
+        "details": {
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 94, in test_case_5\nAssertionError: OperationalError not raised\n",
+          "test_case_6": "Traceback (most recent call last):\n  File \"__test__.py\", line 99, in test_case_6\nAssertionError: OperationalError not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/834": [
+      {
+        "task_id": "BigCodeBench/834",
+        "solution": "import binascii\nimport io\nimport gzip\n\n\ndef task_func(compressed_hex):\n    \"\"\"\n    Decode a gzip-compressed hexadecimal string and return the UTF-8 text.\n\n    Parameters:\n        compressed_hex (str | bytes): Hexadecimal string representing gzip-compressed bytes.\n\n    Returns:\n        str: Decoded UTF-8 string, or an error message if decoding fails.\n    \"\"\"\n    try:\n        if compressed_hex is None:\n            return \"Error: input is None\"\n\n        if isinstance(compressed_hex, bytes):\n            compressed_hex = compressed_hex.decode(\"utf-8\", errors=\"strict\")\n        elif not isinstance(compressed_hex, str):\n            compressed_hex = str(compressed_hex)\n\n        hex_str = \"\".join(compressed_hex.split())\n        if not hex_str:\n            return \"Error: input is empty\"\n\n        compressed_bytes = binascii.unhexlify(hex_str)\n\n        # Use gzip with an in-memory buffer for robust decompression.\n        with gzip.GzipFile(fileobj=io.BytesIO(compressed_bytes), mode=\"rb\") as gz:\n            decompressed_bytes = gz.read()\n\n        return decompressed_bytes.decode(\"utf-8\")\n\n    except (binascii.Error, ValueError) as e:\n        return f\"Error: invalid hexadecimal or gzip data ({e})\"\n    except UnicodeDecodeError as e:\n        return f\"Error: decompressed data is not valid UTF-8 ({e})\"\n    except OSError as e:\n        return f\"Error: gzip decompression failed ({e})\"\n    except Exception as e:\n        return f\"Error: unexpected failure ({e})\"",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/265": [
+      {
+        "task_id": "BigCodeBench/265",
+        "solution": "import collections\nimport json\nimport os\n\n\ndef task_func(data, json_file_name='data.json'):\n    if data is None:\n        data = {}\n    elif not isinstance(data, dict):\n        data = dict(data)\n\n    data[\"a\"] = 1\n    freq = collections.Counter(data.values())\n\n    result = {\n        \"data\": data,\n        \"freq\": dict(freq),\n    }\n\n    path = os.path.abspath(json_file_name)\n    with open(path, \"w\", encoding=\"utf-8\") as f:\n        json.dump(result, f, ensure_ascii=False, indent=2)\n\n    return path",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/812": [
+      {
+        "task_id": "BigCodeBench/812",
+        "solution": "import re\nfrom pathlib import Path\nimport tarfile\n\n# Constants\nPATTERN = r\"(?<!Distillr)\\\\\\\\AcroTray\\.exe\"\nDIRECTORY = r\"C:\\\\SomeDir\\\\\"\n\ndef task_func(directory=DIRECTORY, file_pattern=PATTERN):\n    root = Path(directory)\n    regex = re.compile(file_pattern)\n\n    def _candidate_texts(path: Path):\n        raw = str(path)\n        yield raw\n        yield raw.replace(\"\\\\\", \"\\\\\\\\\")\n        yield raw.replace(\"/\", \"\\\\\\\\\")\n\n    matched_files = []\n    if root.exists():\n        for path in root.rglob(\"*\"):\n            if path.is_file() and any(regex.search(text) for text in _candidate_texts(path)):\n                matched_files.append(path)\n\n    tar_path = root / \"AcroTray_matches.tar\"\n    tar_path.parent.mkdir(parents=True, exist_ok=True)\n\n    with tarfile.open(tar_path, \"w\") as tar:\n        for path in matched_files:\n            tar.add(path, arcname=path.relative_to(root))\n\n    return str(tar_path)",
+        "status": "fail",
+        "details": {
+          "test_file_permission_issues": "Traceback (most recent call last):\n  File \"__test__.py\", line 116, in test_file_permission_issues\n  File \"__test__.py\", line 30, in task_func\n  File \"/usr/local/lib/python3.11/tarfile.py\", line 2258, in add\n    with bltn_open(name, \"rb\") as f:\n         ^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 13] Permission denied: '/tmp/tmpub_ezaza/AcroTray.exe'\n"
+        }
+      }
+    ],
+    "BigCodeBench/719": [
+      {
+        "task_id": "BigCodeBench/719",
+        "solution": "import re\nimport os\nimport glob\n\ndef task_func(directory, word):\n    \"\"\"\n    Count the number of files in `directory` that contain `word`.\n\n    A file is counted if it contains `word` as a whole word.\n    Returns:\n        int: Number of matching files.\n    \"\"\"\n    if not directory or not os.path.isdir(directory) or not word:\n        return 0\n\n    pattern = re.compile(r\"(?<!\\w)\" + re.escape(word) + r\"(?!\\w)\")\n    count = 0\n\n    for path in glob.glob(os.path.join(directory, \"*\")):\n        if not os.path.isfile(path):\n            continue\n        try:\n            with open(path, \"r\", encoding=\"utf-8\", errors=\"ignore\") as f:\n                if pattern.search(f.read()):\n                    count += 1\n        except OSError:\n            continue\n\n    return count",
+        "status": "fail",
+        "details": {
+          "test_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 44, in test_1\nAssertionError: 0 != 1\n",
+          "test_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 50, in test_3\nAssertionError: 0 != 1\n",
+          "test_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 53, in test_4\nAssertionError: 0 != 1\n"
+        }
+      }
+    ],
+    "BigCodeBench/419": [
+      {
+        "task_id": "BigCodeBench/419",
+        "solution": "from sklearn.model_selection import train_test_split\nfrom sklearn.metrics import precision_recall_curve\nfrom tensorflow import keras\nimport matplotlib.pyplot as plt\n\n\ndef task_func(X, Y):\n    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.3)\n\n    try:\n        input_dim = len(X[0])\n    except TypeError:\n        input_dim = 1\n\n    model = keras.Sequential(\n        [\n            keras.layers.Dense(1, activation=\"sigmoid\", input_dim=input_dim),\n        ]\n    )\n    model.compile(loss=\"binary_crossentropy\", optimizer=keras.optimizers.SGD())\n\n    model.fit(X_train, y_train, verbose=0)\n\n    y_scores = model.predict(X_test, verbose=0).ravel()\n    precision, recall, _ = precision_recall_curve(y_test, y_scores)\n\n    fig, ax = plt.subplots()\n    ax.plot(recall, precision)\n    ax.set_xlabel(\"Recall\")\n    ax.set_ylabel(\"Precision\")\n    ax.set_title(\"Precision-Recall Curve\")\n\n    return model, ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/728": [
+      {
+        "task_id": "BigCodeBench/728",
+        "solution": "import csv\nimport io\n\ndef task_func(filename, from_encoding='cp1251', to_encoding='utf8', delimiter=','):\n    path = filename or 'sample.csv'\n\n    with open(path, 'rb') as f:\n        raw_data = f.read()\n\n    if not raw_data:\n        return [], \"\"\n\n    text_data = raw_data.decode(from_encoding)\n    input_buffer = io.StringIO(text_data)\n    reader = csv.DictReader(input_buffer, delimiter=delimiter)\n\n    rows = [dict(row) for row in reader]\n\n    if reader.fieldnames is None:\n        return rows, \"\"\n\n    output_buffer = io.StringIO()\n    writer = csv.DictWriter(\n        output_buffer,\n        fieldnames=reader.fieldnames,\n        delimiter=delimiter,\n        lineterminator=\"\\n\",\n    )\n    writer.writeheader()\n    writer.writerows(rows)\n\n    converted_csv = output_buffer.getvalue()\n\n    # Ensure the resulting text is valid for the target encoding.\n    converted_csv = converted_csv.encode(to_encoding).decode(to_encoding)\n\n    return rows, converted_csv",
+        "status": "fail",
+        "details": {
+          "test_case_1": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 52, in test_case_1\n  File \"__test__.py\", line 7, in task_func\nFileNotFoundError: [Errno 2] No such file or directory: 'sample_1.csv'\n",
+          "test_csv_with_only_headers": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 90, in test_csv_with_only_headers\n  File \"__test__.py\", line 7, in task_func\nFileNotFoundError: [Errno 2] No such file or directory: 'headers_only.csv'\n",
+          "test_different_encoding": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 69, in test_different_encoding\n  File \"__test__.py\", line 7, in task_func\nFileNotFoundError: [Errno 2] No such file or directory: 'sample_1.csv'\n",
+          "test_empty_file": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 76, in test_empty_file\n  File \"__test__.py\", line 7, in task_func\nFileNotFoundError: [Errno 2] No such file or directory: 'empty.csv'\n",
+          "test_invalid_csv_format": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 85, in test_invalid_csv_format\n  File \"__test__.py\", line 7, in task_func\nFileNotFoundError: [Errno 2] No such file or directory: 'invalid.csv'\n"
+        }
+      }
+    ],
+    "BigCodeBench/493": [
+      {
+        "task_id": "BigCodeBench/493",
+        "solution": "from datetime import datetime\nimport random\nimport matplotlib.pyplot as plt\n\n\ndef task_func(\n    epoch_milliseconds,\n    teams=[\"Team1\", \"Team2\", \"Team3\", \"Team4\", \"Team5\"],\n    random_seed=0,\n):\n    \"\"\"\n    Generate simulated daily performance data for each team from the given\n    epoch timestamp up to the current day, and plot the trends.\n\n    Returns\n    -------\n    tuple\n        (performance_data, figure)\n        performance_data: dict[str, dict[int, float]]\n        figure: matplotlib.figure.Figure\n    \"\"\"\n    if epoch_milliseconds is None:\n        raise ValueError(\"epoch_milliseconds must not be None\")\n\n    try:\n        start_dt = datetime.fromtimestamp(float(epoch_milliseconds) / 1000.0)\n    except (TypeError, ValueError, OSError) as exc:\n        raise ValueError(\"epoch_milliseconds must be a valid epoch timestamp in milliseconds\") from exc\n\n    end_dt = datetime.now()\n\n    start_date = start_dt.date()\n    end_date = end_dt.date()\n\n    # Number of days to simulate, inclusive of the start day.\n    day_span = (end_date - start_date).days\n    num_days = day_span + 1 if day_span >= 0 else 1\n\n    random.seed(random_seed)\n\n    performance_data = {}\n    for team in list(teams):\n        series = {}\n        for day_index in range(num_days):\n            series[day_index] = random.uniform(0.1, 1.0)\n        performance_data[team] = series\n\n    fig, ax = plt.subplots(figsize=(10, 6))\n\n    for team, series in performance_data.items():\n        x_values = list(series.keys())\n        y_values = list(series.values())\n        ax.plot(x_values, y_values, marker=\"o\", linewidth=1.5, label=team)\n\n    ax.set_xlabel(\"Days Since Start\")\n    ax.set_ylabel(\"Performance\")\n    ax.set_title(\"Team Performance Trend\")\n    ax.grid(True, alpha=0.3)\n    if performance_data:\n        ax.legend()\n\n    fig.tight_layout()\n    return performance_data, fig",
+        "status": "fail",
+        "details": {
+          "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 88, in test_case_1\n  File \"__test__.py\", line 76, in _check_valid_performance_data\nAssertionError: False is not true : Performance out of range for Team1\n",
+          "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 92, in test_case_2\n  File \"__test__.py\", line 84, in _check_plot\nAssertionError: False is not true\n",
+          "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 96, in test_case_3\n  File \"__test__.py\", line 84, in _check_plot\nAssertionError: False is not true\n",
+          "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 102, in test_case_4\n  File \"__test__.py\", line 84, in _check_plot\nAssertionError: False is not true\n",
+          "test_case_6": "Traceback (most recent call last):\n  File \"__test__.py\", line 114, in test_case_6\nAssertionError: ValueError not raised\n",
+          "test_case_7": "Traceback (most recent call last):\n  File \"__test__.py\", line 118, in test_case_7\nAssertionError: TypeError not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/157": [
+      {
+        "task_id": "BigCodeBench/157",
+        "solution": "import pandas as pd\nimport seaborn as sns\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data):\n    if isinstance(data, pd.DataFrame):\n        df = data.copy()\n        if df.ndim != 2:\n            raise ValueError(\"Input data must be a 2D array.\")\n    else:\n        arr = np.asarray(data)\n        if arr.ndim != 2:\n            raise ValueError(\"Input data must be a 2D array.\")\n        df = pd.DataFrame(arr)\n\n    try:\n        numeric_df = df.apply(lambda col: pd.to_numeric(col, errors=\"raise\"))\n    except (ValueError, TypeError) as exc:\n        raise ValueError(\"Input data must contain only numeric values.\") from exc\n\n    result_df = numeric_df.copy()\n    result_df[\"Average\"] = numeric_df.mean(axis=1)\n\n    corr_matrix = result_df.corr(numeric_only=True)\n\n    fig, ax = plt.subplots(figsize=(8, 6))\n    sns.heatmap(corr_matrix, ax=ax, annot=True, cmap=\"coolwarm\", vmin=-1, vmax=1)\n    ax.set_title(\"Correlation Matrix Heatmap\")\n\n    return result_df, ax",
+        "status": "fail",
+        "details": {
+          "test_correlation_calculation": "Traceback (most recent call last):\n  File \"__test__.py\", line 64, in test_correlation_calculation\n  File \"/usr/local/lib/python3.11/contextlib.py\", line 81, in inner\n    return func(*args, **kwds)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/numpy/testing/_private/utils.py\", line 1034, in assert_array_almost_equal\n    assert_array_compare(compare, x, y, err_msg=err_msg, verbose=verbose,\n  File \"/usr/local/lib/python3.11/contextlib.py\", line 81, in inner\n    return func(*args, **kwds)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/numpy/testing/_private/utils.py\", line 713, in assert_array_compare\n    raise AssertionError(msg)\nAssertionError: \nArrays are not almost equal to 6 decimals\n\n(shapes (81,), (64,) mismatch)\n x: MaskedArray([ 1., inf, inf, inf, -1.,  1., -1., inf,  1., inf, inf, inf,\n             inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf,\n             inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf,...\n y: array([ 1., nan, nan, nan, -1.,  1., -1., nan, nan, nan, nan, nan, nan,\n       nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan,\n       nan, nan, nan, nan, nan, nan, -1., nan, nan, nan,  1., -1.,  1.,...\n"
+        }
+      }
+    ],
+    "BigCodeBench/983": [
+      {
+        "task_id": "BigCodeBench/983",
+        "solution": "import seaborn as sns\nimport numpy as np\nimport pandas as pd\nfrom pandas.api.types import is_numeric_dtype\n\n\ndef task_func(df):\n    if df.empty:\n        raise ValueError(\"If the DataFrame is empty.\")\n\n    if not all(is_numeric_dtype(dtype) for dtype in df.dtypes):\n        raise TypeError(\"If the DataFrame contains non-numeric data types.\")\n\n    covariance_df = df.cov()\n    pair_plot = sns.pairplot(df)\n\n    return covariance_df, pair_plot",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/224": [
+      {
+        "task_id": "BigCodeBench/224",
+        "solution": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.fft import fft\n\ndef task_func(range_start=-10, range_end=10, step=0.1):\n    if step == 0:\n        raise ValueError(\"step must be non-zero\")\n\n    x_values = []\n    x = float(range_start)\n\n    if step > 0:\n        if range_start > range_end:\n            raise ValueError(\"For a positive step, range_start must be <= range_end\")\n        while x <= range_end:\n            x_values.append(x)\n            x += step\n    else:\n        if range_start < range_end:\n            raise ValueError(\"For a negative step, range_start must be >= range_end\")\n        while x >= range_end:\n            x_values.append(x)\n            x += step\n\n    x_values = np.asarray(x_values, dtype=float)\n    if x_values.size == 0:\n        raise ValueError(\"No points generated for the given range and step\")\n\n    sin_values = np.sin(x_values)\n    cos_values = np.cos(x_values)\n    abs_diff_values = np.abs(sin_values - cos_values)\n\n    def _generator():\n        for x, s, c, d in zip(x_values, sin_values, cos_values, abs_diff_values):\n            yield (float(x), float(s), float(c), float(d))\n\n    generator = _generator()\n\n    fig, ax = plt.subplots()\n    ax.plot(x_values, sin_values, label=\"sin(x)\")\n    ax.plot(x_values, cos_values, label=\"cos(x)\")\n    ax.plot(x_values, abs_diff_values, label=\"|sin(x) - cos(x)|\")\n    ax.set_xlabel(\"x\")\n    ax.set_ylabel(\"value\")\n    ax.set_title(\"Sine, Cosine, and Absolute Difference\")\n    ax.legend()\n\n    fft_values = fft(abs_diff_values)\n    mean_fft_magnitude = float(np.abs(np.mean(fft_values)))\n    median_fft_magnitude = float(np.abs(np.median(fft_values)))\n\n    return generator, ax, mean_fft_magnitude, median_fft_magnitude",
+        "status": "fail",
+        "details": {
+          "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 67, in test_case_2\nAssertionError: 51 != 50 : Unexpected number of points generated\n",
+          "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 80, in test_case_3\nAssertionError: 14 != 610 : Unexpected number of lines in the plot\n",
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 91, in test_case_5\nAssertionError: 0.57 != 0.54 within 0.01 delta (0.029999999999999916 difference) : Unexpected median of the 1D fft\n"
+        }
+      }
+    ],
+    "BigCodeBench/1027": [
+      {
+        "task_id": "BigCodeBench/1027",
+        "solution": "import binascii\nimport urllib.parse\n\ndef task_func(url):\n    \"\"\"\n    Extract the 'q' query parameter from a URL, treat it as hexadecimal,\n    and decode it as UTF-8. Return None on any invalid input.\n    \"\"\"\n    try:\n        parsed = urllib.parse.urlparse(url)\n        query_params = urllib.parse.parse_qs(parsed.query, keep_blank_values=True)\n        values = query_params.get(\"q\")\n        if not values:\n            return None\n\n        hex_string = values[0]\n        try:\n            decoded_bytes = binascii.unhexlify(hex_string)\n        except (binascii.Error, ValueError):\n            return None\n\n        try:\n            return decoded_bytes.decode(\"utf-8\")\n        except UnicodeDecodeError:\n            return None\n    except Exception:\n        return None",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/472": [
+      {
+        "task_id": "BigCodeBench/472",
+        "solution": "import matplotlib.pyplot as plt\nfrom sklearn.cluster import KMeans\n\nimport numpy as np\nfrom numbers import Integral\n\n\ndef task_func(myList, n_clusters):\n    \"\"\"\n    Cluster a list of 2D points using KMeans and visualize the clusters.\n\n    Parameters\n    ----------\n    myList : iterable of iterable of float\n        Collection of 2D points.\n    n_clusters : int\n        Number of clusters.\n\n    Returns\n    -------\n    matplotlib.axes._axes.Axes\n        Axes object with the plotted clusters.\n\n    Raises\n    ------\n    ValueError\n        If inputs are invalid.\n    \"\"\"\n    if not isinstance(n_clusters, Integral) or isinstance(n_clusters, bool):\n        raise ValueError(\"n_clusters must be a positive integer.\")\n    if n_clusters <= 0:\n        raise ValueError(\"n_clusters must be a positive integer.\")\n\n    try:\n        points = np.asarray(list(myList), dtype=float)\n    except (TypeError, ValueError) as exc:\n        raise ValueError(\"myList must be an iterable of 2D numeric points.\") from exc\n\n    if points.ndim != 2 or points.shape[1] != 2:\n        raise ValueError(\"myList must contain 2D points.\")\n    if points.shape[0] == 0:\n        raise ValueError(\"myList must not be empty.\")\n    if n_clusters > points.shape[0]:\n        raise ValueError(\"n_clusters cannot exceed the number of points.\")\n\n    try:\n        model = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)\n        labels = model.fit_predict(points)\n        centers = model.cluster_centers_\n    except Exception as exc:\n        raise ValueError(\"Invalid inputs for KMeans clustering.\") from exc\n\n    fig, ax = plt.subplots()\n    ax.scatter(\n        points[:, 0],\n        points[:, 1],\n        c=labels,\n        cmap=\"tab10\",\n        s=40,\n        alpha=0.8,\n    )\n    ax.scatter(\n        centers[:, 0],\n        centers[:, 1],\n        c=\"red\",\n        marker=\"x\",\n        s=120,\n        linewidths=2,\n    )\n\n    ax.set_xlabel(\"X\")\n    ax.set_ylabel(\"Y\")\n    ax.set_title(\"KMeans Clustering\")\n    ax.grid(True, alpha=0.3)\n\n    return ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/1115": [
+      {
+        "task_id": "BigCodeBench/1115",
+        "solution": "import random\nfrom string import ascii_uppercase\n\ndef task_func(dict1):\n    \"\"\"\n    Generate a unique employee ID for each employee in each department.\n\n    Each ID is formed as:\n        <department_code><5 random uppercase letters>\n\n    The function accepts a mapping where each key is a department code and each\n    value is either:\n      - an integer employee count, or\n      - an iterable of employees (the length will be used)\n\n    Returns:\n        list: A list of unique employee IDs for all departments.\n    \"\"\"\n    ids = []\n    used = set()\n\n    for dept_code, employees in dict1.items():\n        prefix = str(dept_code)\n\n        if employees is None:\n            count = 0\n        elif isinstance(employees, int):\n            count = max(0, employees)\n        else:\n            try:\n                count = len(employees)\n            except TypeError:\n                try:\n                    count = int(employees)\n                except (TypeError, ValueError):\n                    count = 0\n                else:\n                    count = max(0, count)\n\n        for _ in range(count):\n            while True:\n                emp_id = prefix + ''.join(random.choice(ascii_uppercase) for _ in range(5))\n                if emp_id not in used:\n                    used.add(emp_id)\n                    ids.append(emp_id)\n                    break\n\n    return ids",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/184": [
+      {
+        "task_id": "BigCodeBench/184",
+        "solution": "import pandas as pd\nimport re\nfrom sklearn.feature_extraction.text import CountVectorizer\n# Constants\nSTOPWORDS = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself',\n             'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself',\n             'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these',\n             'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do',\n             'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while',\n             'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before',\n             'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again',\n             'further', 'then', 'once']\n\n\ndef task_func(dataframe, text_column):\n    \"\"\"\n    Preprocess text in the specified DataFrame column by removing stopwords,\n    numbers, and punctuation, then vectorize the cleaned text into a\n    document-term count DataFrame.\n\n    Parameters\n    ----------\n    dataframe : pd.DataFrame\n        Input DataFrame containing the text column.\n    text_column : str\n        Name of the column with text data.\n\n    Returns\n    -------\n    pd.DataFrame\n        A DataFrame where each column is a word and each row contains counts\n        for the corresponding input row.\n    \"\"\"\n    if text_column not in dataframe.columns:\n        raise KeyError(f\"Column '{text_column}' not found in the DataFrame.\")\n\n    stopwords = set(STOPWORDS)\n\n    def preprocess(text):\n        if pd.isna(text):\n            text = \"\"\n        else:\n            text = str(text)\n\n        text = text.lower()\n        text = re.sub(r\"\\d+\", \" \", text)           # remove numbers\n        text = re.sub(r\"[^\\w\\s]\", \" \", text)       # remove punctuation\n        tokens = [tok for tok in text.split() if tok and tok not in stopwords]\n        return \" \".join(tokens)\n\n    processed_text = dataframe[text_column].apply(preprocess).fillna(\"\")\n\n    if processed_text.str.strip().eq(\"\").all():\n        return pd.DataFrame(index=dataframe.index)\n\n    vectorizer = CountVectorizer(token_pattern=r\"(?u)\\b\\w+\\b\")\n\n    try:\n        matrix = vectorizer.fit_transform(processed_text)\n    except ValueError:\n        return pd.DataFrame(index=dataframe.index)\n\n    feature_names = vectorizer.get_feature_names_out()\n    if len(feature_names) == 0:\n        return pd.DataFrame(index=dataframe.index)\n\n    return pd.DataFrame(matrix.toarray(), columns=feature_names, index=dataframe.index)",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/600": [
+      {
+        "task_id": "BigCodeBench/600",
+        "solution": "import numpy as np\nimport pandas as pd\n\ndef task_func(df, letter):\n    data = pd.DataFrame(df)\n\n    if \"Word\" not in data.columns:\n        return {\"mean\": np.nan, \"median\": np.nan, \"mode\": np.nan}\n\n    words = data[\"Word\"]\n\n    mask = words.apply(lambda x: isinstance(x, str) and x.startswith(letter))\n    filtered_words = words[mask]\n\n    if filtered_words.empty:\n        return {\"mean\": np.nan, \"median\": np.nan, \"mode\": np.nan}\n\n    lengths = filtered_words.map(len)\n\n    mean_val = float(lengths.mean())\n    median_val = float(lengths.median())\n    mode_series = lengths.mode()\n    mode_val = float(mode_series.iloc[0]) if not mode_series.empty else np.nan\n\n    return {\"mean\": mean_val, \"median\": median_val, \"mode\": mode_val}",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/854": [
+      {
+        "task_id": "BigCodeBench/854",
+        "solution": "from functools import reduce\nfrom itertools import permutations\nimport math\n\ndef task_func(numbers):\n    if not isinstance(numbers, list):\n        raise TypeError(\"numbers must be a list of integers\")\n    \n    if len(numbers) == 0:\n        return [], []\n    \n    for n in numbers:\n        if type(n) is not int:\n            raise TypeError(\"numbers must be a list of integers\")\n        if n < 0:\n            raise ValueError(\"numbers must not contain negative values\")\n    \n    perms = list(permutations(numbers))\n    fac_sums = [sum(math.factorial(x) for x in perm) for perm in perms]\n    return fac_sums, perms",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/1121": [
+      {
+        "task_id": "BigCodeBench/1121",
+        "solution": "import re\nimport urllib.parse\nimport requests\nimport json\n\ndef task_func(myString, API_KEY):\n    \"\"\"\n    Extract URLs from a string, resolve each URL to its domain, and query the IP API\n    for geolocation data for each unique domain.\n\n    Args:\n        myString (str): Input text containing zero or more URLs.\n        API_KEY: Kept for signature compatibility; not required by the public IP API.\n\n    Returns:\n        dict: Mapping from domain names to geolocation data dictionaries returned by\n              the IP API. If a request fails, the value is None.\n    \"\"\"\n    def extract_urls(text):\n        if not text:\n            return []\n\n        # Match common URL forms including schemes and www-prefixed URLs.\n        url_pattern = re.compile(\n            r'(?:(?:https?://|ftp://|www\\.)[^\\s<>\"\\'`]+)',\n            re.IGNORECASE\n        )\n        raw_urls = url_pattern.findall(text)\n\n        # Remove common trailing punctuation that may attach in prose.\n        cleaned = []\n        for u in raw_urls:\n            u = u.rstrip(\").,;:!?]}'\\\"\")\n            cleaned.append(u)\n        return cleaned\n\n    def url_to_domain(url):\n        if not url:\n            return None\n\n        parsed = urllib.parse.urlparse(url)\n        if not parsed.netloc:\n            # Handle URLs like \"www.example.com/path\"\n            parsed = urllib.parse.urlparse(\"http://\" + url)\n\n        netloc = parsed.netloc or \"\"\n        # Remove credentials if present\n        if \"@\" in netloc:\n            netloc = netloc.rsplit(\"@\", 1)[-1]\n        # Remove port\n        if \":\" in netloc:\n            netloc = netloc.split(\":\", 1)[0]\n\n        domain = netloc.strip().lower()\n        return domain or None\n\n    def query_ip_api(domain):\n        # Use the public ip-api.com endpoint, which accepts domains as query targets.\n        # API_KEY is not required here, but the function signature is preserved.\n        endpoint = f\"http://ip-api.com/json/{urllib.parse.quote(domain)}\"\n        try:\n            response = requests.get(endpoint, timeout=10)\n            response.raise_for_status()\n            try:\n                return response.json()\n            except ValueError:\n                return None\n        except requests.RequestException:\n            return None\n\n    result = {}\n    urls = extract_urls(myString)\n\n    seen = set()\n    for url in urls:\n        domain = url_to_domain(url)\n        if not domain or domain in seen:\n            continue\n        seen.add(domain)\n        result[domain] = query_ip_api(domain)\n\n    return result",
+        "status": "fail",
+        "details": {
+          "test_multiple_valid_urls": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 137, in test_multiple_valid_urls\n  File \"__test__.py\", line 80, in task_func\n  File \"__test__.py\", line 63, in query_ip_api\nAttributeError: 'MockResponse' object has no attribute 'raise_for_status'\n",
+          "test_repeated_urls": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 150, in test_repeated_urls\n  File \"__test__.py\", line 80, in task_func\n  File \"__test__.py\", line 63, in query_ip_api\nAttributeError: 'MockResponse' object has no attribute 'raise_for_status'\n",
+          "test_single_valid_url": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 133, in test_single_valid_url\n  File \"__test__.py\", line 80, in task_func\n  File \"__test__.py\", line 63, in query_ip_api\nAttributeError: 'MockResponse' object has no attribute 'raise_for_status'\n"
+        }
+      }
+    ],
+    "BigCodeBench/415": [
+      {
+        "task_id": "BigCodeBench/415",
+        "solution": "import pandas as pd\nimport codecs\n\ndef task_func(dataframe: pd.DataFrame) -> pd.DataFrame:\n    if not isinstance(dataframe, pd.DataFrame):\n        raise TypeError(\"Input must be a pandas DataFrame.\")\n    if \"UnicodeString\" not in dataframe.columns:\n        raise KeyError('Column \"UnicodeString\" does not exist in the DataFrame.')\n\n    result = dataframe.copy(deep=True)\n\n    def decode_value(value):\n        if isinstance(value, str):\n            return codecs.decode(value, \"unicode_escape\")\n        return value\n\n    result[\"UnicodeString\"] = result[\"UnicodeString\"].apply(decode_value)\n    return result",
+        "status": "fail",
+        "details": {
+          "test_non_string_unicode_values": "Traceback (most recent call last):\n  File \"__test__.py\", line 46, in test_non_string_unicode_values\nAssertionError: Exception not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/40": [
+      {
+        "task_id": "BigCodeBench/40",
+        "solution": "import pandas as pd\nimport seaborn as sns\nfrom scipy.stats import zscore\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n\ndef task_func(data_matrix):\n    values = np.asarray(data_matrix, dtype=float)\n\n    if values.ndim != 2:\n        raise ValueError(\"data_matrix must be a 2D matrix\")\n\n    n_rows, n_cols = values.shape\n    feature_cols = [f\"Feature {i}\" for i in range(1, n_cols + 1)]\n\n    z_values = zscore(values, axis=1, nan_policy=\"omit\")\n    z_values = np.asarray(z_values, dtype=float)\n\n    if z_values.ndim == 1:\n        z_values = z_values.reshape(n_rows, n_cols)\n\n    result_df = pd.DataFrame(z_values, columns=feature_cols)\n    result_df[\"Mean\"] = result_df[feature_cols].mean(axis=1)\n\n    corr_matrix = result_df[feature_cols].corr()\n\n    fig, ax = plt.subplots(figsize=(max(6, n_cols * 0.8), max(5, n_cols * 0.8)))\n    sns.heatmap(corr_matrix, ax=ax, cmap=\"coolwarm\", center=0, annot=True, fmt=\".2f\", square=True)\n    ax.set_title(\"Correlation Matrix of Z-values\")\n    ax.set_xlabel(\"\")\n    ax.set_ylabel(\"\")\n\n    return result_df, ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/536": [
+      {
+        "task_id": "BigCodeBench/536",
+        "solution": "import sqlite3\nimport pandas as pd\nimport os\n\ndef task_func(db_name, table_name, csv_path=\"data.csv\"):\n    \"\"\"\n    Read a SQLite3 table into a pandas DataFrame and export it to CSV.\n\n    Args:\n        db_name (str): Path to the SQLite database file.\n        table_name (str): Name of the table to export.\n        csv_path (str): Destination CSV file path.\n\n    Returns:\n        str: Absolute path of the exported CSV file.\n    \"\"\"\n    abs_csv_path = os.path.abspath(csv_path)\n    out_dir = os.path.dirname(abs_csv_path) or \".\"\n    os.makedirs(out_dir, exist_ok=True)\n\n    conn = sqlite3.connect(db_name)\n    try:\n        safe_table_name = table_name.replace('\"', '\"\"')\n        query = f'SELECT * FROM \"{safe_table_name}\"'\n        df = pd.read_sql_query(query, conn)\n        df.to_csv(abs_csv_path, index=False)\n    finally:\n        conn.close()\n\n    return abs_csv_path",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/827": [
+      {
+        "task_id": "BigCodeBench/827",
+        "solution": "import math\nfrom sympy import isprime\n\ndef task_func(input_list):\n    primes = [x for x in input_list if isprime(x)]\n    return sorted(primes, key=math.degrees)",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/936": [
+      {
+        "task_id": "BigCodeBench/936",
+        "solution": "import numpy as np\nimport matplotlib.pyplot as plt\nimport string\n\n# Constants\nALPHABET = list(string.ascii_lowercase)\n\n\ndef task_func(word):\n    word = \"\" if word is None else str(word)\n\n    letters = [ch.lower() for ch in word if ch.lower() in ALPHABET]\n    positions = np.array([ALPHABET.index(ch) + 1 for ch in letters], dtype=int)\n\n    fig, ax = plt.subplots()\n\n    x = np.arange(len(letters))\n    ax.bar(x, positions, color=\"steelblue\")\n\n    ax.set_xticks(x)\n    ax.set_xticklabels(letters)\n    ax.set_xlabel(\"Letters\")\n    ax.set_ylabel(\"Position in English alphabet\")\n    ax.set_title(\"Letter positions in the alphabet\")\n\n    ymax = int(positions.max()) if positions.size > 0 else 1\n    ax.set_ylim(0, ymax + 1)\n\n    return ax",
+        "status": "fail",
+        "details": {
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 62, in test_case_5\nAssertionError: ValueError not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/514": [
+      {
+        "task_id": "BigCodeBench/514",
+        "solution": "import pandas as pd\nimport matplotlib.pyplot as plt\n\nCOLUMNS = ['A', 'B', 'C', 'D', 'E']\n\ndef task_func(array):\n    \"\"\"\n    Create a DataFrame from a 2D list and plot the sum of each column.\n\n    Parameters\n    ----------\n    array : list[list]\n        2D list of data.\n\n    Returns\n    -------\n    tuple[pd.DataFrame, matplotlib.axes.Axes]\n        The resulting DataFrame and the Axes with the column-sum bar plot.\n    \"\"\"\n    # STAGE 1: Analyze requirements and edge cases\n    # - Build a DataFrame from the input 2D list.\n    # - Use the provided column names constant.\n    # - Plot the sum of each column.\n    # - Return both the DataFrame and the plot Axes.\n    #\n    # STAGE 2: Implement the plan\n    if array is None:\n        array = []\n\n    if len(array) == 0:\n        df = pd.DataFrame(columns=COLUMNS)\n    else:\n        ncols = max(len(row) for row in array) if array else 0\n        cols = COLUMNS[:ncols]\n        if ncols > len(COLUMNS):\n            cols = COLUMNS + [f\"col_{i}\" for i in range(len(COLUMNS) + 1, ncols + 1)]\n        df = pd.DataFrame(array, columns=cols)\n\n    col_sums = df.sum(numeric_only=True)\n\n    fig, ax = plt.subplots()\n    col_sums.plot(kind=\"bar\", ax=ax)\n    ax.set_xlabel(\"Columns\")\n    ax.set_ylabel(\"Sum\")\n    ax.set_title(\"Sum of Each Column\")\n    plt.tight_layout()\n\n    # STAGE 3: Check against requirements\n    # - DataFrame created from 2D list: yes\n    # - Column sums plotted: yes\n    # - Returns DataFrame and Axes: yes\n    return df, ax",
+        "status": "fail",
+        "details": {
+          "test_case_6": "Traceback (most recent call last):\n  File \"__test__.py\", line 87, in test_case_6\n  File \"__test__.py\", line 42, in task_func\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_core.py\", line 1030, in __call__\n    return plot_backend.plot(data, kind=kind, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_matplotlib/__init__.py\", line 71, in plot\n    plot_obj.generate()\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_matplotlib/core.py\", line 508, in generate\n    self._post_plot_logic(ax, self.data)\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_matplotlib/core.py\", line 1972, in _post_plot_logic\n    s_edge = self.ax_pos[0] - 0.25 + self.lim_offset\n             ~~~~~~~~~~~^^^\nIndexError: index 0 is out of bounds for axis 0 with size 0\n",
+          "test_case_7": "Traceback (most recent call last):\n  File \"__test__.py\", line 93, in test_case_7\n  File \"__test__.py\", line 42, in task_func\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_core.py\", line 1030, in __call__\n    return plot_backend.plot(data, kind=kind, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_matplotlib/__init__.py\", line 71, in plot\n    plot_obj.generate()\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_matplotlib/core.py\", line 508, in generate\n    self._post_plot_logic(ax, self.data)\n  File \"/usr/local/lib/python3.11/site-packages/pandas/plotting/_matplotlib/core.py\", line 1972, in _post_plot_logic\n    s_edge = self.ax_pos[0] - 0.25 + self.lim_offset\n             ~~~~~~~~~~~^^^\nIndexError: index 0 is out of bounds for axis 0 with size 0\n"
+        }
+      }
+    ],
+    "BigCodeBench/364": [
+      {
+        "task_id": "BigCodeBench/364",
+        "solution": "import pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\n\n# Constants\nFEATURES = ['feature ' + str(i) for i in range(1, 11)]\nTARGET = 'target'\n\n\ndef task_func(df):\n    if not isinstance(df, pd.DataFrame):\n        raise ValueError(\"df must be a pandas DataFrame\")\n\n    X = df[FEATURES]\n    y = df[TARGET]\n\n    X_train, _, y_train, _ = train_test_split(\n        X,\n        y,\n        test_size=0.2,\n        random_state=42\n    )\n\n    model = LinearRegression()\n    model.fit(X_train, y_train)\n    return model",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/1016": [
+      {
+        "task_id": "BigCodeBench/1016",
+        "solution": "import requests\nfrom PIL import Image\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom io import BytesIO\nfrom urllib.parse import urlparse\n\n\ndef task_func(url: str) -> \"matplotlib.axes._axes.Axes\":\n    \"\"\"\n    Download an image from a URL, convert it to grayscale, and plot a histogram\n    of its grayscale values.\n\n    Parameters\n    ----------\n    url : str\n        URL of the image to download.\n\n    Returns\n    -------\n    matplotlib.axes._axes.Axes\n        The Axes object containing the histogram.\n\n    Raises\n    ------\n    ValueError\n        If the URL is invalid or there is an error downloading the image.\n    IOError\n        If there is an error opening or processing the downloaded image.\n    \"\"\"\n    # Validate URL format\n    parsed = urlparse(url)\n    if not parsed.scheme or not parsed.netloc:\n        raise ValueError(\"Invalid URL: the provided URL is malformed.\")\n\n    # Download the image\n    try:\n        response = requests.get(url, timeout=10)\n        response.raise_for_status()\n    except requests.exceptions.RequestException as exc:\n        raise ValueError(f\"Error downloading image: {exc}\") from exc\n\n    # Open and process the image\n    try:\n        with Image.open(BytesIO(response.content)) as img:\n            gray_img = img.convert(\"L\")\n            gray_array = np.asarray(gray_img)\n    except Exception as exc:\n        raise IOError(f\"Error processing image: {exc}\") from exc\n\n    # Generate histogram\n    fig, ax = plt.subplots()\n    ax.hist(gray_array.ravel(), bins=256, range=(0, 255), color=\"black\", alpha=0.75)\n    ax.set_title(\"Grayscale Histogram\")\n    ax.set_xlabel(\"Grayscale Value\")\n    ax.set_ylabel(\"Frequency\")\n\n    return ax",
+        "status": "fail",
+        "details": {
+          "test_ioerror_image_processing": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 148, in test_ioerror_image_processing\nAssertionError: \"Error processing image: a bytes-like object is required, not 'MagicMock'\" != 'Error processing the image: Mocked IOError'\n- Error processing image: a bytes-like object is required, not 'MagicMock'\n+ Error processing the image: Mocked IOError\n\n",
+          "test_histogram_bins": "Traceback (most recent call last):\n  File \"__test__.py\", line 45, in task_func\nTypeError: a bytes-like object is required, not 'Mock'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 111, in test_histogram_bins\n  File \"__test__.py\", line 49, in task_func\nOSError: Error processing image: a bytes-like object is required, not 'Mock'\n",
+          "test_histogram_data_range": "Traceback (most recent call last):\n  File \"__test__.py\", line 45, in task_func\nTypeError: a bytes-like object is required, not 'Mock'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 122, in test_histogram_data_range\n  File \"__test__.py\", line 49, in task_func\nOSError: Error processing image: a bytes-like object is required, not 'Mock'\n",
+          "test_valid_image_url": "Traceback (most recent call last):\n  File \"__test__.py\", line 45, in task_func\nTypeError: a bytes-like object is required, not 'Mock'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 84, in test_valid_image_url\n  File \"__test__.py\", line 49, in task_func\nOSError: Error processing image: a bytes-like object is required, not 'Mock'\n"
+        }
+      }
+    ],
+    "BigCodeBench/882": [
+      {
+        "task_id": "BigCodeBench/882",
+        "solution": "import sqlite3\nimport pandas as pd\nimport os\nimport re\n\n\ndef task_func(db_file, table_name, column_name, pattern='\\d+[xX]'):\n    \"\"\"\n    Load all rows from an SQLite table, find regex matches in the specified column,\n    and return the matches as a pandas DataFrame.\n    \"\"\"\n    if not os.path.exists(db_file):\n        raise ValueError(f\"Database file does not exist: {db_file}\")\n\n    def _quote_identifier(identifier):\n        return '\"' + str(identifier).replace('\"', '\"\"') + '\"'\n\n    regex = re.compile(pattern)\n\n    with sqlite3.connect(db_file) as conn:\n        query = f\"SELECT * FROM {_quote_identifier(table_name)}\"\n        df = pd.read_sql_query(query, conn)\n\n    if column_name not in df.columns:\n        raise KeyError(f\"Column not found: {column_name}\")\n\n    def _extract_matches(value):\n        if value is None:\n            return []\n        try:\n            if pd.isna(value):\n                return []\n        except Exception:\n            pass\n\n        if isinstance(value, (list, tuple, set)):\n            text = \" \".join(map(str, value))\n        else:\n            text = str(value)\n\n        return regex.findall(text)\n\n    matches = df[column_name].apply(_extract_matches)\n\n    if not matches.astype(bool).any():\n        return pd.DataFrame(columns=list(df.columns) + [\"matches\"])\n\n    result = df.loc[matches.astype(bool)].copy()\n    result[\"matches\"] = matches[matches.astype(bool)].values\n    result = result.explode(\"matches\", ignore_index=True)\n\n    return result",
+        "status": "fail",
+        "details": {
+          "test_different_pattern": "Traceback (most recent call last):\n  File \"__test__.py\", line 110, in test_different_pattern\n  File \"/usr/local/lib/python3.11/site-packages/pandas/_testing/asserters.py\", line 1218, in assert_frame_equal\n    raise_assert_detail(\n  File \"/usr/local/lib/python3.11/site-packages/pandas/_testing/asserters.py\", line 614, in raise_assert_detail\n    raise AssertionError(msg)\nAssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (1, 3)\n[right]: (1, 2)\n",
+          "test_regular_expression_match": "Traceback (most recent call last):\n  File \"__test__.py\", line 87, in test_regular_expression_match\n  File \"/usr/local/lib/python3.11/site-packages/pandas/_testing/asserters.py\", line 1218, in assert_frame_equal\n    raise_assert_detail(\n  File \"/usr/local/lib/python3.11/site-packages/pandas/_testing/asserters.py\", line 614, in raise_assert_detail\n    raise AssertionError(msg)\nAssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (5, 3)\n[right]: (5, 2)\n"
+        }
+      }
+    ],
+    "BigCodeBench/605": [
+      {
+        "task_id": "BigCodeBench/605",
+        "solution": "",
+        "status": "fail",
+        "details": {
+          "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 8, in test_case_1\nNameError: name 'task_func' is not defined\n",
+          "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 17, in test_case_2\nNameError: name 'task_func' is not defined\n",
+          "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 23, in test_case_3\nNameError: name 'task_func' is not defined\n",
+          "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 29, in test_case_4\nNameError: name 'task_func' is not defined\n",
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 35, in test_case_5\nNameError: name 'task_func' is not defined\n"
+        }
+      }
+    ],
+    "BigCodeBench/644": [
+      {
+        "task_id": "BigCodeBench/644",
+        "solution": "import hashlib\nimport base64\nimport os\n\n\ndef task_func(filename, data, password):\n    \"\"\"\n    Encrypt a string with a password, write the encrypted string to a file,\n    and return the encrypted string.\n\n    The encryption format is:\n        base64(salt + xor(data_bytes, sha256(derived_key + counter)...))\n    where derived_key = sha256(password_bytes + salt).\n    \"\"\"\n    # Normalize inputs\n    if data is None:\n        data = \"\"\n    if password is None:\n        password = \"\"\n    if filename is None:\n        raise ValueError(\"filename must not be None\")\n\n    data_bytes = str(data).encode(\"utf-8\")\n    password_bytes = str(password).encode(\"utf-8\")\n\n    # Generate a random salt for password-based key derivation\n    salt = os.urandom(16)\n    derived_key = hashlib.sha256(password_bytes + salt).digest()\n\n    # Create a keystream from the derived key and XOR with the plaintext\n    cipher_bytes = bytearray()\n    counter = 0\n    offset = 0\n    while offset < len(data_bytes):\n        counter_bytes = counter.to_bytes(8, \"big\")\n        block = hashlib.sha256(derived_key + counter_bytes).digest()\n        block_len = min(len(block), len(data_bytes) - offset)\n        for i in range(block_len):\n            cipher_bytes.append(data_bytes[offset + i] ^ block[i])\n        offset += block_len\n        counter += 1\n\n    # Encode salt + ciphertext into a printable string\n    encrypted_string = base64.b64encode(salt + bytes(cipher_bytes)).decode(\"ascii\")\n\n    # Ensure the parent directory exists, if any\n    parent_dir = os.path.dirname(os.path.abspath(filename))\n    if parent_dir and not os.path.exists(parent_dir):\n        os.makedirs(parent_dir, exist_ok=True)\n\n    # Write encrypted string to file\n    with open(filename, \"w\", encoding=\"utf-8\") as f:\n        f.write(encrypted_string)\n\n    return encrypted_string",
+        "status": "fail",
+        "details": {
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 114, in test_case_5\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0x9f in position 0: invalid start byte\n"
+        }
+      }
+    ],
+    "BigCodeBench/970": [
+      {
+        "task_id": "BigCodeBench/970",
+        "solution": "import numpy as np\nimport matplotlib.pyplot as plt\n\ndef task_func(data: np.ndarray) -> plt.Axes:\n    arr = np.asarray(data)\n\n    if not np.issubdtype(arr.dtype, np.number):\n        raise TypeError(\"Input array must contain numeric values.\")\n\n    if np.issubdtype(arr.dtype, np.complexfloating):\n        raise TypeError(\"Input array must contain real numeric values.\")\n\n    arr = np.ravel(arr)\n\n    if np.isnan(arr).any():\n        raise ValueError(\"Input array must not contain NaN values.\")\n\n    if (arr < 0).any():\n        raise ValueError(\"Input array must not contain negative values.\")\n\n    sorted_data = np.sort(arr.astype(float, copy=False))\n    n = sorted_data.size\n\n    if n == 0:\n        cumulative_probability = np.array([], dtype=float)\n    else:\n        total = sorted_data.sum()\n        if total == 0:\n            cumulative_probability = np.zeros(n, dtype=float)\n        else:\n            cumulative_probability = np.cumsum(sorted_data) / total\n\n    fig, ax = plt.subplots()\n    ax.plot(np.arange(n), cumulative_probability, marker=\"o\", linestyle=\"-\")\n    ax.set_title(\"Cumulative Probability Plot\")\n    ax.set_xlabel(\"Index\")\n    ax.set_ylabel(\"Cumulative Probability\")\n\n    return ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/221": [
+      {
+        "task_id": "BigCodeBench/221",
+        "solution": "import numpy as np\nfrom scipy import stats\nimport pandas as pd\n\n# Constants\nFEATURES = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5']\n\ndef task_func(df, dct):\n    try:\n        if not isinstance(df, pd.DataFrame) or not isinstance(dct, dict):\n            return \"Invalid input\"\n        if 'feature1' not in dct:\n            return \"Invalid input\"\n        if any(feature not in df.columns for feature in FEATURES):\n            return \"Invalid input\"\n\n        replaced_df = df.copy().replace(dct)\n        result = {}\n\n        for feature in FEATURES:\n            series = pd.to_numeric(replaced_df[feature], errors='coerce')\n            clean = series.replace([np.inf, -np.inf], np.nan).dropna().to_numpy()\n\n            if clean.size == 0:\n                return \"Invalid input\"\n\n            mean_val = float(np.mean(clean))\n            median_val = float(np.median(clean))\n            mode_res = stats.mode(clean, keepdims=False)\n            mode_val = float(np.asarray(mode_res.mode).ravel()[0])\n            variance_val = float(np.var(clean))\n\n            result[feature] = {\n                'mean': mean_val,\n                'median': median_val,\n                'mode': mode_val,\n                'variance': variance_val,\n            }\n\n        return result\n    except Exception:\n        return \"Invalid input\"",
+        "status": "fail",
+        "details": {
+          "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 66, in test_case_1\nAssertionError: 'Invalid input' != {'feature1': {'mean': 3.0, 'median': 3.0,[321 chars]006}}\n",
+          "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 86, in test_case_2\nAssertionError: 'Invalid input' != {'feature1': {'mean': 1.6, 'median': 1.0,[328 chars]2.0}}\n",
+          "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 105, in test_case_3\nAssertionError: 'Invalid input' != {'feature1': {'mean': 2.0, 'median': 2.0,[379 chars]666}}\n",
+          "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 125, in test_case_4\nAssertionError: 'Invalid input' != {'feature1': {'mean': 2.0, 'median': 2.0,[385 chars]666}}\n"
+        }
+      }
+    ],
+    "BigCodeBench/283": [
+      {
+        "task_id": "BigCodeBench/283",
+        "solution": "import os\nimport json\nfrom collections import Counter\n\n\ndef task_func(json_files_path='./json_files/', key='name'):\n    \"\"\"\n    Count occurrences of values for a specified key across all JSON files in a directory.\n\n    Args:\n        json_files_path (str): Path to a directory containing JSON files.\n        key (str): Key whose values should be counted.\n\n    Returns:\n        dict: A dictionary mapping each distinct value of `key` to its count.\n    \"\"\"\n    counts = Counter()\n\n    def _make_hashable(value):\n        try:\n            hash(value)\n            return value\n        except TypeError:\n            # Fallback for unhashable values such as lists/dicts.\n            return json.dumps(value, sort_keys=True, ensure_ascii=False)\n\n    def _process_json_obj(obj):\n        if isinstance(obj, dict):\n            if key in obj:\n                counts[_make_hashable(obj[key])] += 1\n        elif isinstance(obj, list):\n            for item in obj:\n                _process_json_obj(item)\n\n    # Support either a directory of JSON files or a single JSON file path.\n    paths = []\n    if os.path.isfile(json_files_path):\n        if json_files_path.lower().endswith('.json'):\n            paths = [json_files_path]\n    elif os.path.isdir(json_files_path):\n        try:\n            for filename in os.listdir(json_files_path):\n                if filename.lower().endswith('.json'):\n                    full_path = os.path.join(json_files_path, filename)\n                    if os.path.isfile(full_path):\n                        paths.append(full_path)\n        except OSError:\n            return {}\n    else:\n        return {}\n\n    for file_path in paths:\n        try:\n            with open(file_path, 'r', encoding='utf-8') as f:\n                data = json.load(f)\n            _process_json_obj(data)\n        except (OSError, json.JSONDecodeError, UnicodeDecodeError):\n            continue\n\n    return dict(counts)",
+        "status": "fail",
+        "details": {
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 135, in test_case_5\nAssertionError: FileNotFoundError not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/885": [
+      {
+        "task_id": "BigCodeBench/885",
+        "solution": "import pandas as pd\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\n\ndef task_func(df, col_a='A', col_b='B', col_c='C', seed=None):\n    \"\"\"\n    Filter rows where col_b > 50 and col_c == 900, then train a LinearRegression\n    model to predict col_b from col_a. Return predictions on the test split and\n    the fitted model. Return None for invalid input.\n    \"\"\"\n    if not isinstance(df, pd.DataFrame) or df.empty:\n        return None\n\n    required_cols = [col_a, col_b, col_c]\n    if any(col not in df.columns for col in required_cols):\n        return None\n\n    data = df.loc[:, required_cols].copy()\n\n    # Validate that the required columns contain only numeric data\n    for col in required_cols:\n        numeric_col = pd.to_numeric(data[col], errors='coerce')\n        if numeric_col.isna().any():\n            return None\n        data[col] = numeric_col\n\n    filtered = data[(data[col_b] > 50) & (data[col_c] == 900)]\n    if filtered.empty or len(filtered) < 2:\n        return None\n\n    X = filtered[[col_a]]\n    y = filtered[col_b]\n\n    try:\n        X_train, X_test, y_train, y_test = train_test_split(\n            X, y, test_size=0.2, random_state=seed\n        )\n    except ValueError:\n        return None\n\n    if len(X_train) == 0 or len(X_test) == 0:\n        return None\n\n    model = LinearRegression()\n    model.fit(X_train, y_train)\n    predictions = model.predict(X_test)\n\n    return predictions, model",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/199": [
+      {
+        "task_id": "BigCodeBench/199",
+        "solution": "import pandas as pd\nimport pytz\nfrom datetime import datetime\nfrom random import randint, seed as set_seed\n\n\ndef task_func(\n    utc_datetime,\n    cities=['New York', 'London', 'Beijing', 'Tokyo', 'Sydney'],\n    weather_conditions=['Sunny', 'Cloudy', 'Rainy', 'Snowy', 'Stormy'],\n    timezones={\n        'New York': 'America/New_York',\n        'London': 'Europe/London',\n        'Beijing': 'Asia/Shanghai',\n        'Tokyo': 'Asia/Tokyo',\n        'Sydney': 'Australia/Sydney'\n    },\n    seed=42\n):\n    def _is_nonempty_str(value):\n        return isinstance(value, str) and value != \"\"\n\n    if not isinstance(utc_datetime, datetime):\n        raise ValueError(\"utc_datetime must be a datetime object\")\n\n    if not isinstance(cities, (list, tuple)) or not all(_is_nonempty_str(city) for city in cities):\n        raise ValueError(\"cities must be a list or tuple of non-empty strings\")\n\n    if not isinstance(weather_conditions, (list, tuple)) or len(weather_conditions) == 0 or not all(\n        _is_nonempty_str(condition) for condition in weather_conditions\n    ):\n        raise ValueError(\"weather_conditions must be a non-empty list or tuple of non-empty strings\")\n\n    if not isinstance(timezones, dict) or not all(\n        _is_nonempty_str(city) and _is_nonempty_str(tz_name) for city, tz_name in timezones.items()\n    ):\n        raise ValueError(\"timezones must be a dictionary mapping city names to timezone strings\")\n\n    if not isinstance(seed, int) or isinstance(seed, bool):\n        raise ValueError(\"seed must be an integer\")\n\n    for city in cities:\n        if city not in timezones:\n            raise ValueError(f\"Missing timezone for city: {city}\")\n        try:\n            pytz.timezone(timezones[city])\n        except Exception as exc:\n            raise ValueError(f\"Invalid timezone for city: {city}\") from exc\n\n    set_seed(seed)\n\n    if utc_datetime.tzinfo is None or utc_datetime.tzinfo.utcoffset(utc_datetime) is None:\n        utc_dt = pytz.UTC.localize(utc_datetime)\n    else:\n        utc_dt = utc_datetime.astimezone(pytz.UTC)\n\n    rows = []\n    for city in cities:\n        tz = pytz.timezone(timezones[city])\n        local_dt = utc_dt.astimezone(tz)\n        local_time = local_dt.strftime(\"%Y-%m-%d %H:%M:%S %Z\")\n        weather = weather_conditions[randint(0, len(weather_conditions) - 1)]\n        rows.append(\n            {\n                \"City\": city,\n                \"Local Time\": local_time,\n                \"Weather Condition\": weather,\n            }\n        )\n\n    return pd.DataFrame(rows, columns=[\"City\", \"Local Time\", \"Weather Condition\"])",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/1011": [
+      {
+        "task_id": "BigCodeBench/1011",
+        "solution": "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndef task_func(csv_file_path, col1_name=\"column1\", col2_name=\"column2\"):\n    df = pd.read_csv(csv_file_path)\n    grouped_means = df.groupby(col1_name)[col2_name].mean()\n\n    ax = grouped_means.plot(kind=\"bar\")\n    ax.set_title(f\"Mean of {col2_name} Grouped by {col1_name}\")\n    ax.set_xlabel(col1_name)\n    ax.set_ylabel(f\"Mean of {col2_name}\")\n\n    return ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/135": [
+      {
+        "task_id": "BigCodeBench/135",
+        "solution": "import numpy as np\nimport pandas as pd\nfrom sklearn.impute import SimpleImputer\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ndef task_func(df):\n    if not isinstance(df, pd.DataFrame) or df.shape[1] == 0:\n        raise ValueError(\"Input must be a pandas DataFrame with at least one column.\")\n\n    result = df.copy()\n    last_col = result.columns[-1]\n\n    imputer = SimpleImputer(strategy=\"mean\")\n    result[[last_col]] = imputer.fit_transform(result[[last_col]])\n\n    fig, ax = plt.subplots()\n    sns.boxplot(y=result[last_col], ax=ax)\n    ax.set_title(f\"Box Plot of {last_col}\")\n    ax.set_xlabel(\"\")\n    ax.set_ylabel(last_col)\n\n    return result, ax",
+        "status": "fail",
+        "details": {
+          "test_plot_title_and_labels": "Traceback (most recent call last):\n  File \"__test__.py\", line 50, in test_plot_title_and_labels\nAssertionError: 'Box Plot of D' != 'Boxplot of Last Column'\n- Box Plot of D\n+ Boxplot of Last Column\n\n"
+        }
+      }
+    ],
+    "BigCodeBench/373": [
+      {
+        "task_id": "BigCodeBench/373",
+        "solution": "from scipy.optimize import curve_fit\nimport matplotlib.pyplot as plt\nimport numpy as np\n\ndef task_func(l, x_data, plot=False):\n    \"\"\"\n    Fit a quadratic curve y = a*x^2 + b*x + c to the given data.\n\n    Parameters\n    ----------\n    l : array-like\n        Dependent variable values (y-data).\n    x_data : array-like\n        Independent variable values (x-data).\n    plot : bool, optional\n        If True, create a plot and return the matplotlib Axes object.\n\n    Returns\n    -------\n    tuple\n        If plot is False: (params, fitted_values)\n        If plot is True: (params, fitted_values, ax)\n    \"\"\"\n    x = np.asarray(x_data, dtype=float).ravel()\n    y = np.asarray(l, dtype=float).ravel()\n\n    if x.shape != y.shape:\n        raise ValueError(\"x_data and l must have the same shape.\")\n\n    mask = np.isfinite(x) & np.isfinite(y)\n    x_fit = x[mask]\n    y_fit = y[mask]\n\n    if x_fit.size < 3:\n        raise ValueError(\"At least three finite data points are required for a quadratic fit.\")\n\n    def quadratic(x_val, a, b, c):\n        return a * x_val**2 + b * x_val + c\n\n    try:\n        p0 = np.polyfit(x_fit, y_fit, 2)\n    except Exception:\n        p0 = (1.0, 1.0, 0.0)\n\n    params, _ = curve_fit(quadratic, x_fit, y_fit, p0=p0, maxfev=10000)\n    fitted_values = quadratic(x, *params)\n\n    if plot:\n        fig, ax = plt.subplots()\n        ax.scatter(x, y, label=\"Data\", color=\"tab:blue\")\n        sort_idx = np.argsort(x_fit)\n        x_sorted = x_fit[sort_idx]\n        ax.plot(x_sorted, quadratic(x_sorted, *params), label=\"Quadratic fit\", color=\"tab:red\")\n        ax.set_xlabel(\"x\")\n        ax.set_ylabel(\"y\")\n        ax.legend()\n        ax.grid(True, alpha=0.3)\n        return params, fitted_values, ax\n\n    return params, fitted_values",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/895": [
+      {
+        "task_id": "BigCodeBench/895",
+        "solution": "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Constants\nARRAY_SIZE = 10000\n\n\ndef task_func():\n    # Generate random integers from 1 to 100 inclusive\n    values = np.random.randint(1, 101, size=ARRAY_SIZE)\n\n    # Compute statistics\n    mean_val = float(np.mean(values))\n    std_val = float(np.std(values))\n\n    # Create histogram\n    fig, ax = plt.subplots(figsize=(8, 5))\n    ax.hist(values, bins=20, edgecolor=\"black\", alpha=0.75)\n\n    # Plot mean as a red dashed line\n    ax.axvline(mean_val, color=\"red\", linestyle=\"--\", linewidth=2, label=\"Mean\")\n\n    # Plot standard deviation as purple dashed lines (mean \u00b1 std)\n    ax.axvline(mean_val - std_val, color=\"purple\", linestyle=\"--\", linewidth=2, label=\"Mean - Std\")\n    ax.axvline(mean_val + std_val, color=\"purple\", linestyle=\"--\", linewidth=2, label=\"Mean + Std\")\n\n    # Labels and title\n    ax.set_title(\"Histogram of Random Values\")\n    ax.set_xlabel(\"Val\")\n    ax.set_ylabel(\"Freq\")\n    ax.legend()\n\n    return values, mean_val, std_val, ax",
+        "status": "fail",
+        "details": {
+          "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 41, in test_case_1\nAssertionError: 50.1663 != 250.7154\n",
+          "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 51, in test_case_3\nAssertionError: 52 != 103\n",
+          "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 59, in test_case_4\nAssertionError: 22 != 278\n",
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 66, in test_case_5\nAssertionError: 78 != 367\n"
+        }
+      }
+    ],
+    "BigCodeBench/754": [
+      {
+        "task_id": "BigCodeBench/754",
+        "solution": "import numpy as np\nimport pandas as pd\nfrom datetime import datetime\n\n# Constants\nDATE_FORMAT = '%Y-%m-%d %H:%M:%S'\n\n\ndef task_func(result):\n    \"\"\"\n    Compute summary statistics for all 'from_user' values found in `result`.\n\n    Returns\n    -------\n    pd.Series\n        Index contains: mean, median, min, max, std, current_time\n\n    Raises\n    ------\n    ValueError\n        If any extracted 'from_user' value is not numeric.\n    \"\"\"\n    import numbers\n\n    def is_numeric(value):\n        # Treat booleans as non-numeric for this task.\n        return isinstance(value, numbers.Real) and not isinstance(value, bool)\n\n    def extract_from_user_values(obj):\n        values = []\n\n        if obj is None:\n            return values\n\n        # Pandas DataFrame\n        if isinstance(obj, pd.DataFrame):\n            if \"from_user\" in obj.columns:\n                values.extend(obj[\"from_user\"].tolist())\n            return values\n\n        # Pandas Series\n        if isinstance(obj, pd.Series):\n            if obj.name == \"from_user\":\n                values.extend(obj.tolist())\n            else:\n                # If the Series contains dict-like elements, inspect them.\n                for item in obj.tolist():\n                    if isinstance(item, dict) and \"from_user\" in item:\n                        values.append(item[\"from_user\"])\n                    elif hasattr(item, \"get\"):\n                        try:\n                            values.append(item.get(\"from_user\"))\n                        except Exception:\n                            pass\n            return values\n\n        # Dictionary input\n        if isinstance(obj, dict):\n            if \"from_user\" in obj:\n                val = obj[\"from_user\"]\n                if isinstance(val, (list, tuple, np.ndarray, pd.Series)):\n                    values.extend(list(val))\n                else:\n                    values.append(val)\n            return values\n\n        # General iterable of records\n        if isinstance(obj, (list, tuple, np.ndarray)):\n            for item in obj:\n                if isinstance(item, dict):\n                    if \"from_user\" in item:\n                        values.append(item[\"from_user\"])\n                elif isinstance(item, pd.Series):\n                    if \"from_user\" in item.index:\n                        values.append(item[\"from_user\"])\n                elif hasattr(item, \"get\"):\n                    try:\n                        values.append(item.get(\"from_user\"))\n                    except Exception:\n                        pass\n            return values\n\n        # Single record-like object\n        if hasattr(obj, \"get\"):\n            try:\n                if obj.get(\"from_user\") is not None:\n                    values.append(obj.get(\"from_user\"))\n            except Exception:\n                pass\n\n        return values\n\n    raw_values = extract_from_user_values(result)\n\n    if len(raw_values) == 0:\n        stats = {\n            \"mean\": np.nan,\n            \"median\": np.nan,\n            \"min\": np.nan,\n            \"max\": np.nan,\n            \"std\": np.nan,\n        }\n    else:\n        if not all(is_numeric(v) for v in raw_values):\n            raise ValueError('If the \"from_user\" values are not numeric.')\n\n        arr = np.asarray(raw_values, dtype=float)\n\n        stats = {\n            \"mean\": np.mean(arr),\n            \"median\": np.median(arr),\n            \"min\": np.min(arr),\n            \"max\": np.max(arr),\n            \"std\": np.std(arr),\n        }\n\n    stats[\"current_time\"] = datetime.now().strftime(DATE_FORMAT)\n\n    return pd.Series(stats)",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/218": [
+      {
+        "task_id": "BigCodeBench/218",
+        "solution": "import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.preprocessing import StandardScaler\n\n# Constants\nFEATURES = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5']\nTARGET = 'target'\n\n\ndef task_func(df, dict_mapping, plot_histogram=False):\n    \"\"\"\n    Pre-process a DataFrame by replacing values according to a dictionary mapping,\n    standardizing specified features, and optionally drawing a histogram of the\n    target variable.\n\n    Parameters\n    ----------\n    df : pandas.DataFrame\n        Input data.\n    dict_mapping : dict\n        Dictionary used to replace values in the DataFrame.\n    plot_histogram : bool, default=False\n        Whether to draw a histogram of the target variable.\n\n    Returns\n    -------\n    tuple\n        (processed_df, ax) where processed_df is the preprocessed DataFrame and\n        ax is the histogram Axes if plot_histogram is True, otherwise None.\n\n    Raises\n    ------\n    ValueError\n        If df is not a pandas DataFrame or if required columns are missing.\n    \"\"\"\n    if not isinstance(df, pd.DataFrame):\n        raise ValueError(\"df must be a pandas DataFrame\")\n\n    required_columns = set(FEATURES + [TARGET])\n    missing_columns = required_columns.difference(df.columns)\n    if missing_columns:\n        raise ValueError(\n            f\"Input DataFrame is missing required columns: {sorted(missing_columns)}\"\n        )\n\n    processed_df = df.copy()\n\n    if dict_mapping is not None:\n        processed_df = processed_df.replace(dict_mapping)\n\n    scaler = StandardScaler()\n    processed_df.loc[:, FEATURES] = scaler.fit_transform(processed_df[FEATURES])\n\n    ax = None\n    if plot_histogram:\n        _, ax = plt.subplots()\n        processed_df[TARGET].hist(ax=ax)\n        ax.set_title(f\"Histogram of {TARGET}\")\n        ax.set_xlabel(TARGET)\n        ax.set_ylabel(\"Frequency\")\n\n    return processed_df, ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/447": [
+      {
+        "task_id": "BigCodeBench/447",
+        "solution": "import numpy as np\nfrom sklearn.decomposition import PCA\nimport matplotlib.pyplot as plt\n\ndef task_func(data, n_components=2, random_state=None):\n    \"\"\"\n    Perform PCA on `data` and visualize the first two principal components.\n\n    Parameters\n    ----------\n    data : array-like\n        Input dataset with shape (n_samples, n_features) or a 1D array.\n    n_components : int, default=2\n        Number of principal components to compute.\n    random_state : int or None, default=None\n        Random seed passed to PCA when applicable.\n\n    Returns\n    -------\n    dict\n        {\n            \"transformed_data\": np.ndarray,\n            \"ax\": plt.Axes\n        }\n    \"\"\"\n    data = np.asarray(data)\n\n    if data.size == 0:\n        raise ValueError(\"data must not be empty.\")\n\n    if data.ndim == 0:\n        raise ValueError(\"data must be a 1D or 2D array-like dataset.\")\n\n    if data.ndim == 1:\n        data = data.reshape(-1, 1)\n\n    try:\n        n_components = int(n_components)\n    except Exception as exc:\n        raise TypeError(\"n_components must be an integer.\") from exc\n\n    if n_components < 1:\n        raise ValueError(\"n_components must be at least 1.\")\n\n    max_components = min(data.shape[0], data.shape[1])\n    n_components_eff = min(n_components, max_components)\n\n    pca = PCA(n_components=n_components_eff, random_state=random_state)\n    transformed_data = pca.fit_transform(data)\n\n    fig, ax = plt.subplots()\n\n    if transformed_data.shape[1] == 1:\n        x = transformed_data[:, 0]\n        y = np.zeros_like(x)\n        ax.scatter(x, y)\n        ax.set_xlabel(\"Principal Component 1\")\n        ax.set_ylabel(\"0\")\n    else:\n        ax.scatter(transformed_data[:, 0], transformed_data[:, 1])\n        ax.set_xlabel(\"Principal Component 1\")\n        ax.set_ylabel(\"Principal Component 2\")\n\n    ax.set_title(f\"PCA Scatter Plot ({transformed_data.shape[1]} component{'s' if transformed_data.shape[1] != 1 else ''})\")\n    ax.grid(True, alpha=0.3)\n\n    return {\n        \"transformed_data\": transformed_data,\n        \"ax\": ax,\n    }",
+        "status": "fail",
+        "details": {
+          "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 131, in test_case_4\nAssertionError: ValueError not raised\n",
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 136, in test_case_5\nAssertionError: ValueError not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/143": [
+      {
+        "task_id": "BigCodeBench/143",
+        "solution": "import numpy as np\nimport matplotlib.pyplot as plt\n\ndef task_func():\n    fig, ax = plt.subplots()\n\n    x = np.linspace(-10, 10, 400)\n    y = 2 * x + 1\n\n    ax.plot(x, y, color='red', label='y=2x+1')\n    ax.plot(2, 5, marker='o', color='green', linestyle='None', label='solution at x=2')\n\n    ax.set_title('Solution of the equation y=2x+1 at x=2')\n    ax.set_xlabel('x')\n    ax.set_ylabel('y')\n    ax.set_xlim(-10, 10)\n    ax.legend()\n\n    return ax",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/378": [
+      {
+        "task_id": "BigCodeBench/378",
+        "solution": "import pandas as pd\nfrom texttable import Texttable\nimport os\nimport glob\n\n\ndef task_func(data_dir='./data/'):\n    if not os.path.isdir(data_dir):\n        raise FileNotFoundError(f\"Directory does not exist: {data_dir}\")\n\n    csv_files = sorted(glob.glob(os.path.join(data_dir, '*.csv')))\n    if not csv_files:\n        raise ValueError(f\"No CSV files found in directory: {data_dir}\")\n\n    table = Texttable()\n    rows = [['File name', 'Rows', 'Columns']]\n\n    for file_path in csv_files:\n        df = pd.read_csv(file_path)  # may raise pandas.errors.EmptyDataError\n        rows.append([os.path.basename(file_path), len(df), len(df.columns)])\n\n    table.add_rows(rows)\n    return table.draw()",
+        "status": "fail",
+        "details": {
+          "test_normal_functionality": "Traceback (most recent call last):\n  File \"__test__.py\", line 90, in test_normal_functionality\nAssertionError: '+---[25 chars]+\\n|   File    | Rows | Columns |\\n+==========[271 chars]---+' != '+---[25 chars]+\\n| File name | Rows | Columns |\\n+==========[143 chars]---+'\n  +-----------+------+---------+\n- |   File    | Rows | Columns |\n?  --      ^^\n+ | File name | Rows | Columns |\n?        ^^^^\n  +===========+======+=========+\n  | test1.csv | 5    | 2       |\n  +-----------+------+---------+\n- | test1.csv | 5    | 2       |\n- +-----------+------+---------+\n- | test2.csv | 10   | 4       |\n- +-----------+------+---------+\n  | test2.csv | 10   | 4       |\n  +-----------+------+---------+\n"
+        }
+      }
+    ],
+    "BigCodeBench/656": [
+      {
+        "task_id": "BigCodeBench/656",
+        "solution": "import re\nimport string\nimport nltk\nfrom nltk.sentiment.vader import SentimentIntensityAnalyzer\n\nnltk.download('vader_lexicon')\n\n# Constants\nALPHANUMERIC = re.compile('[\\W_]+')\nPUNCTUATIONS = string.punctuation\n\n\ndef task_func(text: str, sia: SentimentIntensityAnalyzer) -> dict:\n    \"\"\"\n    Clean the input text and return VADER sentiment scores.\n    \"\"\"\n    if text is None:\n        text = \"\"\n\n    # Normalize case first\n    cleaned_text = text.lower()\n\n    # Remove punctuation explicitly\n    cleaned_text = cleaned_text.translate(str.maketrans('', '', PUNCTUATIONS))\n\n    # Remove any remaining non-alphanumeric characters except spaces\n    cleaned_text = ALPHANUMERIC.sub(' ', cleaned_text)\n\n    # Collapse repeated whitespace\n    cleaned_text = re.sub(r'\\s+', ' ', cleaned_text).strip()\n\n    return sia.polarity_scores(cleaned_text)",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/499": [
+      {
+        "task_id": "BigCodeBench/499",
+        "solution": "import xlwt\nimport os\nimport io\nimport csv\n\ndef task_func(csv_content, filename):\n    \"\"\"\n    Convert CSV content into an Excel .xls file and save it.\n\n    Args:\n        csv_content: CSV-formatted text.\n        filename: Output filename for the Excel file.\n\n    Returns:\n        str: Absolute path to the created Excel file.\n    \"\"\"\n    if csv_content is None:\n        csv_text = \"\"\n    elif isinstance(csv_content, bytes):\n        csv_text = csv_content.decode(\"utf-8\")\n    else:\n        csv_text = str(csv_content)\n\n    workbook = xlwt.Workbook()\n    sheet = workbook.add_sheet(\"Sheet1\")\n\n    reader = csv.reader(io.StringIO(csv_text))\n    wrote_anything = False\n\n    for row_idx, row in enumerate(reader):\n        wrote_anything = True\n        for col_idx, value in enumerate(row):\n            sheet.write(row_idx, col_idx, value)\n\n    if not wrote_anything:\n        sheet.write(0, 0, \"\")\n\n    abs_path = os.path.abspath(filename)\n    parent_dir = os.path.dirname(abs_path)\n    if parent_dir and not os.path.exists(parent_dir):\n        os.makedirs(parent_dir, exist_ok=True)\n\n    workbook.save(abs_path)\n    return abs_path",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/755": [
+      {
+        "task_id": "BigCodeBench/755",
+        "solution": "import os\nimport glob\nimport uuid\n\ndef task_func(directory_path):\n    def reverse_period_words(name):\n        parts = name.split(\".\")\n        if len(parts) == 1:\n            return name\n\n        prefix = 0\n        while prefix < len(parts) and parts[prefix] == \"\":\n            prefix += 1\n\n        suffix = 0\n        while suffix < len(parts) - prefix and parts[len(parts) - 1 - suffix] == \"\":\n            suffix += 1\n\n        middle = parts[prefix:len(parts) - suffix]\n        if len(middle) <= 1:\n            return name\n\n        new_parts = [\"\"] * prefix + list(reversed(middle)) + [\"\"] * suffix\n        return \".\".join(new_parts)\n\n    if not os.path.isdir(directory_path):\n        return []\n\n    paths = []\n    for pattern in (os.path.join(directory_path, \"*\"), os.path.join(directory_path, \".*\")):\n        paths.extend(glob.glob(pattern))\n    paths = [p for p in sorted(set(paths)) if os.path.isfile(p)]\n\n    new_filenames = []\n    temp_moves = []\n\n    for idx, path in enumerate(paths):\n        base = os.path.basename(path)\n        new_base = reverse_period_words(base)\n        new_filenames.append(new_base)\n\n        if new_base != base:\n            temp_name = f\".__tmp_reverse_words__{os.getpid()}_{idx}_{uuid.uuid4().hex}__{base}\"\n            temp_path = os.path.join(directory_path, temp_name)\n            os.rename(path, temp_path)\n            temp_moves.append((temp_path, os.path.join(directory_path, new_base)))\n\n    for temp_path, final_path in temp_moves:\n        os.rename(temp_path, final_path)\n\n    return new_filenames",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/1003": [
+      {
+        "task_id": "BigCodeBench/1003",
+        "solution": "import urllib.request\nfrom lxml import etree\nimport pandas as pd\nfrom io import BytesIO\n\n\ndef task_func(url):\n    try:\n        with urllib.request.urlopen(url) as response:\n            xml_data = response.read()\n    except Exception as exc:\n        raise ValueError(\"Unable to fetch XML from URL.\") from exc\n\n    try:\n        parser = etree.XMLParser(resolve_entities=False, no_network=True, recover=False)\n        root = etree.fromstring(xml_data, parser=parser)\n    except (etree.XMLSyntaxError, ValueError, TypeError) as exc:\n        raise ValueError(\"Invalid XML syntax.\") from exc\n\n    def local_name(element):\n        return etree.QName(element).localname\n\n    items = [elem for elem in root.iter() if local_name(elem) == \"item\"]\n    if not items:\n        raise ValueError(\"XML structure does not match expected format.\")\n\n    records = []\n    for item in items:\n        record = {}\n        children = [child for child in item if isinstance(child.tag, str)]\n\n        for child in children:\n            if len(child):\n                raise ValueError(\"XML structure does not match expected format.\")\n\n            key = local_name(child)\n            if key in record:\n                raise ValueError(\"XML structure does not match expected format.\")\n\n            value = child.text.strip() if child.text is not None and child.text.strip() != \"\" else None\n            record[key] = value\n\n        records.append(record)\n\n    return pd.DataFrame(records)",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/456": [
+      {
+        "task_id": "BigCodeBench/456",
+        "solution": "import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom sklearn.preprocessing import MinMaxScaler\n\n\ndef task_func(data: pd.DataFrame) -> (pd.DataFrame, plt.Axes):\n    \"\"\"\n    Normalize a pandas DataFrame to [0, 1] and visualize it as a heatmap.\n\n    Parameters\n    ----------\n    data : pd.DataFrame\n        Input data to normalize and plot.\n\n    Returns\n    -------\n    pd.DataFrame\n        Normalized data.\n    plt.Axes\n        Heatmap plot of the normalized data.\n    \"\"\"\n    if not isinstance(data, pd.DataFrame):\n        raise TypeError(\"data must be a pandas DataFrame\")\n\n    fig, ax = plt.subplots()\n\n    if data.empty:\n        normalized_data = data.copy()\n        ax.set_axis_off()\n        return normalized_data, ax\n\n    numeric_data = data.apply(pd.to_numeric, errors=\"raise\")\n    scaler = MinMaxScaler(feature_range=(0, 1))\n    normalized_array = scaler.fit_transform(numeric_data)\n\n    normalized_data = pd.DataFrame(\n        normalized_array,\n        index=data.index,\n        columns=data.columns,\n    )\n\n    sns.heatmap(\n        normalized_data,\n        cmap=\"YlGnBu\",\n        cbar_kws={\"label\": \"Normalized Value\"},\n        ax=ax,\n    )\n\n    return normalized_data, ax",
+        "status": "fail",
+        "details": {
+          "test_case_7": "Traceback (most recent call last):\n  File \"__test__.py\", line 140, in test_case_7\nAssertionError: ValueError not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/185": [
+      {
+        "task_id": "BigCodeBench/185",
+        "solution": "import pandas as pd\nimport numpy as np\nimport folium\n\ndef task_func(dic={'Lon': (-180, 180), 'Lat': (-90, 90)}, cities=['New York', 'London', 'Beijing', 'Tokyo', 'Sydney']):\n    \"\"\"\n    Create a folium map with markers for cities whose coordinates are randomly\n    generated within the provided longitude and latitude ranges.\n\n    Parameters\n    ----------\n    dic : dict\n        Must contain 'Lon' and 'Lat' keys, each mapped to a tuple of two numbers.\n    cities : list\n        List of city names.\n\n    Returns\n    -------\n    tuple\n        (folium.Map, pandas.DataFrame) where the DataFrame has columns:\n        'City', 'Longitude', 'Latitude'.\n    \"\"\"\n    if not isinstance(dic, dict):\n        raise ValueError(\"dic must be a dictionary containing 'Lon' and 'Lat' keys.\")\n\n    if 'Lon' not in dic or 'Lat' not in dic:\n        raise ValueError(\"Missing required keys: 'Lon' and/or 'Lat'.\")\n\n    lon_range = dic['Lon']\n    lat_range = dic['Lat']\n\n    if not isinstance(lon_range, tuple) or not isinstance(lat_range, tuple):\n        raise ValueError(\"'Lon' and 'Lat' values must both be tuples.\")\n\n    if len(lon_range) != 2 or len(lat_range) != 2:\n        raise ValueError(\"'Lon' and 'Lat' tuples must each contain exactly two values.\")\n\n    lon_min, lon_max = lon_range\n    lat_min, lat_max = lat_range\n\n    lon_min, lon_max = sorted((lon_min, lon_max))\n    lat_min, lat_max = sorted((lat_min, lat_max))\n\n    cities = list(cities) if cities is not None else []\n\n    n = len(cities)\n    longitudes = np.random.uniform(lon_min, lon_max, size=n) if n else np.array([])\n    latitudes = np.random.uniform(lat_min, lat_max, size=n) if n else np.array([])\n\n    df = pd.DataFrame({\n        'City': cities,\n        'Longitude': longitudes,\n        'Latitude': latitudes\n    }, columns=['City', 'Longitude', 'Latitude'])\n\n    if n > 0:\n        center_lat = float(df['Latitude'].mean())\n        center_lon = float(df['Longitude'].mean())\n    else:\n        center_lon = (lon_min + lon_max) / 2\n        center_lat = (lat_min + lat_max) / 2\n\n    m = folium.Map(location=[center_lat, center_lon], zoom_start=2)\n\n    for _, row in df.iterrows():\n        folium.Marker(\n            location=[float(row['Latitude']), float(row['Longitude'])],\n            popup=str(row['City']),\n            tooltip=str(row['City'])\n        ).add_to(m)\n\n    return m, df",
+        "status": "fail",
+        "details": {
+          "test_default_parameters": "Traceback (most recent call last):\n  File \"__test__.py\", line 91, in test_default_parameters\nAssertionError: Lists differ: ['New[19 chars]9495,-61.92098633948352', 'London,162.25715030[161 chars]819'] != ['New[19 chars]9495,81.12857515378491', 'London,83.5178190521[162 chars]819']\n\nFirst differing element 0:\n'New York,-45.1655572149495,-61.92098633948352'\n'New York,-45.1655572149495,81.12857515378491'\n\n- ['New York,-45.1655572149495,-61.92098633948352',\n-  'London,162.25715030756982,-79.5449498097241',\n-  'Beijing,83.51781905210584,65.91170623948832',\n-  'Tokyo,35.51705431093319,18.20070211377758',\n+ ['New York,-45.1655572149495,81.12857515378491',\n+  'London,83.51781905210584,17.758527155466595',\n+  'Beijing,-123.83328944072285,-61.92098633948352',\n+  'Tokyo,-159.0898996194482,65.91170623948832',\n-  'Sydney,-123.83328944072285,37.45306400328819']\n?          ---  -------  ^  ^\n\n+  'Sydney,36.40140422755516,37.45306400328819']\n?           +   ^^^^  ^ ++++\n : DataFrame contents should match the expected output\n"
+        }
+      }
+    ],
+    "BigCodeBench/478": [
+      {
+        "task_id": "BigCodeBench/478",
+        "solution": "import pandas as pd\nimport re\nimport random\n\ndef task_func(data_list, seed=None):\n    \"\"\"\n    Remove one random comma-separated value from each string in data_list\n    and return a DataFrame with original and modified strings.\n    \"\"\"\n    if data_list is None:\n        data_list = []\n    elif isinstance(data_list, str):\n        data_list = [data_list]\n\n    rng = random.Random(seed) if seed is not None else random\n\n    rows = []\n    for item in data_list:\n        original = \"\" if item is None else str(item)\n\n        # Split on literal commas while preserving surrounding whitespace inside segments.\n        parts = original.split(\",\")\n\n        if parts:\n            remove_idx = rng.randrange(len(parts))\n            modified = \",\".join(parts[:remove_idx] + parts[remove_idx + 1 :])\n        else:\n            modified = original\n\n        rows.append({\n            \"Original String\": original,\n            \"Modified String\": modified,\n        })\n\n    return pd.DataFrame(rows, columns=[\"Original String\", \"Modified String\"])",
+        "status": "fail",
+        "details": {
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 69, in test_case_5\nAssertionError: 'apple' != ''\n- apple\n+ \n\n",
+          "test_case_6": "Traceback (most recent call last):\n  File \"__test__.py\", line 75, in test_case_6\n  File \"__test__.py\", line 101, in _test_dataframe\nAssertionError: False is not true\n"
+        }
+      }
+    ],
+    "BigCodeBench/776": [
+      {
+        "task_id": "BigCodeBench/776",
+        "solution": "import pandas as pd\nfrom sklearn.linear_model import LinearRegression\n\n\ndef task_func(file_path, output_path=None, sort_key='title', linear_regression=False, x_column=None, y_column=None):\n    try:\n        df = pd.read_csv(file_path)\n    except Exception as e:\n        raise Exception(f\"Error reading the CSV file: {e}\")\n\n    if linear_regression:\n        if (\n            x_column is None\n            or y_column is None\n            or x_column not in df.columns\n            or y_column not in df.columns\n        ):\n            raise ValueError(\"Specified columns for linear regression do not exist in the dataframe\")\n\n        try:\n            X = df[[x_column]]\n            y = df[y_column]\n            model = LinearRegression()\n            model.fit(X, y)\n            return model\n        except Exception as e:\n            raise Exception(f\"Error fitting linear regression model: {e}\")\n\n    if sort_key not in df.columns:\n        raise Exception(f\"Sort key '{sort_key}' does not exist in the dataframe\")\n\n    try:\n        sorted_df = df.sort_values(by=sort_key)\n        if output_path is None:\n            return sorted_df\n        sorted_df.to_csv(output_path, index=False)\n        return output_path\n    except Exception as e:\n        raise Exception(f\"Error sorting the data or writing the output file: {e}\")",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/1013": [
+      {
+        "task_id": "BigCodeBench/1013",
+        "solution": "import requests\nfrom urllib.parse import urljoin\nfrom bs4 import BeautifulSoup\nimport csv\nfrom urllib.parse import urlparse\n\n\ndef task_func(\n    url: str,\n    base_url: str = \"https://www.example.com\",\n    csv_file: str = \"scraped_data.csv\",\n) -> int:\n    \"\"\"\n    Scrape all hyperlinks from a webpage, convert them to absolute HTTP(S) URLs,\n    save them to a CSV file, and return the number of unique links found.\n    \"\"\"\n    response = requests.get(url, timeout=10)\n    response.raise_for_status()\n\n    soup = BeautifulSoup(response.text, \"html.parser\")\n\n    resolution_base = base_url if base_url != \"https://www.example.com\" else response.url or url\n\n    unique_links = []\n    seen = set()\n\n    for anchor in soup.find_all(\"a\", href=True):\n        href = anchor.get(\"href\", \"\").strip()\n        if not href:\n            continue\n\n        absolute_url = urljoin(resolution_base, href)\n        parsed = urlparse(absolute_url)\n\n        if parsed.scheme not in {\"http\", \"https\"}:\n            continue\n\n        if absolute_url not in seen:\n            seen.add(absolute_url)\n            unique_links.append(absolute_url)\n\n    with open(csv_file, mode=\"w\", newline=\"\", encoding=\"utf-8\") as file:\n        writer = csv.writer(file)\n        writer.writerow([\"url\"])\n        for link in unique_links:\n            writer.writerow([link])\n\n    return len(unique_links)",
+        "status": "fail",
+        "details": {
+          "test_duplicate_links": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 91, in test_duplicate_links\n  File \"__test__.py\", line 32, in task_func\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 563, in urljoin\n    base, url, _coerce_result = _coerce_args(base, url)\n                                ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 130, in _coerce_args\n    raise TypeError(\"Cannot mix str and non-str arguments\")\nTypeError: Cannot mix str and non-str arguments\n",
+          "test_external_links": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 101, in test_external_links\n  File \"__test__.py\", line 32, in task_func\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 563, in urljoin\n    base, url, _coerce_result = _coerce_args(base, url)\n                                ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 130, in _coerce_args\n    raise TypeError(\"Cannot mix str and non-str arguments\")\nTypeError: Cannot mix str and non-str arguments\n",
+          "test_multiple_links": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 81, in test_multiple_links\n  File \"__test__.py\", line 32, in task_func\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 563, in urljoin\n    base, url, _coerce_result = _coerce_args(base, url)\n                                ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 130, in _coerce_args\n    raise TypeError(\"Cannot mix str and non-str arguments\")\nTypeError: Cannot mix str and non-str arguments\n",
+          "test_single_link": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 71, in test_single_link\n  File \"__test__.py\", line 32, in task_func\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 563, in urljoin\n    base, url, _coerce_result = _coerce_args(base, url)\n                                ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/urllib/parse.py\", line 130, in _coerce_args\n    raise TypeError(\"Cannot mix str and non-str arguments\")\nTypeError: Cannot mix str and non-str arguments\n"
+        }
+      }
+    ],
+    "BigCodeBench/592": [
+      {
+        "task_id": "BigCodeBench/592",
+        "solution": "import csv\nimport os\nfrom datetime import datetime, timedelta\nfrom random import randint\n\n# Constants\nSENSORS = ['Temperature', 'Humidity', 'Pressure']\nOUTPUT_DIR = './output'\n\n\ndef task_func(hours, output_dir=OUTPUT_DIR):\n    \"\"\"\n    Generate hourly sensor data for the specified number of hours and save it to a CSV file.\n\n    Args:\n        hours (int): Number of hours to generate data for.\n        output_dir (str): Directory where the CSV file will be saved.\n\n    Returns:\n        str: Path to the generated CSV file.\n    \"\"\"\n    if not isinstance(hours, int):\n        raise TypeError(\"hours must be an integer\")\n    if hours < 0:\n        raise ValueError(\"hours must be non-negative\")\n\n    os.makedirs(output_dir, exist_ok=True)\n\n    filename = f\"sensor_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv\"\n    file_path = os.path.join(output_dir, filename)\n\n    start_time = datetime.now().replace(minute=0, second=0, microsecond=0)\n\n    with open(file_path, mode=\"w\", newline=\"\", encoding=\"utf-8\") as csv_file:\n        writer = csv.writer(csv_file)\n        writer.writerow([\"Time\"] + SENSORS)\n\n        for hour in range(hours):\n            current_time = start_time + timedelta(hours=hour)\n            temperature = randint(15, 30)\n            humidity = randint(30, 80)\n            pressure = randint(980, 1030)\n\n            writer.writerow([\n                current_time.strftime(\"%Y-%m-%d %H:%M:%S\"),\n                temperature,\n                humidity,\n                pressure,\n            ])\n\n    return file_path",
+        "status": "fail",
+        "details": {
+          "test_csv_file_creation": "Traceback (most recent call last):\n  File \"__test__.py\", line 67, in test_csv_file_creation\nAssertionError: False is not true\n",
+          "test_file_path_return": "Traceback (most recent call last):\n  File \"__test__.py\", line 83, in test_file_path_return\nAssertionError: './output/sensor_data_20260908_090537.csv' != './output/sensor_data.csv'\n- ./output/sensor_data_20260908_090537.csv\n?                     ----------------\n+ ./output/sensor_data.csv\n\n",
+          "test_csv_file_header": "Traceback (most recent call last):\n  File \"__test__.py\", line 76, in test_csv_file_header\nFileNotFoundError: [Errno 2] No such file or directory: './output/sensor_data.csv'\n",
+          "test_csv_file_rows": "Traceback (most recent call last):\n  File \"__test__.py\", line 71, in test_csv_file_rows\nFileNotFoundError: [Errno 2] No such file or directory: './output/sensor_data.csv'\n",
+          "test_no_hours_data": "Traceback (most recent call last):\n  File \"__test__.py\", line 87, in test_no_hours_data\nFileNotFoundError: [Errno 2] No such file or directory: './output/sensor_data.csv'\n"
+        }
+      }
+    ],
+    "BigCodeBench/1074": [
+      {
+        "task_id": "BigCodeBench/1074",
+        "solution": "import pytz\nfrom dateutil.parser import parse\n\n# Constants\nTIME_FORMAT = \"%d/%m/%y %H:%M:%S.%f\"\n\n\ndef _safe_localize(tz, naive_dt):\n    \"\"\"\n    Localize a naive datetime while handling DST edge cases.\n    - Ambiguous times (e.g., DST fall-back): choose standard time.\n    - Non-existent times (e.g., DST spring-forward): choose post-transition time.\n    \"\"\"\n    try:\n        return tz.localize(naive_dt, is_dst=None)\n    except pytz.AmbiguousTimeError:\n        return tz.localize(naive_dt, is_dst=False)\n    except pytz.NonExistentTimeError:\n        return tz.localize(naive_dt, is_dst=True)\n\n\ndef task_func(time_string, from_tz, to_tz):\n    \"\"\"\n    Convert a time string from one timezone to another.\n\n    Args:\n        time_string (str): Input time string.\n        from_tz (str): Source timezone name.\n        to_tz (str): Target timezone name.\n\n    Returns:\n        str: Converted time string in the format 'dd/mm/yy HH:MM:SS.fff'.\n    \"\"\"\n    source_tz = pytz.timezone(from_tz)\n    target_tz = pytz.timezone(to_tz)\n\n    dt = parse(time_string)\n\n    if dt.tzinfo is None:\n        dt = _safe_localize(source_tz, dt)\n    else:\n        # Respect already-aware timestamps by converting them into the stated source timezone first.\n        dt = dt.astimezone(source_tz)\n\n    converted = dt.astimezone(target_tz)\n    return converted.strftime(TIME_FORMAT)[:-3]",
+        "status": "fail",
+        "details": {
+          "test_est_to_utc": "Traceback (most recent call last):\n  File \"__test__.py\", line 63, in test_est_to_utc\nAssertionError: '30/03/09 16:31:32.123' != '30/03/09 16:31:32.123000'\n- 30/03/09 16:31:32.123\n+ 30/03/09 16:31:32.123000\n?                      +++\n\n",
+          "test_ist_to_utc": "Traceback (most recent call last):\n  File \"__test__.py\", line 77, in test_ist_to_utc\nAssertionError: '04/01/09 00:00:00.000' != '01/04/09 00:00:00.000000'\n- 04/01/09 00:00:00.000\n?     ---\n+ 01/04/09 00:00:00.000000\n? +++                  +++\n\n",
+          "test_utc_to_est": "Traceback (most recent call last):\n  File \"__test__.py\", line 56, in test_utc_to_est\nAssertionError: '30/03/09 12:31:32.123' != '30/03/09 12:31:32.123000'\n- 30/03/09 12:31:32.123\n+ 30/03/09 12:31:32.123000\n?                      +++\n\n",
+          "test_utc_to_gmt": "Traceback (most recent call last):\n  File \"__test__.py\", line 84, in test_utc_to_gmt\nAssertionError: '15/04/09 10:30:00.000' != '15/04/09 10:30:00.000000'\n- 15/04/09 10:30:00.000\n+ 15/04/09 10:30:00.000000\n?                      +++\n\n",
+          "test_utc_to_ist": "Traceback (most recent call last):\n  File \"__test__.py\", line 70, in test_utc_to_ist\nAssertionError: '04/01/09 05:30:00.000' != '01/04/09 05:30:00.000000'\n- 04/01/09 05:30:00.000\n?     ---\n+ 01/04/09 05:30:00.000000\n? +++                  +++\n\n"
+        }
+      }
+    ],
+    "BigCodeBench/344": [
+      {
+        "task_id": "BigCodeBench/344",
+        "solution": "import os\nimport shutil\n\n\ndef task_func(src_folder, backup_dir):\n    if not os.path.isdir(src_folder):\n        raise ValueError(\"Source folder does not exist.\")\n\n    src_abs = os.path.abspath(src_folder)\n    backup_abs = os.path.abspath(backup_dir)\n\n    try:\n        if src_abs == backup_abs:\n            return False\n        try:\n            if os.path.commonpath([src_abs, backup_abs]) == src_abs:\n                return False\n        except ValueError:\n            pass\n\n        parent_dir = os.path.dirname(backup_abs) or \".\"\n        os.makedirs(parent_dir, exist_ok=True)\n\n        shutil.copytree(src_abs, backup_abs, dirs_exist_ok=True)\n\n        try:\n            shutil.rmtree(src_abs)\n        except Exception as exc:\n            raise Exception(\"Error deleting source folder.\") from exc\n\n        return True\n    except ValueError:\n        raise\n    except Exception:\n        return False",
+        "status": "fail",
+        "details": {
+          "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 61, in test_case_1\nAssertionError: False is not true\n",
+          "test_case_3": "Traceback (most recent call last):\n  File \"__test__.py\", line 73, in test_case_3\nAssertionError: False is not true\n",
+          "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 76, in test_case_4\nAssertionError: False is not true\n",
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 80, in test_case_5\nAssertionError: FileExistsError not raised\n"
+        }
+      }
+    ],
+    "BigCodeBench/320": [
+      {
+        "task_id": "BigCodeBench/320",
+        "solution": "import subprocess\nimport os\nimport random\nimport sys\n\ndef task_func(directory, file_list):\n    if not file_list:\n        return None\n\n    filename = random.choice(file_list)\n    path = os.path.join(directory, filename)\n\n    if not os.path.isfile(path):\n        return None\n\n    try:\n        if os.path.splitext(path)[1].lower() in {\".py\", \".pyw\"}:\n            proc = subprocess.Popen([sys.executable, path], cwd=directory)\n        else:\n            proc = subprocess.Popen([path], cwd=directory)\n\n        return proc.poll()\n    except Exception:\n        return None",
+        "status": "fail",
+        "details": {
+          "test_non_zero_exit_code": "Traceback (most recent call last):\n  File \"__test__.py\", line 68, in test_non_zero_exit_code\nAssertionError: None != 1\n",
+          "test_random_file_selection": "Traceback (most recent call last):\n  File \"__test__.py\", line 90, in test_random_file_selection\nAssertionError: False is not true : Expected call with valid_dir/script1.bat not found\n",
+          "test_valid_input": "Traceback (most recent call last):\n  File \"__test__.py\", line 41, in test_valid_input\nAssertionError: None != 0\n"
+        }
+      }
+    ],
+    "BigCodeBench/929": [
+      {
+        "task_id": "BigCodeBench/929",
+        "solution": "import numpy as np\nfrom scipy import stats\n\ndef task_func(word: str) -> np.ndarray:\n    ascii_values = np.fromiter((ord(ch) for ch in word), dtype=int)\n    diffs = np.diff(ascii_values)\n\n    if diffs.size == 0:\n        entropy = 0.0\n    else:\n        _, counts = np.unique(diffs, return_counts=True)\n        entropy = float(stats.entropy(counts))\n\n    return diffs, entropy",
+        "status": "fail",
+        "details": {
+          "test_case_1": "Traceback (most recent call last):\n  File \"__test__.py\", line 21, in test_case_1\nAssertionError: 0.0 != 1.6094379124341005\n",
+          "test_case_2": "Traceback (most recent call last):\n  File \"__test__.py\", line 27, in test_case_2\nAssertionError: 1.0986122886681096 != -inf\n",
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 45, in test_case_5\nAssertionError: 2.3693821196946763 != -inf\n",
+          "test_case_7": "Traceback (most recent call last):\n  File \"__test__.py\", line 56, in test_case_7\nAssertionError: 1.3296613488547582 != -inf\n"
+        }
+      }
+    ],
+    "BigCodeBench/631": [
+      {
+        "task_id": "BigCodeBench/631",
+        "solution": "import csv\nimport os\n\nOUTPUT_DIR = './output'\n\n\ndef task_func(df, filename, output_dir=OUTPUT_DIR):\n    try:\n        script_dir = os.path.dirname(os.path.abspath(__file__))\n    except NameError:\n        script_dir = os.getcwd()\n\n    parent_dir = os.path.dirname(script_dir)\n    data_dir = os.path.join(parent_dir, \"data\")\n    os.makedirs(data_dir, exist_ok=True)\n\n    base_name = os.path.basename(str(filename))\n    if not os.path.splitext(base_name)[1]:\n        base_name += \".csv\"\n\n    file_path = os.path.abspath(os.path.join(data_dir, base_name))\n    df.to_csv(file_path, index=False)\n    return file_path",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/732": [
+      {
+        "task_id": "BigCodeBench/732",
+        "solution": "import re\nimport string\nfrom nltk.stem import PorterStemmer\nfrom collections import Counter\nSTEMMER = PorterStemmer()\n\ndef task_func(content):\n    if content is None:\n        return {}\n\n    text = str(content)\n    words = re.findall(r\"[A-Za-z]+(?:'[A-Za-z]+)?\", text)\n    if len(words) <= 1:\n        return {}\n\n    stems = [STEMMER.stem(word.lower()) for word in words[:-1]]\n    return dict(Counter(stems))",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/879": [
+      {
+        "task_id": "BigCodeBench/879",
+        "solution": "import pandas as pd\nimport numpy as np\nfrom scipy.stats import chi2_contingency\n\n\ndef task_func(data, col1, col2):\n    if data.empty:\n        raise ValueError(\"If 'data' is empty, if 'col1' or 'col2' are not in 'data', if one or both of the columns do not have multiple categories, or if some categories have less than 5 observations (violating the chi-square test assumptions).\")\n\n    if col1 not in data.columns or col2 not in data.columns:\n        raise ValueError(\"If 'data' is empty, if 'col1' or 'col2' are not in 'data', if one or both of the columns do not have multiple categories, or if some categories have less than 5 observations (violating the chi-square test assumptions).\")\n\n    s1 = data[col1]\n    s2 = data[col2]\n\n    def _is_categorical(series):\n        dtype = series.dtype\n        return (\n            pd.api.types.is_categorical_dtype(dtype)\n            or pd.api.types.is_object_dtype(dtype)\n            or pd.api.types.is_string_dtype(dtype)\n            or pd.api.types.is_bool_dtype(dtype)\n        )\n\n    if not _is_categorical(s1) or not _is_categorical(s2):\n        raise TypeError(\"If one or both of the columns contain non-categorical data.\")\n\n    df = data[[col1, col2]].dropna()\n    if df.empty:\n        raise ValueError(\"If 'data' is empty, if 'col1' or 'col2' are not in 'data', if one or both of the columns do not have multiple categories, or if some categories have less than 5 observations (violating the chi-square test assumptions).\")\n\n    s1 = df[col1]\n    s2 = df[col2]\n\n    if s1.nunique(dropna=True) < 2 or s2.nunique(dropna=True) < 2:\n        raise ValueError(\"If 'data' is empty, if 'col1' or 'col2' are not in 'data', if one or both of the columns do not have multiple categories, or if some categories have less than 5 observations (violating the chi-square test assumptions).\")\n\n    if (s1.value_counts(dropna=True) < 5).any() or (s2.value_counts(dropna=True) < 5).any():\n        raise ValueError(\"If 'data' is empty, if 'col1' or 'col2' are not in 'data', if one or both of the columns do not have multiple categories, or if some categories have less than 5 observations (violating the chi-square test assumptions).\")\n\n    contingency_table = pd.crosstab(df[col1], df[col2])\n    _, p_value, _, _ = chi2_contingency(contingency_table)\n\n    return float(p_value)",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/907": [
+      {
+        "task_id": "BigCodeBench/907",
+        "solution": "import os\nimport re\n\n\ndef task_func(pattern: str, replacement: str, directory: str) -> bool:\n    try:\n        if not os.path.isdir(directory):\n            return False\n        regex = re.compile(pattern)\n    except Exception:\n        return False\n\n    try:\n        planned = []\n        with os.scandir(directory) as it:\n            for entry in it:\n                if entry.is_dir(follow_symlinks=False):\n                    continue\n                name = entry.name\n                new_name = regex.sub(replacement, name)\n                if new_name != name:\n                    if not new_name or new_name in {\".\", \"..\"}:\n                        return False\n                    if os.path.basename(new_name) != new_name:\n                        return False\n                    planned.append((name, new_name))\n    except Exception:\n        return False\n\n    if not planned:\n        return True\n\n    final_to_source = {}\n    for src, dst in planned:\n        other = final_to_source.get(dst)\n        if other is not None and other != src:\n            return False\n        final_to_source[dst] = src\n\n    src_names = {src for src, _ in planned}\n    final_names = {dst for _, dst in planned}\n\n    try:\n        existing_names = set(os.listdir(directory))\n    except Exception:\n        return False\n\n    for src, dst in planned:\n        if dst in existing_names and dst not in src_names:\n            return False\n\n    used_names = set(existing_names)\n    used_names.update(final_names)\n\n    rename_plan = []\n    for idx, (src, dst) in enumerate(planned):\n        prefix = f\".__rename_tmp__{idx}__\"\n        counter = 0\n        while True:\n            temp_name = f\"{prefix}{counter}__{src}\"\n            if temp_name not in used_names:\n                used_names.add(temp_name)\n                break\n            counter += 1\n        rename_plan.append((src, dst, temp_name))\n\n    moved_to_temp = []\n    moved_to_final = []\n\n    try:\n        for src, dst, temp_name in rename_plan:\n            src_path = os.path.join(directory, src)\n            temp_path = os.path.join(directory, temp_name)\n            os.rename(src_path, temp_path)\n            moved_to_temp.append((src_path, temp_path))\n\n        for src, dst, temp_name in rename_plan:\n            temp_path = os.path.join(directory, temp_name)\n            final_path = os.path.join(directory, dst)\n            os.rename(temp_path, final_path)\n            moved_to_final.append((temp_path, final_path))\n\n        return True\n    except Exception:\n        for temp_path, final_path in reversed(moved_to_final):\n            try:\n                os.rename(final_path, temp_path)\n            except Exception:\n                pass\n\n        for src_path, temp_path in reversed(moved_to_temp):\n            try:\n                os.rename(temp_path, src_path)\n            except Exception:\n                pass\n\n        return False",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/583": [
+      {
+        "task_id": "BigCodeBench/583",
+        "solution": "import rsa\nimport os\nfrom Crypto.Random import get_random_bytes\nfrom Crypto.Cipher import AES\nfrom base64 import b64encode, b64decode\n\ndef task_func():\n    public_key, private_key = rsa.newkeys(512)\n\n    filename = f\"private_key_{get_random_bytes(8).hex()}.txt\"\n    password = get_random_bytes(16)\n    nonce = get_random_bytes(16)\n\n    private_key_bytes = private_key.save_pkcs1(format=\"PEM\")\n    block_size = AES.block_size\n    pad_len = block_size - (len(private_key_bytes) % block_size)\n    padded_private_key = private_key_bytes + bytes([pad_len]) * pad_len\n\n    cipher = AES.new(password, AES.MODE_CBC, iv=nonce)\n    encrypted_private_key = cipher.encrypt(padded_private_key)\n\n    with open(filename, \"wb\") as f:\n        f.write(b64encode(encrypted_private_key))\n\n    return public_key, filename, password, nonce",
+        "status": "fail",
+        "details": {
+          "test_encryption_decryption": "Traceback (most recent call last):\n  File \"__test__.py\", line 66, in test_encryption_decryption\n  File \"/usr/local/lib/python3.11/site-packages/rsa/key.py\", line 125, in load_pkcs1\n    return method(keyfile)\n           ^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/rsa/key.py\", line 612, in _load_pkcs1_pem\n    der = rsa.pem.load_pem(keyfile, b\"RSA PRIVATE KEY\")\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/rsa/pem.py\", line 103, in load_pem\n    pem_lines = [line for line in _pem_lines(contents, pem_start, pem_end)]\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/rsa/pem.py\", line 103, in <listcomp>\n    pem_lines = [line for line in _pem_lines(contents, pem_start, pem_end)]\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/site-packages/rsa/pem.py\", line 77, in _pem_lines\n    raise ValueError('No PEM start marker \"%r\" found' % pem_start)\nValueError: No PEM start marker \"b'-----BEGIN RSA PRIVATE KEY-----'\" found\n"
+        }
+      }
+    ],
+    "BigCodeBench/655": [
+      {
+        "task_id": "BigCodeBench/655",
+        "solution": "import re\nimport nltk\nfrom sklearn.decomposition import NMF\nfrom sklearn.feature_extraction.text import TfidfVectorizer\n# Ensure nltk's stopwords are downloaded\nnltk.download('stopwords')\n# Constants\nALPHANUMERIC = re.compile('[\\W_]+')\nSTOPWORDS = nltk.corpus.stopwords.words('english')\n\ndef task_func(texts, num_topics):\n    \"\"\"\n    Extract topics from a collection of text documents using TF-IDF + NMF.\n\n    Args:\n        texts: Iterable of input documents.\n        num_topics: Desired number of topics.\n\n    Returns:\n        list[list[str]]: Each inner list contains the top words for a topic.\n    \"\"\"\n    if not texts or num_topics is None or num_topics <= 0:\n        return []\n\n    cleaned_texts = []\n    for text in texts:\n        if text is None:\n            text = \"\"\n        normalized = ALPHANUMERIC.sub(\" \", str(text).lower())\n        tokens = [tok for tok in normalized.split() if tok not in STOPWORDS]\n        cleaned_texts.append(\" \".join(tokens))\n\n    if not any(doc.strip() for doc in cleaned_texts):\n        return [[] for _ in range(num_topics)]\n\n    vectorizer = TfidfVectorizer()\n    try:\n        tfidf_matrix = vectorizer.fit_transform(cleaned_texts)\n    except ValueError:\n        return [[] for _ in range(num_topics)]\n\n    n_docs, n_features = tfidf_matrix.shape\n    if n_docs == 0 or n_features == 0:\n        return [[] for _ in range(num_topics)]\n\n    actual_topics = min(num_topics, n_docs, n_features)\n    if actual_topics <= 0:\n        return [[] for _ in range(num_topics)]\n\n    nmf = NMF(\n        n_components=actual_topics,\n        init=\"nndsvda\",\n        random_state=42,\n        max_iter=500,\n    )\n    nmf.fit(tfidf_matrix)\n\n    feature_names = vectorizer.get_feature_names_out()\n    top_n = min(10, len(feature_names))\n    topics = []\n\n    for topic_idx in range(actual_topics):\n        weights = nmf.components_[topic_idx]\n        top_indices = weights.argsort()[::-1][:top_n]\n        topic_words = [feature_names[i] for i in top_indices if weights[i] > 0]\n\n        if not topic_words:\n            topic_words = [feature_names[i] for i in top_indices]\n\n        topics.append(topic_words)\n\n    if len(topics) < num_topics:\n        topics.extend([[] for _ in range(num_topics - len(topics))])\n\n    return topics",
+        "status": "fail",
+        "details": {
+          "test_invalid_num_topics": "Traceback (most recent call last):\n  File \"__test__.py\", line 91, in test_invalid_num_topics\nAssertionError: ValueError not raised\n",
+          "test_all_stopwords": "Traceback (most recent call last):\n  File \"__test__.py\", line 105, in test_all_stopwords\nValueError: not enough values to unpack (expected 2, got 1)\n",
+          "test_empty_texts": "Traceback (most recent call last):\n  File \"__test__.py\", line 95, in test_empty_texts\nValueError: not enough values to unpack (expected 2, got 0)\n"
+        }
+      }
+    ],
+    "BigCodeBench/328": [
+      {
+        "task_id": "BigCodeBench/328",
+        "solution": "import collections\nimport random\nfrom queue import PriorityQueue\n\n\ndef task_func(number_teams=5):\n    \"\"\"\n    Create a random sports ranking and sort it by points in descending order.\n\n    Args:\n        number_teams (int): Number of teams to generate.\n\n    Returns:\n        collections.OrderedDict: Teams sorted by points in descending order.\n    \"\"\"\n    if number_teams <= 0:\n        return collections.OrderedDict()\n\n    ranking_queue = PriorityQueue()\n\n    for i in range(1, number_teams + 1):\n        team_name = f\"Team {i}\"\n        points = random.randint(0, 100)\n        ranking_queue.put((-points, team_name, points))\n\n    sorted_ranking = collections.OrderedDict()\n    while not ranking_queue.empty():\n        _, team_name, points = ranking_queue.get()\n        sorted_ranking[team_name] = points\n\n    return sorted_ranking",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/712": [
+      {
+        "task_id": "BigCodeBench/712",
+        "solution": "import os\nimport shutil\nimport glob\n\ndef task_func(source_dir, dest_dir, extension):\n    \"\"\"\n    Move all files with the given extension from source_dir to dest_dir.\n\n    Args:\n        source_dir (str): Directory to move files from.\n        dest_dir (str): Directory to move files to.\n        extension (str): File extension to match, with or without leading dot.\n\n    Returns:\n        int: The count of files that were moved.\n    \"\"\"\n    os.makedirs(dest_dir, exist_ok=True)\n\n    if extension and not extension.startswith(\".\"):\n        extension = \".\" + extension\n\n    pattern = os.path.join(source_dir, f\"*{extension}\") if extension else os.path.join(source_dir, \"*\")\n    result = 0\n\n    for file_path in glob.glob(pattern):\n        if os.path.isfile(file_path):\n            target_path = os.path.join(dest_dir, os.path.basename(file_path))\n            if os.path.abspath(file_path) == os.path.abspath(target_path):\n                continue\n            shutil.move(file_path, target_path)\n            result += 1\n\n    return result",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/699": [
+      {
+        "task_id": "BigCodeBench/699",
+        "solution": "import pandas as pd\nfrom sklearn.cluster import KMeans\n\ndef task_func(x_list, y_list, n_clusters=2, random_state=0):\n    df = pd.DataFrame({\"x\": x_list, \"y\": y_list})\n    kmeans = KMeans(n_clusters=n_clusters, random_state=random_state, n_init=10)\n    kmeans.fit(df[[\"x\", \"y\"]])\n    return kmeans.labels_, kmeans.cluster_centers_",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/198": [
+      {
+        "task_id": "BigCodeBench/198",
+        "solution": "import numpy as np\nimport bisect\nimport statistics\nimport matplotlib.pyplot as plt\n\ndef task_func(data, value):\n    \"\"\"\n    Analyze numerical data.\n\n    Returns\n    -------\n    numpy.ndarray\n        Values from data that are greater than the average.\n    int\n        Number of values in data that are greater than the given value.\n    \"\"\"\n    # Stage 1: Handle empty input predictably.\n    if data is None:\n        return np.array([]), 0\n\n    arr = np.asarray(data)\n    if arr.size == 0:\n        return np.array([]), 0\n\n    # Flatten in case a non-1D array is supplied.\n    arr = arr.ravel()\n\n    # Stage 2: Compute statistics and build outputs.\n    avg = statistics.mean(arr.tolist())\n    greater_than_avg = arr[arr > avg]\n\n    sorted_vals = sorted(arr.tolist())\n\n    # Count values strictly greater than the given value using bisect.\n    count_greater_than_value = len(sorted_vals) - bisect.bisect_right(sorted_vals, value)\n\n    # Plot histogram of the sorted numbers.\n    plt.figure()\n    plt.hist(sorted_vals, bins=\"auto\", edgecolor=\"black\")\n    plt.title(\"Histogram of Sorted Numbers\")\n    plt.xlabel(\"Value\")\n    plt.ylabel(\"Frequency\")\n    plt.tight_layout()\n\n    # Stage 3: Final consistency check against requirements.\n    return np.asarray(greater_than_avg), int(count_greater_than_value)",
+        "status": "fail",
+        "details": {
+          "test_plotting_mocked": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 1378, in patched\n    return func(*newargs, **newkeywargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__test__.py\", line 85, in test_plotting_mocked\n  File \"/usr/local/lib/python3.11/unittest/mock.py\", line 918, in assert_called_once\n    raise AssertionError(msg)\nAssertionError: Expected 'show' to have been called once. Called 0 times.\n"
+        }
+      }
+    ],
+    "BigCodeBench/279": [
+      {
+        "task_id": "BigCodeBench/279",
+        "solution": "import random\nfrom collections import Counter\n\n# Constants\nCARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']\n\n\ndef task_func(x=1):\n    \"\"\"\n    Draw x random 5-card poker hands from a 52-card deck represented by ranks only.\n\n    Returns:\n        tuple: (hands, counter)\n            hands: list of x hands, each hand is a list of 5 card ranks\n            counter: Counter of all drawn card ranks\n    \"\"\"\n    if not isinstance(x, int):\n        raise TypeError(\"x must be an integer\")\n    if x < 0:\n        raise ValueError(\"x must be non-negative\")\n\n    deck = CARDS * 4  # 52-card deck, suits ignored\n    num_cards = x * 5\n\n    if num_cards > len(deck):\n        raise ValueError(\"Not enough cards in the deck to draw x hands of 5 cards each\")\n\n    drawn_cards = random.sample(deck, k=num_cards)\n    hands = [drawn_cards[i:i + 5] for i in range(0, num_cards, 5)]\n    counts = Counter(drawn_cards)\n\n    return hands, counts",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/1122": [
+      {
+        "task_id": "BigCodeBench/1122",
+        "solution": "import re\nimport socket\nimport urllib.parse\n\n\ndef task_func(myString):\n    url_pattern = re.compile(\n        r'(?i)\\b((?:https?://|ftp://|www\\.)[^\\s<>\"\\'\\]\\[{}|\\\\^`]+|(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}(?:/[^\\s<>\"\\'\\]\\[{}|\\\\^`]*)?)'\n    )\n\n    def clean_url(url):\n        return url.strip().strip(\".,;:!?)]}>\\'\\\"\")\n\n    def extract_domain(url):\n        candidate = url if re.match(r'(?i)^[a-z][a-z0-9+.-]*://', url) else \"http://\" + url\n        parsed = urllib.parse.urlsplit(candidate)\n        host = parsed.hostname\n        if not host:\n            return None\n        return host.rstrip(\".\").lower()\n\n    def resolve_ipv4(domain):\n        try:\n            ascii_domain = domain.encode(\"idna\").decode(\"ascii\")\n            return socket.gethostbyname(ascii_domain)\n        except (socket.gaierror, UnicodeError):\n            return None\n\n    result = {}\n    for match in url_pattern.finditer(myString or \"\"):\n        url = clean_url(match.group(1))\n        domain = extract_domain(url)\n        if not domain:\n            continue\n        if domain not in result:\n            result[domain] = resolve_ipv4(domain)\n    return result",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/34": [
+      {
+        "task_id": "BigCodeBench/34",
+        "solution": "import re\nfrom wordcloud import WordCloud\nimport matplotlib.pyplot as plt\n\n\ndef task_func(text):\n    cleaned_text = re.sub(r\"https?://\\S+|www\\.\\S+\", \" \", text)\n    if not re.search(r\"\\w\", cleaned_text):\n        raise ValueError(\"No words available to generate a word cloud after removing URLs.\")\n\n    wordcloud = WordCloud(width=800, height=400, background_color=\"white\").generate(cleaned_text)\n\n    plt.figure(figsize=(10, 5))\n    plt.imshow(wordcloud, interpolation=\"bilinear\")\n    plt.axis(\"off\")\n    plt.tight_layout()\n    plt.show()\n\n    return wordcloud",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/294": [
+      {
+        "task_id": "BigCodeBench/294",
+        "solution": "import pandas as pd\nfrom sklearn.preprocessing import StandardScaler\n\ndef task_func(df):\n    required_columns = {\"id\", \"age\", \"income\"}\n    if not isinstance(df, pd.DataFrame) or not required_columns.issubset(df.columns):\n        raise ValueError(\"The DataFrame must contain 'id', 'age', and 'income' columns.\")\n\n    result = df.copy()\n    scaler = StandardScaler()\n\n    for _, group in result.groupby(\"id\", sort=False):\n        idx = group.index\n        result.loc[idx, [\"age\", \"income\"]] = scaler.fit_transform(\n            result.loc[idx, [\"age\", \"income\"]].astype(float)\n        )\n\n    return result",
+        "status": "pass",
+        "details": {}
+      }
+    ]
+  }
+}

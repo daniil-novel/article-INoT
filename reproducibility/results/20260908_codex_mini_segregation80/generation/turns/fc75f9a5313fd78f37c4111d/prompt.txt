@@ -1,0 +1,20 @@
+TASK
+Calculate the mean and variance of all elements in a nested list 'L'.
+The function should output with:
+    dict: A dictionary containing the mean and variance.
+You should write self-contained code starting with:
+```
+import numpy as np
+from itertools import chain
+def task_func(L):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+from itertools import chain
+def task_func(L):

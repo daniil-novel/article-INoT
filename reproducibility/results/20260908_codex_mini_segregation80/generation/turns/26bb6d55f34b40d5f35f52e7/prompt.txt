@@ -1,0 +1,24 @@
+TASK
+This function should: - Splits the input data into training (70%) and test (30%) sets. - Constructs a Keras Sequential model with one hidden dense layer and sigmoid activation. The input dimension is determined based on the first feature set of X. - Compiles the model using binary cross-entropy loss and SGD optimizer. - Fits the model to the training data in a non-verbose mode. - Plots the Precision-Recall curve for the model based on the test set data.
+Note that: Notes: The plot's x-axis is labeled 'Recall', and the y-axis is labeled 'Precision'. The title of the axes is set to 'Precision-Recall Curve'. The axes object allows for further customization of the plot outside the function.
+The function should output with:
+    keras.models.Sequential: The trained Keras model.
+    matplotlib.axes._axes.Axes: The matplotlib Axes object for the Precision-Recall curve plot.
+You should write self-contained code starting with:
+```
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_recall_curve
+from tensorflow import keras
+import matplotlib.pyplot as plt
+def task_func(X, Y):
+```
+
+Use three internal checkpoints in this one response.
+STAGE 1: Analyze the requirements and edge cases and form a concise plan. STAGE 2: Implement the requested function using that plan. STAGE 3: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_recall_curve
+from tensorflow import keras
+import matplotlib.pyplot as plt
+def task_func(X, Y):

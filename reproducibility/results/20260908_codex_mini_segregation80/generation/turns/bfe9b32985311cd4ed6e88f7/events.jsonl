@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a08032-e17f-78f2-b0fb-953a1b95b94f"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport os\nimport shutil\nimport glob\n\ndef task_func(source_dir, dest_dir, extension):\n    if not extension.startswith(\".\"):\n        extension = \".\" + extension\n\n    os.makedirs(dest_dir, exist_ok=True)\n\n    count = 0\n    pattern = os.path.join(source_dir, f\"*{extension}\")\n    for path in glob.glob(pattern):\n        if os.path.isfile(path):\n            shutil.move(path, os.path.join(dest_dir, os.path.basename(path)))\n            count += 1\n\n    return count\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2812,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":631,"reasoning_output_tokens":516}}

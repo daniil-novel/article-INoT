@@ -1,0 +1,24 @@
+TASK
+Create a generator object that generates a sequence of tuples. Each tuple contains x, sin(x), and cos(x) values. The function then plots the sine and cosine functions using these values along with the absolute difference between the two functions and returns the plot. Finally, it returns the magnitude of the mean and median of the 1D fft of the absolute difference between the two functions.
+The function should output with:
+    tuple: A tuple containing two items:
+    generator: A generator object producing tuples in the format (x, sin(x), cos(x), abs(sin(x) - cos(x)).
+    ax: An Axes object representing the plot.
+    float: The abs of the mean of the 1D fft of the absolute difference between sin(x) and cos(x).
+    float: The abs of the median of the 1D fft of the absolute difference between sin(x) and cos(x).
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fft import fft
+def task_func(range_start=-10, range_end=10, step=0.1):
+```
+
+Use three internal checkpoints in this one response.
+STAGE 1: Analyze the requirements and edge cases and form a concise plan. STAGE 2: Implement the requested function using that plan. STAGE 3: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fft import fft
+def task_func(range_start=-10, range_end=10, step=0.1):

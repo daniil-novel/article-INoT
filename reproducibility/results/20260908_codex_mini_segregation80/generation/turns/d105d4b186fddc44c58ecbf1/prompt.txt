@@ -1,0 +1,21 @@
+TASK
+Create a random sports ranking and sort it by points in descending order.
+Note that: Each team is assigned a name in the format "Team i" and a corresponding random number of points, where i ranges from 1 to the specified number of teams. The ranking is then sorted in descending order of points and returned as an OrderedDict.
+The function should output with:
+    OrderedDict: Sorted dictionary where keys are team names and values are points.
+You should write self-contained code starting with:
+```
+import collections
+import random
+from queue import PriorityQueue
+def task_func(number_teams=5):
+```
+
+Use three internal checkpoints in this one response.
+PLANNER: Analyze the requirements and edge cases and form a concise plan. IMPLEMENTER: Implement the requested function using that plan. REVIEWER: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import collections
+import random
+from queue import PriorityQueue
+def task_func(number_teams=5):

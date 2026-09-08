@@ -1,0 +1,26 @@
+TASK
+This function appends a given path to sys.path and updates an SQLite database with the path, creating the table if needed and avoiding duplicates.
+The function should output with:
+    str: The path that was appended to sys.path and inserted into the database.
+You should write self-contained code starting with:
+```
+import sys
+import sqlite3
+# Constants
+PATH_TO_APPEND = "path/to/whatever"
+DATABASE = "path/to/database.db"
+def task_func(path_to_append=PATH_TO_APPEND, database=DATABASE):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import sys
+import sqlite3
+# Constants
+PATH_TO_APPEND = "path/to/whatever"
+DATABASE = "path/to/database.db"
+def task_func(path_to_append=PATH_TO_APPEND, database=DATABASE):

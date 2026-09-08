@@ -90,6 +90,28 @@ jobs:
               assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
           print('Published INoT summary and all 199 candidate records replay exactly')
           PY
+      - name: Replay all 320 independent role and layout candidates
+        run: |
+          python -m reproducibility.segregation80.collect collect \
+            --archive reproducibility/results/20260908_codex_mini_segregation80/generation \
+            --inputs reproducibility/segregation80/inputs-v2 \
+            --export-dir reproducibility/results/20260908_codex_mini_segregation80/predictions \
+            --native-dir reproducibility/results/20260908_codex_mini_segregation80/native \
+            --gate-dir reproducibility/results/20260908_codex_mini_segregation80/controls-v4 \
+            --manifest reproducibility/segregation80/generation_manifest.json \
+            --out tmp/ci-segregation80-replay
+          python -m reproducibility.segregation80.analyze \
+            --records tmp/ci-segregation80-replay/candidate_records.jsonl \
+            --selection reproducibility/segregation80/inputs-v2/selection.json \
+            --out tmp/ci-segregation80-replay/summary.json
+          python - <<'PY'
+          from pathlib import Path
+          actual = Path('tmp/ci-segregation80-replay')
+          expected = Path('reproducibility/results/20260908_codex_mini_segregation80/analysis')
+          for name in ('summary.json', 'candidate_records.jsonl'):
+              assert (actual/name).read_bytes() == (expected/name).read_bytes(), name
+          print('All 320 independent candidates and their summary replay exactly')
+          PY
       - name: Recheck the two real SWE patch outcomes
         run: |
           python - <<'PY'

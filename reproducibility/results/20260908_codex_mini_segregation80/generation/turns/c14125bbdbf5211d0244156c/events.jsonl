@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a0803b-6609-7ad0-b476-9fedcde6af61"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport re\nimport os\nimport glob\n\ndef task_func(directory, word):\n    if not os.path.isdir(directory):\n        return 0\n    if word is None or word == \"\":\n        return 0\n\n    pattern = re.compile(re.escape(word))\n    count = 0\n\n    for path in glob.glob(os.path.join(directory, \"*\")):\n        if not os.path.isfile(path):\n            continue\n        try:\n            with open(path, \"r\", encoding=\"utf-8\", errors=\"ignore\") as f:\n                if pattern.search(f.read()) is not None:\n                    count += 1\n        except OSError:\n            continue\n\n    return count\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2816,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":662,"reasoning_output_tokens":516}}

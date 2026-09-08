@@ -1,0 +1,28 @@
+TASK
+Calculate the mean, median, min, max, and standard deviation of the "from_user" values in "result" and add the current date and time in the format YYYY-mm-dd HHL:MM:SS to the summary. The global constant DATE_FORMAT is used to transform the currnet date and time into this format. Data Structures: - Uses numpy arrays for efficient statistical computations.
+The function should raise the exception for: ValueError: If the "from_user" values are not numeric.
+The function should output with:
+    Series: A pandas Series with the statistical summary, including 'mean', 'median', 'min', 'max', 'std', and 'current_time'.
+    If the input contains no "from_user" values all statistical values are set to np.nan
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+from datetime import datetime
+# Constants
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+def task_func(result):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+from datetime import datetime
+# Constants
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+def task_func(result):

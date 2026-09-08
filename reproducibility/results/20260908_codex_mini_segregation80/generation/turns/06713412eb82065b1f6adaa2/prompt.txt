@@ -1,0 +1,25 @@
+TASK
+Downloads an image from the specified URL, converts it to grayscale, and generates a histogram of its grayscale values.
+The function should raise the exception for: ValueError: If the URL is invalid or if there's an error downloading the image. Error message will specify the download issue. IOError: If there's an error in opening or processing the downloaded image. Error message will specify the processing issue.
+The function should output with:
+    matplotlib.axes._axes.Axes: The Axes object of the generated histogram.
+You should write self-contained code starting with:
+```
+import requests
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(url: str) -> "matplotlib.axes._axes.Axes":
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import requests
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(url: str) -> "matplotlib.axes._axes.Axes":

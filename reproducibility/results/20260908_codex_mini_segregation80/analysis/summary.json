@@ -1,0 +1,233 @@
+{
+  "schema": "segregation80-analysis-v1",
+  "assigned_tasks": 80,
+  "assigned_candidates": 320,
+  "primary_family_size": 2,
+  "familywise_alpha": 0.05,
+  "by_arm": [
+    {
+      "arm": "role_boundary",
+      "assigned": 80,
+      "generation_complete": 80,
+      "quality_observed": 79,
+      "passes": 44,
+      "pass_rate": 0.5569620253164557,
+      "assigned_rate_bounds": [
+        0.55,
+        0.5625
+      ],
+      "mean_total_tokens": 4414.675,
+      "mean_api_equivalent_usd": 0.007244019375000001,
+      "mean_uncached_sensitivity_usd": 0.008937459375
+    },
+    {
+      "arm": "neutral_boundary",
+      "assigned": 80,
+      "generation_complete": 80,
+      "quality_observed": 79,
+      "passes": 44,
+      "pass_rate": 0.5569620253164557,
+      "assigned_rate_bounds": [
+        0.55,
+        0.5625
+      ],
+      "mean_total_tokens": 4430.8375,
+      "mean_api_equivalent_usd": 0.007319600625,
+      "mean_uncached_sensitivity_usd": 0.008991440625
+    },
+    {
+      "arm": "role_prose",
+      "assigned": 80,
+      "generation_complete": 80,
+      "quality_observed": 79,
+      "passes": 42,
+      "pass_rate": 0.5316455696202531,
+      "assigned_rate_bounds": [
+        0.525,
+        0.5375
+      ],
+      "mean_total_tokens": 4330.6125,
+      "mean_api_equivalent_usd": 0.006880738124999999,
+      "mean_uncached_sensitivity_usd": 0.008574178125
+    },
+    {
+      "arm": "neutral_prose",
+      "assigned": 80,
+      "generation_complete": 80,
+      "quality_observed": 79,
+      "passes": 43,
+      "pass_rate": 0.5443037974683544,
+      "assigned_rate_bounds": [
+        0.5375,
+        0.55
+      ],
+      "mean_total_tokens": 4331.45,
+      "mean_api_equivalent_usd": 0.006883606875000001,
+      "mean_uncached_sensitivity_usd": 0.008555446875
+    }
+  ],
+  "contrasts": {
+    "role_boundary_minus_neutral_boundary": {
+      "quality_pairs": 79,
+      "wins": 3,
+      "losses": 3,
+      "quality_difference": 0.0,
+      "quality_bootstrap_95": [
+        -0.06329113924050633,
+        0.06329113924050633
+      ],
+      "exact_two_sided_mcnemar_p": 1.0,
+      "total_tokens": {
+        "pairs": 80,
+        "mean_difference": -16.1625,
+        "descriptive_bootstrap_95": [
+          -244.77562500000002,
+          193.90156249999998
+        ],
+        "ratio_of_means": 0.9963522697458438
+      },
+      "api_equivalent_usd": {
+        "pairs": 80,
+        "mean_difference": -7.558124999999988e-05,
+        "descriptive_bootstrap_95": [
+          -0.0011090009062499995,
+          0.0008681550937499995
+        ],
+        "ratio_of_means": 0.989674129249368
+      },
+      "uncached_sensitivity_usd": {
+        "pairs": 80,
+        "mean_difference": -5.398125000000012e-05,
+        "descriptive_bootstrap_95": [
+          -0.0010827403125000003,
+          0.0008913070312499999
+        ],
+        "ratio_of_means": 0.9939963736345085
+      },
+      "holm_p": 1
+    },
+    "role_prose_minus_neutral_prose": {
+      "quality_pairs": 79,
+      "wins": 5,
+      "losses": 6,
+      "quality_difference": -0.012658227848101266,
+      "quality_bootstrap_95": [
+        -0.10126582278481013,
+        0.06329113924050633
+      ],
+      "exact_two_sided_mcnemar_p": 1.0,
+      "total_tokens": {
+        "pairs": 80,
+        "mean_difference": -0.8375,
+        "descriptive_bootstrap_95": [
+          -253.454375,
+          265.0431249999999
+        ],
+        "ratio_of_means": 0.9998066467349271
+      },
+      "api_equivalent_usd": {
+        "pairs": 80,
+        "mean_difference": -2.8687500000000066e-06,
+        "descriptive_bootstrap_95": [
+          -0.0011390911875000002,
+          0.0011925658124999985
+        ],
+        "ratio_of_means": 0.999583249007084
+      },
+      "uncached_sensitivity_usd": {
+        "pairs": 80,
+        "mean_difference": 1.8731250000000042e-05,
+        "descriptive_bootstrap_95": [
+          -0.0011180446875000002,
+          0.0012151940624999997
+        ],
+        "ratio_of_means": 1.0021893946948275
+      },
+      "holm_p": 1
+    },
+    "boundary_minus_prose_role": {
+      "quality_pairs": 79,
+      "wins": 5,
+      "losses": 3,
+      "quality_difference": 0.02531645569620253,
+      "quality_bootstrap_95": [
+        -0.05063291139240506,
+        0.10126582278481013
+      ],
+      "total_tokens": {
+        "pairs": 80,
+        "mean_difference": 84.0625,
+        "descriptive_bootstrap_95": [
+          -167.51343749999998,
+          313.1875
+        ],
+        "ratio_of_means": 1.0194112264720059
+      },
+      "api_equivalent_usd": {
+        "pairs": 80,
+        "mean_difference": 0.0003632812500000002,
+        "descriptive_bootstrap_95": [
+          -0.0007650577499999999,
+          0.0014037689999999998
+        ],
+        "ratio_of_means": 1.0527968429259191
+      },
+      "uncached_sensitivity_usd": {
+        "pairs": 80,
+        "mean_difference": 0.00036328125,
+        "descriptive_bootstrap_95": [
+          -0.0007688104687500001,
+          0.00139434375
+        ],
+        "ratio_of_means": 1.0423692212482463
+      }
+    },
+    "boundary_minus_prose_neutral": {
+      "quality_pairs": 79,
+      "wins": 5,
+      "losses": 4,
+      "quality_difference": 0.012658227848101266,
+      "quality_bootstrap_95": [
+        -0.06329113924050633,
+        0.08860759493670886
+      ],
+      "total_tokens": {
+        "pairs": 80,
+        "mean_difference": 99.3875,
+        "descriptive_bootstrap_95": [
+          -129.863125,
+          341.2378125
+        ],
+        "ratio_of_means": 1.0229455494118598
+      },
+      "api_equivalent_usd": {
+        "pairs": 80,
+        "mean_difference": 0.00043599375,
+        "descriptive_bootstrap_95": [
+          -0.00058283128125,
+          0.0015181784999999993
+        ],
+        "ratio_of_means": 1.0633379793351438
+      },
+      "uncached_sensitivity_usd": {
+        "pairs": 80,
+        "mean_difference": 0.0004359937499999999,
+        "descriptive_bootstrap_95": [
+          -0.0005956340625000003,
+          0.0015243201562500001
+        ],
+        "ratio_of_means": 1.0509609557946094
+      }
+    }
+  },
+  "quality_interaction": {
+    "pairs": 79,
+    "mean": 0.012658227848101266,
+    "descriptive_bootstrap_95": [
+      -0.10126582278481013,
+      0.12658227848101267
+    ]
+  },
+  "noninferiority": "not assessed; no justified margin",
+  "money_advantage": "descriptive paired valuation only; no joint quality-cost claim"
+}

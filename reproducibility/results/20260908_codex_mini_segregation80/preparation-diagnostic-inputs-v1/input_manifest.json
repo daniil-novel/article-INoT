@@ -1,0 +1,48 @@
+{
+  "schema": "segregation80-input-manifest-v1",
+  "selection_sha256": "ee95af10ad0c979f498730645f13154135cea0964dc5c5973e9685b2fdb844d9",
+  "model_arms": [
+    "role_boundary",
+    "neutral_boundary",
+    "role_prose",
+    "neutral_prose"
+  ],
+  "model_rows_per_arm": 80,
+  "model_input_fields": [
+    "task_id",
+    "prompt",
+    "context",
+    "benchmark",
+    "metadata"
+  ],
+  "forbidden_model_fields": [
+    "test",
+    "canonical_solution",
+    "complete_prompt",
+    "gold",
+    "reference"
+  ],
+  "model_input_sha256": {
+    "role_boundary": "6cfcc2677162f7bac19d7c473d595c5dce6c33cd52ad3820736cb8844f8c3543",
+    "neutral_boundary": "7ad183a739ea90b0062ae15941cc2e3e473d0dc539b4a8d17346e2168601af07",
+    "role_prose": "0cbba459900683fa742a9db73c97942905f9c073499e6e50aaf6d91f0e9652d4",
+    "neutral_prose": "9207bc73af84ebd992fb1dd99bf2e83cabfb0522df7162e871fd4e85a73ef81b"
+  },
+  "evaluator_files": {
+    "evaluator_dataset.jsonl": {
+      "path": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\reproducibility\\segregation80\\inputs-v1\\evaluator\\evaluator_dataset.jsonl",
+      "sha256": "5d0791a58bc9e6a6362e846c3d0060bee53d23d9389ff55fe3751701982fac0e"
+    },
+    "gold.jsonl": {
+      "path": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\reproducibility\\segregation80\\inputs-v1\\evaluator\\gold.jsonl",
+      "sha256": "8867a5454de3ffd3d04d63dd73efdf68ce3ae22f720650852878b078cc21e0c3"
+    },
+    "incorrect.jsonl": {
+      "path": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\reproducibility\\segregation80\\inputs-v1\\evaluator\\incorrect.jsonl",
+      "sha256": "8c0f612e9e43177f9ee2277b59b6fcd6428a82139c6a4194b6c5f4dbabac2837"
+    }
+  },
+  "preparer_sha256": "a14928b1c5f53f08a52c316701084488d17156be4520acc5c166db6988774cf4",
+  "bridge_sha256": "bf96f1df47d11dd0a697cab9c4fc94c492630eef923af4cc9008a5fb3251e92f",
+  "no_generation": true
+}

@@ -1,0 +1,20 @@
+TASK
+Decode a hexadecimal string from the 'q' query parameter of a URL. This function extracts the 'q' query parameter from the given URL, assumes it is a hexadecimal string, and decodes it into a UTF-8 string. If the hexadecimal string is invalid or cannot be decoded into a valid UTF-8 string, None is returned.
+The function should output with:
+    str or None: The decoded string if the 'q' parameter exists and is a valid hexadecimal, otherwise None.
+You should write self-contained code starting with:
+```
+import binascii
+import urllib.parse
+def task_func(url):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import binascii
+import urllib.parse
+def task_func(url):

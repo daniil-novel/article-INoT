@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a08017-5f68-73d0-96b6-ecba11ed6418"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport re\nimport string\nfrom nltk.stem import PorterStemmer\nfrom collections import Counter\n\nSTEMMER = PorterStemmer()\n\ndef task_func(content):\n    if not content:\n        return {}\n\n    # Extract word-like tokens and ignore surrounding punctuation.\n    words = re.findall(r\"[A-Za-z]+(?:'[A-Za-z]+)?\", str(content))\n    if len(words) <= 1:\n        return {}\n\n    # Stem every word except the last one.\n    stems = (STEMMER.stem(word.lower()) for word in words[:-1])\n\n    return dict(Counter(stems))\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2857,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":504,"reasoning_output_tokens":371}}

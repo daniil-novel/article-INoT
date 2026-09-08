@@ -1,0 +1,24 @@
+TASK
+Analyzes a list of numerical data, identifies values greater than the average, and counts how many values are greater than a specified value. Additionally, plots the histogram of the sorted numbers.
+Note that: If the data list is empty, the function returns an empty numpy.ndarray and a count of 0. This ensures the function's output remains consistent and predictable even with no input data.
+The function should output with:
+    numpy.ndarray: An array of values from the data that are greater than the average.
+    int: The number of values in the data that are greater than the given value.
+You should write self-contained code starting with:
+```
+import numpy as np
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(data, value):
+```
+
+Use three internal checkpoints in this one response.
+STAGE 1: Analyze the requirements and edge cases and form a concise plan. STAGE 2: Implement the requested function using that plan. STAGE 3: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+import bisect
+import statistics
+import matplotlib.pyplot as plt
+def task_func(data, value):

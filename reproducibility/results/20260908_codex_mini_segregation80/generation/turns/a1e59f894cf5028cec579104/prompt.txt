@@ -1,0 +1,20 @@
+TASK
+Encrypt a string with a password, then write the encrypted string to a file. If the file or directory does not exist, create it.
+The function should output with:
+    str: The encrypted string.
+You should write self-contained code starting with:
+```
+import hashlib
+import base64
+def task_func(filename, data, password):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import hashlib
+import base64
+def task_func(filename, data, password):

@@ -1,0 +1,20 @@
+TASK
+Reverse the order of words in all the filenames of a directory, where words are separated by periods.
+The function should output with:
+    new_filenames (list[str]): A list of new filenames after renaming.
+You should write self-contained code starting with:
+```
+import os
+import glob
+def task_func(directory_path):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import os
+import glob
+def task_func(directory_path):

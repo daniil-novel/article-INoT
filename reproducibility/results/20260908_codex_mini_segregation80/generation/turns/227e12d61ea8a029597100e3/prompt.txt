@@ -1,0 +1,26 @@
+TASK
+Draw x random 5-card poker hands from a 52-card pack (without suits) and return the hands along with a counter of the drawn cards. The output is random; hence, the returned list will vary with each call.
+The function should output with:
+    tuple: A tuple containing two elements:
+    list of list str: Each inner list contains 5 strings, representing a 5-card poker hand.
+    Counter: A counter of the drawn cards.
+You should write self-contained code starting with:
+```
+import random
+from collections import Counter
+# Constants
+CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+def task_func(x=1):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import random
+from collections import Counter
+# Constants
+CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+def task_func(x=1):

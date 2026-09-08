@@ -1,0 +1,229 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 282B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/bcb-heldout200:v3
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 209B done
+#4 DONE 0.0s
+
+#5 [1/3] FROM docker.io/library/bcb-heldout200:v3
+#5 DONE 0.0s
+
+#6 [2/3] COPY requirements.txt /tmp/segregation80-requirements.txt
+#6 DONE 0.9s
+
+#7 [3/3] RUN python -m pip install --no-cache-dir --disable-pip-version-check -r /tmp/segregation80-requirements.txt
+#7 1.526 Requirement already satisfied: numpy==1.26.4 in /usr/local/lib/python3.11/site-packages (from -r /tmp/segregation80-requirements.txt (line 1)) (1.26.4)
+#7 1.693 Collecting folium==0.16.0 (from -r /tmp/segregation80-requirements.txt (line 2))
+#7 1.867   Downloading folium-0.16.0-py2.py3-none-any.whl.metadata (3.6 kB)
+#7 2.070 Collecting pycryptodome==3.14.1 (from -r /tmp/segregation80-requirements.txt (line 3))
+#7 2.100   Downloading pycryptodome-3.14.1-cp35-abi3-manylinux2010_x86_64.whl.metadata (3.2 kB)
+#7 2.292 Collecting pyfakefs==5.4.1 (from -r /tmp/segregation80-requirements.txt (line 4))
+#7 2.322   Downloading pyfakefs-5.4.1-py3-none-any.whl.metadata (7.7 kB)
+#7 2.374 Collecting sympy==1.12 (from -r /tmp/segregation80-requirements.txt (line 5))
+#7 2.405   Downloading sympy-1.12-py3-none-any.whl.metadata (12 kB)
+#7 2.520 Collecting tensorflow-cpu==2.15.1 (from -r /tmp/segregation80-requirements.txt (line 6))
+#7 2.552   Downloading tensorflow_cpu-2.15.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+#7 2.594 Collecting texttable==1.7.0 (from -r /tmp/segregation80-requirements.txt (line 7))
+#7 2.628   Downloading texttable-1.7.0-py2.py3-none-any.whl.metadata (9.8 kB)
+#7 2.787 Collecting wikipedia==1.4.0 (from -r /tmp/segregation80-requirements.txt (line 8))
+#7 2.817   Downloading wikipedia-1.4.0.tar.gz (27 kB)
+#7 2.847   Preparing metadata (setup.py): started
+#7 3.599   Preparing metadata (setup.py): finished with status 'done'
+#7 3.671 Collecting wordcloud==1.9.3 (from -r /tmp/segregation80-requirements.txt (line 9))
+#7 3.814   Downloading wordcloud-1.9.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.4 kB)
+#7 3.856 Collecting xlwt==1.3.0 (from -r /tmp/segregation80-requirements.txt (line 10))
+#7 3.891   Downloading xlwt-1.3.0-py2.py3-none-any.whl.metadata (3.5 kB)
+#7 3.968 Collecting branca>=0.6.0 (from folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2))
+#7 4.004   Downloading branca-0.8.2-py3-none-any.whl.metadata (1.7 kB)
+#7 4.052 Collecting jinja2>=2.9 (from folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2))
+#7 4.082   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#7 4.089 Requirement already satisfied: requests in /usr/local/lib/python3.11/site-packages (from folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2)) (2.34.2)
+#7 4.133 Collecting xyzservices (from folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2))
+#7 4.162   Downloading xyzservices-2026.9.1-py3-none-any.whl.metadata (4.1 kB)
+#7 4.212 Collecting mpmath>=0.19 (from sympy==1.12->-r /tmp/segregation80-requirements.txt (line 5))
+#7 4.242   Downloading mpmath-1.4.1-py3-none-any.whl.metadata (9.1 kB)
+#7 4.324 Collecting absl-py>=1.0.0 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 4.359   Downloading absl_py-2.5.0-py3-none-any.whl.metadata (3.3 kB)
+#7 4.407 Collecting astunparse>=1.6.0 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 4.437   Downloading astunparse-1.6.3-py2.py3-none-any.whl.metadata (4.4 kB)
+#7 4.501 Collecting flatbuffers>=23.5.26 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 4.532   Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+#7 4.578 Collecting gast!=0.5.0,!=0.5.1,!=0.5.2,>=0.2.1 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 4.609   Downloading gast-0.7.0-py3-none-any.whl.metadata (1.5 kB)
+#7 4.655 Collecting google-pasta>=0.1.1 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 4.685   Downloading google_pasta-0.2.0-py3-none-any.whl.metadata (814 bytes)
+#7 4.778 Collecting h5py>=2.9.0 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 4.810   Downloading h5py-3.16.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+#7 4.876 Collecting libclang>=13.0.0 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 4.907   Downloading libclang-18.1.1-py2.py3-none-manylinux2010_x86_64.whl.metadata (5.2 kB)
+#7 4.970 Collecting ml-dtypes~=0.3.1 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 5.001   Downloading ml_dtypes-0.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+#7 5.058 Collecting opt-einsum>=2.3.2 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 5.091   Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+#7 5.096 Requirement already satisfied: packaging in /usr/local/lib/python3.11/site-packages (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6)) (26.3)
+#7 5.396 Collecting protobuf!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.20.3 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 5.425   Downloading protobuf-4.25.9-cp37-abi3-manylinux2014_x86_64.whl.metadata (541 bytes)
+#7 5.428 Requirement already satisfied: setuptools in /usr/local/lib/python3.11/site-packages (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6)) (79.0.1)
+#7 5.429 Requirement already satisfied: six>=1.12.0 in /usr/local/lib/python3.11/site-packages (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6)) (1.17.0)
+#7 5.431 Requirement already satisfied: termcolor>=1.1.0 in /usr/local/lib/python3.11/site-packages (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6)) (2.5.0)
+#7 5.433 Requirement already satisfied: typing-extensions>=3.6.6 in /usr/local/lib/python3.11/site-packages (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6)) (4.16.0)
+#7 5.897 Collecting wrapt<1.15,>=1.11.0 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 5.927   Downloading wrapt-1.14.2-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.5 kB)
+#7 5.988 Collecting tensorflow-io-gcs-filesystem>=0.23.1 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 6.019   Downloading tensorflow_io_gcs_filesystem-0.37.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
+#7 6.685 Collecting grpcio<2.0,>=1.24.3 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 6.716   Downloading grpcio-1.83.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.7 kB)
+#7 6.803 Collecting tensorboard<2.16,>=2.15 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 6.841   Downloading tensorboard-2.15.2-py3-none-any.whl.metadata (1.7 kB)
+#7 6.882 Collecting tensorflow-estimator<2.16,>=2.15.0 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 6.912   Downloading tensorflow_estimator-2.15.0-py2.py3-none-any.whl.metadata (1.3 kB)
+#7 6.996 Collecting keras<2.16,>=2.15.0 (from tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 7.026   Downloading keras-2.15.0-py3-none-any.whl.metadata (2.4 kB)
+#7 7.034 Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.11/site-packages (from wikipedia==1.4.0->-r /tmp/segregation80-requirements.txt (line 8)) (4.12.3)
+#7 7.041 Requirement already satisfied: pillow in /usr/local/lib/python3.11/site-packages (from wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (12.3.0)
+#7 7.043 Requirement already satisfied: matplotlib in /usr/local/lib/python3.11/site-packages (from wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (3.9.2)
+#7 7.051 Requirement already satisfied: wheel<1.0,>=0.23.0 in /usr/local/lib/python3.11/site-packages (from astunparse>=1.6.0->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6)) (0.46.3)
+#7 7.232 Collecting MarkupSafe>=2.0 (from jinja2>=2.9->folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2))
+#7 7.261   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+#7 7.315 Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.11/site-packages (from requests->folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2)) (3.5.1)
+#7 7.316 Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.11/site-packages (from requests->folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2)) (3.19)
+#7 7.318 Requirement already satisfied: urllib3<3,>=1.26 in /usr/local/lib/python3.11/site-packages (from requests->folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2)) (2.7.0)
+#7 7.320 Requirement already satisfied: certifi>=2023.5.7 in /usr/local/lib/python3.11/site-packages (from requests->folium==0.16.0->-r /tmp/segregation80-requirements.txt (line 2)) (2026.7.22)
+#7 7.471 Collecting google-auth<3,>=1.6.3 (from tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 7.500   Downloading google_auth-2.57.1-py3-none-any.whl.metadata (6.0 kB)
+#7 7.548 Collecting google-auth-oauthlib<2,>=0.5 (from tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 7.577   Downloading google_auth_oauthlib-1.4.1-py3-none-any.whl.metadata (2.6 kB)
+#7 7.628 Collecting markdown>=2.6.8 (from tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 7.659   Downloading markdown-3.10.3-py3-none-any.whl.metadata (5.1 kB)
+#7 7.751 Collecting tensorboard-data-server<0.8.0,>=0.7.0 (from tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 7.781   Downloading tensorboard_data_server-0.7.2-py3-none-manylinux_2_31_x86_64.whl.metadata (1.1 kB)
+#7 7.844 Collecting werkzeug>=1.0.1 (from tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 7.873   Downloading werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+#7 7.953 Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.11/site-packages (from beautifulsoup4->wikipedia==1.4.0->-r /tmp/segregation80-requirements.txt (line 8)) (2.9.2)
+#7 7.977 Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.11/site-packages (from matplotlib->wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (1.3.3)
+#7 7.979 Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.11/site-packages (from matplotlib->wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (0.12.1)
+#7 7.984 Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.11/site-packages (from matplotlib->wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (4.64.0)
+#7 7.987 Requirement already satisfied: kiwisolver>=1.3.1 in /usr/local/lib/python3.11/site-packages (from matplotlib->wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (1.5.1)
+#7 7.992 Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.11/site-packages (from matplotlib->wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (3.3.2)
+#7 7.994 Requirement already satisfied: python-dateutil>=2.7 in /usr/local/lib/python3.11/site-packages (from matplotlib->wordcloud==1.9.3->-r /tmp/segregation80-requirements.txt (line 9)) (2.9.0.post0)
+#7 8.194 Collecting pyasn1-modules>=0.2.1 (from google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 8.225   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+#7 8.635 Collecting cryptography>=38.0.3 (from google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 8.665   Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+#7 8.800 Collecting requests-oauthlib>=0.7.0 (from google-auth-oauthlib<2,>=0.5->tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 8.830   Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl.metadata (11 kB)
+#7 9.169 Collecting cffi>=2.0.0 (from cryptography>=38.0.3->google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 9.209   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+#7 9.220 Requirement already satisfied: pyasn1<0.7.0,>=0.6.1 in /usr/local/lib/python3.11/site-packages (from pyasn1-modules>=0.2.1->google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6)) (0.6.4)
+#7 9.272 Collecting oauthlib>=3.0.0 (from requests-oauthlib>=0.7.0->google-auth-oauthlib<2,>=0.5->tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 9.304   Downloading oauthlib-3.3.1-py3-none-any.whl.metadata (7.9 kB)
+#7 9.368 Collecting pycparser (from cffi>=2.0.0->cryptography>=38.0.3->google-auth<3,>=1.6.3->tensorboard<2.16,>=2.15->tensorflow-cpu==2.15.1->-r /tmp/segregation80-requirements.txt (line 6))
+#7 9.403   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+#7 9.942 Downloading folium-0.16.0-py2.py3-none-any.whl (100 kB)
+#7 9.989    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0/100.0 kB 2.3 MB/s eta 0:00:00
+#7 10.02 Downloading pycryptodome-3.14.1-cp35-abi3-manylinux2010_x86_64.whl (2.0 MB)
+#7 10.16    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 13.9 MB/s eta 0:00:00
+#7 10.19 Downloading pyfakefs-5.4.1-py3-none-any.whl (216 kB)
+#7 10.20    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.3/216.3 kB 34.2 MB/s eta 0:00:00
+#7 10.24 Downloading sympy-1.12-py3-none-any.whl (5.7 MB)
+#7 10.39    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.7/5.7 MB 39.9 MB/s eta 0:00:00
+#7 10.44 Downloading tensorflow_cpu-2.15.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (207.2 MB)
+#7 16.34    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 207.2/207.2 MB 35.7 MB/s eta 0:00:00
+#7 16.38 Downloading texttable-1.7.0-py2.py3-none-any.whl (10 kB)
+#7 16.53 Downloading wordcloud-1.9.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (548 kB)
+#7 16.58    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 548.3/548.3 kB 15.9 MB/s eta 0:00:00
+#7 16.61 Downloading xlwt-1.3.0-py2.py3-none-any.whl (99 kB)
+#7 16.61    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0/100.0 kB 65.3 MB/s eta 0:00:00
+#7 16.65 Downloading absl_py-2.5.0-py3-none-any.whl (137 kB)
+#7 16.65    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.4/137.4 kB 29.5 MB/s eta 0:00:00
+#7 16.69 Downloading astunparse-1.6.3-py2.py3-none-any.whl (12 kB)
+#7 16.72 Downloading branca-0.8.2-py3-none-any.whl (26 kB)
+#7 16.75 Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+#7 16.78 Downloading gast-0.7.0-py3-none-any.whl (22 kB)
+#7 16.81 Downloading google_pasta-0.2.0-py3-none-any.whl (57 kB)
+#7 16.82    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.5/57.5 kB 34.6 MB/s eta 0:00:00
+#7 16.85 Downloading grpcio-1.83.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (7.1 MB)
+#7 17.04    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 38.1 MB/s eta 0:00:00
+#7 17.07 Downloading h5py-3.16.0-cp311-cp311-manylinux_2_28_x86_64.whl (5.0 MB)
+#7 17.21    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.0/5.0 MB 36.9 MB/s eta 0:00:00
+#7 17.24 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#7 17.25    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 49.3 MB/s eta 0:00:00
+#7 17.28 Downloading keras-2.15.0-py3-none-any.whl (1.7 MB)
+#7 17.34    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 26.9 MB/s eta 0:00:00
+#7 17.38 Downloading libclang-18.1.1-py2.py3-none-manylinux2010_x86_64.whl (24.5 MB)
+#7 18.13    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24.5/24.5 MB 34.6 MB/s eta 0:00:00
+#7 18.16 Downloading ml_dtypes-0.3.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#7 18.22    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 36.3 MB/s eta 0:00:00
+#7 18.25 Downloading mpmath-1.4.1-py3-none-any.whl (567 kB)
+#7 18.27    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 567.8/567.8 kB 32.9 MB/s eta 0:00:00
+#7 18.30 Downloading opt_einsum-3.4.0-py3-none-any.whl (71 kB)
+#7 18.31    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.9/71.9 kB 33.1 MB/s eta 0:00:00
+#7 18.34 Downloading protobuf-4.25.9-cp37-abi3-manylinux2014_x86_64.whl (295 kB)
+#7 18.35    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 295.2/295.2 kB 41.4 MB/s eta 0:00:00
+#7 18.39 Downloading tensorboard-2.15.2-py3-none-any.whl (5.5 MB)
+#7 18.56    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.5/5.5 MB 32.4 MB/s eta 0:00:00
+#7 18.59 Downloading tensorflow_estimator-2.15.0-py2.py3-none-any.whl (441 kB)
+#7 18.61    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 442.0/442.0 kB 32.2 MB/s eta 0:00:00
+#7 18.64 Downloading tensorflow_io_gcs_filesystem-0.37.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.1 MB)
+#7 18.77    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.1/5.1 MB 39.3 MB/s eta 0:00:00
+#7 18.81 Downloading wrapt-1.14.2-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (77 kB)
+#7 18.81    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 77.4/77.4 kB 134.8 MB/s eta 0:00:00
+#7 18.85 Downloading xyzservices-2026.9.1-py3-none-any.whl (98 kB)
+#7 18.86    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 98.8/98.8 kB 9.3 MB/s eta 0:00:00
+#7 18.90 Downloading google_auth-2.57.1-py3-none-any.whl (259 kB)
+#7 18.90    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 260.0/260.0 kB 38.6 MB/s eta 0:00:00
+#7 18.94 Downloading google_auth_oauthlib-1.4.1-py3-none-any.whl (19 kB)
+#7 18.98 Downloading markdown-3.10.3-py3-none-any.whl (110 kB)
+#7 18.98    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 110.8/110.8 kB 69.5 MB/s eta 0:00:00
+#7 19.01 Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+#7 19.05 Downloading tensorboard_data_server-0.7.2-py3-none-manylinux_2_31_x86_64.whl (6.6 MB)
+#7 19.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 37.6 MB/s eta 0:00:00
+#7 19.26 Downloading werkzeug-3.1.8-py3-none-any.whl (226 kB)
+#7 19.27    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 226.5/226.5 kB 251.8 MB/s eta 0:00:00
+#7 19.30 Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+#7 19.42    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 42.1 MB/s eta 0:00:00
+#7 19.45 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+#7 19.46    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 181.3/181.3 kB 29.0 MB/s eta 0:00:00
+#7 19.50 Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl (24 kB)
+#7 19.54 Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+#7 19.55    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 217.8/217.8 kB 37.5 MB/s eta 0:00:00
+#7 19.58 Downloading oauthlib-3.3.1-py3-none-any.whl (160 kB)
+#7 19.59    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 160.1/160.1 kB 32.1 MB/s eta 0:00:00
+#7 19.62 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+#7 19.63    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 141.6 MB/s eta 0:00:00
+#7 21.03 Building wheels for collected packages: wikipedia
+#7 21.03   Building wheel for wikipedia (setup.py): started
+#7 23.35   Building wheel for wikipedia (setup.py): finished with status 'done'
+#7 23.35   Created wheel for wikipedia: filename=wikipedia-1.4.0-py3-none-any.whl size=11758 sha256=f06b84e151718eb5df4342dcbd8ff1620386c914ef362ecf57a6eebc8e752c9a
+#7 23.35   Stored in directory: /tmp/pip-ephem-wheel-cache-6djdcdqz/wheels/8f/ab/cb/45ccc40522d3a1c41e1d2ad53b8f33a62f394011ec38cd71c6
+#7 23.35 Successfully built wikipedia
+#7 24.48 Installing collected packages: xlwt, texttable, libclang, flatbuffers, xyzservices, wrapt, tensorflow-io-gcs-filesystem, tensorflow-estimator, tensorboard-data-server, pyfakefs, pycryptodome, pycparser, pyasn1-modules, protobuf, opt-einsum, oauthlib, mpmath, ml-dtypes, MarkupSafe, markdown, keras, h5py, grpcio, google-pasta, gast, absl-py, wikipedia, werkzeug, sympy, requests-oauthlib, jinja2, cffi, astunparse, wordcloud, cryptography, branca, google-auth, folium, google-auth-oauthlib, tensorboard, tensorflow-cpu
+#7 29.87   Attempting uninstall: protobuf
+#7 29.90     Found existing installation: protobuf 5.29.6
+#7 29.92     Uninstalling protobuf-5.29.6:
+#7 29.98       Successfully uninstalled protobuf-5.29.6
+#7 47.49 ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+#7 47.49 e2b 1.4.0 requires protobuf<6.0.0,>=5.29.4, but you have protobuf 4.25.9 which is incompatible.
+#7 47.49 Successfully installed MarkupSafe-3.0.3 absl-py-2.5.0 astunparse-1.6.3 branca-0.8.2 cffi-2.1.1 cryptography-50.0.1 flatbuffers-25.12.19 folium-0.16.0 gast-0.7.0 google-auth-2.57.1 google-auth-oauthlib-1.4.1 google-pasta-0.2.0 grpcio-1.83.1 h5py-3.16.0 jinja2-3.1.6 keras-2.15.0 libclang-18.1.1 markdown-3.10.3 ml-dtypes-0.3.2 mpmath-1.4.1 oauthlib-3.3.1 opt-einsum-3.4.0 protobuf-4.25.9 pyasn1-modules-0.4.2 pycparser-3.0 pycryptodome-3.14.1 pyfakefs-5.4.1 requests-oauthlib-2.0.0 sympy-1.12 tensorboard-2.15.2 tensorboard-data-server-0.7.2 tensorflow-cpu-2.15.1 tensorflow-estimator-2.15.0 tensorflow-io-gcs-filesystem-0.37.1 texttable-1.7.0 werkzeug-3.1.8 wikipedia-1.4.0 wordcloud-1.9.3 wrapt-1.14.2 xlwt-1.3.0 xyzservices-2026.9.1
+#7 47.49 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#7 DONE 50.0s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 5.8s done
+#8 writing image sha256:8f1ed3f958ffee903aebb39e26535ff425de988bb79ec97f3b5752465ad61592
+#8 writing image sha256:8f1ed3f958ffee903aebb39e26535ff425de988bb79ec97f3b5752465ad61592 done
+#8 naming to docker.io/library/bcb-segregation80:v1 done
+#8 DONE 5.9s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/6msnhrqo75j7q806tails7162

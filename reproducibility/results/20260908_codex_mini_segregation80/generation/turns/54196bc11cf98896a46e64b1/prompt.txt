@@ -1,0 +1,20 @@
+TASK
+Filter the prime numbers from the specified list, sort the prime numbers ascending based on their radian value converted to degrees, and return the sorted list. The function uses the isprime function from the sympy library to determine prime numbers and the degrees function from the math library to sort the numbers based on their degree value. >>> task_func([101, 102, 103, 104]) [101, 103]
+The function should output with:
+    list[int]: A sorted list of prime numbers based on their degree value.
+You should write self-contained code starting with:
+```
+import math
+from sympy import isprime
+def task_func(input_list):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import math
+from sympy import isprime
+def task_func(input_list):

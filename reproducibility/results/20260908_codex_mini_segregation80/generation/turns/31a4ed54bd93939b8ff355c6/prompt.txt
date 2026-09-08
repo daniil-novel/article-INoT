@@ -1,0 +1,23 @@
+TASK
+Generates a summary table of all ascendingly sorted CSV files in a specified directory using Texttable. If an empty CSV file is encountered, a pandas.errors.EmptyDataError is raised.
+The function should raise the exception for: FileNotFoundError: If the specified directory does not exist. ValueError: If there are no CSV files in the specified directory. pandas.errors.EmptyDataError: If an empty CSV file is encountered.
+The function should output with:
+    str: A string representation of the table summarizing the CSV files. Each row contains the file name, number of rows, and number of columns.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from texttable import Texttable
+import os
+import glob
+def task_func(data_dir='./data/'):
+```
+
+Use three internal checkpoints in this one response.
+STAGE 1: Analyze the requirements and edge cases and form a concise plan. STAGE 2: Implement the requested function using that plan. STAGE 3: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from texttable import Texttable
+import os
+import glob
+def task_func(data_dir='./data/'):

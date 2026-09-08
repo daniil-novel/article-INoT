@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/reproducibility/vendor/bigcodebench/bigcodebench/evaluate.py", line 15, in <module>
+    from e2b import Sandbox
+  File "/usr/local/lib/python3.11/site-packages/e2b/__init__.py", line 55, in <module>
+    from .sandbox.filesystem.watch_handle import (
+  File "/usr/local/lib/python3.11/site-packages/e2b/sandbox/filesystem/watch_handle.py", line 4, in <module>
+    from e2b.envd.filesystem.filesystem_pb2 import EventType
+  File "/usr/local/lib/python3.11/site-packages/e2b/envd/filesystem/filesystem_pb2.py", line 9, in <module>
+    from google.protobuf import runtime_version as _runtime_version
+ImportError: cannot import name 'runtime_version' from 'google.protobuf' (/usr/local/lib/python3.11/site-packages/google/protobuf/__init__.py)

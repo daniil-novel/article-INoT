@@ -1,0 +1,22 @@
+TASK
+Create a word cloud from the text of a Wikipedia page.
+The function should output with:
+    matplotlib.axes.Axes: The Axes object of the plotted data. Is None if there is no wikipedia page with the title given as input.
+You should write self-contained code starting with:
+```
+import wikipedia
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+def task_func(page_title):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import wikipedia
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+def task_func(page_title):

@@ -1,0 +1,21 @@
+TASK
+Generates a pair plot from a numeric DataFrame and calculates its covariance matrix.
+The function should raise the exception for: ValueError: If the DataFrame is empty. TypeError: If the DataFrame contains non-numeric data types.
+The function should output with:
+    tuple:
+    covariance_df (pandas.DataFrame): The covariance matrix of the input DataFrame.
+    pair_plot (sns.axisgrid.PairGrid): Pair plot of the input DataFrame.
+You should write self-contained code starting with:
+```
+import seaborn as sns
+import numpy as np
+def task_func(df):
+```
+
+Use three internal checkpoints in this one response.
+STAGE 1: Analyze the requirements and edge cases and form a concise plan. STAGE 2: Implement the requested function using that plan. STAGE 3: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import seaborn as sns
+import numpy as np
+def task_func(df):

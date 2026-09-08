@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a08032-a3d0-7403-9031-e1d3329c7d08"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport seaborn as sns\nimport numpy as np\nimport pandas as pd\n\n\ndef task_func(df):\n    if not isinstance(df, pd.DataFrame):\n        raise TypeError(\"Input must be a pandas DataFrame.\")\n    if df.empty:\n        raise ValueError(\"The DataFrame is empty.\")\n    non_numeric_columns = [\n        col for col in df.columns if not pd.api.types.is_numeric_dtype(df[col])\n    ]\n    if non_numeric_columns:\n        raise TypeError(\"The DataFrame contains non-numeric data types.\")\n\n    covariance_df = df.cov()\n    pair_plot = sns.pairplot(df)\n\n    return covariance_df, pair_plot\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2874,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":659,"reasoning_output_tokens":516}}

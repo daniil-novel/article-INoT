@@ -1,0 +1,25 @@
+TASK
+Create a numeric array of random integers, calculate the mean and standard deviation, and draw a histogram of the distribution.
+Note that: The random integers are generated between 1 and 100. The title of the histogram is "Histogram of Random Values". The x-axis is labeled "Val" and the y-axis is labeled "Freq". The mean is plotted as a red dashed line, and the standard deviation is plotted as purple dashed lines.
+The function should output with:
+    Tuple: A tuple containing the array, mean, standard deviation, and the histogram plot (Axes).
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+# Constants
+ARRAY_SIZE = 10000
+def task_func():
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+# Constants
+ARRAY_SIZE = 10000
+def task_func():

@@ -1,0 +1,28 @@
+TASK
+Impute missing values in the last column of the dataframe using mean imputation, then create a box plot to visualize the distribution of data in the last column.
+The function should raise the exception for: ValueError: If the input is not a DataFrame or has no columns.
+The function should output with:
+    DataFrame: A pandas DataFrame with the imputed last column.
+    Axes: A matplotlib Axes object with the boxplot of the last column of the dataframe.
+You should write self-contained code starting with:
+```
+import numpy as np
+import pandas as pd
+from sklearn.impute import SimpleImputer
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+import pandas as pd
+from sklearn.impute import SimpleImputer
+import seaborn as sns
+import matplotlib.pyplot as plt
+def task_func(df):

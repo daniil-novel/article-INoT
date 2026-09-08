@@ -1,0 +1,24 @@
+TASK
+Performs Principal Component Analysis (PCA) on the provided dataset to reduce its dimensionality, and visualizes the results using a scatter plot. This function applies PCA to the dataset, reducing its features to the specified number of principal components. It then visualizes the reduced data in a scatter plot. For datasets reduced to a single component, the function generates a 1D scatter plot along the X-axis, with all Y-values set to zero. For reductions resulting in two or more components, only the first two principal components are visualized.
+The function should output with:
+    dict: A dictionary containing:
+    "transformed_data" (np.ndarray): The transformed data.
+    "ax" (plt.Axes): The scatter plot visualizing the transformed data.
+You should write self-contained code starting with:
+```
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+def task_func(data, n_components=2, random_state=None):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+def task_func(data, n_components=2, random_state=None):

@@ -1,0 +1,25 @@
+TASK
+Calculate the Z-values of a 2D data matrix, calculate the mean value of each row and then visualize the correlation matrix of the Z-values with a heatmap.
+The function should output with:
+    tuple: A tuple containing:
+    pandas.DataFrame: A DataFrame with columns 'Feature 1', 'Feature 2', ..., 'Feature n' containing the Z-scores (per matrix row).
+    There is also an additional column 'Mean' the mean of z-score per row.
+    matplotlib.axes.Axes: The Axes object of the plotted heatmap.
+You should write self-contained code starting with:
+```
+import pandas as pd
+import seaborn as sns
+from scipy.stats import zscore
+def task_func(data_matrix):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import pandas as pd
+import seaborn as sns
+from scipy.stats import zscore
+def task_func(data_matrix):

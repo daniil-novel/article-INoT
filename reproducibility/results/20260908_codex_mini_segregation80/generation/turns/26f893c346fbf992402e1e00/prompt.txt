@@ -1,0 +1,22 @@
+TASK
+Converts a Unix timestamp to a formatted date and time string in a specified timezone.
+The function should output with:
+    str: A string representing the date and time in the target timezone, formatted as '%Y-%m-%d %H:%M:%S'.
+You should write self-contained code starting with:
+```
+from datetime import datetime
+import pytz
+# Constants
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+def task_func(unix_timestamp, target_timezone):
+```
+
+Use three internal checkpoints in this one response.
+STAGE 1: Analyze the requirements and edge cases and form a concise plan. STAGE 2: Implement the requested function using that plan. STAGE 3: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+from datetime import datetime
+import pytz
+# Constants
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+def task_func(unix_timestamp, target_timezone):

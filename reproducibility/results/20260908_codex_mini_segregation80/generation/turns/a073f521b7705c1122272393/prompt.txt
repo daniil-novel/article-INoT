@@ -1,0 +1,19 @@
+TASK
+Cluster a list of 2D points using KMeans and visualize the clusters.
+Note that: This function raises ValueError if it encounters invalid inputs. KMeans is performed with random_state = 42 and n_init = 10. Scatterplot uses red 'x' markers for cluster centers.
+The function should output with:
+    matplotlib.axes._axes.Axes: Axes object with the plotted clusters.
+You should write self-contained code starting with:
+```
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+def task_func(myList, n_clusters):
+```
+
+Use three internal checkpoints in this one response.
+PLANNER: Analyze the requirements and edge cases and form a concise plan. IMPLEMENTER: Implement the requested function using that plan. REVIEWER: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+def task_func(myList, n_clusters):

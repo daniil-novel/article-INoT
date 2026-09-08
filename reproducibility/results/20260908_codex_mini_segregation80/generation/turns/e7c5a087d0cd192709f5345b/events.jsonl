@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a08031-87a9-72e1-83ab-826ea8c52556"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport numpy as np\nfrom itertools import chain\n\ndef task_func(L):\n    def _flatten(seq):\n        for item in seq:\n            if isinstance(item, (list, tuple, np.ndarray)):\n                yield from _flatten(item)\n            else:\n                yield item\n\n    values = list(_flatten(L))\n    if not values:\n        return {\"mean\": np.nan, \"variance\": np.nan}\n\n    arr = np.asarray(values, dtype=float)\n    return {\"mean\": float(np.mean(arr)), \"variance\": float(np.var(arr))}\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2802,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":1153,"reasoning_output_tokens":1034}}

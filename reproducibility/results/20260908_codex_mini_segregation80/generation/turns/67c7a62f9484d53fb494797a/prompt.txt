@@ -1,0 +1,22 @@
+TASK
+Move all files with a particular extension from one directory to another.
+The function should output with:
+    result (int): The count of files that were moved.
+You should write self-contained code starting with:
+```
+import os
+import shutil
+import glob
+def task_func(source_dir, dest_dir, extension):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import os
+import shutil
+import glob
+def task_func(source_dir, dest_dir, extension):

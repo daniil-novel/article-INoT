@@ -1,0 +1,20 @@
+TASK
+Uncompress a gzip-compressed hexadecimal string and decrypt the result to UTF-8.
+The function should output with:
+    decoded_string (str): The decoded and decompressed string in UTF-8 format, or an error message.
+You should write self-contained code starting with:
+```
+import binascii
+import io
+import gzip
+def task_func(compressed_hex):
+```
+
+Use three internal checkpoints in this one response.
+PLANNER: Analyze the requirements and edge cases and form a concise plan. IMPLEMENTER: Implement the requested function using that plan. REVIEWER: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import binascii
+import io
+import gzip
+def task_func(compressed_hex):

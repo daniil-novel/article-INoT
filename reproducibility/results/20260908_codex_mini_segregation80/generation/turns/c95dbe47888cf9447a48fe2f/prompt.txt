@@ -1,0 +1,25 @@
+TASK
+This function calculates and returns the mean, median, mode, and variance for specified features in a DataFrame. It replaces certain values in the DataFrame based on a provided dictionary mapping before performing the calculations.
+Note that: The function would return "Invalid input" string if the input is invalid (e.g., does not contain the required 'feature1' key) or if there is an error in the calculation.
+The function should output with:
+    dict: A dictionary containing statistics (mean, median, mode, variance) for each feature defined in the 'FEATURES' constant.
+You should write self-contained code starting with:
+```
+import numpy as np
+from scipy import stats
+# Constants
+FEATURES = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5']
+def task_func(df, dct):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+from scipy import stats
+# Constants
+FEATURES = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5']
+def task_func(df, dct):

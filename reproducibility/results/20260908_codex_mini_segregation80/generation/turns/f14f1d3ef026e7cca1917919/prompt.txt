@@ -1,0 +1,29 @@
+TASK
+Train a linear regression model on a given DataFrame.
+The function should raise the exception for: The function will raise a ValueError is input df is not a DataFrame.
+The function should output with:
+    LinearRegression: The trained linear regression model.
+You should write self-contained code starting with:
+```
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+# Constants
+FEATURES = ['feature '+str(i) for i in range(1, 11)]
+TARGET = 'target'
+def task_func(df):
+```
+
+Use three internal checkpoints in this one response.
+[STAGE 1] Analyze the requirements and edge cases and form a concise plan.
+[STAGE 2] Implement the requested function using that plan.
+[STAGE 3] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+# Constants
+FEATURES = ['feature '+str(i) for i in range(1, 11)]
+TARGET = 'target'
+def task_func(df):

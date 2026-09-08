@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a08031-87bf-7042-82a2-3da2b2ea8a6d"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"```python\nimport numpy as np\nfrom itertools import chain\n\ndef task_func(L):\n    def flatten(items):\n        for item in items:\n            if isinstance(item, (list, tuple)):\n                yield from flatten(item)\n            else:\n                yield item\n\n    values = np.array(list(flatten(L)), dtype=float)\n\n    if values.size == 0:\n        return {\"mean\": np.nan, \"variance\": np.nan}\n\n    return {\"mean\": float(np.mean(values)), \"variance\": float(np.var(values))}\n```"}}
+{"type":"turn.completed","usage":{"input_tokens":2811,"cached_input_tokens":2560,"cache_write_input_tokens":0,"output_tokens":1074,"reasoning_output_tokens":962}}

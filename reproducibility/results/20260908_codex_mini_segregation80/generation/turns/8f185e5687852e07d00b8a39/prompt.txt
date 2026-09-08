@@ -1,0 +1,22 @@
+TASK
+Generate an array of random 3D dots in the range [0, 1) for each dimension and draw them in a 3D scatter plot.
+The function should output with:
+    tuple: A tuple containing:
+    points (ndarray): A numpy ndarray of shape (n_points, 3) with the coordinates of the points.
+    plot (Axes3D): A 3D scatter plot of the generated points.
+You should write self-contained code starting with:
+```
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(n_points=100, random_seed=None):
+```
+
+Use three internal checkpoints in this one response.
+[PLANNER] Analyze the requirements and edge cases and form a concise plan.
+[IMPLEMENTER] Implement the requested function using that plan.
+[REVIEWER] Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import numpy as np
+import matplotlib.pyplot as plt
+def task_func(n_points=100, random_seed=None):

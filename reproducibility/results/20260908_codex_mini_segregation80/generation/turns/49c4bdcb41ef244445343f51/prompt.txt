@@ -1,0 +1,20 @@
+TASK
+Count the number of files in a directory that contain a specific word.
+The function should output with:
+    count (int): The number of files that contain the given word.
+You should write self-contained code starting with:
+```
+import re
+import os
+import glob
+def task_func(directory, word):
+```
+
+Use three internal checkpoints in this one response.
+PLANNER: Analyze the requirements and edge cases and form a concise plan. IMPLEMENTER: Implement the requested function using that plan. REVIEWER: Check the implementation against the requirements and revise it if needed.
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+FULL SUPPLIED CONTEXT
+import re
+import os
+import glob
+def task_func(directory, word):
