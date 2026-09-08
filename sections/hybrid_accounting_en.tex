@@ -1,0 +1,39 @@
+\section{Analytical model of shared-context costs}
+\label{sec:hybrid-accounting}
+
+\subsection{A conditional token balance}
+The architectural motivation is repeated transmission of common material. Consider an additive accounting model in which the common task/context block contributes $S$ tokens each time it is supplied. An internal configuration H transmits it once; an external configuration M transmits it in each of $m$ calls. Let $J_H,J_M$ collect all other input tokens, including instruction wrappers and forwarded responses, and let $O_H,O_M$ collect all output tokens. Define $R_H=J_H+O_H$ and $R_M=J_M+O_M$. Then
+\begin{equation}
+T_H=S+R_H,\qquad T_M=mS+R_M,
+\qquad T_M-T_H=(m-1)S+R_M-R_H.
+\label{eq:hybrid-balance}
+\end{equation}
+This is an accounting identity under the stated block model. It does not assume equal output length. In particular, longer internal reasoning can offset reduced context transmission; external intermediate responses contribute both when generated and when supplied again.
+
+\begin{proposition}[Conditional sufficient resource advantage]
+\label{prop:hybrid-bound}
+For $m>1$, suppose $\E[R_H-R_M\mid S]\le K$ throughout a specified context range, with a constant $K\ge0$ independent of $S$ in that range. Under Eq.~\eqref{eq:hybrid-balance},
+\[
+\E[T_M-T_H\mid S]\ge(m-1)S-K.
+\]
+Consequently, the internal configuration has a positive expected token advantage wherever $S>K/(m-1)$ within that range.
+\end{proposition}
+\begin{proof}
+Subtract the two balances in Eq.~\eqref{eq:hybrid-balance}, condition on $S$, and apply the assumed upper bound on $\E[R_H-R_M\mid S]$.
+\end{proof}
+
+The residual bound is a substantive assumption, not a measured property of the model. If output or coordination costs change with context so that the bound fails, no crossover follows. This condition preserves the long-shared-context rationale for Hybrid-INoT while making its limits explicit. The present sample does not manipulate context length or estimate $K$; it cannot identify a long-context crossover or a routing threshold. The earlier compressed pilots do not identify either quantity.
+
+The empirical ledger uses actual provider counters,
+\begin{equation}
+T_a=\sum_{j=1}^{n_a}(I_{a,j}+O_{a,j}),
+\label{eq:hybrid-observed-ledger}
+\end{equation}
+rather than estimating totals from Eq.~\eqref{eq:hybrid-balance}. Unknown usage remains unknown. The conceptual block $S$ is not equated with a measured additive partition of provider input: tokenizer boundaries and client overhead can prevent such a partition. This distinction avoids presenting a theoretical balance as an observed decomposition. At fixed call topology, the shared term cancels between role and neutral conditions; any resource difference then belongs to their wording-induced and other residual differences. That is the reason to include both label controls.
+
+\subsection{Quality and money remain separate constraints}
+Write $Q_a=\E[Y_t(a)]$ for verified success and $\bar T_a=\E[T_a]$ for expected tokens. The original engineering notion of token utility can be expressed as $U_a=Q_a/\bar T_a$, using a ratio of expectations on a common, fully observed population. A larger $U_a$ can coexist with worse $Q_a$; it is not a quality-preservation certificate. Because the observed quality and resource subsets also differ in this study, the primary report keeps paired quality differences and paired resource ratios separate, without constructing a composite utility ranking or assigning unvalidated maintainability weights.
+
+The monetary counterpart must use the tariff for each input, cached-input and output component. The API-equivalent quantities $V$ and $V_0$ in Section~\ref{sec:heldout-methods} implement this requirement with the recorded counters. Token advantage alone does not establish monetary advantage when cache fractions and output shares differ. Neither quantity measures the subscription bill or total ownership cost; evaluator compute, engineering work and deployment operations are outside the observed model ledger.
+
+The balance motivates a possible efficiency mechanism. Whether quality changes, whether labels add value and whether the observed resource difference favors the internal configuration are empirical questions addressed by the factorial experiment below. This analytical explanation does not add a confirmatory hypothesis to the four tests frozen before the primary run.

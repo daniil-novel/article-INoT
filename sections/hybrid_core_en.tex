@@ -1,0 +1,50 @@
+\section{Formal problem and the Hybrid-INoT core}
+\label{sec:hybrid-core}
+
+\subsection{Engineering task and observable success}
+An engineering task is represented by $(x,\mathcal{C}_0,\mathcal{V})$: a specification $x$, a fixed supplied context $\mathcal{C}_0$, and an external verification procedure $\mathcal{V}$. The output is a candidate program $y$ together with its verification record. Code generation and verification are different operations: the model proposes a solution; original executable tests determine the benchmark outcome in a controlled environment. A linguistic assertion that the solution is correct cannot replace those tests. On repository tasks, $\mathcal{C}_0$ denotes the disclosed retrieved packet, not an assertion that the full repository was supplied.
+
+For an execution protocol $a$, the engineering objective is to increase the probability of verified success while controlling expected token consumption and inference valuation. This motivates a joint report of quality and resources rather than optimization of an unvalidated weighted score. Observed programs that fail tests are failures; unavailable generation or evaluation cannot be turned into a verified success or a fabricated test failure. Section~\ref{sec:heldout-methods} specifies the common eligibility controls and the exact statistical endpoint.
+
+\subsection{Internal role organization and external verification}
+Hybrid-INoT uses a division of responsibility: planning, implementation and critique are prescribed inside a model response, while verification is performed outside the model. The word \emph{hybrid} refers to this combination of internal instructions and external executable evidence. It does not require a learned deployment router. The original planner--worker--critic terminology corresponds to the executed labels \texttt{planner}, \texttt{implementer} and \texttt{reviewer}. Internal role segregation here denotes separation of instructed functions, not independently observed latent agents.
+
+The single-pass core studied here prescribes three operations: analyze requirements and edge cases, implement using the plan, then review and revise against the requirements. A single model call receives all three instructions and the complete supplied context; it returns one final program. There is no externally observed sequence of hidden plans or critic scores. Thus a conceptual role decomposition must not be mistaken for three measured internal subroutines. The precise prompts, including the final-output contract, are retained in the appendix.
+
+In the primary experiment, SR is this role-labelled single-call configuration. SN is its role-label ablation with identical operation sentences. MR and MN distribute the corresponding operations across three fresh calls, and D removes the staged procedure altogether. All five receive the same subsequent native evaluation. The design therefore asks whether the proposed internal organization contributes beyond a plain instruction, and what is gained or lost when the same operations are distributed over call boundaries. It does not give Hybrid-INoT privileged access to verification.
+
+\begin{figure}[htbp]\centering
+\input{figures/hybrid_core_en}
+\caption{The tested Hybrid-INoT configuration and its external-call comparator. Native verification follows generation and is shared across conditions; no test result is returned to the generating model. Neutral-label controls and direct solving are defined in Table~\ref{tab:design}.}
+\label{fig:hybrid-core}
+\end{figure}
+
+\subsection{State, execution and stopping}
+The exposed execution state is $\sigma_j=(x,\mathcal{C}_0,a,j,\mathcal{H}_j)$, where $a$ fixes the assigned condition, $j$ is the call index and $\mathcal{H}_j$ contains all complete preceding exposed responses. The model configuration is fixed within the comparison. SR and SN use $n_a=1$; MR and MN use $n_a=3$. In a multi-call condition, $\mathcal{H}_j$ is forwarded in full. The supplied context is unchanged: $\widehat{\mathcal{C}}=\mathcal{C}_0$. Condition assignment is fixed before generation, so it is not an outcome-dependent routing policy.
+
+\begin{algorithm}[htbp]
+\caption{Evaluated single-pass generation and subsequent external audit}
+\label{alg:hybrid-core}
+\begin{algorithmic}[1]
+\Require Task $x$, supplied context $\mathcal{C}_0$, frozen condition $a$
+\Ensure Archived response/candidate and a separately classified outcome
+\State $\mathcal{H}\gets\varnothing$
+\For{$j=1,\ldots,n_a$}
+  \State Construct the fixed stage prompt from $a,j,x,\mathcal{C}_0,\mathcal{H}$
+  \State Execute one fresh call; retain prompt, events and terminal status
+  \If{the accepted completion and usage contract fails}
+    \State Retain available evidence; mark generation unavailable; stop this cell
+  \EndIf
+  \State Append the complete exposed response to $\mathcal{H}$
+\EndFor
+\State Extract the sole final program; retain invalid format as an empty candidate
+\State Freeze the generation archive
+\State Run the original native tests on each observed candidate
+\State Join exact candidate bytes to native evidence and the control gate
+\State Record pass, failure or unavailable outcome and all known resource counters
+\end{algorithmic}
+\end{algorithm}
+
+Algorithm~\ref{alg:hybrid-core} describes the generation and evaluation stages of the experiment; the native harness is a subsequent evaluator, not a tool invoked inside the model call. Call deadlines and a finite $n_a$ bound generation attempts. This is a stopping rule, not a theorem of convergence or correctness. A rejected completion never triggers an automatic second attempt at the same cell. The disclosed continuation concerns only assignments for which no call had started.
+
+This configuration fixes the original architecture's optional controls: context selection is the identity, the mode is assigned, the number of final candidates is one, and verification-driven reruns are disabled. These choices make the internal-role question testable without mixing it with compression, a small checking model or adaptive retries. They also define the extent of the architectural evidence: the experiment evaluates this core, rather than every possible Hybrid-INoT deployment.

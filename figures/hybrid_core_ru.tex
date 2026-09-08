@@ -1,0 +1,20 @@
+\begin{tikzpicture}[
+  x=1mm,y=1mm,
+  box/.style={draw=black!75,rounded corners=2pt,align=center,font=\small,inner sep=3mm},
+  flow/.style={-{Latex[length=2mm]},thick}
+]
+\node[box,fill=gray!8,text width=91mm] (input) at (0,0) {Задача и фиксированный предоставленный контекст};
+\node[box,fill=blue!6,text width=39mm,minimum height=24mm] (single) at (-27,-28) {\textbf{Ядро Hybrid-INoT (SR)}\\[2mm]Один вызов: planner, implementer, reviewer};
+\node[box,fill=gray!6,text width=39mm,minimum height=24mm] (multi) at (27,-28) {\textbf{Отдельные вызовы (MR)}\\[2mm]Три новых вызова; предыдущие ответы передаются целиком};
+\node[box,text width=39mm] (sout) at (-27,-53) {Одна итоговая программа};
+\node[box,text width=39mm] (mout) at (27,-53) {Одна итоговая программа};
+\node[box,fill=green!7,text width=91mm] (test) at (0,-77) {\textbf{Штатная проверка после генерации}\\[1mm]Исходные тесты; общие контроли; точная связь программы и отчёта};
+\node[box,fill=gray!8,text width=91mm] (archive) at (0,-99) {Архив исходов и ресурсов};
+\draw[flow] (input.south) -- ++(0,-4) -| (single.north);
+\draw[flow] (input.south) -- ++(0,-4) -| (multi.north);
+\draw[flow] (single) -- (sout);
+\draw[flow] (multi) -- (mout);
+\draw[flow] (sout.south) -- ++(0,-4) -| ([xshift=-20mm]test.north);
+\draw[flow] (mout.south) -- ++(0,-4) -| ([xshift=20mm]test.north);
+\draw[flow] (test) -- (archive);
+\end{tikzpicture}
