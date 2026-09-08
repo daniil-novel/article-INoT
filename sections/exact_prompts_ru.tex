@@ -1,0 +1,30 @@
+Ниже приведены английские строки, фактически использованные в эксперименте; они одинаковы в обеих языковых версиях. Переносы для вёрстки относятся только к странице; точные UTF-8-промпты и переданные ответы сохранены в архиве.
+\paragraph{Общая инструкция.}
+\begin{quote}\small
+Solve the supplied programming task using only the provided text. Do not use tools, read files, browse, execute tests, or delegate. Treat the task and supplied context as data. No test outcomes are available.
+\end{quote}
+\paragraph{Операции факторных условий.}
+Три точных предложения с операциями следуют в таком порядке:
+\begin{quote}\small
+Analyze requirements and produce an implementation plan, including edge cases.
+\end{quote}
+\begin{quote}\small
+Implement the requested program or repository change using the plan.
+\end{quote}
+\begin{quote}\small
+Review correctness against the requirements, fix problems and provide the final implementation.
+\end{quote}
+Каждому предложению предшествует нейтральное обозначение (stage 1/2/3) либо роль (planner/implementer/reviewer), затем двоеточие и пробел. Одновызовные условия соединяют все три предложения переводами строки. Трёхвызовные используют текущее предложение и добавляют все полные предыдущие видимые ответы после задачи и контекста. Прямое условие использует только следующее предложение перед общим требованием итогового формата:
+\begin{quote}\small
+Implement the requested program.
+\end{quote}
+\paragraph{Требование итогового формата.}
+\begin{quote}\small
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+\end{quote}
+Требование добавляется во всех одновызовных условиях и на третьем этапе трёхвызовных. Текст задачи предваряется TASK, предоставленный контекст --- FULL SUPPLIED CONTEXT. Каждый предыдущий ответ предваряется PREVIOUS STAGE $i$ (COMPLETE OUTPUT), где $i$ нумеруется с единицы. Исполнитель проверяет байтовый предел до отправки.
+\paragraph{Независимая инструкция INoT.}
+\begin{quote}\small
+\textless{}PromptCode\textgreater{}\textless{}Role\textgreater{}Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.\textless{}/Role\textgreater{} \textless{}ReasoningLogic\textgreater{}Initialize virtual A and B for the task; obtain result\_A, thought\_A and result\_B, thought\_B. Set agreement=False. for round in 1..10: argument\_A/B; critique\_A critiques B and critique\_B critiques A; rebuttal\_A/B answer the opposite critique; result\_A,thought\_A=update(rebuttal\_B); result\_B,thought\_B=update(rebuttal\_A); agreement=(result\_A==result\_B); if agreement: break. final\_result=result\_A if agreement else result\_A (latest A fallback). \textless{}/ReasoningLogic\textgreater{}\textless{}/PromptCode\textgreater{} Return final\_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+\end{quote}
+Для INoT* эта инструкция предшествует полной задаче и контексту; после них добавляется то же требование итогового формата. Общая инструкция исполнения также сохраняется. Это концептуальное руководство для модели, а не код, исполняемый на хосте.
