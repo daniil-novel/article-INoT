@@ -5,6 +5,7 @@
 *.txt text eol=lf
 *.yaml text eol=lf
 reproducibility/external_baselines/vendor/scc_2024/** -text -whitespace
+reproducibility/results/20260909_scc_dev3/** -text -whitespace
 # Preserve exact evidence bytes, including native CRLF and original prompt whitespace.
 reproducibility/results/20260908_codex_mini_dev8/** -text -whitespace
 reproducibility/results/20260908_codex_mini_dev40/** -text -whitespace

@@ -1,0 +1,62 @@
+{
+  "role": "development feasibility only",
+  "assigned": 3,
+  "generated": 3,
+  "native_checked": 3,
+  "rows": [
+    {
+      "task_id": "BigCodeBench/325",
+      "model_calls": 4,
+      "generated_test_runs": 1,
+      "input_tokens": 15866,
+      "cached_input_tokens": 0,
+      "output_tokens": 1307,
+      "api_equivalent_usd": 0.0047416,
+      "upstream_replay": "matched",
+      "quality": "pass"
+    },
+    {
+      "task_id": "BigCodeBench/322",
+      "model_calls": 3,
+      "generated_test_runs": 1,
+      "input_tokens": 11697,
+      "cached_input_tokens": 0,
+      "output_tokens": 955,
+      "api_equivalent_usd": 0.0034853999999999996,
+      "upstream_replay": "matched",
+      "quality": "fail"
+    },
+    {
+      "task_id": "BigCodeBench/1036",
+      "model_calls": 4,
+      "generated_test_runs": 1,
+      "input_tokens": 16200,
+      "cached_input_tokens": 0,
+      "output_tokens": 1998,
+      "api_equivalent_usd": 0.0056376,
+      "upstream_replay": "matched",
+      "quality": "fail"
+    }
+  ],
+  "model_calls": 11,
+  "total_tokens": 48023,
+  "api_equivalent_usd": 0.013864600000000001,
+  "passed": 1,
+  "controls": {
+    "gold": {
+      "BigCodeBench/325": "pass",
+      "BigCodeBench/322": "pass",
+      "BigCodeBench/1036": "pass"
+    },
+    "negative": {
+      "BigCodeBench/325": "fail",
+      "BigCodeBench/322": "fail",
+      "BigCodeBench/1036": "fail"
+    },
+    "candidates": {
+      "BigCodeBench/325": "pass",
+      "BigCodeBench/322": "fail",
+      "BigCodeBench/1036": "fail"
+    }
+  }
+}

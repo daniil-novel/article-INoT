@@ -1,0 +1,1 @@
+Continue the supplied serialized conversation as its next assistant message. Honor the role instructions inside that conversation. Return only that message. Do not use tools, read local files, browse or delegate. Any execution feedback inside the conversation is supplied by the external workflow.

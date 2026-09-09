@@ -66,3 +66,8 @@ Final empirical checkpoint: the primary archive at commit `96be37745b7f727d790c3
 ## Hybrid-INoT manuscript integration
 
 The original manuscript immediately preceding f8f7006 is retained in Git and supplies the author's engineering framing, internal/external responsibility split and resource-accounting questions. The integrated text treats the published 200-task protocol as authoritative about what was actually executed. Its conditional token balance and screening-cost identity are explicit algebraic models, not new empirical observations. The original INoT source (https://arxiv.org/html/2507.08664v1) and the closest role-ablation predecessor (https://arxiv.org/html/2304.07590v2) were checked again on 8 September 2026 to preserve the distinction between the proposed role-labelled core, PromptCode adaptation and unexecuted SCC baseline.
+
+
+## 9 September: author-code SCC feasibility update
+
+The external baseline is now implemented as a pinned original SCC session with a disclosed Codex subscription transport adaptation. All three exposed development tasks produced candidates and were checked by native BigCodeBench tests: one pass, two failures; all three gold and incorrect controls behaved as expected. Full traces and upstream-controller replay are in `reproducibility/results/20260909_scc_dev3`. This supersedes earlier statements that no SCC execution exists; a powered external comparison, SCC role ablation, native Agentless and SWE-agent runs remain outstanding. The pilot does not change historical primary estimates or establish superiority.

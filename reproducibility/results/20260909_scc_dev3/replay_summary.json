@@ -1,0 +1,35 @@
+[
+  {
+    "task_id": "BigCodeBench/325",
+    "model_calls": 4,
+    "generated_test_runs": 1,
+    "input_tokens": 15866,
+    "cached_input_tokens": 0,
+    "output_tokens": 1307,
+    "api_equivalent_usd": 0.0047416,
+    "upstream_replay": "matched",
+    "quality": "requires separate native report"
+  },
+  {
+    "task_id": "BigCodeBench/322",
+    "model_calls": 3,
+    "generated_test_runs": 1,
+    "input_tokens": 11697,
+    "cached_input_tokens": 0,
+    "output_tokens": 955,
+    "api_equivalent_usd": 0.0034853999999999996,
+    "upstream_replay": "matched",
+    "quality": "requires separate native report"
+  },
+  {
+    "task_id": "BigCodeBench/1036",
+    "model_calls": 4,
+    "generated_test_runs": 1,
+    "input_tokens": 16200,
+    "cached_input_tokens": 0,
+    "output_tokens": 1998,
+    "api_equivalent_usd": 0.0056376,
+    "upstream_replay": "matched",
+    "quality": "requires separate native report"
+  }
+]

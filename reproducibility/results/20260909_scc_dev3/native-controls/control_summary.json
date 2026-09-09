@@ -1,0 +1,80 @@
+{
+  "schema": "scc-dev3-native-controls-v1",
+  "task_ids": [
+    "BigCodeBench/325",
+    "BigCodeBench/322",
+    "BigCodeBench/1036"
+  ],
+  "image_id": "sha256:afeb8d78b76f6a7b1fbf427d78a55bd35dbfcf58387711b47f8a8ba00e16b580",
+  "upstream_commit": "09dd993f46c3fbf3a799465bb96d524edcb0b199",
+  "cli_split": "instruct",
+  "controls": {
+    "gold": {
+      "ok": true,
+      "errors": [],
+      "statuses": {
+        "BigCodeBench/325": "pass",
+        "BigCodeBench/322": "pass",
+        "BigCodeBench/1036": "pass"
+      },
+      "report_sha256": "858266632c680964345ad45b4b163f252202c747410253c109966e9b7defac25"
+    },
+    "negative": {
+      "ok": true,
+      "errors": [],
+      "statuses": {
+        "BigCodeBench/325": "fail",
+        "BigCodeBench/322": "fail",
+        "BigCodeBench/1036": "fail"
+      },
+      "report_sha256": "f3b1f7a5e5bbeee6aa4528e98860f0d20d6145e505527892f4c9203883990a12"
+    }
+  },
+  "gold_statuses": {
+    "BigCodeBench/325": "pass",
+    "BigCodeBench/322": "pass",
+    "BigCodeBench/1036": "pass"
+  },
+  "negative_statuses": {
+    "BigCodeBench/325": "fail",
+    "BigCodeBench/322": "fail",
+    "BigCodeBench/1036": "fail"
+  },
+  "all_gold_pass": true,
+  "all_negative_fail": true,
+  "source_hashes": {
+    "selection": "f313c8c2d38048d433ac58d1f8741b81c05fda7ae5396a08c785103f3473180e",
+    "dataset": "c2971c6e485abd4f5a00410f8ed58f3b10f250560c19a0695737013c35ed12e3",
+    "prepared": "d6c32afb7a7f262cd6c9c14d49ee083d40c84cbb0c0b44497410852887ffd229",
+    "gold_samples": "2d6407566021c8a896fd54b6e63eceff2cea7ef0e82c3003fdb390e620e1b752",
+    "negative_samples": "8c7da33f343e192fac42c9d68300f74ddb074903d89fe7bafa72c54d0338425b",
+    "gold_report": "858266632c680964345ad45b4b163f252202c747410253c109966e9b7defac25",
+    "negative_report": "f3b1f7a5e5bbeee6aa4528e98860f0d20d6145e505527892f4c9203883990a12",
+    "gold_metadata": "1d836e40be196ac82da3a26452f3f78f1f709af23d3c6506da2688ed8d5a28c8",
+    "negative_metadata": "60b9da2432093545e8365f4b9f8fb440e93671f11fc68dfeb9cb5f7df9f5fa54"
+  },
+  "candidate_evaluation": {
+    "status": "verified",
+    "validation": {
+      "ok": true,
+      "errors": [],
+      "statuses": {
+        "BigCodeBench/325": "pass",
+        "BigCodeBench/322": "fail",
+        "BigCodeBench/1036": "fail"
+      },
+      "report_sha256": "89a69054c3bb366fea8751846199ed3839d653b31ba380daa66c74769aeaf71e"
+    },
+    "task_statuses": {
+      "BigCodeBench/325": "pass",
+      "BigCodeBench/322": "fail",
+      "BigCodeBench/1036": "fail"
+    },
+    "observed_passes": 1,
+    "observed_fails": 2,
+    "observed_timeouts": 0,
+    "report_sha256": "89a69054c3bb366fea8751846199ed3839d653b31ba380daa66c74769aeaf71e",
+    "samples_sha256": "72bdb6f4740fa68da2fd84ed5e46641dc42f920b2dfc1fe859c88af0bd844433",
+    "metadata_sha256": "07056a4298f32638abcd98483145a13663000c185efc8361f529851db315dd4a"
+  }
+}
