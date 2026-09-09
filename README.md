@@ -4,6 +4,7 @@
 
 - [Русский PDF](converted_article_springer_ru.pdf)
 - [English PDF](converted_article_springer.pdf)
+- [Редактура и независимая рецензия, 9 сентября 2026](reviews/2026-09-09-editorial/README.md)
 - [Публичный архив основного эксперимента](https://github.com/daniil-novel/article-INoT/tree/main/reproducibility/results/20260908_codex_mini_heldout200)
 - [Локальный архив основного эксперимента](reproducibility/results/20260908_codex_mini_heldout200/README.md)
 - [Ответ рецензенту](reproducibility/revision/REVIEW_RESPONSE.md)
@@ -29,7 +30,7 @@
 
 Основной запуск дал **996/1 000 полных программ**, **963 оцениваемых наблюдения**: 453 прошли, 507 не прошли, 3 завершились native timeout. Четыре назначения остались пропусками; две наблюдаемые записи имели ошибку извлечения формата: MR `/100` и D `/494`. Числа 963 и ниже относятся к общей control-eligibility выборке; по условиям quality-denominator равен 193, а для SN — 191 из-за дополнительных отсутствующих записей.
 
-| Условие | Прошло / оцениваемый denominator | Доля только среди оцениваемых |
+| Условие | Прошло / проверено на пригодных задачах | Доля успехов среди оцениваемых |
 |---|---:|---:|
 | D | 94/193 | 48,70% |
 | SN | 93/191 | 48,69% |
