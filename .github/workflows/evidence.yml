@@ -23,7 +23,7 @@ jobs:
           cache: pip
           cache-dependency-path: reproducibility/requirements-publication.txt
       - name: Install recorded analysis dependencies
-        run: python -m pip install -r reproducibility/requirements-publication.txt
+        run: python -m pip install -r reproducibility/requirements-publication.txt -r reproducibility/external_baselines/requirements.txt
       - name: Test audit and analysis software
         run: python -m pytest reproducibility/tests -q
       - name: Verify every published evidence byte

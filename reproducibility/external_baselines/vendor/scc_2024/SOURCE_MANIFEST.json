@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/YihongDong/Self-collaboration-Code-Generation",
+  "commit": "b471e12051190dbae2c71b429a3c87466df4b336",
+  "files": {
+    "session.py": "9721cee26ec87b29585fc99a0e4cba942e16cc7ab05f2a7ca64c41460dea8889",
+    "utils.py": "b591deeb5d083399730062369afec279954831474677459948506c9857ed2328",
+    "core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "core/backend.py": "02771400290e7140e8767458200f04fa32d770208d351d8d6da17f1e5099e533",
+    "core/interface.py": "812f2627a767263da7730512d813345c305f431b83ba5b5db3af32223f8d4716",
+    "roles/analyst.py": "7b763b83ef0e6711daa1389ee008c6c94bee2cd9f84e0732977a06697cbf29df",
+    "roles/coder.py": "511a7dd6f7cb790cd1a7faea0a579e359378ea2a7b47906543eb61a5cf473901",
+    "roles/instruction.py": "362e278b1e8c629bc65af6410c7ac4c29f61c43765a4c92e8a3f1a7ea5640b7a",
+    "roles/rule_descriptions_act.py": "df0eb4dfb60911453901286cf8936b5229d568f9edf59694d29a2bc88dfa12ee",
+    "roles/rule_descriptions_actc.py": "9ec2314b9d8a423615996d16f0692b24237a2890f41c6501aa5862eae4b4ce88",
+    "roles/tester.py": "7924c34481a7c82183e83c0437bb60d824c8e5604f10ad1baced596a36ec63f2",
+    "roles/__init__.py": "b85d5093aca791707e1dd38de4db4f8ba2685990935d21efd0c7c7d3918a27b8",
+    "LICENSE": "7b10fdb8ea2f2ff2c4aa0a89e4e987e501916e7349c99bc5ecdd5d02b018da48"
+  }
+}

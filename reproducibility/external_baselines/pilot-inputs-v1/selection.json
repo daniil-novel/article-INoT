@@ -1,0 +1,10 @@
+{
+  "role": "development only",
+  "selection_rule": "first three in archived dev40 order, without outcome inspection",
+  "assigned_task_ids": [
+    "BigCodeBench/325",
+    "BigCodeBench/322",
+    "BigCodeBench/1036"
+  ],
+  "source_sha256": "55c2cc4cb0ecf64d97d7363a15645600d62f050be7cbfe23f4bb0abf97f72c44"
+}
