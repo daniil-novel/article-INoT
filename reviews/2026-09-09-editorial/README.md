@@ -2,6 +2,10 @@
 
 The author requested immediate editing and review of the current Hybrid-INoT manuscript. The previously scheduled review was paused. This is an internal AI-assisted editorial and scientific review, not a journal decision or an external human referee report.
 
+**Completed:** five Russian editors, five English editors and five separate scientific critics. Read the [Russian synthesis](REVIEW_RU.md), [coordinator decisions and corrected reviewer errors](DECISIONS.md), and [snapshot manifest](review-manifest.json). Individual scientific opinions are preserved in R1–R5.md; they must be read with the adjudication. The outcome is a clearer bounded empirical paper, with remaining replication, batch-sensitivity and external-comparison work. No unconditional Q1-readiness verdict was issued.
+
+The English manuscript reviewed is commit `823ac21d1517c9e4967b47aee82485c743e0eb75` (39 PDF pages); the Russian edition has 44 pages. PDF hashes are in `pdf-audit.json`. The report includes a new, explicitly post-review [missingness diagnostic](missingness-bounds.json), reproducible with `python reviews/2026-09-09-editorial/check_missingness.py`. It does not change the reviewed manuscript or frozen primary analysis. See [journal source access details](JOURNAL_SOURCES.md).
+
 ## Scope and sequence
 
 - Field: empirical software engineering and LLM code generation.
@@ -11,7 +15,7 @@ The author requested immediate editing and review of the current Hybrid-INoT man
 - Intervention: moderate prose editing. Preserve the original Hybrid-INoT architecture, experimental facts, uncertainty, formulas, citations, and exact executed prompts.
 - Starting commit: `5f4a64faaeb4c9c62fc1b591e3485e177e46361a`.
 
-Five Russian editors and five English editors work in separate fresh contexts, in waves because at most three child agents can run at once. They submit proposed changes rather than modifying the manuscript concurrently. The coordinating editor selects changes and resolves overlap using the source text. A subsequent Scientific Reviewer run uses five further fresh critics. Separation of contexts does not establish independence between model families or replace human peer review.
+Five Russian editors and five English editors worked in separate fresh contexts, in waves because at most three child agents could run at once. They submitted proposed changes rather than modifying the manuscript concurrently. The coordinating editor selected changes and resolved overlap using the source text. A subsequent Scientific Reviewer run used five further fresh critics. Separation of contexts does not establish independence between model families or replace human peer review.
 
 The editorial instructions supplied by the author define the requested workflow. Their embedded citation placeholders are not references and are not copied into the manuscript. The installed Scientific Reviewer 1.0.0 skill and its references match the supplied reviewer kit after line-ending normalization.
 

@@ -1,0 +1,175 @@
+{
+  "date": "2026-09-09",
+  "kind": "Internal AI-assisted editorial and scientific review; not journal peer review",
+  "starting_commit": "5f4a64faaeb4c9c62fc1b591e3485e177e46361a",
+  "reviewed_manuscript_commit": "823ac21d1517c9e4967b47aee82485c743e0eb75",
+  "primary_evidence_commit": "96be37745b7f727d790c324fc0d8670f8e7623f2",
+  "pdfs": {
+    "en": {
+      "file": "converted_article_springer.pdf",
+      "pages": 39,
+      "sha256": "bcccd4c757fcf4d5daebf597bd9fc92a75441bcc07d8670d06378be489bdf7e9",
+      "out_of_page_words": 0,
+      "replacement_chars": 0
+    },
+    "ru": {
+      "file": "converted_article_springer_ru.pdf",
+      "pages": 44,
+      "sha256": "d3fd96aab8ba2a4ad094aab762e31a94ace9229894c9c542a1ed02c64d053785",
+      "out_of_page_words": 0,
+      "replacement_chars": 0
+    }
+  },
+  "editor_count": 10,
+  "scientific_critic_count": 5,
+  "context_separation": "Fresh separate critic contexts, no other critic verdict before initial report; same model family, not independent model replication.",
+  "reports": [
+    {
+      "id": "RU1",
+      "report": "RU1.md",
+      "role": "RU1 — независимая редакционная коллегия",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "02bd5b78f802c0d96a4a023da9df87d0fdc70d982417da3bbeb8436172848c7b"
+    },
+    {
+      "id": "RU2",
+      "report": "RU2.md",
+      "role": "RU-2 — логика, причинность и связи абзацев",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "5aa6c9dd956fce32e050c6d0b801a47836e6a982da9a53e8346697eae98415b9"
+    },
+    {
+      "id": "RU3",
+      "report": "RU3.md",
+      "role": "RU3 — независимая русская научно-стилистическая редактура",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "b989bdcf8a07d2864e3ea8719521953e9a1c8f9ebf25181d4a53b1a50c6ce615"
+    },
+    {
+      "id": "RU4",
+      "report": "RU4.md",
+      "role": "RU4 — эпистемическая точность",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "1033a0cfcec3dc1d57e772f254c2915ca99e0a301e68e75b29e61b20d8b26132"
+    },
+    {
+      "id": "RU5",
+      "report": "RU5.md",
+      "role": "RU5 — хранитель авторского голоса",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "15f382e657069b80bcf77f5364301899192042f94099e26b181d99567ae43f5b"
+    },
+    {
+      "id": "EN1",
+      "report": "EN1.md",
+      "role": "EN1 clarity editorial review",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "a8d04ec16383ccf5283180749eca40a365393031ebbde9395176100b5c9e4b5a"
+    },
+    {
+      "id": "EN2",
+      "report": "EN2.md",
+      "role": "EN2 Argument Review",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "bfa03b9fcc51ce8a255a055d1922fd1afebda8e55f7da3b01003b46a0cba3e26"
+    },
+    {
+      "id": "EN3",
+      "report": "EN3.md",
+      "role": "EN-3 Methods & Results Editorial Review",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "2c1f6d196e9260fa94ca8c55db20e7204700a6901544beb3edd416d071d8902a"
+    },
+    {
+      "id": "EN4",
+      "report": "EN4.md",
+      "role": "EN4 Scientific Narrative Editor",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "601f143b977fb27fe65c2bae17dc25629d6dc46efc24ebe6e0466b134f3ae86a"
+    },
+    {
+      "id": "EN5",
+      "report": "EN5.md",
+      "role": "EN-5 reviewed the assembled English input in `tmp/editorial-20260909/en-editorial-input.tex` in full, with the assembled Russian input in `tmp/editorial-20260909/ru-editorial-input.tex` as a semantic crosscheck. Source-level review covered all English section files included by the active assembly; the final task-outcome tables, exact prompt blocks, and bibliography were checked for preservation and did not receive language edits. The report proposes 15 high-confidence replacements in `proposals/en5.json`.",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "cd52f78855ad100df1074bb6b41f277b0cd02d8f4e01f8d43c625a3cf4c59647"
+    },
+    {
+      "id": "R1",
+      "report": "R1.md",
+      "role": "R1 — дизайн, методы и статистика",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "5096e380e6db9c65f8062757b03cedb52fbdd24256bd17eede077a8b37b998ee"
+    },
+    {
+      "id": "R2",
+      "report": "R2.md",
+      "role": "R2 — новизна и ближайшая литература",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "399915e49789bebfff641fa7e9f0eaad0757a84959b26a5751feaa930d79948e"
+    },
+    {
+      "id": "R3",
+      "report": "R3.md",
+      "role": "R3 — результаты, доказательства и противоречия",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "0bb3b0e82f115b1de15980378a667a530965ee1ae90e89a419e9619ee23ca62a"
+    },
+    {
+      "id": "R4",
+      "report": "R4.md",
+      "role": "R4 — соответствие журналам и независимая оценка",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "bed33ef7b911515524a66b980c490986b744142a68b279e8fc81efc011afdf62"
+    },
+    {
+      "id": "R5",
+      "report": "R5.md",
+      "role": "R5 — text, bibliography, and integrity review",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "sha256": "e0267c0f376dc9385789ec4b0478e9d64d73337b821f081465dbbc62edcfe856"
+    }
+  ],
+  "adjudication": "DECISIONS.md",
+  "synthesis_ru": "REVIEW_RU.md",
+  "literature_access": "Mostly primary metadata/abstract checks; coordinator additionally opened SCC v2 sections 5.2-5.3. Targeted searches, not systematic literature review. Coordinator used Consensus search and fetch for SCC metadata; individual critic use is reported separately.",
+  "journal_access": "Official scopes and guidelines checked; current primary quartiles not comprehensively verified. JSS 2024 Scopus/CiteScore Q1 Software is a library transcription, direct Scopus blocked.",
+  "supplemental_diagnostic": "missingness-bounds.json is post hoc after review, not part of the reviewed PDF or predeclared test family.",
+  "validation": {
+    "preservation": "preservation-audit.json",
+    "pdf": "pdf-audit.json",
+    "ci_success_on_commit": "1e5f0de640def075ac3727e06c89574e46e7f81e",
+    "ci_url": "https://github.com/daniil-novel/article-INoT/actions/runs/34380871709"
+  },
+  "pending_experiment": "The 1000-task, five-condition, three-repeat series is unfinished and not counted as reviewed completed results."
+}

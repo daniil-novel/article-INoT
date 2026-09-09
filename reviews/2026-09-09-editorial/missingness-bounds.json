@@ -1,0 +1,68 @@
+{
+  "analysis_timing": "Post hoc, after five scientific reviews; not predeclared and not in the reviewed PDF.",
+  "source": "reproducibility/results/20260908_codex_mini_heldout200/analysis/candidate_records.jsonl",
+  "source_sha256": "253853f18d07c8b3f1ebed1fdb5156313e46eb180c19fc0ec2b34bf588b1405b",
+  "interpretation": "Finite-sample binary-outcome identification bounds, not confidence intervals or evidence of non-inferiority. Unknown endpoints range independently over {0,1}; no assumptions about missingness. The 200-task analysis also treats control-ineligible endpoints as unknown. Failure mapping is a separate operational estimand restricted to 193 control-eligible tasks, not retroactive ITT preregistration.",
+  "contrasts": {
+    "SR-SN": {
+      "eligible_tasks": {
+        "task_count": 193,
+        "tasks_with_unobserved_endpoint": 2,
+        "lower_difference_pp": -1.5544041450777202,
+        "upper_difference_pp": -0.5181347150259067
+      },
+      "all_assigned_tasks": {
+        "task_count": 200,
+        "tasks_with_unobserved_endpoint": 9,
+        "lower_difference_pp": -5.0,
+        "upper_difference_pp": 3.0
+      },
+      "eligible_generation_unavailable_counted_as_failure_difference_pp": -0.5181347150259067
+    },
+    "MR-MN": {
+      "eligible_tasks": {
+        "task_count": 193,
+        "tasks_with_unobserved_endpoint": 0,
+        "lower_difference_pp": 1.0362694300518134,
+        "upper_difference_pp": 1.0362694300518134
+      },
+      "all_assigned_tasks": {
+        "task_count": 200,
+        "tasks_with_unobserved_endpoint": 7,
+        "lower_difference_pp": -2.5,
+        "upper_difference_pp": 4.5
+      },
+      "eligible_generation_unavailable_counted_as_failure_difference_pp": 1.0362694300518134
+    },
+    "MN-SN": {
+      "eligible_tasks": {
+        "task_count": 193,
+        "tasks_with_unobserved_endpoint": 2,
+        "lower_difference_pp": -4.66321243523316,
+        "upper_difference_pp": -3.626943005181347
+      },
+      "all_assigned_tasks": {
+        "task_count": 200,
+        "tasks_with_unobserved_endpoint": 9,
+        "lower_difference_pp": -8.0,
+        "upper_difference_pp": 0.0
+      },
+      "eligible_generation_unavailable_counted_as_failure_difference_pp": -3.626943005181347
+    },
+    "MR-SR": {
+      "eligible_tasks": {
+        "task_count": 193,
+        "tasks_with_unobserved_endpoint": 0,
+        "lower_difference_pp": -2.0725388601036268,
+        "upper_difference_pp": -2.0725388601036268
+      },
+      "all_assigned_tasks": {
+        "task_count": 200,
+        "tasks_with_unobserved_endpoint": 7,
+        "lower_difference_pp": -5.5,
+        "upper_difference_pp": 1.5
+      },
+      "eligible_generation_unavailable_counted_as_failure_difference_pp": -2.0725388601036268
+    }
+  }
+}
