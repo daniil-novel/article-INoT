@@ -109,6 +109,8 @@ def docker_execute(folder, code, report):
                '--entrypoint', 'python', IMAGE, '-c', driver]
     cli.save(folder / 'argv.json', command)
     started = time.time()
+    terminal = {'state': 'started', 'started_unix': started}
+    cli.save(folder/'status.json', terminal)
     try:
         with (folder/'stdout.txt').open('xb') as out, (folder/'stderr.txt').open('xb') as err:
             result = subprocess.run(command, stdout=out, stderr=err, timeout=45)
@@ -117,19 +119,27 @@ def docker_execute(folder, code, report):
         data = cli.read(folder/'stdout.txt')
         if set(data) != {'report'} or not isinstance(data['report'], str):
             raise TransportAbort('Invalid generated-test response')
-        cli.save(folder/'status.json', {'state': 'completed', 'started_unix': started,
-                                      'finished_unix': time.time(), 'report': data['report']})
+        terminal.update(state='completed', report=data['report'], exit_code=result.returncode)
         return data['report']
-    except (subprocess.TimeoutExpired, ValueError) as exc:
+    except (Exception, TransportAbort) as exc:
+        terminal.update(state='infrastructure_failure', reason=str(exc), exception_type=type(exc).__name__)
         raise TransportAbort(str(exc)) from exc
     finally:
-        subprocess.run(['docker', '--context', 'default', 'rm', '-f', name],
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        try:
+            cleanup = subprocess.run(['docker', '--context', 'default', 'rm', '-f', name],
+                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
+            terminal['cleanup_exit_code'] = cleanup.returncode
+        except Exception as exc:
+            terminal['cleanup_error'] = str(exc)
+        terminal['finished_unix'] = time.time()
+        cli.save(folder/'status.json', terminal)
 
 
 def pilot(task, out, npm_root):
     out = out.resolve()
     out.mkdir(parents=True, exist_ok=False)
+    cli.save(out/'status.json', {'state':'initializing', 'task_id':task.get('task_id'),
+                               'started_unix':time.time()})
     (out/'empty').mkdir()
     (out/'instructions.txt').write_text(INSTRUCTIONS, encoding='utf-8')
     manifest = verify_vendor()
@@ -172,6 +182,9 @@ def pilot(task, out, npm_root):
         status = {'state': 'completed', 'upstream_format_failure': code == 'error'}
     except TransportAbort as exc:
         status = {'state': 'paused', 'reason': str(exc)}
+    except Exception as exc:
+        status = {'state': 'infrastructure_failure', 'reason': str(exc),
+                  'exception_type': type(exc).__name__}
     finally:
         cli.save(out/'requests.json', calls)
     status.update({'task_id': task['task_id'], 'calls_attempted': len(calls),
@@ -188,7 +201,18 @@ def main():
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--npm-root', type=Path, default=Path('tmp/codex-runtime'))
     a = p.parse_args()
-    print(json.dumps(pilot(cli.read(a.task), a.out, a.npm_root)))
+    preexisting = a.out.exists()
+    try:
+        status = pilot(cli.read(a.task), a.out, a.npm_root)
+    except Exception as exc:
+        # Initialization errors must also leave a terminal record, without
+        # replacing an earlier attempt supplied by mistake.
+        status_path = a.out/'status.json'
+        if not preexisting and status_path.exists() and cli.read(status_path).get('state') == 'initializing':
+            cli.save(status_path, {'state':'infrastructure_failure', 'reason':str(exc),
+                                   'exception_type':type(exc).__name__})
+        raise
+    print(json.dumps(status))
 
 
 if __name__ == '__main__':

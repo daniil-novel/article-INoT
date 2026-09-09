@@ -34,6 +34,18 @@ native BigCodeBench evaluation and gold/incorrect controls in the final image.
 No hidden tests or reference code are supplied to SCC or mounted in its generated
 test container. Keep controls, final evaluation and generated tests distinct.
 
+The pilot supplies the complete task context in the requirement but uses
+`before_func=''` in the upstream executor: it expects a self-contained returned
+program. Historical HumanEval's entry point separately supplied the source
+preamble. This is an additional dataset adaptation, not a claim of exact
+HumanEval input construction. Verify this mapping before freezing a main series.
+
+After all three pilot generations finished, failure-status hardening added
+structured initialization/container errors and cleanup records without changing
+successful session behavior. The archived v1 runner remains byte-identical and
+its supported source hash is explicitly checked during replay. No old pilot was
+rerun or replaced as a consequence of its quality outcome.
+
 Preserve every attempt; existing output folders cannot be reused. A failed pilot
 may be followed by an explicitly versioned integration repair, retaining the old
 attempt and documenting changes. Such development iterations do not enter any

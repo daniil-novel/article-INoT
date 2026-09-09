@@ -1,6 +1,10 @@
 """Contract checks execute upstream Session, not a rewritten SCC state machine."""
 import copy
 import unittest
+from unittest.mock import patch
+from pathlib import Path
+import tempfile
+import subprocess
 from reproducibility.external_baselines import scc
 
 
@@ -74,6 +78,36 @@ class SCCContracts(unittest.TestCase):
 
     def test_exact_upstream_source_integrity(self):
         self.assertEqual(scc.verify_vendor()['commit'], 'b471e12051190dbae2c71b429a3c87466df4b336')
+
+    def test_container_start_failure_retains_structured_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)/'check'
+            with patch.object(scc.subprocess, 'run', side_effect=FileNotFoundError('docker unavailable')):
+                with self.assertRaises(scc.TransportAbort):
+                    scc.docker_execute(folder, 'pass', '')
+            status = scc.cli.read(folder/'status.json')
+            self.assertEqual(status['state'], 'infrastructure_failure')
+            self.assertEqual(status['exception_type'], 'FileNotFoundError')
+            self.assertIn('cleanup_error', status)
+
+    def test_container_timeout_records_cleanup(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)/'check'
+            with patch.object(scc.subprocess, 'run', side_effect=[subprocess.TimeoutExpired('docker',45), subprocess.CompletedProcess([],0)]):
+                with self.assertRaises(scc.TransportAbort):
+                    scc.docker_execute(folder, 'while True: pass', '')
+            status = scc.cli.read(folder/'status.json')
+            self.assertEqual(status['exception_type'], 'TimeoutExpired')
+            self.assertEqual(status['cleanup_exit_code'], 0)
+
+    def test_unexpected_session_error_retains_assignment(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)/'pilot'
+            with patch.object(scc.subprocess, 'check_output', return_value=scc.cli.CLI_VERSION), patch.object(scc, 'capture'), patch.object(scc, 'run_session', side_effect=ValueError('unexpected')):
+                status = scc.pilot({'task_id':'synthetic','prompt':'example'}, folder, Path(tmp))
+            self.assertEqual(status['state'], 'infrastructure_failure')
+            self.assertEqual(scc.cli.read(folder/'status.json'), status)
+            self.assertTrue((folder/'requests.json').exists())
 
 
 if __name__ == '__main__':
