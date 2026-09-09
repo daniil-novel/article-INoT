@@ -1,0 +1,74 @@
+[
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The main experiment evaluates the Hybrid-INoT core and its controls by crossing call topology (one or three fresh model turns) with stage labels (neutral or role-labelled).",
+    "new": "The main experiment evaluates the Hybrid-INoT core and its controls by crossing call topology (one or three fresh model calls) with stage labels (neutral or role-labelled).",
+    "reason": "Uses the same precise unit as the subsequent execution description and avoids conflating a call with a conversational turn."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "every complete earlier exposed response",
+    "new": "all complete previously exposed responses",
+    "reason": "Natural English while preserving the full-history forwarding rule."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "A separately committed administrative amendment, recorded before held-out quality evaluation or inspection, permits only those never-submitted cells to continue.",
+    "new": "A separately committed amendment to the run protocol, recorded before held-out quality evaluation or inspection, permits only those never-submitted cells to continue.",
+    "reason": "Makes clear that the amendment changes execution administration, not the estimand or outcome classification."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "These checks establish evaluability and negative discrimination, not complete prompt--test semantic validity.",
+    "new": "These checks establish evaluability and discrimination against deliberately incorrect programs, not complete prompt--test semantic validity.",
+    "reason": "States exactly what the negative controls demonstrate; the original phrase is technically opaque."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "Candidate resource means sum their completed constituent turns.",
+    "new": "Per-candidate resource totals sum the completed turns that constitute that candidate.",
+    "reason": "Removes the awkward subject and makes the aggregation rule explicit."
+  },
+  {
+    "file": "sections/inot_method_en.tex",
+    "old": "The four constructed factorial cells do not stand in for a published method.",
+    "new": "The four constructed factorial cells are not a replication of a published method.",
+    "reason": "More idiomatic and methodologically explicit wording, matching the Russian statement that the factorial cells do not substitute for the published method."
+  },
+  {
+    "file": "sections/inot_method_en.tex",
+    "old": "labelled INoT*",
+    "new": "designated INoT*",
+    "reason": "Avoids the British spelling inconsistency and describes the experimental arm designation directly."
+  },
+  {
+    "file": "sections/segregation80_methods_en.tex",
+    "old": "The sample comprises the next 80 task IDs in the previously randomized reserved order",
+    "new": "The sample comprises the next 80 task IDs in the previously randomized order of the reserved pool",
+    "reason": "Clarifies that the order belongs to the reserved pool rather than implying that the order itself was reserved."
+  },
+  {
+    "file": "sections/segregation80_results_en.tex",
+    "old": "All 320 assignments produce complete programs and native outcomes, with no retry, missing result or evaluation timeout.",
+    "new": "All 320 assignments yield complete programs and native outcomes, with no retry, missing result, or evaluation timeout.",
+    "reason": "Improves idiomatic results reporting and adds the parallel comma in the enumeration."
+  },
+  {
+    "file": "sections/segregation80_results_en.tex",
+    "old": "The primary series' 18.45\\% lower single-call role valuation is therefore not convincingly reproduced by this additional wording-and-layout experiment.",
+    "new": "The additional wording-and-layout experiment therefore does not convincingly reproduce the primary series' 18.45\\% lower valuation for the single-call role condition.",
+    "reason": "Makes the comparison direction explicit and avoids the compressed possessive construction."
+  },
+  {
+    "file": "sections/swe_demonstration_en.tex",
+    "old": "An absent instance report is not itself an outcome.",
+    "new": "The absence of an instance report is not itself an outcome.",
+    "reason": "Uses a complete noun phrase and reads more naturally in the missingness rule."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "model choice is an economical available coding configuration, not a demonstrated global price minimum.",
+    "new": "model choice is an economical coding configuration available for this study, not a demonstrated global price minimum.",
+    "reason": "Removes the awkward adjective order while preserving the explicit limitation on cost claims."
+  }
+]

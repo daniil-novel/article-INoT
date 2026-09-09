@@ -1,0 +1,92 @@
+[
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "These functions can be distributed among a planner, worker and critic.",
+    "new": "These functions can be distributed among a planner, an implementer and a critic.",
+    "reason": "Uses the manuscript's established role term and supplies the article before a singular count noun."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "If separate model calls receive the same material, the context must be transmitted repeatedly.",
+    "new": "When separate model calls receive the same material, the context must be transmitted repeatedly.",
+    "reason": "Uses a more natural temporal connector for the stated condition."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "We investigate whether fewer calls can retain these functions while leaving correctness checks to external tests.",
+    "new": "We investigate whether these functions can be retained with fewer calls while leaving correctness checks to external tests.",
+    "reason": "Removes the translation-like verb-object order and clarifies what is being retained."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "The design follows the internal-dialogue motivation of INoT",
+    "new": "The design builds on INoT's internal-dialogue motivation",
+    "reason": "Uses idiomatic scholarly phrasing while preserving the cited conceptual relationship."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "It separates program generation from correctness checking.",
+    "new": "It separates program generation from the checking of correctness.",
+    "reason": "Makes the parallel noun phrases explicit for smoother formal prose."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "Evaluating the components separately tests these architectural choices within the original engineering problem.",
+    "new": "Evaluating the components separately tests these design choices within the original engineering problem.",
+    "reason": "Avoids an unnecessary architectural label where the paragraph concerns concrete design choices."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The output is a candidate program $y$ together with its verification record.",
+    "new": "The output consists of a candidate program $y$ and its verification record.",
+    "reason": "Uses standard academic wording for a compound output definition."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "For an execution protocol $a$, the engineering objective is to increase the probability of verified success while controlling expected token use and the estimated cost of generation.",
+    "new": "For an execution protocol $a$, the engineering objective is to maximize the probability of verified success while controlling expected token use and the estimated cost of generation.",
+    "reason": "Makes the optimization statement grammatically direct without changing its objective."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The design therefore asks whether the proposed internal organization contributes beyond a plain instruction, and what is gained or lost when the same operations are distributed over call boundaries.",
+    "new": "The design therefore examines whether the proposed internal organization contributes beyond a plain instruction, and what is gained or lost when the same operations are distributed across call boundaries.",
+    "reason": "Replaces conversational 'asks' and the less idiomatic preposition 'over'."
+  },
+  {
+    "file": "sections/dev40_details_en.tex",
+    "old": "Neutral stages and named roles receive the same planning, implementation and review operations.",
+    "new": "Neutral stages and named roles use the same planning, implementation and review operations.",
+    "reason": "Stages and roles use operations; they do not receive them, which avoids a calque-like collocation."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The main allocation contains 200 new task IDs from a previously frozen seeded random permutation of the reserved pool.",
+    "new": "The main allocation contains 200 new task IDs drawn from a previously frozen, seeded random permutation of the reserved pool.",
+    "reason": "Makes the sampling relation explicit and improves modifier punctuation."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The latter are 200 independent sampling units at most, not 1,000 independent tasks.",
+    "new": "At most, the latter represent 200 independent sampling units, not 1,000 independent tasks.",
+    "reason": "Reorders the sentence into idiomatic English while preserving the denominator qualification."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "once started, it counts as an attempt",
+    "new": "once it has started, it counts as an attempt",
+    "reason": "Uses a more direct definition of the counting rule."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "These checks establish evaluability and discrimination against deliberately incorrect programs, not complete prompt--test semantic validity.",
+    "new": "These checks establish evaluability and the ability to discriminate against deliberately incorrect programs, not complete prompt--test semantic validity.",
+    "reason": "Makes the abstract noun 'discrimination' explicit and avoids a potentially ambiguous standalone noun."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The interaction uses tasks complete across all four factorial conditions; it need not equal subtraction of two separately estimated label contrasts if their available-task subsets differ.",
+    "new": "The interaction uses tasks with complete outcomes across all four factorial conditions; it need not equal the difference between two separately estimated label contrasts if their available-task subsets differ.",
+    "reason": "Repairs the compressed participial phrase and uses the standard statistical expression 'difference between'."
+  }
+]

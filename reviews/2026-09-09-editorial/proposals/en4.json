@@ -1,0 +1,74 @@
+[
+  {
+    "file": "sections/revision_en.tex",
+    "old": "The result is consistent with prompt wording changing generated length; the archive does not identify a latent cognitive mechanism or establish why that change occurs.",
+    "new": "The result is consistent with prompt wording affecting generated length, but the archive does not identify a latent cognitive mechanism or explain why the change occurs.",
+    "reason": "Uses a direct causal verb and connects the evidential limit to the observation without changing its interpretation."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "Within one response, role names accompany lower measured resource use while the quality interval remains compatible with a meaningful loss.",
+    "new": "Within one response, role names accompany lower measured resource use, while the quality interval still permits a meaningful loss.",
+    "reason": "Improves the contrast between the observed resource result and the unresolved quality risk."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "Because task samples, instructions and execution conditions differ, this is a robustness constraint rather than a formal test that the primary effect changed.",
+    "new": "Because the task samples, instructions and execution conditions differ, this comparison constrains robustness rather than formally testing whether the primary effect changed.",
+    "reason": "Makes the comparison the subject and states its inferential role more directly."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "The main interaction interval includes zero.",
+    "new": "The interval for the main interaction includes zero.",
+    "reason": "Identifies the interval's referent explicitly in a results-to-interpretation transition."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "Meanwhile, the increased resource requirement of three calls appears in both stages, strengthening the descriptive observation for this implementation without proving that multi-call systems cannot help other tasks.",
+    "new": "Meanwhile, three-call conditions require more resources in both stages, strengthening this implementation-specific descriptive observation without showing that multi-call systems cannot help on other tasks.",
+    "reason": "Replaces an abstract noun phrase with the observed conditions and keeps the generalization boundary explicit."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "The resulting contribution is an operational architecture with component-level empirical evidence, rather than a claim that every Hybrid-INoT extension or hidden internal role mechanism has been validated.",
+    "new": "The contribution is therefore an operational architecture supported by component-level evidence, not validation of every Hybrid-INoT extension or of a hidden internal role mechanism.",
+    "reason": "Provides a cleaner concluding formulation while preserving the bounded contribution claim."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The original execution rule stops a shard after its first failed cell.",
+    "new": "Under the original execution rule, a shard stops after its first failed cell.",
+    "reason": "Places the protocol condition before its consequence and improves method chronology."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The final image supplements the development environment with pinned dependencies and offline NLTK resources.",
+    "new": "The final image adds pinned dependencies and offline NLTK resources to the development environment.",
+    "reason": "Uses a concrete verb and makes the relationship between environments easier to parse."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "A later read-only inventory confirms that the same image lacks the external commands used by the latter two tasks; attributing their assertions to those missing commands is a source-based diagnostic inference.",
+    "new": "A later read-only inventory confirms that the same image lacks the external commands used by the latter two tasks; linking their assertions to those missing commands is therefore a source-based diagnostic inference.",
+    "reason": "Clarifies that the attribution is an inference from the inventory, preserving the stated diagnostic status."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The exact pending list and terminal first-attempt archive are frozen before dispatch; prompts, settings, deadlines and original within-shard order are preserved.",
+    "new": "Before dispatch, the exact pending list and terminal first-attempt archive are frozen; prompts, settings, deadlines and original within-shard order are preserved.",
+    "reason": "Makes the temporal order of the continuation controls explicit."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "The common reference gate leaves 963 evaluable observations: 453 passes, 507 failures and three native timeouts.",
+    "new": "After the common reference gate, 963 observations remain evaluable: 453 passes, 507 failures and three native timeouts.",
+    "reason": "Connects the gate to the resulting denominator in a more direct results statement."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "The lower SN denominator follows its two missing generations on otherwise eligible tasks; both /1028 missing generations coincide with an unavailable reference control.",
+    "new": "The lower SN denominator reflects two missing generations on otherwise eligible tasks; both /1028 missing generations coincide with an unavailable reference control.",
+    "reason": "Uses the standard reporting verb for a denominator difference and preserves the missingness explanation."
+  }
+]

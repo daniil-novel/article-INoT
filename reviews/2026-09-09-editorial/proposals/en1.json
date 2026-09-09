@@ -1,0 +1,116 @@
+[
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "These functions can be assigned to a planner, worker and critic.",
+    "new": "These functions can be distributed among a planner, worker and critic.",
+    "reason": "Uses the natural verb for dividing responsibilities and matches the Russian source."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "We investigate whether fewer calls can retain these functions while leaving correctness checks to external tests.",
+    "new": "We investigate whether fewer calls can retain these functions while leaving correctness checking to external tests.",
+    "reason": "Makes the object of checking a process rather than a countable set of checks."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "It separates obtaining a program from the model from checking its correctness.",
+    "new": "It separates program generation from correctness checking.",
+    "reason": "Removes the awkward double from-construction while preserving the generation/evaluation boundary."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "Its retained package comparison changed these mechanisms together with call topology, so it cannot identify the contribution of internal roles.",
+    "new": "Its retained package-level comparison changed these mechanisms together with call topology, so it cannot identify the contribution of internal roles.",
+    "reason": "Package-level makes clear that the comparison concerns whole configurations."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "Each condition receives the same supplied task/context and the same subsequent evaluator.",
+    "new": "Each condition receives the same supplied task and context and undergoes the same subsequent evaluation.",
+    "reason": "Improves parallel structure and avoids the compressed task/context compound."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "A linguistic assertion that the solution is correct cannot replace those tests.",
+    "new": "A textual claim that the solution is correct cannot replace those tests.",
+    "reason": "Textual claim is more idiomatic and accessible scientific English than linguistic assertion."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "For an execution protocol $a$, the engineering objective is to increase the probability of verified success while controlling expected token consumption and inference valuation.",
+    "new": "For an execution protocol $a$, the engineering objective is to increase the probability of verified success while controlling expected token use and generation valuation.",
+    "reason": "Uses plain, parallel terms and follows the source's reference to the monetary valuation of generation."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The word \\emph{hybrid} refers to this combination of internal instructions and external executable evidence.",
+    "new": "Here, \\emph{hybrid} denotes this combination of internal instructions and external executable evidence.",
+    "reason": "More direct sentence opening and a precise definition of the term."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "There is no externally observed sequence of hidden plans or critic scores.",
+    "new": "No sequence of hidden plans or critic scores is observed externally.",
+    "reason": "Active, compact phrasing keeps the observability caveat prominent."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The exposed execution state is $\\sigma_j=(x,\\mathcal{C}_0,a,j,\\mathcal{H}_j)$, where $a$ fixes the assigned condition, $j$ is the call index and $\\mathcal{H}_j$ contains all complete preceding exposed responses.",
+    "new": "The observable execution state is $\\sigma_j=(x,\\mathcal{C}_0,a,j,\\mathcal{H}_j)$, where $a$ fixes the assigned condition, $j$ is the call index and $\\mathcal{H}_j$ contains all complete preceding exposed responses.",
+    "reason": "Observable is the standard term for the state available to the audit and matches the Russian wording."
+  },
+  {
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The model configuration is fixed within the comparison.",
+    "new": "The model configuration is held fixed throughout the comparison.",
+    "reason": "Makes the constancy claim explicit and idiomatic."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The direct comparator receives only the implementation instruction and that contract.",
+    "new": "The direct comparator receives only the implementation instruction and the same output contract.",
+    "reason": "Clarifies the referent of that contract and preserves the controlled-protocol meaning."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The latter are 200 independent sampling units at most, not 1,000 independent tasks.",
+    "new": "At most, the latter are 200 independent sampling units, not 1,000 independent tasks.",
+    "reason": "Places the scope qualifier before the subject for easier reading."
+  },
+  {
+    "file": "sections/segregation80_methods_en.tex",
+    "old": "It cannot establish that the model executed separate internal roles: checkpoint compliance and private computation remain unobserved.",
+    "new": "It cannot establish that the model executed separate internal roles because checkpoint compliance and private computation remain unobserved.",
+    "reason": "Replaces the colon with an explicit causal link for smoother prose."
+  },
+  {
+    "file": "sections/segregation80_results_en.tex",
+    "old": "These wide intervals neither establish equivalence nor exclude a meaningful quality effect.",
+    "new": "These wide intervals neither establish equivalence nor rule out a meaningful quality effect.",
+    "reason": "Rule out is the more idiomatic collocation for interval-based inference."
+  },
+  {
+    "file": "sections/swe_demonstration_en.tex",
+    "old": "The completed table therefore combines two original candidates and eight extension candidates under different operational deadlines; it is not a homogeneous first-attempt estimate.",
+    "new": "The completed table therefore combines two original candidates and eight extension candidates generated under different operational deadlines; it is not a homogeneous first-attempt estimate.",
+    "reason": "States directly what the deadlines modify: candidate generation."
+  },
+  {
+    "file": "sections/hybrid_implications_en.tex",
+    "old": "The evidence therefore supports examining a compact internal configuration, while leaving the necessity of its role structure unproven.",
+    "new": "The evidence therefore supports examining a compact internal configuration, while leaving the necessity of its role structure unresolved.",
+    "reason": "Unresolved is more neutral and natural for an empirical question that remains open."
+  },
+  {
+    "file": "sections/heldout_limitations_en.tex",
+    "old": "Available-pair inference is about the observed eligible subset.",
+    "new": "Inference from available pairs concerns the observed eligible subset.",
+    "reason": "Removes a compressed nominal phrase and makes the inferential scope explicit."
+  },
+  {
+    "file": "sections/heldout_limitations_en.tex",
+    "old": "No externally justified quality-loss margin or joint quality--cost criterion supports a non-inferiority or economic-superiority decision.",
+    "new": "No externally justified quality-loss margin or joint quality--cost criterion supports a decision about non-inferiority or economic superiority.",
+    "reason": "Improves readability while preserving both methodological caveats."
+  }
+]

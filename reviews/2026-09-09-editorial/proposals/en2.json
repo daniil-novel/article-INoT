@@ -1,0 +1,74 @@
+[
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "These functions can be assigned to a planner, worker and critic.",
+    "new": "These functions can be assigned to a planner, implementer and reviewer.",
+    "reason": "Aligns the introductory role names with the executed planner/implementer/reviewer labels used throughout the architecture."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "It separates obtaining a program from the model from checking its correctness.",
+    "new": "It separates program generation from correctness checking.",
+    "reason": "Fixes an awkward and ambiguous construction while preserving the intended generation-versus-verification distinction."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "Each condition receives the same supplied task/context and the same subsequent evaluator.",
+    "new": "Each condition receives the same task and supplied context and is evaluated by the same subsequent procedure.",
+    "reason": "Makes the controlled inputs and common evaluation procedure explicit and idiomatic."
+  },
+  {
+    "file": "sections/heldout_context_en.tex",
+    "old": "A full response/program/report/resource archive, supplemented by 400 separate development programs, 199 programs from an INoT adaptation and a limited native repository-patch demonstration.",
+    "new": "A complete archive of responses, programs, reports and resource records, supplemented by 400 separate development programs, 199 programs from an INoT adaptation and a limited native repository-patch demonstration.",
+    "reason": "Improves idiomatic English and renders the revised Russian list of archived evidence more precisely."
+  },
+  {
+    "file": "sections/closest_predecessor_en.tex",
+    "old": "The added value is an audit-focused replication and extension:",
+    "new": "The added value is a verification-focused replication and extension:",
+    "reason": "Matches the revised emphasis on inspectable executable evidence without implying a separate audit study."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "On 79 control-eligible tasks, role differences are 0.00 and -1.27 points (both Holm $p=1$); valuation ratios are 0.990 and 1.000, with intervals crossing no difference.",
+    "new": "On 79 control-eligible tasks, role-minus-neutral quality differences are 0.00 and -1.27 percentage points (both Holm $p=1$); valuation ratios are 0.990 and 1.000, with intervals that include zero.",
+    "reason": "Names the contrast and unit explicitly and uses standard statistical English for intervals containing no difference."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "An assignment is a planned generation for a specified task, condition and repetition; an assignment that has started counts as an attempt.",
+    "new": "An assignment denotes a planned generation for a specified task, condition and repetition; once started, it counts as an attempt.",
+    "reason": "Clarifies the protocol definition and removes a repetitive construction without changing the counting rule."
+  },
+  {
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The source is BigCodeBench v0.1.4~\\cite{zhuo2024bigcodebench}.",
+    "new": "The task source is BigCodeBench v0.1.4~\\cite{zhuo2024bigcodebench}.",
+    "reason": "Makes clear that BigCodeBench is the source of the tasks, not the source of the experimental protocol."
+  },
+  {
+    "file": "sections/segregation80_methods_en.tex",
+    "old": "The instruction-only model processes never receive these evaluator artifacts.",
+    "new": "The generation processes never receive these evaluator artifacts.",
+    "reason": "Matches the revised Russian scope: no generation process receives evaluator materials; the original wording unnecessarily narrows the claim to instruction-only processing."
+  },
+  {
+    "file": "sections/segregation80_results_en.tex",
+    "old": "The primary series' 18.45\\% lower single-call role valuation is therefore not convincingly reproduced by this additional wording-and-layout experiment.",
+    "new": "The primary series' 18.45\\% lower single-call role valuation is therefore not convincingly reproduced under the changed wording and layouts in this additional experiment.",
+    "reason": "Aligns the comparison with the revised Russian qualification that both wording and layout changed, without making a stronger cross-study claim."
+  },
+  {
+    "file": "sections/swe_demonstration_en.tex",
+    "old": "Output serialization limits the interpretation of this negative result.",
+    "new": "Patch-serialization errors limit the interpretation of this negative result.",
+    "reason": "States the observed source of the limitation directly and matches the revised Russian wording."
+  },
+  {
+    "file": "sections/revision_en.tex",
+    "old": "The independent 80-task extension further limits the resource interpretation.",
+    "new": "The independent 80-task extension further constrains the resource interpretation.",
+    "reason": "Uses the more precise editorial verb for evidence that narrows generalization rather than merely reducing interpretation."
+  }
+]

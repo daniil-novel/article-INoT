@@ -1,0 +1,360 @@
+[
+  {
+    "editor": "EN1",
+    "proposal": 0,
+    "file": "sections/heldout_context_en.tex",
+    "old": "These functions can be assigned to a planner, worker and critic.",
+    "new": "These functions can be distributed among a planner, worker and critic.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 2,
+    "file": "sections/heldout_context_en.tex",
+    "old": "It separates obtaining a program from the model from checking its correctness.",
+    "new": "It separates program generation from correctness checking.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 3,
+    "file": "sections/heldout_context_en.tex",
+    "old": "Its retained package comparison changed these mechanisms together with call topology, so it cannot identify the contribution of internal roles.",
+    "new": "The archived comparison of complete configurations changed these mechanisms together with call topology, so it cannot identify the contribution of internal roles.",
+    "coordinator_adapted": true
+  },
+  {
+    "editor": "EN1",
+    "proposal": 4,
+    "file": "sections/heldout_context_en.tex",
+    "old": "Each condition receives the same supplied task/context and the same subsequent evaluator.",
+    "new": "Each condition receives the same supplied task and context and undergoes the same subsequent evaluation.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 5,
+    "file": "sections/hybrid_core_en.tex",
+    "old": "A linguistic assertion that the solution is correct cannot replace those tests.",
+    "new": "A textual claim that the solution is correct cannot replace those tests.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 6,
+    "file": "sections/hybrid_core_en.tex",
+    "old": "For an execution protocol $a$, the engineering objective is to increase the probability of verified success while controlling expected token consumption and inference valuation.",
+    "new": "For an execution protocol $a$, the engineering objective is to increase the probability of verified success while controlling expected token use and the estimated cost of generation.",
+    "coordinator_adapted": true
+  },
+  {
+    "editor": "EN1",
+    "proposal": 7,
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The word \\emph{hybrid} refers to this combination of internal instructions and external executable evidence.",
+    "new": "Here, \\emph{hybrid} denotes this combination of internal instructions and external executable evidence.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 9,
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The exposed execution state is $\\sigma_j=(x,\\mathcal{C}_0,a,j,\\mathcal{H}_j)$, where $a$ fixes the assigned condition, $j$ is the call index and $\\mathcal{H}_j$ contains all complete preceding exposed responses.",
+    "new": "The observable execution state is $\\sigma_j=(x,\\mathcal{C}_0,a,j,\\mathcal{H}_j)$, where $a$ fixes the assigned condition, $j$ is the call index and $\\mathcal{H}_j$ contains all complete preceding exposed responses.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 11,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The direct comparator receives only the implementation instruction and that contract.",
+    "new": "The direct comparator receives only the implementation instruction and the same output contract.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 15,
+    "file": "sections/swe_demonstration_en.tex",
+    "old": "The completed table therefore combines two original candidates and eight extension candidates under different operational deadlines; it is not a homogeneous first-attempt estimate.",
+    "new": "The completed table therefore combines two original candidates and eight extension candidates generated under different operational deadlines; it is not a homogeneous first-attempt estimate.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN1",
+    "proposal": 17,
+    "file": "sections/heldout_limitations_en.tex",
+    "old": "Available-pair inference is about the observed eligible subset.",
+    "new": "Inference from available pairs concerns the observed eligible subset.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN2",
+    "proposal": 3,
+    "file": "sections/heldout_context_en.tex",
+    "old": "A full response/program/report/resource archive, supplemented by 400 separate development programs, 199 programs from an INoT adaptation and a limited native repository-patch demonstration.",
+    "new": "A complete archive of responses, programs, reports and resource records, supplemented by 400 separate development programs, 199 programs from an INoT adaptation and a limited native repository-patch demonstration.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN2",
+    "proposal": 5,
+    "file": "sections/revision_en.tex",
+    "old": "On 79 control-eligible tasks, role differences are 0.00 and -1.27 points (both Holm $p=1$); valuation ratios are 0.990 and 1.000, with intervals crossing no difference.",
+    "new": "On 79 control-eligible tasks, role-minus-neutral quality differences are 0.00 and -1.27 percentage points (both Holm $p=1$); valuation ratios are 0.990 and 1.000, and the corresponding mean-difference intervals include zero.",
+    "coordinator_adapted": true
+  },
+  {
+    "editor": "EN2",
+    "proposal": 6,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "An assignment is a planned generation for a specified task, condition and repetition; an assignment that has started counts as an attempt.",
+    "new": "An assignment denotes a planned generation for a specified task, condition and repetition; once started, it counts as an attempt.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN2",
+    "proposal": 7,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The source is BigCodeBench v0.1.4~\\cite{zhuo2024bigcodebench}.",
+    "new": "The task source is BigCodeBench v0.1.4~\\cite{zhuo2024bigcodebench}.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN2",
+    "proposal": 8,
+    "file": "sections/segregation80_methods_en.tex",
+    "old": "The instruction-only model processes never receive these evaluator artifacts.",
+    "new": "The generation processes never receive these evaluator artifacts.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN2",
+    "proposal": 10,
+    "file": "sections/swe_demonstration_en.tex",
+    "old": "Output serialization limits the interpretation of this negative result.",
+    "new": "Patch-serialization errors limit the interpretation of this negative result.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 0,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The main experiment evaluates the Hybrid-INoT core and its controls by crossing call topology (one or three fresh model turns) with stage labels (neutral or role-labelled).",
+    "new": "The main experiment evaluates the Hybrid-INoT core and its controls by crossing call topology (one or three fresh model calls) with stage labels (neutral or role-labelled).",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 1,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "every complete earlier exposed response",
+    "new": "all complete previously exposed responses",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 2,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "A separately committed administrative amendment, recorded before held-out quality evaluation or inspection, permits only those never-submitted cells to continue.",
+    "new": "A separately committed amendment to the run protocol, recorded before held-out quality evaluation or inspection, permits only those never-submitted cells to continue.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 3,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "These checks establish evaluability and negative discrimination, not complete prompt--test semantic validity.",
+    "new": "These checks establish evaluability and discrimination against deliberately incorrect programs, not complete prompt--test semantic validity.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 4,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "Candidate resource means sum their completed constituent turns.",
+    "new": "Resource use for each candidate is calculated by summing its completed calls; the reported means are then calculated across candidates.",
+    "coordinator_adapted": true
+  },
+  {
+    "editor": "EN3",
+    "proposal": 7,
+    "file": "sections/segregation80_methods_en.tex",
+    "old": "The sample comprises the next 80 task IDs in the previously randomized reserved order",
+    "new": "The sample comprises the next 80 task IDs in the previously randomized order of the reserved pool",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 8,
+    "file": "sections/segregation80_results_en.tex",
+    "old": "All 320 assignments produce complete programs and native outcomes, with no retry, missing result or evaluation timeout.",
+    "new": "All 320 assignments yielded complete programs and native outcomes, with no retry, missing result or evaluation timeout.",
+    "coordinator_adapted": true
+  },
+  {
+    "editor": "EN3",
+    "proposal": 9,
+    "file": "sections/segregation80_results_en.tex",
+    "old": "The primary series' 18.45\\% lower single-call role valuation is therefore not convincingly reproduced by this additional wording-and-layout experiment.",
+    "new": "The additional wording-and-layout experiment therefore does not convincingly reproduce the primary series' 18.45\\% lower valuation for the single-call role condition.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 10,
+    "file": "sections/swe_demonstration_en.tex",
+    "old": "An absent instance report is not itself an outcome.",
+    "new": "The absence of an instance report is not itself an outcome.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN3",
+    "proposal": 11,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "model choice is an economical available coding configuration, not a demonstrated global price minimum.",
+    "new": "model choice is an economical coding configuration available for this study, not a demonstrated global price minimum.",
+    "coordinator_adapted": false
+  },
+  {
+    "editor": "EN4",
+    "proposal": 0,
+    "file": "sections/revision_en.tex",
+    "old": "The result is consistent with prompt wording changing generated length; the archive does not identify a latent cognitive mechanism or establish why that change occurs.",
+    "new": "The result is consistent with prompt wording affecting generated length, but the archive does not identify a latent cognitive mechanism or explain why the change occurs."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 1,
+    "file": "sections/revision_en.tex",
+    "old": "Within one response, role names accompany lower measured resource use while the quality interval remains compatible with a meaningful loss.",
+    "new": "Within one response, role names accompany lower measured resource use, while the quality interval still permits a meaningful loss."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 2,
+    "file": "sections/revision_en.tex",
+    "old": "Because task samples, instructions and execution conditions differ, this is a robustness constraint rather than a formal test that the primary effect changed.",
+    "new": "Because task samples, instructions and execution conditions differ, this comparison limits claims about robustness; it is not a formal test of whether the primary effect changed."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 3,
+    "file": "sections/revision_en.tex",
+    "old": "The main interaction interval includes zero.",
+    "new": "The interval for the main interaction includes zero."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 4,
+    "file": "sections/revision_en.tex",
+    "old": "Meanwhile, the increased resource requirement of three calls appears in both stages, strengthening the descriptive observation for this implementation without proving that multi-call systems cannot help other tasks.",
+    "new": "Three-call conditions require more resources in both stages, consistent with the descriptive result for this implementation; this does not show that multiple calls cannot help on other tasks."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 5,
+    "file": "sections/revision_en.tex",
+    "old": "The resulting contribution is an operational architecture with component-level empirical evidence, rather than a claim that every Hybrid-INoT extension or hidden internal role mechanism has been validated.",
+    "new": "The contribution is therefore an operational architecture supported by component-level evidence, not validation of every Hybrid-INoT extension or of a hidden internal role mechanism."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 7,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The final image supplements the development environment with pinned dependencies and offline NLTK resources.",
+    "new": "The final image adds pinned dependencies and offline NLTK resources to the development environment."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 10,
+    "file": "sections/revision_en.tex",
+    "old": "The common reference gate leaves 963 evaluable observations: 453 passes, 507 failures and three native timeouts.",
+    "new": "After the common reference gate, 963 observations remain evaluable: 453 passes, 507 failures and three native timeouts."
+  },
+  {
+    "editor": "EN4",
+    "proposal": 11,
+    "file": "sections/revision_en.tex",
+    "old": "The lower SN denominator follows its two missing generations on otherwise eligible tasks; both /1028 missing generations coincide with an unavailable reference control.",
+    "new": "The lower SN denominator reflects two missing generations on otherwise eligible tasks; both /1028 missing generations coincide with an unavailable reference control."
+  },
+  {
+    "editor": "EN5",
+    "proposal": 2,
+    "file": "sections/heldout_context_en.tex",
+    "old": "We investigate whether fewer calls can retain these functions while leaving correctness checks to external tests.",
+    "new": "We investigate whether these functions can be retained with fewer calls while leaving correctness checks to external tests."
+  },
+  {
+    "editor": "EN5",
+    "proposal": 3,
+    "file": "sections/heldout_context_en.tex",
+    "old": "The design follows the internal-dialogue motivation of INoT",
+    "new": "The design draws on INoT's use of internal dialogue"
+  },
+  {
+    "editor": "EN5",
+    "proposal": 6,
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The output is a candidate program $y$ together with its verification record.",
+    "new": "The output consists of a candidate program $y$ and its verification record."
+  },
+  {
+    "editor": "EN5",
+    "proposal": 8,
+    "file": "sections/hybrid_core_en.tex",
+    "old": "The design therefore asks whether the proposed internal organization contributes beyond a plain instruction, and what is gained or lost when the same operations are distributed over call boundaries.",
+    "new": "The design therefore examines whether the proposed internal organization contributes beyond a plain instruction, and what is gained or lost when the same operations are distributed across call boundaries."
+  },
+  {
+    "editor": "EN5",
+    "proposal": 10,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The main allocation contains 200 new task IDs from a previously frozen seeded random permutation of the reserved pool.",
+    "new": "The main allocation contains 200 new task IDs drawn from a previously frozen, seeded random permutation of the reserved pool."
+  },
+  {
+    "editor": "EN5",
+    "proposal": 11,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The latter are 200 independent sampling units at most, not 1,000 independent tasks.",
+    "new": "At most, the latter represent 200 independent sampling units, not 1,000 independent tasks."
+  },
+  {
+    "editor": "EN5",
+    "proposal": 14,
+    "file": "sections/heldout_methods_en.tex",
+    "old": "The interaction uses tasks complete across all four factorial conditions; it need not equal subtraction of two separately estimated label contrasts if their available-task subsets differ.",
+    "new": "The interaction uses tasks with complete outcomes across all four factorial conditions; it need not equal the difference between two separately estimated label contrasts if their available-task subsets differ."
+  },
+  {
+    "editor": "coordinator-bilingual",
+    "file": "sections/related_extended_en.tex",
+    "old": "The contribution is a within-model factorial test on executable code with complete trace and cost accounting; general superiority over those alternatives remains outside its estimand.",
+    "new": "This study provides a within-model factorial test on executable code, preserving traces and accounting for available resource counters; it does not estimate general superiority over those alternatives."
+  },
+  {
+    "editor": "coordinator-bilingual",
+    "file": "sections/closest_predecessor_en.tex",
+    "old": "while native outcome joins and exposed token components make quality and resource differences inspectable.",
+    "new": "while linking native test results to the evaluated programs and recording token components makes quality and resource differences inspectable."
+  },
+  {
+    "editor": "coordinator-bilingual",
+    "file": "sections/revision_en.tex",
+    "old": "Hybrid-INoT combines internal planning, implementation and critique with external executable verification",
+    "new": "Hybrid-INoT combines planning, implementation and critique within a response with external executable verification"
+  },
+  {
+    "editor": "coordinator-bilingual",
+    "file": "sections/heldout_methods_ru.tex",
+    "old": "Средние ресурсы программы суммируют её завершённые вызовы.",
+    "new": "Расход на программу рассчитывается как сумма её завершённых вызовов; затем эти значения усредняются по программам."
+  },
+  {
+    "editor": "coordinator-bilingual",
+    "file": "sections/revision_ru.tex",
+    "old": "отношения стоимости --- 0.990 и 1.000, интервалы включают отсутствие разности.",
+    "new": "отношения стоимости --- 0.990 и 1.000, а интервалы соответствующих средних разностей включают ноль."
+  }
+]
