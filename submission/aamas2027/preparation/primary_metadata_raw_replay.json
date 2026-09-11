@@ -1,0 +1,48 @@
+{
+  "assigned_rows": 15000,
+  "candidate_native_outcomes_inspected": false,
+  "complete_raw_reconstruction_matches": true,
+  "completed_candidates": 14961,
+  "derivative_files_verified": 176821,
+  "failure_details_verified": true,
+  "frozen_source_loaded_outside_checkout": true,
+  "limits": [
+    "Complete generation reconstruction only, not candidate native evaluation or the full scientific analysis.",
+    "Inputs and pre-generation reference controls are read from their original retained locations.",
+    "SCC, native metadata, pricing/source-family sidecars and whole-package anonymity remain unverified."
+  ],
+  "model_or_generated_code_executed": false,
+  "not_a_submission_artifact": true,
+  "original_snapshot_verified": true,
+  "raw_candidate_records_sha256": "5f97a78c8d93d0e1ed2b9fd08fc765d2cd4bf21e8b8e6109c0d1a5a04abf8192",
+  "raw_turn_usage_sha256": "8cd49b808db9b365560f281c5767455691120ae279cad9ad4d35796e049d3812",
+  "replay_worker_sha256": "87dbe9702dd105878be29c5270d5fd535b773f8f13f3bfa7225e60e0ecaf6298",
+  "schema": "primary-metadata-raw-replay-v1",
+  "statistical_analysis_performed": false,
+  "submitted_turn_usage_rows": 26968,
+  "terminal_inventory": {
+    "assigned_candidates": 15000,
+    "completed_candidates": 14961,
+    "retained_failure_records": 31,
+    "submitted_incomplete_candidates": 39,
+    "submitted_turns": 26968,
+    "untouched_candidates": 0
+  },
+  "preparation": {
+    "version_executed": "v1; v2 reporting/inventory improvements were reviewed after this copy was created",
+    "code_sha256": "c761aa50bb8effd2a655a8c60f3e9f27928a7dd0427d018aa48bb5cf6b087bd7",
+    "original_files": 176821,
+    "copied_files": 176821,
+    "source_inventory_sha256": "713be48e03220ff4b7ff2a70eb5bfb9b4b15f7fedc520bfdf82bc1f8ed6d20d4",
+    "derivative_manifest_sha256": "c9077cfd99597f2ff34fea0fad98a0e19c62be5d7d9f8bd2c2e8e3565ef01213",
+    "rebuilt_per_turn_hash_records": 26936,
+    "residual_scan_scope": "initial recorded runtime paths only; not whole-package anonymity",
+    "residual_recorded_runtime_paths_count": 0
+  },
+  "validation": {
+    "focused_tests_passed": 18,
+    "replay_exit_code": 0,
+    "date": "2026-09-12",
+    "python": "3.11.5"
+  }
+}

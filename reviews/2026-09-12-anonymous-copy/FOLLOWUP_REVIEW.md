@@ -57,4 +57,3 @@ design.
 I found no additional demonstrated correctness defect in the updated verifier
 within the requested generation-only scope. The remaining acceptance condition
 is the coordinator's independent raw replay result.
-

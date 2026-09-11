@@ -111,3 +111,30 @@ instructions, scientific prompts, full responses, candidates, assignments and
 usage counters intact. The original hashes identify only the original archive.
 Inspect SCC and native metadata separately, then verify the complete anonymous
 copy by extraction and scientific replay.
+
+## Completed raw reconstruction of a separate primary copy
+
+A separate private generation copy now passes complete original-versus-copy raw
+reconstruction using the retained frozen implementation outside the checkout.
+All 15,000 assignment records and 26,968 submitted-turn usage records match.
+The verifier checked all 176,821 derivative files, the original source inventory,
+terminal counts, completed-candidate index and each of the 31 retained failure
+records. Failure details differ only in session identifiers. The terminal counts
+remain 14,961 completed candidates, 39 submitted incomplete assignments and zero
+untouched assignments. The [machine report](preparation/primary_metadata_raw_replay.json)
+records the code identities, counts and limits; the
+[two reviews and decisions](../../reviews/2026-09-12-anonymous-copy/DECISIONS.md)
+document the technical review.
+
+This actual copy was produced by preparation v1. Its later v2 improvements have
+not been retroactively attributed to it: in particular, the v1 residual scan
+covered only initial runtime paths. The full raw reconstruction used the updated
+verifier. No model calls, generated-code executions, native candidate outcomes
+or effect statistics were involved in this verification. Original datasets and
+completed reference controls were read at their retained locations.
+
+The copy is not an upload artifact. The full supplement still needs SCC/native
+metadata handling, provenance/pricing/source-family sidecars, a complete package
+size measurement, clean extraction and final anonymity and scientific replay
+checks. The previous ZIP size measurements describe unredacted subsets and do
+not establish the size of this derivative or the final package.

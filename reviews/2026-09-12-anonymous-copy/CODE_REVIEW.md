@@ -88,4 +88,3 @@ is expected only for lines without a rewritten thread ID.
   fragments are retained byte-for-byte.
 - Per-turn hashes are rebuilt after command/event metadata changes, and source
   bytes, sizes, and mtimes are checked again before the report is written.
-
