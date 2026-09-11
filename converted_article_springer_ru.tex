@@ -25,6 +25,7 @@
 \usepackage{algorithmicx}%
 \usepackage{algpseudocode}%
 \usepackage{tabularx}%
+\usepackage{etoolbox}%
 
 % Localize the Russian edition without changing the publisher class.
 \renewcommand{\keywordname}{Ключевые слова}
@@ -45,6 +46,7 @@
 \newtheorem{assumption}{Предположение}
 
 \makeatletter
+\patchcmd{\@maketitle}{Corresponding author(s). E-mail(s):}{Для корреспонденции:}{}{\PackageError{article-ru}{Unable to localize author contact}{Check the publisher title macro.}}
 \providecommand*{\toclevel@algorithm}{1}
 \providecommand*{\theHalgorithm}{\thealgorithm}
 \makeatother

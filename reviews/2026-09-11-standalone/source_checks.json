@@ -1,0 +1,181 @@
+{
+  "reference": "ad62589",
+  "scope": "editorial checks; no new experimental observations",
+  "en": {
+    "included_files": 37,
+    "unresolved_labels": [],
+    "duplicate_labels": [],
+    "unresolved_citations": [],
+    "repository_or_commit_dependencies": []
+  },
+  "ru": {
+    "included_files": 37,
+    "unresolved_labels": [],
+    "duplicate_labels": [],
+    "unresolved_citations": [],
+    "repository_or_commit_dependencies": []
+  },
+  "editor_numeric_math_checks": {
+    "sections/heldout_context_en.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/hybrid_core_en.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/hybrid_accounting_en.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/hybrid_implications_en.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/heldout_limitations_en.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/development_calibration_en.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/heldout_cases_en.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/heldout_context_ru.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/hybrid_core_ru.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/hybrid_accounting_ru.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/hybrid_implications_ru.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/heldout_limitations_ru.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    },
+    "sections/development_calibration_ru.tex": {
+      "numbers_unchanged": false,
+      "math_unchanged": true,
+      "numeric_content_preserved": true,
+      "note": "Removed only the redundant second occurrence of 400 in adjacent sentences."
+    },
+    "sections/heldout_cases_ru.tex": {
+      "numbers_unchanged": true,
+      "math_unchanged": true
+    }
+  },
+  "executed_prompt_quotes_unchanged": {
+    "sections/exact_prompts_en.tex": true,
+    "sections/segregation80_prompts_en.tex": true,
+    "sections/exact_prompts_ru.tex": true,
+    "sections/segregation80_prompts_ru.tex": true
+  },
+  "outcome_table_checks": {
+    "figures/segregation80/tasks_en.tex": true,
+    "figures/segregation80/tasks_ru.tex": true,
+    "sections/dev40_contrasts_en.tex": true,
+    "sections/dev40_contrasts_ru.tex": true,
+    "sections/dev40_table_en.tex": true,
+    "sections/dev40_table_ru.tex": true,
+    "sections/dev40_tasks_en.tex": true,
+    "sections/dev40_tasks_ru.tex": true,
+    "sections/heldout_exploratory_en.tex": true,
+    "sections/heldout_exploratory_ru.tex": true,
+    "sections/heldout_quality_en.tex": true,
+    "sections/heldout_quality_ru.tex": true,
+    "sections/heldout_resource_contrasts_en.tex": true,
+    "sections/heldout_resource_contrasts_ru.tex": true,
+    "sections/heldout_resources_en.tex": true,
+    "sections/heldout_resources_ru.tex": true,
+    "sections/heldout_tasks_en.tex": true,
+    "sections/heldout_tasks_ru.tex": true,
+    "sections/heldout_tests_en.tex": true,
+    "sections/heldout_tests_ru.tex": true
+  },
+  "tex_sha256": {
+    "converted_article_springer.tex": "41f6098ccf2793408f0fac98ce5c9ae931c8acfa6e8ad23b510bdbc6de5e5437",
+    "converted_article_springer_ru.tex": "1188bffa1721e7d920f427e0b3fa2a08c72ee8e6373efaa75d6fc6853bb94f3f",
+    "figures/hybrid_core_en.tex": "6aa7b1291adaa4e691ea4ba5d62ff301a6a272d7c4f9aeb166c8fc74642fa9c6",
+    "figures/hybrid_core_ru.tex": "8a389dc888ed542c7043d45988513b70c4524ea73bb533e228efde075804448c",
+    "figures/segregation80/groups_en.tex": "7500fa391aab92bed851f4d8b8507b571a29ce395d1cb5b47e8147f719aec074",
+    "figures/segregation80/groups_ru.tex": "244be36d6f7b2557d56b57ae074148e6f302c39d5fcc64e985f52f27992265ef",
+    "figures/segregation80/tasks_en.tex": "7508d8c5dc0d1200874c185801b725852bf0e065152705bdfb651e90c88ef400",
+    "figures/segregation80/tasks_ru.tex": "b080daa551706106ff4da7509dc7f894295be64b1ef798657a210c69d93c56e6",
+    "figures/segregation80/tests_en.tex": "aae59d1ea4e39a84ef6a2111064d56768db479660d8a62144974686924bcd1ae",
+    "figures/segregation80/tests_ru.tex": "dd54920d1d087db02423efe5f43b39957a62d794005ec350a72ba35c2202bd27",
+    "sections/closest_predecessor_en.tex": "47af12d6b4502240231e0859767b37ea58d392dfc9bffd4cf328497a53c5dcb6",
+    "sections/closest_predecessor_ru.tex": "1402a667097819fa5081819ebc016dfba7d93b5adc16b8c60472dcdad2f5456e",
+    "sections/dev40_contrasts_en.tex": "ba140564e578922a6e5eae3097c6a6e608c6ee2c0f692805ea710f68da1d4edc",
+    "sections/dev40_contrasts_ru.tex": "2173813a05c90b2e830fb66ca394a971f449eae948159967bc9951b62ee576b1",
+    "sections/dev40_table_en.tex": "fa68286627e47acc386f336b64e3029e492402257c66df77be4510b9dd9e18ee",
+    "sections/dev40_table_ru.tex": "0b68b60060bb29558a054e4d0a32042ee867e222d04c8152c588c43e2798c045",
+    "sections/dev40_tasks_en.tex": "62e317a6e91eafadaa3f13ab8a11220bc377b8bd4fc04a7e0ba124e01a5debda",
+    "sections/dev40_tasks_ru.tex": "c163b7e776b2f2b213570a6d3fe7818e244dc36601b77ad74d04424e4ffca3ad",
+    "sections/development_calibration_en.tex": "552f5576396bcb15b886302fb3fc75e478de50d4289646bf41c08e4563678e34",
+    "sections/development_calibration_ru.tex": "7bdb85f6ff9b69e192cd957126dd0d67e1b9a88e01735098d8514f3a37bd7bc3",
+    "sections/exact_prompts_en.tex": "18b368d0cfc2a8f81899756ee5914c699103c928453f743deefaa1815304bf89",
+    "sections/exact_prompts_ru.tex": "494fe3cb9f58d2bb76159240de3af8b61aee26e1516f788901e0366378859f4f",
+    "sections/heldout_cases_en.tex": "9b625d5197b91baef98894eb7190b747c4b8a2533e31d3d317e50e05f5f562a0",
+    "sections/heldout_cases_ru.tex": "511dbf7f01bf7160782c33ec01c052267f7d945a1352275a1830c5319885ff3a",
+    "sections/heldout_context_en.tex": "7e24bc461fbff7da959839f83d9ae834c764b477532dbe0aec219f1166ce3e10",
+    "sections/heldout_context_ru.tex": "0e7883c6e60070ced1e100ad857c8660c1a245f9e7d82eb15a5f288965548edb",
+    "sections/heldout_exploratory_en.tex": "a50884d15fe5bc97d16d75ff7292526bf8e84bae0eca029b811514765b64a500",
+    "sections/heldout_exploratory_ru.tex": "8871dd3dc393f73b1ed374604f599be7333d5301a5bdb9f1791cdd180d60df54",
+    "sections/heldout_limitations_en.tex": "d4dca3425535e761cda1ab6ebec1427955aed1a9b0b3f1bb7d3938487cfd9b89",
+    "sections/heldout_limitations_ru.tex": "c65f0e8077a14603f4289cf8e50088fd1c75aa495101d0c52bc3263beb2ff9c9",
+    "sections/heldout_methods_en.tex": "4e918b587757cbeaedb7851017f68bacd001bf7ffe51cc0b26ef37342b967a87",
+    "sections/heldout_methods_ru.tex": "ac2cd131f08d059ebc0a38cd5cd230b8470bb80f03dc0f4d063506f2b50f15c8",
+    "sections/heldout_quality_en.tex": "f73930f24a84d9333994913bb26e798cd34d29988d9ad1ea21778372e37b8d0b",
+    "sections/heldout_quality_ru.tex": "980049aafe62801ce2637232186d18e1ab363ec31ad9d90b0ed81877a651ee51",
+    "sections/heldout_resource_contrasts_en.tex": "181fd170d86265b6f9c28276c3081c29c04278abcad5467284c12094b410c07e",
+    "sections/heldout_resource_contrasts_ru.tex": "db8035124e9dcfdcc070b064b4813275aae47613d447db293418cdadc7aef840",
+    "sections/heldout_resources_en.tex": "675a0b8fb48498951fe7dcda108b3b3494a927479a89dd19b40adaeffdf7dba0",
+    "sections/heldout_resources_ru.tex": "79614140af990d9a73697aa771bd8350257f0f2565eb96d8c1ec6d7dedfc0cd7",
+    "sections/heldout_sensitivity_en.tex": "aaef9058a8db84ff26587f750ab1ca8d965d7a530615f68e8659ee9f7f112b0d",
+    "sections/heldout_sensitivity_ru.tex": "f37f8e9c0f7ec657906ce357817c7f0b55354ca2d038eeff70f964caff1ad1f3",
+    "sections/heldout_tasks_en.tex": "f996975874d351d644a9f1cb0bf6caf003ad40699c71acd3b41054ff748ce7a6",
+    "sections/heldout_tasks_ru.tex": "1396b4832e84e8e168291f8d68f75de20b7e6c2d5eb0c40ac626fa688bde5c55",
+    "sections/heldout_tests_en.tex": "c1ffc27e6542b1f547e2cf04cb8c7206917a4a027b3f497e0cb30239a3e85053",
+    "sections/heldout_tests_ru.tex": "dda65f1f8d1af910187a9a58b0bb4f72d776294fdab1e5944560e6c0dd91e15b",
+    "sections/historical_evidence_en.tex": "a341b330545c67942ea476415d75ead611b0e9662345ac7cf099624c4b2a5e2c",
+    "sections/historical_evidence_ru.tex": "4914c53838494d8f3e90324c2488f973f83cdc3fa9b16d0a9f133c2327dfbab5",
+    "sections/hybrid_accounting_en.tex": "8825735aa1e331d12c041f42bc20f86947c0e61a1edb8c0887e5ee2842242387",
+    "sections/hybrid_accounting_ru.tex": "5c35bf7a6f497a5337b10039c7c442b2120acec6fb79d1ac2424c471362107c6",
+    "sections/hybrid_core_en.tex": "1b8693687f8fae618df07069f1a7fdba4ea030bd015b4d2db5c8ce22851ce2c5",
+    "sections/hybrid_core_ru.tex": "087641e13ecd8df25cc43383230bed62da89e5d93158eba2469ddb100f1ccf6f",
+    "sections/hybrid_implications_en.tex": "a806cb51610abf5ab18a34126ea93dfb723d7b2fb42c970cf27209b761fe1176",
+    "sections/hybrid_implications_ru.tex": "3223665a2fd6b525ca0c61a32a9e4af660e9aa317796948633b6bb449ea3f500",
+    "sections/inot_method_en.tex": "92d2ed5b26357bb8f81f76841e9881459966c41e902c1d8a99a336598d033e5b",
+    "sections/inot_method_ru.tex": "a4a1ccadcd6eb1ab8fcc9502abe34ab0f32cde96df1ed2674f912c33e88a767c",
+    "sections/related_extended_en.tex": "15cd900f78c7f1ec18daeb8f3d693ce55b107f33b2401d0475c877b6fdd6d5ab",
+    "sections/related_extended_ru.tex": "b2e3b7a5c79c02a5dd3549fdb0ee490fd0249811634d88a5bdf752056b5e3870",
+    "sections/revision_en.tex": "6cf1fd214cbf8e01d72d363433ffb872f198fcf31d212bc31d8bbc2d3ab0516d",
+    "sections/revision_references.tex": "bef05cf5f13d8796aebef66f4626bce9374a71a730d6382bbb9f2813951057ab",
+    "sections/revision_ru.tex": "2078fdc49e4a2b821a27f130ce61f106a487b87b53f5cb7b5dceb74ae78a56d7",
+    "sections/scc_feasibility_en.tex": "f7a754dd1c832e0a7d0cb13d7826ef3e9be096faacf17da2f84e473569f6e69e",
+    "sections/scc_feasibility_ru.tex": "14d7bb6675e9b14d5a02bc155423b96699edf84c27cc1d69ac24b6db4e838427",
+    "sections/segregation80_methods_en.tex": "5fafb2d2e790ac190a6a2d9d3e6ff0c9b8d67980df0fe5998e29c6701992b81f",
+    "sections/segregation80_methods_ru.tex": "da41bc9efa932d7a166b253e001a83d6daf7bf4824d4ea2370f2c1c1acffde08",
+    "sections/segregation80_prompts_en.tex": "843042d70a3f08b0ddf7f0f2dedd95607494c8f5821c6926fc42b40cf73cdbb8",
+    "sections/segregation80_prompts_ru.tex": "a6ccf799737d262c3c62bd2a591ad6a204160d15cd7bc7dcb60d1b048818f8f2",
+    "sections/segregation80_results_en.tex": "a85c78d25b790359e96c1900c1d892b1382a2b0ac5ccb6ac1e154cec8827ed4e",
+    "sections/segregation80_results_ru.tex": "240a5e5176a87dc68e4ccc1dbfd4fe16cf1ffc84ac4c19eb7a1a7ac41ad6fc7b",
+    "sections/standalone_details_en.tex": "b916f82e8f1f83ae52f31fb0788b02c85fabe022194913046148fd62fbe12252",
+    "sections/standalone_details_ru.tex": "bac2fa28c47271e225b913f1f2851e1f17f40f5e0fbbb2ab2639a2f9d446fba1",
+    "sections/swe_demonstration_en.tex": "df7406770b001bc504b85d05dfbdd877cbaf0c0a0d0cd244582a4d5ba320f178",
+    "sections/swe_demonstration_ru.tex": "6d177bbc4e13eabc8315408281d7fad67cad091e4a8e56d05661735af90f3971",
+    "sections/task_dependence_en.tex": "d02d79e4b99c752b3c6b30ef529263257ee0fcc0263b417f22e5a3c13ccb0108",
+    "sections/task_dependence_ru.tex": "fe994add4f9dadc970633940bf9a7075beb93f859e42a4705554a24bad7a074e"
+  }
+}

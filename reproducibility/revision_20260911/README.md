@@ -1,5 +1,19 @@
 # Revision 20260911
 
+## Manuscript policy from 11 September
+
+The author requests standalone EN/RU articles: no commit identifiers, repository
+URLs, internal archive paths, or raw-replay dependencies in the manuscript.
+Put scientifically necessary inputs, selection rules, evaluator settings,
+extraction, statistical rules and SCC transitions in the text or its own
+appendices. Preserve exact executed prompts, numerical results, provenance and
+immutable archives outside the paper. Do not promise raw-data replay from a PDF,
+or access on request that the author has not committed to provide.
+The [focused language and self-containment reviews](../../reviews/2026-09-11-standalone/DECISIONS.md)
+are distinct from the final five scientific critics, who remain pending until
+both large studies are complete. The author confirmed no external funding and
+no competing interests; both declarations are already in the articles.
+
 The historical diagnostic below reuses the frozen heldout-200 archive without new model calls. The separate SCC comparison adds a prospective protocol and real generation/evaluation tools; it does not change the frozen factorial study.
 
 ## New SCC comparison

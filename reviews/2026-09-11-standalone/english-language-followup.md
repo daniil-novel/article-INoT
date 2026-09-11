@@ -1,0 +1,21 @@
+# Final focused language and self-containment follow-up
+
+This pass checked the current standalone additions and root-modified files only. The remaining issues below are material enough to fix; other wording is acceptable for publication. No files under review were edited.
+
+1. **Clarify the quality-control verb.** Location: `sections/standalone_details_en.tex:13`, “Reference controls completed before generation admit 985 of the 1,000 tasks to quality analysis”. “Admit” is awkward for controls. Replace with: “Reference controls completed before generation make 985 of the 1,000 tasks eligible for quality analysis; all assignments remain in resource accounting.”
+
+2. **Resolve the repeated-outcome grammar.** Location: `sections/standalone_details_en.tex:53`, “For each quality contrast, all three outcomes in both conditions must be available for a task to enter the paired analysis. The three binary outcomes are averaged within task”. The first sentence implies six outcomes, while the second implies three. Replace with: “For each quality contrast, the three repeated outcomes must be available in each of the two compared conditions for a task to enter the paired analysis. The three outcomes in each condition are averaged within task; the paired test then compares those task means.”
+
+3. **State the pending Luna status without “series”.** Location: `sections/task_dependence_en.tex:6`, “outcome-based intervals await the completed Luna series”. “Series” is vague and can suggest that results already exist. Replace with: “Source comparisons are complete; outcome-based intervals will be computed only after the Luna extension is complete.”
+
+4. **Avoid replay language that implies raw records are available with the article.** Location: `sections/scc_feasibility_en.tex:13`, “The reference and incorrect controls replay successfully ... and the selected SCC programs reproduce from the original controller transitions.” The standalone materials statement explicitly says raw records are not included. Replace with: “The reference and incorrect controls pass and fail, respectively, in the unchanged native environment, and the selected SCC programs match the controller transitions recorded for this pilot.”
+
+5. **Fix the stage/study ambiguity.** Location: `sections/revision_en.tex:72`, “Three-call conditions require more resources in both stages”. The paper uses “stage” for prompt operations, so this sounds like a claim about planning and review rather than development and primary samples. Replace with: “Three-call conditions require more resources in both studies, consistent with the descriptive result for this implementation; this does not show that multiple calls cannot help on other tasks.”
+
+6. **Remove an unnecessary artifact-dependent adjective.** Location: `sections/revision_en.tex:74`, “success against the retained executable contract”. Since the article defines the benchmark tests and acknowledges that raw records are external, replace with: “success against the specified executable contract”.
+
+7. **Make the expanded-study reuse explicit.** Location: `sections/standalone_details_en.tex:36`, “A separate Luna extension retains the same 200 primary task IDs and adds 800 unused IDs”. “Unused” is ambiguous because the 200 IDs were already studied. Replace with: “A separate Luna extension reuses the 200 primary task IDs and adds 800 IDs that were not used in the completed studies.” Keep the following sentence stating that historical programs are not pooled.
+
+8. **Tighten the article’s raw-record boundary.** Location: `sections/revision_en.tex:87`, “its tables permit checking the reported binary-outcome comparisons”. The tables support recomputation of the displayed task-level comparisons, while not permitting full replay or token reconstruction. Replace with: “Its tables permit recomputation of the displayed task-level binary comparisons, but not re-execution of every generated program or reconstruction of every token count.”
+
+The exact-prompt appendix is sufficiently self-contained: it states the literal instructions, concatenation order, output contract, and conceptual status of INoT guidance. The generation-unknown versus native-failure distinction is also clear in `standalone_details_en.tex:13` and `revision_en.tex:21`; no further change is required there.

@@ -1,0 +1,53 @@
+\subsection{Sampling, inputs and extraction}
+The initial BigCodeBench pool contains 1,140 tasks. Task IDs are sorted as strings and shuffled with Python's \texttt{random.Random(20260908)}. The first 40 form the development sample. From the remaining order, the primary study takes the first 200 IDs after excluding /0--/7; the independent layout study takes the next 80 after the same exclusions. The complete outcome tables identify these samples. In the primary study, each of four 50-task shards is sorted by task ID before task blocks and the five conditions within a block are shuffled with the same ordering seed. Repetition labels distinguish fresh generations and do not control the model's random sampling.
+
+For BigCodeBench, the task block contains the original \texttt{instruct\_prompt}; the supplied-context block contains the original \texttt{code\_prompt}, including starter code. Neither the \texttt{test} field nor the \texttt{canonical\_solution} enters the model input. The main prompt appendix specifies the operation sentences, labels, block order and final-output instruction. In the layout experiment, the displayed treatment instruction follows the task text and precedes the supplied-context block.
+
+For D, SN, SR, MN, MR and INoT*, code extraction recognizes fenced blocks with the case-insensitive tag \texttt{python} or \texttt{py}, a newline after the opening fence and a newline before the closing fence. Exactly one recognized block is required; other language tags are ignored by the extractor. Leading and trailing whitespace is stripped from that block. Zero or multiple recognized blocks yield an empty candidate and a format-error flag. This implementation is narrower than interpreting or repairing arbitrary model formatting. Empty candidates are evaluated and retained as failures when a valid completed response exists; absent generations remain unavailable. SCC uses its author's extraction procedure described below.
+
+\subsection{Native tests and environment}
+The primary evaluator uses Python 3.11, BigCodeBench v0.1.4 tasks, local execution, \texttt{instruct full}, two parallel evaluator workers and the selected task IDs. Automatic insertion of starter code is disabled (\texttt{calibrated=False}); separately completed reference controls replace automatic reference generation (\texttt{no\_gt=True}). The nominal minimum-time option is 0.1 seconds, but the unchanged evaluator imposes its larger task timeout of 241 seconds. This test timeout is distinct from the 180-second model-call deadline. Process limits are 30,720 MB for address space and data and 10 MB for the stack; the enclosing container imposes the stricter total memory cap of 3 GB, two CPUs and 256 processes, with a 512-MB temporary filesystem.
+
+The primary environment uses NumPy 1.26.4, pandas 2.2.3, SciPy 1.14.1, scikit-learn 1.5.2, Matplotlib 3.9.2 and NLTK 3.8.1. The control-stage additions include BeautifulSoup 4.12.3, OpenCV-headless 4.9.0.80, mechanize 0.4.10, rsa 4.9, pyquery 2.0.0 and statsmodels 0.14.1. NLTK's \texttt{punkt}, \texttt{averaged\_perceptron\_tagger}, \texttt{stopwords} and \texttt{words} resources are installed before offline testing. The separate 80-task environment also restores older library interfaces, including SciPy 1.10.1, scikit-learn 1.3.1 and Matplotlib 3.7.0, and adds TensorFlow-CPU 2.15.1. Its results are therefore reported separately.
+
+For each task, the reference control concatenates \texttt{code\_prompt} and \texttt{canonical\_solution}. The incorrect control appends a replacement \texttt{task\_func(*args, **kwargs)} that returns \texttt{None}. A task is eligible for quality analysis only when the reference passes and this incorrect program fails. This simple negative control is insensitive on /59 in the 80-task study, which is why that task is excluded from quality inference despite successful reference execution. For eligible tasks, native pass is coded 1; native failure or native timeout is coded 0. Missing generation, an incomplete evaluator run or an invalid control does not receive an invented binary outcome.
+
+\subsection{Calculations from paired outcomes}
+For a completed single-repeat contrast, let $b$ count tasks passed only by condition A, $c$ those passed only by B, and $n$ all complete eligible pairs. The quality difference is $(b-c)/n$. With $d=b+c>0$, the exact two-sided McNemar probability is
+\[
+p=\min\left(1,\;2\sum_{k=0}^{\min(b,c)}{d\choose k}2^{-d}\right);
+\]
+when $d=0$, $p=1$. Within a family of $m$ tests, order the raw probabilities as $p_{(1)}\le\cdots\le p_{(m)}$ and calculate
+\[
+p^{\mathrm{Holm}}_{(i)}
+=\min\left(1,\max_{j\le i}(m-j+1)p_{(j)}\right).
+\]
+Here $m=4$ in the primary study and $m=2$ in the layout study. The reported 95\% intervals are the 2.5th and 97.5th percentiles of 10,000 resampled task means, using NumPy's generator with seed 20260908. All conditions of a sampled task remain together. The intervals are descriptive; the Holm-adjusted tests determine the planned rejections.
+
+If $s$ successes and $u$ unavailable outcomes occur among $N$ assignments, the extreme success-rate bounds are $[s/N,(s+u)/N]$. For a paired difference, each unknown binary outcome is separately set to 0 or 1 to obtain the minimum and maximum possible difference. These bounds describe missing-outcome uncertainty, not sampling uncertainty.
+
+\subsection{SCC adaptation and feedback}
+The 2024 SCC workflow begins with an analyst's concise JSON plan, followed by the developer's Python program. Its tester then generates a \texttt{check(candidate)} function containing up to five printed example calls and is explicitly instructed not to write assertions. The controller executes the program and generated check together. Exception-free execution produces its internal success message; an exception or timeout produces feedback for the developer. Printed answers are not matched automatically against expected values. The inner execution limit is 10 seconds; the containing process has a separate 45-second limit. Neither reference solutions nor benchmark tests enter this feedback loop.
+
+The configured limit of two developer iterations permits one initial program and at most one repair: analyst, developer, tester, and optionally developer again. The last allowed developer response ends the session without another tester call. The author's extractor first uses the first fenced code block; if absent, it attempts to recover code from function definitions. The session retains the most recent program with an identifiable top-level function, or an error result if none exists. The model receives each role's complete message history serialized as a JSON conversation. The original API controls for temperature, top-$p$ and maximum output tokens are not enforced by the subscription transport. Thus the pilot assesses this explicit software adaptation; its internal stopping message is not the separately measured BigCodeBench outcome.
+
+\subsection{Expanded studies: design and current status}
+\label{app:expanded-studies}
+The results in the main article concern the completed mini studies. A separate Luna extension retains the same 200 primary task IDs and adds 800 unused IDs from the original randomized order, excluding development tasks, the 80 layout tasks and /0--/7. The previously studied 200 tasks are not newly held out. All generations in the extension are fresh; historical programs are not pooled into it.
+
+\begin{table}[htbp]\centering\small
+\caption{Expanded studies whose outcome analyses are not yet reported. Both use GPT-5.6 Luna, medium reasoning, and three repeats per task.}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}\toprule
+ & Component extension & SCC comparison\\\midrule
+Tasks & 1,000 & The same 1,000\\
+Conditions & D, SN, SR, MN, MR & Fresh SR, fresh SN, SCC\\
+Assignments & 15,000 & 9,000\\
+Planned calls & 27,000 & At most 18,000\\
+Current status & Generation in progress & Main generation not started\\
+Quality contrasts & \mbox{SR--SN}, \mbox{MR--MN}, \mbox{MN--SN}, \mbox{MR--SR} & \mbox{SCC--SR}, \mbox{SCC--SN}\\\bottomrule
+\end{tabularx}
+\end{table}
+
+Both protocols use fresh calls, a 600-second deadline, the full-input guard of 65,536 UTF-8 bytes, and at most eight workers. Calls are never shortened or retried; after an interruption, only untouched assignments may resume. Completed malformed responses remain candidate failures. Reference controls completed before generation admit 985 of the 1,000 tasks to quality analysis, while all assignments remain in resource accounting.
+
+For each quality contrast, all three outcomes in both conditions must be available for a task to enter the paired analysis. The three binary outcomes are averaged within task; a two-sided paired $t$-test then tests the mean task difference. Holm correction covers four tests in the component extension and two in the SCC comparison. Descriptive task-bootstrap intervals use 10,000 resamples, with seeds 20260909 and 20260911, respectively. These repetitions estimate per-generation success, not best-of-three success. The source-group sensitivity described in the main text is supplementary. SCC contrasts compare complete workflows, including generated-test feedback; no role-excised SCC condition is assigned. Neither study introduces a quality non-inferiority or joint quality--cost decision.

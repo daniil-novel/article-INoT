@@ -2,7 +2,7 @@
 \label{sec:hybrid-accounting}
 
 \subsection{A conditional token balance}
-The architectural motivation is repeated transmission of common material. Consider an additive accounting model in which the common task/context block contributes $S$ tokens each time it is supplied. An internal configuration H transmits it once; an external configuration M transmits it in each of $m$ calls. Let $J_H,J_M$ collect all other input tokens, including instruction wrappers and forwarded responses, and let $O_H,O_M$ collect all output tokens. Define $R_H=J_H+O_H$ and $R_M=J_M+O_M$. Then
+The architectural motivation is repeated transmission of common material. Consider an additive accounting model in which the common task/context block contributes $S$ tokens each time it is supplied. An internal configuration H transmits it once; an external configuration M transmits it in each of $m$ calls. Let $J_H,J_M$ denote all other input tokens, including instruction wrappers and forwarded responses, and let $O_H,O_M$ denote all output tokens. Define $R_H=J_H+O_H$ and $R_M=J_M+O_M$. Then
 \begin{equation}
 T_H=S+R_H,\qquad T_M=mS+R_M,
 \qquad T_M-T_H=(m-1)S+R_M-R_H.
@@ -22,7 +22,7 @@ Consequently, the internal configuration has a positive expected token advantage
 Subtract the two balances in Eq.~\eqref{eq:hybrid-balance}, condition on $S$, and apply the assumed upper bound on $\E[R_H-R_M\mid S]$.
 \end{proof}
 
-The residual bound is a substantive assumption, not a measured property of the model. If output or coordination costs change with context so that the bound fails, no crossover follows. This condition preserves the long-shared-context rationale for Hybrid-INoT while making its limits explicit. The present sample does not manipulate context length or estimate $K$; it cannot identify a long-context crossover or a routing threshold. The earlier compressed pilots do not identify either quantity.
+The residual bound is an assumption, not a measured property of the model. If output or coordination costs change with context so that the bound fails, the inequality gives no crossover. The present sample does not manipulate context length or estimate $K$; it cannot identify a long-context crossover or routing threshold. The earlier compressed pilots do not identify either quantity.
 
 The empirical ledger uses actual provider counters,
 \begin{equation}
@@ -36,4 +36,4 @@ Write $Q_a=\E[Y_t(a)]$ for verified success and $\bar T_a=\E[T_a]$ for expected 
 
 The monetary counterpart must use the tariff for each input, cached-input and output component. The API-equivalent quantities $V$ and $V_0$ in Section~\ref{sec:heldout-methods} implement this requirement with the recorded counters. Token advantage alone does not establish monetary advantage when cache fractions and output shares differ. Neither quantity measures the subscription bill or total ownership cost; evaluator compute, engineering work and deployment operations are outside the observed model ledger.
 
-The balance motivates a possible efficiency mechanism. Whether quality changes, whether labels add value and whether the observed resource difference favors the internal configuration are empirical questions addressed by the factorial experiment below. This analytical explanation does not add a confirmatory hypothesis to the four tests frozen before the primary run.
+The balance describes a possible efficiency mechanism. The factorial experiment below addresses whether quality changes, whether labels add value, and whether the observed resource difference favors the internal configuration. This explanation does not add a confirmatory hypothesis to the four tests frozen before the primary run.
