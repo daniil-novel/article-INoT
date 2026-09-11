@@ -1,0 +1,86 @@
+{
+  "analysis": "Post hoc batch and missingness sensitivity; no new model calls.",
+  "source_archive": "reproducibility/results/20260908_codex_mini_heldout200",
+  "source_sha256": {
+    "candidate_records.jsonl": "253853f18d07c8b3f1ebed1fdb5156313e46eb180c19fc0ec2b34bf588b1405b",
+    "heldout200_generation_manifest.json": "7c52695516d38523b42c7c23dde92ebca573b0ecb6451f533c0288fd2669e7fa",
+    "heldout200_continuation_manifest.json": "915cb43b6ac234e371f5e7487a7078e37d2d5fe3db7ff37f4b86a6b96f6fedc3"
+  },
+  "recovered_batch_rule": "continuation iff cell id occurs in heldout200_continuation_manifest.pending_cells; otherwise original",
+  "assignment_counts": {
+    "total": 1000,
+    "original": 460,
+    "continuation": 540,
+    "candidate_records": 996,
+    "submitted_incomplete": 4,
+    "control_ineligible_tasks": 7
+  },
+  "estimand_notes": {
+    "quality": "Pass=1; fail and native timeout=0 under the frozen archive's observed-failure rule; unavailable endpoint remains unknown in identification bounds.",
+    "identification_bounds": "Sharp finite-sample ranges under independent 0/1 completion of each unknown endpoint; these are identification limits, not confidence intervals.",
+    "batch": "Within-batch complete task pairs only. Original-only results have changed task-arm coverage and are not an unbiased counterfactual for a fully original run.",
+    "ci": "Reported bootstrap intervals are descriptive task-cluster percentile intervals and do not quantify provider/model/run uncertainty or batch assignment uncertainty."
+  },
+  "missingness_identification_bounds": {
+    "SR-SN": {
+      "control_eligible_193": {
+        "task_clusters": 193,
+        "task_clusters_with_unobserved_endpoint": 2,
+        "lower_difference_pp": -1.5544041450777202,
+        "upper_difference_pp": -0.5181347150259067
+      },
+      "all_assigned_200": {
+        "task_clusters": 200,
+        "task_clusters_with_unobserved_endpoint": 9,
+        "lower_difference_pp": -5.0,
+        "upper_difference_pp": 3.0
+      }
+    },
+    "MR-MN": {
+      "control_eligible_193": {
+        "task_clusters": 193,
+        "task_clusters_with_unobserved_endpoint": 0,
+        "lower_difference_pp": 1.0362694300518134,
+        "upper_difference_pp": 1.0362694300518134
+      },
+      "all_assigned_200": {
+        "task_clusters": 200,
+        "task_clusters_with_unobserved_endpoint": 7,
+        "lower_difference_pp": -2.5,
+        "upper_difference_pp": 4.5
+      }
+    },
+    "MN-SN": {
+      "control_eligible_193": {
+        "task_clusters": 193,
+        "task_clusters_with_unobserved_endpoint": 2,
+        "lower_difference_pp": -4.66321243523316,
+        "upper_difference_pp": -3.626943005181347
+      },
+      "all_assigned_200": {
+        "task_clusters": 200,
+        "task_clusters_with_unobserved_endpoint": 9,
+        "lower_difference_pp": -8.0,
+        "upper_difference_pp": 0.0
+      }
+    },
+    "MR-SR": {
+      "control_eligible_193": {
+        "task_clusters": 193,
+        "task_clusters_with_unobserved_endpoint": 0,
+        "lower_difference_pp": -2.0725388601036268,
+        "upper_difference_pp": -2.0725388601036268
+      },
+      "all_assigned_200": {
+        "task_clusters": 200,
+        "task_clusters_with_unobserved_endpoint": 7,
+        "lower_difference_pp": -5.5,
+        "upper_difference_pp": 1.5
+      }
+    }
+  },
+  "batch_arm_summary_csv": "batch_arm_summary.csv",
+  "batch_paired_contrasts_csv": "batch_paired_contrasts.csv",
+  "cross_batch_coverage_csv": "cross_batch_coverage.csv",
+  "cross_batch_interpretation": "Cross-batch complete pairs are a coverage diagnostic only; batch is confounded with execution chronology and no provider-drift or causal batch effect is identified."
+}

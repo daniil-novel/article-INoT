@@ -1,0 +1,5 @@
+contrast,original_original_pairs,continuation_continuation_pairs,cross_batch_complete_pairs,all_complete_pairs,interpretation
+SR-SN,87,102,2,191,coverage diagnostic; no causal/provider-drift interpretation
+MR-MN,89,103,1,193,coverage diagnostic; no causal/provider-drift interpretation
+MN-SN,87,104,0,191,coverage diagnostic; no causal/provider-drift interpretation
+MR-SR,90,102,1,193,coverage diagnostic; no causal/provider-drift interpretation

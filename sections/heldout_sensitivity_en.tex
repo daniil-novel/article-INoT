@@ -1,0 +1,27 @@
+\subsection*{Sensitivity to missing outcomes and execution batches}
+A post hoc diagnostic uses retained records only. Batch membership was recovered from cell IDs in the continuation manifest: 460 assigned cells are original and 540 are continuation; 996 candidate records are retained and four submitted-incomplete cells are unavailable. First-batch-only estimates are therefore not treated as an unbiased counterfactual for a complete original execution. The bounds table reports finite-sample identification limits for unknown binary endpoints, while the batch table reports descriptive within-batch contrasts on complete task pairs. Task bootstrap intervals quantify conditional task-sampling uncertainty in those observed subsets; they do not quantify provider or time variation, batch assignment, or missingness mechanisms. The cross-batch complete-pair counts are 2, 1, 0, and 1 for SR--SN, MR--MN, MN--SN, and MR--SR, respectively; singleton bounds remain sampling-uncertain despite having zero identification width. These counts do not identify provider drift or a causal batch effect. This supplement does not alter the four predeclared McNemar tests or their Holm correction.
+
+\begin{table}[!htbp]\centering\small
+\caption{Missingness identification bounds (percentage points).}\label{tab:heldout-sensitivity-bounds}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrr}\toprule
+Contrast & 193 control-eligible tasks & All 200 assigned tasks \\ \midrule
+SR$-$SN & $[-1.55,-0.52]$ & $[-5.00,+3.00]$ \\
+MR$-$MN & $[+1.04,+1.04]$ & $[-2.50,+4.50]$ \\
+MN$-$SN & $[-4.66,-3.63]$ & $[-8.00,+0.00]$ \\
+MR$-$SR & $[-2.07,-2.07]$ & $[-5.50,+1.50]$ \\
+\bottomrule\end{tabular*}\par\smallskip\footnotesize Unknown endpoints range independently over 0 and 1; bounds are identification ranges, not confidence intervals.\end{table}
+
+\begin{table}[!htbp]\centering\scriptsize
+\caption{Within-batch quality sensitivity (percentage points).}\label{tab:heldout-sensitivity-batch}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrr}\toprule
+Batch & Contrast & $N$ & Difference & Descriptive task-bootstrap 95\% interval \\ \midrule
+Original & SR$-$SN & 87 & -2.30 & $[-8.05,+3.45]$ \\
+Original & MR$-$MN & 89 & +3.37 & $[-3.37,+11.24]$ \\
+Original & MN$-$SN & 87 & -2.30 & $[-9.20,+4.60]$ \\
+Original & MR$-$SR & 90 & +4.44 & $[-2.22,+11.11]$ \\
+Continuation & SR$-$SN & 102 & +0.00 & $[-4.93,+4.90]$ \\
+Continuation & MR$-$MN & 103 & -0.97 & $[-5.83,+3.88]$ \\
+Continuation & MN$-$SN & 104 & -6.73 & $[-13.46,+0.00]$ \\
+Continuation & MR$-$SR & 102 & -7.84 & $[-13.73,-2.94]$ \\
+\bottomrule\end{tabular*}\par\smallskip\footnotesize Intervals quantify conditional task-sampling uncertainty for the observed complete-pair subset; they exclude provider/time variation and missingness mechanisms. Native timeouts are observed failures under the frozen rules. The four primary McNemar/Holm tests are unchanged.\end{table}
+
