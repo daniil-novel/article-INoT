@@ -25,6 +25,8 @@ SCC = {
     "scc_author_2024_codex_transport-single_roles": "SCC − SR",
     "scc_author_2024_codex_transport-single_neutral": "SCC − SN",
 }
+FACTORIAL_ARMS = ["direct", "single_roles", "single_neutral", "multi_roles", "multi_neutral"]
+SCC_METHODS = ["single_roles", "single_neutral", "scc_author_2024_codex_transport"]
 
 
 def _number(value, lower, upper):
@@ -41,15 +43,20 @@ def chart_rows(summary):
         study, names = "factorial", FACTORIAL
         if (summary.get("tasks") != 1000 or summary.get("planned_candidates") != 15000
                 or summary.get("repeats") != [101, 102, 103]
+                or summary.get("arms") != FACTORIAL_ARMS
+                or summary.get("bootstrap") != {"resamples": 10000, "seed": 20260909}
                 or summary.get("missingness", {}).get("assignments") != 15000
                 or summary.get("missingness", {}).get("missing_rows") != 0
-                or summary.get("inference", {}).get("holm_family_size") != 4):
+                or summary.get("inference", {}).get("holm_family_size") != 4
+                or summary.get("inference", {}).get("holm_familywise_alpha") != 0.05):
             raise ValueError("Incomplete or incompatible factorial summary")
     elif summary.get("schema") == "scc-analysis-v2":
         study, names = "scc", SCC
         contract = summary.get("strict_contract", {})
         if (summary.get("rows") != 9000 or summary.get("task_count") != 1000
+                or summary.get("task_cluster_count") != 1000 or summary.get("holm_alpha") != 0.05
                 or contract.get("enabled") is not True or contract.get("expected_cells") != 9000
+                or contract.get("methods") != SCC_METHODS
                 or contract.get("replicates") != [101, 102, 103]
                 or summary.get("primary_family") != list(SCC)):
             raise ValueError("Incomplete or incompatible SCC summary")
@@ -68,7 +75,8 @@ def chart_rows(summary):
             interval, p = result["bootstrap_95"], result["holm_p"]
         else:
             boot = result["bootstrap_task_sampling"]
-            if boot["n_tasks"] != n or boot["mean"] != result["mean_difference"]:
+            if (boot["n_tasks"] != n or boot["mean"] != result["mean_difference"]
+                    or boot.get("resamples") != 10000 or boot.get("seed") != 20260911):
                 raise ValueError("Bootstrap scope differs from the plotted contrast")
             interval, p = boot["ci95"], result["holm_adjusted_p"]
         mean = _number(result["mean_difference"], -1, 1)
@@ -106,8 +114,8 @@ def draw(rows, study, language):
         labels, limits = [], [0.0]
         for y, row in enumerate(rows):
             p = row["holm_p"]
-            ptext = "NA" if p is None else ("<0.0001" if p < 0.0001 else f"{p:.4f}")
-            labels.append(f"{row['label']}\nn = {row['paired_tasks']}; pH = {ptext}")
+            ptext = "pH = NA" if p is None else ("pH < 0.0001" if p < 0.0001 else f"pH = {p:.4f}")
+            labels.append(f"{row['label']}\nn = {row['paired_tasks']}; {ptext}")
             mean, lo, hi = row["mean_pp"], row["lower_pp"], row["upper_pp"]
             if lo is not None:
                 ax.hlines(y, lo, hi, color="#285A78", linewidth=1.8)
