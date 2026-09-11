@@ -30,6 +30,12 @@ large-study results have been integrated. Follow the
 [final readability checklist](FINAL_READABILITY_CHECKLIST.md); the current
 focused diagram and language review is an intermediate step, not that final pass.
 
+The author has now added **AAMAS 2027 conference preparation after the completed
+research and reviews**. Follow [the verified requirements and delivery plan](../../submission/aamas2027/README.md)
+and prepare the separate `codex/aamas-2027` branch and upload kit. Completion of
+the long article alone no longer completes the requested delivery. The 55%
+reserve remains the overriding operational limit.
+
 The historical diagnostic below reuses the frozen heldout-200 archive without new model calls. The separate SCC comparison adds a prospective protocol and real generation/evaluation tools; it does not change the frozen factorial study.
 
 ## New SCC comparison

@@ -1,0 +1,1174 @@
+{
+  "checked_at": "2026-09-12 Europe/Moscow",
+  "endpoint": "https://api2.openreview.net/invitations?id=ifaamas.org/AAMAS/2027/Conference/-/Submission",
+  "invitation_id": "ifaamas.org/AAMAS/2027/Conference/-/Submission",
+  "abstract_due_unix_ms": 1790942340000,
+  "fields": {
+    "title": {
+      "order": 1,
+      "description": "Title of paper. Add TeX formulas using the following formats: $In-line Formula$ or $$Block Formula$$.",
+      "parameter": {
+        "type": "string",
+        "regex": "^.{1,250}$"
+      }
+    },
+    "authors": {
+      "order": 2,
+      "description": null,
+      "parameter": {
+        "type": "string[]",
+        "regex": "[^;,\\n]+(,[^,\\n]+)*",
+        "hidden": true
+      }
+    },
+    "authorids": {
+      "order": 3,
+      "description": "Search author profile by name or profile ID. If the profile is not found, you can add the author by completing name as well as author email address.",
+      "parameter": {
+        "type": "profile{}",
+        "regex": "^~\\S+$|^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+        "mismatchError": "must be a valid email or profile ID"
+      }
+    },
+    "TLDR": {
+      "order": 5,
+      "description": "\"Too Long; Didn't Read\": a short sentence describing your paper",
+      "parameter": {
+        "fieldName": "TL;DR",
+        "type": "string",
+        "maxLength": 250,
+        "optional": true,
+        "deletable": true
+      }
+    },
+    "abstract": {
+      "order": 8,
+      "description": "Abstract of paper. Add TeX formulas using the following formats: $In-line Formula$ or $$Block Formula$$",
+      "parameter": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 5000,
+        "input": "textarea",
+        "markdown": true
+      }
+    },
+    "primary_subject_area": {
+      "order": 9,
+      "description": "Select the subject area that best represents the paper's main contribution. Choose exactly one.",
+      "parameter": {
+        "type": "string",
+        "enum": [
+          "Learning and Adaptation (LEARN)",
+          "Generative and Agentic AI (GAAI)",
+          "Game Theory and Economic Paradigms (GTEP)",
+          "Coordination, Organizations, Institutions, Norms, and Ethics (COINE)",
+          "Search, Optimization, Planning, and Scheduling (SOPS)",
+          "Representation, and Reasoning (RR)",
+          "Engineering and Analysis of Multiagent Systems (EMAS)",
+          "Modelling and Simulation of Societies (SIM)",
+          "Human-Agent Interaction (HAI)",
+          "Robotics and Control (ROBOT)",
+          "Innovative Applications and Societal Impact (IASI)"
+        ],
+        "input": "select"
+      }
+    },
+    "secondary_subject_areas": {
+      "order": 10,
+      "description": "Select up to two additional subject areas relevant to the paper. This field is optional.",
+      "parameter": {
+        "type": "string[]",
+        "items": [
+          {
+            "value": "Learning and Adaptation (LEARN)",
+            "description": "Learning and Adaptation (LEARN)",
+            "optional": true
+          },
+          {
+            "value": "Generative and Agentic AI (GAAI)",
+            "description": "Generative and Agentic AI (GAAI)",
+            "optional": true
+          },
+          {
+            "value": "Game Theory and Economic Paradigms (GTEP)",
+            "description": "Game Theory and Economic Paradigms (GTEP)",
+            "optional": true
+          },
+          {
+            "value": "Coordination, Organizations, Institutions, Norms, and Ethics (COINE)",
+            "description": "Coordination, Organizations, Institutions, Norms, and Ethics (COINE)",
+            "optional": true
+          },
+          {
+            "value": "Search, Optimization, Planning, and Scheduling (SOPS)",
+            "description": "Search, Optimization, Planning, and Scheduling (SOPS)",
+            "optional": true
+          },
+          {
+            "value": "Representation, and Reasoning (RR)",
+            "description": "Representation, and Reasoning (RR)",
+            "optional": true
+          },
+          {
+            "value": "Engineering and Analysis of Multiagent Systems (EMAS)",
+            "description": "Engineering and Analysis of Multiagent Systems (EMAS)",
+            "optional": true
+          },
+          {
+            "value": "Modelling and Simulation of Societies (SIM)",
+            "description": "Modelling and Simulation of Societies (SIM)",
+            "optional": true
+          },
+          {
+            "value": "Human-Agent Interaction (HAI)",
+            "description": "Human-Agent Interaction (HAI)",
+            "optional": true
+          },
+          {
+            "value": "Robotics and Control (ROBOT)",
+            "description": "Robotics and Control (ROBOT)",
+            "optional": true
+          },
+          {
+            "value": "Innovative Applications and Societal Impact (IASI)",
+            "description": "Innovative Applications and Societal Impact (IASI)",
+            "optional": true
+          }
+        ],
+        "maxItems": 2,
+        "input": "select",
+        "optional": true
+      }
+    },
+    "area_topics": {
+      "order": 11,
+      "description": "Select at least one and no more than three topics that best match the paper's specific technical contributions.",
+      "parameter": {
+        "type": "string[]",
+        "items": [
+          {
+            "value": "LEARN: Reasoning and learning under uncertainty",
+            "description": "LEARN: Reasoning and learning under uncertainty",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Supervised learning",
+            "description": "LEARN: Supervised learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Unsupervised and representation learning",
+            "description": "LEARN: Unsupervised and representation learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Reinforcement learning",
+            "description": "LEARN: Reinforcement learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Multiagent learning",
+            "description": "LEARN: Multiagent learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Evolutionary and biologically inspired algorithms",
+            "description": "LEARN: Evolutionary and biologically inspired algorithms",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Learning agent capabilities",
+            "description": "LEARN: Learning agent capabilities",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Learning agent-to-agent interactions, including learning to communicate and emergent communication",
+            "description": "LEARN: Learning agent-to-agent interactions, including learning to communicate and emergent communication",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Human-in-the-loop learning",
+            "description": "LEARN: Human-in-the-loop learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Few-shot learning",
+            "description": "LEARN: Few-shot learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Distributionally robust learning",
+            "description": "LEARN: Distributionally robust learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Adversarial learning",
+            "description": "LEARN: Adversarial learning",
+            "optional": true
+          },
+          {
+            "value": "LEARN: Imitation learning",
+            "description": "LEARN: Imitation learning",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Memory, state, context, long-lived interaction, and other architectural patterns for generative and agentic AI systems",
+            "description": "GAAI: Memory, state, context, long-lived interaction, and other architectural patterns for generative and agentic AI systems",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Orchestration and workflows of agents and tools",
+            "description": "GAAI: Orchestration and workflows of agents and tools",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Runtime support, infrastructure, and engineering for generative and agentic AI systems",
+            "description": "GAAI: Runtime support, infrastructure, and engineering for generative and agentic AI systems",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Embodied, multimodal, and grounded generative AI agents",
+            "description": "GAAI: Embodied, multimodal, and grounded generative AI agents",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Open-ended, autonomous, and self-improving agents based on generative AI",
+            "description": "GAAI: Open-ended, autonomous, and self-improving agents based on generative AI",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Planning, reasoning, and long-horizon agentic workflows",
+            "description": "GAAI: Planning, reasoning, and long-horizon agentic workflows",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Agency and learning in generative and agentic AI",
+            "description": "GAAI: Agency and learning in generative and agentic AI",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Interaction protocols for agentic AI",
+            "description": "GAAI: Interaction protocols for agentic AI",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Coordination, cooperation, and negotiation in generative AI agents",
+            "description": "GAAI: Coordination, cooperation, and negotiation in generative AI agents",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Normative reasoning and institutional constraints for generative AI agents",
+            "description": "GAAI: Normative reasoning and institutional constraints for generative AI agents",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Theory of mind, user modeling, and social reasoning in generative AI agents",
+            "description": "GAAI: Theory of mind, user modeling, and social reasoning in generative AI agents",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Hybrid classic-generative agents, with a focus on how generative AI agents use classical tools, models, and protocols",
+            "description": "GAAI: Hybrid classic-generative agents, with a focus on how generative AI agents use classical tools, models, and protocols",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Failure handling, recovery, and resilience in agentic AI",
+            "description": "GAAI: Failure handling, recovery, and resilience in agentic AI",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Modeling and analysis of generative AI agents",
+            "description": "GAAI: Modeling and analysis of generative AI agents",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Instruction following and multi-turn agent behavior in generative AI agents",
+            "description": "GAAI: Instruction following and multi-turn agent behavior in generative AI agents",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Human-agent interaction for delegation, feedback, and task collaboration in generative AI agents",
+            "description": "GAAI: Human-agent interaction for delegation, feedback, and task collaboration in generative AI agents",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Agentic decision support and decision boundaries",
+            "description": "GAAI: Agentic decision support and decision boundaries",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Alignment, learning from human feedback, and controllability of generative and agentic AI systems",
+            "description": "GAAI: Alignment, learning from human feedback, and controllability of generative and agentic AI systems",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Explainability, introspection, and debugging for generative AI agents and systems",
+            "description": "GAAI: Explainability, introspection, and debugging for generative AI agents and systems",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Assurance, verification, and safety in generative and agentic AI systems",
+            "description": "GAAI: Assurance, verification, and safety in generative and agentic AI systems",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Benchmarks, evaluation, and metrics for generative and agentic AI systems",
+            "description": "GAAI: Benchmarks, evaluation, and metrics for generative and agentic AI systems",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Generative AI-supported specification and implementation of agents and multiagent systems",
+            "description": "GAAI: Generative AI-supported specification and implementation of agents and multiagent systems",
+            "optional": true
+          },
+          {
+            "value": "GAAI: Agentic AI applications in science, software, education, and critical domains",
+            "description": "GAAI: Agentic AI applications in science, software, education, and critical domains",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Auctions and mechanism design",
+            "description": "GTEP: Auctions and mechanism design",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Economic foundations and market design for economics of AI agents",
+            "description": "GTEP: Economic foundations and market design for economics of AI agents",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Bargaining and negotiation",
+            "description": "GTEP: Bargaining and negotiation",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Behavioural game theory",
+            "description": "GTEP: Behavioural game theory",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Evolutionary game theory",
+            "description": "GTEP: Evolutionary game theory",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Non-cooperative games: equilibrium concepts",
+            "description": "GTEP: Non-cooperative games: equilibrium concepts",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Non-cooperative games: computational issues",
+            "description": "GTEP: Non-cooperative games: computational issues",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Non-cooperative games: theory and applications",
+            "description": "GTEP: Non-cooperative games: theory and applications",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Voting and preference aggregation",
+            "description": "GTEP: Voting and preference aggregation",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Social choice and social networks",
+            "description": "GTEP: Social choice and social networks",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Judgment aggregation and forecasting",
+            "description": "GTEP: Judgment aggregation and forecasting",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Fair allocation and matching",
+            "description": "GTEP: Fair allocation and matching",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Tournaments and agent evaluation",
+            "description": "GTEP: Tournaments and agent evaluation",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Digital and liquid democracy",
+            "description": "GTEP: Digital and liquid democracy",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Strategic coalition formation",
+            "description": "GTEP: Strategic coalition formation",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Cooperative games",
+            "description": "GTEP: Cooperative games",
+            "optional": true
+          },
+          {
+            "value": "GTEP: Persuasion and information design",
+            "description": "GTEP: Persuasion and information design",
+            "optional": true
+          },
+          {
+            "value": "COINE: Coordination and teamwork",
+            "description": "COINE: Coordination and teamwork",
+            "optional": true
+          },
+          {
+            "value": "COINE: Social network analysis",
+            "description": "COINE: Social network analysis",
+            "optional": true
+          },
+          {
+            "value": "COINE: Norms and normative systems",
+            "description": "COINE: Norms and normative systems",
+            "optional": true
+          },
+          {
+            "value": "COINE: Multiagent organizations and institutions",
+            "description": "COINE: Multiagent organizations and institutions",
+            "optional": true
+          },
+          {
+            "value": "COINE: Non-strategic coalition or team formation",
+            "description": "COINE: Non-strategic coalition or team formation",
+            "optional": true
+          },
+          {
+            "value": "COINE: Communication, including communication using natural language",
+            "description": "COINE: Communication, including communication using natural language",
+            "optional": true
+          },
+          {
+            "value": "COINE: Policy, regulation, and accountability",
+            "description": "COINE: Policy, regulation, and accountability",
+            "optional": true
+          },
+          {
+            "value": "COINE: Safety, robustness, trust, and reputation",
+            "description": "COINE: Safety, robustness, trust, and reputation",
+            "optional": true
+          },
+          {
+            "value": "COINE: Ethical considerations, including bias, equity, fairness, privacy, safety, security, and transparency",
+            "description": "COINE: Ethical considerations, including bias, equity, fairness, privacy, safety, security, and transparency",
+            "optional": true
+          },
+          {
+            "value": "COINE: Values and preferences",
+            "description": "COINE: Values and preferences",
+            "optional": true
+          },
+          {
+            "value": "COINE: Agreement technologies: negotiation and argumentation",
+            "description": "COINE: Agreement technologies: negotiation and argumentation",
+            "optional": true
+          },
+          {
+            "value": "COINE: Responsible socio-technical systems",
+            "description": "COINE: Responsible socio-technical systems",
+            "optional": true
+          },
+          {
+            "value": "COINE: Explainability and interpretability of norms and ethics in human-agent teams",
+            "description": "COINE: Explainability and interpretability of norms and ethics in human-agent teams",
+            "optional": true
+          },
+          {
+            "value": "COINE: Ethical and governance challenges of LLM-based agents in coordination, organizations, institutions, and normative systems",
+            "description": "COINE: Ethical and governance challenges of LLM-based agents in coordination, organizations, institutions, and normative systems",
+            "optional": true
+          },
+          {
+            "value": "COINE: Rebellion and disobedience in AI",
+            "description": "COINE: Rebellion and disobedience in AI",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Single-agent planning and scheduling",
+            "description": "SOPS: Single-agent planning and scheduling",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Multiagent planning and scheduling",
+            "description": "SOPS: Multiagent planning and scheduling",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Decentralized planning and scheduling",
+            "description": "SOPS: Decentralized planning and scheduling",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Planning under uncertainty",
+            "description": "SOPS: Planning under uncertainty",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Decision-theoretic planning",
+            "description": "SOPS: Decision-theoretic planning",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Temporal reasoning and scheduling",
+            "description": "SOPS: Temporal reasoning and scheduling",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Combinatorial optimization",
+            "description": "SOPS: Combinatorial optimization",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Constraint programming",
+            "description": "SOPS: Constraint programming",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Distributed constraint reasoning",
+            "description": "SOPS: Distributed constraint reasoning",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Resource and task allocation",
+            "description": "SOPS: Resource and task allocation",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Non-strategic coalition formation",
+            "description": "SOPS: Non-strategic coalition formation",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Plan and goal recognition",
+            "description": "SOPS: Plan and goal recognition",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Human-aware planning and scheduling",
+            "description": "SOPS: Human-aware planning and scheduling",
+            "optional": true
+          },
+          {
+            "value": "SOPS: Knowledge representation methods for search, optimization, planning, and scheduling",
+            "description": "SOPS: Knowledge representation methods for search, optimization, planning, and scheduling",
+            "optional": true
+          },
+          {
+            "value": "RR: Neurosymbolic approaches",
+            "description": "RR: Neurosymbolic approaches",
+            "optional": true
+          },
+          {
+            "value": "RR: Argumentation",
+            "description": "RR: Argumentation",
+            "optional": true
+          },
+          {
+            "value": "RR: Agent theories and models",
+            "description": "RR: Agent theories and models",
+            "optional": true
+          },
+          {
+            "value": "RR: Explainability",
+            "description": "RR: Explainability",
+            "optional": true
+          },
+          {
+            "value": "RR: Logics for agent reasoning",
+            "description": "RR: Logics for agent reasoning",
+            "optional": true
+          },
+          {
+            "value": "RR: Ontologies for agents",
+            "description": "RR: Ontologies for agents",
+            "optional": true
+          },
+          {
+            "value": "RR: Reasoning about knowledge, beliefs, goals, actions, plans, and change in multiagent systems",
+            "description": "RR: Reasoning about knowledge, beliefs, goals, actions, plans, and change in multiagent systems",
+            "optional": true
+          },
+          {
+            "value": "RR: Reasoning and problem solving in agent-based systems",
+            "description": "RR: Reasoning and problem solving in agent-based systems",
+            "optional": true
+          },
+          {
+            "value": "RR: Verification of agents and multiagent systems",
+            "description": "RR: Verification of agents and multiagent systems",
+            "optional": true
+          },
+          {
+            "value": "RR: Autoformalization",
+            "description": "RR: Autoformalization",
+            "optional": true
+          },
+          {
+            "value": "RR: Logic-constrained learning",
+            "description": "RR: Logic-constrained learning",
+            "optional": true
+          },
+          {
+            "value": "RR: Strategic reasoning and strategy logics",
+            "description": "RR: Strategic reasoning and strategy logics",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Requirements capture and formal specification of multiagent systems",
+            "description": "EMAS: Requirements capture and formal specification of multiagent systems",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Programming paradigms and languages for autonomous agents",
+            "description": "EMAS: Programming paradigms and languages for autonomous agents",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Runtime infrastructures and deployment platforms for scalable MAS, including cloud, edge, and hybrid settings",
+            "description": "EMAS: Runtime infrastructures and deployment platforms for scalable MAS, including cloud, edge, and hybrid settings",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Testing, debugging, verification, validation, certification, and DevOps for multiagent systems",
+            "description": "EMAS: Testing, debugging, verification, validation, certification, and DevOps for multiagent systems",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Scalability, fault tolerance, and performance engineering of MAS platforms",
+            "description": "EMAS: Scalability, fault tolerance, and performance engineering of MAS platforms",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Engineering self-adaptive agents, including lifecycle management, continuous evolution, and deployment pipelines",
+            "description": "EMAS: Engineering self-adaptive agents, including lifecycle management, continuous evolution, and deployment pipelines",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Interoperability, business agreements, and agent-to-agent protocols",
+            "description": "EMAS: Interoperability, business agreements, and agent-to-agent protocols",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Declarative, logic-based, and BDI agent programming and architectures",
+            "description": "EMAS: Declarative, logic-based, and BDI agent programming and architectures",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Engineering MAS-based simulations for rigorous analysis and experimentation",
+            "description": "EMAS: Engineering MAS-based simulations for rigorous analysis and experimentation",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Sociotechnical governance tools for norms, ethics, and accountability",
+            "description": "EMAS: Sociotechnical governance tools for norms, ethics, and accountability",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Human-centered engineering for usability, transparency, and explainability",
+            "description": "EMAS: Human-centered engineering for usability, transparency, and explainability",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Open-source toolchains, benchmarks, and reproducible MAS testbeds",
+            "description": "EMAS: Open-source toolchains, benchmarks, and reproducible MAS testbeds",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Engineering learning agents, including platform design and online adaptation",
+            "description": "EMAS: Engineering learning agents, including platform design and online adaptation",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Engineering MAS with LLM methods",
+            "description": "EMAS: Engineering MAS with LLM methods",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Hybrid symbolic-subsymbolic agent systems, including engineering architectures and platforms for neurosymbolic reasoning",
+            "description": "EMAS: Hybrid symbolic-subsymbolic agent systems, including engineering architectures and platforms for neurosymbolic reasoning",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Benchmarks, evaluation methodologies, and reproducible workflows for MAS",
+            "description": "EMAS: Benchmarks, evaluation methodologies, and reproducible workflows for MAS",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Data-driven engineering processes for design, testing, and adaptation of agent systems",
+            "description": "EMAS: Data-driven engineering processes for design, testing, and adaptation of agent systems",
+            "optional": true
+          },
+          {
+            "value": "EMAS: Engineering MAS-based autonomous systems",
+            "description": "EMAS: Engineering MAS-based autonomous systems",
+            "optional": true
+          },
+          {
+            "value": "SIM: Modeling for agent-based simulation",
+            "description": "SIM: Modeling for agent-based simulation",
+            "optional": true
+          },
+          {
+            "value": "SIM: Simulation of complex systems",
+            "description": "SIM: Simulation of complex systems",
+            "optional": true
+          },
+          {
+            "value": "SIM: Modeling of societies and social simulations",
+            "description": "SIM: Modeling of societies and social simulations",
+            "optional": true
+          },
+          {
+            "value": "SIM: Agent-based modeling and evaluation of public policies",
+            "description": "SIM: Agent-based modeling and evaluation of public policies",
+            "optional": true
+          },
+          {
+            "value": "SIM: Simulation techniques, tools, and platforms",
+            "description": "SIM: Simulation techniques, tools, and platforms",
+            "optional": true
+          },
+          {
+            "value": "SIM: Analysis of agent-based simulations",
+            "description": "SIM: Analysis of agent-based simulations",
+            "optional": true
+          },
+          {
+            "value": "SIM: Calibration, verification, and validation of agent-based simulation systems",
+            "description": "SIM: Calibration, verification, and validation of agent-based simulation systems",
+            "optional": true
+          },
+          {
+            "value": "SIM: Robustness, reliability, and trustworthiness of agent-based simulations",
+            "description": "SIM: Robustness, reliability, and trustworthiness of agent-based simulations",
+            "optional": true
+          },
+          {
+            "value": "SIM: Design and implementation of large-scale agent-based simulations",
+            "description": "SIM: Design and implementation of large-scale agent-based simulations",
+            "optional": true
+          },
+          {
+            "value": "SIM: High-performance computing and frameworks for agent-based simulation",
+            "description": "SIM: High-performance computing and frameworks for agent-based simulation",
+            "optional": true
+          },
+          {
+            "value": "SIM: Interactive and participatory simulation",
+            "description": "SIM: Interactive and participatory simulation",
+            "optional": true
+          },
+          {
+            "value": "SIM: LLM-supported agent-based simulation and modeling",
+            "description": "SIM: LLM-supported agent-based simulation and modeling",
+            "optional": true
+          },
+          {
+            "value": "HAI: Human-agent interaction",
+            "description": "HAI: Human-agent interaction",
+            "optional": true
+          },
+          {
+            "value": "HAI: Agent-based analysis of human interactions",
+            "description": "HAI: Agent-based analysis of human interactions",
+            "optional": true
+          },
+          {
+            "value": "HAI: Socially interactive agents",
+            "description": "HAI: Socially interactive agents",
+            "optional": true
+          },
+          {
+            "value": "HAI: Trust and explainability in human-agent interactions",
+            "description": "HAI: Trust and explainability in human-agent interactions",
+            "optional": true
+          },
+          {
+            "value": "HAI: Human-robot interaction and collaboration",
+            "description": "HAI: Human-robot interaction and collaboration",
+            "optional": true
+          },
+          {
+            "value": "HAI: Social robotics and social interactions",
+            "description": "HAI: Social robotics and social interactions",
+            "optional": true
+          },
+          {
+            "value": "HAI: Mixed-initiative and shared autonomy in human-agent interactions",
+            "description": "HAI: Mixed-initiative and shared autonomy in human-agent interactions",
+            "optional": true
+          },
+          {
+            "value": "HAI: Groups of humans and agents",
+            "description": "HAI: Groups of humans and agents",
+            "optional": true
+          },
+          {
+            "value": "HAI: Agent models and architectures for interaction with humans",
+            "description": "HAI: Agent models and architectures for interaction with humans",
+            "optional": true
+          },
+          {
+            "value": "HAI: Design for human-agent interaction",
+            "description": "HAI: Design for human-agent interaction",
+            "optional": true
+          },
+          {
+            "value": "HAI: Virtual humans",
+            "description": "HAI: Virtual humans",
+            "optional": true
+          },
+          {
+            "value": "HAI: Theory of mind and user modeling in human-agent interaction",
+            "description": "HAI: Theory of mind and user modeling in human-agent interaction",
+            "optional": true
+          },
+          {
+            "value": "HAI: Modelling, detecting, and accounting for deception in human-AI teams",
+            "description": "HAI: Modelling, detecting, and accounting for deception in human-AI teams",
+            "optional": true
+          },
+          {
+            "value": "HAI: Human cognitive modeling for agent interaction",
+            "description": "HAI: Human cognitive modeling for agent interaction",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Coordination and collaboration in robotic systems",
+            "description": "ROBOT: Coordination and collaboration in robotic systems",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Swarm and multi-robot collective behavior",
+            "description": "ROBOT: Swarm and multi-robot collective behavior",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Robots in adversarial settings",
+            "description": "ROBOT: Robots in adversarial settings",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Perception and vision for autonomous robots",
+            "description": "ROBOT: Perception and vision for autonomous robots",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Networked systems and distributed robotics",
+            "description": "ROBOT: Networked systems and distributed robotics",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Foundation models for autonomous robots and robot teams",
+            "description": "ROBOT: Foundation models for autonomous robots and robot teams",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Knowledge representation and reasoning in robotic systems",
+            "description": "ROBOT: Knowledge representation and reasoning in robotic systems",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Robot planning and decision-making",
+            "description": "ROBOT: Robot planning and decision-making",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Mapping, localization, and navigation for autonomous robots and robot teams",
+            "description": "ROBOT: Mapping, localization, and navigation for autonomous robots and robot teams",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Autonomous robot manipulation and task execution",
+            "description": "ROBOT: Autonomous robot manipulation and task execution",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Decision-making and control for autonomous robots and robot teams",
+            "description": "ROBOT: Decision-making and control for autonomous robots and robot teams",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Robot learning for autonomy and adaptation",
+            "description": "ROBOT: Robot learning for autonomy and adaptation",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Long-term or lifelong autonomy for robotic systems",
+            "description": "ROBOT: Long-term or lifelong autonomy for robotic systems",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Execution monitoring and failure recovery for robots",
+            "description": "ROBOT: Execution monitoring and failure recovery for robots",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Robot modeling and simulation for autonomous agents",
+            "description": "ROBOT: Robot modeling and simulation for autonomous agents",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Explainability, trust, and ethics for robots",
+            "description": "ROBOT: Explainability, trust, and ethics for robots",
+            "optional": true
+          },
+          {
+            "value": "ROBOT: Hybrid systems of robots with humans and/or software agents",
+            "description": "ROBOT: Hybrid systems of robots with humans and/or software agents",
+            "optional": true
+          },
+          {
+            "value": "IASI: Deployed or emerging applications of agent-based and agentic systems addressing real-world challenges",
+            "description": "IASI: Deployed or emerging applications of agent-based and agentic systems addressing real-world challenges",
+            "optional": true
+          },
+          {
+            "value": "IASI: Agent-based and agentic systems for social good, sustainability, public policy, education, health, science, industry, and critical domains",
+            "description": "IASI: Agent-based and agentic systems for social good, sustainability, public policy, education, health, science, industry, and critical domains",
+            "optional": true
+          },
+          {
+            "value": "IASI: Realistic agent-based and agentic models of human organizations, institutions, and socio-technical systems",
+            "description": "IASI: Realistic agent-based and agentic models of human organizations, institutions, and socio-technical systems",
+            "optional": true
+          },
+          {
+            "value": "IASI: Evaluation of the cognitive, social, organizational, or decision-support capabilities of agent-based and agentic systems in real-world settings",
+            "description": "IASI: Evaluation of the cognitive, social, organizational, or decision-support capabilities of agent-based and agentic systems in real-world settings",
+            "optional": true
+          },
+          {
+            "value": "IASI: Integration of agent-based and agentic systems with other AI, software, cyber-physical, robotic, simulation, or decision-support technologies",
+            "description": "IASI: Integration of agent-based and agentic systems with other AI, software, cyber-physical, robotic, simulation, or decision-support technologies",
+            "optional": true
+          },
+          {
+            "value": "IASI: Hybrid agent-based, agentic AI, and reinforcement learning solutions for real-world applications",
+            "description": "IASI: Hybrid agent-based, agentic AI, and reinforcement learning solutions for real-world applications",
+            "optional": true
+          },
+          {
+            "value": "IASI: Deployment, adoption, usability, robustness, safety, and maintainability of agent-based and agentic technologies in practice",
+            "description": "IASI: Deployment, adoption, usability, robustness, safety, and maintainability of agent-based and agentic technologies in practice",
+            "optional": true
+          },
+          {
+            "value": "IASI: Challenges, best practices, and lessons learned from real-world deployments of agent-based and agentic technologies",
+            "description": "IASI: Challenges, best practices, and lessons learned from real-world deployments of agent-based and agentic technologies",
+            "optional": true
+          },
+          {
+            "value": "IASI: Evaluation methodologies, benchmarks, and evidence of measurable impact for innovative applications",
+            "description": "IASI: Evaluation methodologies, benchmarks, and evidence of measurable impact for innovative applications",
+            "optional": true
+          },
+          {
+            "value": "IASI: Stakeholder involvement, participatory design, and co-creation of agent-based and agentic applications",
+            "description": "IASI: Stakeholder involvement, participatory design, and co-creation of agent-based and agentic applications",
+            "optional": true
+          },
+          {
+            "value": "IASI: Ethical, legal, societal, and environmental implications of deployed or emerging agent-based and agentic systems",
+            "description": "IASI: Ethical, legal, societal, and environmental implications of deployed or emerging agent-based and agentic systems",
+            "optional": true
+          },
+          {
+            "value": "IASI: Frameworks, platforms, and tools supporting the implementation and deployment of innovative agent-based and agentic applications",
+            "description": "IASI: Frameworks, platforms, and tools supporting the implementation and deployment of innovative agent-based and agentic applications",
+            "optional": true
+          }
+        ],
+        "maxItems": 3,
+        "input": "select",
+        "optional": false
+      }
+    },
+    "pdf": {
+      "order": 12,
+      "description": "Upload a PDF file that ends with .pdf",
+      "parameter": {
+        "type": "file",
+        "extensions": [
+          "pdf"
+        ],
+        "optional": true,
+        "maxSize": 50
+      }
+    },
+    "supplementary_material": {
+      "order": 13,
+      "description": "E.g., missing or more comprehensive versions of your proofs, detailed information about conducted experiments, source code, datasets, or anything else that may be helpful in making your results reproducible. Note that reviewers are not required to look at supplementary material. Supplementary material should be submitted as a single zip file and should not exceed 25MB.",
+      "parameter": {
+        "type": "file",
+        "extensions": [
+          "zip"
+        ],
+        "maxSize": 25,
+        "optional": true,
+        "deletable": true
+      }
+    },
+    "findings_of_AAMAS_2027": {
+      "order": 14,
+      "description": "Would you like the paper to be considered for publication in the Findings of AAMAS 2027 if it is not accepted for publication in the Proceedings of AAMAS 2027?",
+      "parameter": {
+        "type": "string",
+        "enum": [
+          "Yes",
+          "No"
+        ],
+        "input": "radio"
+      }
+    },
+    "reciprocal_reviewer_nomination": {
+      "order": 15,
+      "description": "Each submission must designate at least one qualified author who agrees to serve as a reviewer for AAMAS. The designated author must meet the qualification criteria defined in the AAMAS Reviewer Guidelines. Exceptions: a submission is exempt from this requirement if: (i) none of the authors is qualified under the \"Reviewer Eligibility\" section in the Reviewer Guidelines; or (ii) all qualified authors are serving as Area Chairs (ACs), Senior Program Committee (SPC), or in other official organizing roles for AAMAS 2027.",
+      "parameter": {
+        "type": "profile[]",
+        "regex": "~.*",
+        "optional": true,
+        "deletable": true
+      }
+    },
+    "reciprocal_reviewer_nomination_confirmation": {
+      "order": 16,
+      "description": "Please confirm your nomination status.",
+      "parameter": {
+        "type": "string",
+        "enum": [
+          "We have nominated a qualified author (see above)",
+          "We declare that no author qualifies, understanding that the submission may be desk-rejected if this is found to be incorrect",
+          "We declare that all qualified authors are already serving as Area Chairs (ACs), Senior Program Committee (SPC) members, or in other official organizing roles for AAMAS 2027"
+        ],
+        "input": "radio"
+      }
+    },
+    "submission_policies_acknowledgement": {
+      "order": 17,
+      "description": "Authors must affirm all the following statements before submitting. Failure to provide truthful attestations, or violations of these policies, may result in the submission being desk-rejected.",
+      "parameter": {
+        "type": "string[]",
+        "items": [
+          {
+            "value": "I confirm that all authors have up-to-date OpenReview profiles, including their full publication name, current position, institution-affiliated email address, and DBLP URL if available.",
+            "description": "I confirm that all authors have up-to-date OpenReview profiles, including their full publication name, current position, institution-affiliated email address, and DBLP URL if available."
+          },
+          {
+            "value": "I confirm that neither this manuscript nor a substantially similar version of it is currently under review at another archival venue.",
+            "description": "I confirm that neither this manuscript nor a substantially similar version of it is currently under review at another archival venue."
+          },
+          {
+            "value": "I confirm that any other relevant simultaneous submissions by any author of this manuscript are cited in this manuscript in anonymous form as \"under review\" work.",
+            "description": "I confirm that any other relevant simultaneous submissions by any author of this manuscript are cited in this manuscript in anonymous form as \"under review\" work."
+          },
+          {
+            "value": "If AI-assisted technologies are used, they should not be listed as authors and human authors are accountable for the accuracy of the work and for ensuring that there is no plagiarism or hallucinated citations.",
+            "description": "If AI-assisted technologies are used, they should not be listed as authors and human authors are accountable for the accuracy of the work and for ensuring that there is no plagiarism or hallucinated citations."
+          }
+        ],
+        "input": "checkbox"
+      }
+    },
+    "workshop_outreach_pipeline": {
+      "order": 18,
+      "description": "Select this option if this submission is made under the Workshop Outreach Pipeline.",
+      "parameter": {
+        "type": "string[]",
+        "items": [
+          {
+            "value": "This submission is made under the Workshop Outreach Pipeline",
+            "description": "This submission is made under the Workshop Outreach Pipeline",
+            "optional": true
+          }
+        ],
+        "input": "checkbox",
+        "optional": true
+      }
+    },
+    "workshop_outreach_pipeline_workshop": {
+      "order": 19,
+      "description": "If this submission is made under the Workshop Outreach Pipeline, select the relevant workshop. Otherwise, leave this field blank. Select \"Other\" if the workshop is not listed.",
+      "parameter": {
+        "type": "string",
+        "enum": [
+          "AAAI'26 - Agentic AI in Financial Services",
+          "AAAI'26 - Addressing Challenges and Opportunities in Human-Centric Manufacturing",
+          "AAAI'26 - Advancing Artificial Intelligence through Theory of Mind (ToM4AI)",
+          "AAAI'26 - Agentic AI Benchmarks and Applications for Enterprise Tasks",
+          "AAAI'26 - Workshop on Multi-Agent Path Finding",
+          "AAAI'26 - Deployable AI Workshop",
+          "AAAI'26 - AI Governance Workshop: Alignment, Morality, Law, and Design",
+          "AAAI'26 - AI for Urban Planning",
+          "AAAI'26 - LLM-based Multi-Agent Systems: Towards Responsible, Reliable, and Scalable Agentic Systems (LaMAS 2026)",
+          "AAAI'26 - Machine Ethics: from formal methods to emergent machine ethics",
+          "AAAI'26 - Orchestrating Synthesized Human and AI-Agentic Workflows: AI Agency Benefits, Disruptions and Management",
+          "AAAI'26 - Foundations of Agentic Systems Theory (FAST)",
+          "AAAI'26 - How Can We Trust and Control Agentic AI? Toward Alignment, Robustness, and Verifiability in Autonomous LLM Agents",
+          "AAAI'26 - AI for CyberSecurity (AICS) 2026",
+          "IJCAI-ECAI'26 - Safe Agentic AI Framework and Ecosystem Roadmapping (SAFER) Workshop to create a Trustworthy Agentic AI Roadmap",
+          "IJCAI-ECAI'26 - Multi-Objective Decision Making 2026",
+          "IJCAI-ECAI'26 - The Fourth Workshop on Computational Fair Division at IJCAI 2026",
+          "IJCAI-ECAI'26 - IJCAI 2026 Workshop on Explainable Artificial Intelligence (XAI)",
+          "IJCAI-ECAI'26 - TRUST-AI 2026 – the second European workshop on Trustworthy AI",
+          "IJCAI-ECAI'26 - 3rd Workshop on Social Choice and Learning Algorithms",
+          "IJCAI-ECAI'26 - Augmented Democracies: AI for Civic Engagement and Democratic Decision-Making",
+          "IJCAI-ECAI'26 - CLEAR Workshop: Collaborative Methods and Tools for Engineering and Evaluating Transparency in AI",
+          "IJCAI-ECAI'26 - Workshop on Foundation Models for Social Good (FMSG)",
+          "IJCAI-ECAI'26 - NORA: The 2nd Workshop on KNOwledge GRaphs & Agentic Systems Interplay",
+          "IJCAI-ECAI'26 - AI Systems for the Environment",
+          "IJCAI-ECAI'26 - The First Joint Workshop on Human Behavior Analysis and Interaction for Emotional Intelligence, with the 4th MiGA Challenge",
+          "IJCAI-ECAI'26 - Joint Workshop on Planning for Complex Real-World Applications (CAIPI) and Bridging the Gap Between AI Planning and (Reinforcement) Learning (PRL)",
+          "NeurIPS'26 - Dynamic Alignment in Human–AI Coupled Systems",
+          "NeurIPS'26 - Trustworthy AI Evaluation (TAI-Eval)",
+          "NeurIPS'26 - Agentic AI Benchmark and Application for Enterprise Tasks",
+          "NeurIPS'26 - AI Foundations for Power Grids",
+          "NeurIPS'26 - Third Workshop on Agents in the Wild: Safety, Security, and Beyond",
+          "NeurIPS'26 - Interpreting Agent Behavior (IAB): The First Workshop on Human-Centered Interpretation for Understanding Agents, Humans, and Interaction",
+          "NeurIPS'26 - AgenticOS: Co-designing Systems and ML Foundations of an OS Layer for Agentic AI",
+          "NeurIPS'26 - Who Verifies the Agents? Toward Reliable Agent Development",
+          "NeurIPS'26 - First Workshop on Meta Agents: Managing Agents that Manage Agents",
+          "NeurIPS'26 - Trustworthy AI for Good @ NeurIPS 2026",
+          "NeurIPS'26 - Foundations of Agentic Systems Theory",
+          "NeurIPS'26 - AI and the Self - Human Identity, Authenticity, and Agency in the Age of AI",
+          "NeurIPS'26 - DynaFront: Dynamics at the Frontiers of Learning, Sampling, and Games",
+          "NeurIPS'26 - Workshop on Evaluation of Interactive Agents",
+          "NeurIPS'26 - EconML: Economics for Machine Learning",
+          "NeurIPS'26 - AI-Native Academia: Authorship, Peer Review, and Conference Governance under AI",
+          "NeurIPS'26 - The Agentic Web: Networked, Continually-Adapting Agent Ecosystems",
+          "NeurIPS'26 - SocialAgent: Second Workshop on Large Language Models for Social Reasoning and Simulation",
+          "NeurIPS'26 - Human-AI Coevolution: Measuring Human-Agent Teams in the Agentic Era",
+          "ICML 2026 - Second Workshop on Technical AI Governance Research",
+          "ICML 2026 - Culture x AI: Evaluating AI as a Cultural Technology",
+          "ICML 2026 - SCALE: SCALABLE LEARNING AND OPTIMIZATION FOR EFFICIENT MULTIMODAL AI AGENTS",
+          "ICML 2026 - Trustworthy AI for Good Workshop",
+          "ICML 2026 - AI for Law Workshop",
+          "ICML 2026 - Pluralistic Alignment Workshop",
+          "ICML 2026 - Planning in The Era of Language Models (LM4Plan)",
+          "ICML 2026 - The Second Workshop on Agents in the Wild: Safety, Security, and Beyond",
+          "ICML 2026 - Workshop on Human-AI Co-Creativity: Advances, Opportunities, and Challenges",
+          "ICML 2026 - 2nd Workshop on Compositional Learning: Safety, Interpretability, and Agents",
+          "ICML 2026 - Statistical Frameworks for Uncertainty in Agentic Systems",
+          "ICML 2026 - New Frontiers in Game-Theoretic Learning",
+          "Other"
+        ],
+        "input": "select",
+        "optional": true
+      }
+    },
+    "workshop_outreach_pipeline_other_workshop": {
+      "order": 20,
+      "description": "If you selected \"Other\" above, enter the workshop name. Otherwise, leave this field blank.",
+      "parameter": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 500,
+        "input": "text",
+        "optional": true
+      }
+    }
+  }
+}
