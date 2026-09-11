@@ -52,10 +52,19 @@ def test_publisher_stages_complete_archive_and_offline_byte_check(tmp_path, monk
     monkeypatch.setattr(publish_scale, "validate_hash_bindings", lambda *a: {"runtime_sha256": "fixture"})
     monkeypatch.setattr(publish_scale, "validate_finish", lambda *a: {"records": 15000})
     monkeypatch.setattr(publish_scale, "validate_full_replay", lambda *a: None)
+    # This packaging fixture must not depend on a local, ignored benchmark checkout.
+    vendor = tmp_path / "vendor-fixture"
+    vendor.mkdir()
+    (vendor / "fixture.py").write_bytes(b"# retained source bytes\n")
+    copy_tree = publish_scale.copy_tree
+    benchmark = publish_scale.REPO_ROOT / "reproducibility/vendor/bigcodebench"
+    monkeypatch.setattr(publish_scale, "copy_tree",
+                        lambda source, target: copy_tree(vendor if source == benchmark else source, target))
     output = tmp_path / "published"
     publish(root, output, inputs, gate, frozen)
     assert (output / "analysis" / "candidate_records.jsonl").is_file()
     assert (output / "pipeline").is_dir()
+    assert (output / "sources/bigcodebench/fixture.py").read_bytes() == b"# retained source bytes\n"
     assert (output / "verify_bytes.py").is_file()
     subprocess.run([sys.executable, str(output / "verify_bytes.py")], check=True, capture_output=True, text=True)
     assert (output / "EVIDENCE_MANIFEST.json").is_file()

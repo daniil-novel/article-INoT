@@ -127,7 +127,7 @@ def render_tex(report: dict[str, Any], language: str) -> str:
         return f"\\subsection*{{{title}}}\n{prose}\n"
     prose = ("This descriptive report uses the retained 15,000-assignment ledger and the frozen 985-task control gate. Bounds are assignment-denominator identification ranges with three repeats averaged within task; they are not confidence intervals or non-inferiority evidence."
              if language == "en" else
-             "Этот описательный отчёт использует сохранённый реестр из 15\,000 назначений и фиксированное контрольное множество из 985 задач. Границы задают идентификационный диапазон для знаменателя назначений; три повтора усреднены внутри задачи. Это не доверительные интервалы и не проверка не меньшей эффективности.")
+             r"Этот описательный отчёт использует сохранённый реестр из 15\,000 назначений и фиксированное контрольное множество из 985 задач. Границы задают идентификационный диапазон для знаменателя назначений; три повтора усреднены внутри задачи. Это не доверительные интервалы и не проверка не меньшей эффективности.")
     ru_labels = {"single_roles_minus_single_neutral": "Роли--нейтральный",
                  "multi_roles_minus_multi_neutral": "Мульти-роли--мульти-нейтр.",
                  "multi_neutral_minus_single_neutral": "Мульти-нейтр.--нейтр.",
