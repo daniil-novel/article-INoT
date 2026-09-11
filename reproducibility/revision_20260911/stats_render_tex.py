@@ -120,7 +120,7 @@ def main() -> None:
         # exactly ``\\`` before rules (rather than an accidental third slash).
         body = body.replace(r"\\\ \midrule", r"\\ \midrule")
         body = body.replace(r"\\\bottomrule", "\\\\\n" + r"\bottomrule")
-        (SECTIONS / f"heldout_sensitivity_{language}.tex").write_text(body, encoding="utf-8")
+        (SECTIONS / f"heldout_sensitivity_{language}.tex").write_text(body.rstrip() + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

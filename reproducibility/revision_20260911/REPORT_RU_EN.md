@@ -1,7 +1,7 @@
 # Post-review statistics: missingness and batch sensitivity
 
-Date: 2026-09-11  
-Archive: `reproducibility/results/20260908_codex_mini_heldout200`  
+Date: 2026-09-11
+Archive: `reproducibility/results/20260908_codex_mini_heldout200`
 Code: `stats_batch_missingness.py`
 
 ## Русский отчёт

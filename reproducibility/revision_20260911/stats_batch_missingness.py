@@ -197,7 +197,7 @@ for batch in ("original", "continuation"):
         row.update(arm_batch_summary(batch, arm))
         batch_rows.append(row)
 with (OUT / "batch_arm_summary.csv").open("w", newline="", encoding="utf-8") as f:
-    writer = csv.DictWriter(f, fieldnames=batch_rows[0].keys())
+    writer = csv.DictWriter(f, fieldnames=batch_rows[0].keys(), lineterminator="\n")
     writer.writeheader(); writer.writerows(batch_rows)
 
 paired_rows = []
@@ -224,10 +224,10 @@ for name, (a, b) in CONTRASTS.items():
                        "all_complete_pairs": sum(counts.values()),
                        "interpretation": "coverage diagnostic; no causal/provider-drift interpretation"})
 with (OUT / "cross_batch_coverage.csv").open("w", newline="", encoding="utf-8") as f:
-    writer = csv.DictWriter(f, fieldnames=cross_rows[0].keys())
+    writer = csv.DictWriter(f, fieldnames=cross_rows[0].keys(), lineterminator="\n")
     writer.writeheader(); writer.writerows(cross_rows)
 with (OUT / "batch_paired_contrasts.csv").open("w", newline="", encoding="utf-8") as f:
-    writer = csv.DictWriter(f, fieldnames=paired_rows[0].keys())
+    writer = csv.DictWriter(f, fieldnames=paired_rows[0].keys(), lineterminator="\n")
     writer.writeheader(); writer.writerows(paired_rows)
 
 
