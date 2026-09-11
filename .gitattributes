@@ -26,3 +26,5 @@ reproducibility/results/20260908_scale1000_mini_unavailable/** -text -whitespace
 reproducibility/results/20260908_scale1000_luna_preflight/** -text -whitespace
 reproducibility/results/20260908_scale1000_preflight/** -text -whitespace
 reproducibility/task_dependence/source-audit-v2/** -text -whitespace
+reproducibility/data/bigcodebench-v0.1.4.jsonl -text -whitespace
+reproducibility/data/bigcodebench-split/prepare_manifest.json -text -whitespace
