@@ -15,6 +15,7 @@ import shutil
 import sys
 import traceback
 import tempfile
+import subprocess
 from typing import Any
 
 from reproducibility.evidence_manifest import write as write_evidence_manifest
@@ -399,7 +400,14 @@ def publish(root: Path, output: Path, inputs: Path, gate: Path, frozen_manifest:
         attach(root, output, "factorial", inputs, gate, REPO_ROOT)
         with (output / "README.md").open("a", encoding="utf-8") as stream:
             stream.write("\nThe supplementary source-family intervals include every draw and their complete source graph. Install `supplementary-sources/reproducibility/requirements-publication.txt`, then run `python source_family_replay.py` to recompute them independently of the repository checkout. This supplements the main replay.\n")
+        from reproducibility.revision_20260911.scale_replay import install
+        install(output, REPO_ROOT)
+        with (output / "README.md").open("a", encoding="utf-8") as stream:
+            stream.write("\nFor complete offline reconstruction, install `requirements-publication.txt` and run `python provenance/scale_replay.py --archive .`. It uses retained frozen code to reconstruct all raw-response/native-report joins and recompute the entire registered statistical summary. `replay_verify.py` remains a smaller dependency-free diagnostic.\n")
+        with (output / "COMMANDS.md").open("a", encoding="utf-8") as stream:
+            stream.write("\nFull frozen-code replay, without model calls or Docker execution:\n\n```text\npython -m pip install -r requirements-publication.txt\npython provenance/scale_replay.py --archive .\npython source_family_replay.py\n```\n")
         write_evidence_manifest(output)
+        verify_portable(output)
         return {"output": str(output), "completion": completion, "hash_bindings": binding}
     except Exception as exc:
         (output / ".publish_failed.json").write_text(
@@ -407,6 +415,18 @@ def publish(root: Path, output: Path, inputs: Path, gate: Path, frozen_manifest:
             encoding="utf-8",
         )
         raise
+
+
+def verify_portable(archive: Path) -> dict:
+    """A new interpreter outside the checkout must verify the packaged result."""
+    environment = dict(os.environ)
+    environment.pop("PYTHONPATH", None)
+    with tempfile.TemporaryDirectory(prefix="luna-portable-cwd-") as directory:
+        result = subprocess.run([sys.executable, "-X", "utf8", str(archive / "provenance/scale_replay.py"),
+            "--archive", str(archive)], cwd=directory, env=environment, capture_output=True, text=True)
+    if result.returncode:
+        fail("Full portable replay failed: " + result.stderr[-4000:])
+    return json.loads(result.stdout)
 
 
 def main() -> None:

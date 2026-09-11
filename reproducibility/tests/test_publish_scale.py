@@ -57,6 +57,9 @@ def test_publisher_stages_complete_archive_and_offline_byte_check(tmp_path, monk
     from reproducibility.task_dependence import package
     attached = []
     monkeypatch.setattr(package, "attach", lambda *args: attached.append(args))
+    from reproducibility.revision_20260911 import scale_replay
+    monkeypatch.setattr(scale_replay, "install", lambda *args: None)
+    monkeypatch.setattr(publish_scale, "verify_portable", lambda *args: {"ok": True})
     # This packaging fixture must not depend on a local, ignored benchmark checkout.
     vendor = tmp_path / "vendor-fixture"
     vendor.mkdir()
