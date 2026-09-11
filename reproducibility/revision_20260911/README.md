@@ -22,6 +22,38 @@ submitted attempts and pauses on quota or evidence failures. It never spends
 a quota-reset credit or switches to a paid API automatically. Model calls and
 native evaluation are real work; these launch commands are not offline replay.
 
+## Publication and complete offline replay
+
+Publication follows completion of generation, all native groups, the registered
+analysis, and the source-family sensitivity commands in
+[task_dependence/README.md](../task_dependence/README.md). The publishers refuse
+to produce a successful archive while these stages are incomplete.
+
+For the factorial archive, the original `replay_verify.py` checks only the
+primary means and counts without scientific Python dependencies. The added
+`provenance/scale_replay.py` uses the retained frozen implementation to rebuild
+every raw-response/native-report join, all assignment and usage records, and
+the entire registered statistical summary. From a downloaded completed archive:
+
+```text
+python -m pip install -r requirements-publication.txt
+python provenance/scale_replay.py --archive .
+python source_family_replay.py
+```
+
+The publisher must successfully run full replay in a new interpreter from a
+directory outside the checkout before returning success. The replay copies
+preserve the frozen source bytes and separately verified Luna protocol;
+imports from a local checkout are rejected. The source-family command performs
+the separate supplementary calculations. Neither command calls a model or
+executes benchmark programs. Both depend on complete retained native evidence.
+
+Publication helpers and host dependency declarations are retained with their
+own evidence hashes. They are distinct from the sources bound by the original
+generation manifest. Tests of this packaging use explicitly artificial ledgers,
+responses and native-report fixtures; they are not scientific observations.
+The completed real archive still must pass the same replay after native testing.
+
 ## Historical sensitivity diagnostic
 
 Run from the repository root:
