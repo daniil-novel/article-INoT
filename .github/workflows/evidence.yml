@@ -28,6 +28,18 @@ jobs:
         run: python -m pytest reproducibility/tests reproducibility/revision_20260911/scc_revision_tests.py reproducibility/revision_20260911/tests_scc_analysis.py -q
       - name: Replay post hoc missingness and execution-batch sensitivity
         run: python reproducibility/revision_20260911/stats_batch_missingness.py
+      - name: Reconstruct all source-task similarity groups without model outcomes
+        run: |
+          python -m reproducibility.task_dependence.audit --output tmp/ci-source-audit
+          python - <<'PY'
+          from pathlib import Path
+          from reproducibility.evidence_manifest import verify
+          retained = Path('reproducibility/task_dependence/source-audit-v2')
+          verify(retained)
+          for name in ('summary.json', 'partitions.json', 'edges.jsonl', 'fingerprints.jsonl'):
+              assert (retained/name).read_bytes() == (Path('tmp/ci-source-audit')/name).read_bytes(), name
+          print('All 1140 source fingerprints and 1000-task partitions replay exactly')
+          PY
       - name: Verify every published evidence byte
         run: |
           python - <<'PY'
