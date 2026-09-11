@@ -20,9 +20,32 @@ Implement the requested program.
 Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
 \end{quote}
 Требование добавляется во всех одновызовных условиях и на третьем этапе трёхвызовных. Текст задачи предваряется TASK, предоставленный контекст --- FULL SUPPLIED CONTEXT. Каждый предыдущий ответ предваряется PREVIOUS STAGE $i$ (COMPLETE OUTPUT), где $i$ нумеруется с единицы. Исполнитель проверяет байтовый предел до отправки.
-\clearpage\subsection{Независимая инструкция INoT}
-\begin{quote}\small
-\textless{}PromptCode\textgreater{}\textless{}Role\textgreater{}Executor reads this conceptual hybrid Python/natural language procedure; do not execute code or claim hidden agents.\textless{}/Role\textgreater{} \textless{}ReasoningLogic\textgreater{}Initialize virtual A and B for the task; obtain result\_A, thought\_A and result\_B, thought\_B. Set agreement=False. for round in 1..10: argument\_A/B; critique\_A critiques B and critique\_B critiques A; rebuttal\_A/B answer the opposite critique; result\_A,thought\_A=update(rebuttal\_B); result\_B,thought\_B=update(rebuttal\_A); agreement=(result\_A==result\_B); if agreement: break. final\_result=result\_A if agreement else result\_A (latest A fallback). \textless{}/ReasoningLogic\textgreater{}\textless{}/PromptCode\textgreater{} Return final\_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
-\end{quote}
+\clearpage\subsection{Инструкция INoT*: пояснение и точный текст}
+\label{app:inot-instruction}
+INoT* задаёт две условные позиции A и B, предлагающие решение одной задачи. \texttt{result} обозначает решение, \texttt{thought} --- его обоснование, \texttt{agreement} --- совпадение решений. Схема на рис.~\ref{fig:inot-instruction} показывает порядок действий. Они предписаны модели внутри одного запроса; выполнение отдельных раундов не наблюдается.
+
+Ниже сохранены все символы исходной инструкции, кроме типографических пробелов и переносов. Отступы добавлены для чтения; они не означают, что этот текст является исполняемой программой. При согласии возвращается общий ответ A; иначе --- последний ответ A после предельного числа раундов.
+
+\begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,frame=single,framerule=0.3pt]
+<PromptCode><Role>
+Executor reads this conceptual hybrid Python/natural language procedure;
+    do not execute code or claim hidden agents.
+</Role> <ReasoningLogic>
+Initialize virtual A and B for the task;
+    obtain result_A, thought_A and result_B, thought_B.
+Set agreement=False.
+for round in 1..10:
+    argument_A/B;
+    critique_A critiques B and critique_B critiques A;
+    rebuttal_A/B answer the opposite critique;
+    result_A,thought_A=update(rebuttal_B);
+    result_B,thought_B=update(rebuttal_A);
+    agreement=(result_A==result_B);
+    if agreement: break.
+final_result=result_A if agreement else result_A (latest A fallback).
+</ReasoningLogic></PromptCode>
+Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+\end{lstlisting}
+Обе ветви выражения \texttt{final\_result} указывают на \texttt{result\_A}: при согласии это общий ответ, а при достижении предела раундов --- последний ответ A.
 Для INoT* эта инструкция предшествует полной задаче и контексту; после них добавляется то же требование итогового формата. Общая инструкция исполнения также сохраняется. Это концептуальное руководство для модели, а не код, исполняемый на хосте.
 \endgroup

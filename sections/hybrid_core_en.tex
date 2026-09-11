@@ -9,40 +9,40 @@ For an execution protocol $a$, the engineering objective is to increase the prob
 \subsection{Internal role organization and external verification}
 Hybrid-INoT uses a division of responsibility: planning, implementation and critique are prescribed inside a model response, while verification is performed outside the model. Here, \emph{hybrid} denotes this combination of internal instructions and external executable evidence. It does not require a learned deployment router. The original planner--worker--critic terminology corresponds to the executed labels \texttt{planner}, \texttt{implementer} and \texttt{reviewer}. Internal role segregation here denotes separation of instructed functions, not independently observed latent agents.
 
-The single-pass core studied here prescribes three operations: analyze requirements and edge cases, implement using the plan, then review and revise against the requirements. A single model call receives all three instructions and the complete supplied context and returns one final program. The experiment does not observe hidden plans or critic scores. The three operations are therefore instructed functions, not three measured internal subroutines. The precise prompts, including the final-output contract, appear in the appendix.
+The single-call core studied here prescribes three operations: analyze requirements and edge cases, implement using the plan, then review and revise against the requirements. A single model call receives all three instructions and the complete supplied context and returns one final program. The experiment does not observe hidden plans or critic scores. The three operations are therefore instructed functions, not three measured internal subroutines. The precise prompts, including the final-output contract, appear in the appendix.
 
 In the primary experiment, SR is this role-labelled single-call condition. SN is its role-label ablation with identical operation sentences. MR and MN distribute the corresponding operations across three fresh calls, and D removes the staged procedure altogether. All five receive the same subsequent native evaluation. The design tests whether the proposed internal organization contributes beyond a plain instruction and what changes when the same operations are distributed across call boundaries. Hybrid-INoT has no privileged access to verification.
 
 \begin{figure}[htbp]\centering
 \input{figures/hybrid_core_en}
-\caption{The tested Hybrid-INoT configuration and its external-call comparator. Native verification follows generation and is shared across conditions; no test result is returned to the generating model. Neutral-label controls and direct solving are defined in Table~\ref{tab:design}.}
+\caption{Two generation configurations: SR requests three functions in one prompt; MR distributes them across three calls. Arrows between MR calls carry all complete previous responses; each call also receives the task and context. The figure shows the path of an observed response. Incomplete generation is handled separately in Algorithm~\ref{alg:hybrid-core}. All five conditions in Table~\ref{tab:design} share external evaluation, with no test feedback to the model.}
 \label{fig:hybrid-core}
 \end{figure}
+\FloatBarrier
 
 \subsection{State, execution and stopping}
-The observable execution state is $\sigma_j=(x,\mathcal{C}_0,a,j,\mathcal{H}_j)$, where $a$ fixes the assigned condition, $j$ is the call index and $\mathcal{H}_j$ contains all complete preceding exposed responses. The model configuration is fixed within the comparison. SR and SN use $n_a=1$; MR and MN use $n_a=3$. In a multi-call condition, $\mathcal{H}_j$ is forwarded in full. The supplied context is unchanged: $\widehat{\mathcal{C}}=\mathcal{C}_0$. Condition assignment is fixed before generation, so it is not an outcome-dependent routing policy.
+The observable execution state is $\sigma_j=(x,\mathcal{C}_0,a,j,\mathcal{H}_j)$, where $a$ fixes the assigned condition, $j$ is the call index and $\mathcal{H}_j$ contains all complete preceding exposed responses. The model configuration is fixed within the comparison. D, SR and SN use $n_a=1$; MR and MN use $n_a=3$. In a multi-call condition, $\mathcal{H}_j$ is forwarded in full. The supplied context is unchanged: $\widehat{\mathcal{C}}=\mathcal{C}_0$. Condition assignment is fixed before generation, so it is not an outcome-dependent routing policy.
 
 \begin{algorithm}[htbp]
-\caption{Evaluated single-pass generation and subsequent external audit}
+\caption{Program generation and outcome evaluation}
 \label{alg:hybrid-core}
-\begin{algorithmic}[1]
-\Require Task $x$, supplied context $\mathcal{C}_0$, frozen condition $a$
-\Ensure Archived response/candidate and a separately classified outcome
-\State $\mathcal{H}\gets\varnothing$
-\For{$j=1,\ldots,n_a$}
-  \State Construct the fixed stage prompt from $a,j,x,\mathcal{C}_0,\mathcal{H}$
-  \State Execute one fresh call; retain prompt, events and terminal status
-  \If{the accepted completion and usage contract fails}
-    \State Retain available evidence; mark generation unavailable; stop this cell
-  \EndIf
-  \State Append the complete exposed response to $\mathcal{H}$
-\EndFor
-\State Extract the sole final program; retain invalid format as an empty candidate
-\State Finalize the generation record
-\State Run the original native tests on each observed candidate
-\State Join exact candidate bytes to native evidence and the control gate
-\State Record pass, failure or unavailable outcome and all known resource counters
-\end{algorithmic}
+\small
+\textbf{Input:} task, complete supplied context and preassigned condition.\par
+\textbf{Output:} observed program, evaluation outcome and known resource use.\par\medskip
+\textbf{I. Generation}
+\begin{enumerate}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}
+\item Determine the number of calls: one for D, SN or SR; three for MN or MR.
+\item Execute the calls sequentially. Give each call the task, unchanged context and assigned instruction. Give calls two and three every complete previous response as well.
+\item Retain each call's prompt, complete response, terminal status and token counters.
+\item If a call is incomplete or resource accounting cannot be verified, retain the available evidence and stop that assignment as unavailable. Do not retry it automatically.
+\item Extract one program from the last completed response. Retain an empty candidate if the format is invalid.
+\end{enumerate}
+\textbf{II. Evaluation after generation ends}
+\begin{enumerate}\setcounter{enumi}{5}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}
+\item Evaluate every observed candidate with the original benchmark tests.
+\item Match the evaluated program to its native report and common eligibility controls.
+\item Record pass, failure or an unavailable outcome. Retain all known resource counters; do not return test results to the model.
+\end{enumerate}
 \end{algorithm}
 
 Algorithm~\ref{alg:hybrid-core} describes the generation and evaluation stages of the experiment; the native harness is a subsequent evaluator, not a tool invoked inside the model call. Call deadlines and a finite $n_a$ bound generation attempts. This is a stopping rule, not a theorem of convergence or correctness. A rejected completion never triggers an automatic second attempt at the same cell. The disclosed continuation concerns only assignments for which no call had started.

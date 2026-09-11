@@ -1,6 +1,31 @@
-\subsection{Source overlap in the expanded allocation}
-An additional source-only audit, specified during the Luna extension described in Appendix~\ref{app:expanded-studies}, examines all 1,140 source tasks and its fixed 1,000-task allocation. It uses no generated programs or outcome records. All selected instructions are distinct after whitespace normalization. Exact reference-program abstract syntax tree (AST) comparison removes docstrings but preserves names, literals and structure. Instruction similarity is the Jaccard coefficient of sets of five consecutive words after case folding and removal of the starter-code paragraph. A near-code link requires at least 20 identifier occurrences in each program, set Jaccard similarity of at least 0.80 and multiset Jaccard similarity of at least 0.70 over non-keyword identifiers and string/number literals, preserving their spelling. This is a specified adaptation of token-based duplicate screening~\cite{allamanis2019duplication}, not a test of semantic equivalence.
+\subsection{Task similarity in the expanded allocation}
+Different task identifiers do not necessarily imply different source material. An additional similarity audit was therefore specified for the Luna extension in Appendix~\ref{app:expanded-studies}. It covers all 1,140 BigCodeBench source tasks and the fixed allocation of 1,000 tasks. Only source instructions and reference programs are used; generated answers and evaluation outcomes are excluded.
 
-The union of instruction Jaccard similarity at least 0.70, near-code links and exact matches yields 992 connected groups among the allocated tasks: seven groups contain 15 tasks, and the largest contains three. Instruction-only thresholds 0.50, 0.70 and 0.90 yield 996, 999 and 1,000 groups. These are screening partitions, not estimates of independent semantic units. In particular, /130 and /131 share the same reference AST. Across allocations, /1120 shares its instruction and reference AST with /1121 in the separate 80-task experiment; /826 shares its reference AST with development task /814. Distinct IDs therefore do not guarantee source separation across studies.
+Tasks are linked using three criteria:
+\begin{enumerate}
+\item \textbf{Exact matches.} Instructions are compared after whitespace normalization. Reference programs are compared by their abstract syntax trees: docstrings are removed, while names, literal values and code structure are preserved. All selected instructions are distinct after whitespace normalization. However, reference programs for tasks 130 and 131 have the same syntax tree.
+\item \textbf{Instruction similarity.} The starter-code paragraph is removed and letter case is normalized. Sets of five consecutive words are then compared. Their Jaccard coefficient is the fraction of shared elements in their union; values closer to one indicate greater similarity.
+\item \textbf{Code similarity.} Each program must contain at least 20 identifier occurrences. The set Jaccard similarity must be at least 0.80 and the multiset Jaccard similarity at least 0.70; both measures use non-keyword identifiers and string or numeric literals. Multisets account for repetition. Keyword tokens are excluded; the spelling of all other tokens is preserved.
+\end{enumerate}
+This is an adaptation of token-based duplicate screening~\cite{allamanis2019duplication}. It detects specified forms of similarity rather than establishing semantic equivalence.
 
-Connected components are formed over all 1,140 source tasks and then intersected with the assigned sample. The seven non-singleton groups under the union rule are \{/1097,/1099\}, \{/130,/131\}, \{/349,/351,/353\}, \{/369,/622\}, \{/401,/413\}, \{/423,/426\} and \{/673,/675\}. No task is removed. The supplementary analysis will first average three repeated differences within task, then resample whole source groups 10,000 times with seed 20260911. Each draw divides the sum of sampled task differences by the sampled task count, preserving the task-weighted estimand when group sizes differ. The resulting 95\% percentile intervals are conditional on the chosen graph and remain separate from the registered tests. Unequal group sizes and unrecognized dependence limit their interpretation~\cite{mackinnon2023clusters}. Source comparisons are complete; outcome-based intervals will be computed after the Luna extension is complete.
+Links are first constructed across all 1,140 source tasks. Tasks connected directly or through other tasks form a group. Each group is then intersected with the assigned sample. The combined rule uses exact matches, code similarity and instruction similarity with a threshold of 0.70. It yields 992 groups: seven are non-singleton groups containing 15 tasks in total, and the remaining groups are singletons. The largest group contains three tasks. Table~\ref{tab:source-groups} lists all seven groups. Instruction-only thresholds of 0.50, 0.70 and 0.90 yield 996, 999 and 1,000 groups, respectively. These counts describe screening partitions; they do not establish semantic independence.
+
+\begin{table}[htbp]\centering
+\caption{Task groups under the combined similarity rule. The second column contains BigCodeBench task numbers. For example, 1097 denotes \texttt{BigCodeBench/1097}.}
+\label{tab:source-groups}
+\begin{tabular}{clc}\toprule
+Group & BigCodeBench task numbers & Task count\\\midrule
+1 & 1097, 1099 & 2\\
+2 & 130, 131 & 2\\
+3 & 349, 351, 353 & 3\\
+4 & 369, 622 & 2\\
+5 & 401, 413 & 2\\
+6 & 423, 426 & 2\\
+7 & 673, 675 & 2\\\bottomrule
+\end{tabular}
+\end{table}
+
+There is also overlap across studies. Task 1120 has the same instruction and reference syntax tree as task 1121 in the separate 80-task experiment. Task 826 has the same reference syntax tree as development task 814. Disjoint task identifiers therefore do not guarantee disjoint source material.
+
+No tasks are excluded from analysis. The supplementary interval sensitivity analysis first averages three repeated differences within each task, then resamples whole groups with replacement 10,000 times using seed 20260911. Each draw divides the sum of sampled task differences by the sampled task count. A larger group therefore does not receive the same weight as a single task. The resulting 95\% percentile intervals depend on the grouping rule and are reported separately from the registered primary tests. Unequal group sizes and unrecognized dependence limit interpretation~\cite{mackinnon2023clusters}. Source comparisons are complete; outcome-based intervals will be calculated after the Luna extension is complete.

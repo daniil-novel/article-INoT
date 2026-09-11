@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1mm,y=1mm,
+ box/.style={draw=black!80,align=center,font=\small,inner sep=2mm},
+ flow/.style={-{Latex[length=2mm]},thick}]
+\node[box,fill=gray!8,text width=99mm] (input) at (0,0) {One model request: task, context and the INoT* instruction};
+\draw[dashed,black!65] (-52,-12) rectangle (52,-114);
+\node[font=\small,align=center,text width=100mm] at (0,-18) {\textbf{Prescribed procedure, not an observed trace}};
+\node[box,text width=77mm,minimum height=15mm] (initial) at (0,-36) {Propose solutions A and B\\with their reasons};
+\node[box,text width=77mm,minimum height=19mm] (exchange) at (0,-62) {Exchange arguments and critiques;\\answer critiques; update solutions};
+\node[diamond,draw=black!80,aspect=2.7,align=center,font=\small,inner sep=1mm,text width=34mm] (decision) at (0,-95) {Answers agree\\or 10 rounds\\completed?};
+\node[box,fill=gray!8,text width=99mm,minimum height=12mm] (answer) at (0,-129) {Return the latest solution A};
+\draw[flow] (input.south) -- (0,-12);
+\draw[flow] (0,-24) -- (initial.north);
+\draw[flow] (initial) -- (exchange);
+\draw[flow] (exchange) -- (decision);
+\draw[flow] (decision.west) -- (-47,-95) node[above right,font=\small] {no} |- (exchange.west);
+\draw[flow] (decision.south) -- node[right,pos=0.2,font=\small,fill=white,inner sep=1pt] {yes} (answer.north);
+\end{tikzpicture}

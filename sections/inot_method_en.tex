@@ -4,4 +4,11 @@ The four factorial conditions are component interventions, not a replication of 
 
 The stopping rule follows the source paper's prose: agreement or the round cap. The corresponding source listing has an ambiguous loop condition and leaves the final answer unspecified if agreement is never reached. This replication explicitly returns the latest answer from virtual A in that case. Image augmentation is omitted for these text-only tasks. The exact independently worded instruction appears in the prompt appendix. No verified executable author implementation was identified for this setup, and no author validation of the adaptation is claimed.
 
+\begin{figure}[htbp]\centering
+\input{figures/inot_instruction_en}
+\caption{How to read the INoT* instruction. The dashed region describes operations prescribed in one prompt, not an executed host loop or measured internal agents. Under agreement, A and B have the same answer; without agreement after ten rounds, the instruction selects the latest answer from A. Appendix~\ref{app:inot-instruction} gives the literal wording.}
+\label{fig:inot-instruction}
+\end{figure}
+\FloatBarrier
+
 An independent administrative continuation follows the same never-submitted-only rule: the initial timeout is not rerun, and the remaining 137 untouched assignments are frozen and submitted once. All first-attempt and continuation traces remain separate. Comparisons of INoT* with D and SR are exploratory and outside the four primary tests. Task pairing controls membership, but the separate batch retains timing, cache-state and possible provider-drift differences. An observed result is evidence about this disclosed adaptation, not an exact reproduction of the original paper's reported scores.
