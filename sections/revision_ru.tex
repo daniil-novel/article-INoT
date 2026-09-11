@@ -29,7 +29,7 @@
 Эти результаты не устанавливают эквивалентность качества. В частности, интервал SR минус SN допускает потерю 4.71 пункта. Поэтому наблюдаемое снижение ресурсов не устанавливает экономию с сохранением качества. Неотклонение остальных гипотез также оставляет улучшения и потери совместимыми с наблюдаемой неопределённостью.
 \input{sections/heldout_tests_ru}
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.94\textwidth]{figures/heldout_quality_effects.pdf}
+\includegraphics[width=0.94\textwidth]{figures/heldout_quality_effects_ru.pdf}
 \caption{Парные разности качества в процентных пунктах с описательными 95\%-интервалами бутстрэпа по задачам. Линия соответствует нулю; тесты с поправкой Холма приведены отдельно в табл.~\ref{tab:heldout-tests}.}\label{fig:quality-effects}
 \end{figure}
 
@@ -42,7 +42,7 @@
 \input{sections/heldout_resources_ru}
 \input{sections/heldout_resource_contrasts_ru}
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.94\textwidth]{figures/heldout_token_components.pdf}
+\includegraphics[width=0.94\textwidth]{figures/heldout_token_components_ru.pdf}
 \caption{Среднее число токенов каждого вида на одну завершённую генерацию. Кешированная часть отделена от остального входа; выход включает токены рассуждения. Знаменатели включают задачи с недоступным эталоном. INoT* --- отдельно выполненная адаптация.}\label{fig:token-components}
 \end{figure}
 
@@ -54,7 +54,7 @@
 Независимая адаптация INoT* завершает 199 из 200 назначенных программ при одном исходном превышении времени и без ошибок извлечения формата. Из 192 оцениваемых исходов 96 успешны (50\%); границы доли успехов по всем назначениям --- 48--52\%. Известный расход равен 767\,679 токенам и USD 1.05886035 (USD 1.33326675 без кеш-скидки); у одного вызова счётчики отсутствуют. Относительно D парная разность качества равна +1.04 [-3.65,+5.73], отношение стоимости --- 0.805; относительно SR значения составляют +2.08 [-2.08,+6.25] и 0.600. Таблица~\ref{tab:heldout-exploratory} сохраняет разные числа пар качества и ресурсов. Адаптация исполнялась отдельной серией, поэтому время, кеш и изменения провайдера остаются потенциальными смешивающими факторами. Это не репликация авторского кода и не часть семейства четырёх тестов. Рисунок~\ref{fig:cost-quality} показывает наблюдаемые средние на общей шкале без заявления статистически установленной границы эффективности.
 \input{sections/heldout_exploratory_ru}
 \begin{figure}[htbp]\centering
-\includegraphics[width=0.94\textwidth]{figures/heldout_cost_quality.pdf}
+\includegraphics[width=0.94\textwidth]{figures/heldout_cost_quality_ru.pdf}
 \caption{Наблюдаемые доли успеха и средняя оценка по API-тарифам. Полная шкала качества 0--100\% не преувеличивает небольшие различия. Знаменатели точек различаются; парная неопределённость приведена в табл.~\ref{tab:heldout-tests} и \ref{tab:heldout-exploratory}.}\label{fig:cost-quality}
 \end{figure}
 

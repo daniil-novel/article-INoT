@@ -1,0 +1,235 @@
+{
+  "base_revision": "23ea109",
+  "scope": "Presentation changes; no new experimental outcomes",
+  "languages": {
+    "en": {
+      "included_sources": 38,
+      "unresolved_labels": [],
+      "unresolved_citations": [],
+      "duplicate_labels": [],
+      "unchanged_common_and_factorial_quotes": true,
+      "unchanged_inot_non_whitespace_characters": true,
+      "unchanged_boundary_quotes": true,
+      "unchanged_seven_source_groups": true,
+      "source_groups": [
+        [
+          "1097",
+          "1099"
+        ],
+        [
+          "130",
+          "131"
+        ],
+        [
+          "349",
+          "351",
+          "353"
+        ],
+        [
+          "369",
+          "622"
+        ],
+        [
+          "401",
+          "413"
+        ],
+        [
+          "423",
+          "426"
+        ],
+        [
+          "673",
+          "675"
+        ]
+      ],
+      "anchors": {
+        "fig:hybrid-core": {
+          "number": "1",
+          "page": 7
+        },
+        "alg:hybrid-core": {
+          "number": "1",
+          "page": 8
+        },
+        "fig:inot-instruction": {
+          "number": "2",
+          "page": 15
+        },
+        "tab:source-groups": {
+          "number": "16",
+          "page": 31
+        },
+        "app:inot-instruction": {
+          "number": "A.1",
+          "page": 36
+        }
+      },
+      "repository_dependencies": false,
+      "overfull_boxes": []
+    },
+    "ru": {
+      "included_sources": 38,
+      "unresolved_labels": [],
+      "unresolved_citations": [],
+      "duplicate_labels": [],
+      "unchanged_common_and_factorial_quotes": true,
+      "unchanged_inot_non_whitespace_characters": true,
+      "unchanged_boundary_quotes": true,
+      "unchanged_seven_source_groups": true,
+      "source_groups": [
+        [
+          "1097",
+          "1099"
+        ],
+        [
+          "130",
+          "131"
+        ],
+        [
+          "349",
+          "351",
+          "353"
+        ],
+        [
+          "369",
+          "622"
+        ],
+        [
+          "401",
+          "413"
+        ],
+        [
+          "423",
+          "426"
+        ],
+        [
+          "673",
+          "675"
+        ]
+      ],
+      "anchors": {
+        "fig:hybrid-core": {
+          "number": "1",
+          "page": 7
+        },
+        "alg:hybrid-core": {
+          "number": "1",
+          "page": 8
+        },
+        "fig:inot-instruction": {
+          "number": "2",
+          "page": 16
+        },
+        "tab:source-groups": {
+          "number": "16",
+          "page": 34
+        },
+        "app:inot-instruction": {
+          "number": "A.1",
+          "page": 39
+        }
+      },
+      "repository_dependencies": false,
+      "overfull_boxes": []
+    }
+  },
+  "unchanged_outcome_tables": {
+    "figures/segregation80/tasks_en.tex": true,
+    "figures/segregation80/tasks_ru.tex": true,
+    "sections/dev40_contrasts_en.tex": true,
+    "sections/dev40_contrasts_ru.tex": true,
+    "sections/dev40_table_en.tex": true,
+    "sections/dev40_table_ru.tex": true,
+    "sections/dev40_tasks_en.tex": true,
+    "sections/dev40_tasks_ru.tex": true,
+    "sections/heldout_exploratory_en.tex": true,
+    "sections/heldout_exploratory_ru.tex": true,
+    "sections/heldout_quality_en.tex": true,
+    "sections/heldout_quality_ru.tex": true,
+    "sections/heldout_resource_contrasts_en.tex": true,
+    "sections/heldout_resource_contrasts_ru.tex": true,
+    "sections/heldout_resources_en.tex": true,
+    "sections/heldout_resources_ru.tex": true,
+    "sections/heldout_tasks_en.tex": true,
+    "sections/heldout_tasks_ru.tex": true,
+    "sections/heldout_tests_en.tex": true,
+    "sections/heldout_tests_ru.tex": true
+  },
+  "tex_sha256": {
+    "converted_article_springer.tex": "9c413cf0b9d67c627984de843ae09557a5fa3c8af5e9aeb2de93a68afb427cf4",
+    "converted_article_springer_ru.tex": "51985c8d5520a315ef020e7783fa8b12a9563d3fa753404a0c9a17821c9a8001",
+    "figures/hybrid_core_en.tex": "aa9dd35df1f478f3b4dd48d70567498ee1bce8ba35b2573b8e37767f86ae555f",
+    "figures/hybrid_core_ru.tex": "8cbe552ba782e311da651c79786c1d449d0348fc1dcda524c381c2f8ba71de5d",
+    "figures/inot_instruction_en.tex": "32c67ab793e1b2481cbef5d274b984c81581d13f68a08a7b2b452de4ff73564d",
+    "figures/inot_instruction_ru.tex": "90957b221cbcbf293202d1d2a2e8c6bb87ebd49425b9371be9399375b509f9ac",
+    "figures/segregation80/groups_en.tex": "7500fa391aab92bed851f4d8b8507b571a29ce395d1cb5b47e8147f719aec074",
+    "figures/segregation80/groups_ru.tex": "244be36d6f7b2557d56b57ae074148e6f302c39d5fcc64e985f52f27992265ef",
+    "figures/segregation80/tasks_en.tex": "7508d8c5dc0d1200874c185801b725852bf0e065152705bdfb651e90c88ef400",
+    "figures/segregation80/tasks_ru.tex": "b080daa551706106ff4da7509dc7f894295be64b1ef798657a210c69d93c56e6",
+    "figures/segregation80/tests_en.tex": "aae59d1ea4e39a84ef6a2111064d56768db479660d8a62144974686924bcd1ae",
+    "figures/segregation80/tests_ru.tex": "dd54920d1d087db02423efe5f43b39957a62d794005ec350a72ba35c2202bd27",
+    "sections/closest_predecessor_en.tex": "47af12d6b4502240231e0859767b37ea58d392dfc9bffd4cf328497a53c5dcb6",
+    "sections/closest_predecessor_ru.tex": "1402a667097819fa5081819ebc016dfba7d93b5adc16b8c60472dcdad2f5456e",
+    "sections/dev40_contrasts_en.tex": "ba140564e578922a6e5eae3097c6a6e608c6ee2c0f692805ea710f68da1d4edc",
+    "sections/dev40_contrasts_ru.tex": "2173813a05c90b2e830fb66ca394a971f449eae948159967bc9951b62ee576b1",
+    "sections/dev40_table_en.tex": "fa68286627e47acc386f336b64e3029e492402257c66df77be4510b9dd9e18ee",
+    "sections/dev40_table_ru.tex": "0b68b60060bb29558a054e4d0a32042ee867e222d04c8152c588c43e2798c045",
+    "sections/dev40_tasks_en.tex": "62e317a6e91eafadaa3f13ab8a11220bc377b8bd4fc04a7e0ba124e01a5debda",
+    "sections/dev40_tasks_ru.tex": "c163b7e776b2f2b213570a6d3fe7818e244dc36601b77ad74d04424e4ffca3ad",
+    "sections/development_calibration_en.tex": "552f5576396bcb15b886302fb3fc75e478de50d4289646bf41c08e4563678e34",
+    "sections/development_calibration_ru.tex": "7bdb85f6ff9b69e192cd957126dd0d67e1b9a88e01735098d8514f3a37bd7bc3",
+    "sections/exact_prompts_en.tex": "77ec9180e1ea906d57c2bf4330a93aab1499c67a0252cd4078a388d2ad580c11",
+    "sections/exact_prompts_ru.tex": "36575a69f1bec9ceb478413de3f779c0be2cf46df56e457e22926ec8de98a8e9",
+    "sections/heldout_cases_en.tex": "9b625d5197b91baef98894eb7190b747c4b8a2533e31d3d317e50e05f5f562a0",
+    "sections/heldout_cases_ru.tex": "511dbf7f01bf7160782c33ec01c052267f7d945a1352275a1830c5319885ff3a",
+    "sections/heldout_context_en.tex": "7e24bc461fbff7da959839f83d9ae834c764b477532dbe0aec219f1166ce3e10",
+    "sections/heldout_context_ru.tex": "0e7883c6e60070ced1e100ad857c8660c1a245f9e7d82eb15a5f288965548edb",
+    "sections/heldout_exploratory_en.tex": "a50884d15fe5bc97d16d75ff7292526bf8e84bae0eca029b811514765b64a500",
+    "sections/heldout_exploratory_ru.tex": "8871dd3dc393f73b1ed374604f599be7333d5301a5bdb9f1791cdd180d60df54",
+    "sections/heldout_limitations_en.tex": "d4dca3425535e761cda1ab6ebec1427955aed1a9b0b3f1bb7d3938487cfd9b89",
+    "sections/heldout_limitations_ru.tex": "c65f0e8077a14603f4289cf8e50088fd1c75aa495101d0c52bc3263beb2ff9c9",
+    "sections/heldout_methods_en.tex": "4e918b587757cbeaedb7851017f68bacd001bf7ffe51cc0b26ef37342b967a87",
+    "sections/heldout_methods_ru.tex": "ac2cd131f08d059ebc0a38cd5cd230b8470bb80f03dc0f4d063506f2b50f15c8",
+    "sections/heldout_quality_en.tex": "f73930f24a84d9333994913bb26e798cd34d29988d9ad1ea21778372e37b8d0b",
+    "sections/heldout_quality_ru.tex": "980049aafe62801ce2637232186d18e1ab363ec31ad9d90b0ed81877a651ee51",
+    "sections/heldout_resource_contrasts_en.tex": "181fd170d86265b6f9c28276c3081c29c04278abcad5467284c12094b410c07e",
+    "sections/heldout_resource_contrasts_ru.tex": "db8035124e9dcfdcc070b064b4813275aae47613d447db293418cdadc7aef840",
+    "sections/heldout_resources_en.tex": "675a0b8fb48498951fe7dcda108b3b3494a927479a89dd19b40adaeffdf7dba0",
+    "sections/heldout_resources_ru.tex": "79614140af990d9a73697aa771bd8350257f0f2565eb96d8c1ec6d7dedfc0cd7",
+    "sections/heldout_sensitivity_en.tex": "aaef9058a8db84ff26587f750ab1ca8d965d7a530615f68e8659ee9f7f112b0d",
+    "sections/heldout_sensitivity_ru.tex": "f37f8e9c0f7ec657906ce357817c7f0b55354ca2d038eeff70f964caff1ad1f3",
+    "sections/heldout_tasks_en.tex": "f996975874d351d644a9f1cb0bf6caf003ad40699c71acd3b41054ff748ce7a6",
+    "sections/heldout_tasks_ru.tex": "1396b4832e84e8e168291f8d68f75de20b7e6c2d5eb0c40ac626fa688bde5c55",
+    "sections/heldout_tests_en.tex": "c1ffc27e6542b1f547e2cf04cb8c7206917a4a027b3f497e0cb30239a3e85053",
+    "sections/heldout_tests_ru.tex": "dda65f1f8d1af910187a9a58b0bb4f72d776294fdab1e5944560e6c0dd91e15b",
+    "sections/historical_evidence_en.tex": "a341b330545c67942ea476415d75ead611b0e9662345ac7cf099624c4b2a5e2c",
+    "sections/historical_evidence_ru.tex": "4914c53838494d8f3e90324c2488f973f83cdc3fa9b16d0a9f133c2327dfbab5",
+    "sections/hybrid_accounting_en.tex": "8825735aa1e331d12c041f42bc20f86947c0e61a1edb8c0887e5ee2842242387",
+    "sections/hybrid_accounting_ru.tex": "5c35bf7a6f497a5337b10039c7c442b2120acec6fb79d1ac2424c471362107c6",
+    "sections/hybrid_core_en.tex": "4b09f1dde1142c91aaa8732d6d9004849f6eb272c0769ce644733cd205ca8503",
+    "sections/hybrid_core_ru.tex": "5b2081dca1ff275d87cc58f7876bb10626ee585afdac9cace4ebeaea282abbce",
+    "sections/hybrid_implications_en.tex": "a806cb51610abf5ab18a34126ea93dfb723d7b2fb42c970cf27209b761fe1176",
+    "sections/hybrid_implications_ru.tex": "3223665a2fd6b525ca0c61a32a9e4af660e9aa317796948633b6bb449ea3f500",
+    "sections/inot_method_en.tex": "0684411d7cb5baa86e00c7a5be76f6a8dc7df66c43835fd07a8afd04f65cbdc3",
+    "sections/inot_method_ru.tex": "edf9042df394e12cb47ae39b55e589829fb94ece42fd65439393a5a164a329f6",
+    "sections/related_extended_en.tex": "15cd900f78c7f1ec18daeb8f3d693ce55b107f33b2401d0475c877b6fdd6d5ab",
+    "sections/related_extended_ru.tex": "b2e3b7a5c79c02a5dd3549fdb0ee490fd0249811634d88a5bdf752056b5e3870",
+    "sections/revision_en.tex": "7e38ab7bee76b8ae5dd404e1a54b1ae6632c81b74029123f976c0d89ed722b81",
+    "sections/revision_references.tex": "bef05cf5f13d8796aebef66f4626bce9374a71a730d6382bbb9f2813951057ab",
+    "sections/revision_ru.tex": "6ee5c3aca1e9595a5803a044ff58a7788873711aee1f9456291383f559ceabac",
+    "sections/scc_feasibility_en.tex": "fe903185cafb71a50fa81c6cb36b542b89cdf34660fd03172642157aeb555acb",
+    "sections/scc_feasibility_ru.tex": "2a73cf5f27fe73f6b3aa8cbaf599dbfaba820826d08922ef076854360c1ddae9",
+    "sections/segregation80_methods_en.tex": "5fafb2d2e790ac190a6a2d9d3e6ff0c9b8d67980df0fe5998e29c6701992b81f",
+    "sections/segregation80_methods_ru.tex": "da41bc9efa932d7a166b253e001a83d6daf7bf4824d4ea2370f2c1c1acffde08",
+    "sections/segregation80_prompts_en.tex": "bef1cc5040c9d0df620b3aa9d0c0179b8b146570c5fe0d11487a1be9c17f3938",
+    "sections/segregation80_prompts_ru.tex": "150db6e1235965c77db827cf7320efcbf7d1826c6d126088f3e0f723004e1e10",
+    "sections/segregation80_results_en.tex": "a85c78d25b790359e96c1900c1d892b1382a2b0ac5ccb6ac1e154cec8827ed4e",
+    "sections/segregation80_results_ru.tex": "887136d078aae498d5f093d058ea8525be34221fbdfde67f279504af12336f7e",
+    "sections/standalone_details_en.tex": "91dd9a2b7cbe8f0859f8e9d848363915018dd5c40056ad70e0a167c9860b1a2d",
+    "sections/standalone_details_ru.tex": "5860fd6c8717255c612ce765bb3cc24d29b8971fcbec9c3b9fd8ed108f18fc97",
+    "sections/swe_demonstration_en.tex": "df7406770b001bc504b85d05dfbdd877cbaf0c0a0d0cd244582a4d5ba320f178",
+    "sections/swe_demonstration_ru.tex": "0f3899c9bffb2017b194fd3743510db1ed229c93c3d450c0cf0f57ab8b6dcc35",
+    "sections/task_dependence_en.tex": "2f37aae3fec1d6267bbf887aa56560af5f1429492f7e9b314dbcc0b7ceee8fff",
+    "sections/task_dependence_ru.tex": "02ddece11f2bf749e42963de7f5e860ca38b533ad00708ad56231c93b67ae942"
+  }
+}

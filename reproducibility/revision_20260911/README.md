@@ -25,6 +25,11 @@ are distinct from the final five scientific critics, who remain pending until
 both large studies are complete. The author confirmed no external funding and
 no competing interests; both declarations are already in the articles.
 
+The author also requires a complete reading and visual inspection after the
+large-study results have been integrated. Follow the
+[final readability checklist](FINAL_READABILITY_CHECKLIST.md); the current
+focused diagram and language review is an intermediate step, not that final pass.
+
 The historical diagnostic below reuses the frozen heldout-200 archive without new model calls. The separate SCC comparison adds a prospective protocol and real generation/evaluation tools; it does not change the frozen factorial study.
 
 ## New SCC comparison

@@ -1,0 +1,39 @@
+{
+  "sources": {
+    "heldout_rendered_values": "reproducibility\\revision\\heldout_rendered_values.json",
+    "heldout_summary": "reproducibility\\results\\20260908_codex_mini_heldout200\\analysis\\summary.json",
+    "segregation_summary": "reproducibility\\results\\20260908_codex_mini_segregation80\\analysis\\summary.json",
+    "heldout_candidate_records": "reproducibility\\results\\20260908_codex_mini_heldout200\\analysis\\candidate_records.jsonl",
+    "segregation_candidate_records": "reproducibility\\results\\20260908_codex_mini_segregation80\\analysis\\candidate_records.jsonl"
+  },
+  "sha256": {
+    "reproducibility\\revision\\heldout_rendered_values.json": "90957669dcdd18e7cf2beea64f840e34a5cc2826e9b5b455d4ec59b286c895d3",
+    "reproducibility\\results\\20260908_codex_mini_heldout200\\analysis\\summary.json": "cfae96764cfb553cfd87a5924219620059649301a47e38add1bae1ef6c32d872",
+    "reproducibility\\results\\20260908_codex_mini_segregation80\\analysis\\summary.json": "3d4cc092e6e64a1e8a87859a48ef2a99773fb8835364b5dbb889de5d03d0992d",
+    "reproducibility\\results\\20260908_codex_mini_heldout200\\analysis\\candidate_records.jsonl": "253853f18d07c8b3f1ebed1fdb5156313e46eb180c19fc0ec2b34bf588b1405b",
+    "reproducibility\\results\\20260908_codex_mini_segregation80\\analysis\\candidate_records.jsonl": "fdd85b77e297105d2f96aefdc188451c8d77214d58ab931ed5d96f3b4588d634"
+  },
+  "checks": {
+    "heldout_groups": {
+      "D": 199,
+      "SN": 197,
+      "SR": 200,
+      "MN": 200,
+      "MR": 200,
+      "INoT*": 199
+    },
+    "candidate_record_counts": {
+      "heldout": 996,
+      "segregation": 320
+    },
+    "heldout_recorded_attempts": 996,
+    "segregation_assigned_candidates": 320,
+    "outputs": [
+      "figures/heldout_quality_effects_ru.pdf",
+      "figures/heldout_token_components_ru.pdf",
+      "figures/heldout_cost_quality_ru.pdf",
+      "figures/segregation80/effects_ru.pdf"
+    ],
+    "numeric_source": "completed-study summaries and heldout_rendered_values.json; no live-series outputs"
+  }
+}
