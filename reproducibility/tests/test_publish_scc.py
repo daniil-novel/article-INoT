@@ -70,3 +70,35 @@ def test_separate_resource_ledger_cannot_be_changed(tmp_path, monkeypatch):
     monkeypatch.setattr(publish_scc.scc_finish, "_records", lambda *args: derived)
     with pytest.raises(ValueError, match="resource ledger differs"):
         publish_scc._validate_join(tmp_path, tmp_path, {"audits": {}, "eligible": set()})
+
+
+def test_archive_pricing_scope_is_recomputed_even_after_refreshing_hashes(tmp_path, monkeypatch):
+    from contextlib import nullcontext
+    from reproducibility.evidence_manifest import write
+    from reproducibility.revision_20260911 import pricing_scope
+    from reproducibility.task_dependence import package
+    # Other scientific gates have dedicated tests; this fixture exercises the
+    # publication verifier's required pricing replay, not SCC quality evidence.
+    archive = tmp_path / 'archive'; turn = archive / 'generation/assignments/fixture/turns/000'
+    turn.mkdir(parents=True)
+    cli.save(turn / 'events.jsonl', {'type': 'turn.completed', 'usage':
+        {'input_tokens': 100, 'cached_input_tokens': 0, 'output_tokens': 10, 'cache_write_input_tokens': 0}})
+    cli.save(archive / 'generation/manifest.json', {})
+    (archive / 'analysis').mkdir(); cli.save(archive / 'analysis/summary.json', {})
+    (archive / 'README.md').write_text('Software fixture only')
+    (archive / 'provenance').mkdir()
+    shutil.copyfile(pricing_scope.__file__, archive / 'provenance/pricing_scope.py')
+    pricing_scope.write_sidecar(archive / 'generation', archive / 'pricing_scope.json')
+    monkeypatch.setattr(publish_scc, '_archive_source_context', lambda *args: nullcontext())
+    monkeypatch.setattr(publish_scc.scc_export, 'validate_export', lambda *args: None)
+    monkeypatch.setattr(publish_scc, '_native_gate', lambda *args: {})
+    monkeypatch.setattr(publish_scc, '_validate_join', lambda *args: None)
+    monkeypatch.setattr(publish_scc, '_recompute', lambda *args: None)
+    monkeypatch.setattr(package, 'verify_archive', lambda *args: None)
+    write(archive)
+    assert publish_scc.verify_archive(archive)['ok']
+    sidecar = cli.read(archive / 'pricing_scope.json')
+    sidecar['summary']['max_input_tokens'] = 99
+    cli.save(archive / 'pricing_scope.json', sidecar); write(archive)
+    with pytest.raises(ValueError, match='pricing-scope sidecar differs'):
+        publish_scc.verify_archive(archive)

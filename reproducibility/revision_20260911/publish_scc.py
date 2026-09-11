@@ -119,6 +119,9 @@ def _recompute(root: Path, inputs: Path, gate_dir: Path) -> None:
 
 def verify_archive(archive: Path) -> dict:
     archive = archive.resolve(); verify_manifest(archive)
+    import runpy
+    pricing = runpy.run_path(str(archive / "provenance/pricing_scope.py"))
+    pricing["verify_saved"](archive / "generation", archive / "pricing_scope.json")
     if not (archive / "README.md").is_file() or not (archive / "analysis/summary.json").is_file():
         raise ValueError("Published SCC archive lacks README or analysis")
     manifest = archive / "generation/manifest.json"; inputs = archive / "inputs"; gate = archive / "controls"
@@ -183,8 +186,14 @@ def publish(root: Path, inputs: Path, gate_dir: Path, manifest: Path, output: Pa
         for name in ("runtime.json", "runtime_provenance.json", "commands.json"):
             if (generation / name).is_file(): _safe_json(generation / name, output / "runtime" / name)
         _copy_file(Path(__file__), output / "provenance" / "publish_scc.py")
+        from reproducibility.revision_20260911.pricing_scope import write_sidecar
+        write_sidecar(output / "generation", output / "pricing_scope.json")
+        _copy_file(ROOT / "reproducibility/revision_20260911/pricing_scope.py",
+                   output / "provenance/pricing_scope.py")
         readme = """# SCC Luna 1,000-task study\n\nThis archive is publishable only after all 9,000 assignments, nine native method/repeat groups, and strict offline analysis passed. It retains raw generation turns, requests, session histories, generated tests, native reports, controls, inputs, runtime metadata, source hashes, and licenses. Secrets, authentication material, virtual environments, binaries, and Git metadata are excluded.\n\nOffline verification does not call models or native evaluators:\n\n```text\npython provenance/publish_scc.py --verify --archive .\npython sources/reproducibility/evidence_manifest.py verify .\n```\n\nPrimary contrasts are the preregistered SCC/SR and SCC/SN family. Missing or unavailable outcomes remain distinct from observed native failures.\n"""
         (output / "README.md").write_text(readme, encoding="utf-8")
+        with (output / "README.md").open("a", encoding="utf-8") as stream:
+            stream.write("\n`pricing_scope.json` separately audits each submitted turn's retained usage, missing counters, and long-input/cache-write scope. Recompute it with `python provenance/pricing_scope.py --generation generation --verify pricing_scope.json`. The main archive verifier requires this check. It preserves registered base valuations and does not infer a per-inference tariff or subscription invoice.\n")
         from reproducibility.task_dependence.package import attach
         attach(root, output, "scc", inputs, gate_dir, ROOT)
         with (output / "README.md").open("a", encoding="utf-8") as stream:

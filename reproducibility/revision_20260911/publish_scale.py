@@ -403,6 +403,8 @@ def publish(root: Path, output: Path, inputs: Path, gate: Path, frozen_manifest:
         from reproducibility.revision_20260911.scale_replay import install
         install(output, REPO_ROOT)
         with (output / "README.md").open("a", encoding="utf-8") as stream:
+            stream.write("\n`pricing_scope.json` separately audits each submitted turn's retained usage, missing counters, and long-input/cache-write scope. Recompute it with `python provenance/pricing_scope.py --generation generation --verify pricing_scope.json`. The main portable replay requires this check. It preserves registered base valuations and does not infer a per-inference tariff or subscription invoice.\n")
+        with (output / "README.md").open("a", encoding="utf-8") as stream:
             stream.write("\nFor complete offline reconstruction, install `requirements-publication.txt` and run `python provenance/scale_replay.py --archive .`. It uses retained frozen code to reconstruct all raw-response/native-report joins and recompute the entire registered statistical summary. `replay_verify.py` remains a smaller dependency-free diagnostic.\n")
         with (output / "COMMANDS.md").open("a", encoding="utf-8") as stream:
             stream.write("\nFull frozen-code replay, without model calls or Docker execution:\n\n```text\npython -m pip install -r requirements-publication.txt\npython provenance/scale_replay.py --archive .\npython source_family_replay.py\n```\n")

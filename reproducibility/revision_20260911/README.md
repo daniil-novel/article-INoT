@@ -71,6 +71,32 @@ generation manifest. Tests of this packaging use explicitly artificial ledgers,
 responses and native-report fixtures; they are not scientific observations.
 The completed real archive still must pass the same replay after native testing.
 
+## Supplementary pricing-scope audit
+
+The completed-study publishers also generate `pricing_scope.json` and retain a
+standalone `provenance/pricing_scope.py`. Main archive verification recomputes
+this supplementary audit from every submitted turn directory. It distinguishes
+missing files, unknown/rejected usage, unreported cache writes, and recorded
+input totals above 272,000 tokens. Neither a known base-rate subtotal nor the
+audit is a subscription invoice. CLI-turn totals do not identify every internal
+HTTP inference; unresolved request-level surcharges are not guessed. The frozen
+valuation, dispatch guard and statistical analyses remain unchanged.
+
+From a downloaded completed archive:
+
+```text
+python provenance/pricing_scope.py --generation generation --verify pricing_scope.json
+```
+
+The separate `scc_dev9_pricing_scope.json` has been computed from the completed
+real development archive: 18 valid usage records, maximum input 4,476 tokens,
+and 18 explicit zero cache-write counters. It leaves that archive unchanged and
+does not stand in for either main-study audit. From the repository root, replay:
+
+```text
+python -m reproducibility.revision_20260911.pricing_scope --generation reproducibility/results/20260911_scc_comparison_dev9/generation --verify reproducibility/revision_20260911/scc_dev9_pricing_scope.json
+```
+
 ## Historical sensitivity diagnostic
 
 Run from the repository root:

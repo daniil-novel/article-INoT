@@ -6,6 +6,7 @@ import hashlib
 import importlib
 import json
 from pathlib import Path
+import runpy
 import shutil
 import sys
 import tempfile
@@ -38,6 +39,10 @@ def install(archive: Path, repository: Path) -> None:
     destination = archive / "provenance/scale_replay.py"
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(Path(__file__), destination)
+    from reproducibility.revision_20260911.pricing_scope import write_sidecar
+    write_sidecar(archive / "generation", archive / "pricing_scope.json")
+    shutil.copyfile(repository / "reproducibility/revision_20260911/pricing_scope.py",
+                    archive / "provenance/pricing_scope.py")
 
 
 def verify(archive: Path) -> dict:
@@ -56,6 +61,8 @@ def verify(archive: Path) -> dict:
             raise ValueError("Replay loaded code outside the retained source tree: " + name)
     modules["reproducibility.evidence_manifest"].verify(archive)
     generation = archive / "generation"
+    pricing = runpy.run_path(str(archive / "provenance/pricing_scope.py"))
+    pricing["verify_saved"](generation, archive / "pricing_scope.json")
     if json.loads((generation / "status.json").read_text(encoding="utf-8")).get("state") != "generation_finished" or (generation / "DISPATCH.lock").exists():
         raise ValueError("Full replay requires a terminal published generation")
     frozen = json.loads((generation / "manifest.json").read_text(encoding="utf-8"))
@@ -88,7 +95,7 @@ def verify(archive: Path) -> dict:
     return {"ok": True, "assigned_rows": len(rows), "source_root": "replay-sources",
         "verified": ["all archive bytes", "frozen plan and sources", "raw requests and exposed answers",
                      "all submitted usage", "native reports and control gate", "complete assignment ledger",
-                     "full registered statistical summary"]}
+                     "full registered statistical summary", "supplementary recorded-usage pricing scope"]}
 
 
 if __name__ == "__main__":

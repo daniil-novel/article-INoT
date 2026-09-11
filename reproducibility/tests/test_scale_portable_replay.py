@@ -104,6 +104,14 @@ def test_full_frozen_replay_outside_checkout_and_tamper_detection(tmp_path):
     result = replay()
     assert result.returncode == 0, result.stderr
     assert json.loads(result.stdout)["assigned_rows"] == 15000
+    # A refreshed byte inventory cannot hide a false pricing-scope conclusion.
+    scope = archive / "pricing_scope.json"; original_scope = scope.read_bytes()
+    altered_scope = cli.read(scope)
+    altered_scope["summary"]["complete_standard_scope_claim"] = not altered_scope["summary"]["complete_standard_scope_claim"]
+    cli.save(scope, altered_scope); write(archive)
+    result = replay()
+    assert result.returncode != 0 and "pricing-scope sidecar differs" in result.stderr
+    scope.write_bytes(original_scope); write(archive)
     # Refreshing the byte inventory must not hide a false inferential result.
     summary = archive / "analysis/summary.json"; original = summary.read_bytes()
     altered = cli.read(summary)
