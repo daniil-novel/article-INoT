@@ -74,6 +74,14 @@ supplement. Re-measure the complete contents and test extraction before choosing
 the final layout. If full raw outputs cannot fit, disclose the exact
 contents and preserve complete compact records plus methods; arrange any further
 anonymized material only under the final official rules and the author's scope.
+The subsequent saved-archive check in the same preflight document recovered all
+176,737 measured files byte-for-byte; path order was smaller than basename order.
+It still does not establish complete-package size or final filesystem extraction.
+For the anonymous derivative, the primary command comparison accepts consistent
+single-component relative placeholders without changing frozen replay code.
+Rebuild all affected metadata hash references and sidecars, preserve scientific
+values and frozen sources, and test the complete derivative after extraction.
+The primary command-only check does not cover SCC or native metadata.
 Never include credentials, personal paths, Git history or internal review logs in
 the anonymous upload. Preserve original records separately without destructive
 redaction. Any accepted supplement's later archival publication is a separate

@@ -54,10 +54,60 @@ preserve generated programs and assessed outputs, and document any metadata
 redactions without overwriting the original evidence. A final package requires
 an extraction and byte/record round-trip check, scientific replay at its stated
 scope, an anonymity check, and an inventory of all included and omitted material.
-None of those final checks is established by this size measurement.
+None of those final checks is established by the initial size measurement.
 
 Do not silently omit assignments or replace full responses with summaries to
 meet the limit. If every desired raw record still cannot fit, state the exact
 supplement scope and preserve the complete original records separately. The
 paper must remain scientifically understandable without a repository. Lossless
 file packaging does not change the uncompressed prompts used in the experiment.
+
+## Saved archives and byte-for-byte readback
+
+A subsequent check saved two private ZIPs containing the same 176,737 files and
+199,732,768 source bytes. Both passed a complete ZIP CRC check and streaming TAR
+readback: every recovered member name, size and byte sequence matched the retained
+original. The source inventory and metadata snapshots remained unchanged.
+
+| Order of files inside TAR | Saved ZIP bytes | Full byte comparison |
+|---|---:|---|
+| Original path order | 14,087,713 | Passed for all 176,737 files |
+| Basename, then path | 15,721,711 | Passed for all 176,737 files |
+
+Grouping by basename did not improve size. Retain path order as the current
+candidate. The saved path-order archive uses a seekable ZIP output, whereas the
+initial measurement used a non-seekable counter; the 24-byte size difference is
+container overhead, with an identical source inventory. This check uses Python
+3.11.5's standard ZIP LZMA reader and TAR reader. It establishes recoverability
+of the measured files, not compatibility with every desktop archive application.
+The records include exact settings, archive hashes and limitations:
+[path order](preparation/supplement_roundtrip_path.json) and
+[basename order](preparation/supplement_roundtrip_basename.json).
+
+These private archives remain unredacted and must not be uploaded. The readback
+was into streams, not a clean filesystem tree; final extraction, anonymity review
+and scientific replay are still required. Other metadata, SCC records, native
+reports, datasets, code and documents remain outside this measured subset. The
+10,912,287 bytes left below the working limit are not proof that the complete
+supplement fits.
+
+## Metadata transformation and replay
+
+The [metadata review and correction](../../reviews/2026-09-12-supplement/DECISIONS.md)
+identified local paths and session/thread identifiers in the retained metadata.
+The first review overstated the need to change the replay code. A separate check
+of all 26,968 retained command arrays shows that consistent relative placeholders
+can pass the frozen command comparison without an adapter. Single-component
+placeholders avoid differences between Windows and POSIX path separators.
+Model, reasoning level and every other non-path argument remain unchanged;
+deliberately changed model/reasoning arguments still fail the comparison.
+[The metadata check](preparation/anonymous_command_check.json) does not claim
+that an anonymous derivative or full replay has already been completed.
+
+Apply such a field-aware transformation only to a new copy. Rebuild all hashes
+of changed command/event files and every affected reference in per-turn records,
+pricing/provenance sidecars and the new outer manifest. Keep frozen model
+instructions, scientific prompts, full responses, candidates, assignments and
+usage counters intact. The original hashes identify only the original archive.
+Inspect SCC and native metadata separately, then verify the complete anonymous
+copy by extraction and scientific replay.

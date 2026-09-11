@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-12",
+  "scope": "Completed primary generation cells and turns only; every file, no exclusions.",
+  "files": 176737,
+  "original_bytes": 199732768,
+  "source_inventory_sha256": "1379f6e75e15d3a1d00d4bdc19048ee456242435175b72cb5bbc94bf0586a5d5",
+  "zip_bytes": 14087713,
+  "zip_sha256": "876fe1617d7d26967c6618b523d5df064841ee42d1961023c33b6e02e78d4631",
+  "below_25000000_bytes": true,
+  "order": "Original full relative path order; filenames and file bytes retained.",
+  "container": "One normalized PAX TAR member in ZIP_LZMA; mode 0644, mtime/uid/gid 0; fixed ZIP date; ZIP64 member on a seekable output.",
+  "encoder": "Python zipfile ZIP_LZMA default encoder; no numeric preset claimed.",
+  "python_version": "3.11.5",
+  "verification": {
+    "zip_crc": true,
+    "all_members_regular_and_unique": true,
+    "all_paths_and_sizes_match_source": true,
+    "all_file_bytes_equal_source": true,
+    "source_inventory_unchanged": true,
+    "metadata_snapshot_unchanged": true,
+    "filesystem_extraction_performed": false,
+    "method": "Complete ZIP CRC check followed by streaming TAR readback of every member and exact comparison to retained source bytes."
+  },
+  "elapsed_seconds": 205.7,
+  "not_a_submission_artifact": true,
+  "limits": [
+    "Unredacted private preflight archive, not anonymous or suitable for upload.",
+    "Only cells and turns; excludes other generation metadata, native reports, SCC, datasets, sources and scientific documents.",
+    "No quality outcome interpretation, scientific replay or final package-size claim.",
+    "ZIP LZMA is less universally supported than Deflate; this verifies Python standard-library readback, not every archive application.",
+    "Streaming readback verifies recoverable file paths and bytes, but is not the final clean-directory package extraction and replay."
+  ]
+}

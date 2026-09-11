@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-12",
+  "scope": "All retained primary per-turn argv metadata; no response or quality records inspected.",
+  "argv_files_checked": 26968,
+  "turn_directories": 26968,
+  "source_argv_inventory_sha256": "386c8e447ae1867050858d64b6dfc0634e62c461d02c32717785eef72f2ffa07",
+  "frozen_builder_source_sha256_lf": "3097081cf9db9df1cf465bc40a42e053b70f9e74971559df6f2441f1f915a510",
+  "original_commands_match_frozen_builder": true,
+  "relative_single_component_placeholders_match_windows_and_posix_path_semantics": true,
+  "all_nonpath_arguments_preserved": true,
+  "changed_model_and_reasoning_arguments_still_rejected": true,
+  "real_cli_commands_executed": 0,
+  "evidence_files_modified": 0,
+  "full_generation_or_scientific_replay_performed": false,
+  "elapsed_seconds": 19.8,
+  "limits": [
+    "In-memory metadata check only; no anonymous derivative has been created.",
+    "Changing argv or event identifiers requires rebuilding all corresponding hash references and the outer derivative manifest.",
+    "Source-group, pricing and native provenance sidecars need separate treatment and complete-package replay.",
+    "SCC and native-evaluation metadata are outside this check."
+  ]
+}
