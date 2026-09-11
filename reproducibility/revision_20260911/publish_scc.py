@@ -128,6 +128,8 @@ def verify_archive(archive: Path) -> dict:
         native = _native_gate(archive, inputs, gate, cli.read(manifest), archive / "predictions")
         _validate_join(archive, archive / "predictions", native)
         _recompute(archive, inputs, gate)
+    from reproducibility.task_dependence.package import verify_archive as verify_supplement
+    verify_supplement(archive)
     return {"ok": True, "manifest": str(archive / "EVIDENCE_MANIFEST.json")}
 
 
@@ -183,6 +185,14 @@ def publish(root: Path, inputs: Path, gate_dir: Path, manifest: Path, output: Pa
         _copy_file(Path(__file__), output / "provenance" / "publish_scc.py")
         readme = """# SCC Luna 1,000-task study\n\nThis archive is publishable only after all 9,000 assignments, nine native method/repeat groups, and strict offline analysis passed. It retains raw generation turns, requests, session histories, generated tests, native reports, controls, inputs, runtime metadata, source hashes, and licenses. Secrets, authentication material, virtual environments, binaries, and Git metadata are excluded.\n\nOffline verification does not call models or native evaluators:\n\n```text\npython provenance/publish_scc.py --verify --archive .\npython sources/reproducibility/evidence_manifest.py verify .\n```\n\nPrimary contrasts are the preregistered SCC/SR and SCC/SN family. Missing or unavailable outcomes remain distinct from observed native failures.\n"""
         (output / "README.md").write_text(readme, encoding="utf-8")
+        from reproducibility.task_dependence.package import attach
+        attach(root, output, "scc", inputs, gate_dir, ROOT)
+        with (output / "README.md").open("a", encoding="utf-8") as stream:
+            stream.write("\nSupplementary source-family intervals retain every draw and the complete source graph. Run `python source_family_replay.py` to reconstruct both using the retained publication dependencies. This supplements the main raw/native replay.\n")
+        # The main offline verifier imports supplementary modules from this source tree.
+        for name in ("audit.py", "sensitivity.py", "package.py", "PROTOCOL.md"):
+            _copy_file(ROOT / "reproducibility/task_dependence" / name,
+                output / "sources/reproducibility/task_dependence" / name)
         write_manifest(output); verify_archive(output)
         return {"archive": str(output), "rows": len(rows), "native_groups": 9}
     except Exception:

@@ -395,6 +395,10 @@ def publish(root: Path, output: Path, inputs: Path, gate: Path, frozen_manifest:
             "The original generation and native commands are recorded in each turn `argv.json`, in `generation/sessions/*/command.json`, and in native provenance. Native replay requires Docker image `bcb-scale1000:v2`, the pinned BigCodeBench source, and the recorded environment inputs; this archive does not redistribute Docker binaries or authentication state.\n",
             encoding="utf-8",
         )
+        from reproducibility.task_dependence.package import attach
+        attach(root, output, "factorial", inputs, gate, REPO_ROOT)
+        with (output / "README.md").open("a", encoding="utf-8") as stream:
+            stream.write("\nThe supplementary source-family intervals include every draw and their complete source graph. Install `supplementary-sources/reproducibility/requirements-publication.txt`, then run `python source_family_replay.py` to recompute them independently of the repository checkout. This supplements the main replay.\n")
         write_evidence_manifest(output)
         return {"output": str(output), "completion": completion, "hash_bindings": binding}
     except Exception as exc:

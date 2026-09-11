@@ -5,6 +5,7 @@ import argparse
 from collections import defaultdict
 import json
 from pathlib import Path
+import tempfile
 
 import numpy as np
 
@@ -76,7 +77,7 @@ def paired_means(rows, assigned, eligible, study):
     return result
 
 
-def run(root: Path, study: str, audit: Path, output: Path):
+def run(root: Path, study: str, audit: Path, output: Path, *, selection_path: Path | None = None, gate_path: Path | None = None):
     if output.exists(): raise FileExistsError("Refusing to overwrite supplementary analysis")
     generation = root / "generation"
     if not (generation / "status.json").is_file() or json.loads((generation / "status.json").read_text()).get("state") != "generation_finished":
@@ -84,11 +85,11 @@ def run(root: Path, study: str, audit: Path, output: Path):
     if (generation / "DISPATCH.lock").exists() or not (root / "analysis/summary.json").is_file():
         raise ValueError("Main generation or analysis is incomplete")
     verify(audit)
-    selection_path = ROOT / "reproducibility/scale1000/inputs-v1/selection.json"
+    selection_path = selection_path or ROOT / "reproducibility/scale1000/inputs-v1/selection.json"
     selection = json.loads(selection_path.read_text()); source_summary = json.loads((audit / "summary.json").read_text())
     if source_summary["selection_sha256"] != digest(selection_path.read_bytes()):
         raise ValueError("Source audit belongs to another allocation")
-    gate_path = ROOT / "reproducibility/results/20260908_scale1000_preflight/controls-v3/heldout200_control_gate.json"
+    gate_path = gate_path or ROOT / "reproducibility/results/20260908_scale1000_preflight/controls-v3/heldout200_control_gate.json"
     gate = json.loads(gate_path.read_text()); assigned = set(selection["assigned_task_ids"])
     eligible = set(gate["evaluable_task_ids"])
     if set(gate["assigned_task_ids"]) != assigned or len(assigned) != 1000 or len(eligible) != 985:
@@ -111,14 +112,33 @@ def run(root: Path, study: str, audit: Path, output: Path):
         (output / (name + ".json")).write_bytes(encoded(draws.tolist()))
     report = {"schema": "source-family-quality-sensitivity-v1", "study": study, "supplementary_only": True,
         "records_sha256": digest(records.read_bytes()), "partitions_sha256": digest((audit / "partitions.json").read_bytes()),
+        "selection_sha256": digest(selection_path.read_bytes()),
+        "source_audit_summary_sha256": digest((audit / "summary.json").read_bytes()),
+        "main_analysis_sha256": digest((root / "analysis/summary.json").read_bytes()),
+        "script_sha256_lf": digest(Path(__file__).read_bytes().replace(b"\r\n", b"\n")),
+        "numpy_version": np.__version__,
         "control_gate_sha256": digest(gate_path.read_bytes()), "graphs": summaries,
         "interpretation": "Observed complete pairs; graph-conditional descriptive intervals, no new hypothesis family or exclusions."}
     (output / "summary.json").write_bytes(encoded(report))
     return {"study": study, "rows": len(rows), "graphs": len(summaries)}
 
 
+def verify_saved(root: Path, study: str, audit: Path, saved: Path, *, selection_path: Path, gate_path: Path):
+    """Recompute every supplementary draw; main publishers first verify raw/native joins."""
+    with tempfile.TemporaryDirectory(prefix="source-family-replay-") as temporary:
+        output = Path(temporary) / "calculated"
+        result = run(root, study, audit, output, selection_path=selection_path, gate_path=gate_path)
+        actual = {p.name: p.read_bytes() for p in output.iterdir() if p.is_file()}
+        retained = {p.name: p.read_bytes() for p in saved.iterdir() if p.is_file()}
+        if actual != retained or any(p.is_dir() for p in saved.iterdir()):
+            raise ValueError("Saved source-family intervals or draw vectors differ from complete replay")
+        return {**result, "replayed_files": len(actual)}
+
+
 if __name__ == "__main__":
     p = argparse.ArgumentParser(); p.add_argument("--run-root", type=Path, required=True)
     p.add_argument("--study", choices=sorted(CONTRASTS), required=True)
     p.add_argument("--audit", type=Path, required=True); p.add_argument("--output", type=Path, required=True)
-    a = p.parse_args(); print(json.dumps(run(a.run_root, a.study, a.audit, a.output)))
+    p.add_argument("--selection", type=Path); p.add_argument("--control-gate", type=Path)
+    a = p.parse_args(); print(json.dumps(run(a.run_root, a.study, a.audit, a.output,
+        selection_path=a.selection, gate_path=a.control_gate)))

@@ -52,6 +52,11 @@ def test_publisher_stages_complete_archive_and_offline_byte_check(tmp_path, monk
     monkeypatch.setattr(publish_scale, "validate_hash_bindings", lambda *a: {"runtime_sha256": "fixture"})
     monkeypatch.setattr(publish_scale, "validate_finish", lambda *a: {"records": 15000})
     monkeypatch.setattr(publish_scale, "validate_full_replay", lambda *a: None)
+    # Supplementary computation has its own real portable tests; this fixture
+    # checks only the main publisher's copying and evidence inventory.
+    from reproducibility.task_dependence import package
+    attached = []
+    monkeypatch.setattr(package, "attach", lambda *args: attached.append(args))
     # This packaging fixture must not depend on a local, ignored benchmark checkout.
     vendor = tmp_path / "vendor-fixture"
     vendor.mkdir()
@@ -62,6 +67,7 @@ def test_publisher_stages_complete_archive_and_offline_byte_check(tmp_path, monk
                         lambda source, target: copy_tree(vendor if source == benchmark else source, target))
     output = tmp_path / "published"
     publish(root, output, inputs, gate, frozen)
+    assert len(attached) == 1 and attached[0][2] == "factorial"
     assert (output / "analysis" / "candidate_records.jsonl").is_file()
     assert (output / "pipeline").is_dir()
     assert (output / "sources/bigcodebench/fixture.py").read_bytes() == b"# retained source bytes\n"
