@@ -50,7 +50,8 @@ as independently acting agents to satisfy the GAAI scope.
   a technical appendix, exact experimental instructions, complete compact
   assignment/outcome/resource tables and the necessary additional calculations.
   Include an accurate AI-method-assistance disclosure with recoverable prompts,
-  tool names and recorded versions. Do not misdescribe this work as polishing only.
+  tool names and recorded versions. Follow [the disclosure preparation record](AI_ASSISTANCE_PREPARATION.md)
+  and do not misdescribe this work as polishing only.
 - `author-kit/source.zip`: clean compilable TeX, supplied unmodified style and
   bibliography files, and vector figures. This author package is separate from
   the anonymous upload and is not claimed to be required at abstract submission.
