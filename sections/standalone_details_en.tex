@@ -43,7 +43,6 @@ Tasks & 1,000 & The same 1,000\\
 Conditions & D, SN, SR, MN, MR & Fresh SR, fresh SN, SCC\\
 Assignments & 15,000 & 9,000\\
 Planned calls & 27,000 & At most 18,000\\
-Current status & Generation in progress & Main generation not started\\
 Quality contrasts & \mbox{SR--SN}, \mbox{MR--MN}, \mbox{MN--SN}, \mbox{MR--SR} & \mbox{SCC--SR}, \mbox{SCC--SN}\\\bottomrule
 \end{tabularx}
 \end{table}
@@ -51,3 +50,17 @@ Quality contrasts & \mbox{SR--SN}, \mbox{MR--MN}, \mbox{MN--SN}, \mbox{MR--SR} &
 Both protocols use fresh calls, a 600-second deadline, the full-input guard of 65,536 UTF-8 bytes, and at most eight workers. Calls are never shortened or retried; after an interruption, only untouched assignments may resume. Completed malformed responses remain candidate failures. Reference controls completed before generation make 985 of the 1,000 tasks eligible for quality analysis, while all assignments remain in resource accounting.
 
 For each quality contrast, the three repeated outcomes must be available in each of the two compared conditions. The three outcomes in each condition are averaged within task; a two-sided paired $t$-test then tests the mean difference between these task means. Holm correction covers four tests in the component extension and two in the SCC comparison. Descriptive task-bootstrap intervals use 10,000 resamples, with seeds 20260909 and 20260911, respectively. These repetitions estimate per-generation success, not best-of-three success. The source-group sensitivity described in the main text is supplementary. SCC contrasts compare complete workflows, including generated-test feedback; no role-excised SCC condition is assigned. Neither study introduces a quality non-inferiority or joint quality--cost decision.
+
+For $n$ tasks with complete outcomes in both conditions, let $d_i$ be the difference between the two three-repeat means, and let $\bar d$ and $s_d$ be the sample mean and sample standard deviation of these differences. The test statistic is $t=\bar d/(s_d/\sqrt n)$, provided that $n\geq2$ and $s_d>0$. It uses a $t$ reference distribution with $n-1$ degrees of freedom as the specified large-sample approximation. Each quality bootstrap sample draws $n$ whole tasks with replacement. The component analysis uses NumPy 1.26.4's PCG64 generator in the frozen assignment order; SCC uses Python's Mersenne Twister in lexicographic task-ID order. Both obtain percentile endpoints by linear interpolation among the 10,000 sorted resample means. A new generator with the stated seed is initialized for each statistic. An unestimable test keeps its place in the fixed Holm family and does not support a rejection claim.
+
+The frozen implementations differ in one numerical edge case. When every task difference equals the same nonzero value, the component analyzer records $p=0$, an undefined $t$-statistic and a degeneracy flag; SCC records the test as unestimable. The former is a numerical encoding, not an ordinary finite $t$-test result, and cannot alone support a conventional rejection claim. Both use $p=1$ for a constant zero vector with at least two tasks. This describes implementation behavior; it does not assert that either degeneracy occurred in the studies.
+
+Resource contrasts have separate eligibility rules. The component analysis requires all three runs in both conditions to finish with complete resource records. SCC's complete API-equivalent valuations and input-plus-output token totals require counters for every submitted turn in each of the six attempts; an attempt may have a known consumed-resource total even if its workflow produced no complete candidate. Neither resource rule requires quality eligibility under the reference controls. Known subtotals with unavailable counters are labelled separately and are not complete-cost estimates.
+
+Let $A_i$ and $B_i$ be the three-repeat mean resources for task $i$. Two different ratios are
+\[
+R_{\mathrm{pooled}}=\frac{\sum_{i=1}^{n} A_i}{\sum_{i=1}^{n} B_i},
+\qquad
+R_{\mathrm{task}}=\frac{1}{n_R}\sum_{i:B_i\ne0}\frac{A_i}{B_i},
+\]
+where $n_R$ counts pairs with a nonzero denominator. The component study reports a bootstrap interval for $R_{\mathrm{pooled}}$ and for the mean paired resource difference, both with seed 20260909. SCC reports an interval for $R_{\mathrm{task}}$ with seed 20260913 and for the mean difference with seed 20260912; its $R_{\mathrm{pooled}}$ is a separate point estimate. Ratio tables must therefore name the quantity and the applicable pair count. These resource intervals are descriptive and do not enter the quality-test families.

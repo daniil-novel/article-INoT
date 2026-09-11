@@ -34,6 +34,11 @@ editorial agents must not be counted as fresh final scientific critics.
 6. Check all plots against the final published data: scales, units, denominators,
    contrast direction, error-bar meaning and descriptive versus adjusted
    inference. Captions must make each panel understandable without guessing.
+   Resource ratios must identify their estimand: the factorial interval is for
+   the ratio of paired means; the SCC ratio interval is for the mean of within-task
+   ratios, with its zero-denominator subset count. SCC's ratio of means is a point
+   estimate. Distinguish completed-generation resource pairs, SCC full counters
+   for submitted turns, and incomplete known subtotals.
 7. Compile both PDFs without unresolved references or overfull boxes. Render
    **every page**, inspect all figures, algorithms and tables at readable scale,
    and inspect the rest for clipping, broken symbols, orphan headings and bad
@@ -46,6 +51,19 @@ editorial agents must not be counted as fresh final scientific critics.
    a new review directory, and append REVIEW_CHANGE_LOG.md. Publish the revised
    TeX/PDF/README and check the resulting GitHub checks. Do not describe an
    internal AI review as a journal acceptance or a guarantee of Q1 publication.
+
+## Numerical reporting check after the completed analyses
+
+Inspect the frozen factorial output's `degenerate_difference_vector` flag together
+with its t statistic and p value. A constant nonzero task-difference vector is
+encoded as p = 0 with a null t statistic; that sentinel is not an ordinary t-test
+rejection. SCC marks the corresponding test unestimable. Retain the raw frozen
+outputs and fixed test families. If this case actually occurs, report the
+constant magnitude and undefined test explicitly, audit its effect on the family
+correction, and avoid inferring significance from the sentinel. Do not silently
+replace p values, change the frozen analyzer or introduce a retrospective test.
+The [preparatory methods review](../../reviews/2026-09-12-decision-rules/DECISIONS.md)
+established code behavior only; it did not establish occurrence in the data.
 
 ## Existing focused work
 
