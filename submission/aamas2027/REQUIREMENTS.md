@@ -77,8 +77,9 @@ Sources: [reciprocal policy](https://warwick.ac.uk/fac/sci/dcs/aamas2027/calls/r
 Our internal author-side AI critics are not official AAMAS reviewers and cannot
 perform a nominated human author's conference-reviewing obligations.
 
-The author has confirmed no external funding and no competing interests. Still
-needed for final form preparation: OpenReview profile, current student status,
+The author has confirmed no external funding and no competing interests. Current
+student status has been recorded privately; an OpenReview profile has not yet
+been created. Still needed for final form preparation: the created profile,
 final author list, actual reciprocal-reviewing status, any overlapping submissions,
 and the actual submission number after abstract registration.
 

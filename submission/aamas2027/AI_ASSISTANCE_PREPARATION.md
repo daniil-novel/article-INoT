@@ -18,17 +18,38 @@ recorded configurations, not immutable model weights or an independently
 verified backend snapshot. Do not present the CLI version as the desktop-app
 version.
 
-The existing editorial reports identify GPT-5.6 Luna for the economical child
-critics. The inspected delegation requests also specify `gpt-5.6-luna`; a
-requested child configuration alone does not independently verify execution.
-Check the corresponding child records when preparing the final tool table.
+The retained records for 29 descendant sessions now confirm the recorded child
+configuration: `gpt-5.6-luna`, `medium`, and CLI/runtime 0.153.4. All 172 inspected
+child turn-context entries agree. This is stronger evidence than a requested
+configuration, but it still does not independently verify backend weights.
+The root contains 30 spawn requests; one was rejected because the concurrent
+agent limit had been reached. It must not be counted as a thirtieth executed
+critic. Session counts are not counts of independent scientific reviews.
 
-A local inventory preserves visible user inputs and delegation instructions,
+A local inventory preserves visible user inputs and records of delegation requests,
 together with their source positions, timestamps and a checksum of the inspected
-conversation prefix. It deliberately excludes internal reasoning, system and
-developer instructions, tool outputs and execution code. It is a private working
-record and is excluded from Git. It contains identifying information and must
-not be inserted into the anonymous ZIP.
+conversation prefix. The initial description of this inventory did not
+distinguish readable user inputs from opaque stored delegation payloads.
+The latter do not provide recoverable verbatim prompt text in the inspected
+records. Child user-message records contain environment announcements rather
+than the original methodological task instructions. Preserve this limitation;
+do not present encoded payloads or reconstructed summaries as exact prompts.
+
+The inventories deliberately exclude internal reasoning, system and developer
+instructions, tool outputs and execution code. They are private working records
+excluded from Git and must not be inserted into the anonymous ZIP. The separate
+read-only metadata check of the failed spawn establishes only that it was
+rejected; it is not part of the disclosed prompt corpus.
+
+A [draft of ten selected original author inputs](preparation/AI_METHOD_INPUTS_DRAFT.md)
+now retains the original Russian text with English summaries. Two occurrences
+of the manuscript-hosting URL have been replaced explicitly. A private ledger
+preserves the original and edited input hashes and exact source locations.
+The draft is not a complete interaction history, the final supplement or proof
+of conference compliance. It omits repetitive, administrative and editorial
+inputs, attached documents, other context and unavailable delegated prompt text.
+The input about 1,000 independent units remains a quotation of the author's
+request; independence is not inferred from that wording.
 
 The experimental GPT-5.4 mini and GPT-5.6 Luna generation settings belong in the
 experimental methods. They are distinct from the models assisting the author.
@@ -38,8 +59,9 @@ disclose the prompts used to develop the study.
 ## Work required before packaging
 
 1. Refresh the inventory after the completed research and final reviews. Its
-   present coverage is limited to the retained root conversation; do not call it
-   a complete history of the original article or all child-agent inputs.
+   present coverage includes retained root inputs and descendant metadata from
+   8–12 September; do not call it a complete history of the original article
+   or a complete readable record of all child-agent inputs.
 2. Identify the actual inputs that led to hypotheses, interventions, statistical
    rules and methodological revisions. Separate human requests from automatic
    continuation messages and factual retrieval. Include relevant delegated
