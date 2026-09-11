@@ -90,6 +90,25 @@ original family. Missingness identification bounds and source-group sensitivity
 remain separately reported quantities. No plot from either unfinished large
 study has been produced; renderer tests use explicit software fixtures only.
 
+After the same full replay, render every assignment without combining repeats:
+
+```text
+python -m reproducibility.revision_20260911.render_assignment_tables --archive PATH_TO_COMPLETED_ARCHIVE --output NEW_TABLE_DIRECTORY
+```
+
+The new directory must be outside the immutable archive. It receives the full
+assignment CSV, EN/RU TeX tables and provenance. The CSV retains separate
+candidate, format, native-status and quality fields; each PDF table row contains
+one task with a separate column for every condition and repeat. All 1,000 tasks
+and all 15,000 factorial or 9,000 SCC assignments are retained. Missing quality
+remains explicitly unknown. Native timeout remains an observed failure under
+the frozen protocol. Presentation checks do not replace statistical replay.
+The [preliminary format reviews](../../reviews/2026-09-12-reporting/DECISIONS.md)
+and artificial typography checks establish the proposed layout only. No real
+large-study table has yet been rendered. Compile and visually inspect all final
+pages after integrating the completed results; include the full CSV alongside
+the scientific supplement for conference submission.
+
 For the factorial archive, the original `replay_verify.py` checks only the
 primary means and counts without scientific Python dependencies. The added
 `provenance/scale_replay.py` uses the retained frozen implementation to rebuild

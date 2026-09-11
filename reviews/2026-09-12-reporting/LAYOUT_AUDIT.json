@@ -1,0 +1,56 @@
+{
+  "scope": "Artificial 40-task typography fixtures only; not scientific evidence",
+  "task_count": 40,
+  "assigned_fixture_rows": 600,
+  "pdfs": {
+    "a_en": {
+      "pages": 2,
+      "table_pages": [
+        2
+      ],
+      "words_outside_page": 0,
+      "replacement_characters": 0,
+      "layout_or_reference_warnings": [],
+      "sha256": "6c75056c5161c6455bc93ebbbb3e59ecd705793af8ddac36145831585413c02b"
+    },
+    "a_ru": {
+      "pages": 2,
+      "table_pages": [
+        2
+      ],
+      "words_outside_page": 0,
+      "replacement_characters": 0,
+      "layout_or_reference_warnings": [],
+      "sha256": "3b4bcedda7843396be6a1ca25f3959b73325614c8659f7795349549bd157ea19"
+    },
+    "b_en": {
+      "pages": 2,
+      "table_pages": [
+        2
+      ],
+      "words_outside_page": 0,
+      "replacement_characters": 0,
+      "layout_or_reference_warnings": [],
+      "sha256": "72dc4a19c4f0c8d2721bb6eea120501d69329ee996ae01d07080b2f04d5f0bce"
+    },
+    "b_ru": {
+      "pages": 2,
+      "table_pages": [
+        2
+      ],
+      "words_outside_page": 0,
+      "replacement_characters": 0,
+      "layout_or_reference_warnings": [],
+      "sha256": "0c8b702b998ee08c6ffa10e982d6466893d0873ec8660758077c9c3f6be44bb0"
+    }
+  },
+  "source_sha256": {
+    "reproducibility/revision_20260911/render_assignment_tables.py": "61981dbe9da29e45575b93b7b49dc159ebffd89c0924686db7bdff19022fd23e",
+    "reproducibility/tests/test_assignment_tables.py": "0d11db265d441f95c840f770d243bd14cb4c0c7b67ce22fac1db81be4ba6ae10"
+  },
+  "visual_inspection": {
+    "table_pages": "All four inspected; final B EN/RU group headers inspected after rebuild.",
+    "intro_pages": "Final B EN/RU inspected after rebuild.",
+    "limit": "No 1000-task real PDF or SCC PDF was generated. Full-size checks inspect artificial TeX source."
+  }
+}
