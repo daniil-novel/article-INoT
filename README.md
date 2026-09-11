@@ -4,6 +4,7 @@
 
 - [Русский PDF](converted_article_springer_ru.pdf)
 - [English PDF](converted_article_springer.pdf)
+- [Review Change Log — история рецензий и изменений](REVIEW_CHANGE_LOG.md)
 - [Редактура и независимая рецензия, 9 сентября 2026](reviews/2026-09-09-editorial/README.md)
 - [Итог пяти научных рецензентов и решения координатора](reviews/2026-09-09-editorial/REVIEW_RU.md): редактура завершена; устойчивость результатов и полноценные внешние сравнения требуют дальнейшей проверки.
 - [Публичный архив основного эксперимента](https://github.com/daniil-novel/article-INoT/tree/main/reproducibility/results/20260908_codex_mini_heldout200)
