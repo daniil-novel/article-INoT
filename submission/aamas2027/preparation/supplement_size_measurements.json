@@ -1,0 +1,69 @@
+{
+  "scope": "Terminal primary-study generation cells and all retained turn files only; no native results, SCC, analysis, task data, methods or final supplement.",
+  "files": 176737,
+  "file_counts": {
+    "cells": 14961,
+    "turns/argv.json": 26968,
+    "turns/events.jsonl": 26968,
+    "turns/prompt.txt": 26968,
+    "turns/result.json": 26936,
+    "turns/status.json": 26968,
+    "turns/stderr.txt": 26968
+  },
+  "source_bytes": 199732768,
+  "bytes_by_kind": {
+    "cells": 19430438,
+    "turns/argv.json": 51427976,
+    "turns/events.jsonl": 35122680,
+    "turns/prompt.txt": 51160170,
+    "turns/result.json": 41988744,
+    "turns/status.json": 594654,
+    "turns/stderr.txt": 8106
+  },
+  "source_inventory_sha256": "1379f6e75e15d3a1d00d4bdc19048ee456242435175b72cb5bbc94bf0586a5d5",
+  "flat_streaming_zip": {
+    "bytes": 122705888,
+    "sha256": "faff3191312ac510eb96fef198ac1945f4981156e05a11c6ff478d43dcb3bad8"
+  },
+  "single_jsonl_streaming_zip": {
+    "bytes": 48728795,
+    "sha256": "41a73d02b996e1e8c65f6dd588df55d5157b41c7ba475fb11a3fc56be1efb546"
+  },
+  "compression": "ZIP Deflate level 9; fixed entry date; non-seekable streams; ZIP64 JSONL entry; original bytes encoded as Base64 per path.",
+  "limit_conservative_bytes": 25000000,
+  "not_a_submission_artifact": true,
+  "limits": [
+    "Archives were streamed to a counter/hash sink, not saved or uploaded.",
+    "Original bytes can contain identifying local paths; no anonymity review or redaction was performed.",
+    "This sizing does not validate scientific endpoints or demonstrate a complete supplement under the limit.",
+    "A JSONL container requires an extraction tool and round-trip validation before use."
+  ],
+  "tar_comparison": {
+    "same_source_inventory_sha256": "1379f6e75e15d3a1d00d4bdc19048ee456242435175b72cb5bbc94bf0586a5d5",
+    "files": 176737,
+    "tar_deflate_zip": {
+      "bytes": 25474954,
+      "sha256": "228db46c2d5133bb2616bbb2dea3bc7be594cc5197045fc8482d8af7eb611848"
+    },
+    "tar_lzma_zip": {
+      "bytes": 14087737,
+      "sha256": "77bae441e57836234c58afc78a40b07e7195cc71c841a4c3687a710018a4aabc"
+    },
+    "container": "One normalized PAX TAR, regular files only; file contents unchanged; TAR mode0644,mtime0,uid/gid0; fixed ZIP date; non-seekable ZIP streams and ZIP64 entry.",
+    "deflate": "ZIP Deflate level9",
+    "lzma": "Python zipfile ZIP_LZMA default encoder; no user-set compression preset.",
+    "not_a_submission_artifact": true,
+    "limits": [
+      "Archives were streamed to a counter/hash sink, not saved or uploaded.",
+      "Original bytes can contain identifying local paths; no anonymity review or redaction was performed.",
+      "This sizing does not validate scientific endpoints or demonstrate a complete supplement under the limit.",
+      "Nested TAR requires extraction; LZMA ZIP support is less universal than Deflate. No saved archive was extracted or round-trip tested."
+    ]
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "zlib": "1.2.13"
+  },
+  "date": "2026-09-12",
+  "available_after_smallest_tested_payload_bytes": 10912263
+}

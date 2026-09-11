@@ -67,7 +67,11 @@ as independently acting agents to satisfy the GAAI scope.
 Supplementary tables preserve all assignments; ZIP compression is only file
 packaging, not experimental context compression or selective evidence removal.
 Measure the package early. Do not claim a complete raw-output archive fits into
-25 MB without testing it. If full raw outputs cannot fit, disclose the exact
+25 MB without testing it. The [first measured size preflight](SUPPLEMENT_SIZE_PREFLIGHT.md)
+shows 14.09 MB for only the completed primary cells/turns in a TAR/LZMA ZIP;
+an ordinary file-by-file Deflate ZIP is 122.71 MB. Neither is a finished anonymous
+supplement. Re-measure the complete contents and test extraction before choosing
+the final layout. If full raw outputs cannot fit, disclose the exact
 contents and preserve complete compact records plus methods; arrange any further
 anonymized material only under the final official rules and the author's scope.
 Never include credentials, personal paths, Git history or internal review logs in
