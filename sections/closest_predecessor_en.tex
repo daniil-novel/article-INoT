@@ -4,7 +4,7 @@ Self-collaboration Code Generation via ChatGPT~\cite{dong2023selfcollaboration} 
 \begin{table}[htbp]\centering\small
 \caption{Method comparison with the closest antecedent~\cite{dong2023selfcollaboration}, Tables~3--4 and Appendix~B.1. Interaction rounds and fresh model calls are different quantities.}\label{tab:closest-method}
 \begin{tabular}{p{0.20\textwidth}p{0.31\textwidth}p{0.36\textwidth}}\toprule
-Aspect & Self-collaboration & Present experiment\\\midrule
+Aspect & Self-collaboration paper & Component experiment\\\midrule
 Labels & Role versus role-excised instructions & Identical operation sentences; only the stage prefixes change\\
 Interaction & Feedback loop; maximum interaction varied & One or three fresh turns; fixed sequence, full exposed history\\
 Design & Separate role and interaction ablations & Joint label-by-call matrix on every assigned task\\
@@ -13,6 +13,6 @@ Tasks & HumanEval, MBPP and extended tests & Reserved BigCodeBench sample; pre-g
 
 The added value is an audit-focused replication and extension: the joint design estimates a label-by-topology interaction under one fixed generation interface, while linking native test results to the evaluated programs and recording token components makes quality and resource differences inspectable. This is a new empirical setting and evidence record, not a new principle of role collaboration or a claimed first role ablation.
 
-For an external method comparison, Self-collaboration with its role-excised variant is the nearest baseline to the present label question. A faithful implementation must preserve its feedback and stopping policy; renaming our fixed three-turn MR condition would not implement that baseline. A separate three-task author-code integration pilot is reported in Section~\ref{sec:scc-feasibility}; a powered external comparison and superiority over SCC remain untested. D remains the minimal implemented comparator and SN/MN the controls for label attribution. INoT* addresses a separate internal-dialogue algorithm question and is not presented as the closest role-ablation predecessor.
+Self-collaboration is the closest external method because its role ablation addresses the same attribution question. Our external comparison uses the pinned 2024 author implementation, whose generated-test execution differs from the simulated testing described in the 2023 paper (Section~\ref{sec:scc-feasibility}). The frozen comparison assigns SCC, fresh SR and fresh SN to the same 1,000 tasks with three repetitions; it contains no role-excised SCC arm. It therefore estimates differences between complete workflows, including feedback and stopping, while SR--SN and MR--MN isolate the specified labels within our component design. Two development checks establish execution feasibility, but the main comparison remains unfinished. D provides the minimal comparator. INoT* addresses a separate internal-dialogue algorithm question.
 
 \subsection{Internal dialogue and repository methods}

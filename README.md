@@ -11,6 +11,7 @@
 - [Локальный архив основного эксперимента](reproducibility/results/20260908_codex_mini_heldout200/README.md)
 - [Ответ рецензенту](reproducibility/revision/REVIEW_RESPONSE.md)
 - [Первичные источники](reproducibility/revision/SOURCE_LEDGER.md)
+- [SCC, Self-Refine и Reflexion: обратная связь и фактически проверяемые методы](reproducibility/revision_20260911/FEEDBACK_METHOD_COMPARISON.md)
 
 ## Архитектура и эксперимент
 
