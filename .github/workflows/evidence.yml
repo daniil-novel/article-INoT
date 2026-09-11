@@ -51,6 +51,8 @@ jobs:
           PY
       - name: Replay all nine same-model SCC comparison development candidates
         run: python reproducibility/results/20260911_scc_comparison_dev9/replay/scc_dev_replay.py --root reproducibility/results/20260911_scc_comparison_dev9
+      - name: Verify frozen contemporaneous SCC comparison contract
+        run: python -m reproducibility.revision_20260911.scc_controls check --inputs reproducibility/scale1000/inputs-v1 --gate-dir reproducibility/results/20260908_scale1000_preflight/controls-v3 --manifest reproducibility/revision_20260911/scc_manifest.json
       - name: Verify scale-1000 complete preflight control attempts
         run: |
           python - <<'PY'
