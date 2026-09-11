@@ -40,6 +40,14 @@ The historical diagnostic below reuses the frozen heldout-200 archive without ne
 
 ## New SCC comparison
 
+Execution update, 12 September 2026: factorial generation is terminal with
+14,961 completed candidates, 39 submitted-incomplete assignments and no untouched
+assignments. Export succeeded and native evaluation is running. The frozen SCC
+comparison has now started with eight workers and 9,000 assignments. The
+[dated execution snapshot](execution_snapshot_20260912.json) records these stages;
+it is not a completed native evaluation or statistical result. Inspect actual
+processes before acting on any later status. Do not start a second dispatcher.
+
 Read [scc_protocol.md](scc_protocol.md) for the 1,000-task, three-method,
 three-repeat contract. The [nine-assignment development archive](../results/20260911_scc_comparison_dev9/README.md)
 contains the completed feasibility gate. The main comparison must pass the

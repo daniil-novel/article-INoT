@@ -1,0 +1,49 @@
+{
+  "captured_utc": "2026-09-11T21:52:04.021641+00:00",
+  "scope": "Execution-stage snapshot only; no large-study quality result or completed-study replay is claimed.",
+  "records": {
+    "primary_generation": {
+      "source": "reproducibility/runs/scale1000-luna-v1/generation/status.json",
+      "sha256": "64ebd670d02b58a89689550410dc855a8e20f502dcb3d745c423ffdb216a8b0b",
+      "value": {
+        "completed_candidates": 14961,
+        "finished_unix": 1789163190.6026442,
+        "known_valuation": 23.09571080000002,
+        "session": "1789154503730123700",
+        "state": "generation_finished",
+        "stop_reason": null,
+        "submitted_incomplete_candidates": 39,
+        "untouched_candidates": 0
+      }
+    },
+    "primary_export": {
+      "source": "reproducibility/runs/scale1000-luna-v1/pipeline/export.exit.json",
+      "sha256": "7c3f13a581b308427df42dbc027fcf946dc203c1f84885a615070773c4c829e2",
+      "value": {
+        "finished_unix": 1789163266.623501,
+        "returncode": 0
+      }
+    },
+    "scc_generation": {
+      "source": "reproducibility/runs/scc1000-luna-v1/generation/status.json",
+      "sha256": "8d7024e34369a6744ee1f2360a4c59d59572c57d06c6c6d45f200e4e0b204c6c",
+      "value": {
+        "pending_at_start": 9000,
+        "started_unix": 1789163402.1069994,
+        "state": "running",
+        "workers": 8
+      }
+    },
+    "subscription_guard": {
+      "source": "reproducibility/runs/subscription_guard/status.json",
+      "sha256": "961ad65303acbd12484d637e08cf50b11bac68f4b5dec3cf02e17c67ebdcefa9",
+      "value": {
+        "state": "watching",
+        "pid": 18148,
+        "checked_unix": 1789163476.2643614,
+        "remaining_percent": 76.0
+      }
+    }
+  },
+  "interpretation": "All 15000 primary assignments were attempted; 14961 candidates completed and 39 submitted assignments remain incomplete. Native evaluation is underway. The 9000-assignment SCC comparison has started under the frozen protocol. Running-state files will change; this dated snapshot retains the values observed here."
+}
