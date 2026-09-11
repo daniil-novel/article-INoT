@@ -29,6 +29,23 @@ analysis, and the source-family sensitivity commands in
 [task_dependence/README.md](../task_dependence/README.md). The publishers refuse
 to produce a successful archive while these stages are incomplete.
 
+After publication and the full replay below, `plot_quality_effects.py` can render
+the registered quality-contrast family directly from either completed archive:
+
+```text
+python -m reproducibility.revision_20260911.plot_quality_effects --archive PATH_TO_COMPLETED_ARCHIVE --output NEW_FIGURE_DIRECTORY
+```
+
+The separate figure directory receives EN/RU PDF and PNG, exact chart values in
+CSV, and input/output hashes with renderer versions. The renderer checks archive
+bytes, terminal generation, and summary scope; it does not replace statistical
+replay or recompute inference. Use `reproducibility/requirements-publication.txt`.
+The plot preserves asymmetric marginal 95% task-bootstrap intervals, complete
+paired-task counts, unavailable estimates, and Holm-adjusted p-values in the
+original family. Missingness identification bounds and source-group sensitivity
+remain separately reported quantities. No plot from either unfinished large
+study has been produced; renderer tests use explicit software fixtures only.
+
 For the factorial archive, the original `replay_verify.py` checks only the
 primary means and counts without scientific Python dependencies. The added
 `provenance/scale_replay.py` uses the retained frozen implementation to rebuild
