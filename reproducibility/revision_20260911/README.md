@@ -1,5 +1,16 @@
 # Revision 20260911
 
+## Subscription reserve: mandatory before further model work
+
+The author requires at least **55% subscription remaining**. The separate
+[operational guard and pause policy](SUBSCRIPTION_RESERVE.md) now applies to both
+studies and subsequent reviewer/editing work. Confirm the live watcher and run
+`python -m reproducibility.revision_20260911.subscription_guard check` before
+starting or resuming generation. A nonzero result or the persistent pause file
+forbids launch; do not bypass it through a reset or another model. Frozen study
+sources and allocations remain unchanged. The existing heartbeat has the same
+restriction. This rule supersedes the launch instructions below when paused.
+
 ## Manuscript policy from 11 September
 
 The author requests standalone EN/RU articles: no commit identifiers, repository
