@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-11 15:04",
+  "eval": {
+    "BigCodeBench/322": [
+      {
+        "task_id": "BigCodeBench/322",
+        "solution": "import subprocess\nimport os\nimport shutil\nimport sys\n\n# Constants\nDIRECTORY = 'c:\\Program Files\\VMware\\VMware Server'\nBACKUP_DIRECTORY = 'c:\\Program Files\\VMware\\VMware Server\\Backup'\n\n\ndef task_func(filename):\n    source_path = os.path.join(DIRECTORY, filename)\n    backup_path = os.path.join(BACKUP_DIRECTORY, filename)\n\n    try:\n        shutil.copy2(source_path, backup_path)\n    except (OSError, shutil.Error):\n        return -1\n\n    try:\n        return subprocess.call([source_path])\n    except OSError:\n        return -1",
+        "status": "fail",
+        "details": {
+          "test_backup_of_large_file": "Traceback (most recent call last):\n  File \"__test__.py\", line 63, in test_backup_of_large_file\nAssertionError: -1 != 0\n",
+          "test_successful_execution": "Traceback (most recent call last):\n  File \"__test__.py\", line 37, in test_successful_execution\nAssertionError: -1 != 0\n"
+        }
+      }
+    ],
+    "BigCodeBench/325": [
+      {
+        "task_id": "BigCodeBench/325",
+        "solution": "import re\nimport os\nfrom pathlib import Path\nimport glob\n\ndef task_func(directory_path: str, regex_pattern: str = r'\\\\(.+?\\\\)|\\\\w') -> dict:\n    \"\"\"Extract matches from all text files in a directory.\"\"\"\n    if regex_pattern == r'\\\\(.+?\\\\)|\\\\w':\n        regex_pattern = r'\\(.+?\\)|\\w'\n\n    pattern = re.compile(regex_pattern)\n    matches_by_file = {}\n\n    for file_path in glob.glob(os.path.join(directory_path, \"*.txt\")):\n        if not os.path.isfile(file_path):\n            continue\n\n        with open(file_path, \"r\", encoding=\"utf-8\") as file:\n            text = file.read()\n\n        matches = []\n        for match in pattern.finditer(text):\n            value = match.group(0)\n            if value.startswith(\"(\") and value.endswith(\")\"):\n                value = value[1:-1]\n            matches.append(value)\n\n        matches_by_file[os.path.basename(file_path)] = matches\n\n    return matches_by_file",
+        "status": "fail",
+        "details": {
+          "test_case_4": "Traceback (most recent call last):\n  File \"__test__.py\", line 78, in test_case_4\nAssertionError: {'file5.txt': ['A', 'B', 'C', 'D']} != {'file5.txt': ['(A)', '(B)', '(C)', '(D)']}\n- {'file5.txt': ['A', 'B', 'C', 'D']}\n+ {'file5.txt': ['(A)', '(B)', '(C)', '(D)']}\n?                 + +    + +    + +    + +\n\n",
+          "test_case_5": "Traceback (most recent call last):\n  File \"__test__.py\", line 85, in test_case_5\nAssertionError: {'file6.txt': ['characters']} != {'file6.txt': ['(characters)']}\n- {'file6.txt': ['characters']}\n+ {'file6.txt': ['(characters)']}\n?                 +          +\n\n"
+        }
+      }
+    ],
+    "BigCodeBench/1036": [
+      {
+        "task_id": "BigCodeBench/1036",
+        "solution": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n\ndef task_func(s1, s2):\n    s1 = pd.Series(s1)\n    s2 = pd.Series(s2)\n\n    values1 = set(s1.dropna().tolist())\n    values2 = set(s2.dropna().tolist())\n    intersections = values1 & values2\n\n    data = pd.DataFrame({\n        \"value\": pd.concat([s1, s2], ignore_index=True),\n        \"series\": ([\"s1\"] * len(s1)) + ([\"s2\"] * len(s2)),\n    })\n\n    fig, ax = plt.subplots()\n    sns.swarmplot(data=data, x=\"series\", y=\"value\", ax=ax)\n\n    for value in intersections:\n        ax.axhline(value, color=\"red\", linestyle=\"--\")\n\n    return ax, len(intersections)",
+        "status": "fail",
+        "details": {
+          "test_empty_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 49, in test_empty_series\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_identical_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 63, in test_identical_series\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_intersection_exists": "Traceback (most recent call last):\n  File \"__test__.py\", line 35, in test_intersection_exists\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_no_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 42, in test_no_intersection\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_partial_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 56, in test_partial_intersection\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "scc-dev3-selection-v1",
+  "role": "development only",
+  "assigned_task_ids": [
+    "BigCodeBench/325",
+    "BigCodeBench/322",
+    "BigCodeBench/1036"
+  ],
+  "selection_rule": "fixed archived SCC dev pilot IDs; no outcome selection",
+  "source_dataset_sha256": "f6704a124f4edcec9d12cc7912f41f3d4207f51b87f091d136e3436f7e25149f",
+  "evaluator_dataset_sha256": "c2971c6e485abd4f5a00410f8ed58f3b10f250560c19a0695737013c35ed12e3",
+  "model_input_sha256": "d6c32afb7a7f262cd6c9c14d49ee083d40c84cbb0c0b44497410852887ffd229",
+  "source_row_sha256": {
+    "BigCodeBench/325": "d346da106266cbe64d8fb154ab24d974a743649fb929f0d13f73533f4a9d3afd",
+    "BigCodeBench/322": "46634d76a3329f6d8a7cf9f318dcdb369bb18b8956b08c23f55184e3e2b8bc05",
+    "BigCodeBench/1036": "02b5ffc27910b9ee8c06b046f35ed85d8fc22ba81b6fa4ab2fb2f4e50b045af0"
+  },
+  "controls_complete": false,
+  "evaluable_task_ids": []
+}

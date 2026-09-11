@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-11 15:04",
+  "eval": {
+    "BigCodeBench/325": [
+      {
+        "task_id": "BigCodeBench/325",
+        "solution": "import re\nimport os\nfrom pathlib import Path\nimport glob\n\n\ndef task_func(directory_path: str, regex_pattern: str = r'\\\\(.+?\\\\)|\\\\w') -> dict:\n    \"\"\"Extract regex matches from all text files in a directory.\"\"\"\n    if regex_pattern == r'\\\\(.+?\\\\)|\\\\w':\n        regex_pattern = r'\\(.+?\\)|\\w'\n\n    matches_by_file = {}\n\n    for file_path in glob.glob(os.path.join(directory_path, \"*.txt\")):\n        with open(file_path, \"r\", encoding=\"utf-8\") as file:\n            matches_by_file[os.path.basename(file_path)] = re.findall(\n                regex_pattern, file.read()\n            )\n\n    return matches_by_file",
+        "status": "pass",
+        "details": {}
+      }
+    ],
+    "BigCodeBench/322": [
+      {
+        "task_id": "BigCodeBench/322",
+        "solution": "import subprocess\nimport os\nimport shutil\nimport sys\n\n# Constants\nDIRECTORY = r'c:\\Program Files\\VMware\\VMware Server'\nBACKUP_DIRECTORY = r'c:\\Program Files\\VMware\\VMware Server\\Backup'\n\ndef task_func(filename):\n    source_path = os.path.join(DIRECTORY, filename)\n\n    try:\n        os.makedirs(BACKUP_DIRECTORY, exist_ok=True)\n        shutil.copy2(source_path, BACKUP_DIRECTORY)\n    except (OSError, shutil.Error):\n        return -1\n\n    try:\n        return subprocess.call([source_path])\n    except OSError:\n        return -1",
+        "status": "fail",
+        "details": {
+          "test_backup_of_large_file": "Traceback (most recent call last):\n  File \"__test__.py\", line 62, in test_backup_of_large_file\nAssertionError: -1 != 0\n",
+          "test_successful_execution": "Traceback (most recent call last):\n  File \"__test__.py\", line 36, in test_successful_execution\nAssertionError: -1 != 0\n"
+        }
+      }
+    ],
+    "BigCodeBench/1036": [
+      {
+        "task_id": "BigCodeBench/1036",
+        "solution": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\n\ndef task_func(s1, s2):\n    s1 = pd.Series(s1)\n    s2 = pd.Series(s2)\n\n    plot_data = pd.DataFrame({\n        \"Series\": [\"s1\"] * len(s1) + [\"s2\"] * len(s2),\n        \"Value\": pd.concat([s1, s2], ignore_index=True),\n    })\n\n    ax = sns.swarmplot(\n        data=plot_data,\n        x=\"Series\",\n        y=\"Value\",\n        order=[\"s1\", \"s2\"],\n    )\n\n    values_1 = pd.Index(s1.dropna().unique())\n    values_2 = pd.Index(s2.dropna().unique())\n    intersections = values_1.intersection(values_2)\n\n    for value in intersections:\n        ax.axhline(value, color=\"red\", linestyle=\"--\")\n\n    return ax, len(intersections)",
+        "status": "fail",
+        "details": {
+          "test_empty_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 53, in test_empty_series\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_identical_series": "Traceback (most recent call last):\n  File \"__test__.py\", line 67, in test_identical_series\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_intersection_exists": "Traceback (most recent call last):\n  File \"__test__.py\", line 39, in test_intersection_exists\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_no_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 46, in test_no_intersection\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n",
+          "test_partial_intersection": "Traceback (most recent call last):\n  File \"__test__.py\", line 60, in test_partial_intersection\nAssertionError: '' != 'Overlap Between Series1 and Series2'\n+ Overlap Between Series1 and Series2\n"
+        }
+      }
+    ]
+  }
+}

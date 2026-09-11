@@ -1,0 +1,43 @@
+{
+  "control_files_sha256": {
+    "native-controls/candidates/input/samples.jsonl": "72bdb6f4740fa68da2fd84ed5e46641dc42f920b2dfc1fe859c88af0bd844433",
+    "native-controls/candidates/input/samples_eval_results.json": "89a69054c3bb366fea8751846199ed3839d653b31ba380daa66c74769aeaf71e",
+    "native-controls/candidates/nltk-resources-sha256.txt": "e04a654c6d1fc7dd34910e93c3f42e959176983502a7176e79a374a3bdebbf3b",
+    "native-controls/candidates/pip-freeze.txt": "21e7c34456afa2e684bd0f2597e5c7605d022ff5b235aa131c8ee5acf14b8813",
+    "native-controls/candidates/report_hashes.json": "8e1194daa50dfa48c89a439428ab4053b6ef3ce0d86848cb2c67e90a7ab55df1",
+    "native-controls/candidates/run-metadata.json": "07056a4298f32638abcd98483145a13663000c185efc8361f529851db315dd4a",
+    "native-controls/candidates/stderr.log": "6724fdb5ddb438b3f91fb2aec9370f3a50a5d234efe38a7503ec8161e8cdf175",
+    "native-controls/candidates/stdout.log": "dca10a15210e71fcb21a1648f36909d6b8f846a1dc792ab459170a72ac6bea3f",
+    "native-controls/control_summary.json": "8de9f6c7e9b8d62ad557a24ffafe4256b40761914bf4ff43bc4128882b57c787",
+    "native-controls/gold/input/samples.jsonl": "2d6407566021c8a896fd54b6e63eceff2cea7ef0e82c3003fdb390e620e1b752",
+    "native-controls/gold/input/samples_eval_results.json": "858266632c680964345ad45b4b163f252202c747410253c109966e9b7defac25",
+    "native-controls/gold/nltk-resources-sha256.txt": "e04a654c6d1fc7dd34910e93c3f42e959176983502a7176e79a374a3bdebbf3b",
+    "native-controls/gold/pip-freeze.txt": "21e7c34456afa2e684bd0f2597e5c7605d022ff5b235aa131c8ee5acf14b8813",
+    "native-controls/gold/report_hashes.json": "640562ca92f723e2b1556f8483f140334a97bfc904f10dacd443a6e4712c72f1",
+    "native-controls/gold/run-metadata.json": "1d836e40be196ac82da3a26452f3f78f1f709af23d3c6506da2688ed8d5a28c8",
+    "native-controls/gold/stderr.log": "ae6a794bc9d0535213353cdde0292b3fba1865d9baec8c0118fdc6e08fff01a5",
+    "native-controls/gold/stdout.log": "e45e5337852bcf731ec5b9d6fd0bc4b8fc623e6551261a4c8031d8f058e079c2",
+    "native-controls/negative/input/samples.jsonl": "8c7da33f343e192fac42c9d68300f74ddb074903d89fe7bafa72c54d0338425b",
+    "native-controls/negative/input/samples_eval_results.json": "f3b1f7a5e5bbeee6aa4528e98860f0d20d6145e505527892f4c9203883990a12",
+    "native-controls/negative/nltk-resources-sha256.txt": "e04a654c6d1fc7dd34910e93c3f42e959176983502a7176e79a374a3bdebbf3b",
+    "native-controls/negative/pip-freeze.txt": "21e7c34456afa2e684bd0f2597e5c7605d022ff5b235aa131c8ee5acf14b8813",
+    "native-controls/negative/report_hashes.json": "1d1253048d82cfdca5fc284f5253748217f26925a9c1289ed7d9538fe87e9663",
+    "native-controls/negative/run-metadata.json": "60b9da2432093545e8365f4b9f8fb440e93671f11fc68dfeb9cb5f7df9f5fa54",
+    "native-controls/negative/stderr.log": "1d5ac921f65b3a6d0d2f2cfc32a192bbc2e722dd59d17ec8ec511df326429a64",
+    "native-controls/negative/stdout.log": "1ee775829240c4032da82fc6b3e3d3090ebf0414004d5e13fe4ba8e5d6dbbfe8"
+  },
+  "controls_tree_sha256": "3977bf66d7c7533134c5adb3aff7a5072f706845e50c94388aa647aecb793a90",
+  "hash_algorithm": "reproducibility.scale_env.provenance.tree_sha256: sorted UTF-8 relative-path bytes + NUL + file-SHA256 bytes + LF; excludes .git and __pycache__",
+  "image_id": "sha256:afeb8d78b76f6a7b1fbf427d78a55bd35dbfcf58387711b47f8a8ba00e16b580",
+  "preparation_files_sha256": {
+    "native-preparation/candidates.jsonl": "72bdb6f4740fa68da2fd84ed5e46641dc42f920b2dfc1fe859c88af0bd844433",
+    "native-preparation/evaluator_dataset.jsonl": "c2971c6e485abd4f5a00410f8ed58f3b10f250560c19a0695737013c35ed12e3",
+    "native-preparation/gold.jsonl": "2d6407566021c8a896fd54b6e63eceff2cea7ef0e82c3003fdb390e620e1b752",
+    "native-preparation/incorrect.jsonl": "8c7da33f343e192fac42c9d68300f74ddb074903d89fe7bafa72c54d0338425b",
+    "native-preparation/prepared.jsonl": "d6c32afb7a7f262cd6c9c14d49ee083d40c84cbb0c0b44497410852887ffd229",
+    "native-preparation/selection.json": "f313c8c2d38048d433ac58d1f8741b81c05fda7ae5396a08c785103f3473180e"
+  },
+  "preparation_tree_sha256": "a44ee66fb929b11cd27f668e4c75fb14270a37068f9ea046a208bb145aaab37d",
+  "schema": "scc-dev3-native-evidence-v1",
+  "upstream_commit": "09dd993f46c3fbf3a799465bb96d524edcb0b199"
+}

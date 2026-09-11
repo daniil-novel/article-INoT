@@ -1,6 +1,28 @@
-# Revision 20260911 statistics
+# Revision 20260911
 
-This directory contains a post-review, reproducible diagnostic based on the frozen heldout-200 archive. It does not edit the archive, protocol, manuscript, or review files, and it performs no model calls.
+The historical diagnostic below reuses the frozen heldout-200 archive without new model calls. The separate SCC comparison adds a prospective protocol and real generation/evaluation tools; it does not change the frozen factorial study.
+
+## New SCC comparison
+
+Read [scc_protocol.md](scc_protocol.md) for the 1,000-task, three-method,
+three-repeat contract. The [nine-assignment development archive](../results/20260911_scc_comparison_dev9/README.md)
+contains the completed feasibility gate. The main comparison must pass the
+frozen manifest check before its first call:
+
+```text
+python -m reproducibility.revision_20260911.scc_controls check --inputs reproducibility/scale1000/inputs-v1 --gate-dir reproducibility/runs/scale1000-v1/controls-v3 --manifest reproducibility/revision_20260911/scc_manifest.json
+python -m reproducibility.revision_20260911.start_scc_study
+```
+
+Run from the repository root in an environment containing both the publication
+requirements and `reproducibility/external_baselines/requirements.txt`.
+The launcher refuses to start until factorial generation has ended; after SCC
+generation it runs native evaluation and the registered analysis. It preserves
+submitted attempts and pauses on quota or evidence failures. It never spends
+a quota-reset credit or switches to a paid API automatically. Model calls and
+native evaluation are real work; these launch commands are not offline replay.
+
+## Historical sensitivity diagnostic
 
 Run from the repository root:
 
