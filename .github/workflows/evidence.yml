@@ -23,7 +23,7 @@ jobs:
           cache: pip
           cache-dependency-path: reproducibility/requirements-publication.txt
       - name: Install recorded analysis dependencies
-        run: python -m pip install -r reproducibility/requirements-publication.txt -r reproducibility/external_baselines/requirements.txt
+        run: python -m pip install -r reproducibility/requirements-publication.txt -r reproducibility/external_baselines/requirements.txt -r reproducibility/revision_20260911/requirements-subscription-guard.txt
       - name: Test audit and analysis software
         run: python -m pytest reproducibility/tests reproducibility/revision_20260911/scc_revision_tests.py reproducibility/revision_20260911/tests_scc_analysis.py -q
       - name: Replay post hoc missingness and execution-batch sensitivity

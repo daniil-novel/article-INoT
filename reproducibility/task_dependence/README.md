@@ -40,7 +40,11 @@ python -m reproducibility.evidence_manifest verify reproducibility/task_dependen
 Четыре файла нового расчёта должны точно совпасть с соответствующими файлами
 `source-audit-v2`. Существующая папка не перезаписывается.
 
-После завершения обеих больших серий выполняются отдельные чувствительности:
+Для каждой полностью завершённой большой серии выполняется отдельный расчёт
+чувствительности. Машинная обработка одной серии не требует промежуточных
+результатов другой: алгоритм, группы и начальные состояния уже фиксированы.
+Общая интеграция двух исследований в статью и итоговые рецензии остаются после
+завершения обеих серий. Команды отдельных расчётов:
 
 ```text
 python -m reproducibility.task_dependence.sensitivity --study factorial --run-root reproducibility/runs/scale1000-luna-v1 --audit reproducibility/task_dependence/source-audit-v2 --output reproducibility/runs/scale1000-luna-v1/source-family-sensitivity

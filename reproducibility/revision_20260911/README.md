@@ -73,6 +73,13 @@ analysis, and the source-family sensitivity commands in
 [task_dependence/README.md](../task_dependence/README.md). The publishers refuse
 to produce a successful archive while these stages are incomplete.
 
+The [offline primary continuation](OFFLINE_PRIMARY_CONTINUATION.md) can wait for
+the existing native finisher and then perform those fixed local calculations,
+portable archive verification and full assignment-table export. It uses no model
+calls, does not publish to GitHub and does not replace the final joint manuscript
+or scientific reviews. Inspect its process and retained status before starting
+any manual postprocessing to avoid duplicate work.
+
 After publication and the full replay below, `plot_quality_effects.py` can render
 the registered quality-contrast family directly from either completed archive:
 
