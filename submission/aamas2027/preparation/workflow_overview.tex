@@ -1,0 +1,52 @@
+% Reusable full-width figure; no experimental outcomes or submission claim.
+% Model-call boxes are solid. Host-execution boxes are dashed.
+\begin{tikzpicture}[x=1mm,y=1mm,
+ call/.style={draw=black,line width=.5pt,rounded corners=.6mm,align=center,
+              font=\small,inner sep=1.5mm,minimum height=10mm},
+ host/.style={call,dashed,fill=black!4},
+ flow/.style={-{Latex[length=1.7mm]},line width=.55pt},
+ lab/.style={font=\small,align=left,anchor=west},
+ note/.style={font=\footnotesize,align=center}]
+\node[lab,font=\small\bfseries] at (0,0) {Same supplied task and context; no benchmark-test feedback during generation};
+
+\node[lab,text width=24mm] at (0,-17) {\textbf{D}\\Direct};
+\node[call,text width=78mm] (direct) at (70,-17) {One call: write the program};
+\node[host,text width=26mm,minimum height=68mm] (final) at (159,-38)
+ {\textbf{After generation}\\[2mm]Extract final\\candidate\\[2mm]Run original benchmark tests\\[2mm]Apply common eligibility controls};
+\draw[flow] (direct.east) -- (final.west |- direct.east);
+
+\node[lab,text width=25mm] at (0,-39) {\textbf{SN / SR}\\One call};
+\node[call,text width=78mm,minimum height=16mm] (single) at (70,-39)
+ {One prompt: plan, implement, review\\SN: neutral stages; SR: named roles\\\emph{Internal steps are not observed}};
+\draw[flow] (single.east) -- (final.west |- single.east);
+
+\node[lab,text width=25mm] at (0,-62) {\textbf{MN / MR}\\Three calls};
+\node[call,text width=21mm] (plan) at (40,-62) {1. Plan};
+\node[call,text width=23mm] (code) at (74,-62) {2. Implement};
+\node[call,text width=21mm] (revise) at (108,-62) {3. Review\\and revise};
+\draw[flow] (plan) -- (code);
+\draw[flow] (code) -- (revise);
+\draw[flow] (revise.east) -- (final.west |- revise.east);
+\node[note,text width=106mm] at (76,-75) {MN: neutral stages; MR: named roles. Each later call receives all prior responses.};
+
+\draw[black!45,line width=.4pt] (0,-83) -- (174,-83);
+\node[lab,font=\small\bfseries] at (0,-89) {SCC: author controller, two coder iterations at most};
+\node[call,text width=20mm] (analyst) at (13,-104) {1. Analyst};
+\node[call,text width=22mm] (coder) at (48,-104) {2. Coder};
+\node[call,text width=25mm] (tester) at (88,-104) {3. Tester\\generates tests};
+\node[host,text width=31mm] (execute) at (137,-104) {Execute program\\and generated tests};
+\draw[flow] (analyst) -- (coder);
+\draw[flow] (coder) -- (tester);
+\draw[flow] (tester) -- (execute);
+\draw[flow] (coder.north) -- ++(0,3) -| (execute.north);
+\node[note,fill=white,inner sep=.4mm] at (68,-96) {program};
+\node[call,text width=42mm] (repair) at (71,-127) {4. Coder repair, if required\\Uses the execution report};
+\node[host,text width=41mm] (sccfinal) at (149,-144) {Final candidate to the\ same external evaluation};
+\draw[flow] (execute.south) -- ++(0,-5) -| (repair.north);
+\node[note,fill=white,inner sep=.4mm] at (112,-119) {exception / timeout};
+\draw[flow] (execute.east) -- (172,-104) -- (172,-144) -- (sccfinal.east);
+\node[note,rotate=90,fill=white,inner sep=.4mm] at (172,-124) {exception-free};
+\draw[flow] (repair.south) -- (71,-144) -- (sccfinal.west);
+\node[note,text width=115mm] at (61,-155)
+ {Solid boxes: model calls. Dashed boxes: host execution.\\Transport and extraction failures follow the recorded outcome rules.};
+\end{tikzpicture}

@@ -43,6 +43,12 @@ negative result if warranted. Distinguish instructed roles, separate calls,
 actual SCC interaction and external evaluation. Do not rebrand unobserved roles
 as independently acting agents to satisfy the GAAI scope.
 
+A [reviewed workflow figure preview](preparation/WORKFLOW_PREVIEW.md) is available
+for this methods section. It depicts the fixed call structures and separates
+SCC-generated tests from final benchmark evaluation. It has been checked in the
+unchanged class at full width; it is not a completed submission or an outcome
+figure. Recheck its placement and description in the final eight-page paper.
+
 ## Files to deliver when ready
 
 - `upload/main.pdf`: anonymous 2027-format paper with real submission number.

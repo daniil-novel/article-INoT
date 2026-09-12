@@ -1,0 +1,46 @@
+{
+  "date": "2026-09-12",
+  "scope": "Reusable workflow figure in unchanged AAMAS class; not a submission paper",
+  "pdf_sha256": "316d47aa7322526d3f247cf57e3cd30a2fce6e71b20480fb344054ced3d0f768",
+  "figure_source_sha256": "7340da96ae8b8569667968e63917d0ae4b0d9b1807444c729e48adb1211be916",
+  "wrapper_sha256": "bad2f1a84d231607eb38eac673c2fc2e6b3db8b17fc23989b21d863a3f8f8a1f",
+  "pages": [
+    {
+      "page": 1,
+      "width_pt": 612.0,
+      "height_pt": 792.0,
+      "outside_words": 0,
+      "replacement_characters": 0
+    },
+    {
+      "page": 2,
+      "width_pt": 612.0,
+      "height_pt": 792.0,
+      "outside_words": 0,
+      "replacement_characters": 0
+    }
+  ],
+  "font_listing": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nZQQUQE+LinBiolinumT                  Type 1            Custom           yes yes yes     24  0\nFYTSHB+LinBiolinumTB                 Type 1            Custom           yes yes yes     25  0\nOCDTAL+LinLibertineT                 Type 1            Custom           yes yes yes     26  0\nRSEWOP+LinLibertineTB                Type 1            Custom           yes yes yes     29  0\nUNAXJI+LinLibertineTI                Type 1            Custom           yes yes yes     31  0\nOCDTAL+LinLibertineT                 Type 1            Custom           yes yes yes     33  0\n",
+  "all_listed_fonts_embedded": true,
+  "official_files_checked": 8,
+  "official_template_unchanged": true,
+  "build_exit_code": 0,
+  "overfull_warnings": 0,
+  "undefined_reference_warning": false,
+  "known_template_diagnostic": "end occurred when ifx on line 20 was incomplete",
+  "visual_review": {
+    "pages_inspected": [
+      1,
+      2
+    ],
+    "final_figure_page_reinspected": 2,
+    "scale_to_pixels": 1800,
+    "monochrome": true,
+    "figure_text_not_scaled": true,
+    "both_pages_pixel_identical_after_whitespace_cleanup": true
+  },
+  "scientific_results_included": false,
+  "main_EN_RU_manuscripts_changed": false,
+  "not_a_submission_artifact": true,
+  "font_embedding_check": "Every row of the pdffonts emb column is yes."
+}

@@ -1,0 +1,109 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% LaTeX Template for AAMAS-2027 (based on sigconf.tex)
+%%% Prepared by the AAMAS-2027 Publication Chairs based on the version from AAMAS-2026.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Start your document with the \documentclass command.
+
+
+%%% == IMPORTANT ==
+%%% Use the first variant below to anonymize your submission (no author information shown).
+%%% Use the second variant below for the final paper (including author information).
+%%% For further information on anonymity and double-blind reviewing,
+%%% please consult the call for paper information
+%%% https://warwick.ac.uk/fac/sci/dcs/aamas2027/calls/
+
+%%%% For anonymized submission, use this
+\documentclass[sigconf,anonymous]{aamas}
+
+%%%% For camera-ready, use this
+%\documentclass[sigconf]{aamas}
+
+
+%%% Load required packages here (note that many are included already).
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{balance} % for balancing columns on the final page
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% AAMAS-2027 copyright block (do not change!)
+
+\makeatletter
+\gdef\@copyrightpermission{
+  \begin{minipage}{0.2\columnwidth}
+   \href{https://creativecommons.org/licenses/by/4.0/}{\includegraphics[width=0.90\textwidth]{by}}
+  \end{minipage}\hfill
+  \begin{minipage}{0.8\columnwidth}
+   \href{https://creativecommons.org/licenses/by/4.0/}{This work is licensed under a Creative Commons Attribution International 4.0 License.}
+  \end{minipage}
+  \vspace{5pt}
+}
+\makeatother
+
+\setcopyright{ifaamas}
+\acmConference[AAMAS 2027]{Proc.\@ of the 26th International Conference
+on Autonomous Agents and Multiagent Systems (AAMAS 2027)}{3--7 May 2027}{Hanoi, Vietnam}{M.~Baldoni, F.~Fang, W.~Yeoh, N.~Yorke-Smith (eds.)}
+\copyrightyear{2027}
+\acmYear{2027}
+\acmDOI{}
+%\acmPrice{}
+\acmISBN{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% == IMPORTANT ==
+%%% Use this command to specify your OpenReview submission number.
+%%% In anonymous mode, it will be printed on the first page.
+
+\acmSubmissionID{Layout preview only}
+
+%%% Use this command to specify the track you want to submit your paper to.
+
+\submissionType{Research Paper Track}
+%\submissionType{AAAI Track}
+%\submissionType{Demonstration Track}
+%\submissionType{Blue Sky Ideas Track}
+%\submissionType{JAAMAS Track}
+%\submissionType{Doctoral Consortium}
+
+%%% Use this command to specify the title of your paper.
+
+
+\title{Workflow figure layout preview}
+\begin{abstract}
+This technical preview checks a workflow diagram in the unchanged AAMAS 2027
+class. It contains no experimental results and is not a conference submission.
+\end{abstract}
+\keywords{Workflow layout, figure preflight}
+\begin{document}
+\maketitle
+\section{Layout check}
+The next page uses a full-width figure at native size, without scaling the text.
+The scientific paper will identify all task counts, model settings and outcome
+rules in its methods. This preview does not replace the final scientific or
+visual review of that paper.
+\begin{figure*}[t]
+\centering
+\input{workflow_overview}
+\caption{Generation workflows and their evaluation boundary. D, SN, SR, MN and
+MR are the five factorial conditions. In a separate contemporaneous study, SCC
+is compared with fresh SN and SR using the same model. SCC's generated tests are
+not the hidden benchmark tests. The diagram shows ordinary completion paths;
+transport aborts and author-code extraction fallbacks are handled separately.
+An exception-free internal run does not establish benchmark correctness.
+The configured SCC controller does not retest a repaired program internally.}
+\Description{Three factorial configurations produce a single final program:
+a direct request; one request with three prescribed operations; and three
+sequential calls forwarding all previous responses. Each is evaluated after
+generation using the benchmark tests and common controls. The SCC workflow has
+analyst, coder and tester calls followed by isolated execution of the generated
+tests. Execution without an exception stops the session; an exception or timeout
+can lead to one coder repair. Both paths lead to the same external evaluation.
+Hidden benchmark tests are never returned to the model.}
+\end{figure*}
+\clearpage
+\end{document}
