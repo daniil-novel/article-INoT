@@ -30,3 +30,22 @@ the prespecified task-mean tests or their Holm family were implemented wrongly.
 Unused bibliography source entries are not printed by BibTeX and therefore
 do not inflate the actual reference list. More citations should be added only
 when a concrete scientific claim needs them, not to meet a citation quota.
+
+## Critics3 and5
+
+The result audit confirms the reported arithmetic and repeats scope caveats
+rather than finding a contradictory numeric result. Accepted local wording
+changes distinguish complete-pair outcomes, source-family sensitivity and
+API-equivalent valuation. No population-wide SCC ordering is claimed.
+
+Accepted English corrections: canonical planner/implementer/reviewer in the
+current architecture introduction (exact historical experimental prompts are
+untouched); task rather than undefined taskcluster in the full abstract;
+explicit5595complete/405incomplete SCC wording; native evaluation defined as
+original benchmark tests; clearer wording about separate quality/resources.
+Pricing dates belong to different studies and initial versus repeated source
+checks. Historical tariff-access dates are not silently rewritten as new ones.
+A publisher access limitation is not a fabricated-reference finding. Adding
+repository dependence to the standalone article is not required to fix language.
+Complete consolidation of repeated caveats/legend prose is an editorial follow-up,
+not a reason to modify recorded outcome semantics or exact prompts.

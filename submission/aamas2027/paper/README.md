@@ -1,9 +1,9 @@
 # AAMAS manuscript working source
 
 This is the anonymous conference adaptation in the unchanged official AAMAS
-2027 class. It is a working draft, not yet an upload-ready submission: SCC
-outcomes, final independent reviews, the supplement and the actual submission
-number remain pending.
+2027 class. Both large experimental series are complete and integrated.
+Final independent reviews, the anonymous supplement and the actual submission
+number remain pending; this is not yet an upload-ready package.
 
 Compile `main.tex` with PDFLaTeX/BibTeX (or `latexmk -pdf main.tex`). The class,
 bibliography style and licence artwork are copied unchanged from the official
