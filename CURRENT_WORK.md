@@ -13,7 +13,7 @@ the bilingual paper, repeated language/scientific reviews, Engineering Loop,
 and the separate AAMAS branch/package. Actual conference submission, account
 creation and correspondence are not authorized.
 
-Stop model work at 65% subscription remaining. The last check was 78%; refresh
+Stop model work at 65% subscription remaining. The last check was 73%; refresh
 it before acting. Guard folder: `reproducibility/runs/subscription_guard65_20260913`.
 The old55% pause is historical. No automatic credit resets or account changes.
 
@@ -53,13 +53,15 @@ paused attempts, with no untouched cells. The session progress file is
 the root continuation summary updates on exit, so it can remain stale while
 the session is active.
 
-Main queue PID 22852 is now running native groups and analyses. The separate
-partial-program queue PID 16476 waits for that exact process and successful
-queue status, then evaluates the 396 diagnostic programs sequentially. Its
-status is in `reproducibility/runs/scc-partial-programs-20260913/queue`.
-Do not edit queued diagnostic sources (`partial_candidate_audit.py`,
-`partial_setup.py`, `partial_runner.py`, `partial_report.py`, `queue_partial.py`)
-or its setup file. The exact v2 protocol and nine passing tests are committed.
+Main queue PID 22852 is running native groups and analyses. The separate
+partial-program queue PID 16476 WAS CANCELLED before execution: the v2 source
+was a combined developer-plus-generated-test payload, not developer code alone.
+See PARTIAL_V2_CANCELLATION.md and the cancellation record in
+`reproducibility/runs/scc-partial-programs-20260913/queue`. Do not restart v2.
+A new 399-program developer-only diagnostic is being prepared, including three
+paused workflows with completed developer responses. Its source extraction
+must reconstruct the original combined payload exactly before separating the
+developer text. No diagnostic native outcomes have yet been produced.
 
 ## Completed evidence and manuscripts
 
