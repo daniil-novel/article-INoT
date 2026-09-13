@@ -13,7 +13,7 @@ the bilingual paper, repeated language/scientific reviews, Engineering Loop,
 and the separate AAMAS branch/package. Actual conference submission, account
 creation and correspondence are not authorized.
 
-Stop model work at 65% subscription remaining. The last check was 80%; refresh
+Stop model work at 65% subscription remaining. The last check was 78%; refresh
 it before acting. Guard folder: `reproducibility/runs/subscription_guard65_20260913`.
 The old55% pause is historical. No automatic credit resets or account changes.
 
@@ -46,11 +46,20 @@ analysis and amended analysis. Do not edit the queue-bound files while active:
 `parallel_finish.py`, `queue_finish_parallel.py`. Scheduling tests compare
 actual generated commands to the unchanged sequential finisher.
 
-At the last progress check the final continuation had 287 newly completed
-cells, 7 active and 49 pending. The session progress file is
+The final continuation completed all 343 remaining cells. The selected prefix
+now has 5595 completed workflows, 397 infrastructure failures and 8 historical
+paused attempts, with no untouched cells. The session progress file is
 `generation/sessions/1789311178975778900/progress.json` under the SCC run root;
 the root continuation summary updates on exit, so it can remain stale while
 the session is active.
+
+Main queue PID 22852 is now running native groups and analyses. The separate
+partial-program queue PID 16476 waits for that exact process and successful
+queue status, then evaluates the 396 diagnostic programs sequentially. Its
+status is in `reproducibility/runs/scc-partial-programs-20260913/queue`.
+Do not edit queued diagnostic sources (`partial_candidate_audit.py`,
+`partial_setup.py`, `partial_runner.py`, `partial_report.py`, `queue_partial.py`)
+or its setup file. The exact v2 protocol and nine passing tests are committed.
 
 ## Completed evidence and manuscripts
 
@@ -91,14 +100,18 @@ The `partial_diagnostic_harness` agent is validating a separate native audit
 of396retained developer programs from Docker-failed SCC workflows. Their exact
 source is the code field of generated-test input, not a newly extracted tester
 response. This diagnostic must not replace any primary SCC quality endpoint.
-It has not run native tests yet. Root found schema, repeat identity and report
-classification defects in the initial helper and requested executable tests
-and an actual setup dry run before any native execution.
+It has not run native tests yet. Root corrected repeat identity, allocation
+order, raw control validation and report reconciliation in the helper. Nine
+actual tests pass; the real 396-program v2 setup and preflight unknown report
+are retained. See PARTIAL_ROOT_CORRECTIONS.md; original agent claims are
+preserved but do not override the coordinator validation.
 
 The `anonymous_semantic_package` agent prepared a candidate anonymous primary
 supplement. The `anonymous_package_audit` agent is checking its actual portable
 replay, retained content and field transformations. Broad regex redactions
-and a local replay wrapper require independent verification. The measured primary
+and a local replay wrapper failed independent verification. A revised portable
+package is being built with full decoder and archive-local replay. The old
+candidate must not be released. The measured primary
 prototype uses standard ZIP-LZMA with a128MiB dictionary:12,404,424bytes, with
 all53,904prompt/result mappings verified. It is not yet anonymous, combined
 with SCC or submission-ready. The64MiB version is14,503,492bytes. Retain exact
@@ -128,7 +141,7 @@ The author-registration deadline is17September2026. See
 
 ## Git
 
-Work is in `codex/development-scale`, latest committed c252d20 at this note.
+Work is in `codex/development-scale`, latest committed ddc6784 at this note.
 Create/update the final `codex/aamas-2027` in a separate worktree after the
 evidence and revisions are ready. Frequent meaningful commits/pushes are
 authorized. Preserve unrelated changes, including the existing guide edit,

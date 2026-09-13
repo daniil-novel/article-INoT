@@ -34,7 +34,7 @@
 
 Для регистрации abstract форма требует заголовок (до 250 символов), авторов и их профили/email, abstract, одну primary subject area, от одного до трёх area topics, выбор Findings, reciprocal-reviewer confirmation и обязательные policy attestations. TL;DR (до 250 символов) и до двух secondary areas указаны как необязательные. На текущем этапе PDF отмечен как optional; перед полной подачей нужно проверить живую форму заново. Supplementary material — один ZIP до 25 MB, если он нужен.
 
-Текущий рабочий заголовок из рукописи: `Hybrid-INoT: internal role segregation and external verification for code generation`. Его пригодность для AAMAS и окончательную формулировку ещё нужно проверить после завершения исследований и адаптации текста.
+Текущий рабочий заголовок конференционной версии: `Hybrid-INoT: Isolating Role Labels and Call Structure in Verified Code Generation`. Окончательные заголовок и аннотация будут синхронизированы с PDF после включения результатов SCC. Поля для переноса в форму собраны в `OPENREVIEW_FIELDS_DRAFT.md`.
 
 ## Сроки main track
 
