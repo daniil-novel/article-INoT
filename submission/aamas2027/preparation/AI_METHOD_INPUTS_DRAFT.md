@@ -125,3 +125,19 @@ The author specified a reserve near 55% remaining. The implemented study guard a
 ```text
 Если ты понимаешь, что истратил больше 50% подписки, то пожалуйста остановись. Я имею в виду, когда процент подписки стал меньше 55%.
 ```
+
+## H11. Reduced SCC completion target
+
+The author requested completion to 2,000 comparisons and integration of the
+results before language and scientific reviews. The operational amendment
+defines this target as 2,000 assigned task-repeat blocks containing three
+methods each, not 2,000 completely observed triples. The block selection and
+its timing are documented separately.
+
+```text
+Давай доделаем до 2000. Затем надо будет соответственно описать это в статье. Также нужно будет дать статью на проверку всем агентам - правописания, понятности, отсутствия коммитов и самодостаточности статьи, профессиональному ревьюеру и т д. Когда будет всё готово, надо подготовить статью в AAMAS и все сопутствующие документы
+```
+
+The author subsequently imposed a stricter reserve for the completion work.
+The operative guard stops model work at 65% subscription remaining. H10 records
+the earlier constraint and must not be used as the current restart threshold.
