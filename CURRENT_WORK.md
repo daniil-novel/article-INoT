@@ -13,9 +13,13 @@ the bilingual paper, repeated language/scientific reviews, Engineering Loop,
 and the separate AAMAS branch/package. Actual conference submission, account
 creation and correspondence are not authorized.
 
-Stop model work at 65% subscription remaining. The last check was 73%; refresh
+Stop model work at 65% subscription remaining. The last direct app check was 72%; refresh
 it before acting. Guard folder: `reproducibility/runs/subscription_guard65_20260913`.
 The old55% pause is historical. No automatic credit resets or account changes.
+The standalone watcher subsequently recorded `quota_unavailable`; preserve its
+pause record. A fresh direct app query succeeded at 72% remaining. Experimental
+generation is finished and must not restart; native evaluation uses no models.
+Check the app limit directly before each further review wave.
 
 ## Live execution
 
