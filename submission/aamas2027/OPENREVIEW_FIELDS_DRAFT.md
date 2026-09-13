@@ -2,12 +2,12 @@
 
 Preparation record, 13 September 2026. This file contains author-identifying
 information and must stay outside the anonymous PDF and supplementary ZIP.
-No form has been submitted. Copy the final title and abstract from the completed
-conference manuscript after SCC integration and its final reviews.
+No form has been submitted. The title and abstract below match the current
+completed-data conference manuscript. Final editorial review remains a separate gate.
 
 | Field | Prepared value |
 |---|---|
-| Paper title, working revision | Hybrid-INoT: Isolating Role Labels and Call Structure in Verified Code Generation |
+| Paper title | Hybrid-INoT: Isolating Role Labels and Call Structure in Verified Code Generation |
 | Author | Daniil Privezentsev |
 | Author email | daprivezentsev@edu.hse.ru |
 | Affiliation | HSE University, Faculty of Computer Science |
@@ -39,9 +39,9 @@ Optional working TL;DR (under 250 characters):
 
 > A matched code-generation study separates role labels from call structure and measures native correctness and full-context resource use, with an external Self-Collaboration workflow comparison.
 
-The final abstract must be the same as in the final conference PDF, in plain
-text and preferably 100–300 words. It is deliberately not copied from the
-current draft while SCC outcomes are pending.
+## Abstract for the current conference manuscript
+
+Hybrid-INoT combines planning, implementation, and critique in one model response while leaving correctness verification to an external executable evaluator. We isolate this single-pass core by crossing role labels (neutral versus planner–implementer–reviewer) with call structure (one versus three calls), holding the operations and full supplied task context fixed. A direct solver is the fifth condition. GPT-5.6 Luna with medium reasoning receives 15,000 assignments on 1,000 BigCodeBench tasks with three repeats per condition; 14,961 candidates complete and 985 tasks pass reference controls. Neither role-label quality contrast is significant after Holm adjustment. On complete eligible task pairs, three-call execution lowers success by 4.17 percentage points for neutral instructions and 2.13 points for role-labelled instructions. Its API-equivalent valuation is 2.67 and 2.78 times that of the corresponding single-call workflows. A separate 2,000-block comparison assigns 6,000 fresh single-call and Self-Collaboration workflows across 956 tasks. Self-Collaboration has lower observed-pair success by 2.48–2.68 points and approximately three times the valuation, but substantial infrastructure missingness leaves the full-population quality difference unidentified. The results provide a controlled evaluation of role labels and interaction structure, with explicit boundaries on quality and resource claims. They do not establish that named roles act as independent agents or that one topology dominates all agent workflows.
 
 ## Author decisions or platform-generated fields
 

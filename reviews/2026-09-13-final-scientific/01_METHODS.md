@@ -1,0 +1,25 @@
+# Критик 1: дизайн и статистические методы
+
+## Покрытие и источники
+
+Полностью прочитаны `main.tex`, `body.tex`, `workflow.tex`, `scc_comparison.tex`, таблицы `primary_*.tex`, `references.bib`, `README.md` и подписи схемы. Проверены выбранные поля `reproducibility/results/20260912_scale1000_luna_full/analysis/summary.json`, `reproducibility/results/20260913_scc2000_luna_full/amended-analysis/summary.json` и контрольный `.../20260913_scc2000_luna_full/analysis/summary.json`. Разобраны также замороженный протокол `reproducibility/results/20260912_scale1000_luna_full/protocols/scale1000-PROTOCOL.md` и входной манифест. Веб-проверка первичных описаний: BigCodeBench (arXiv: https://arxiv.org/abs/2406.15877) и Self-Collaboration (arXiv: https://arxiv.org/abs/2304.07590), 13.09.2026. Рукопись и материалы прочитаны без использования отчётов других критиков.
+
+## Общая оценка
+
+Основная факторная схема хорошо операционализирована: пять условий, общий task/context, внешний native evaluator, три повторных запуска и заранее заданное семейство из четырёх парных контрастов. Сводка Luna подтверждает 1,000 задач, 15,000 назначений, 14,961 завершённый кандидат, 985 контроль-eligible задач; оценки в таблицах воспроизводят поля анализа. SCC-сводка также подтверждает 6,000 выбранных назначений, 956 задач, 941 eligible и опубликованные парные эффекты. Предметная валидность benchmark соответствует первичному описанию BigCodeBench (1,140 задач, библиотечные вызовы, исполняемые тесты), но pass/fail остаётся валидностью конкретного тестового контракта.
+
+## Материальные замечания и действия
+
+1. **Расхождение замороженного протокола и фактической модели (блокирующее для воспроизводимости).** В `scale1000-PROTOCOL.md:34–39` указаны GPT-5.4 mini и subscription authentication, тогда как рукопись утверждает GPT-5.6 Luna (`body.tex:51`) и фактические generation records содержат `gpt-5.6-luna`. Следует либо явно пометить протокол superseded/amended с датой и хэшем, либо исправить публичный supplement; иначе независимый запуск не знает, какая модель является предписанной.
+
+2. **Главный тест является complete-case estimand после потенциально treatment-dependent missingness.** Рукопись правильно определяет его условно (`body.tex:60–66`), а сводка подтверждает 264 unknown quality endpoints и 39 незавершённых назначений. Однако отрицательные bounds для topology не превращают complete-case эффект в population effect, и SCC bounds охватывают оба знака (`scc_comparison.tex:15–24`; amended summary: `bounds`). В основном тексте нужно ещё явнее отделить causal wording “lowers” (`body.tex:83,111`) от доступного-case inference и вынести для каждого контраста число/долю неизвестных по arm и причины в одну компактную таблицу. Минимальная доработка: называть оценки “conditional observed-pair differences” во всех Results/Conclusion и дать all-assignment bounds рядом с каждым claim.
+
+3. **Время и порядок вызовов — важный возможный confounder, но не описаны в статье.** Замороженный протокол требует рандомизировать порядок пяти arms внутри каждого task-repeat block и перемешать порядок блоков (`scale1000-PROTOCOL.md:25–30`), а также сохранять timestamps. В `body.tex:68` сказано лишь о shard/concurrency. Нужно явно сообщить, что именно было рандомизировано, seed/manifest и были ли временные тренды модели/квоты; иначе читатель не может оценить temporal/provider drift, особенно для 27,000 CLI turns.
+
+4. **Статистическая модель разумна, но допущения следует формализовать.** Парный t-test на task means и whole-task bootstrap предотвращают псевдорепликацию, что подтверждено `summary.json` (`inference`: task-level means, Holm family size 4). Но бинарные outcomes дают сильную дискретность и множество нулевых task differences; t-test — лишь large-sample approximation. Добавьте в supplement распределение task differences/число nonzero discordant tasks и sensitivity (randomization/permutation или cluster bootstrap) с тем же estimand. Это не требует менять primary rule, но позволит проверить, что выводы не зависят от нормальной аппроксимации.
+
+5. **SCC сравнение не является чистым тестом call topology или роли.** SCC использует иной контроллер: analyst JSON, generated `check(candidate)`, exception-free stopping и repair cap (`scc_comparison.tex:1–4`). Сводка подтверждает крупную инфраструктурную missingness (397 failures; quality unknown по причинам в контрольной analysis summary). Текст это оговаривает, но заголовок/формулировки “SCC ... lower success” могут быть прочитаны как методологическое превосходство single-call. Оставить SCC как exploratory whole-workflow comparison, явно маркировать transport/controller confounding в caption и не сопоставлять его эффект с факторным `MN/MR` без повторного оговоренного caveat.
+
+### Итог
+
+Дизайн основной Luna-части в целом строгий и численно согласован с выбранными сводками; наиболее срочная проблема — несогласованный публичный протокол модели. До исправления протокола и более видимого разграничения complete-case и all-assignment выводов методическую воспроизводимость следует считать частичной, хотя заявленные первичные тесты и их multiplicity rule реализованы последовательно.

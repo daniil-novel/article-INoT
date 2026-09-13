@@ -1,0 +1,28 @@
+# Критик 2 — новизна и предметная литература
+
+Дата поиска: 13.09.2026. Цель: AAMAS 2027, Research Paper Track. Материалы прочитаны полностью: `submission/aamas2027/paper/main.tex`, `body.tex` (137 строк), `scc_comparison.tex`, `references.bib`, `workflow.tex`, `primary_{quality,contrasts,resources}.tex`, а также проверен текст отрендеренного `main.pdf` (7 страниц). Другие рецензии не использовались.
+
+## Вывод
+
+Новизна правдоподобна как **контролируемое компонентное исследование** уже известного шаблона planning/coding/review, но не как новый multi-agent метод. Главный собственный результат — факторный crossing (нейтральные/ролевые метки × один/три вызова) при одинаковых операционных фразах и полном контексте, с внешней исполнимой проверкой, повторными запросами и явным учётом пропусков. Это полезный эмпирический дизайн, однако его следует позиционировать как replication/extension и boundary study; текущая связь с AAMAS ослаблена тем, что сами авторы признают: метки не доказывают независимых агентов (`body.tex`, Introduction, §§Formal Problem and Hybrid-INoT Core).
+
+## Проверенные первичные источники
+
+* Dong et al., *Self-Collaboration Code Generation via ChatGPT*, arXiv:2304.07590v2, §§2–3 и §5.2–5.3: исходная система уже задаёт три роли analyst/coder/tester, обмен сообщениями и waterfall-порядок; Table 2 аблирует роли, Table 3 сравнивает role instruction с instruction/few-shot, Table 4 варьирует maximum interaction. Первоисточник: https://arxiv.org/html/2304.07590v2 (v2 от 24.05.2023, строки 50, 71–75, 171–205).
+* Sun & Zeng, *Introspection of Thought Helps AI Agents*, arXiv:2507.08664 (2025): INoT — LLM-readable code in the prompt, программируемый внутренний диалог и self-denial/reflection внутри LLM; заявлены шесть бенчмарков и снижение token cost. Первоисточник: https://arxiv.org/abs/2507.08664 (abstract, строки 8–23). Это не источник для утверждения о “PromptCode”.
+
+## Материальные находки и действия
+
+1. **Новизна относительно SCC сформулирована слишком широко.** SCC v2 непосредственно содержит role ablation и interaction-count ablation (Table 2–4), поэтому фраза «closest prior work includes role ablations and interaction-count studies» (`body.tex`, Introduction/Related Work) недостаточна для демонстрации разрыва. Добавить компактную таблицу SCC-v2 vs Hybrid-INoT: отдельные факторы в SCC против joint crossing здесь; GPT-3.5/старые benchmarks против Luna/BigCodeBench; внутренний simulated tester/repair loop против внешних native tests; variable stopping против fixed 1/3 calls; marginal Pass@1 против paired task-level estimands. Явно назвать вклад “controlled extension/replication”, а не новую архитектуру.
+
+2. **Несоответствие multi-agent фокусу AAMAS.** Эксперимент использует один и тот же модельный alias; “planner/implementer/reviewer” — строки инструкции, без независимых памяти, целей, моделей или наблюдаемых agent-level сообщений (это корректно оговорено в `body.tex`, Introduction и §Formal Problem). В текущем виде результат — про prompt labels и call topology, а не про взаимодействие автономных агентов. Либо сузить title/abstract/CCS и мотивацию до “workflow topology under executable verification”, либо добавить явный AAMAS-relevant baseline/анализ (heterogeneous agents, независимое состояние/политики или протокол координации). Нельзя одновременно отмежеваться от independent agents и продавать метод как multi-agent innovation.
+
+3. **Ошибка/неполнота атрибуции INoT.** В `body.tex`, Introduction сказано “Self-Collaboration and PromptCode-style internal dialogue” с цитатами Dong и Sun. Ссылка Sun — это INoT, а библиография не содержит PromptCode; первичный INoT описывает LLM-readable code in prompt и внутреннюю рефлексию, но не обязательно PromptCode. Исправить на “INoT-style programmable internal dialogue” либо добавить проверяемую первичную запись PromptCode и объяснить различие. Отдельно указать, что INoT* adaptation меняет reasoning procedure, поэтому не является чистым label/topology control.
+
+4. **SCC comparison не подтверждает причинную новизну Hybrid-INoT.** В `scc_comparison.tex` SCC включает analyst JSON, generated checks, exception-free stopping и до одной repair-итерации; есть 396 Docker failures и существенная missingness. Поэтому −2.48…−2.68 п.п. на observed matched repeats сравнивает целые контроллеры, не роль или число вызовов. Уже имеющиеся оговорки правильны, но abstract/Conclusion следует явно маркировать этот блок как contextual external comparison и не использовать его как подтверждение превосходства/неполноценности Hybrid-INoT.
+
+5. **Библиография не покрывает заявленное AAMAS-соседство.** В `references.bib` есть, но нигде не цитируются, `choi2025debate` и `wunderlich2026compute`; также не обсуждены современные multi-agent coordination/debate/test-time-scaling работы, хотя Discussion делает общие выводы о “separate agents”, tools, retrieval и matched compute. Добавить 2–4 действительно близких первичных работы и абзац с различием estimand (качество, стоимость, агентная независимость, tool feedback). Удалить неиспользуемые записи или процитировать их по делу; сейчас список создаёт видимость более широкой литературной опоры.
+
+## Сильные стороны покрытия
+
+Статья честно ограничивает claims: роль-метки не объявляются агентами, провал нулевой гипотезы не трактуется как эквивалентность, SCC missingness и разные контроллеры вынесены в scope/limitations. Первоисточник SCC проверен по v2, включая §5.2 (role-playing) и §5.3 (interaction); первоисточник INoT проверен по arXiv abstract. Выводы о новизне относятся к конкретному протоколу и BigCodeBench, а не к универсальной эффективности multi-agent систем.

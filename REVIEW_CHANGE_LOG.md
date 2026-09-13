@@ -249,3 +249,21 @@ Both PDFs rebuilt successfully without overfull boxes or unresolved references.
 The final SCC result integration and post-integration manuscript reviews remain
 pending. The selected AI-method inputs now include the actual 2,000-target
 request, and a separate disclosure maps assistance to implemented methods.
+
+## 13 September 2026: completed SCC integration and raw replay
+
+All6000selected assignments are terminal;5595completed programs have native
+results. The corrected399developer-program diagnostic also completed, with
+196passes among392control-eligible programs and seven unknown quality outcomes.
+No intermediate outcome replaces an incomplete SCC workflow.
+
+The first actual SCC publication failed on a missing source-graph inventory.
+The reconstructed scientific graph files were byte-identical. The publisher
+now creates the inventory; seven regression tests pass. A separate v2archive
+passed unchanged-source, isolated foreign-cwd raw/native/statistical replay.
+The failed first archive is retained. The two full manuscripts now include
+actual SCC summary tables and every selected task-repeat outcome (111EN,
+115RU pages). The AAMAS manuscript contains the completed comparison and
+399-program diagnostic; all seven rendered pages were inspected without
+clipping. Five new scientific critics are being run in fresh contexts.
+These are internal author-side checks, not conference reviews or acceptance.
