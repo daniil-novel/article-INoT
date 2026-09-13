@@ -5,8 +5,10 @@ frozen experiments, selecting favourable results, or skipping the final reviews.
 
 ## Prerequisite evidence
 
-Complete the primary 1,000-task/5-condition/3-repeat study and the paired SCC
-1,000-task/3-method/3-repeat study. Preserve all submitted failures and unavailable
+Complete the primary 1,000-task/5-condition/3-repeat study and the amended SCC
+prefix of 2,000 task-repeat comparisons (6,000 method assignments on 956 tasks).
+The original 9,000-assignment ledger is retained with administrative nonselection
+explicitly separated. Preserve all submitted failures and unavailable
 observations; do not retry them or treat unknown outcomes as failures. Finish
 native evaluation, replay the published records and statistics, and report the
 separate source-group sensitivity intervals. Integrate findings into the full

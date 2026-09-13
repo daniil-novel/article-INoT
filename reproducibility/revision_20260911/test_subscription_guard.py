@@ -41,7 +41,7 @@ def test_missing_main_bucket_cannot_fall_back_to_stale_legacy():
         guard.remaining_percent({"rateLimits": {"limitId": "codex"}})
 
 
-@pytest.mark.parametrize("used,allowed", [(44, True), (45, False), (46, False)])
+@pytest.mark.parametrize("used,allowed", [(34, True), (35, False), (36, False)])
 def test_exact_reserve_boundary(monkeypatch, tmp_path, used, allowed):
     monkeypatch.setattr(guard, "read_limits", lambda *a: {"rateLimits": bucket(used)})
     result = guard.snapshot(tmp_path / "unused.exe", tmp_path)
@@ -74,22 +74,25 @@ def test_latched_pause_never_reads_quota_or_auto_resumes(monkeypatch, tmp_path):
     assert json.loads((tmp_path / "status.json").read_text())["state"] == "paused"
 
 
-def test_process_stop_is_confined_to_selected_checkout(tmp_path):
+@pytest.mark.parametrize("module", ["reproducibility.scale1000_luna.dispatch",
+                                    "reproducibility.scc2000.continuation"])
+def test_process_stop_is_confined_to_selected_checkout(tmp_path, module):
     """Terminate harmless sleeping fixtures, never an actual study process."""
     roots = [tmp_path / "selected", tmp_path / "unrelated"]
     parents, children = [], []
     try:
         for root in roots:
-            package = root / "reproducibility/scale1000_luna"
+            parts = module.split(".")
+            package = root.joinpath(*parts[:-1])
             package.mkdir(parents=True)
             (root / "reproducibility/__init__.py").write_text("")
             (package / "__init__.py").write_text("")
-            (package / "dispatch.py").write_text(
+            (package / (parts[-1] + ".py")).write_text(
                 "import pathlib,subprocess,sys,time\n"
                 "child=subprocess.Popen([sys.executable,'-c','import time; time.sleep(90)'])\n"
                 "pathlib.Path('child.pid').write_text(str(child.pid))\n"
                 "time.sleep(90)\n", encoding="utf-8")
-            parent = subprocess.Popen([sys.executable, "-m", "reproducibility.scale1000_luna.dispatch"],
+            parent = subprocess.Popen([sys.executable, "-m", module],
                                       cwd=root, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             parents.append(parent)
             deadline = time.monotonic() + 10

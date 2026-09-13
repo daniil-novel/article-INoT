@@ -34,7 +34,7 @@ figure rendering and visual review still require an active review pass.
 
 These local computations do not consume the Codex subscription. They can finish
 alongside the already-running native evaluator if the separate subscription
-guard stops model generation. The 55% reserve and its persistent pause continue
+guard stops model generation. The reserve and its persistent pause continue
 to forbid model work and automatic recovery; this wrapper does not read, clear
 or override that pause.
 

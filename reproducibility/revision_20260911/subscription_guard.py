@@ -21,8 +21,9 @@ ROOT = Path(__file__).resolve().parents[2]
 MODULES = {
     "reproducibility.scale1000_luna.dispatch",
     "reproducibility.revision_20260911.scc_dispatch",
+    "reproducibility.scc2000.continuation",
 }
-RESERVE = 55.0
+RESERVE = 65.0
 
 
 def save(path: Path, value: dict) -> None:

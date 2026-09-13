@@ -28,6 +28,13 @@ reviewer notes and operational documents remain separate from the anonymous
 upload. The final package has not been issued, and no OpenReview submission has
 been created by this preparation.
 
-The author's 55% subscription reserve overrides all future model work here.
+On 13 September 2026 the author authorized the fixed 2000-block SCC amendment
+(6000 method assignments, 956 selected tasks), replacing completion of the
+original 9000-assignment SCC plan as the next evidence gate. The primary
+1000-task factorial study has completed local native evaluation and offline
+processing; integration and publication of those results remain pending.
+The revised **65% remaining subscription reserve** overrides all future model
+work here. Russian and English language review, repeated scientific review,
+and the post-review Engineering Loop are required before final delivery.
 Do not claim conference acceptance, complete scientific review or upload
 readiness merely because the official template compiles.
