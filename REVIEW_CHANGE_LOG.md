@@ -267,3 +267,15 @@ actual SCC summary tables and every selected task-repeat outcome (111EN,
 399-program diagnostic; all seven rendered pages were inspected without
 clipping. Five new scientific critics are being run in fresh contexts.
 These are internal author-side checks, not conference reviews or acceptance.
+
+## 13September2026: final board, bilingual follow-ups and reserve stop
+
+All five fresh completed-data scientific critics returned reports in
+reviews/2026-09-13-final-scientific. English and Russian full-language reviews
+and separate targeted follow-ups are retained. Coordinator decisions correct
+false-positive model/PromptCode objections without overwriting critic reports.
+Accepted wording, grammar and the SCClineoverflow are repaired; PDFs rebuilt.
+EngineeringLoop iteration1 repaired a stale sourcekit and confirmed7AAMASpages
+with nooverfull/undefinedreference. It rejectedwholepackage readiness: local
+metadata remains in an anonymoustrial and the fullrawarchives exceed25MB.
+At65%remaining, modelwork stopped asrequested. Post-loop freshreview is pending.

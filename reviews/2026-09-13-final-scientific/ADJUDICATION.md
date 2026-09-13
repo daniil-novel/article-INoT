@@ -49,3 +49,14 @@ A publisher access limitation is not a fabricated-reference finding. Adding
 repository dependence to the standalone article is not required to fix language.
 Complete consolidation of repeated caveats/legend prose is an editorial follow-up,
 not a reason to modify recorded outcome semantics or exact prompts.
+
+## Russian language editor
+
+Accepted: remove the awkward agreement around14961 by placing the count in
+parentheses after 'all completed programs'; introduce D at first mention;
+standardize Russian cache spelling in authored prose and add the missing BM25
+comma. No exact experimental prompt is altered. The recommendation to use
+plural nouns mechanically after every number ending in1 is not adopted;
+ordinary numeral agreement depends on the sentence case. Decimal separators
+in the long tables remain an explicit editorial follow-up, because automatic
+replacement could corrupt model versions, identifiers or literal code.

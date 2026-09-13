@@ -4,7 +4,7 @@ Updated 13 September 2026, completed-data integration.
 Operational note outside anonymous submission. Verify live logs before resuming.
 
 ## Scope and quota
-Stop all model work at 65% subscription remaining. Last direct check:67%.
+Stop all model work at 65% subscription remaining. Last direct check:65%. STOP model work; user reserve reached.
 No resets or new experimental model calls. All selected generation/evaluation
 is finished. Actual OpenReview submission/account creation is not authorized.
 
@@ -70,3 +70,19 @@ Standalone quota watcher previously latched quota_unavailable; do notrestart.
 Direct app limit checks succeed. No experiment processes shouldrestart.
 Heartbeat idautomation must remain quiet on unchanged state, enforce65reserve,
 and not spend more model quota once threshold reached. No automaticreset.
+
+## Final quota stop,13September2026
+Direct app query reached35%used/65%remaining. All agents completed. Do not
+start more agents or experiments until renewed user authorization within quota.
+Five fresh scientific critics complete; English/Russian full-language checks
+and both targeted editorial follow-ups complete. Reports/decisions retained.
+EngineeringLoop iteration1 executed: refreshed stale SCCsourcekit, current
+AAMAS7pages and nooverfull/undefinedreferences. Whole-package readiness
+REJECTED dueremaininganonymousmetadata/25MBissue/humanfields. Freshpost-loop
+review NOTSTARTED because reserve reached. Never claim it completed.
+Anonymousprimary22,041,292bytes stillhaslocalpaths; keeptrialnotupload.
+SCCpublic31,142,980bytes all123170filesbyteverified, published inGit.
+FullEN111/RU115pages; sourcekit13members92878bytes, verifiedcurrent.
+LatestRussianlanguageedits and fivefinalreviewreports saved/published atstop.
+Needremainingeditorialpolish,completeanonymoussupplement,post-loopreview,
+realOpenReviewID,Findingschoice/humanattestations beforeuploadready.

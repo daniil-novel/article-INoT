@@ -54,7 +54,52 @@ software tests alone cannot satisfy scientific or editorial completion.
 
 ## Execution records
 
-Not yet executed: the mandatory post-manuscript-review loop awaits completed
+Initial checkpoint, superseded by the execution record below: the mandatory
+post-manuscript-review loop awaited completed
 SCC evidence, integration and the initial manuscript review rounds. Preparation
 reviews and protocol checks do not count as final manuscript critics or loop
 iterations. At the iteration limit report unresolved findings truthfully.
+
+### Iteration1, after five scientific critics and two language follow-ups
+
+OBSERVE: five fresh scientific reports and separate Russian/English follow-ups
+are retained in reviews/2026-09-13-final-scientific. The source kit predates
+the accepted SCC wording correction. Direct ZIP comparison found exactly one
+stale entry:scc_comparison.tex. The AAMAS critic also identified a3.49pt overflow
+in that sentence; the sentence was shortened without changing its meaning.
+
+HYPOTHESIZE: the current sourcekit and compiled paper can be made consistent
+without changing study data or the official class.
+
+PLAN: regenerate the reversible sourcekit from current13source/template/art
+files, compare every extracted byte, rebuild and check current PDF diagnostics.
+
+ACT: rebuilt source-kit-review-candidate.zip; refreshed the SCC wording and
+retained all source/code/evidence history. Rebuilt bilingual PDFs after the
+language edits. The failed anonymous raw package was preserved as a trial.
+
+VERIFY: every13ZIPmember matches the current source; ZIPintegrity passes.
+AAMASPDF remains7pages; current log has no overfull box or undefined reference.
+The actual raw SCC archive earlier passed full isolated replay and all123170
+compressed files matched their source bytes. These are separate checks.
+
+CRITIQUE: complete conference-package readiness is falsified. The anonymous
+primary trial retains local paths; its22,041,292bytes plus the full SCCarchive
+of31,142,980bytes cannot be uploaded as one25MBsupplement. SubmissionID and
+human policy fields are also pending. The language follow-ups retain minor
+editorial suggestions and the scientific board identifies an AAMASscope risk.
+
+DECIDE: sourcekit consistency hypothesis supported; whole-package readiness
+REJECTED at iteration1 of maximum3. Do not weaken anonymity/evidence criteria
+or label this an upload-ready package. Further corrections require remaining
+quota above the65%reserve. A fresh post-loop reader is requested separately.
+
+RETAIN: decisions and evidence are recorded in this project log; no personal
+information or private messages are added to external graph memory.
+
+Current fingerprints (operational record only):
+{
+  "submission/aamas2027/paper/main.pdf": "a5239782e22cebf3f2747ed133466852ce5e05fba34d81c8d688f712d4fd0792",
+  "submission/aamas2027/paper/scc_comparison.tex": "ec4117bb66e3bd3b48e85f0ac392eb259fe7aec530f9f8566e1cbff3899919b2",
+  "submission/aamas2027/deliverables/source-kit-review-candidate.zip": "3244e2a7530a8e085f161c7e9274796c0594d5c3e74b827163b2104629e74f73"
+}
