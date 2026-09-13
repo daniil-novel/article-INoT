@@ -219,3 +219,33 @@ The AAMAS working source remains seven pages after clarifying binary repeat outc
 The first anonymous primary-package candidates were rejected after independent extraction tests. Blob reconstruction, required manifests and full archive-local replay must all work; an internally consistent checksum list or replay of four summary means is insufficient. The audit reports are retained in `reviews/2026-09-13-aamas-supplement`. The 31 actual failure files and 39 incomplete primary candidates are reconciled without inventing eight extra failure files. None of these trial archives is labelled submission-ready.
 
 A synthetic SCC presentation fixture tests 6,000 selected rows over 956 tasks without reading unfinished native quality. The coordinator repaired the first renderer's archive assumptions, raw labels and overflowing single-table layout. Both 27-page synthetic layouts compile with no overfull boxes; the selected repeat columns distinguish an unselected assignment from unknown quality. These are layout tests only and are not experimental evidence.
+
+## 13 September 2026: retained-program source correction
+
+The paused-program inventory found three completed developer responses among
+historically interrupted SCC workflows; six other incomplete selected cells
+have no retained developer program. The inventory report and its correction
+of the stream-failure wording are retained in the runtime review directory.
+
+Coordinator inspection of the actual frozen SCC controller showed that the
+v2 diagnostic input contained both developer and tester code. Its queue was
+cancelled before native execution. The previously passing nine software tests
+did not validate this semantic distinction; PARTIAL_V2_CANCELLATION.md records
+and supersedes the earlier interpretation without deleting it.
+
+A new 399-program diagnostic now extracts the exact developer response and
+reconstructs each original combined test payload as a source check. The initial
+agent helper omitted full control/source validation and its assembly test
+repeated an expression without calling the preparer. The coordinator added
+source snapshots, selection/control/hash/sample validation and replaced those
+tests with calls to the actual preparer. Six tests, including the real 399-row
+source closure, passed. Queue PID 17060 waits for successful main evaluation.
+This diagnostic does not impute any primary SCC quality endpoint. An independent
+technical audit of its accepted sources is in progress.
+
+The full EN/RU predecessor comparison now describes the 2,000-block amendment
+and distinguishes it from the original 1,000-task, three-repeat allocation.
+Both PDFs rebuilt successfully without overfull boxes or unresolved references.
+The final SCC result integration and post-integration manuscript reviews remain
+pending. The selected AI-method inputs now include the actual 2,000-target
+request, and a separate disclosure maps assistance to implemented methods.
