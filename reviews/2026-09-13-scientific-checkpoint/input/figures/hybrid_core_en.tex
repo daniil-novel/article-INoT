@@ -1,0 +1,23 @@
+\begin{tikzpicture}[
+ x=1mm,y=1mm,
+ box/.style={draw=black!80,align=center,font=\small,inner sep=2mm},
+ flow/.style={-{Latex[length=2mm]},thick}]
+\node[box,fill=gray!8,text width=100mm,minimum height=12mm] (input) at (0,0) {Task and complete supplied context};
+\node[box,text width=43mm,minimum height=54mm] (single) at (-28,-40) {\textbf{SR: one call}\\[3mm]One prompt requests:\\[1mm]planning;\\implementation;\\requirements review\\[3mm]Internal steps\\are not measured};
+\node[box,text width=43mm,minimum height=15mm] (m1) at (28,-20) {\textbf{MR: call 1}\\Prepare a plan};
+\node[box,text width=43mm,minimum height=15mm] (m2) at (28,-40) {\textbf{MR: call 2}\\Write the program\\{\footnotesize All previous responses}};
+\node[box,text width=43mm,minimum height=15mm] (m3) at (28,-60) {\textbf{MR: call 3}\\Review and revise\\{\footnotesize All previous responses}};
+\node[box,text width=100mm,minimum height=14mm] (candidate) at (0,-84) {\textbf{Extract from the last response}\\One program; invalid format yields an empty candidate};
+\node[box,fill=gray!8,text width=100mm,minimum height=18mm] (test) at (0,-110) {\textbf{External evaluation after generation}\\Original benchmark tests and common eligibility controls};
+\node[box,text width=100mm,minimum height=20mm] (outcome) at (0,-139) {\textbf{Evaluation outcome}\\Pass, failure or unavailable evaluation\\Token use is recorded separately};
+\draw[flow,dashed] (input.south) -- ++(0,-3) -| (single.north);
+\draw[dashed,thick] (input.east) -- (61,0) -- (61,-60);
+\foreach \call in {m1,m2,m3} {\draw[flow,dashed] (61,0 |- \call.east) -- (\call.east);}
+\node[rotate=90,font=\footnotesize] at (65,-37) {Same task and context};
+\draw[flow] (m1) -- (m2);
+\draw[flow] (m2) -- (m3);
+\draw[flow] (single.south) -- ++(0,-5) -| ([xshift=-28mm]candidate.north);
+\draw[flow] (m3.south) -- ++(0,-5) -| ([xshift=28mm]candidate.north);
+\draw[flow] (candidate) -- (test);
+\draw[flow] (test) -- (outcome);
+\end{tikzpicture}

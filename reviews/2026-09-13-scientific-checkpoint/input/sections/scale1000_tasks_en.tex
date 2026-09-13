@@ -1,0 +1,1254 @@
+D: direct solution; SN: one call without role labels; SR: one call with roles; MN: three calls without role labels; MR: three calls with roles.
+
+Each row represents one BigCodeBench task; ID is the numeric suffix of its identifier. Every condition retains the three original replicate labels 101, 102 and 103; these are not provider seeds. The control column identifies eligibility under the reference and incorrect-solution checks. P denotes success; F, T and X denote observed failure. G, N and U denote unavailable quality, not failure. The full CSV separately retains candidate availability, format extraction, native status and quality; the PDF shows the final classification. A control-ineligible task may have a native status while its quality remains unknown.
+
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 1 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+8 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+9 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+10 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+11 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+12 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+13 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+14 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+15 & yes & P & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+16 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+17 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+18 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+19 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+20 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+21 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+22 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+23 & yes & F & F & F & F & F & F & F & F & F & P & F & P & P & P & P\\
+24 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+25 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+26 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+27 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+28 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+29 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+30 & yes & P & P & P & P & P & P & F & F & P & P & P & P & P & P & P\\
+31 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+32 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+33 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+35 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+36 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+37 & yes & P & P & F & P & P & P & P & F & P & F & P & P & P & P & P\\
+38 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & P & P\\
+39 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+41 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+42 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+43 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & F & P\\
+44 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+46 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+47 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+48 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+49 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+50 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 2 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+51 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+52 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+53 & yes & F & F & F & F & P & F & P & F & F & F & P & P & F & F & F\\
+54 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+55 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+56 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+57 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+58 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+60 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+61 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+62 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+63 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+64 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+65 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+66 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+67 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+68 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+69 & yes & P & P & P & F & P & P & P & P & F & F & P & F & P & F & P\\
+70 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+71 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+72 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+73 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+74 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+75 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+76 & yes & P & P & P & P & P & F & F & P & P & P & F & F & F & F & P\\
+77 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+78 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & P & F\\
+79 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+80 & yes & F & F & P & P & P & F & P & P & P & F & P & F & F & F & F\\
+81 & yes & F & P & F & F & P & F & F & F & F & F & F & F & P & F & F\\
+82 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+83 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+84 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+85 & yes & F & F & F & P & F & F & F & F & F & F & F & F & F & P & P\\
+86 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+87 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+88 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+89 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+90 & yes & P & P & P & F & P & P & P & P & P & P & F & P & P & P & P\\
+91 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 3 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+92 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+93 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+94 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+95 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+96 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+97 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+98 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & P & P\\
+99 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+100 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+101 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+102 & yes & P & P & P & P & P & F & P & P & P & P & P & P & P & F & P\\
+103 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+104 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+105 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+106 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+108 & yes & P & P & F & F & P & F & P & F & P & P & F & F & P & F & P\\
+109 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+110 & yes & P & P & P & F & P & P & P & P & P & P & P & P & P & P & P\\
+111 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+112 & yes & F & P & P & P & P & F & F & F & P & P & P & P & F & P & F\\
+113 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+114 & yes & P & P & F & P & P & F & P & P & P & P & P & P & P & P & P\\
+115 & yes & P & F & F & F & P & P & P & P & P & F & P & P & F & P & P\\
+116 & yes & P & P & P & P & F & F & F & G & F & F & P & F & F & F & P\\
+117 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+118 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+119 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+120 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+121 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+122 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+123 & yes & P & P & P & P & P & P & F & P & P & F & P & F & F & P & P\\
+124 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+125 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+126 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+127 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+128 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+129 & yes & F & F & F & P & F & F & F & F & F & F & F & F & F & F & F\\
+130 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+131 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+132 & yes & P & F & P & P & F & P & P & P & P & F & F & F & P & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 4 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+133 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+134 & yes & P & P & P & P & P & P & P & P & P & G & P & P & G & P & P\\
+136 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+137 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+138 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+139 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+140 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+141 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+142 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+144 & yes & F & P & F & F & F & P & F & F & F & F & F & F & F & F & P\\
+145 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+146 & yes & F & P & F & F & F & F & F & F & P & F & F & F & F & F & F\\
+147 & yes & P & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+148 & yes & P & P & P & P & P & P & P & P & P & P & G & P & P & P & P\\
+149 & yes & P & P & P & P & P & P & P & P & P & F & P & P & P & P & P\\
+150 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+151 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+152 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+153 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+154 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+156 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+158 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+159 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+160 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & P & P\\
+161 & yes & P & P & P & P & P & P & P & P & P & F & F & F & F & F & F\\
+162 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+163 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+164 & yes & P & P & F & P & P & P & P & P & P & F & P & F & F & P & F\\
+165 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+166 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+167 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+168 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+169 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+170 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+171 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+172 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & P & P\\
+174 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+175 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+176 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+177 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 5 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+179 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+180 & yes & P & P & P & P & P & F & P & P & P & P & P & F & P & P & P\\
+181 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+182 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+183 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+186 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+187 & yes & F & F & F & F & F & F & F & F & F & P & F & F & F & F & F\\
+188 & yes & F & F & F & F & F & F & F & F & F & F & P & F & F & F & F\\
+189 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+190 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+191 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+192 & yes & P & P & P & P & P & P & F & F & F & P & F & P & F & P & F\\
+193 & yes & P & F & P & P & P & F & F & P & F & F & F & P & F & P & F\\
+194 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+195 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+196 & yes & F & P & P & P & F & P & F & F & F & P & F & F & F & F & F\\
+197 & yes & F & P & F & P & P & P & P & P & P & P & P & P & P & P & P\\
+200 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+201 & yes & P & P & P & F & P & P & P & P & P & P & P & P & P & P & P\\
+202 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+204 & yes & P & P & P & P & P & P & P & P & P & P & P & P & F & P & P\\
+205 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+206 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+207 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+208 & yes & P & F & F & P & F & F & F & F & F & F & F & F & F & F & F\\
+209 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+210 & yes & P & F & F & P & P & P & F & F & P & F & F & P & P & F & P\\
+211 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+212 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+213 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & G & F\\
+214 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+215 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & P & F\\
+216 & yes & F & P & P & F & F & P & P & F & F & F & F & F & F & F & F\\
+217 & yes & P & P & F & P & F & P & P & F & F & F & F & F & F & F & F\\
+219 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+220 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+222 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+223 & yes & F & F & P & P & F & F & P & F & F & F & P & F & F & P & F\\
+225 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+226 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 6 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+227 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+228 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+229 & yes & F & F & F & F & F & F & F & F & F & P & P & F & F & F & F\\
+230 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+231 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+232 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+233 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+234 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & G & F\\
+235 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+236 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+237 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+238 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+239 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+240 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+241 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+242 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+243 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+244 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+245 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+246 & yes & P & P & F & F & F & P & P & P & P & P & P & P & P & P & P\\
+247 & yes & P & P & P & P & F & P & P & P & P & F & F & F & P & F & F\\
+248 & yes & F & F & F & F & F & F & F & F & F & F & G & F & F & F & F\\
+249 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+250 & yes & F & F & F & F & F & F & F & F & P & F & F & F & F & P & P\\
+251 & yes & F & F & P & F & F & F & F & F & F & F & F & F & F & F & F\\
+252 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+253 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+254 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+256 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+257 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+258 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+259 & yes & F & F & F & F & P & F & P & F & F & F & P & F & F & P & F\\
+260 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+261 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+262 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+263 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & P & P\\
+264 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+266 & yes & F & F & F & F & F & F & F & F & F & P & F & F & F & F & F\\
+267 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+268 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 7 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+269 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+270 & yes & P & F & F & F & F & F & P & F & P & F & P & P & P & F & F\\
+271 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+272 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+273 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+274 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+275 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+276 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+277 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+278 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+280 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+281 & yes & P & F & P & P & P & F & P & F & F & P & F & F & F & F & F\\
+282 & yes & P & P & P & P & P & P & P & F & P & P & P & P & P & P & P\\
+284 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+285 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+286 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+287 & yes & P & P & P & F & F & P & F & F & F & F & F & F & F & P & F\\
+288 & yes & P & F & P & F & P & P & P & F & P & F & F & F & F & F & F\\
+289 & yes & F & F & F & F & P & F & F & F & F & P & P & P & P & P & F\\
+290 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+291 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+292 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+293 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+295 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+296 & yes & F & F & F & F & P & P & P & P & F & G & P & F & F & P & F\\
+297 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+298 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & P & P\\
+299 & yes & P & P & F & P & P & P & F & F & F & P & F & P & P & F & P\\
+300 & yes & P & F & P & F & F & P & F & P & P & F & P & F & P & F & F\\
+301 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+302 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+304 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+305 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+306 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+307 & yes & F & F & F & F & F & F & F & F & F & F & F & P & F & F & F\\
+308 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+310 & yes & P & F & P & P & P & P & F & P & F & P & P & P & P & P & P\\
+311 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+312 & yes & P & P & F & P & P & F & P & P & F & P & P & F & P & P & P\\
+314 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 8 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+315 & yes & F & P & F & F & F & F & F & F & F & F & F & F & F & F & P\\
+316 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+317 & yes & P & P & F & P & P & F & P & P & P & P & F & P & P & P & P\\
+318 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+319 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+324 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+326 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+327 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+329 & yes & F & F & F & F & F & F & F & F & F & F & P & F & F & F & F\\
+330 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & F\\
+331 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+332 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+333 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+334 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+335 & yes & F & P & F & F & P & F & P & P & P & F & P & F & F & F & F\\
+336 & yes & F & P & F & P & F & F & F & F & F & F & F & F & F & F & F\\
+337 & yes & P & F & P & P & P & P & F & F & P & P & P & P & P & P & P\\
+338 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & F\\
+339 & yes & F & F & P & P & F & F & F & P & P & F & F & F & P & P & P\\
+340 & yes & P & F & P & P & P & P & P & P & P & F & F & F & P & F & P\\
+341 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+342 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+343 & yes & P & P & P & P & P & P & P & P & P & G & P & P & P & P & P\\
+345 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+346 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+347 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+348 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+349 & yes & F & F & F & F & F & F & F & F & F & P & F & F & P & F & F\\
+350 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+351 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+352 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+353 & yes & P & F & F & F & F & F & F & F & F & F & P & P & F & F & F\\
+354 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+355 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+357 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+358 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+359 & yes & P & P & P & P & P & P & P & P & P & F & P & F & P & P & F\\
+360 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+362 & yes & P & P & G & P & P & P & P & P & P & P & P & P & P & P & P\\
+363 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 9 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+365 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+366 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+367 & yes & F & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+368 & yes & F & P & F & P & P & P & P & P & P & P & P & P & P & F & P\\
+369 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+370 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+371 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+372 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+375 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+376 & yes & P & F & P & F & P & F & F & P & F & P & F & F & P & F & P\\
+377 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+379 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+380 & yes & F & P & P & F & F & F & P & F & P & F & F & F & P & P & F\\
+381 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+382 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+383 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+384 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+385 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+386 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+387 & yes & F & F & P & F & P & F & P & F & F & F & P & P & F & P & P\\
+388 & yes & F & F & F & F & F & F & F & F & F & P & F & F & F & F & F\\
+389 & yes & P & P & P & P & P & P & P & P & P & P & F & F & P & P & P\\
+390 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+391 & yes & P & P & P & P & P & P & P & P & F & F & F & F & F & F & P\\
+392 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+393 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+394 & yes & F & P & P & F & F & P & F & F & F & F & P & P & P & P & F\\
+395 & yes & P & P & P & P & P & P & P & P & F & P & P & P & P & P & P\\
+396 & yes & P & F & F & P & P & P & F & P & P & P & P & P & P & P & P\\
+397 & yes & F & F & F & F & F & F & F & F & P & F & F & F & F & F & F\\
+398 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+399 & yes & F & F & F & P & F & F & F & F & F & F & F & F & F & F & F\\
+400 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+401 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+402 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+403 & yes & F & F & F & F & P & F & F & F & F & F & F & F & F & F & P\\
+404 & yes & F & P & P & F & P & P & F & P & F & F & F & F & F & F & F\\
+405 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+406 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+407 & yes & P & P & P & P & P & P & P & P & F & P & F & P & P & P & P\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 10 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+408 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+409 & yes & P & F & P & P & F & F & F & P & F & F & F & F & F & F & F\\
+410 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+411 & yes & P & P & P & P & P & P & P & P & P & F & F & F & P & P & P\\
+413 & yes & P & P & F & P & P & P & P & P & P & P & P & P & P & P & P\\
+414 & yes & P & P & P & P & P & P & P & P & P & F & P & F & P & P & P\\
+416 & yes & P & P & P & P & P & P & P & P & P & F & P & F & F & F & F\\
+417 & yes & F & F & F & F & F & F & F & F & P & P & P & F & F & F & P\\
+418 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+422 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+423 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+424 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+425 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+426 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+427 & yes & F & F & F & F & F & F & F & F & F & F & G & F & F & F & F\\
+428 & yes & F & F & F & F & F & F & F & P & F & P & F & F & F & F & F\\
+429 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+430 & yes & P & P & P & P & P & P & P & P & P & P & P & P & F & P & F\\
+431 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+432 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & F & P\\
+434 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+435 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+436 & yes & P & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+437 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+438 & yes & P & P & P & P & P & P & P & F & P & P & P & P & P & P & P\\
+439 & yes & P & P & P & F & F & P & F & F & F & P & F & P & P & F & P\\
+440 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+441 & yes & F & F & F & F & F & F & F & F & P & F & F & F & F & F & F\\
+442 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+443 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+445 & yes & F & P & P & F & P & P & F & F & F & P & P & F & P & F & P\\
+446 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+448 & yes & P & P & P & P & P & P & P & P & P & F & F & F & P & P & F\\
+449 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+450 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+452 & yes & F & P & P & P & P & P & F & F & F & F & F & F & P & F & F\\
+453 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+454 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+455 & yes & F & F & F & F & F & F & P & F & P & F & P & F & F & P & F\\
+457 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 11 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+458 & yes & P & P & P & P & P & F & P & P & F & F & P & F & P & P & F\\
+459 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+460 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+461 & yes & P & P & F & P & P & P & P & P & P & P & P & F & F & P & P\\
+462 & yes & F & F & F & P & F & F & P & P & P & P & F & F & F & F & F\\
+463 & yes & F & F & F & F & F & F & F & F & F & P & F & F & P & F & F\\
+465 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+466 & yes & F & F & P & F & F & F & F & P & F & F & F & F & F & F & F\\
+467 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & F\\
+469 & yes & P & F & P & P & P & P & F & P & P & P & P & P & P & P & P\\
+470 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+471 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+473 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+474 & yes & F & F & F & P & P & F & F & F & F & P & F & F & F & F & F\\
+475 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+476 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+477 & yes & P & P & P & P & P & P & P & P & P & P & P & F & F & P & P\\
+479 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+480 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+481 & yes & P & F & F & F & F & F & F & P & F & F & P & F & P & F & P\\
+482 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+483 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+484 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+485 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+486 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+487 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+488 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+489 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+490 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+491 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+492 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+494 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+495 & yes & P & P & P & F & P & P & P & P & F & F & F & F & F & P & F\\
+496 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+497 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+498 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+500 & yes & P & P & P & P & F & P & P & P & P & P & P & P & P & F & P\\
+501 & yes & P & F & P & P & P & P & P & F & F & P & P & F & F & P & F\\
+502 & yes & P & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+503 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 12 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+504 & yes & P & P & P & F & P & P & F & P & F & F & F & F & F & F & F\\
+505 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+506 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+507 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+508 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+509 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+510 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+511 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+512 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+513 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+515 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+516 & yes & F & P & F & P & P & P & P & F & F & F & P & F & F & P & F\\
+517 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+518 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+519 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+520 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+521 & yes & F & F & F & F & F & F & F & F & F & P & P & F & F & F & F\\
+522 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+523 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+524 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+525 & yes & P & P & P & P & P & P & P & P & P & F & F & F & F & F & F\\
+526 & yes & P & F & F & F & F & F & F & F & F & P & F & F & P & F & P\\
+527 & yes & P & F & P & F & F & F & F & P & F & F & F & F & F & F & F\\
+528 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+530 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+531 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+532 & yes & P & P & P & F & F & F & P & P & F & F & F & F & F & F & F\\
+534 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+535 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+537 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+538 & yes & G & P & P & G & P & P & G & P & P & G & P & P & G & P & P\\
+540 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+541 & yes & F & F & F & F & P & F & F & F & F & F & F & G & F & F & G\\
+542 & yes & P & P & P & P & P & P & P & P & F & F & P & P & F & P & F\\
+543 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+545 & yes & P & P & P & P & P & P & P & P & P & F & F & F & P & P & F\\
+546 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+547 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+548 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+550 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 13 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+551 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+552 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+553 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+554 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+555 & yes & F & F & F & F & F & P & F & F & F & F & F & F & F & F & F\\
+556 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+557 & yes & P & P & F & P & P & F & P & P & P & F & F & P & P & P & P\\
+558 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+559 & yes & P & P & P & P & P & P & P & P & P & F & F & F & P & P & P\\
+561 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+562 & yes & P & P & P & P & P & P & P & P & P & F & F & P & P & P & P\\
+563 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+564 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+565 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+566 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+567 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+568 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+569 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+570 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+571 & yes & P & P & F & F & P & F & F & F & F & P & P & F & P & P & P\\
+572 & yes & P & P & P & F & P & P & P & P & P & P & P & P & P & P & P\\
+574 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+575 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+576 & yes & F & P & P & P & P & P & F & F & P & F & F & P & F & P & P\\
+577 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+578 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+579 & yes & P & P & F & P & P & F & F & P & P & F & P & P & F & F & P\\
+580 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+581 & yes & P & P & P & P & P & P & P & P & F & F & F & F & F & P & P\\
+582 & yes & F & F & F & F & F & F & F & F & F & F & F & P & P & F & P\\
+584 & yes & F & F & F & F & P & F & F & F & P & P & F & F & F & F & F\\
+585 & yes & P & F & F & F & P & F & P & F & F & P & F & P & P & P & P\\
+586 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+587 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+588 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+589 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+590 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+591 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+593 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+594 & yes & F & F & F & F & F & F & F & F & F & T & F & F & F & F & T\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 14 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+595 & yes & P & P & P & P & P & P & P & P & P & P & P & G & P & P & G\\
+596 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+597 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+598 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+599 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+601 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+602 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+603 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+604 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+606 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+607 & yes & F & F & P & F & F & F & F & F & F & F & P & F & F & F & F\\
+608 & yes & F & F & F & F & F & F & F & F & F & F & G & F & F & F & F\\
+609 & yes & F & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+610 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+611 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+612 & yes & P & P & P & P & F & F & P & P & P & F & F & F & P & F & F\\
+613 & yes & F & F & F & F & F & F & F & F & F & F & F & F & P & F & F\\
+614 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+616 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+617 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+618 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+620 & yes & P & F & P & P & P & P & P & P & P & P & P & P & P & F & P\\
+622 & yes & P & P & P & P & P & P & P & P & P & P & P & P & F & P & P\\
+623 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+624 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+625 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+626 & yes & P & P & F & F & F & F & P & P & P & F & F & F & F & F & F\\
+627 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+628 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+629 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+630 & yes & P & F & F & F & P & P & F & F & F & F & F & P & F & F & P\\
+632 & yes & P & P & P & P & P & P & P & P & P & F & P & P & F & P & P\\
+633 & yes & F & F & P & F & F & P & F & F & F & F & P & F & F & F & F\\
+634 & yes & F & F & F & F & F & F & P & F & F & F & F & F & F & F & F\\
+635 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+636 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+637 & yes & F & F & P & F & F & F & F & F & P & F & F & P & P & F & P\\
+638 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+639 & yes & P & G & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+641 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 15 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+642 & yes & P & P & P & P & P & P & P & P & P & F & F & P & P & P & F\\
+643 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+645 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+646 & yes & P & P & P & F & P & F & P & P & P & P & F & F & P & P & P\\
+647 & yes & P & P & P & P & P & P & F & F & P & P & P & P & P & P & F\\
+648 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+649 & yes & P & P & P & F & F & P & P & P & F & P & P & F & P & F & P\\
+650 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+651 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+652 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+653 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+654 & yes & F & P & P & P & P & P & P & P & P & F & F & F & P & P & P\\
+657 & yes & F & F & F & F & P & F & F & F & F & F & F & F & F & F & F\\
+658 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+659 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+660 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+661 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+662 & yes & P & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+663 & yes & F & F & F & P & P & F & F & F & P & P & P & P & F & F & F\\
+664 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+665 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+666 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+667 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+668 & yes & F & F & P & P & P & F & F & F & F & F & F & F & P & F & P\\
+669 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+670 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+671 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+672 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+673 & yes & F & P & P & F & P & F & P & P & P & P & P & P & P & P & P\\
+674 & yes & P & P & P & P & P & P & F & P & P & P & P & P & P & P & P\\
+675 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+676 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+677 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+679 & yes & P & P & F & P & P & P & P & P & P & P & P & P & P & P & P\\
+680 & yes & F & F & F & P & P & P & P & P & F & P & P & P & F & P & F\\
+682 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+683 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+684 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+685 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+686 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & P & P\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 16 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+687 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+688 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+689 & yes & P & P & P & F & F & P & P & P & P & P & P & P & P & P & P\\
+690 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+691 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+692 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+693 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+694 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+695 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+696 & yes & P & P & F & P & P & P & P & F & P & F & F & P & F & P & P\\
+697 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+698 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+700 & yes & P & P & P & P & P & P & P & F & F & P & F & F & P & P & F\\
+701 & yes & P & P & P & F & F & F & P & P & P & P & F & F & F & P & F\\
+702 & yes & P & P & F & P & P & P & P & P & P & F & F & P & P & P & P\\
+703 & yes & P & P & F & F & F & F & F & F & F & F & F & F & P & F & F\\
+704 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+705 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+706 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+707 & yes & P & P & P & P & P & P & P & P & P & F & F & P & P & P & P\\
+708 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+709 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & P & P\\
+710 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+711 & yes & P & P & P & P & P & P & P & P & P & F & F & F & P & P & F\\
+713 & yes & P & F & F & P & F & P & F & F & P & F & P & P & P & F & F\\
+714 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+715 & yes & P & P & P & P & P & P & P & P & P & P & F & F & F & P & P\\
+716 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+717 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+718 & yes & F & F & P & F & P & P & F & F & F & P & P & P & F & P & F\\
+720 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+721 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+722 & yes & P & P & P & P & F & P & P & P & F & F & F & F & F & F & F\\
+723 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+724 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+725 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+726 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+727 & yes & F & F & F & P & F & F & F & P & F & F & P & F & F & F & F\\
+729 & yes & F & P & F & P & F & F & P & P & P & P & P & P & P & P & P\\
+730 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 17 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+731 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+733 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+736 & yes & F & F & P & P & F & P & F & P & F & P & P & P & P & F & P\\
+737 & yes & F & F & F & F & F & F & P & F & F & P & P & P & P & P & P\\
+738 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+739 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+740 & yes & F & P & F & P & P & P & P & F & P & F & P & F & F & P & P\\
+741 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & F & P\\
+743 & yes & P & F & P & F & F & F & P & F & F & F & F & F & F & F & F\\
+744 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+746 & yes & P & P & P & F & F & P & P & P & P & P & F & F & F & P & P\\
+747 & yes & P & P & P & F & F & F & P & P & F & P & F & F & F & F & F\\
+748 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+749 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+750 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+751 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & F & P\\
+752 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+753 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+756 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+758 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+759 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+760 & yes & P & P & P & P & P & P & P & P & P & F & P & P & F & P & P\\
+761 & yes & P & P & F & F & F & P & P & P & P & P & P & P & P & P & P\\
+762 & yes & P & P & P & F & P & P & P & P & P & P & F & F & P & P & P\\
+763 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & F & P\\
+764 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+765 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+766 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+767 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+768 & yes & P & P & F & P & P & P & P & P & P & P & P & P & P & P & P\\
+769 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+770 & yes & P & P & P & P & P & P & P & F & F & P & F & P & F & F & P\\
+771 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+772 & yes & P & F & P & P & F & F & P & P & P & F & P & F & F & P & F\\
+773 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+774 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+775 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+777 & yes & P & P & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+778 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+779 & yes & F & T & T & T & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 18 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+780 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+781 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+782 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+783 & yes & F & F & F & P & P & P & F & F & F & F & F & P & F & F & F\\
+784 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+785 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+786 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+787 & yes & P & P & P & P & P & P & P & P & F & P & P & P & P & P & P\\
+788 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+789 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+790 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+791 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & F\\
+792 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+793 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+794 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+795 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+796 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+797 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+798 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+799 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+800 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+801 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+802 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+803 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+804 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+805 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+806 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+807 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+808 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+809 & yes & F & P & P & P & P & P & F & F & F & P & F & F & P & P & P\\
+810 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+811 & yes & P & P & P & P & F & P & P & P & P & P & P & P & P & P & P\\
+813 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+815 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & F & P\\
+816 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+817 & yes & P & P & P & F & P & P & P & P & F & P & P & P & P & P & P\\
+818 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+819 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+820 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+821 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 19 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+822 & yes & P & P & P & P & P & P & P & P & P & P & P & G & P & P & P\\
+823 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+824 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+825 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+826 & yes & P & P & P & P & F & P & F & P & P & F & P & F & P & P & P\\
+828 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+829 & yes & P & F & P & P & P & P & F & P & P & P & P & P & P & P & P\\
+830 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+831 & yes & P & F & F & P & P & F & P & P & P & P & P & P & P & P & P\\
+832 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+835 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+836 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+837 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+838 & yes & P & P & P & P & P & P & P & P & P & F & P & P & P & P & P\\
+840 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+841 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+842 & yes & P & F & F & F & P & F & F & F & F & F & F & F & F & F & F\\
+843 & yes & F & F & F & F & F & F & F & F & F & P & F & F & F & F & F\\
+844 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+845 & yes & F & F & F & P & P & P & P & P & F & P & F & F & F & F & P\\
+846 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+847 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+848 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+849 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+850 & yes & P & P & P & P & F & P & P & P & P & F & P & P & P & P & P\\
+851 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+852 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+853 & yes & P & P & F & P & F & F & P & F & P & F & F & F & P & F & F\\
+856 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+857 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+859 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+860 & yes & F & F & F & F & F & P & F & P & F & F & F & F & P & F & F\\
+861 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+862 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+863 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+864 & yes & F & F & F & P & F & F & F & F & F & F & F & F & F & F & F\\
+866 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+867 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+868 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+869 & yes & P & P & P & T & P & P & P & P & P & P & P & P & P & P & P\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 20 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+870 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+871 & yes & P & P & P & P & P & F & F & P & P & P & P & P & F & P & F\\
+872 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+873 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+874 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+875 & yes & P & F & F & P & P & P & F & P & P & F & P & P & P & F & P\\
+876 & yes & P & P & F & P & P & F & P & P & F & P & P & P & P & P & P\\
+877 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+878 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+880 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+881 & yes & F & F & F & F & F & F & F & F & P & F & F & F & F & F & P\\
+883 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+884 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+886 & yes & P & P & F & P & P & P & P & P & F & P & F & F & F & P & F\\
+887 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+888 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+889 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+890 & yes & P & F & F & F & P & P & P & P & F & P & F & P & P & F & F\\
+891 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+893 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+896 & yes & P & F & P & P & P & P & P & F & P & F & F & P & F & F & P\\
+897 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & P & P\\
+898 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+899 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+900 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+901 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & P & P\\
+902 & yes & F & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+903 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+904 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+905 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+906 & yes & P & P & P & P & P & F & P & P & F & F & P & F & P & P & F\\
+908 & yes & F & P & P & F & F & F & F & F & F & P & F & F & F & P & P\\
+909 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+910 & yes & P & F & F & F & F & F & F & P & F & F & F & F & F & F & F\\
+911 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+912 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+913 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+914 & yes & P & F & P & P & P & P & F & F & F & F & F & F & F & F & F\\
+915 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+916 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 21 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+917 & yes & F & F & P & F & F & P & F & F & F & F & F & F & F & F & F\\
+918 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+919 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+920 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+921 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+922 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+923 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+924 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+925 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+926 & yes & P & P & P & P & P & P & P & P & P & P & P & P & G & P & P\\
+927 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & P & P\\
+928 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+930 & yes & P & F & P & P & P & P & F & P & F & P & P & P & F & P & P\\
+931 & yes & F & P & P & F & P & F & P & P & P & P & P & P & P & F & F\\
+932 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+933 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+934 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+935 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+937 & yes & P & P & P & P & P & P & P & P & P & P & P & P & F & P & P\\
+938 & yes & P & F & P & P & P & P & P & P & F & P & P & P & P & P & P\\
+939 & yes & P & P & P & P & F & F & P & P & P & F & F & F & F & F & P\\
+940 & yes & F & P & P & P & P & P & P & P & P & P & P & F & F & P & P\\
+941 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+942 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+943 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+944 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+945 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+946 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+947 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+948 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+949 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+950 & yes & P & P & P & P & P & P & P & P & P & F & P & P & P & P & P\\
+951 & yes & P & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+952 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+953 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+954 & yes & F & F & F & F & F & F & F & F & F & P & F & F & F & F & F\\
+955 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+956 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+957 & yes & P & P & P & P & P & P & F & P & P & P & P & P & P & P & P\\
+958 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 22 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+959 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+960 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+961 & yes & P & P & P & P & P & P & P & P & P & P & P & P & F & P & F\\
+962 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+963 & yes & F & F & F & F & P & F & F & F & F & F & P & F & F & F & F\\
+965 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+966 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+967 & yes & P & P & P & P & P & P & P & F & P & P & P & F & P & P & P\\
+968 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+969 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+971 & yes & F & F & P & P & P & P & P & F & P & F & P & F & F & P & P\\
+972 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+973 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+974 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+975 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+976 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+977 & yes & F & F & F & F & F & F & F & F & F & P & F & F & F & F & F\\
+978 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & P & P\\
+979 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+980 & yes & P & P & P & F & P & P & P & P & P & F & P & F & F & P & P\\
+981 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+982 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+984 & yes & F & P & F & F & F & F & F & F & F & F & P & P & F & F & F\\
+985 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+986 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+987 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+988 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+989 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+990 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+991 & yes & P & P & P & P & P & F & P & P & P & F & F & F & F & F & F\\
+993 & yes & P & P & P & P & F & P & P & F & F & P & F & F & P & F & P\\
+994 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+995 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+996 & yes & F & F & F & F & F & F & P & F & F & F & P & F & F & F & F\\
+997 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+998 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+999 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1000 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1001 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1002 & yes & P & P & P & P & P & F & P & P & P & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 23 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+1004 & yes & P & P & F & P & P & P & P & P & P & F & P & P & P & P & P\\
+1006 & yes & P & P & P & P & P & P & F & P & P & P & P & P & P & F & P\\
+1007 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1008 & yes & P & P & P & F & F & P & F & F & F & F & P & F & F & F & F\\
+1009 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1010 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1012 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+1014 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1015 & yes & F & F & F & P & P & P & P & F & P & F & P & P & P & F & F\\
+1017 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1018 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1020 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1021 & yes & F & P & P & P & P & F & P & F & F & F & P & F & F & F & F\\
+1023 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1024 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1025 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1026 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1028 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+1030 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1031 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1032 & yes & P & P & P & P & P & P & P & P & P & P & P & G & P & P & P\\
+1033 & yes & F & F & F & F & F & F & F & F & F & G & F & F & G & F & F\\
+1034 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1035 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1037 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1038 & no & U & U & U & U & U & U & U & U & U & U & U & U & U & U & U\\
+1039 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1040 & yes & T & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1041 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1042 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1043 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1044 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1045 & yes & P & P & P & P & P & P & P & P & P & P & P & F & P & P & P\\
+1046 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1047 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1048 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1049 & yes & F & F & F & F & F & F & P & F & F & F & F & F & F & F & F\\
+1050 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1051 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1052 & yes & P & P & P & F & F & P & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 24 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+1053 & yes & P & P & P & P & P & P & P & P & P & F & P & P & P & F & P\\
+1054 & yes & P & P & F & P & F & F & P & P & P & P & P & P & F & P & P\\
+1055 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1056 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1057 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1058 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1059 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1060 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1061 & yes & F & P & P & P & P & P & P & P & P & P & F & G & F & P & G\\
+1062 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1063 & yes & P & P & P & P & F & P & P & P & P & P & F & P & P & P & F\\
+1064 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1065 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1066 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1067 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1068 & yes & F & P & P & P & P & P & P & P & F & F & F & F & F & F & P\\
+1069 & yes & F & P & F & F & F & F & F & F & F & P & F & P & P & F & F\\
+1070 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1071 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1072 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1073 & yes & F & F & F & F & P & F & F & F & F & F & F & F & F & F & F\\
+1075 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1076 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1077 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1078 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1079 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1080 & yes & P & P & P & P & P & P & P & P & P & P & F & P & P & P & P\\
+1081 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1082 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1083 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1084 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1085 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1086 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1088 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1089 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1090 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1091 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1092 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1093 & yes & F & F & F & P & F & F & F & F & P & P & P & F & P & P & F\\
+1094 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage
+
+\begin{table}[p]\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\caption{Factorial experiment: part 25 of 25. P: success; F: test failure; T: timeout; X: format failure; G: no complete candidate; N: native endpoint unavailable; U: quality unavailable under the control gate.}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}rcccccccccccccccc}\toprule
+ID & Control & \multicolumn{3}{c}{D} & \multicolumn{3}{c}{SN} & \multicolumn{3}{c}{SR} & \multicolumn{3}{c}{MN} & \multicolumn{3}{c}{MR}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}\cmidrule(lr){12-14}\cmidrule(lr){15-17}
+ & & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103 & 101 & 102 & 103\\\midrule
+1095 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1096 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1097 & yes & P & P & P & P & P & P & P & P & P & F & F & F & P & F & F\\
+1098 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1099 & yes & F & P & P & P & P & P & P & P & P & P & P & P & F & P & P\\
+1100 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1101 & yes & P & P & P & P & P & P & P & P & P & F & F & P & P & P & F\\
+1102 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1103 & yes & F & F & F & F & F & F & P & P & P & F & F & F & P & P & F\\
+1104 & yes & F & P & F & F & F & F & F & P & P & F & F & F & F & F & F\\
+1105 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1106 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1108 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1109 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1111 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1112 & yes & G & F & F & F & F & F & F & F & F & G & F & F & G & F & F\\
+1113 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1114 & yes & P & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1116 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1117 & yes & P & P & P & P & G & P & P & G & P & F & G & F & P & G & P\\
+1118 & yes & P & P & P & P & P & P & P & P & P & F & P & P & P & P & P\\
+1119 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & F & P\\
+1120 & yes & F & P & F & F & P & P & F & P & P & F & F & F & F & F & F\\
+1123 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1124 & yes & P & F & F & F & P & F & P & P & F & F & F & F & P & P & P\\
+1125 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1126 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1127 & yes & F & F & F & P & F & P & F & F & F & F & F & F & F & F & F\\
+1128 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & G & P\\
+1129 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1130 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+1131 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1132 & yes & F & F & F & F & F & F & F & F & F & F & F & G & F & F & G\\
+1133 & yes & P & P & P & P & P & P & P & P & P & P & P & P & P & P & P\\
+1134 & yes & P & P & P & P & P & P & P & P & P & F & P & P & P & P & P\\
+1135 & yes & P & F & F & T & P & F & P & F & P & P & F & F & F & F & F\\
+1136 & yes & P & F & P & P & P & P & P & P & P & P & F & P & P & F & P\\
+1137 & yes & P & P & P & P & P & P & P & P & P & P & F & F & F & F & F\\
+1138 & yes & P & P & P & P & P & P & F & P & P & P & F & P & F & P & F\\
+1139 & yes & F & F & F & F & F & F & F & F & F & F & F & F & F & F & F\\
+\bottomrule\end{tabular*}\end{table}
+\clearpage

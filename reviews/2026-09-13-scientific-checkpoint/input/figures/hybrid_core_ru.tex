@@ -1,0 +1,23 @@
+\begin{tikzpicture}[
+ x=1mm,y=1mm,
+ box/.style={draw=black!80,align=center,font=\small,inner sep=2mm},
+ flow/.style={-{Latex[length=2mm]},thick}]
+\node[box,fill=gray!8,text width=100mm,minimum height=12mm] (input) at (0,0) {Задача и полный предоставленный контекст};
+\node[box,text width=43mm,minimum height=54mm] (single) at (-28,-40) {\textbf{SR: один вызов}\\[3mm]В одном запросе:\\[1mm]планирование;\\реализация;\\проверка требований\\[3mm]Внутренние этапы\\не измеряются};
+\node[box,text width=43mm,minimum height=15mm] (m1) at (28,-20) {\textbf{MR: вызов 1}\\Составить план};
+\node[box,text width=43mm,minimum height=15mm] (m2) at (28,-40) {\textbf{MR: вызов 2}\\Написать программу\\{\footnotesize Все предыдущие ответы}};
+\node[box,text width=43mm,minimum height=15mm] (m3) at (28,-60) {\textbf{MR: вызов 3}\\Проверить и исправить\\{\footnotesize Все предыдущие ответы}};
+\node[box,text width=100mm,minimum height=14mm] (candidate) at (0,-84) {\textbf{Извлечение из последнего ответа}\\Одна программа; неверный формат даёт пустого кандидата};
+\node[box,fill=gray!8,text width=100mm,minimum height=18mm] (test) at (0,-110) {\textbf{Внешняя проверка после генерации}\\Исходные тесты бенчмарка и общие контрольные проверки};
+\node[box,text width=100mm,minimum height=20mm] (outcome) at (0,-139) {\textbf{Итог проверки}\\Успех, неуспех или недоступная оценка\\Расход токенов учитывается отдельно};
+\draw[flow,dashed] (input.south) -- ++(0,-3) -| (single.north);
+\draw[dashed,thick] (input.east) -- (61,0) -- (61,-60);
+\foreach \call in {m1,m2,m3} {\draw[flow,dashed] (61,0 |- \call.east) -- (\call.east);}
+\node[rotate=90,font=\footnotesize] at (65,-37) {Та же задача и контекст};
+\draw[flow] (m1) -- (m2);
+\draw[flow] (m2) -- (m3);
+\draw[flow] (single.south) -- ++(0,-5) -| ([xshift=-28mm]candidate.north);
+\draw[flow] (m3.south) -- ++(0,-5) -| ([xshift=28mm]candidate.north);
+\draw[flow] (candidate) -- (test);
+\draw[flow] (test) -- (outcome);
+\end{tikzpicture}

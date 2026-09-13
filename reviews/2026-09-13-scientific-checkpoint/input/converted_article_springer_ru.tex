@@ -1,0 +1,62 @@
+\RequirePackage{float}
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+
+% --- Fonts and encodings -------------------------------------------------
+% cmap: embeds Unicode ToUnicode CMaps into the PDF so that Cyrillic text
+%       can be correctly searched and copy-pasted from the resulting PDF.
+% fontenc[T2A]: Cyrillic output encoding used for the Russian text.
+% inputenc utf8: declares that source file is UTF-8 encoded.
+% type1ec (together with cm-super installed system-wide): forces vector
+%       Type 1 outlines for all Computer Modern glyphs, including Cyrillic
+%       ones, so the PDF is fully scalable and text extraction works.
+\usepackage{cmap}%
+\usepackage[T2A]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{type1ec}%
+\usepackage[english,russian]{babel}%
+\usepackage{graphicx}%
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric}
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{xcolor}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{tabularx}%
+\usepackage{listings}%
+\usepackage{placeins}%
+\usepackage{etoolbox}%
+
+% Localize the Russian edition without changing the publisher class.
+\renewcommand{\keywordname}{Ключевые слова}
+\floatname{algorithm}{Алгоритм}
+\algrenewcommand{\algorithmicrequire}{\textbf{Вход:}}
+\algrenewcommand{\algorithmicensure}{\textbf{Результат:}}
+\algrenewcommand{\algorithmicfor}{\textbf{для}}
+\algrenewcommand{\algorithmicdo}{\textbf{выполнить}}
+\algrenewcommand{\algorithmicif}{\textbf{если}}
+\algrenewcommand{\algorithmicthen}{\textbf{то}}
+\algrenewcommand{\algorithmicend}{\textbf{конец}}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+
+\newtheorem{proposition}{Утверждение}
+\newtheorem{definition}{Определение}
+\newtheorem{assumption}{Предположение}
+
+\makeatletter
+\patchcmd{\@maketitle}{Corresponding author(s). E-mail(s):}{Для корреспонденции:}{}{\PackageError{article-ru}{Unable to localize author contact}{Check the publisher title macro.}}
+\providecommand*{\toclevel@algorithm}{1}
+\providecommand*{\theHalgorithm}{\thealgorithm}
+\makeatother
+
+\begin{document}
+\selectlanguage{russian}
+
+\raggedbottom
+\input{sections/revision_ru}
+
+\end{document}

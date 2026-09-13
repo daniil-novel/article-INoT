@@ -1,0 +1,14 @@
+\section{Exploratory INoT algorithm replication}
+\label{sec:inot-replication}
+The four factorial conditions are component interventions, not a replication of a published method. We therefore add a separately frozen prompt-level replication of INoT~\cite{sun2025inot}, labelled INoT*. It uses the same 200 tasks, the full supplied context, GPT-5.4 mini medium, the final-output contract and the native control gate. Each task receives one fresh call using two workers under the same 180-second deadline. The independently worded PromptCode instruction describes two virtual debaters, initial answers, mutual arguments, critiques, rebuttals, updates and an agreement check, with a ten-round cap. This is conceptual guidance read by the model, not code executed by the host or a verified sequence of hidden agent interactions.
+
+The stopping rule follows the source paper's prose: agreement or the round cap. The corresponding source-code listing has an ambiguous loop condition and leaves the final answer unspecified if agreement is never reached. This replication explicitly returns the latest answer from virtual A in that case. Image augmentation is omitted for these text-only tasks. The exact independently worded instruction appears in the prompt appendix. No verified executable author implementation was identified for this setup, and no author validation of the adaptation is claimed.
+
+\begin{figure}[htbp]\centering
+\input{figures/inot_instruction_en}
+\caption{How to read the INoT* instruction. The dashed region describes operations prescribed in one prompt, not an executed host loop or measured internal agents. Under agreement, A and B have the same answer; without agreement after ten rounds, the instruction selects the latest answer from A. Appendix~\ref{app:inot-instruction} gives the literal wording.}
+\label{fig:inot-instruction}
+\end{figure}
+\FloatBarrier
+
+An independent administrative continuation follows the same never-submitted-only rule: the initial timed-out assignment is not rerun, and the remaining 137 untouched assignments are frozen and submitted once. All first-attempt and continuation traces remain separate. Comparisons of INoT* with D and SR are exploratory and outside the four tests in the initial factorial study. Task pairing controls membership, but the separate batch retains timing, cache-state and possible provider-drift differences. An observed result is evidence about this disclosed adaptation, not an exact reproduction of the original paper's reported scores.

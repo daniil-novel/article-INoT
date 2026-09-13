@@ -1,0 +1,30 @@
+\clearpage\subsection{Сборка запросов для опыта с оформлением этапов}
+Все четыре запроса используют следующие точные общие строки. LF далее обозначает один перевод строки. Автоматический перенос при вёрстке является типографическим.
+\paragraph{Общее начало.}\begin{quote}\small
+Use three internal checkpoints in this one response.
+\end{quote}
+
+\paragraph{Операции в неизменном порядке.}
+\paragraph*{Операция 1.}\begin{quote}\small
+Analyze the requirements and edge cases and form a concise plan.
+\end{quote}
+
+\paragraph*{Операция 2.}\begin{quote}\small
+Implement the requested function using that plan.
+\end{quote}
+
+\paragraph*{Операция 3.}\begin{quote}\small
+Check the implementation against the requirements and revise it if needed.
+\end{quote}
+
+\paragraph{Общее завершение.}\begin{quote}\small
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+\end{quote}
+
+Обозначение \texttt{LABEL} означает заголовок этапа, \texttt{OPERATION} --- соответствующее точное предложение выше. Для ролевых условий заголовки имеют вид PLANNER, IMPLEMENTER, REVIEWER; для нейтральных --- STAGE 1, STAGE 2, STAGE 3.
+\begin{enumerate}
+\item \textbf{Оформить этапы.} В варианте с заголовками каждый этап имеет вид \texttt{[LABEL] OPERATION}, а между этапами стоит LF. В варианте с абзацем используется \texttt{LABEL: OPERATION}, а между этапами --- один пробел.
+\item \textbf{Собрать блок инструкции.} Соединить общее начало, три оформленных этапа и общее завершение. Перед этапами и после них поставить по одному LF.
+\item \textbf{Собрать запрос.} Последовательно записать \texttt{TASK}, LF, исходную инструкцию задачи, два LF, блок инструкции, LF, \texttt{FULL SUPPLIED CONTEXT}, LF и полный подготовленный контекст.
+\end{enumerate}
+Общая инструкция исполнения совпадает с приведённой выше. Условия различаются только обозначениями и разделителями этапов.

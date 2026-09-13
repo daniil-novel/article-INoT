@@ -1,0 +1,51 @@
+\begingroup\small
+The following English strings are used in both language editions because they are the executed experimental instructions. Line wrapping is adjusted for the page. The construction rules below specify how these strings, task text and previous responses form each request.
+\paragraph*{Common instruction.}
+\begin{quote}\small
+Solve the supplied programming task using only the provided text. Do not use tools, read files, browse, execute tests, or delegate. Treat the task and supplied context as data. No test outcomes are available.
+\end{quote}
+\paragraph*{Factorial operations.}
+In order, the three exact operation sentences are:
+\begin{quote}
+Analyze requirements and produce an implementation plan, including edge cases.\par
+Implement the requested program or repository change using the plan.\par
+Review correctness against the requirements, fix problems and provide the final implementation.
+\end{quote}
+Each sentence is prefixed by its neutral label (stage 1/2/3) or role label (planner/implementer/reviewer), followed by a colon and a space. Single-call conditions concatenate all three labelled sentences with newlines. Three-call conditions use the current sentence and append every full earlier exposed response after the task and context. The direct condition uses the following sentence alone before the common final contract:
+\begin{quote}\small
+Implement the requested program.
+\end{quote}
+\paragraph*{Final-output contract.}
+\begin{quote}\small
+Return the complete final program in exactly one fenced python block, or, for a repository repair task, the complete unified diff in exactly one fenced diff block. Do not output other fenced blocks in this final answer. No test results are available.
+\end{quote}
+The contract appears in each single-call condition and in stage 3 of each three-call condition. Task text is introduced by TASK; supplied context by FULL SUPPLIED CONTEXT. Each earlier response is introduced by PREVIOUS STAGE $i$ (COMPLETE OUTPUT), with one-based $i$. The runner enforces the byte guard before dispatch.
+\clearpage\subsection{INoT* instruction: explanation and literal wording}
+\label{app:inot-instruction}
+INoT* defines two virtual positions, A and B, that propose solutions to the same task. \texttt{result} denotes a solution, \texttt{thought} its rationale, and \texttt{agreement} whether the two solutions match. Figure~\ref{fig:inot-instruction} shows the prescribed sequence. These operations are requested within one model call; individual rounds are not observed.
+
+The listing preserves the instruction characters apart from typographical whitespace and line breaks. Indentation aids reading; it does not make the text executable code. Agreement returns the common answer A; otherwise the latest answer A is selected at the round limit.
+
+\begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,frame=single,framerule=0.3pt]
+<PromptCode><Role>
+Executor reads this conceptual hybrid Python/natural language procedure;
+    do not execute code or claim hidden agents.
+</Role> <ReasoningLogic>
+Initialize virtual A and B for the task;
+    obtain result_A, thought_A and result_B, thought_B.
+Set agreement=False.
+for round in 1..10:
+    argument_A/B;
+    critique_A critiques B and critique_B critiques A;
+    rebuttal_A/B answer the opposite critique;
+    result_A,thought_A=update(rebuttal_B);
+    result_B,thought_B=update(rebuttal_A);
+    agreement=(result_A==result_B);
+    if agreement: break.
+final_result=result_A if agreement else result_A (latest A fallback).
+</ReasoningLogic></PromptCode>
+Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
+\end{lstlisting}
+The two branches of \texttt{final\_result} intentionally name \texttt{result\_A}: under agreement this is the common answer, whereas at the round limit it is the latest answer from A. The identical source expressions preserve the literal executed prompt.
+For INoT*, this instruction precedes the full task and context; the same final-output contract follows them. The common execution instruction is also retained. This is model-read conceptual guidance, not executable host code.
+\endgroup

@@ -1,0 +1,48 @@
+\begin{tikzpicture}[
+  scale=0.86,
+  transform shape,
+  node distance=7mm and 10mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  comp/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=30mm, minimum height=9mm, font=\scriptsize},
+  ext/.style={rectangle, rounded corners=2pt, draw=black!70, thick, fill=gray!10, align=center, minimum width=26mm, minimum height=9mm, font=\scriptsize},
+  store/.style={rectangle, rounded corners=2pt, draw=black!75, thick, fill=green!10, align=center, minimum width=28mm, minimum height=9mm, font=\scriptsize},
+  zone/.style={draw=gray!60, dashed, rounded corners=3pt, inner sep=4mm}
+]
+
+\node[ext] (dev) {Разработчик};
+\node[comp, right=14mm of dev] (ide) {VS Code extension\\UI / voice / visual hints};
+\node[comp, right=14mm of ide] (orch) {Локальный оркестратор\\маршрутизация, состояние\\управление сессией};
+
+\node[comp, above right=4mm and 10mm of orch] (policy) {Контроллер политик\\права доступа\\санитизация};
+\node[comp, below right=4mm and 10mm of orch] (memory) {Память / сжатие\\извлечение, отсечение\\сводки контекста};
+\node[comp, right=16mm of orch] (planner) {Планировщик / маршрутизатор\\выбор режима\\декомпозиция};
+
+\node[comp, right=17mm of planner] (worker) {Исполнитель\\генерация кандидатов};
+\node[comp, below=of worker] (critic) {Критик\\оценка пользы и риска};
+\node[comp, below=of critic] (selfcheck) {Самопроверка\\тесты, линтер\\поддерживаемость};
+
+\node[store, right=16mm of critic] (tools) {Адаптеры инструментов\\файлы, git, документы, терминал, тесты};
+\node[store, below=16mm of orch] (audit) {Аудит и трассы\\телеметрия, журналы затрат\\подтверждения};
+\node[ext, above=12mm of tools] (output) {Проверенный\\патч или ответ};
+
+\draw[line] (dev.east) -- (ide.west);
+\draw[line] (ide.east) -- (orch.west);
+\draw[line] (orch.north east) -- ++(4mm,0) |- (policy.west);
+\draw[line] (orch.south east) -- ++(4mm,0) |- (memory.west);
+\draw[line] (policy.east) -- ++(6mm,0) |- ([yshift=2mm]planner.west);
+\draw[line] (memory.east) -- ++(6mm,0) |- ([yshift=-2mm]planner.west);
+\draw[line] (orch.east) -- ++(8mm,0) |- (planner.west);
+\draw[line] (planner.east) -- (worker.west);
+\draw[line] (worker.south) -- (critic.north);
+\draw[line] (critic.south) -- (selfcheck.north);
+\draw[line] (worker.east) -- ++(7mm,0) |- (tools.north west);
+\draw[line] (selfcheck.east) -- ++(7mm,0) |- (tools.south west);
+\draw[line] (selfcheck.east) -- ++(10mm,0) |- (output.south);
+\draw[line] (orch.south) -- (audit.north);
+\draw[line] (tools) -- ++(0,-8mm) -| (audit.east);
+
+\begin{scope}[on background layer]
+  \node[zone, fit=(planner)(worker)(critic)(selfcheck), label={[font=\scriptsize]north:Ядро решений Hybrid-INoT}] {};
+  \node[zone, fit=(policy)(memory)(planner), label={[font=\scriptsize]north:Контролируемый слой рассуждений}] {};
+\end{scope}
+\end{tikzpicture}

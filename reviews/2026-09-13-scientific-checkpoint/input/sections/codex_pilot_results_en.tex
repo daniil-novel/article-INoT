@@ -1,0 +1,22 @@
+\subsection{Observed development results}
+The replacement matrix completed all 40 assigned generations and 72 CLI turns. Audit replays the recorded prompts and complete intermediate history against the frozen manifest and reconciles 387,125 input-plus-output tokens. Their total list-price valuation is USD 0.7417401; the no-cache sensitivity is USD 0.8381625. No tool events, retries or compaction events were observed in the accepted matrix. These are actual generated candidates, distinct from software fixtures and unexecuted confirmation manifests.
+
+\input{sections/codex_pilot_table_en}
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\textwidth]{figures/codex_pilot.pdf}
+\caption{Every candidate in the completed development matrix. Dots show all eight assigned tasks per condition; horizontal marks show means. Horizontal offsets only separate points, and are not uncertainty intervals. Both panels include the task whose tests are unavailable.}
+\label{fig:codexobservations}
+\end{figure}
+
+Each condition has seven evaluable tasks and one unavailable task. The /1005 reference requires network access and fails in the network-disabled environment; its model outcome is unavailable for every condition, even though the raw tests fail. All seven other references pass and all eight deliberately incorrect controls fail. The 35 evaluable candidate outcomes contain 17 passes, so the earlier ceiling problem is absent in this development sample. These are still only seven evaluable task clusters, not 35 independent tasks.
+
+The direct solver has the lowest observed mean valuation (USD 0.00929) and passes 4/7 evaluable tasks, as do both neutral protocols. One-turn roles pass 3/7 and three-turn roles 2/7. Relative to the corresponding neutral condition, roles reduce mean tokens by 7.6\% in one turn and 1.6\% in three turns. Three-turn protocols consume 2.77 times the single-turn tokens with neutral labels and 2.95 times with roles. These descriptive observations do not establish non-inferiority, statistical harm from roles or a benchmark-wide ranking.
+
+\input{sections/codex_pilot_tasks_en}
+
+One single-role output on /1087 violates the prespecified extraction format and is retained as a failure; no more favorable code block is chosen manually. Among the three-role failures, the /325 tests identify removal of parentheses that should be retained, and /309 identifies a normalization-axis discrepancy. These are checks of final candidate behavior, not evidence that the model's internal roles are causally independent or that its review stage alone caused the failures. Complete exposed stage texts and the assertion traces permit further, explicitly exploratory diagnosis.
+
+Inspection after evaluation also reveals validity limitations in the shared failures. Task /1036 asserts a literal chart title absent from the supplied instruction; /45 gives conflicting column/axis naming requirements, while its tests enforce one naming scheme; /322 mocks particular file/subprocess functions, penalizing alternatives that its instruction does not explicitly exclude. Reference success does not detect these instruction--test mismatches. We preserve the original test scores and all assigned tasks, rather than repairing tests or excluding unfavorable cases after observing outcomes. Consequently, the non-ceiling statement concerns \emph{observed test satisfaction}; it does not by itself establish intrinsic task difficulty or instruction-grounded software correctness. A confirmation study needs an outcome-blind validity audit and independent benchmark replication.
+
+The released evidence keeps the initial rejected attempt separate from the replacement and includes its token usage. The arithmetic canaries and the excluded runtime preflight are also outside the treatment matrix. Changing the runtime after a development infrastructure failure does not create an independent replication. Large held-out samples, repeated generations, matched-budget sensitivity and native external baselines remain necessary before the major empirical claims can be considered resolved.

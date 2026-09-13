@@ -1,0 +1,47 @@
+\begin{tikzpicture}[
+  scale=0.88,
+  transform shape,
+  node distance=6mm and 9mm,
+  line/.style={-{Latex[length=2.4mm]}, thick},
+  action/.style={rectangle, rounded corners=2pt, draw=black!80, thick, fill=blue!6, align=center, minimum width=29mm, minimum height=8mm, font=\scriptsize},
+  decision/.style={diamond, draw=black!80, thick, fill=orange!10, align=center, aspect=2.15, inner xsep=1mm, inner ysep=0.7mm, font=\scriptsize},
+  terminator/.style={rectangle, rounded corners=6pt, draw=black!80, thick, fill=green!12, align=center, minimum width=29mm, minimum height=8mm, font=\scriptsize}
+]
+
+\node[terminator] (input) {Input: task $x$,\\ context $\mathcal{C}_0$};
+\node[action, below=of input] (sanitize) {PolicySanitize};
+\node[action, below=of sanitize] (compress) {CompressIfNeeded};
+\node[action, below=of compress] (route) {RouteMode};
+\node[decision, below=of route] (external) {External\\ mode?};
+
+\node[terminator, right=20mm of external] (extreturn) {ExternalAgentWorkflow\\ and return result};
+
+\node[action, below=of external] (planner) {Planner};
+\node[action, below=of planner] (generate) {GenerateCandidates};
+\node[action, below=of generate] (critic) {CriticScore};
+\node[action, below=of critic] (select) {SelectBest};
+\node[action, below=of select] (check) {SelfCheck};
+\node[decision, below=of check] (pass) {Check\\ passed?};
+
+\node[terminator, right=20mm of pass] (success) {Return\\ verified solution};
+\node[action, below=of pass] (update) {UpdateContextWithFailures};
+\node[decision, below=of update] (budget) {Iterations\\ left?};
+\node[terminator, right=20mm of budget] (fallback) {FallbackBestCandidate};
+
+\draw[line] (input.south) -- (sanitize.north);
+\draw[line] (sanitize.south) -- (compress.north);
+\draw[line] (compress.south) -- (route.north);
+\draw[line] (route.south) -- (external.north);
+\draw[line] (external.east) -- node[above, font=\scriptsize] {yes} (extreturn.west);
+\draw[line] (external.south) -- node[right, font=\scriptsize] {no} (planner.north);
+\draw[line] (planner.south) -- (generate.north);
+\draw[line] (generate.south) -- (critic.north);
+\draw[line] (critic.south) -- (select.north);
+\draw[line] (select.south) -- (check.north);
+\draw[line] (check.south) -- (pass.north);
+\draw[line] (pass.east) -- node[above, font=\scriptsize] {yes} (success.west);
+\draw[line] (pass.south) -- node[right, font=\scriptsize] {no} (update.north);
+\draw[line] (update.south) -- (budget.north);
+\draw[line] (budget.east) -- node[above, font=\scriptsize] {no} (fallback.west);
+\draw[line] (budget.west) -| ++(-21mm,0) |- node[pos=0.25, left, font=\scriptsize] {yes} (planner.west);
+\end{tikzpicture}

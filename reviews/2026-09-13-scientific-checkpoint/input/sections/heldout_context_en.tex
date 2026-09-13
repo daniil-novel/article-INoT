@@ -1,0 +1,29 @@
+\section{Introduction}
+\label{sec:heldout-context}
+A software engineering agent must understand a specification, use the relevant code and documentation, construct a solution, and test it. These functions can be distributed among a planner, worker and critic. If separate model calls receive the same material, the context must be transmitted repeatedly. We investigate whether these functions can be retained with fewer calls while leaving correctness checks to external tests.
+
+Hybrid-INoT addresses this question by combining internal role organization with an external verification layer. Planning, implementation and critique are prescribed in a shared model call; an external process evaluates the resulting program. The design draws on INoT's use of internal dialogue~\cite{sun2025inot}, but the role-labelled configuration examined here is distinct from the original PromptCode algorithm. It separates program generation from correctness checking. Long shared context motivates the resource model; it does not by itself guarantee that a single call will preserve quality.
+
+The original Hybrid-INoT implementation also included context selection and selective reruns. The preliminary comparison changed context selection, rerun policy, and call topology together, so it cannot identify the contribution of internal roles. The present evaluation isolates the architecture's single-pass core: full supplied context, one final candidate, prescribed planning/implementation/review and subsequent native testing. Compression and verification-driven retries are disabled. Evaluating the components separately tests these architectural choices within the original engineering problem.
+
+The core has two distinct empirical questions. Does assigning role names add value when the stage operations stay fixed? Does performing the operations in one response improve the quality--resource tradeoff relative to distributing them across three calls? A direct solver tests whether the staged organization is useful at all. A separate INoT adaptation examines the related algorithmic alternative. Each condition receives the same supplied task and context and undergoes the same subsequent evaluation. The design never treats a model's self-critique as the measured verification result.
+
+The contributions are:
+\begin{enumerate}
+\item An operational account of the Hybrid-INoT single-pass core, its state and its external evaluation boundary, with a direct mapping to every implemented control.
+\item A conditional shared-context token balance explaining when fewer calls can reduce resources, without assuming equal output lengths or asserting a measured long-context crossover.
+\item A compression-free $2\times2$ factorial study with a direct comparator on 1,000 BigCodeBench tasks, three repeats per condition and 14,961 native-checked programs. Four prespecified task-level quality contrasts separate role labels from call structure.
+\item Complementary evidence from the initial 200-task factorial study, an 80-task label-by-layout experiment, development programs, an INoT adaptation and a one-issue software-repair demonstration. Complete repeat outcomes and instructions are retained in the appendices.
+\end{enumerate}
+Role ablation and interaction-count studies have close predecessors. The contribution here is the specified architectural evaluation and its auditable evidence, not the invention of role collaboration. The larger experiment finds higher resource use and lower test success when the stages are split across three calls. It does not establish a general quality advantage of role names or quality non-inferiority.
+
+\section{Related work}
+\label{sec:heldout-related}
+\input{sections/closest_predecessor_en}
+INoT describes compact PromptCode instructions for internal dialogue and reasoning~\cite{sun2025inot}. This motivates evaluating a disclosed algorithm adaptation, while a separate minimal label intervention addresses whether named roles themselves change results. The two comparisons answer different questions: the INoT instruction changes the reasoning procedure, whereas the factorial label contrast preserves the operation sentences. The original Hybrid-INoT comparison additionally changed compression and reruns; its results are described in the historical appendix and are not pooled with the new experiment.
+
+Single- versus multi-agent work under matched thinking-token budgets emphasizes that additional calls and additional computation are distinct interventions~\cite{tran2026budget}. Here, actual completion length is not held to a matched hard budget. We therefore report token components and list-price valuations alongside quality. These measurements describe the implemented protocols; they do not identify an optimal allocation at a fixed inference budget.
+
+Agentless uses a structured localization--repair--validation workflow~\cite{xia2024agentless}; SWE-agent couples the model to a repository interface~\cite{yang2024sweagent}. Both add retrieval, tools, and environment interaction beyond fixed-context function generation, so their published scores are not directly comparable with this paired matrix. BigCodeBench~\cite{zhuo2024bigcodebench} supplies diverse library-dependent tasks with executable tests, whereas SWE-bench~\cite{jimenez2023swebench,swebenchdocs2026} evaluates repository changes against issue-specific tests. Native evaluation strengthens outcome validity, but passing a reference control does not resolve every disagreement between task prose and tests.
+
+\input{sections/related_extended_en}

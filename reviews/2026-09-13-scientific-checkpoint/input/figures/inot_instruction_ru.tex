@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1mm,y=1mm,
+ box/.style={draw=black!80,align=center,font=\small,inner sep=2mm},
+ flow/.style={-{Latex[length=2mm]},thick}]
+\node[box,fill=gray!8,text width=99mm] (input) at (0,0) {Один запрос к модели: задача, контекст и инструкция INoT*};
+\draw[dashed,black!65] (-52,-12) rectangle (52,-114);
+\node[font=\small,align=center,text width=100mm] at (0,-18) {\textbf{Содержание инструкции, не наблюдаемая трасса}};
+\node[box,text width=77mm,minimum height=15mm] (initial) at (0,-36) {Предложить решения A и B\\и их обоснования};
+\node[box,text width=77mm,minimum height=19mm] (exchange) at (0,-62) {Обменяться аргументами и критикой;\\ответить на критику; обновить решения};
+\node[diamond,draw=black!80,aspect=2.7,align=center,font=\small,inner sep=1mm,text width=34mm] (decision) at (0,-95) {Ответы совпали\\или завершены\\10 раундов?};
+\node[box,fill=gray!8,text width=99mm,minimum height=12mm] (answer) at (0,-129) {Вернуть последнее решение A};
+\draw[flow] (input.south) -- (0,-12);
+\draw[flow] (0,-24) -- (initial.north);
+\draw[flow] (initial) -- (exchange);
+\draw[flow] (exchange) -- (decision);
+\draw[flow] (decision.west) -- (-47,-95) node[above right,font=\small] {нет} |- (exchange.west);
+\draw[flow] (decision.south) -- node[right,pos=0.2,font=\small,fill=white,inner sep=1pt] {да} (answer.north);
+\end{tikzpicture}

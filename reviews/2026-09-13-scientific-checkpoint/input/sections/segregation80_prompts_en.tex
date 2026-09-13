@@ -1,0 +1,30 @@
+\clearpage\subsection{Prompt assembly for the boundary experiment}
+All four prompts share the following literal strings. LF below denotes a single newline character. Soft line wrapping in the paper is typographical.
+\paragraph{Common lead.}\begin{quote}\small
+Use three internal checkpoints in this one response.
+\end{quote}
+
+\paragraph{Operations in fixed order.}
+\paragraph*{Operation 1.}\begin{quote}\small
+Analyze the requirements and edge cases and form a concise plan.
+\end{quote}
+
+\paragraph*{Operation 2.}\begin{quote}\small
+Implement the requested function using that plan.
+\end{quote}
+
+\paragraph*{Operation 3.}\begin{quote}\small
+Check the implementation against the requirements and revise it if needed.
+\end{quote}
+
+\paragraph{Common ending.}\begin{quote}\small
+Do not output checkpoint notes or commentary. Return exactly one fenced Python program.
+\end{quote}
+
+\texttt{LABEL} denotes a stage heading; \texttt{OPERATION} denotes its exact operation sentence above. Role-labelled conditions use PLANNER, IMPLEMENTER, REVIEWER; neutral conditions use STAGE 1, STAGE 2, STAGE 3.
+\begin{enumerate}
+\item \textbf{Format the stages.} Heading-style stages use \texttt{[LABEL] OPERATION}, with LF between stages. Prose-style stages use \texttt{LABEL: OPERATION}, with one space between stages.
+\item \textbf{Assemble the instruction block.} Join the common lead, the three formatted stages and the common ending. Put one LF before and after the stages.
+\item \textbf{Assemble the request.} Concatenate \texttt{TASK}, LF, the original task instruction, two LF characters, the instruction block, LF, \texttt{FULL SUPPLIED CONTEXT}, LF and the complete prepared context, in that order.
+\end{enumerate}
+The common execution instruction is the same as above. Only stage labels and separators differ among conditions.

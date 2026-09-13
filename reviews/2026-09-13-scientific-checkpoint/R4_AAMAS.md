@@ -1,0 +1,19 @@
+# R4 — AAMAS 2027 (научный checkpoint, 13.09.2026)
+
+**Охват и доступ.** Последовательно прочитана полная `input/en.pdf` (82 страницы; текст 3914 строк; SHA-256 `AC03D1B1F4863121B84E3BE74B0E41E46DD7309E9C0C69B22E16D4A9D2A024D`), включая приложения A–G, все таблицы/исходы и библиографию; страницы 7, 18 и 28 дополнительно проверены рендером. R4 — один авторский checkpoint, без независимых peer-отчётов и без запуска экспериментов. Отдельно просмотрен изменяемый `submission/aamas2027/paper/main.pdf` (7 страниц, SHA-256 `5B4C0C03A3A144BEACC3C2ED334EB0ECF4260BB9943CC4FED0393A7D764FDE54`), поэтому его состояние не смешивается с вердиктом по полной рукописи. Поиск 13.09.2026: “AAMAS 2027 main track call GAAI”, “submission instructions”, “reciprocal reviewer policy”, “reviewer guidelines”, “Self-Collaboration Code Generation ChatGPT”. Открыты официальные страницы AAMAS и первичная/издательская запись ближайшего SCC [ACM DOI](https://doi.org/10.1145/3672459).
+
+**Вердикт.** Научная часть большого factorial-исследования аккуратно ограничена: 15 000 назначений, 14 961 завершённый кандидат, внешние тесты, явная missingness и исправленная Holm-семья; вывод о цене трёх вызовов поддержан. Текущий AAMAS-fit условен: без явного agent/MAS-объекта работа может быть сочтена generic prompt/code-generation study и desk-rejected по GAAI.
+
+**Решающие находки (доказательство → эффект → исправление → тип).**
+
+1. Полная рукопись, с. 5–8: «role labels … not independently observed agents»; один вызов/фиксированный контекст, без инструментов и автономного цикла. CFP GAAI (строки 164–167) требует центральный вклад в agentic systems и исключает prompt engineering без такого вклада. Это делает релевантность AAMAS спорной. В 7-страничной версии явно сформулировать agent-level объект/интерфейс, связь с orchestration/evaluation MAS и границы применимости; если это невозможно — выбрать venue по software engineering. **Тип: scope/позиционирование.**
+
+2. Полная рукопись, с. 17–19, 36–38: роли SR–SN −0.75 п.п. (Holm p=.2357), MR–MN +1.35 (Holm p=.0599); автор правильно не объявляет эквивалентность. Однако 7-страничный draft должен сохранить именно эту оговорку рядом с claim о topology cost и не превращать ресурсное преимущество в quality–cost superiority. **Тип: интерпретация.**
+
+3. Полная рукопись, с. 14, 34–36: SCC-сравнение «generation … ongoing», native outcomes не просмотрены; draft также называет их pending. Это допустимо как prospective method/feasibility, но SCC нельзя использовать как empirical support до заморозки анализа. **Тип: незавершённые данные.**
+
+4. Для подачи обязательны: не более 8 content pages, LaTeX/PDF, double-blind; abstract 1 Oct и paper 8 Oct AoE. AI-политика требует раскрыть prompt/tool/version для гипотез/методов; draft содержит disclosure и точные экспериментальные prompts, но нужно проверить supplement. Reciprocal-review policy требует qualified author или exemption; MSc year 2 сама по себе qualification не даёт. Student checkbox — отдельная декларация. **Тип: формальные требования, не научное суждение.**
+
+**Сильные стороны.** Контроль reference/incorrect программ и native evaluation отделяют корректность от самоотчёта модели; повторные исходы и task-level bootstrap делают denominator и зависимость прозрачными. Большой paper уже укладывается в 7 страниц, но core evidence не должен зависеть от supplement (официальные инструкции: [submission](https://warwick.ac.uk/fac/sci/dcs/aamas2027/calls/instructions/), [CFP](https://warwick.ac.uk/fac/sci/dcs/aamas2027/calls/call-for-main-track/)).
+
+**Первые действия.** (1) Переписать framing под GAAI/EMAS и agentic contribution либо сменить venue (текст/позиционирование). (2) До abstract registration закрыть OpenReview profile, reviewer/exemption, student и Findings choices (форма). (3) После SCC freeze обновить claims и supplement; не вставлять pending outcomes как результаты (анализ/данные).

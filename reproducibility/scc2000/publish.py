@@ -246,6 +246,11 @@ def publish(root: Path, inputs: Path, gate_dir: Path, manifest: Path, output: Pa
         _copy_tree(source_audit, output / "source-task-audit")
         _copy_tree(ROOT / "reproducibility/scc2000/recovery-v1", output / "amendment/recovery-v1")
         _copy_tree(ROOT / "reproducibility/scc2000/execution-resume-v1", output / "amendment/execution-resume-v1")
+        _copy_tree(ROOT / "reproducibility/scc2000/execution-resume-v2", output / "amendment/execution-resume-v2")
+        _copy_file(ROOT / "docs/SCC_NATIVE_SCHEDULING.md", output / "amendment/NATIVE_SCHEDULING.md")
+        _copy_file(ROOT / "reviews/2026-09-13-scc2000-runtime/INCIDENT.md", output / "amendment/EXECUTION_INCIDENTS.md")
+        for folder in sorted(root.glob("finish-queue*")):
+            if folder.is_dir(): _copy_tree(folder, output / "execution-queues" / folder.name)
         _copy_file(selection, output / "amendment/selection_manifest.json")
         _copy_file(amendment, output / "amendment/AMENDMENT.md")
         for rel in frozen.get("source_files_sha256", {}): _copy_file(ROOT / rel, output / "sources" / rel)
@@ -286,7 +291,7 @@ python provenance/publish_scc.py --verify --archive .
 Verification checks exact inventories, regenerates exports, joins native reports, recomputes both estimators, every amended bootstrap draw, the source graph, and pricing scope without model calls. Python patch-version provenance may differ only when all numerical outputs and draws match exactly. This full research archive retains operational provenance and is not the anonymous conference supplement.
 """, encoding="utf-8")
         files = set(SOURCE_FILES) | {
-            f"reproducibility/scc2000/{name}.py" for name in ("publish", "finish", "analyze", "continuation", "resume_snapshot")}
+            f"reproducibility/scc2000/{name}.py" for name in ("publish", "finish", "analyze", "continuation", "resume_snapshot", "parallel_finish", "queue_finish", "queue_finish_parallel")}
         for rel in sorted(files): _copy_file(ROOT / rel, output / "sources" / rel)
         # The main offline verifier imports supplementary modules from this source tree.
         for name in ("audit.py", "sensitivity.py", "package.py", "PROTOCOL.md"):
