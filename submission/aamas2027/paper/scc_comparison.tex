@@ -1,0 +1,28 @@
+\section{Self-Collaboration Comparison}
+Self-Collaboration (SCC) tests a related interaction workflow under the same Luna model, medium reasoning setting and native evaluator. The adapted author controller begins with an analyst JSON plan, calls a developer for Python, and asks a tester to generate up to five example calls in a \texttt{check(candidate)} function. It executes the program and generated check; exception-free execution is its internal stopping signal, while printed values are not automatically compared with expected answers. The configured cap permits one initial implementation and at most one repair. The model receives the complete supplied task context and serialized role history. Reference solutions and benchmark tests remain external.
+
+The original schedule contains 3,000 task-repeat blocks, each assigning fresh SR, fresh SN and SCC workflows. An amendment adopted after generation began, before inspecting SCC quality, fixes its first 2,000 randomized blocks (order seed 20260911). This gives 6,000 method assignments over 956 tasks: 212 tasks have one selected repeat, 444 have two, and 300 have three. Of these tasks, 941 pass reference controls. The unselected 3,000 method assignments are outside the amended denominator.
+
+All 5,595 completed programs underwent native evaluation: 1,997 SR, 1,998 SN and 1,600 SCC. The comparison retains 397 infrastructure failures and eight historically paused attempts. Specifically, SCC has 396 Docker failures and four paused workflows; SR has three paused attempts; SN has one paused attempt and one stream failure. No submitted attempt was regenerated. Quality is observed for 1,964 SR repeats, 1,965 SN repeats and 1,574 SCC repeats after reference controls, with 1,067, 1,064 and 809 passes, respectively. These are observed-repeat counts, not independent tasks or best-of-three rates.
+
+For each comparator, average SCC minus comparator outcomes over matching selected repeats with both outcomes observed, then average equally over eligible tasks with at least one such pair. Thus a task with three selected repeats has the same weight as a task with one. Two-sided task-level $t$-tests for SCC--SR and SCC--SN form a separate two-test Holm family. Intervals use 10,000 whole-task PCG64 draws, seed 20260911 and linear percentile endpoints.
+
+\begin{table}[t]
+\caption{SCC quality on observed matched repeats. Differences and intervals are percentage points; $n$ counts contributing tasks.}
+\label{tab:scc-quality}
+\centering\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Contrast & $n$ & $\Delta$ & 95\% CI & Holm $p$\\
+\midrule
+SCC--SR & 883 & $-2.68$ & $[-4.72,-0.60]$ & .0217\\
+SCC--SN & 882 & $-2.48$ & $[-4.50,-0.43]$ & .0217\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both conditional contrasts are negative (Table~\ref{tab:scc-quality}). The source-group sensitivity intervals are similar: $[-4.72,-0.58]$ points against SR and $[-4.51,-0.43]$ against SN for the union partition. However, fixed-denominator extreme bounds across all 941 eligible selected tasks are $[-12.98,+6.61]$ and $[-13.14,+6.43]$ points. They allow either sign. The observed-pair results therefore do not establish SCC inferiority over the full assigned population.
+
+Resource comparisons require both complete workflows with valid counters. The ratio of paired task means for API-equivalent valuation is 3.138 against SR (896 tasks; 95\% interval $[3.067,3.208]$) and 2.939 against SN (895 tasks; $[2.871,3.010]$). These ratio-of-means intervals use 10,000 whole-task draws with seed 20260914. They concern the observed complete workflows and do not combine quality preservation with a monetary advantage. Availability and matched effects before and after the amendment are retained as descriptive checks; they do not identify a causal time effect.
+
+A separate diagnostic evaluates all 399 retained developer programs from incomplete SCC workflows without restarting the controller or appending its generated checks. It finds 196 passes among 392 control-eligible programs; seven programs are control-ineligible. These intermediate-program results do not replace any unknown whole-workflow outcome in the comparison.

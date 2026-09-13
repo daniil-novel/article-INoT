@@ -121,3 +121,9 @@ print('frozen_source_closure_passed')
     path=archive/"amendment/selection_manifest.json";value=json.loads(path.read_text(encoding="utf-8"))
     value["selected_cells"][0]["task_id"]="tampered";save(path,value)
     result=execute();assert result.returncode!=0 and "Selection cells or order changed" in result.stderr
+
+def test_actual_source_graph_rebuild_includes_exact_evidence_manifest():
+    archive = ROOT / 'reproducibility/results/20260913_scc2000_luna_full'
+    if not archive.is_dir():
+        pytest.skip('actual completed SCC archive is required for this regression')
+    publish._recompute_source_graph(archive)

@@ -1,0 +1,89 @@
+\begin{table}[htbp]\centering\small
+\caption{SCC comparison: observed outcomes.}
+\label{tab:scc2000-quality}
+\begin{tabular}{lrrrrr}\toprule
+Method & Assigned & Generated & Observed & Passes & Success (\%)\\\midrule
+SN & 2000 & 1998 & 1965 & 1064 & 54.15\\
+SR & 2000 & 1997 & 1964 & 1067 & 54.33\\
+SCC & 2000 & 1600 & 1574 & 809 & 51.40\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Observed counts are eligible repeat outcomes. The percentage is passes divided by observed repeats; it is not a task-weighted contrast. Interrupted workflows remain unavailable.
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Paired quality differences (percentage points).}
+\label{tab:scc2000-contrasts}
+\begin{tabular}{lrrrr}\toprule
+Contrast & Tasks & Difference & 95\% interval & Holm $p$\\\midrule
+SCC -- SR & 883 & -2.68 & $[-4.72, -0.60]$ & 0.0217\\
+SCC -- SN & 882 & -2.48 & $[-4.50, -0.43]$ & 0.0217\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Selected matched repeats are averaged within each task; tasks have equal weight. The two tests form a separate Holm family. The 95\% bootstrap intervals are descriptive. A dash denotes an unavailable or unestimable quantity.
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Bounds over assigned outcomes (percentage points).}
+\label{tab:scc2000-bounds}
+\begin{tabular}{lrrr}\toprule
+Comparison and scope & Tasks & Bounds & Tasks with unknowns\\\midrule
+SCC -- SR (Eligible) & 941 & $[-12.98, 6.61]$ & 340\\
+SCC -- SR (All selected) & 956 & $[-14.35, 8.07]$ & 355\\
+SCC -- SN (Eligible) & 941 & $[-13.14, 6.43]$ & 340\\
+SCC -- SN (All selected) & 956 & $[-14.50, 7.90]$ & 355\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Each task retains its number of selected assigned repeats in the denominator. These are identification bounds, not confidence intervals.
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Ratio of paired task-mean valuations.}
+\label{tab:scc2000-resource-pooled}
+\begin{tabular}{lrrr}\toprule
+Comparison & Tasks & Ratio & 95\% interval\\\midrule
+SCC / SR & 896 & 3.138 & $[3.07, 3.21]$\\
+SCC / SN & 895 & 2.939 & $[2.87, 3.01]$\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Only matched complete workflows with valid counters enter these descriptive estimates. API-equivalent valuations are not subscription payments; partial known totals are accounted for separately.
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Mean of task-level valuation ratios.}
+\label{tab:scc2000-resource-mean_ratio}
+\begin{tabular}{lrrr}\toprule
+Comparison & Tasks & Ratio & 95\% interval\\\midrule
+SCC / SR & 896 & 3.424 & $[3.35, 3.49]$\\
+SCC / SN & 895 & 3.234 & $[3.17, 3.30]$\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Only matched complete workflows with valid counters enter these descriptive estimates. API-equivalent valuations are not subscription payments; partial known totals are accounted for separately.
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Source-group sensitivity (percentage points).}
+\label{tab:scc2000-source}
+\begin{tabular}{lrrr}\toprule
+Grouping and contrast & Groups & Tasks & 95\% interval\\\midrule
+Code + prompt 0.70; SCC -- SR & 876 & 883 & $[-4.72, -0.58]$\\
+Code + prompt 0.70; SCC -- SN & 875 & 882 & $[-4.51, -0.43]$\\
+Prompt 0.50; SCC -- SR & 880 & 883 & $[-4.76, -0.59]$\\
+Prompt 0.50; SCC -- SN & 879 & 882 & $[-4.59, -0.42]$\\
+Prompt 0.70; SCC -- SR & 883 & 883 & $[-4.72, -0.60]$\\
+Prompt 0.70; SCC -- SN & 882 & 882 & $[-4.50, -0.43]$\\
+Prompt 0.90; SCC -- SR & 883 & 883 & $[-4.72, -0.60]$\\
+Prompt 0.90; SCC -- SN & 882 & 882 & $[-4.50, -0.43]$\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Whole groups are resampled while retaining equal task weights. These intervals do not introduce additional hypothesis tests.
+\end{table}
+
+\begin{table}[htbp]\centering\small
+\caption{Timing diagnostic (percentage points).}
+\label{tab:scc2000-timing}
+\begin{tabular}{lrr}\toprule
+Segment and contrast & Tasks & Difference\\\midrule
+Before; SCC -- SR & 800 & -3.10\\
+Before; SCC -- SN & 800 & -2.48\\
+After; SCC -- SR & 283 & -1.41\\
+After; SCC -- SN & 282 & -2.42\\
+Spanning; SCC -- SR & 0 & ---\\
+Spanning; SCC -- SN & 0 & ---\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Segments refer to the original 2,000-block amendment, not the later transport resumptions. They are descriptive and do not identify a causal time effect.
+\end{table}

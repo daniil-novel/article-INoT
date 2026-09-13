@@ -181,6 +181,7 @@ def _recompute_source_graph(archive: Path) -> None:
         with tempfile.TemporaryDirectory(prefix="scc2000-source-") as td:
             out = Path(td) / "audit"
             audit.run(archive / "sources/reproducibility/data/bigcodebench-v0.1.4.jsonl", archive / "inputs", out)
+            write_manifest(out)
             _same_tree(retained, out)
     finally:
         audit.ROOT = old_root
