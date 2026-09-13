@@ -1,7 +1,7 @@
 \section{Illustrative discordant cases}
 \label{sec:heldout-cases}
 
-The following four examples were selected after generation by a fixed deterministic rule: for each label contrast, choose the lowest numeric task ID in each direction in which both programs were observed and eligibility-gated, retaining one role-labelled--neutral discordance in each direction. They are descriptive examples outside the four primary tests. They do not estimate discordance frequencies or identify a hidden reasoning mechanism.
+For each label contrast, we selected the lowest numeric task ID with an observed, eligibility-gated discordance in each direction. Thus, the four examples contain one role-labelled--neutral discordance favouring each condition for each contrast. They are descriptive examples outside the four primary tests. They do not estimate discordance frequencies or identify a hidden reasoning mechanism.
 
 For \texttt{BigCodeBench/428}, the role-labelled single-call program passed while the neutral program failed. Both programs performed the requested outer merge and scaling of numeric features from \texttt{df1}. The role-labelled program scaled a copy of \texttt{df1} before one merge and preserved the left-dataframe columns first. The neutral program merged first, then dropped and reinserted the scaled columns in a second merge, producing the order \texttt{id, feature4, feature5, feature1, feature2, feature3}. The evaluator's \texttt{test\_case\_1} required \texttt{id, feature1, feature2, feature3, feature4, feature5} and failed with that list mismatch. The task prose specifies the operations but does not explicitly specify column order; the test supplies a stricter output contract.
 

@@ -191,3 +191,11 @@
 - Сборки EN82 и RU87 страниц проходят без overfull и неразрешённых ссылок. Проверены новые английские страницы результатов и русский график. Это промежуточная проверка, не финальное полное рецензирование.
 - Подготовлены черновик основного текста AAMAS и замер дополнения. Они не считаются готовым пакетом подачи. В авторскую форму внесён подтверждённый статус магистранта второго курса и применимость student-paper checkbox.
 - SCC остановился из-за недоступности Docker; 396 новых инфраструктурных пропусков сохраняются. Среда восстановлена и проверена. Продолжение касается только 957 ещё не начатых назначений; окончательные оценки SCC пока не сообщаются.
+
+## 13 September 2026: full language R1 and AAMAS source checkpoint
+
+Independent English and Russian language readers inspected complete82/87-page input snapshots. Their reports and coverage limits are retained in reviews/2026-09-13-language-full. Root checked applied edits, restored exact numerical selection semantics and the interaction explanation, preserved all executed prompt strings, and rebuilt both PDFs (82/86pages). These are language checks, not the final scientific board.
+
+The first official-class AAMAS working source now contains the full-context factorial design, exact operation wording, statistical rules, results and readable workflow diagram. SCC and finalsubmission remain pending. A separate TeX diagnostic reproduces the conditional warning in the unmodified official sample; officialfiles remainunchanged. Bibliography retrieval gaps for SCCandLuna were corrected after directsourcechecks, with the originalreview retained.
+
+An immutable fullmanuscript snapshot was created for independent scientificcheckpoint critics. This is not the required final post-SCC review or EngineeringLoop completion.

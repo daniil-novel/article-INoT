@@ -22,7 +22,7 @@ Return the complete final program in exactly one fenced python block, or, for a 
 The contract appears in each single-call condition and in stage 3 of each three-call condition. Task text is introduced by TASK; supplied context by FULL SUPPLIED CONTEXT. Each earlier response is introduced by PREVIOUS STAGE $i$ (COMPLETE OUTPUT), with one-based $i$. The runner enforces the byte guard before dispatch.
 \clearpage\subsection{INoT* instruction: explanation and literal wording}
 \label{app:inot-instruction}
-INoT* defines two virtual positions, A and B, that propose solutions to the same task. \texttt{result} denotes a solution, \texttt{thought} its rationale, and \texttt{agreement} agreement between solutions. Figure~\ref{fig:inot-instruction} shows the prescribed sequence. These operations are requested within one model call; individual rounds are not observed.
+INoT* defines two virtual positions, A and B, that propose solutions to the same task. \texttt{result} denotes a solution, \texttt{thought} its rationale, and \texttt{agreement} whether the two solutions match. Figure~\ref{fig:inot-instruction} shows the prescribed sequence. These operations are requested within one model call; individual rounds are not observed.
 
 The listing preserves the instruction characters apart from typographical whitespace and line breaks. Indentation aids reading; it does not make the text executable code. Agreement returns the common answer A; otherwise the latest answer A is selected at the round limit.
 
@@ -46,6 +46,6 @@ final_result=result_A if agreement else result_A (latest A fallback).
 </ReasoningLogic></PromptCode>
 Return final_result in the requested format, with no tools, tests, unavailable evidence, or hidden-agent claims. Omit image augmentation for this text task.
 \end{lstlisting}
-Both branches of \texttt{final\_result} name \texttt{result\_A}: under agreement it is the common answer, whereas at the round limit it is the latest answer from A.
+The two branches of \texttt{final\_result} intentionally name \texttt{result\_A}: under agreement this is the common answer, whereas at the round limit it is the latest answer from A. The identical source expressions preserve the literal executed prompt.
 For INoT*, this instruction precedes the full task and context; the same final-output contract follows them. The common execution instruction is also retained. This is model-read conceptual guidance, not executable host code.
 \endgroup

@@ -1,3 +1,8 @@
 # Keep the official template exactly as downloaded.
 official-template/** -text
 *.zip -text
+paper/aamas.cls -text
+paper/ACM-Reference-Format.bst -text
+paper/by.eps -text
+paper/by.pdf -text
+paper/aamas27-logo-small.jpg -text

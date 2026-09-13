@@ -45,6 +45,6 @@ The observable execution state is $\sigma_j=(x,\mathcal{C}_0,a,j,\mathcal{H}_j)$
 \end{enumerate}
 \end{algorithm}
 
-Algorithm~\ref{alg:hybrid-core} describes the generation and evaluation stages of the experiment; the native harness is a subsequent evaluator, not a tool invoked inside the model call. Call deadlines and a finite $n_a$ bound generation attempts. This is a stopping rule, not a theorem of convergence or correctness. A rejected completion never triggers an automatic second attempt for the same assignment. The disclosed continuation concerns only assignments for which no call had started.
+Algorithm~\ref{alg:hybrid-core} describes the generation and evaluation stages of the experiment; the native harness is a subsequent evaluator, not a tool invoked inside the model call. The call deadline and the fixed call count bound the generation procedure. This is a stopping rule, not a theorem of convergence or correctness. A rejected completion never triggers an automatic second attempt for the same assignment. The disclosed continuation concerns only assignments for which no call had started.
 
 This configuration fixes the original architecture's optional controls: context selection is the identity, the mode is assigned, the number of final candidates is one, and verification-driven reruns are disabled. These choices isolate the internal-role question from compression, a small checking model, and adaptive retries. They also define the scope of the evidence: the experiment evaluates this core, rather than every possible Hybrid-INoT deployment.
