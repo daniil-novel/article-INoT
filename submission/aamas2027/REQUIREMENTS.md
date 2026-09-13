@@ -1,6 +1,6 @@
 # Verified requirements
 
-Checked 12 September 2026, Europe/Moscow. Recheck the official pages and the live
+Submission instructions rechecked 13 September 2026, Europe/Moscow. Recheck the official pages and the live
 form before submission: the current form is the abstract-registration stage.
 
 ## Schedule
@@ -31,6 +31,11 @@ Optional supplements: one anonymous ZIP, at most 25 MB. Core claims and evidence
 belong in the main paper; supplements cannot replace it with an extended version.
 Reviewers need not read supplements. Accepted supplements need an archival
 public version referenced from the camera-ready paper.
+
+The primary-author student checkbox applies to students at any level, including
+this author's confirmed second-year master's status. Reviewers do not see that
+flag; it determines eligibility for the student-paper award, separately from
+the reciprocal-reviewer declaration.
 
 AI help with hypotheses or methods requires tool/version and prompt disclosure
 in the paper or supplement. AI is not an author; human authors retain

@@ -11,19 +11,19 @@
 
 \node[ext] (dev) {Разработчик};
 \node[comp, right=14mm of dev] (ide) {VS Code extension\\UI / voice / visual hints};
-\node[comp, right=14mm of ide] (orch) {Локальный оркестратор\\маршрутизация, состояние\\контроль сессии};
+\node[comp, right=14mm of ide] (orch) {Локальный оркестратор\\маршрутизация, состояние\\управление сессией};
 
-\node[comp, above right=4mm and 10mm of orch] (policy) {Policy controller\\права доступа\\sanitization};
-\node[comp, below right=4mm and 10mm of orch] (memory) {Memory / compression\\retrieval, pruning\\context summaries};
-\node[comp, right=16mm of orch] (planner) {Planner / router\\выбор режима\\декомпозиция};
+\node[comp, above right=4mm and 10mm of orch] (policy) {Контроллер политик\\права доступа\\санитизация};
+\node[comp, below right=4mm and 10mm of orch] (memory) {Память / сжатие\\извлечение, отсечение\\сводки контекста};
+\node[comp, right=16mm of orch] (planner) {Планировщик / маршрутизатор\\выбор режима\\декомпозиция};
 
-\node[comp, right=17mm of planner] (worker) {Worker\\генерация кандидатов};
-\node[comp, below=of worker] (critic) {Critic\\оценка пользы и риска};
-\node[comp, below=of critic] (selfcheck) {Self-check\\тесты, lint\\поддерживаемость};
+\node[comp, right=17mm of planner] (worker) {Исполнитель\\генерация кандидатов};
+\node[comp, below=of worker] (critic) {Критик\\оценка пользы и риска};
+\node[comp, below=of critic] (selfcheck) {Самопроверка\\тесты, линтер\\поддерживаемость};
 
-\node[store, right=16mm of critic] (tools) {Tool adapters\\files, git, docs, terminal, tests};
-\node[store, below=16mm of orch] (audit) {Audit and traces\\телеметрия, cost logs\\approvals};
-\node[ext, above=12mm of tools] (output) {Верифицированный\\патч или ответ};
+\node[store, right=16mm of critic] (tools) {Адаптеры инструментов\\файлы, git, документы, терминал, тесты};
+\node[store, below=16mm of orch] (audit) {Аудит и трассы\\телеметрия, журналы затрат\\подтверждения};
+\node[ext, above=12mm of tools] (output) {Проверенный\\патч или ответ};
 
 \draw[line] (dev.east) -- (ide.west);
 \draw[line] (ide.east) -- (orch.west);
@@ -42,7 +42,7 @@
 \draw[line] (tools) -- ++(0,-8mm) -| (audit.east);
 
 \begin{scope}[on background layer]
-  \node[zone, fit=(planner)(worker)(critic)(selfcheck), label={[font=\scriptsize]north:Hybrid-INoT decision core}] {};
-  \node[zone, fit=(policy)(memory)(planner), label={[font=\scriptsize]north:Controlled reasoning layer}] {};
+  \node[zone, fit=(planner)(worker)(critic)(selfcheck), label={[font=\scriptsize]north:Ядро решений Hybrid-INoT}] {};
+  \node[zone, fit=(policy)(memory)(planner), label={[font=\scriptsize]north:Контролируемый слой рассуждений}] {};
 \end{scope}
 \end{tikzpicture}
