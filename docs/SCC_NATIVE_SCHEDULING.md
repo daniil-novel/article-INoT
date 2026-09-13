@@ -14,8 +14,10 @@ gates, exports through the original exporter, and invokes the original stage
 helper with the exact command used by the sequential finisher. After every
 stage completes, the unchanged finisher validates all native evidence and
 performs the original and amended analyses. Failed stages are preserved and
-never silently restarted. The old waiting queue is superseded before native
-work begins; its records remain available.
+never silently restarted. The preceding sequential queue stopped before native
+work because one model stream failed and generation remained incomplete. A
+new queue follows the next untouched-only continuation; all earlier queue
+records remain available.
 
 Host contention can affect wall-clock test deadlines even with fixed container
 limits. Scheduling is disclosed, and native timeouts retain the predefined

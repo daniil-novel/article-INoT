@@ -43,3 +43,11 @@ pre-recovery statuses. The original strict recovery verifier checked all5043
 attempts. The scientific analysis continues to use the original freeze-v3
 selection, so restart diagnostics are not silently rebased. The independent
 publication reviewer found no invariant failure in this administrative update.
+
+## Later stream interruption and second operational inventory
+
+The post-Docker-repair continuation processed614newassignments:613completedandoneSCCstreamfailed before a completed response or usage record. Cell bb91c43531a11932f802d7b9 (BigCodeBench/794) retains the CLI event `stream disconnected before completion: Transport error: network error: error decoding response body`. Its one unknown-usage turn is not zero-imputed or resubmitted. The dispatcher stopped with unpriceable_or_invalid_usage; the sequential native queue correctly stopped without starting native work.
+
+Selected totals at that stop:5252complete,397infrastructurefailures(396Docker+1stream),8historicalpaused,343untouched. Quota remained82percent,above65reserve. The existing recovery validator verified every retained attempt before preparing execution-resume-v2 with5657terminalattempts. Only343untouched cells may start. Scientific analysis continues to use originalfreeze-v3; neither outcome rules nor the2000-block allocation changes.
+
+An initial preparation command passed the recovery directory instead of recovery_manifest.json; it failed before creating the snapshot or submitting any calls. The corrected command passed the full original recovery verification.

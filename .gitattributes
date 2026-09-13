@@ -31,4 +31,5 @@ reproducibility/data/bigcodebench-split/prepare_manifest.json -text -whitespace
 reproducibility/scc2000/recovery-v1/** -text -whitespace
 reproducibility/scc2000/freeze-v3/** -text -whitespace
 reproducibility/scc2000/execution-resume-v1/** -text -whitespace
+reproducibility/scc2000/execution-resume-v2/** -text -whitespace
 reviews/**/input/** -text -whitespace
