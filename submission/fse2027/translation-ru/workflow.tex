@@ -1,0 +1,22 @@
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm,
+box/.style={draw,rounded corners=1mm,align=center,text width=28mm,minimum height=10mm},
+flow/.style={-{Latex[length=2mm]}}]
+\node[box,text width=22mm] (input) at (0,0) {Задача и полный\\контекст};
+\node[box,text width=62mm] (single) at (48,17) {SN / SR: один вызов модели\\Анализ, реализация, проверка и исправление};
+\node[box,text width=18mm] (plan) at (20,-14) {MN / MR\\1. Анализ};
+\node[box,text width=18mm] (code) at (48,-14) {2. Реализация};
+\node[box,text width=18mm] (review) at (76,-14) {3. Проверка\\и исправление};
+\node[box,text width=26mm] (test) at (112,0) {Итоговая программа\\Исходные тесты\\Успех / сбой / неизвестно};
+\draw[flow] (input.north) |- (single.west);
+\draw[flow] (input.south) |- (plan.west);
+\draw[flow] (plan) -- (code); \draw[flow] (code) -- (review);
+\draw[flow] (single.east) -| (test.north);
+\draw[flow] (review.east) -| (test.south);
+\node[align=center,text width=92mm] at (48,-29) {Каждый последующий вызов получает тот же полный контекст задачи и все предыдущие ответы.\\N: нейтральные названия этапов. R: планировщик, разработчик, рецензент.};
+\end{tikzpicture}
+\caption{Перекрестное вмешательство. Прямая базовая линия D использует один вызов без поэтапных инструкций. Оценивание выполняется после генерации, и тесты бенчмарка никогда не возвращаются в эти пять условий. Внутренние этапы одношагового режима являются инструкциями, а не отдельно наблюдаемыми выполнениями.}
+\label{fig:core}
+\Description{Один вызов с тремя предписанными операциями сопоставляется с тремя независимыми вызовами с теми же операциями. В обоих случаях итоговая программа поступает внешнему оценщику бенчмарка.}
+\end{figure*}
