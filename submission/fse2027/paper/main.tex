@@ -1,0 +1,31 @@
+\documentclass[acmsmall,screen,review,anonymous]{acmart}
+
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\setcopyright{none}
+\acmConference[FSE 2027]{ACM International Conference on the Foundations of Software Engineering}{12--16 July 2027}{Shenzhen, China}
+\acmBooktitle{ACM International Conference on the Foundations of Software Engineering (FSE 2027), 12--16 July 2027, Shenzhen, China}
+\acmYear{2027}
+\copyrightyear{2027}
+\acmDOI{}
+\acmISBN{}
+
+\title[Role Labels and Call Topology]{Role Labels or Extra Calls? A Controlled Study of Quality and Cost in LLM Code Generation}
+
+\begin{abstract}
+LLM code-generation workflows often combine named roles with multiple model calls, making it unclear which design choice changes quality and resource use. We disentangle these choices in a crossed experiment: neutral versus planner--implementer--reviewer labels, and one versus three calls, with identical operations and full task context; a direct solver is a fifth condition. GPT-5.6 Luna receives 15,000 assignments on 1,000 BigCodeBench tasks, with three fresh repeats per condition. Of 14,961 completed candidates, 985 tasks pass reference controls. Role labels change success by $-0.75$ percentage points in one call and $+1.35$ points in three calls; neither comparison rejects after Holm correction. Three calls reduce paired success by 4.17 points under neutral labels and 2.13 points under role labels, while raising API-equivalent valuation by factors of 2.67 and 2.78. A prespecified source-dependence audit and separate analyses of 200 reused and 800 newly sampled task IDs preserve the negative topology result. Exploratory comparisons find that the direct solver is statistically indistinguishable from both one-call staged workflows and outperforms both three-call workflows. A separate 2,000-block comparison with an adapted Self-Collaboration controller gives lower observed-pair success and approximately three times the valuation, but infrastructure missingness leaves its full-population quality difference unidentified. These results establish a boundary for full-context staged workflows: named roles alone do not yield a robust quality benefit, and extra call boundaries can add substantial cost while reducing executable success.
+\end{abstract}
+
+\ccsdesc[500]{Software and its engineering~Automatic programming}
+\ccsdesc[300]{Software and its engineering~Software testing and debugging}
+\ccsdesc[300]{Computing methodologies~Multi-agent systems}
+\keywords{LLM agents, code generation, role prompting, factorial experiment, executable evaluation, resource accounting}
+
+\begin{document}
+\maketitle
+\input{body}
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+\end{document}

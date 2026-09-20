@@ -1,0 +1,12 @@
+\begin{table*}[t]\centering
+\caption{Luna factorial resource ratios: first condition divided by second.}
+\label{tab:scale-resources}
+\begin{tabular}{lrrrrr}\toprule
+Contrast & Tasks & Tokens & Valuation & 95\% interval & No cache\\\midrule
+SR -- SN & 997 & 0.986 & 0.939 & $[0.93, 0.95]$ & 0.955\\
+MR -- MN & 979 & 0.990 & 0.978 & $[0.97, 0.99]$ & 0.986\\
+MN -- SN & 983 & 3.078 & 2.672 & $[2.63, 2.71]$ & 2.777\\
+MR -- SR & 986 & 3.090 & 2.780 & $[2.74, 2.82]$ & 2.867\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent Ratios divide sums of three-repeat task means on complete resource pairs. The displayed interval is for the API-equivalent valuation ratio. No cache removes its input-cache discount; subscription billing is not estimated.
+\end{table*}
