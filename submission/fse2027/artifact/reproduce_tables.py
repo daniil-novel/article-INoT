@@ -23,6 +23,7 @@ def close(actual: float, expected: float, tolerance: float = 5e-12) -> None:
 
 def main() -> None:
     primary = load("primary/summary.json")
+    mini = load("mini/summary.json")
     scc = load("scc/summary.json")
 
     assert primary["tasks"] == 1000
@@ -57,6 +58,17 @@ def main() -> None:
         # The neutral topology estimate is exactly -4.1667 pp in both subsets.
         close(primary["subgroups"][subset]["multi_neutral_minus_single_neutral"]["mean_difference"], -1 / 24)
 
+    mini_expected = {
+        "roles_minus_neutral_single": (-0.010471204188481676, 191),
+        "roles_minus_neutral_multi": (0.010362694300518135, 193),
+        "multi_minus_single_neutral": (-0.04712041884816754, 191),
+        "multi_minus_single_roles": (-0.02072538860103627, 193),
+    }
+    for name, (effect, tasks) in mini_expected.items():
+        row = mini["paired_contrasts"][name]["quality"]
+        close(row["mean_paired_difference"], effect)
+        assert row["complete_task_clusters"] == tasks
+
     assert scc["selected_rows"] == 6000
     assert scc["task_count"] == 956
     assert scc["eligible_task_count"] == 941
@@ -79,6 +91,8 @@ def main() -> None:
         + ", ".join(f"{name}={100*primary['contrasts'][name]['mean_difference']:+.2f}" for name in expected),
         "- Direct effects (percentage points): "
         + ", ".join(f"{name}={100*primary['descriptive_direct_contrasts'][name]['mean_difference']:+.2f}" for name in direct_expected),
+        "- Mini corroboration (percentage points): "
+        + ", ".join(f"{name}={100*mini['paired_contrasts'][name]['quality']['mean_paired_difference']:+.2f}" for name in mini_expected),
         f"- SCC selected rows: {scc['selected_rows']:,} across {scc['task_count']} tasks",
         "- SCC effects (percentage points): "
         + ", ".join(f"{name}={100*scc['contrasts'][name]['mean_difference']:+.2f}" for name in scc_expected),

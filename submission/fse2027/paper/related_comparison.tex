@@ -1,0 +1,18 @@
+\begin{table}[t]
+\caption{Closest code-generation workflow studies. ``Feedback'' means generated tests or runtime outcomes returned during generation. None besides this work isolates lexical role labels while holding operation sentences fixed.}
+\label{tab:related-designs}
+\centering\scriptsize
+\begin{tabularx}{\linewidth}{@{}lXccc@{}}
+\toprule
+Work & Primary variation & Feedback & Cost & Direct baseline\\
+\midrule
+SCC~\cite{dong2023selfcollaboration} & Role configurations and turns & Yes & No & Yes\\
+MapCoder~\cite{islam2024mapcoder} & Four-role repair pipeline & Yes & No & Yes\\
+AdaCoder~\cite{zhu2026adacoder} & Adaptive planning across models & Yes & Yes & Yes\\
+PairCoder~\cite{chen2026paircoder} & Two-agent switching across models & Yes & Yes & Yes\\
+OneFlow~\cite{xu2026oneflow} & Multi- versus single-model execution & Varies & Yes & Yes\\
+DATS~\cite{hong2026dats} & Five task-adaptive topologies & Varies & Yes & Yes\\
+This work & Labels $\times$ one/three calls & No & Yes & Yes\\
+\bottomrule
+\end{tabularx}
+\end{table}

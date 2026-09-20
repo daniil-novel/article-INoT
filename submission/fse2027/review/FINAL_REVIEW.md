@@ -2,50 +2,29 @@
 
 Review date: 2026-09-20
 Track: FSE 2027 Research Track
-Recommendation: **Weak Accept**
+Recommendation: **7/10 — Weak Accept**
 Confidence: **4/5**
 
 ## Decision rationale
 
-The revision resolves the earlier desk-reject and major-revision issues. It is now an anonymous `acmsmall` submission within the page limit, framed as a controlled software-engineering experiment rather than a claim about machine cognition. The central contribution is identifiable: named roles and call topology are crossed while operation sentences and supplied context are held fixed, and a direct solver is treated as a first-class baseline.
+No desk-reject blocker remains. The 15-page anonymous `acmsmall` paper is within the stated 18-page content and 4-page reference limits, has embedded fonts and anonymous metadata, and contains no hidden instructions or critical compilation error. Claims are tied to the actual estimands: null results are not called equivalence, the direct comparison is exploratory, and SCC population quality is not ranked under unresolved missingness.
 
-The evidence is materially stronger than the earlier manuscript. The primary study contains 15,000 assigned generations over 1,000 tasks, uses task-level paired estimands, controls multiplicity, reports uncertainty and missingness bounds, and keeps repeat generations within task clusters. The paper now reports the 200 reused versus 800 newly sampled task-ID sensitivity, source-dependence sensitivity, direct-baseline contrasts, resource accounting, and a separate 2,000-block SCC comparison with explicit transport and missingness limitations. The anonymous artifact independently recomputes both statistical summaries from assignment-level outcome ledgers.
+The contribution is a controlled decomposition of lexical role labels and call topology. The main study retains 15,000 assignments on 1,000 BigCodeBench tasks, task-paired three-repeat inference, Holm correction, assignment-level missingness bounds, an 800-new-task subgroup, and source-component sensitivity. External-validity evidence includes a second model alias on the reused 200 task IDs, a direct solver, and a separately prespecified SCC comparison. The related-work section now contrasts the design with MapCoder, AdaCoder, PairCoder, OneFlow, DATS, execution-guided repair, and cost-aware agent evaluation.
 
-## Review dimensions
+## Reproducibility gate
 
-| Dimension | Score | Assessment |
-|---|---:|---|
-| Originality | 3.5/5 | The contribution is an unusually clean decomposition of labels and topology rather than a new agent architecture. |
-| Importance | 4/5 | The negative result directly informs expensive role-based code-generation workflows. |
-| Soundness | 4.5/5 | Paired task-level analysis, correction, fixed schedules, controls, bounds, and sensitivity analyses are appropriate and disclosed. |
-| Evaluation | 4.5/5 | Large executable benchmark study, direct baseline, SCC comparison, resource metrics, and replayable analyses. |
-| Presentation | 4/5 | The argument is compact, claim-calibrated, and readable in the FSE template. |
-| Related work | 4/5 | The paper now covers the closest multi-agent software-engineering systems, persona prompting, feedback methods, and matched-budget concerns. |
-| Reproducibility | 4.5/5 | Anonymous ledgers, protocols, selections, controls, source partitions, pinned dependencies, hash manifest, and full statistical replay are supplied. |
+- Anonymous artifact: 302 files; internal manifest covers 301 payload files and all hashes match.
+- Primary evidence chain: all 14,961 completed candidate programs match staged native inputs, native reports, and outcome-ledger statuses.
+- Statistical replay: primary summary, mini numerical fields, SCC summary, and all 16 source-component bootstrap distributions reproduce.
+- Control evidence: gold and incorrect-program metadata, samples, reports, and gate hashes verify.
+- Anonymity: no submission author name, institution, user profile, repository path, account identifier, or credential was found. Machine-local JSON paths are replaced by documented neutral markers.
+- Final supplement SHA-256: `085CFB6384CBBC87B8FA0E64DEBE02F315E20B34ACAA2B52D87A5B106562DC3E`.
 
-## Closed critical issues
+## Remaining reviewer risks
 
-- Replaced the 51-page Springer framing with a 13-page FSE review manuscript.
-- Removed author identity, affiliations, acknowledgements, identifying links, and PDF author metadata.
-- Replaced broad introspection claims with estimands tied to observable calls and executable outcomes.
-- Added a direct solver and showed separately that it matches the one-call staged workflows and exceeds the three-call workflows in exploratory comparisons.
-- Distinguished 800 newly sampled task IDs from 200 reused IDs; all generations in the expanded study are fresh.
-- Added source-family sensitivity, extreme missingness bounds, and precise eligibility denominators.
-- Elevated the completed 1,000-task Luna study and the 2,000-block SCC study; removed the one-issue repository-repair result from the evidence base.
-- Expanded related work and verified every rendered reference against a publisher, proceedings, OpenReview, ACL Anthology, or arXiv record.
-- Added detailed AI-use disclosure and an exact post-conclusion Data Availability statement.
-- Replaced a summary-only artifact check with a replay from anonymous assignment ledgers for both primary and SCC analyses.
+1. The primary result uses one public function-level benchmark and one mutable closed model alias. The mini study reuses the same 200 task IDs and is corroboration, not an independent replication.
+2. The contribution is a measurement and component-isolation study. Some reviewers may consider it narrower than a new software-engineering system, even though the practical cost and quality result is strong.
+3. The topology intervention necessarily changes repeated context, exposed intermediate history, and computation together. The paper states this boundary and does not claim a pure call-count mechanism.
+4. Full conversation bodies and SCC candidate source are withheld during review. The primary candidate-to-report chain is fully auditable, while every SCC intermediate cannot be independently reconstructed until the retained archive is released.
 
-## Residual risks reviewers may still weigh
-
-1. The primary claim is based on one model alias at one reasoning setting. It establishes a boundary for this implementation, not a model-family law.
-2. BigCodeBench is public, so training contamination cannot be ruled out. The source-family audit addresses task dependence, not memorization.
-3. The topology intervention bundles extra calls with repeated context and exposure of intermediate responses. The paper states this precisely and does not call it a pure call-count effect.
-4. SCC has substantial infrastructure missingness. Observed-pair estimates are negative, but full-denominator extreme bounds allow either sign; the paper does not rank full-population quality.
-5. Reviewers may regard a negative component study as narrower than a new system contribution. The practical value depends on whether they reward causal isolation and cost evidence.
-
-These are limits of the available experiment rather than defects that can be repaired by wording. A new multi-model, private-benchmark experiment could reduce the first two risks, but it is not required to make the current claims valid.
-
-## Gate result
-
-No paper-level P0 blocker remains. The remaining actions are administrative and cannot be completed from the manuscript alone: final author order, conflicts, simultaneous-submission declaration, and the live HotCRP upload. Acceptance cannot be guaranteed at a selective conference; the defensible assessment is submission-ready with a weak-accept recommendation.
+These are external-validity and scope limits rather than repairable inconsistencies. Acceptance cannot be guaranteed at a selective conference; the defensible final assessment is submission-ready with a weak-accept recommendation.

@@ -1,4 +1,4 @@
-"""Recompute the primary and SCC summaries from anonymous outcome ledgers."""
+"""Recompute primary, mini, and SCC numerical summaries from anonymous ledgers."""
 from __future__ import annotations
 
 import json
@@ -30,6 +30,17 @@ def main() -> None:
         ])
         assert load(primary_out) == load(ROOT / "primary/summary.json"), "primary summary differs"
 
+        mini_out = temp / "mini-summary.json"
+        run([
+            sys.executable, "mini/analyze.py",
+            "--records", "mini/assignment_outcomes.jsonl",
+            "--manifest", "mini/selection.json",
+            "--out", str(mini_out),
+        ])
+        replayed_mini = load(mini_out)
+        retained_mini = load(ROOT / "mini/summary.json")
+        assert all(retained_mini.get(key) == value for key, value in replayed_mini.items()), "mini summary differs"
+
         scc_out = temp / "scc-analysis"
         run([
             sys.executable, "scc/analyze.py",
@@ -48,7 +59,7 @@ def main() -> None:
         retained.pop("provenance", None)
         assert replayed == retained, "SCC numerical summary differs"
 
-    print("Primary and SCC summaries reproduced from anonymous assignment ledgers.")
+    print("Primary and SCC summaries, plus the mini numerical analysis fields, reproduced from anonymous assignment ledgers.")
 
 
 if __name__ == "__main__":
