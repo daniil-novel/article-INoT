@@ -1,0 +1,51 @@
+{
+  "date": "2026-09-22",
+  "base_commit": "f620418ad13d887572176cb4cc999034a6d257a5",
+  "input": {
+    "pages": 18,
+    "comments": 24,
+    "all_comments_dated": "2026-09-22",
+    "page_text_equals_original_repository_pdf": true,
+    "annotated_source_and_comment_texts": "retained locally; excluded from publication"
+  },
+  "output": {
+    "file": "submission/fse2027/translation-ru/main.pdf",
+    "sha256": "d9bbe25f910f4113a2e4bd275bbb47d3d9b0cd94ab5ebd0ea56eb3ffeb8101e0",
+    "pages": 25
+  },
+  "checks": {
+    "unchanged_numeric_table_rows": [
+      "primary_quality",
+      "primary_contrasts",
+      "primary_resources",
+      "direct_contrasts",
+      "secondary_model",
+      "subgroup_sensitivity",
+      "scc_comparison"
+    ],
+    "figures_and_tables_introduced_before_inclusion": [
+      "tab:related-designs",
+      "tab:conditions",
+      "fig:core",
+      "tab:scale-quality",
+      "tab:scale-contrasts",
+      "tab:direct-contrasts",
+      "tab:subgroup-sensitivity",
+      "tab:scale-resources",
+      "tab:mini-validation",
+      "tab:scc-quality"
+    ],
+    "research_questions": 3,
+    "accidental_double_spaces": 0,
+    "overfull_boxes": 0,
+    "undefined_references": 0,
+    "missing_glyph_warnings": 0,
+    "rendered_pages_visually_reviewed": 25,
+    "table_replay": "All registered checks passed"
+  },
+  "build": {
+    "engine": "Tectonic 0.17.0",
+    "class": "acmart 2022/02/19 v1.83",
+    "note": "Russian reading version; original PDF used acmart v2.20. English submission is unchanged."
+  }
+}
