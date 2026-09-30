@@ -16,3 +16,7 @@
 | Main audit | Russian requests called independent | Use new requests/separate calls | Russian source readback |
 
 Initial independent reports are preserved. R4 and R5 include follow-up gates. FINAL_VALIDATION.json and upload/SHA256SUMS.txt identify the final release bytes; earlier report hashes describe the snapshots they inspected. No new provider generations or external conference submission were performed.
+
+## Concurrent Russian revision integration
+
+Remote commit `149f5f8c` implements 24 author comments in the Russian reading version. It was preserved and merged, with source-audit chronology, resource/feedback literature cells, paired subsets, SCC source availability and AI-assisted validation attribution updated. A further read-only editorial gate confirmed these corrections and the retained expanded introduction, definitions, formula explanations and examples. All seven original experimental table numeric sequences match English. The final 26-page Russian PDF was rebuilt with LuaLaTeX/acmart2.20, rendered and inspected. The official 15-page English PDF and supplementary ZIP hashes remain unchanged.

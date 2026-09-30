@@ -9,10 +9,12 @@
     "embedded_font_count": 15
   },
   "translation-ru": {
-    "pages": 18,
-    "sha256": "2005dcde9fca59121bf261d28b3a3553210f3d863c8ceefcdc6217575154253c",
+    "pages": 26,
+    "sha256": "98a8e3cd9d1beab84371a38d72b0b9d61ebbc0205ac32e8c8f14db7ac03263d9",
     "clean_build": true,
-    "embedded_font_count": 11
+    "embedded_font_count": 12,
+    "role": "expanded Russian reading version; not official submission",
+    "author_comment_expansions_preserved": true
   },
   "supplement": {
     "files": 325,
@@ -22,6 +24,7 @@
     "scc_upstream_hashes": "PASS",
     "scc_commit": "b471e12051190dbae2c71b429a3c87466df4b336"
   },
-  "translation_structure": "PASS",
-  "checked_at": "2026-09-30"
+  "checked_at": "2026-09-30",
+  "translation_numeric_tables": "PASS: all seven original quantitative table sequences match after decimal normalization",
+  "remote_author_comment_integration": "149f5f8c: expanded September22 reading version preserved; September30 scientific fixes applied"
 }

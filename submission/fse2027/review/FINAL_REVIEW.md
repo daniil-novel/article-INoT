@@ -101,7 +101,7 @@ P0 file gates: all resolved (stale upload, build, manifest, matching tables). P0
 
 ## 15. Concrete Revision Plan and Verification
 
-The revised descriptions were matched against frozen protocols or primary full texts. The existing analyses were independently replayed rather than replaced. Both PDFs were rebuilt and visually checked, and English/Russian citation/input/label/reference structure matches. Only the allowlisted PDF/ZIP are intended for HotCRP. Final hashes are recorded in FINAL_VALIDATION.json and upload/SHA256SUMS.txt.
+The revised descriptions were matched against frozen protocols or primary full texts. The existing analyses were independently replayed rather than replaced. Both PDFs were rebuilt and visually checked. The concurrent September22 author-comment revisions to the expanded Russian reading version were preserved, and September30 scientific fixes were applied. Exact structural parity is not intended for that reading version; all seven original quantitative table sequences match the English version. Only the allowlisted PDF/ZIP are intended for HotCRP. Final hashes are recorded in FINAL_VALIDATION.json and upload/SHA256SUMS.txt.
 
 ## 16. Reviewer Simulation
 
@@ -109,7 +109,7 @@ Methodology-focused: supports scoped task-paired inference, may request stronger
 
 ## 17. Final Pre-Submission Checklist
 
-YES: current ACM review class; 15-page English PDF; embedded fonts; no undefined references/overfull boxes/missing glyphs; anonymous inspected release; post-conclusion Data Availability; exact table/supplement alignment; all supplied replays; source-controller availability; Russian structural parity; disclosed AI assistance.
+YES: current ACM review class; 15-page English PDF; embedded fonts; no undefined references/overfull boxes/missing glyphs; anonymous inspected release; post-conclusion Data Availability; exact table/supplement alignment; all supplied replays; source-controller availability; Russian quantitative-table parity and preserved author-comment explanations; disclosed AI assistance.
 
 UNVERIFIED: human author approval, author identities/order, conflicts, originality/overlap, no concurrent refereed review, HotCRP form readiness and final submission receipt. No conference submission occurred during this task.
 

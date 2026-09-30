@@ -5,6 +5,7 @@ This directory contains the anonymous Research Track paper and its reviewer arti
 ## Deliverables
 
 - `paper/main.pdf`: submission-ready anonymous PDF.
+- `translation-ru/main.pdf`: expanded Russian reading version, preserving the September22 author-comment revisions; not the official submission.
 - `paper/main.tex`, `paper/body.tex`, `paper/workflow.tex`, table inputs, and `paper/references.bib`: paper sources.
 - `artifact/fse2027-anonymous-analysis-artifact.zip`: anonymous supplementary archive.
 - `upload/`: allowlisted final upload copies and their SHA-256 checksums; build logs and local path metadata are excluded.
@@ -49,6 +50,8 @@ Before uploading, the authors must complete the HotCRP-only items: freeze the au
 
 ## Final audit, 30 September 2026
 
-Five independent AI review contexts covered methodology, novelty, numerical consistency, FSE compliance, and academic English. Their reports and the resolution ledger are in `review/`; the final gate is `review/FINAL_REVIEW.md`. The English PDF remains 15 pages and the Russian reading version 18 pages. The supplement now contains 325 files, including the frozen SCC controller, upstream prompts/license, adapter and dispatcher. All principal numerical replays and 16 source-component bootstrap distributions passed. `review/FINAL_VALIDATION.json` records the release checks and exact file hashes.
+Five independent AI review contexts covered methodology, novelty, numerical consistency, FSE compliance, and academic English. Their reports and the resolution ledger are in `review/`; the final gate is `review/FINAL_REVIEW.md`. The English PDF remains 15 pages and the expanded Russian reading version 26 pages. The supplement now contains 325 files, including the frozen SCC controller, upstream prompts/license, adapter and dispatcher. All principal numerical replays and 16 source-component bootstrap distributions passed. `review/FINAL_VALIDATION.json` records the release checks and exact file hashes.
 
 The scientific claim remains specific to the tested fixed-context workflows. Acceptance is not guaranteed. Author details, conflicts, originality/simultaneous-review declarations and final author approval must be completed before external submission.
+
+The concurrent GitHub commit `149f5f8c` was integrated without discarding its author-comment revisions. The Russian version now has extra definitions and formula explanations, so exact structural parity with English is not intended; the numerical sequences in all seven original experimental tables match (`review/RU_NUMERICAL_PARITY.json`). The official English PDF and supplementary upload bytes are unchanged by this integration.
