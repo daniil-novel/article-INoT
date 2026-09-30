@@ -1,6 +1,6 @@
 # FSE 2027 Research Track — submission requirements
 
-Verified on 2026-09-20 against the official Research Track CFP and submission site.
+Verified on 2026-09-30 against the official Research Track CFP and submission site.
 
 ## Authoritative links
 
@@ -31,7 +31,7 @@ The contribution should be framed as a controlled empirical study of role-condit
 
 - Official CFP date: **Friday, 2 October 2026, AoE (UTC-12)**.
 - Submission site: **HotCRP**, https://fse2027.hotcrp.com/.
-- The public HotCRP page currently displays `Friday Oct 2, 2026, 12 AM AoE`, while the CFP lists the date as an AoE deadline. Because `12 AM` is ambiguous in this context, use **1 October 2026 as the internal final-upload deadline** and confirm the countdown after signing in.
+- The public HotCRP page now displays **Friday Oct 2, 2026, 11:59 PM AoE**. This is **3 October 2026, 14:59 Moscow time (UTC+3)**. Use **1 October 2026 as the internal final-upload deadline** and confirm the live countdown after signing in. The earlier `12 AM` wording is superseded.
 - No separate abstract-registration deadline is listed in the Research Track CFP.
 
 ## Page limit and document format
@@ -140,7 +140,7 @@ Submission acknowledges ACM's policy on research involving human participants. I
 
 ## Review and revision process
 
-- At least three program-committee members review each paper; additional reviews may be requested.
+- The current CFP permits early rejection when available reviews are consistently negative; an early-rejected paper may receive fewer than three reviews. Do not assume a guaranteed minimum of three reviews.
 - Initial decisions are `accept`, `reject`, or `major revision`.
 - A major revision may require new experiments, new analyses, substantial rewriting, clearer scope, or stronger motivation.
 - A revised paper must include an anonymous response letter explaining how every concern was addressed.

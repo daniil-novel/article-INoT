@@ -1,0 +1,27 @@
+{
+  "paper": {
+    "pages": 15,
+    "sha256": "f6389df468eb3ea1239adb7e7b7412188fa7dcd9e53717ee5464104c0563ad05",
+    "clean_build": true,
+    "references_start": 14,
+    "data_availability_start": 13,
+    "conclusion_start": 13,
+    "embedded_font_count": 15
+  },
+  "translation-ru": {
+    "pages": 18,
+    "sha256": "2005dcde9fca59121bf261d28b3a3553210f3d863c8ceefcdc6217575154253c",
+    "clean_build": true,
+    "embedded_font_count": 11
+  },
+  "supplement": {
+    "files": 325,
+    "sha256": "a6979a5304985f95640e13add84466f785684471c7fd042146e497f351cdf856",
+    "manifest": "PASS",
+    "paper_table_bytes": "PASS",
+    "scc_upstream_hashes": "PASS",
+    "scc_commit": "b471e12051190dbae2c71b429a3c87466df4b336"
+  },
+  "translation_structure": "PASS",
+  "checked_at": "2026-09-30"
+}

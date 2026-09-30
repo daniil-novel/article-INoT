@@ -43,6 +43,12 @@ python reproduce_source_sensitivity.py
 
 ## Submission state
 
-The PDF is 15 pages in total. Main material, including the Data Availability statement, ends on page 13 and references occupy pages 14--15, so it remains below the 18-page content and 4-page reference limits. The review class, anonymity switch, embedded fonts, detailed AI-use disclosure, and post-conclusion Data Availability statement are present. The archive has an internal SHA-256 manifest and is scanned for author names, local user paths, and institution names during every build. Benchmark code examples are allowed to contain synthetic addresses and generic filesystem literals.
+The PDF is 15 pages in total. The conclusion ends on page 13, Data Availability spans pages 13--14, and references occupy pages 14--15, so it remains below the 18-page content and 4-page reference limits. The review class, anonymity switch, embedded fonts, detailed AI-use disclosure, and post-conclusion Data Availability statement are present. The archive has an internal SHA-256 manifest and is scanned for author names, local user paths, and institution names during every build. Benchmark code examples are allowed to contain synthetic addresses and generic filesystem literals.
 
 Before uploading, the authors must complete the HotCRP-only items: freeze the author list and order, enter conflicts, confirm no simultaneous refereed submission, and check the live deadline countdown.
+
+## Final audit, 30 September 2026
+
+Five independent AI review contexts covered methodology, novelty, numerical consistency, FSE compliance, and academic English. Their reports and the resolution ledger are in `review/`; the final gate is `review/FINAL_REVIEW.md`. The English PDF remains 15 pages and the Russian reading version 18 pages. The supplement now contains 325 files, including the frozen SCC controller, upstream prompts/license, adapter and dispatcher. All principal numerical replays and 16 source-component bootstrap distributions passed. `review/FINAL_VALIDATION.json` records the release checks and exact file hashes.
+
+The scientific claim remains specific to the tested fixed-context workflows. Acceptance is not guaranteed. Author details, conflicts, originality/simultaneous-review declarations and final author approval must be completed before external submission.

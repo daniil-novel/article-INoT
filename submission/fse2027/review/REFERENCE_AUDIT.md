@@ -38,3 +38,7 @@ All 30 entries rendered in `main.pdf` were checked against a publisher page, pro
 | `zhuo2024bigcodebench` | ICLR 2025 record and arXiv `2406.15877` | Verified |
 
 Unused working-database entries are not rendered. The four official web-documentation entries retain access dates because those pages can change.
+
+## Targeted source-content re-audit, 30 September 2026
+
+The earlier 30-entry existence/metadata audit is retained above; it is not a claim that all 30 sources were re-opened today. The current audit read SCC v3, MapCoder and ACL-2026 PairCoder full texts, and checked OneFlow/DATS and AdaCoder author implementation. SCC and MapCoder resource-reporting cells were corrected, SCC role-removal controls acknowledged, and SCC/PairCoder executable-feedback distinctions corrected. Sources: https://arxiv.org/html/2304.07590v3 ; https://aclanthology.org/2024.acl-long.269.pdf ; https://aclanthology.org/2026.findings-acl.149.pdf ; https://arxiv.org/html/2601.12307v1 ; https://arxiv.org/html/2609.13890v1 ; https://github.com/YXingo/AdaCoder . Detailed access limitations and search queries are in R2.

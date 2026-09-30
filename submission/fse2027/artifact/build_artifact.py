@@ -17,6 +17,7 @@ MINI_ROOT = REPO / "reproducibility/results/20260908_codex_mini_heldout200"
 MINI_RECORDS = MINI_ROOT / "analysis/candidate_records.jsonl"
 MINI_MANIFEST = MINI_ROOT / "protocols/heldout200_generation_manifest.json"
 PRIMARY_ROOT = REPO / "reproducibility/results/20260912_scale1000_luna_full"
+SCC_SOURCE = REPO / "reproducibility/results/20260913_scc2000_luna_full_v2/generation/sources/reproducibility"
 
 FILES = {
     "README.md": HERE / "README.md",
@@ -108,6 +109,38 @@ def main() -> None:
             target = root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, target)
+
+        # Preserve the exact frozen SCC intervention, including upstream license
+        # and prompt text. Numerical replay never invokes these provider clients.
+        controller = root / "scc/controller/reproducibility"
+        controller.mkdir(parents=True)
+        shutil.copytree(
+            SCC_SOURCE / "external_baselines", controller / "external_baselines",
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
+        )
+        for relative in (
+            "codex_luna_subscription.py", "factorial_runner.py",
+            "record_codex_runtime.py", "benchmark_bridge.py",
+            "revision_20260911/scc_dispatch.py",
+            "revision_20260911/scc_controls.py",
+        ):
+            target = controller / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(SCC_SOURCE / relative, target)
+        (root / "scc/controller/README.md").write_text(
+            "# Frozen SCC controller and transport sources\n\n"
+            "These exact source files come from the retained generation snapshot. "
+            "The vendor SOURCE_MANIFEST.json identifies upstream commit and hashes. "
+            "The archive MANIFEST.json seals the adapter, dispatcher and dependencies. "
+            "Inspect session.py, roles/rule_descriptions_actc.py, external_baselines/scc.py "
+            "and revision_20260911/scc_dispatch.py for prompts, transitions, generated-check "
+            "execution, call limits and failure handling. The upstream license is preserved.\n\n"
+            "This is source-level intervention evidence. Launching a new hosted-model study "
+            "requires a provider account, Codex runtime and the disclosed Docker environment; "
+            "it is not part of the credential-free numerical replay. No replay script imports "
+            "or launches this controller, and no provider calls are made by the supplied checks.\n",
+            encoding="utf-8",
+        )
 
         # Preserve the primary candidate-to-test evidence chain.  These are the
         # exact generated programs, staged evaluator inputs, native reports,
