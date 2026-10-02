@@ -1,0 +1,3 @@
+# Host imports used by unchanged historical SCC modules. Calls use our CLI bridge.
+openai==1.109.1
+tqdm==4.67.1
