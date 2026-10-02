@@ -55,3 +55,9 @@ Five independent AI review contexts covered methodology, novelty, numerical cons
 The scientific claim remains specific to the tested fixed-context workflows. Acceptance is not guaranteed. Author details, conflicts, originality/simultaneous-review declarations and final author approval must be completed before external submission.
 
 The concurrent GitHub commit `149f5f8c` was integrated without discarding its author-comment revisions. The Russian version now has extra definitions and formula explanations, so exact structural parity with English is not intended; the numerical sequences in all seven original experimental tables match (`review/RU_NUMERICAL_PARITY.json`). The official English PDF and supplementary upload bytes are unchanged by this integration.
+
+## Anonymous reviewer access, 2 October 2026
+
+The replication package is published at <https://anonymous.4open.science/r/role-calls-replication-2026/>. The mirror freezes commit `5498b5378d4167083eeca40fe0c930b322af362e` of the artifact-only branch `codex/fse2027-review-artifact`, with automatic updates disabled. It contains the 325 extracted supplement files plus the original archive. The mirror expires on 30 September 2027 and then removes the material without redirecting reviewers to the author's repository.
+
+The live HotCRP form has only a paper upload field, so the English PDF and Russian reading version now include this link in Data Availability. Both PDFs were rebuilt and visually checked; the scientific content and supplement archive are unchanged. See `review/ANONYMOUS_ACCESS_2026-10-02.md` for the access checks and their limitations. HotCRP also requires the sole author's ORCID before the draft can be finalized.

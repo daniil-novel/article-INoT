@@ -1,20 +1,28 @@
 {
   "paper": {
     "pages": 15,
-    "sha256": "f6389df468eb3ea1239adb7e7b7412188fa7dcd9e53717ee5464104c0563ad05",
+    "sha256": "1c37bf6a816df3bd19689b031659410154c9bdecc81b2a384c22b82dbfb6194b",
     "clean_build": true,
     "references_start": 14,
     "data_availability_start": 13,
     "conclusion_start": 13,
-    "embedded_font_count": 15
+    "embedded_font_count": 15,
+    "clean_build_checked_at": "2026-09-30",
+    "rebuilt_at": "2026-10-02",
+    "anonymous_hyperlink_verified": true,
+    "changed_page_visual_check": "PASS"
   },
   "translation-ru": {
     "pages": 26,
-    "sha256": "98a8e3cd9d1beab84371a38d72b0b9d61ebbc0205ac32e8c8f14db7ac03263d9",
+    "sha256": "b50b9143828ac898b3e49197483782fd13554a73af60dafaf2bc0a5ab6459e86",
     "clean_build": true,
     "embedded_font_count": 12,
     "role": "expanded Russian reading version; not official submission",
-    "author_comment_expansions_preserved": true
+    "author_comment_expansions_preserved": true,
+    "clean_build_checked_at": "2026-09-30",
+    "rebuilt_at": "2026-10-02",
+    "anonymous_hyperlink_verified": true,
+    "changed_page_visual_check": "PASS"
   },
   "supplement": {
     "files": 325,
@@ -26,5 +34,16 @@
   },
   "checked_at": "2026-09-30",
   "translation_numeric_tables": "PASS: all seven original quantitative table sequences match after decimal normalization",
-  "remote_author_comment_integration": "149f5f8c: expanded September22 reading version preserved; September30 scientific fixes applied"
+  "remote_author_comment_integration": "149f5f8c: expanded September22 reading version preserved; September30 scientific fixes applied",
+  "anonymous_access_checkpoint": {
+    "checked_at": "2026-10-02",
+    "url": "https://anonymous.4open.science/r/role-calls-replication-2026/",
+    "source_commit": "5498b5378d4167083eeca40fe0c930b322af362e",
+    "file_count": 326,
+    "public_viewer": "PASS",
+    "source_member_byte_comparison": "PASS: 325 exact supplement members",
+    "downloaded_service_zip_checksum": "NOT VERIFIED: browser download attempts timed out",
+    "scientific_results_changed": false,
+    "original_zip_changed": false
+  }
 }

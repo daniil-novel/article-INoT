@@ -101,6 +101,8 @@ The author list and title in the camera-ready version may not differ from the su
 
 FSE asks authors to provide a replication package to the program committee, either as supplementary material or through an anonymous private/public link. If this is impossible or undesirable, the paper must explain why.
 
+The live FSE 2027 HotCRP form checked on 2 October 2026 exposes only the paper upload, with no separate supplement field. This submission therefore provides its package through the anonymous URL in Data Availability.
+
 The paper must include a section named **Data Availability** after the conclusion that states:
 
 - whether a replication package is available;
@@ -167,6 +169,7 @@ The CFP does not yet list a camera-ready deadline.
 - Attendance is encouraged but **not mandatory for publication**.
 - Authors may choose not to present. In that case, they do **not** need to register for the conference.
 - All authors should obtain ORCID identifiers before the publication stage.
+- The live HotCRP form checked on 2 October 2026 requires every author's ORCID already when completing the submission; obtain and enter it before finalizing the draft.
 - The official publication date is the date on which the proceedings appear in the ACM Digital Library. It may be up to two weeks before the conference and can matter for patent-filing deadlines.
 
 ## Final pre-submission checklist
