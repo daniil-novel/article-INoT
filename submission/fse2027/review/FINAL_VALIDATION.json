@@ -80,11 +80,13 @@
     "expiry": "2027-09-30 Remove, no author-repository redirect"
   },
   "revision_publication": {
-    "github": "PENDING",
+    "github": "PASS: scientific release pushed to origin/FSE-2027",
     "anonymous_mirror": "PASS: updated snapshot READY, 338 files, new diagnostic documentation visible",
     "HotCRP_replacement": "NOT PERFORMED; author approval required for materially revised version",
     "artifact_branch_commit": "44cccb83e5ffa6ad7034095270b255824a8eb685",
-    "artifact_branch_push": "PASS"
+    "artifact_branch_push": "PASS",
+    "scientific_release_commit": "10814a6bbdda6bf79af2e74e070450c0fc64061e",
+    "committed_pdf_zip_byte_equality": "PASS"
   },
   "statistical_replay": [
     {

@@ -7,3 +7,5 @@ The artifact-only commit 44cccb83e5ffa6ad7034095270b255824a8eb685 was pushed to 
 HotCRP was inspected live through Chrome: paper #2886 is ready for review, its original PDF checksum remains 1c37bf6a, and updates are allowed until 3 October 2026 14:59 Europe/Moscow. Author identity, ORCID, topics and declarations were not changed. The revised PDF/abstract has not been substituted: a concrete approval request is needed because the prior approval covered the original 15-page version. The local build, public artifact and live submission are separate states.
 
 Full replay evidence is in FINAL_REPLAY_RESULTS.json; FINAL_VALIDATION.json and RU_NUMERICAL_PARITY.json record the rebuilt PDFs and eight-table parity. Fresh image/native execution, equal-compute design, independent model family, causal history ablation and repository tasks were not performed.
+
+Scientific release commit `10814a6bbdda6bf79af2e74e070450c0fc64061e` was pushed to `origin/FSE-2027`. Both committed PDFs and the uploaded archive are byte-identical to the checked local release. This does not substitute the original HotCRP PDF.
