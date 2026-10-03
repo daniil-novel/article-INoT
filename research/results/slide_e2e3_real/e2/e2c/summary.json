@@ -1,0 +1,24 @@
+{
+  "n_pairs": 5,
+  "b2_mean_latency_s": 19.280093100003434,
+  "b3_mean_latency_s": 9.757259119997617,
+  "relative_slowdown_b3_over_b2": -0.49392053921171786,
+  "wilcoxon_p": 0.0625,
+  "ci_diff_b3_minus_b2": [
+    -13.048972440001672,
+    -6.8255483000044475
+  ],
+  "tool_serial_summary": {
+    "n": 5,
+    "mean_expected_latency_ms": 381.0,
+    "mean_measured_latency_ms": 382.11124000372365
+  },
+  "tool_parallel_summary": {
+    "n": 5,
+    "mean_expected_latency_ms": 152.0,
+    "mean_measured_latency_ms": 153.60089999740012
+  },
+  "tool_relative_slowdown_serial_over_parallel": 1.4876888091814002,
+  "h3_supported_parallel_tools_hurt_serial_hybrid": true,
+  "acceptable_30pct_band": true
+}

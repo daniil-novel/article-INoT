@@ -1,0 +1,487 @@
+[
+  {
+    "task_id": "synthetic/0000",
+    "architecture": "B2_ClassicalMAS",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 2634,
+    "input_tokens": 987,
+    "output_tokens": 1647,
+    "cost_usd": 0.021738,
+    "cost_rub": 2.1738,
+    "wall_clock_seconds": 23.148968699999386,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 210,
+        "output_tokens": 396,
+        "cost_usd": 0.0051719999999999995,
+        "cost_rub": 0.5172,
+        "role": "planner",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 7.598062599994591
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 268,
+        "output_tokens": 1082,
+        "cost_usd": 0.01352,
+        "cost_rub": 1.352,
+        "role": "worker",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 11.641071000005468
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 509,
+        "output_tokens": 169,
+        "cost_usd": 0.003046,
+        "cost_rub": 0.3046,
+        "role": "critic",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 3.8634364000026835
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "synthetic/0001",
+    "architecture": "B2_ClassicalMAS",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 1945,
+    "input_tokens": 735,
+    "output_tokens": 1210,
+    "cost_usd": 0.015989999999999997,
+    "cost_rub": 1.5989999999999998,
+    "wall_clock_seconds": 17.420429999998305,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 164,
+        "output_tokens": 396,
+        "cost_usd": 0.0050799999999999994,
+        "cost_rub": 0.5079999999999999,
+        "role": "planner",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 5.491521499992814
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 222,
+        "output_tokens": 549,
+        "cost_usd": 0.007032,
+        "cost_rub": 0.7032,
+        "role": "worker",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 6.960908399996697
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 349,
+        "output_tokens": 265,
+        "cost_usd": 0.0038779999999999995,
+        "cost_rub": 0.3877999999999999,
+        "role": "critic",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 4.919814699998824
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "synthetic/0002",
+    "architecture": "B2_ClassicalMAS",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 2419,
+    "input_tokens": 1008,
+    "output_tokens": 1411,
+    "cost_usd": 0.018948,
+    "cost_rub": 1.8948000000000003,
+    "wall_clock_seconds": 20.58706250000978,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 215,
+        "output_tokens": 396,
+        "cost_usd": 0.005181999999999999,
+        "cost_rub": 0.5181999999999999,
+        "role": "planner",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 7.115630899992539
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 275,
+        "output_tokens": 848,
+        "cost_usd": 0.010726000000000001,
+        "cost_rub": 1.0726000000000002,
+        "role": "worker",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 9.311904400005005
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 518,
+        "output_tokens": 167,
+        "cost_usd": 0.0030399999999999997,
+        "cost_rub": 0.304,
+        "role": "critic",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 4.112940800012439
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "synthetic/0003",
+    "architecture": "B2_ClassicalMAS",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 2095,
+    "input_tokens": 727,
+    "output_tokens": 1368,
+    "cost_usd": 0.01787,
+    "cost_rub": 1.787,
+    "wall_clock_seconds": 18.156065900009708,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 164,
+        "output_tokens": 396,
+        "cost_usd": 0.0050799999999999994,
+        "cost_rub": 0.5079999999999999,
+        "role": "planner",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 6.222861000002013
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 225,
+        "output_tokens": 730,
+        "cost_usd": 0.009210000000000001,
+        "cost_rub": 0.9210000000000002,
+        "role": "worker",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 8.276916500006337
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 338,
+        "output_tokens": 242,
+        "cost_usd": 0.00358,
+        "cost_rub": 0.358,
+        "role": "critic",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 3.6094097000022884
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "synthetic/0004",
+    "architecture": "B2_ClassicalMAS",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 2037,
+    "input_tokens": 856,
+    "output_tokens": 1181,
+    "cost_usd": 0.015884,
+    "cost_rub": 1.5884,
+    "wall_clock_seconds": 17.087938399999985,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 189,
+        "output_tokens": 396,
+        "cost_usd": 0.005129999999999999,
+        "cost_rub": 0.5129999999999999,
+        "role": "planner",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 5.427468800000497
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 247,
+        "output_tokens": 661,
+        "cost_usd": 0.008426,
+        "cost_rub": 0.8425999999999999,
+        "role": "worker",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 8.047768700009328
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 420,
+        "output_tokens": 124,
+        "cost_usd": 0.002328,
+        "cost_rub": 0.2328,
+        "role": "critic",
+        "architecture": "B2_ClassicalMAS",
+        "iteration": 1,
+        "latency_seconds": 3.565266400008113
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "synthetic/0000",
+    "architecture": "B3_HybridINoT",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 937,
+    "input_tokens": 330,
+    "output_tokens": 607,
+    "cost_usd": 0.007944,
+    "cost_rub": 0.7944,
+    "wall_clock_seconds": 7.0106819000066025,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 330,
+        "output_tokens": 607,
+        "cost_usd": 0.007944,
+        "cost_rub": 0.7944,
+        "role": "inot_combined",
+        "architecture": "B3_HybridINoT",
+        "iteration": 1,
+        "latency_seconds": 6.964452100000926
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 25,
+      "original_context_tokens": 25,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "synthetic/0001",
+    "architecture": "B3_HybridINoT",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 1374,
+    "input_tokens": 284,
+    "output_tokens": 1090,
+    "cost_usd": 0.013648000000000002,
+    "cost_rub": 1.3648000000000002,
+    "wall_clock_seconds": 9.623670899993158,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 284,
+        "output_tokens": 1090,
+        "cost_usd": 0.013648000000000002,
+        "cost_rub": 1.3648000000000002,
+        "role": "inot_combined",
+        "architecture": "B3_HybridINoT",
+        "iteration": 1,
+        "latency_seconds": 9.578446400002576
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 25,
+      "original_context_tokens": 25,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "synthetic/0002",
+    "architecture": "B3_HybridINoT",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 1559,
+    "input_tokens": 335,
+    "output_tokens": 1224,
+    "cost_usd": 0.015358,
+    "cost_rub": 1.5358,
+    "wall_clock_seconds": 10.073429699987173,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 335,
+        "output_tokens": 1224,
+        "cost_usd": 0.015358,
+        "cost_rub": 1.5358,
+        "role": "inot_combined",
+        "architecture": "B3_HybridINoT",
+        "iteration": 1,
+        "latency_seconds": 10.026215199992293
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 25,
+      "original_context_tokens": 25,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "synthetic/0003",
+    "architecture": "B3_HybridINoT",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 1452,
+    "input_tokens": 284,
+    "output_tokens": 1168,
+    "cost_usd": 0.014584000000000001,
+    "cost_rub": 1.4584000000000001,
+    "wall_clock_seconds": 11.83969690000231,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 284,
+        "output_tokens": 1168,
+        "cost_usd": 0.014584000000000001,
+        "cost_rub": 1.4584000000000001,
+        "role": "inot_combined",
+        "architecture": "B3_HybridINoT",
+        "iteration": 1,
+        "latency_seconds": 11.792092299991054
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 25,
+      "original_context_tokens": 25,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "synthetic/0004",
+    "architecture": "B3_HybridINoT",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.7649999999999999,
+    "total_tokens": 1325,
+    "input_tokens": 309,
+    "output_tokens": 1016,
+    "cost_usd": 0.01281,
+    "cost_rub": 1.281,
+    "wall_clock_seconds": 10.238816199998837,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 309,
+        "output_tokens": 1016,
+        "cost_usd": 0.01281,
+        "cost_rub": 1.281,
+        "role": "inot_combined",
+        "architecture": "B3_HybridINoT",
+        "iteration": 1,
+        "latency_seconds": 10.18939980000141
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 25,
+      "original_context_tokens": 25,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  }
+]

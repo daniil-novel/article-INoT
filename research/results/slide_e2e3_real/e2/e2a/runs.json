@@ -1,0 +1,853 @@
+[
+  {
+    "task_id": "HumanEval/0@ctx2048",
+    "architecture": "B3_full",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.8599999999999999,
+    "total_tokens": 4578,
+    "input_tokens": 2731,
+    "output_tokens": 1847,
+    "cost_usd": 0.027625999999999998,
+    "cost_rub": 2.7626,
+    "wall_clock_seconds": 14.416658300004201,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2731,
+        "output_tokens": 1847,
+        "cost_usd": 0.027625999999999998,
+        "cost_rub": 2.7626,
+        "role": "inot_combined",
+        "architecture": "B3_full",
+        "iteration": 1,
+        "latency_seconds": 14.358573499994236
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2100,
+      "original_context_tokens": 2100,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/1@ctx2048",
+    "architecture": "B3_full",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.625,
+    "total_tokens": 5269,
+    "input_tokens": 2709,
+    "output_tokens": 2560,
+    "cost_usd": 0.036138,
+    "cost_rub": 3.6138000000000003,
+    "wall_clock_seconds": 20.34226380000473,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2709,
+        "output_tokens": 2560,
+        "cost_usd": 0.036138,
+        "cost_rub": 3.6138000000000003,
+        "role": "inot_combined",
+        "architecture": "B3_full",
+        "iteration": 1,
+        "latency_seconds": 20.28418889999739
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2140,
+      "original_context_tokens": 2140,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/2@ctx2048",
+    "architecture": "B3_full",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9649999999999999,
+    "total_tokens": 8366,
+    "input_tokens": 5232,
+    "output_tokens": 3134,
+    "cost_usd": 0.048072000000000004,
+    "cost_rub": 4.8072,
+    "wall_clock_seconds": 28.8997820999939,
+    "iterations_used": 2,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2616,
+        "output_tokens": 1521,
+        "cost_usd": 0.023484,
+        "cost_rub": 2.3484000000000003,
+        "role": "inot_combined",
+        "architecture": "B3_full",
+        "iteration": 1,
+        "latency_seconds": 14.433346599995275
+      },
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2616,
+        "output_tokens": 1613,
+        "cost_usd": 0.024588000000000002,
+        "cost_rub": 2.4588,
+        "role": "inot_combined",
+        "architecture": "B3_full",
+        "iteration": 2,
+        "latency_seconds": 14.413955199997872
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2089,
+      "original_context_tokens": 2089,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/3@ctx2048",
+    "architecture": "B3_full",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.6950000000000001,
+    "total_tokens": 3717,
+    "input_tokens": 2693,
+    "output_tokens": 1024,
+    "cost_usd": 0.017674000000000002,
+    "cost_rub": 1.7674000000000003,
+    "wall_clock_seconds": 10.46741720000864,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2693,
+        "output_tokens": 1024,
+        "cost_usd": 0.017674000000000002,
+        "cost_rub": 1.7674000000000003,
+        "role": "inot_combined",
+        "architecture": "B3_full",
+        "iteration": 1,
+        "latency_seconds": 10.410467299996526
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2091,
+      "original_context_tokens": 2091,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/4@ctx2048",
+    "architecture": "B3_full",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9299999999999999,
+    "total_tokens": 4206,
+    "input_tokens": 2663,
+    "output_tokens": 1543,
+    "cost_usd": 0.023842000000000002,
+    "cost_rub": 2.3842000000000003,
+    "wall_clock_seconds": 14.32609919999959,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2663,
+        "output_tokens": 1543,
+        "cost_usd": 0.023842000000000002,
+        "cost_rub": 2.3842000000000003,
+        "role": "inot_combined",
+        "architecture": "B3_full",
+        "iteration": 1,
+        "latency_seconds": 14.270219300000463
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2082,
+      "original_context_tokens": 2082,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/0@ctx2048",
+    "architecture": "B3a_no_compression",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.895,
+    "total_tokens": 4600,
+    "input_tokens": 2731,
+    "output_tokens": 1869,
+    "cost_usd": 0.027889999999999998,
+    "cost_rub": 2.7889999999999997,
+    "wall_clock_seconds": 17.198458999992,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2731,
+        "output_tokens": 1869,
+        "cost_usd": 0.027889999999999998,
+        "cost_rub": 2.7889999999999997,
+        "role": "inot_combined",
+        "architecture": "B3a_no_compression",
+        "iteration": 1,
+        "latency_seconds": 17.14147740000044
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2100,
+      "original_context_tokens": 2100,
+      "ablate": {
+        "compression": false,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/1@ctx2048",
+    "architecture": "B3a_no_compression",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.625,
+    "total_tokens": 5292,
+    "input_tokens": 2709,
+    "output_tokens": 2583,
+    "cost_usd": 0.036413999999999995,
+    "cost_rub": 3.6413999999999995,
+    "wall_clock_seconds": 20.4487206999911,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2709,
+        "output_tokens": 2583,
+        "cost_usd": 0.036413999999999995,
+        "cost_rub": 3.6413999999999995,
+        "role": "inot_combined",
+        "architecture": "B3a_no_compression",
+        "iteration": 1,
+        "latency_seconds": 20.392631199996686
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2140,
+      "original_context_tokens": 2140,
+      "ablate": {
+        "compression": false,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/2@ctx2048",
+    "architecture": "B3a_no_compression",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9649999999999999,
+    "total_tokens": 4229,
+    "input_tokens": 2616,
+    "output_tokens": 1613,
+    "cost_usd": 0.024588000000000002,
+    "cost_rub": 2.4588,
+    "wall_clock_seconds": 15.061674699987634,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2616,
+        "output_tokens": 1613,
+        "cost_usd": 0.024588000000000002,
+        "cost_rub": 2.4588,
+        "role": "inot_combined",
+        "architecture": "B3a_no_compression",
+        "iteration": 1,
+        "latency_seconds": 14.955737600001157
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2089,
+      "original_context_tokens": 2089,
+      "ablate": {
+        "compression": false,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/3@ctx2048",
+    "architecture": "B3a_no_compression",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.6950000000000001,
+    "total_tokens": 3717,
+    "input_tokens": 2693,
+    "output_tokens": 1024,
+    "cost_usd": 0.017674000000000002,
+    "cost_rub": 1.7674000000000003,
+    "wall_clock_seconds": 10.631767900005798,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2693,
+        "output_tokens": 1024,
+        "cost_usd": 0.017674000000000002,
+        "cost_rub": 1.7674000000000003,
+        "role": "inot_combined",
+        "architecture": "B3a_no_compression",
+        "iteration": 1,
+        "latency_seconds": 10.531519900003332
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2091,
+      "original_context_tokens": 2091,
+      "ablate": {
+        "compression": false,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/4@ctx2048",
+    "architecture": "B3a_no_compression",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9299999999999999,
+    "total_tokens": 4206,
+    "input_tokens": 2663,
+    "output_tokens": 1543,
+    "cost_usd": 0.023842000000000002,
+    "cost_rub": 2.3842000000000003,
+    "wall_clock_seconds": 14.931670000005397,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2663,
+        "output_tokens": 1543,
+        "cost_usd": 0.023842000000000002,
+        "cost_rub": 2.3842000000000003,
+        "role": "inot_combined",
+        "architecture": "B3a_no_compression",
+        "iteration": 1,
+        "latency_seconds": 14.872481900005369
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2082,
+      "original_context_tokens": 2082,
+      "ablate": {
+        "compression": false,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/0@ctx2048",
+    "architecture": "B3b_no_critic",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.895,
+    "total_tokens": 4600,
+    "input_tokens": 2731,
+    "output_tokens": 1869,
+    "cost_usd": 0.027889999999999998,
+    "cost_rub": 2.7889999999999997,
+    "wall_clock_seconds": 17.54484849999426,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2731,
+        "output_tokens": 1869,
+        "cost_usd": 0.027889999999999998,
+        "cost_rub": 2.7889999999999997,
+        "role": "inot_combined",
+        "architecture": "B3b_no_critic",
+        "iteration": 1,
+        "latency_seconds": 17.48755990000791
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2100,
+      "original_context_tokens": 2100,
+      "ablate": {
+        "compression": true,
+        "critic": false,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/1@ctx2048",
+    "architecture": "B3b_no_critic",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.625,
+    "total_tokens": 5292,
+    "input_tokens": 2709,
+    "output_tokens": 2583,
+    "cost_usd": 0.036413999999999995,
+    "cost_rub": 3.6413999999999995,
+    "wall_clock_seconds": 20.102128599988646,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2709,
+        "output_tokens": 2583,
+        "cost_usd": 0.036413999999999995,
+        "cost_rub": 3.6413999999999995,
+        "role": "inot_combined",
+        "architecture": "B3b_no_critic",
+        "iteration": 1,
+        "latency_seconds": 20.042513399996096
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2140,
+      "original_context_tokens": 2140,
+      "ablate": {
+        "compression": true,
+        "critic": false,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/2@ctx2048",
+    "architecture": "B3b_no_critic",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9649999999999999,
+    "total_tokens": 4320,
+    "input_tokens": 2616,
+    "output_tokens": 1704,
+    "cost_usd": 0.02568,
+    "cost_rub": 2.568,
+    "wall_clock_seconds": 14.563951400006772,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2616,
+        "output_tokens": 1704,
+        "cost_usd": 0.02568,
+        "cost_rub": 2.568,
+        "role": "inot_combined",
+        "architecture": "B3b_no_critic",
+        "iteration": 1,
+        "latency_seconds": 14.508632800003397
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2089,
+      "original_context_tokens": 2089,
+      "ablate": {
+        "compression": true,
+        "critic": false,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/3@ctx2048",
+    "architecture": "B3b_no_critic",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.895,
+    "total_tokens": 4399,
+    "input_tokens": 2693,
+    "output_tokens": 1706,
+    "cost_usd": 0.025858,
+    "cost_rub": 2.5858,
+    "wall_clock_seconds": 16.408102599991253,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2693,
+        "output_tokens": 1706,
+        "cost_usd": 0.025858,
+        "cost_rub": 2.5858,
+        "role": "inot_combined",
+        "architecture": "B3b_no_critic",
+        "iteration": 1,
+        "latency_seconds": 16.353788299995358
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2091,
+      "original_context_tokens": 2091,
+      "ablate": {
+        "compression": true,
+        "critic": false,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/4@ctx2048",
+    "architecture": "B3b_no_critic",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9299999999999999,
+    "total_tokens": 4206,
+    "input_tokens": 2663,
+    "output_tokens": 1543,
+    "cost_usd": 0.023842000000000002,
+    "cost_rub": 2.3842000000000003,
+    "wall_clock_seconds": 15.30665840000438,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2663,
+        "output_tokens": 1543,
+        "cost_usd": 0.023842000000000002,
+        "cost_rub": 2.3842000000000003,
+        "role": "inot_combined",
+        "architecture": "B3b_no_critic",
+        "iteration": 1,
+        "latency_seconds": 15.250824499991722
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2082,
+      "original_context_tokens": 2082,
+      "ablate": {
+        "compression": true,
+        "critic": false,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/0@ctx2048",
+    "architecture": "B3c_no_self_check",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.8599999999999999,
+    "total_tokens": 4578,
+    "input_tokens": 2731,
+    "output_tokens": 1847,
+    "cost_usd": 0.027625999999999998,
+    "cost_rub": 2.7626,
+    "wall_clock_seconds": 14.366663599997992,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2731,
+        "output_tokens": 1847,
+        "cost_usd": 0.027625999999999998,
+        "cost_rub": 2.7626,
+        "role": "inot_combined",
+        "architecture": "B3c_no_self_check",
+        "iteration": 1,
+        "latency_seconds": 14.30989230000705
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2100,
+      "original_context_tokens": 2100,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": false
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/1@ctx2048",
+    "architecture": "B3c_no_self_check",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.625,
+    "total_tokens": 5292,
+    "input_tokens": 2709,
+    "output_tokens": 2583,
+    "cost_usd": 0.036413999999999995,
+    "cost_rub": 3.6413999999999995,
+    "wall_clock_seconds": 19.39920390000043,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2709,
+        "output_tokens": 2583,
+        "cost_usd": 0.036413999999999995,
+        "cost_rub": 3.6413999999999995,
+        "role": "inot_combined",
+        "architecture": "B3c_no_self_check",
+        "iteration": 1,
+        "latency_seconds": 19.33403550001094
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2140,
+      "original_context_tokens": 2140,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": false
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/2@ctx2048",
+    "architecture": "B3c_no_self_check",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9649999999999999,
+    "total_tokens": 4229,
+    "input_tokens": 2616,
+    "output_tokens": 1613,
+    "cost_usd": 0.024588000000000002,
+    "cost_rub": 2.4588,
+    "wall_clock_seconds": 15.534519199994975,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2616,
+        "output_tokens": 1613,
+        "cost_usd": 0.024588000000000002,
+        "cost_rub": 2.4588,
+        "role": "inot_combined",
+        "architecture": "B3c_no_self_check",
+        "iteration": 1,
+        "latency_seconds": 15.48323129999335
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2089,
+      "original_context_tokens": 2089,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": false
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/3@ctx2048",
+    "architecture": "B3c_no_self_check",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.6950000000000001,
+    "total_tokens": 3717,
+    "input_tokens": 2693,
+    "output_tokens": 1024,
+    "cost_usd": 0.017674000000000002,
+    "cost_rub": 1.7674000000000003,
+    "wall_clock_seconds": 10.79980720000458,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2693,
+        "output_tokens": 1024,
+        "cost_usd": 0.017674000000000002,
+        "cost_rub": 1.7674000000000003,
+        "role": "inot_combined",
+        "architecture": "B3c_no_self_check",
+        "iteration": 1,
+        "latency_seconds": 10.744888300003367
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2091,
+      "original_context_tokens": 2091,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": false
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/4@ctx2048",
+    "architecture": "B3c_no_self_check",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9299999999999999,
+    "total_tokens": 4543,
+    "input_tokens": 2663,
+    "output_tokens": 1880,
+    "cost_usd": 0.027886,
+    "cost_rub": 2.7886,
+    "wall_clock_seconds": 17.05860199999006,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 2663,
+        "output_tokens": 1880,
+        "cost_usd": 0.027886,
+        "cost_rub": 2.7886,
+        "role": "inot_combined",
+        "architecture": "B3c_no_self_check",
+        "iteration": 1,
+        "latency_seconds": 17.000195100001292
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 2082,
+      "original_context_tokens": 2082,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": false
+      }
+    }
+  }
+]
