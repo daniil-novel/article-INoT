@@ -1,0 +1,208 @@
+{
+  "status": "PASS",
+  "scope": "Independent read-only verification of administrative anonymous replication-link addition. No scientific validity reassessment. Prior frozen formatting QA preserved.",
+  "generated_utc": "2026-10-03T10:55:40.720511+00:00",
+  "baseline_commit": "43ab3c43",
+  "pdf_sha256": "058b76af30825e465ce26f214d927d10056c5a0a54032b68f1ecdf7c200754d1",
+  "pdf_pages": 16,
+  "body_sha256": "fdbd3834863e186db4590964366bac525da6a8c7293e4a2338da858e01d12e0b",
+  "references_bib_sha256": "080124959a88181bdd20ca7a456c3667b655f1b37ca058dc8804b96c5713003e",
+  "anonymous_url": "https://anonymous.4open.science/r/hybrid-inot-july-2026/",
+  "checks": {
+    "only_data_availability_source_change": true,
+    "data_availability_change_is_exactly_url_plus_downloadable_archive": true,
+    "scientific_body_byte_identical_to_commit": true,
+    "references_bib_byte_identical_to_commit": true,
+    "title_abstract_keywords_unchanged": true,
+    "all_30_bibliography_entries_retained": true,
+    "pdf_expected_sha256": true,
+    "pdf_pages_16": true,
+    "pages_1_to_14_extracted_text_identical_to_committed_pdf": true,
+    "all_fonts_embedded": true,
+    "author_info_empty": true,
+    "xmp_creator_is_anonymous": true,
+    "no_identifying_terms_or_old_artifact_link": true,
+    "anonymous_link_is_pdf_uri_annotation": true,
+    "visual_pages_1_15_16_pass": true,
+    "renders_are_newer_than_pdf": true,
+    "build_has_no_errors_overfull_unresolved_refs_or_package_warnings": true
+  },
+  "pdf_uri_annotations": [
+    "https://anonymous.4open.science/r/hybrid-inot-july-2026/",
+    "https://openrouter.ai/google/gemini-3.1-flash-lite/pricing",
+    "https://openrouter.ai/google/gemini-3.1-pro-preview/pricing"
+  ],
+  "pdf_metadata": {
+    "format": "PDF 1.5",
+    "title": "Hybrid-INoT: a hybrid agent architecture with internal role segregation for engineering tasks under long shared context",
+    "author": "",
+    "subject": "-  Software and its engineering  ->  Automatic programming.-  Computing methodologies  ->  Multi-agent systems.",
+    "keywords": "",
+    "creator": "LaTeX with acmart 2026/08/16 v2.20 Typesetting articles for the Association for Computing Machinery and hyperref 2025-07-12 v7.01o Hypertext links for LaTeX",
+    "producer": "MiKTeX-pdfTeX 4.23.0 (1.40.28)",
+    "creationDate": "D:20261003135337+03'00'",
+    "modDate": "D:20261003135337+03'00'",
+    "trapped": "",
+    "encryption": null
+  },
+  "font_resource_count": 21,
+  "font_resources": [
+    {
+      "xref": 185,
+      "name": "ZCWKWL+LinLibertineT",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 187,
+      "name": "SGUHOW+LinBiolinumTB",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 188,
+      "name": "SJMDFO+LinBiolinumT",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 189,
+      "name": "UUSJPU+LinLibertineTB",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 190,
+      "name": "NZWKHA+LinLibertineTI",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 191,
+      "name": "VEBRXB+LibertineMathMI",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 192,
+      "name": "OGYQFN+txmiaX",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 193,
+      "name": "ZCWKWL+LinLibertineT",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 194,
+      "name": "MVWWKK+txsys",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 195,
+      "name": "ZCWKWL+LinLibertineT",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 218,
+      "name": "MTMTIX+LibertineMathRM",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 219,
+      "name": "ESFVVC+Inconsolatazi4-Regular",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 255,
+      "name": "XJRISQ+txsym",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 275,
+      "name": "ZCWKWL+LinLibertineT",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 276,
+      "name": "NELGEE+LibertineMathMI7",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 278,
+      "name": "OSVUVR+LinBiolinumTI",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 286,
+      "name": "KZQHMA+NewTXMI7",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 287,
+      "name": "IIOJER+NewTXMI",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 288,
+      "name": "OLFMIW+LinLibertineTZ",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 298,
+      "name": "BCMULH+txexs",
+      "extension": "pfa",
+      "embedded": true
+    },
+    {
+      "xref": 300,
+      "name": "IBOCAD+NewTXMI5",
+      "extension": "pfa",
+      "embedded": true
+    }
+  ],
+  "identity_hits": [],
+  "build_warning_lines": [
+    "Underfull \\hbox (badness 10000) detected at line 91",
+    "Underfull \\hbox (badness 10000) detected at line 93",
+    "Underfull \\hbox (badness 10000) detected at line 105",
+    "Underfull \\hbox (badness 10000) detected at line 106",
+    "Underfull \\hbox (badness 10000) detected at line 107",
+    "Underfull \\hbox (badness 2744) in paragraph at lines 203--203",
+    "Underfull \\vbox (badness 1189) has occurred while \\output is active []"
+  ],
+  "visual_inspection": {
+    "pages": [
+      1,
+      15,
+      16
+    ],
+    "result": "PASS",
+    "findings": [],
+    "notes": "First page title, abstract and anonymous author line unchanged. Data Availability URL wraps within text measure without overlap. References remain readable on pages 15-16."
+  },
+  "live_anonymous_access": "Parent agent verified live anonymous repository and download. This audit independently verifies the exact PDF URI annotation. Web tool returned URL not accessible, so live access is not claimed as independently verified here.",
+  "nonblocking_underfull_box_diagnostics": [
+    "Underfull \\hbox (badness 10000) detected at line 91",
+    "Underfull \\hbox (badness 10000) detected at line 93",
+    "Underfull \\hbox (badness 10000) detected at line 105",
+    "Underfull \\hbox (badness 10000) detected at line 106",
+    "Underfull \\hbox (badness 10000) detected at line 107",
+    "Underfull \\hbox (badness 2744) in paragraph at lines 203--203",
+    "Underfull \\vbox (badness 1189) has occurred while \\output is active []"
+  ],
+  "critical_build_diagnostics": []
+}

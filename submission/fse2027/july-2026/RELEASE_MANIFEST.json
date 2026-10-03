@@ -1,5 +1,5 @@
 {
-  "edition": "July2026 formatting-only",
+  "edition": "July2026 full anonymous ACM manuscript; submitted 3 October 2026",
   "scientific_text_shortened": false,
   "main_pdf_pages": 16,
   "conservative_content_pages": 15,
@@ -7,8 +7,8 @@
   "files": [
     {
       "path": "paper/main.pdf",
-      "bytes": 983381,
-      "sha256": "53a3c98cbdfa95482eea6d6d0e25ed4f347f24d4dc896e380d7e3f316343842b"
+      "bytes": 983934,
+      "sha256": "058b76af30825e465ce26f214d927d10056c5a0a54032b68f1ecdf7c200754d1"
     },
     {
       "path": "review/Hybrid-INoT-July-2026-yellow-review.pdf",
@@ -17,8 +17,8 @@
     },
     {
       "path": "hybrid-inot-july-2026-anonymous-source.zip",
-      "bytes": 421454,
-      "sha256": "825909f345a011bb602ab3be7784917d611948a6f7b8e65d52430394afb027c9"
+      "bytes": 422341,
+      "sha256": "b3de324e903546a1038b5df791f128b3c9b7f1f13b44d39c51731efe35195b1b"
     },
     {
       "path": "replication/hybrid-inot-july-2026-anonymous.zip",
@@ -27,8 +27,8 @@
     },
     {
       "path": "paper/main.tex",
-      "bytes": 3856,
-      "sha256": "faccc2b92c60af9f0ab27bd25130ce1bd12275c6f50d3e0ff78242a3077ba80e"
+      "bytes": 3929,
+      "sha256": "af9ba21dcf29d73f9ec9283b22e2bd0fb4b362c721a98abc28092d5e331d7c34"
     },
     {
       "path": "paper/body.tex",
@@ -40,5 +40,8 @@
       "bytes": 6379,
       "sha256": "080124959a88181bdd20ca7a456c3667b655f1b37ca058dc8804b96c5713003e"
     }
-  ]
+  ],
+  "anonymous_replication_url": "https://anonymous.4open.science/r/hybrid-inot-july-2026/",
+  "hotcrp_submission": 2886,
+  "hotcrp_status": "ready for review"
 }

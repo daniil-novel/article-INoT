@@ -1,5 +1,11 @@
 # FSE 2027 submission package
 
+## Current live submission — 3 October 2026
+
+After the author's explicit instruction, HotCRP #2886 was updated to the complete July Hybrid-INoT manuscript in [`july-2026/`](july-2026/README.md). Its 16-page PDF, title and abstract were saved, and HotCRP confirmed "The submission is ready for review". The submitted PDF has SHA-256 `058b76af30825e465ce26f214d927d10056c5a0a54032b68f1ecdf7c200754d1`. See [`july-2026/SUBMISSION_RECEIPT.md`](july-2026/SUBMISSION_RECEIPT.md). The Role Labels manuscript, artifact and prior submission record below are retained as historical materials and are not the currently submitted paper.
+
+## Historical Role Labels package
+
 This directory contains the anonymous Research Track paper and its reviewer artifact.
 
 ## Deliverables

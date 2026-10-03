@@ -10,6 +10,8 @@ This edition preserves the selected July scientific manuscript. It is a formatti
 - `replication/hybrid-inot-july-2026-anonymous.zip`: anonymous July evidence and offline replay package.
 - `hybrid-inot-july-2026-anonymous-source.zip`: editable anonymous LaTeX project.
 - `validation/independent_format_qa.md`: independent format and preservation audit.
+- `validation/submission-link-qa.md`: verification of the final PDF with the anonymous replication link; the original formatting audit remains frozen.
+- `SUBMISSION_RECEIPT.md`: verified HotCRP update record.
 - `validation/replication_offline_report.json`: historical evidence replay.
 
 ## Formatting
@@ -38,4 +40,6 @@ Only `paper/main.pdf`, the anonymous source ZIP and the anonymous replication ZI
 
 The package records metrics and usage, not complete generated solutions. Its original HumanEval context profile is retained, not reconstructed from fresh benchmark/tokenizer caches. The SWE-bench path remains approximate, and the original generation environment is not fully locked; the successful offline replay environment is recorded. No new model calls were made. These limitations are preserved rather than masked.
 
-This delivery does not change any HotCRP submission or establish scientific acceptance. The independent audit is a formatting/preservation check.
+The original formatting release (`43ab3c43`) did not change HotCRP. Following the author's explicit submission instruction, paper **#2886** was updated on 3 October 2026 with this complete July manuscript, its title and abstract. HotCRP confirmed **"The submission is ready for review"**. The submitted 16-page PDF has SHA-256 `058b76af30825e465ce26f214d927d10056c5a0a54032b68f1ecdf7c200754d1`.
+
+The final Data Availability links to <https://anonymous.4open.science/r/hybrid-inot-july-2026/>. This separate, frozen anonymous repository contains the July replication files and downloadable archive; it does not use the later Role Labels artifact. The link addition did not change the scientific body or bibliography. See `validation/submission-link-qa.md` and `SUBMISSION_RECEIPT.md`. Submission readiness is not an acceptance decision.
