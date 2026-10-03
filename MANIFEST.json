@@ -84,6 +84,11 @@
       "sha256": "74d76802ada5f12b3f939669ae9ec7bef1557ee2d59252074d488a87c81e710a"
     },
     {
+      "path": "paper_tables/temporal_diagnostics.tex",
+      "bytes": 1036,
+      "sha256": "6ae05a5828085e255d925d3b596f6b122d44282cb1da9d4d7b525b814f408bf1"
+    },
+    {
       "path": "primary/analyze.py",
       "bytes": 15880,
       "sha256": "7be2e5874252cf8aa29dd8a3c3cd1ddd9a760858d420cf7895cd2f3fd60e3662"
@@ -592,6 +597,11 @@
       "path": "primary/evaluation/dataset/bigcodebench-v0.1.4.jsonl",
       "bytes": 6964708,
       "sha256": "f6704a124f4edcec9d12cc7912f41f3d4207f51b87f091d136e3436f7e25149f"
+    },
+    {
+      "path": "primary/evaluation/dataset/evaluator_dataset.jsonl",
+      "bytes": 6120011,
+      "sha256": "b7a414c732e7a131d5e76122613dff012470fa73fd2017a606223814428cbb8a"
     },
     {
       "path": "primary/evaluation/native/direct-r101/input/samples.jsonl",
@@ -1194,6 +1204,36 @@
       "sha256": "086a4460c8740fee6960723e2d7634939517d842e7754f8a73429aa8e09a3625"
     },
     {
+      "path": "primary/evaluation/portable/Dockerfile",
+      "bytes": 1500,
+      "sha256": "fa5b816b80bf790c033413ced7d98dd8a25bc1b9da52d1285d7a3795f0ea6d9d"
+    },
+    {
+      "path": "primary/evaluation/portable/nltk-resources-sha256.txt",
+      "bytes": 9205,
+      "sha256": "e04a654c6d1fc7dd34910e93c3f42e959176983502a7176e79a374a3bdebbf3b"
+    },
+    {
+      "path": "primary/evaluation/portable/README.md",
+      "bytes": 3153,
+      "sha256": "aacf839add19e62a826f24acf9de1b01a836a3a19bc3961509b643eaa61d4f64"
+    },
+    {
+      "path": "primary/evaluation/portable/requirements-frozen.txt",
+      "bytes": 3220,
+      "sha256": "21e7c34456afa2e684bd0f2597e5c7605d022ff5b235aa131c8ee5acf14b8813"
+    },
+    {
+      "path": "primary/evaluation/portable/run_native.py",
+      "bytes": 2507,
+      "sha256": "6232354e656c11a90499cb78d69106a4c12cf62e4923d37c946066f7ca8485bd"
+    },
+    {
+      "path": "primary/evaluation/portable/verify_environment.py",
+      "bytes": 2015,
+      "sha256": "0141e862f1cdf96ff35e31025690802834e5fd6206cfd90f2d4c187450fc6157"
+    },
+    {
       "path": "primary/evaluation/predictions/direct-r101.jsonl",
       "bytes": 723884,
       "sha256": "5b6c5001c307694cee48663032619a84defebcf331604472abf4706371923183"
@@ -1284,6 +1324,11 @@
       "sha256": "edf6bb479e1c22fd6975e5b701128a668bc5f1e80bf41410d06da972972ec944"
     },
     {
+      "path": "primary/generation_phases.jsonl",
+      "bytes": 947619,
+      "sha256": "d9fad504bdcfedd8aa3b26f31888feb1c07eb45fa89048d4c5cc0090e52d96c3"
+    },
+    {
       "path": "primary/MODEL_AMENDMENT.md",
       "bytes": 2580,
       "sha256": "75d782ff51bb02d9a17741b1bf5ae118d89a9617cbe37e8ce7753d948bebd9a8"
@@ -1297,6 +1342,16 @@
       "path": "primary/PROTOCOL.md",
       "bytes": 7190,
       "sha256": "0120a640d256096ab044e7f3c872e582192dee198bb3c19d53a92ebb911ea061"
+    },
+    {
+      "path": "primary/REVISION_ANALYSIS_PLAN.md",
+      "bytes": 2788,
+      "sha256": "2d02846341c049d36f98525754d7dca2cc418c497abe9700d94cca2171a2ebcb"
+    },
+    {
+      "path": "primary/revision_diagnostics.json",
+      "bytes": 4417,
+      "sha256": "50b0cfc6a0fd81d45a2479ac8c2e2fc2225a14801b9dede0e034835724d52bd0"
     },
     {
       "path": "primary/selection.json",
@@ -1415,8 +1470,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4379,
-      "sha256": "1826c7fb337755c16ca9ec481e6f665304a846bccf56311753639240b712d5c5"
+      "bytes": 4867,
+      "sha256": "a0004893c03b863cc0da1e053fb807119e10f37df9c722fc9f78af9189acd2c6"
     },
     {
       "path": "reproduce_full_analysis.py",
@@ -1437,6 +1492,11 @@
       "path": "requirements.txt",
       "bytes": 28,
       "sha256": "7023242b770d49ce9ecb20d09f5fe72417242ce3c99aa142bd6cbd175a4d4753"
+    },
+    {
+      "path": "revision_diagnostics.py",
+      "bytes": 4979,
+      "sha256": "344312b541a21152fc38ac547b36b564620c8c1f3ff7e66ae324418ba18ff153"
     },
     {
       "path": "scc/AMENDMENT.md",
