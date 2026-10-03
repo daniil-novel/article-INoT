@@ -1,0 +1,37 @@
+[
+  {
+    "task_id": "synthetic/0000",
+    "mode": "parallel",
+    "parallelism": 4,
+    "expected_latency_ms": 155.0,
+    "measured_latency_ms": 156.61560000444297
+  },
+  {
+    "task_id": "synthetic/0001",
+    "mode": "parallel",
+    "parallelism": 2,
+    "expected_latency_ms": 151.0,
+    "measured_latency_ms": 151.88099999795668
+  },
+  {
+    "task_id": "synthetic/0002",
+    "mode": "parallel",
+    "parallelism": 4,
+    "expected_latency_ms": 169.0,
+    "measured_latency_ms": 170.2781999920262
+  },
+  {
+    "task_id": "synthetic/0003",
+    "mode": "parallel",
+    "parallelism": 2,
+    "expected_latency_ms": 125.0,
+    "measured_latency_ms": 127.43039999622852
+  },
+  {
+    "task_id": "synthetic/0004",
+    "mode": "parallel",
+    "parallelism": 3,
+    "expected_latency_ms": 160.0,
+    "measured_latency_ms": 161.79929999634624
+  }
+]

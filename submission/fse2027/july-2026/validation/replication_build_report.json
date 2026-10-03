@@ -1,0 +1,21 @@
+{
+  "archive": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\submission\\fse2027\\july-2026\\replication\\hybrid-inot-july-2026-anonymous.zip",
+  "archive_sha256": "17e59a2973431e8d03debcc4bafa7453650081218d4a224220859706523bc464",
+  "archive_bytes": 1653053,
+  "payload_files": 111,
+  "anonymity_scan_passed": true,
+  "input_relations": {
+    "pro_e3_runs": "byte_identical",
+    "e2_stats": "byte_identical",
+    "e2_pairwise": "byte_identical",
+    "e2_full_summary": "byte_identical",
+    "e6_summary": "byte_identical",
+    "e6_comparisons": "byte_identical",
+    "e6_runs": "byte_identical",
+    "e4_summary": "CRLF_to_LF_only",
+    "flash_e3_runs_e3": "CRLF_to_LF_only"
+  },
+  "numeric_inputs_preserved": true,
+  "new_model_calls": 0,
+  "provenance_is_outside_zip": true
+}

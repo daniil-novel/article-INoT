@@ -1,0 +1,65 @@
+{
+  "source": "real OpenRouter pilot, Gemini 3.1 Pro/Flash-Lite config",
+  "e2a_n": 5,
+  "e2a_component_token_overhead_shares_pct": {
+    "Compression": 36.57490168037182,
+    "Critic role": 29.665713264211668,
+    "Self-check": 33.759385055416516
+  },
+  "e2a_pass_at_1_all_variants": {
+    "B3_full": 1.0,
+    "B3a_no_compression": 1.0,
+    "B3b_no_critic": 1.0,
+    "B3c_no_self_check": 1.0
+  },
+  "e2b_critic_error_rate_pct": 0.0,
+  "e2c_tool_serial_over_parallel_slowdown_pct": 148.76888091814,
+  "e3_n_per_context_arch": 5,
+  "e3_scaling": [
+    {
+      "context": 256,
+      "cost_savings_pct": 43.10332112392145,
+      "token_savings_pct": 55.61689096623419,
+      "b2_cost_usd": 0.0325432,
+      "b3_cost_usd": 0.018515999999999998,
+      "b2_tokens": 4963.6,
+      "b3_tokens": 2203.0,
+      "b2_pass_at_1": 1.0,
+      "b3_pass_at_1": 1.0
+    },
+    {
+      "context": 1024,
+      "cost_savings_pct": 46.75357982474888,
+      "token_savings_pct": 58.9068427708304,
+      "b2_cost_usd": 0.037432,
+      "b3_cost_usd": 0.0199312,
+      "b2_tokens": 7117.0,
+      "b3_tokens": 2924.6,
+      "b2_pass_at_1": 1.0,
+      "b3_pass_at_1": 1.0
+    },
+    {
+      "context": 4096,
+      "cost_savings_pct": 49.0542981260533,
+      "token_savings_pct": 63.188864005620694,
+      "b2_cost_usd": 0.0595748,
+      "b3_cost_usd": 0.0303508,
+      "b2_tokens": 18218.4,
+      "b3_tokens": 6706.4,
+      "b2_pass_at_1": 1.0,
+      "b3_pass_at_1": 1.0
+    },
+    {
+      "context": 16384,
+      "cost_savings_pct": 79.04333910354256,
+      "token_savings_pct": 88.91791908289927,
+      "b2_cost_usd": 0.14072279999999998,
+      "b3_cost_usd": 0.0294908,
+      "b2_tokens": 59631.4,
+      "b3_tokens": 6608.4,
+      "b2_pass_at_1": 1.0,
+      "b3_pass_at_1": 1.0
+    }
+  ],
+  "e3_tau_star": 256.0
+}

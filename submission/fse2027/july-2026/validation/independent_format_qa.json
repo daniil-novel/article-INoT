@@ -1,0 +1,407 @@
+{
+  "status": "PASS",
+  "scope": "Independent formatting and preservation QA; no scientific validity or current reference metadata audit.",
+  "generated_utc": "2026-10-03T10:33:16.138961+00:00",
+  "source_commit": "173a16c30488208db26acd51c20e2243430e54e0",
+  "source_sha256": "536b63ff989c0009dd0f1eb7bd4de663ec86c8c661f18afdb775104fed77f3d8",
+  "title_preserved": true,
+  "abstract_preserved": true,
+  "keywords_preserved": true,
+  "scientific_body_preserved": true,
+  "canonical_source_body_sha256": "f779dd54f9b0e03ba010acb1d63db646c8db9b8dbddc98a54a9220a9315dc8e8",
+  "canonical_target_body_sha256": "f779dd54f9b0e03ba010acb1d63db646c8db9b8dbddc98a54a9220a9315dc8e8",
+  "scientific_text_or_numbers_cut": false,
+  "explicit_comparison_whitelist": [
+    "Remove inherited table footnotesize and arraystretch override; remove Springer backmatter.",
+    "Translate Springer botrule to booktabs bottomrule.",
+    "Add accessible descriptions without altering original captions or figure data.",
+    "Wrap texttt labels in textnormal; convert identifier/path texttt to path with the same visible characters.",
+    "Move H1/H2/H3 description labels inline using empty item labels and quad spacing.",
+    "Add allowbreak at maintainability-weight tuple separators.",
+    "Replace author-identifying research repository and original commit sentence with anonymous frozen-snapshot provenance.",
+    "Convert bibliography to ACM format with identical keys and retained original metadata, except explicitly anonymized artifact entry.",
+    "Add required administrative Data Availability section, CCS metadata, venue metadata, and short running title; preserve full title/abstract/keywords."
+  ],
+  "structure": {
+    "labels": {
+      "source_count": 45,
+      "target_count": 45,
+      "ordered_exact_match": true
+    },
+    "citation_groups": {
+      "source_count": 35,
+      "target_count": 35,
+      "ordered_exact_match": true
+    },
+    "sections": {
+      "source_count": 11,
+      "target_count": 11,
+      "ordered_exact_match": true
+    },
+    "subsections": {
+      "source_count": 30,
+      "target_count": 30,
+      "ordered_exact_match": true
+    }
+  },
+  "environments": {
+    "table": {
+      "source_count": 5,
+      "target_count": 5,
+      "content_preserved": true
+    },
+    "figure": {
+      "source_count": 3,
+      "target_count": 3,
+      "content_preserved": true
+    },
+    "algorithm": {
+      "source_count": 3,
+      "target_count": 3,
+      "content_preserved": true
+    },
+    "equation": {
+      "source_count": 7,
+      "target_count": 7,
+      "content_preserved": true
+    },
+    "align": {
+      "source_count": 3,
+      "target_count": 3,
+      "content_preserved": true
+    },
+    "align*": {
+      "source_count": 1,
+      "target_count": 1,
+      "content_preserved": true
+    },
+    "proposition": {
+      "source_count": 3,
+      "target_count": 3,
+      "content_preserved": true
+    },
+    "definition": {
+      "source_count": 2,
+      "target_count": 2,
+      "content_preserved": true
+    },
+    "assumption": {
+      "source_count": 2,
+      "target_count": 2,
+      "content_preserved": true
+    },
+    "proof": {
+      "source_count": 2,
+      "target_count": 2,
+      "content_preserved": true
+    }
+  },
+  "historical_figures": [
+    {
+      "path": "figures/generated/e3_humaneval_replication_en.png",
+      "bytes_preserved": true,
+      "sha256": "bcb9170a33b5686770d13f239caa4a5c25e1f4a14554e57c2b4f1b4f284f7fe0"
+    },
+    {
+      "path": "figures/generated/e6_model_cost_ratio_en.png",
+      "bytes_preserved": true,
+      "sha256": "b4cc6de2eddd3a5e8eb003e056b0adb1b740ec9dc73e5b4d5ca09ffdd261c4c6"
+    },
+    {
+      "path": "figures/generated/e5_inference_cost_sensitivity_en.png",
+      "bytes_preserved": true,
+      "sha256": "44ab71713adf28f5b249eb2644c68f3977f772503a7f416fae957b37443c6849"
+    }
+  ],
+  "bibliography": {
+    "source_entries": 30,
+    "bibtex_entries": 30,
+    "rendered_entries": 30,
+    "numeric_style_explicit": true,
+    "uncited_entries_retained": true
+  },
+  "visual_review": {
+    "pages_inspected": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "render_directory": "validation/render",
+    "status": "PASS",
+    "notes": [
+      "All scientific prose, hypotheses, mathematics, tables, algorithms, figures and captions readable; no clipping or body overlap.",
+      "Short Hybrid-INoT odd-page running title resolves initial overlap.",
+      "E3 and E6 accessibility descriptions corrected to match original figures/captions.",
+      "Content reaches page 15; references span pages 15-16."
+    ],
+    "render_inventory": [
+      {
+        "page": 1,
+        "sha256": "9f8d254657551b8a947e520f05036192e035af9c6bb2f9a0fb5120a99eeabfc7",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 2,
+        "sha256": "6b5ef9e7b228da9280a1ff7c2e871d2a57433901a1317eb16813e7a49fc6f8df",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 3,
+        "sha256": "e2026f09ddb8096ffeda4f3569d6668f0c85435653d48fc3357831f7fc4c1592",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 4,
+        "sha256": "74c987cc75671ac4d42e469e8b3021332e28deae6282cdc5e1e392056734acbd",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 5,
+        "sha256": "b3b968d416918e2fb696638f2beb78ef6d4e02aa6ed891ab8f6db935bc80ad3e",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 6,
+        "sha256": "410e5b3d07cf3e4d272f95cd47aea670418696ca55eb46236313895b86c500c2",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 7,
+        "sha256": "8e2f19e84373aa3d9c0cd860f68e2a06ade3474b37d93d51114e4ab8b388c2ee",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 8,
+        "sha256": "b82fcbf85c5a6226d6488ece2f654e01f8ca9bccdba449cc205a4b9bc066e7de",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 9,
+        "sha256": "380815a1e6d8b9f37e60611da36fd3bcf97af2a1b1d1f9530e3a3819cdbdd53f",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 10,
+        "sha256": "522849154d3bb80ec49061cbc15958005b2ada101c9c08da8bcd13e86e6e0519",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 11,
+        "sha256": "ee742249d8a4a8646457aa4f58b11770ac2a30b86f664f2dd6b78d93c414b7ce",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 12,
+        "sha256": "93374508a9522334d78eeda11672ba2e132cd7e042539813c4533c36a2bfe9d4",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 13,
+        "sha256": "fb0ecd1cf86f3de01670b45dcd7d494a52584cc696714726f7ec7bbe4f5377ca",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 14,
+        "sha256": "3f6d01f40617a8d31577947047e92d9fe23ecc5fa1b62385dd2d49717588b174",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 15,
+        "sha256": "6b19c27c3c0273008da799efef459cd2874c2cb34c6102d7008b62745288768d",
+        "mtime_after_pdf": true
+      },
+      {
+        "page": 16,
+        "sha256": "dc076ab294abda3dfbf4c653b811fd4034d38d9bb02d7a18102caf3634871b4d",
+        "mtime_after_pdf": true
+      }
+    ],
+    "final_candidate_all_pages_inspected": true
+  },
+  "page_gate": {
+    "content_pages_conservative": 15,
+    "reference_pages": 2,
+    "content_limit": 18,
+    "reference_limit": 4,
+    "status": "PASS"
+  },
+  "final_pdf": {
+    "path": "paper/main.pdf",
+    "sha256": "53a3c98cbdfa95482eea6d6d0e25ed4f347f24d4dc896e380d7e3f316343842b",
+    "pages": 16,
+    "page_box_points": [
+      486.0,
+      720.0
+    ],
+    "info_author": "",
+    "xmp_creator": [
+      "Anonymous Author(s)"
+    ],
+    "xmp_publication_name": "ACM International Conference on the Foundations of Software Engineering (FSE 2027), 12-16 July 2027, Shenzhen, China",
+    "xmp_publication_date_encoding_correct": true,
+    "external_uris": [
+      "https://openrouter.ai/google/gemini-3.1-flash-lite/pricing",
+      "https://openrouter.ai/google/gemini-3.1-pro-preview/pricing"
+    ],
+    "author_identity_or_wrong_paper_hits": [],
+    "font_resource_count": 21,
+    "all_fonts_embedded": true,
+    "fonts": [
+      {
+        "name": "ZCWKWL+LinLibertineT",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 111897
+      },
+      {
+        "name": "SGUHOW+LinBiolinumTB",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 54050
+      },
+      {
+        "name": "SJMDFO+LinBiolinumT",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 46769
+      },
+      {
+        "name": "UUSJPU+LinLibertineTB",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 90045
+      },
+      {
+        "name": "NZWKHA+LinLibertineTI",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 53507
+      },
+      {
+        "name": "VEBRXB+LibertineMathMI",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 14402
+      },
+      {
+        "name": "OGYQFN+txmiaX",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 9784
+      },
+      {
+        "name": "ZCWKWL+LinLibertineT",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 111897
+      },
+      {
+        "name": "MVWWKK+txsys",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 13713
+      },
+      {
+        "name": "ZCWKWL+LinLibertineT",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 111897
+      },
+      {
+        "name": "MTMTIX+LibertineMathRM",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 4776
+      },
+      {
+        "name": "ESFVVC+Inconsolatazi4-Regular",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 17427
+      },
+      {
+        "name": "XJRISQ+txsym",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 9074
+      },
+      {
+        "name": "ZCWKWL+LinLibertineT",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 111897
+      },
+      {
+        "name": "NELGEE+LibertineMathMI7",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 8757
+      },
+      {
+        "name": "OSVUVR+LinBiolinumTI",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 32021
+      },
+      {
+        "name": "KZQHMA+NewTXMI7",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 2316
+      },
+      {
+        "name": "IIOJER+NewTXMI",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 2431
+      },
+      {
+        "name": "OLFMIW+LinLibertineTZ",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 74696
+      },
+      {
+        "name": "BCMULH+txexs",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 3329
+      },
+      {
+        "name": "IBOCAD+NewTXMI5",
+        "type": "Type1",
+        "format": "pfa",
+        "embedded_bytes": 2319
+      }
+    ],
+    "final_log_concerns": [],
+    "data_availability_start_page": 15,
+    "references_start_page": 15,
+    "source_file_sha256": {
+      "main.tex": "faccc2b92c60af9f0ab27bd25130ce1bd12275c6f50d3e0ff78242a3077ba80e",
+      "body.tex": "fdbd3834863e186db4590964366bac525da6a8c7293e4a2338da858e01d12e0b",
+      "references.bib": "080124959a88181bdd20ca7a456c3667b655f1b37ca058dc8804b96c5713003e"
+    }
+  },
+  "pending": [],
+  "changes_by_qa_agent": "Only validation/independent_format_qa.json and validation/independent_format_qa.md.",
+  "resolved_issues": [
+    "Odd-page running-header overlap fixed with short Hybrid-INoT title.",
+    "E3 and E6 added accessibility descriptions corrected to match source figures.",
+    "XMP publication-name event date corrected to ASCII 12-16; visible administrative dates remain legible."
+  ],
+  "unresolved_formatting_issues": []
+}

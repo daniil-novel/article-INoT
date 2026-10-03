@@ -1,0 +1,343 @@
+{
+  "purpose": "Five optional compression proposals only; scientific text is unchanged.",
+  "source_commit": "173a16c30488208db26acd51c20e2243430e54e0",
+  "source_pdf": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\output\\pdf\\archive-2026-07-28\\Hybrid-INoT-July-2026-en.pdf",
+  "source_sha256_before": "53b59452e63c89a65d1004bea295e78d899e1f83bb9545ada37e81e2b5d9d904",
+  "source_sha256_after": "53b59452e63c89a65d1004bea295e78d899e1f83bb9545ada37e81e2b5d9d904",
+  "original_unchanged": true,
+  "annotated_pdf": "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\submission\\fse2027\\july-2026\\review\\Hybrid-INoT-July-2026-yellow-review.pdf",
+  "annotated_pdf_sha256": "2625c997e46f8608f68034862a87119fa3d5e3de5589e55efb9c87c30e00ae78",
+  "page_count_before": 20,
+  "page_count_after": 20,
+  "all_page_text_exactly_equal": true,
+  "all_page_rectangles_exactly_equal": true,
+  "highlight_annotation_count": 5,
+  "highlighted_pages": [
+    2,
+    3,
+    10,
+    11,
+    17
+  ],
+  "pymupdf_version": "1.28.2",
+  "candidates": [
+    {
+      "id": "C1",
+      "page": 2,
+      "section": "1 Introduction, first paragraph",
+      "priority": 2,
+      "start": "A modern software-engineering agent",
+      "end": "forced to reread the same long context.",
+      "protected": [
+        "This paper focuses precisely on that setting:"
+      ],
+      "source_lines": [
+        48,
+        48
+      ],
+      "comment_ru": "Предложение при превышении лимита страниц: сжать вводный абзац, который частично повторяет §1.1. Сохранить инженерный контекст, репозиторий и внешние проверки. Сейчас текст не изменён.",
+      "annotation_xref": 623,
+      "line_quad_count": 7,
+      "highlight_rectangles": [
+        [
+          124.59500122070312,
+          96.82705688476562,
+          495.1349792480469,
+          106.82705688476562
+        ],
+        [
+          124.59500122070312,
+          108.82705688476562,
+          495.21502685546875,
+          118.82705688476562
+        ],
+        [
+          124.59500122070312,
+          120.82705688476562,
+          495.1551513671875,
+          130.82705688476562
+        ],
+        [
+          124.59500122070312,
+          132.82705688476562,
+          495.1850280761719,
+          142.82705688476562
+        ],
+        [
+          124.59500122070312,
+          144.82705688476562,
+          495.205078125,
+          154.82705688476562
+        ],
+        [
+          124.59500122070312,
+          156.82705688476562,
+          495.1549377441406,
+          166.82705688476562
+        ],
+        [
+          124.59500122070312,
+          168.82705688476562,
+          296.0750427246094,
+          178.82705688476562
+        ]
+      ],
+      "highlighted_text_extracted": "A modern software-engineering agent must successively understand the task specifi-\ncation, retrieve the relevant context from a repository, and construct a change that\ncan then be checked by tests or static analysis. In practice, these functions are often\ndistributed across several roles: one role builds a plan, another proposes a solution, a\nthird critiques the intermediate result, and a fourth runs external verification. This\ndecomposition is conceptually convenient, but it becomes expensive when all roles are\nforced to reread the same long context.",
+      "actual_text_change": false
+    },
+    {
+      "id": "C2",
+      "page": 3,
+      "section": "2.1, generic definition sentence only",
+      "priority": 1,
+      "start": "In this context,",
+      "end": "final success of solving the target task.",
+      "protected": [
+        "improve solution quality on tasks that require several connected logical transitions.",
+        "The Self-Refine approach"
+      ],
+      "source_lines": [
+        84,
+        84
+      ],
+      "comment_ru": "Предложение при превышении лимита: убрать общее определение промежуточных шагов и качества. Сохранить утверждение Wei et al. и его ссылку, а также дальнейшие сравнения и оговорку о достоверности рассуждений. Текст не изменён.",
+      "annotation_xref": 625,
+      "line_quad_count": 4,
+      "highlight_rectangles": [
+        [
+          461.5311279296875,
+          494.58404541015625,
+          470.69110107421875,
+          504.58404541015625
+        ],
+        [
+          100.07099914550781,
+          506.5840148925781,
+          470.6409912109375,
+          516.5840454101562
+        ],
+        [
+          100.07099914550781,
+          518.5840454101562,
+          470.6610107421875,
+          528.5840454101562
+        ],
+        [
+          100.07099914550781,
+          530.5840454101562,
+          278.4510192871094,
+          540.5840454101562
+        ]
+      ],
+      "highlighted_text_extracted": "In\nthis context, intermediate steps are textual fragments by which the model decomposes\na complex inference into a sequence of local subproblems, while quality refers to the\nfinal success of solving the target task.",
+      "actual_text_change": false
+    },
+    {
+      "id": "C3",
+      "page": 10,
+      "section": "5.4, first two explanatory sentences after inequality (2)",
+      "priority": 1,
+      "start": "The left-hand side of the inequality",
+      "end": "a cheap preliminary check and a rerun of the large model.",
+      "protected": [
+        "Pilot measurements of"
+      ],
+      "source_lines": [
+        322,
+        322
+      ],
+      "comment_ru": "Предложение при превышении лимита: сократить пересказ неравенства (2). Сохранить само условие, определения его величин и предложение с измерениями E4. Текст не изменён.",
+      "annotation_xref": 627,
+      "line_quad_count": 4,
+      "highlight_rectangles": [
+        [
+          124.59500122070312,
+          565.736083984375,
+          495.17498779296875,
+          575.736083984375
+        ],
+        [
+          124.59500122070312,
+          577.736083984375,
+          495.1650390625,
+          587.736083984375
+        ],
+        [
+          124.59500122070312,
+          589.736083984375,
+          495.17510986328125,
+          599.736083984375
+        ],
+        [
+          124.59500122070312,
+          601.736083984375,
+          390.6650390625,
+          611.736083984375
+        ]
+      ],
+      "highlighted_text_extracted": "The left-hand side of the inequality is the cost of the preliminary check, whereas the\nright-hand side is the expected savings from reducing the probability of an expensive\nrerun of the large model. Inequality (2) therefore defines the decision criterion between\na cheap preliminary check and a rerun of the large model.",
+      "actual_text_change": false
+    },
+    {
+      "id": "C4",
+      "page": 11,
+      "section": "6.2, first three rationale sentences; baseline sentence excluded",
+      "priority": 3,
+      "start": "The rationale for this construction is as follows.",
+      "end": "of this effect.",
+      "protected": [
+        "The baseline uses"
+      ],
+      "source_lines": [
+        341,
+        341
+      ],
+      "comment_ru": "Предложение при превышении лимита: сжать объяснение метрики до одной фразы, сохранив смысл Success, Verified и maintainability. Сохранить формулу, λ=0.5, семь инверсий и вторичный статус метрики. Текст не изменён.",
+      "annotation_xref": 629,
+      "line_quad_count": 6,
+      "highlight_rectangles": [
+        [
+          100.07101440429688,
+          293.8180847167969,
+          470.67742919921875,
+          303.8180847167969
+        ],
+        [
+          100.07101440429688,
+          305.8180847167969,
+          470.6610107421875,
+          315.8180847167969
+        ],
+        [
+          100.07101440429688,
+          316.5213623046875,
+          420.94195556640625,
+          327.8180847167969
+        ],
+        [
+          415.10601806640625,
+          317.8180236816406,
+          470.6729736328125,
+          329.7532653808594
+        ],
+        [
+          100.07101440429688,
+          329.8056640625,
+          470.6410217285156,
+          339.8180236816406
+        ],
+        [
+          100.07101440429688,
+          341.8056640625,
+          155.8710174560547,
+          351.8180236816406
+        ]
+      ],
+      "highlighted_text_extracted": "The rationale for this construction is as follows. First, Success and Verified are nec-\nessary conditions for counting a solution as successful: a patch that fails external\nverification should not receive a high final score. Second, the multiplier 𝑀𝜆\n𝑖\n𝜆\n𝑖models the\neffect of maintainability on the final assessment; the parameter 𝜆controls the strength\nof this effect.",
+      "actual_text_change": false
+    },
+    {
+      "id": "C5",
+      "page": 17,
+      "section": "10, all seven future-work bullets; introduction and conclusion excluded",
+      "priority": 1,
+      "start": "1. run all 164 HumanEval tasks",
+      "end": "storage, under a production context-length distribution.",
+      "protected": [
+        "The next study should remove",
+        "11 Conclusion"
+      ],
+      "source_lines": [
+        544,
+        550
+      ],
+      "comment_ru": "Предложение при превышении лимита: объединить семь пунктов в компактный абзац, сохранив все запланированные работы и численные условия. Ничего из списка не исключать. Текст не изменён.",
+      "annotation_xref": 631,
+      "line_quad_count": 12,
+      "highlight_rectangles": [
+        [
+          100.07099914550781,
+          370.6940612792969,
+          470.6609802246094,
+          380.6940612792969
+        ],
+        [
+          112.84500122070312,
+          382.6940612792969,
+          288.4950866699219,
+          392.6940612792969
+        ],
+        [
+          100.07099914550781,
+          393.3973693847656,
+          463.1409912109375,
+          404.6940612792969
+        ],
+        [
+          100.07098388671875,
+          406.6940612792969,
+          470.6508483886719,
+          416.6940612792969
+        ],
+        [
+          112.84598541259766,
+          418.6940612792969,
+          199.4560089111328,
+          428.6940612792969
+        ],
+        [
+          100.07098388671875,
+          430.6940612792969,
+          470.63104248046875,
+          440.6940612792969
+        ],
+        [
+          112.84598541259766,
+          442.6940612792969,
+          229.67599487304688,
+          452.6940612792969
+        ],
+        [
+          100.07098388671875,
+          454.6940612792969,
+          470.6308898925781,
+          464.6940612792969
+        ],
+        [
+          112.84598541259766,
+          466.6940612792969,
+          156.99598693847656,
+          476.6940612792969
+        ],
+        [
+          100.07098388671875,
+          478.6940612792969,
+          455.99090576171875,
+          488.6940612792969
+        ],
+        [
+          100.07098388671875,
+          490.6940612792969,
+          470.6810607910156,
+          500.6940612792969
+        ],
+        [
+          112.84598541259766,
+          502.6940612792969,
+          357.70599365234375,
+          512.694091796875
+        ]
+      ],
+      "highlighted_text_extracted": "1. run all 164 HumanEval tasks with at least five seeds and a fixed analysis plan,\nincluding a powered non-inferiority test;\n2. extend the context grid below 256 tokens to estimate rather than left-censor 𝜏⋆;\n3. retain full input/output, prompt hashes, immutable model identifiers, and external-\ntest results per run;\n4. replace the approximate SWE-bench path with the official container harness on a\nrandom repository sample;\n5. repeat E2c with real independent tools under matched models and serial/parallel\nexecution;\n6. compare B3 with Self-Refine [7], Reflexion [8], ReAct [6], and SWE-agent [17];\n7. measure full TCO, including operations, reruns, latency, infrastructure, and\nstorage, under a production context-length distribution.",
+      "actual_text_change": false
+    }
+  ],
+  "rendered_pages": [
+    "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\submission\\fse2027\\july-2026\\review\\rendered\\page-02-yellow.png",
+    "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\submission\\fse2027\\july-2026\\review\\rendered\\page-03-yellow.png",
+    "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\submission\\fse2027\\july-2026\\review\\rendered\\page-10-yellow.png",
+    "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\submission\\fse2027\\july-2026\\review\\rendered\\page-11-yellow.png",
+    "E:\\ВШЭ\\Курсовая работа\\article\\springer-article\\submission\\fse2027\\july-2026\\review\\rendered\\page-17-yellow.png"
+  ],
+  "policy": "All scientific text stays in one main PDF. No compression is applied without actual overflow and separate user approval."
+}

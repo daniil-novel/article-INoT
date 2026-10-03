@@ -1,0 +1,35 @@
+[
+  {
+    "label": "MAS B3 vs B3a_no_compression",
+    "n": 5,
+    "diff_mean": -0.003736509374330943,
+    "p_value": 1.0,
+    "ci": [
+      -0.01120952812299283,
+      0.0
+    ],
+    "holm_rejected": false
+  },
+  {
+    "label": "MAS B3 vs B3b_no_critic",
+    "n": 5,
+    "diff_mean": -0.02621206865324528,
+    "p_value": 0.5,
+    "ci": [
+      -0.07116318721107395,
+      0.0
+    ],
+    "holm_rejected": false
+  },
+  {
+    "label": "MAS B3 vs B3c_no_self_check",
+    "n": 5,
+    "diff_mean": 0.0,
+    "p_value": 1.0,
+    "ci": [
+      0.0,
+      0.0
+    ],
+    "holm_rejected": false
+  }
+]

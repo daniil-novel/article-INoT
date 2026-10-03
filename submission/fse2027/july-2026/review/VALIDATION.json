@@ -1,0 +1,129 @@
+{
+  "original_sha256_before": "53b59452e63c89a65d1004bea295e78d899e1f83bb9545ada37e81e2b5d9d904",
+  "original_sha256_after": "53b59452e63c89a65d1004bea295e78d899e1f83bb9545ada37e81e2b5d9d904",
+  "original_unchanged": true,
+  "page_count_original": 20,
+  "page_count_annotated": 20,
+  "pymupdf_exact_text_parity_all_pages": true,
+  "independent_pypdf_exact_text_parity_all_pages": true,
+  "independent_pypdf_equal_pages": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "five_candidates_only": true,
+  "annotations": [
+    {
+      "page": 2,
+      "comment": "Предложение при превышении лимита страниц: сжать вводный абзац, который частично повторяет §1.1. Сохранить инженерный контекст, репозиторий и внешние проверки. Сейчас текст не изменён.",
+      "color": [
+        1,
+        1,
+        0
+      ],
+      "opacity": 0.35,
+      "quad_count": 7
+    },
+    {
+      "page": 3,
+      "comment": "Предложение при превышении лимита: убрать общее определение промежуточных шагов и качества. Сохранить утверждение Wei et al. и его ссылку, а также дальнейшие сравнения и оговорку о достоверности рассуждений. Текст не изменён.",
+      "color": [
+        1,
+        1,
+        0
+      ],
+      "opacity": 0.35,
+      "quad_count": 4
+    },
+    {
+      "page": 10,
+      "comment": "Предложение при превышении лимита: сократить пересказ неравенства (2). Сохранить само условие, определения его величин и предложение с измерениями E4. Текст не изменён.",
+      "color": [
+        1,
+        1,
+        0
+      ],
+      "opacity": 0.35,
+      "quad_count": 4
+    },
+    {
+      "page": 11,
+      "comment": "Предложение при превышении лимита: сжать объяснение метрики до одной фразы, сохранив смысл Success, Verified и maintainability. Сохранить формулу, λ=0.5, семь инверсий и вторичный статус метрики. Текст не изменён.",
+      "color": [
+        1,
+        1,
+        0
+      ],
+      "opacity": 0.35,
+      "quad_count": 6
+    },
+    {
+      "page": 17,
+      "comment": "Предложение при превышении лимита: объединить семь пунктов в компактный абзац, сохранив все запланированные работы и численные условия. Ничего из списка не исключать. Текст не изменён.",
+      "color": [
+        1,
+        1,
+        0
+      ],
+      "opacity": 0.35,
+      "quad_count": 12
+    }
+  ],
+  "visual_qa": {
+    "completed": true,
+    "pages_reviewed": [
+      2,
+      3,
+      10,
+      11,
+      17
+    ],
+    "result": "PASS",
+    "checks": [
+      "Page 2: first Introduction paragraph only; second paragraph and section 1.1 remain unhighlighted.",
+      "Page 3: definition sentence starts with the final In on the preceding line; Wei result and Self-Refine continuation remain unhighlighted.",
+      "Page 10: first two explanatory sentences only; inequality (2) and Pilot measurements / E4 sentence remain unhighlighted.",
+      "Page 11: first three rationale sentences including embedded math only; baseline lambda=0.5 and ranking inversions remain unhighlighted.",
+      "Page 17: all seven future-work bullets; lead-in, limitations and Conclusion remain unhighlighted."
+    ],
+    "render_files": [
+      {
+        "path": "submission\\fse2027\\july-2026\\review\\rendered\\page-02-yellow.png",
+        "sha256": "e2ea769b51a7ef34ec310d18aa72591fc2583f2796c1127cd20ac35001516cf0"
+      },
+      {
+        "path": "submission\\fse2027\\july-2026\\review\\rendered\\page-03-yellow.png",
+        "sha256": "f9401a9e7fd60742f104dbb28dc67d687219e49338a0d8e4758302025f811118"
+      },
+      {
+        "path": "submission\\fse2027\\july-2026\\review\\rendered\\page-10-yellow.png",
+        "sha256": "d704cceb1116ab59d6ff1de47167d2ef5deb3f658358d526244cb0d39592c8e1"
+      },
+      {
+        "path": "submission\\fse2027\\july-2026\\review\\rendered\\page-11-yellow.png",
+        "sha256": "8ce3dbba8f19fda7ab27cd22d6b18411a0953108674f77bb112d21c7b58807b0"
+      },
+      {
+        "path": "submission\\fse2027\\july-2026\\review\\rendered\\page-17-yellow.png",
+        "sha256": "349bebad84f063a521aeb0fff41baca1e28a4f2bec0f0f0b8329f0f1fafd2aa8"
+      }
+    ]
+  }
+}

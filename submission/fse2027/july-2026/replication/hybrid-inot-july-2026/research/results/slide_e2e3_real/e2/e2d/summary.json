@@ -1,0 +1,251 @@
+{
+  "canonical_ranking": [
+    "B3b_no_critic",
+    "B3a_no_compression",
+    "B3_full",
+    "B3c_no_self_check"
+  ],
+  "inversions_under_perturbation": 7,
+  "rankings": [
+    {
+      "lambda": 0.0,
+      "weight_jitter": -0.2,
+      "ranking": [
+        "B3_full",
+        "B3a_no_compression",
+        "B3b_no_critic",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3_full": 1.0,
+        "B3a_no_compression": 1.0,
+        "B3b_no_critic": 1.0,
+        "B3c_no_self_check": 1.0
+      }
+    },
+    {
+      "lambda": 0.0,
+      "weight_jitter": 0.0,
+      "ranking": [
+        "B3_full",
+        "B3a_no_compression",
+        "B3b_no_critic",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3_full": 1.0,
+        "B3a_no_compression": 1.0,
+        "B3b_no_critic": 1.0,
+        "B3c_no_self_check": 1.0
+      }
+    },
+    {
+      "lambda": 0.0,
+      "weight_jitter": 0.2,
+      "ranking": [
+        "B3_full",
+        "B3a_no_compression",
+        "B3b_no_critic",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3_full": 1.0,
+        "B3a_no_compression": 1.0,
+        "B3b_no_critic": 1.0,
+        "B3c_no_self_check": 1.0
+      }
+    },
+    {
+      "lambda": 0.25,
+      "weight_jitter": -0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.9093475132282614,
+        "B3a_no_compression": 0.8980752781252279,
+        "B3_full": 0.8962496471647826,
+        "B3c_no_self_check": 0.8962496471647826
+      }
+    },
+    {
+      "lambda": 0.25,
+      "weight_jitter": 0.0,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.9615179289687019,
+        "B3a_no_compression": 0.9495989914960085,
+        "B3_full": 0.9476686217807861,
+        "B3c_no_self_check": 0.9476686217807861
+      }
+    },
+    {
+      "lambda": 0.25,
+      "weight_jitter": 0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3_full",
+        "B3a_no_compression",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.9861209718204199,
+        "B3_full": 0.9772477365130154,
+        "B3a_no_compression": 0.9772477365130154,
+        "B3c_no_self_check": 0.9772477365130154
+      }
+    },
+    {
+      "lambda": 0.5,
+      "weight_jitter": -0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.8281264193729013,
+        "B3a_no_compression": 0.8080236680209099,
+        "B3_full": 0.8046816324370821,
+        "B3c_no_self_check": 0.8046816324370821
+      }
+    },
+    {
+      "lambda": 0.5,
+      "weight_jitter": 0.0,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.925873483840653,
+        "B3a_no_compression": 0.9033979245617386,
+        "B3_full": 0.8996614151874077,
+        "B3c_no_self_check": 0.8996614151874077
+      }
+    },
+    {
+      "lambda": 0.5,
+      "weight_jitter": 0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3_full",
+        "B3a_no_compression",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.9732050807568877,
+        "B3_full": 0.9558522816661817,
+        "B3a_no_compression": 0.9558522816661817,
+        "B3c_no_self_check": 0.9558522816661817
+      }
+    },
+    {
+      "lambda": 0.75,
+      "weight_jitter": -0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.7552038946617122,
+        "B3a_no_compression": 0.7283067120792506,
+        "B3_full": 0.7237181774894296,
+        "B3c_no_self_check": 0.7237181774894296
+      }
+    },
+    {
+      "lambda": 0.75,
+      "weight_jitter": 0.0,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.8927846830785405,
+        "B3a_no_compression": 0.8609874521620539,
+        "B3_full": 0.8555629920546239,
+        "B3c_no_self_check": 0.8555629920546239
+      }
+    },
+    {
+      "lambda": 0.75,
+      "weight_jitter": 0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3_full",
+        "B3a_no_compression",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.9611854897735312,
+        "B3_full": 0.9357293327232906,
+        "B3a_no_compression": 0.9357293327232906,
+        "B3c_no_self_check": 0.9357293327232906
+      }
+    },
+    {
+      "lambda": 1.0,
+      "weight_jitter": -0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.6896000000000001,
+        "B3a_no_compression": 0.6576000000000001,
+        "B3_full": 0.6519999999999999,
+        "B3c_no_self_check": 0.6519999999999999
+      }
+    },
+    {
+      "lambda": 1.0,
+      "weight_jitter": 0.0,
+      "ranking": [
+        "B3b_no_critic",
+        "B3a_no_compression",
+        "B3_full",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.8619999999999999,
+        "B3a_no_compression": 0.8219999999999998,
+        "B3_full": 0.8149999999999998,
+        "B3c_no_self_check": 0.8149999999999998
+      }
+    },
+    {
+      "lambda": 1.0,
+      "weight_jitter": 0.2,
+      "ranking": [
+        "B3b_no_critic",
+        "B3_full",
+        "B3a_no_compression",
+        "B3c_no_self_check"
+      ],
+      "scores": {
+        "B3b_no_critic": 0.95,
+        "B3_full": 0.9168,
+        "B3a_no_compression": 0.9168,
+        "B3c_no_self_check": 0.9168
+      }
+    }
+  ]
+}

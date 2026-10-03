@@ -1,0 +1,40 @@
+\documentclass[acmsmall,screen,review,anonymous]{acmart}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{tabularx}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\makeatletter
+\providecommand*{\toclevel@algorithm}{1}
+\providecommand*{\theHalgorithm}{\thealgorithm}
+\makeatother
+\citestyle{acmnumeric}
+% Retain the default ACM permission and reference-format blocks.
+% Publication identifiers are unassigned at initial review.
+\acmConference[FSE 2027]{ACM International Conference on the Foundations of Software Engineering}{12-16 July 2027}{Shenzhen, China}
+\acmBooktitle{ACM International Conference on the Foundations of Software Engineering (FSE 2027), 12-16 July 2027, Shenzhen, China}
+\acmYear{2027}
+\copyrightyear{2027}
+\acmDOI{}
+\acmISBN{}
+\begin{document}
+\title[Hybrid-INoT]{Hybrid-INoT: a hybrid agent architecture with internal role segregation for engineering tasks under long shared context}
+\begin{abstract}
+External multi-agent orchestration repeatedly transmits shared context to separate large-language-model roles, increasing token usage. We propose \textbf{Hybrid-INoT}, a hybrid architecture in which the \textit{planner--worker--critic--self-check} cycle is executed inside one model call, while tool actions, verification, and context compression remain external. We define its operational model, routing function, and analytical conditions for token and economic efficiency. A reproducible evaluation uses HumanEval and a controlled task set. In a real Gemini~3.1~Pro Preview API pilot ($n=5$ tasks per context length), Hybrid-INoT reduced mean token consumption relative to Classical-MAS by 55.6--88.9\% as target context grew from 256 to 16,384 tokens; an independent Gemini~3.1~Flash-Lite run ($n=20$, seed 42) yielded 49.6--90.3\% savings. In the latter run, the paired $U_{\mathrm{tok}}$ gain was significant at all four context lengths after Holm--Bonferroni correction ($p=1.91\cdot10^{-6}$). However, pass@1 was 1.0 for both architectures, so the stated quality non-inferiority margin was not statistically established. The small-model profitability condition held in the HumanEval pilot but not in the approximate SWE-bench Lite protocol. An analytical extrapolation of observed Pro API costs gives \$429.96 savings per 10,000 tasks under an equal mixture of four context lengths (95\% bootstrap CI \$267.06--\$617.17); this is not a full-TCO estimate. The evidence therefore supports token efficiency in the studied range but does not establish quality preservation, transfer to real repositories, or lower total cost of ownership.
+\end{abstract}
+\ccsdesc[500]{Software and its engineering~Automatic programming}
+\ccsdesc[300]{Computing methodologies~Multi-agent systems}
+\keywords{Large language models, agent systems, Introspection of Thought, token efficiency, inference economics, HumanEval, reproducible experiment}
+\maketitle
+\input{body}
+\section*{Data Availability}
+An anonymous replication package, \texttt{hybrid-inot-july-2026-anonymous.zip}, accompanies this manuscript. It contains the frozen research harness, configurations, recorded metrics and usage, and scripts and source data for the reported tables and figures. The records do not include complete generated solution text; this limits answer-level auditing. The package supports inspection and offline analysis of retained results; rerunning hosted models may require an API account and may be affected by model drift. The replication materials will be made publicly available upon acceptance.
+\nocite{austin2021mbpp,goncalves2011,ko2007,parnin2011}
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+\end{document}

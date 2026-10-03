@@ -1,0 +1,93 @@
+{
+  "passed": true,
+  "scientific_snapshot_exactly_preserved": true,
+  "archived_scientific_fields_compared": [
+    "article_evidence_date",
+    "flash_lite_humaneval_e3_pairwise",
+    "flash_lite_humaneval_e3_replication",
+    "flash_lite_tau_star_interpretation",
+    "humaneval_input_profile",
+    "inference_cost_extrapolation_from_tracked_e3",
+    "new_e4",
+    "quality_checks",
+    "run_failures",
+    "tracked_e2_full_summary",
+    "tracked_e2_pairwise",
+    "tracked_e2_stats",
+    "tracked_e6_comparisons",
+    "tracked_e6_summary",
+    "tracked_e6_task_profile",
+    "tracked_pro_humaneval_e3",
+    "tracked_pro_humaneval_e3_pairwise",
+    "tracked_pro_tau_star_interpretation"
+  ],
+  "zip_entry_count": 111,
+  "zip_crc_integrity_passed": true,
+  "zip_equals_extracted_payload": true,
+  "private_provenance_excluded": true,
+  "text_and_png_metadata_anonymity_passed": true,
+  "violations": [],
+  "png_text_metadata": {
+    "article/figures/generated/e3_humaneval_replication.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/figures/generated/e3_humaneval_replication_en.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/figures/generated/e5_inference_cost_sensitivity.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/figures/generated/e5_inference_cost_sensitivity_en.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/figures/generated/e6_model_cost_ratio.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/figures/generated/e6_model_cost_ratio_en.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/reproducibility/results/20260726_flash_lite/e3/fig_delta_utok_vs_context.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/reproducibility/results/20260726_flash_lite/e3/fig_utok_vs_context.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/reproducibility/results/20260726_flash_lite/e4/humaneval/fig_h2_savings.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "article/reproducibility/results/20260726_flash_lite/e4/swebench_lite/fig_h2_savings.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/e6/fig_cost_usd_flash_vs_pro.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/e6/fig_pass_at_1_flash_vs_pro.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/e6/fig_quality_degradation_pp.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/e6/fig_slide_h1_gt1024_flash_lite.png": {
+      "Software": "Matplotlib version3.9.2, https://matplotlib.org/"
+    },
+    "research/results/e6/fig_utok_flash_vs_pro.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/slide_e2e3_real/e2/e2a/fig_ablation_mas.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/slide_e2e3_real/e2/e2c/fig_latency_b2_vs_b3.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/slide_e2e3_real/e3/fig_delta_utok_vs_context.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/slide_e2e3_real/e3/fig_utok_vs_context.png": {
+      "Software": "Matplotlib version3.10.9, https://matplotlib.org/"
+    },
+    "research/results/slide_e2e3_real/fig_slide_e2_e3_components_scaling.png": {
+      "Software": "Matplotlib version3.9.2, https://matplotlib.org/"
+    }
+  },
+  "zip_sha256": "17e59a2973431e8d03debcc4bafa7453650081218d4a224220859706523bc464"
+}

@@ -1,0 +1,507 @@
+{
+  "status": "PASS",
+  "source_commit": "173a16c30488208db26acd51c20e2243430e54e0",
+  "source_file": "converted_article_springer.tex",
+  "source_sha256": "536b63ff989c0009dd0f1eb7bd4de663ec86c8c661f18afdb775104fed77f3d8",
+  "bibtex_sha256": "080124959a88181bdd20ca7a456c3667b655f1b37ca058dc8804b96c5713003e",
+  "source_bibitem_count": 30,
+  "output_entry_count": 30,
+  "citation_occurrences": 35,
+  "unique_cited_keys": 26,
+  "source_key_order_preserved": true,
+  "missing_cited_keys": [],
+  "uncited_keys_requiring_nocite": [
+    "austin2021mbpp",
+    "goncalves2011",
+    "ko2007",
+    "parnin2011"
+  ],
+  "citation_configuration": [
+    "\\citestyle{acmnumeric}",
+    "\\bibliographystyle{ACM-Reference-Format}",
+    "\\nocite{austin2021mbpp,goncalves2011,ko2007,parnin2011}",
+    "\\bibliography{references}"
+  ],
+  "anonymized_reference_key": "inotresearch2026",
+  "anonymized_reference_fields": {
+    "author": "{Anonymous authors}",
+    "title": "Hybrid-INoT replication package",
+    "year": "2026",
+    "note": "Anonymous review artifact supplied with this manuscript"
+  },
+  "metadata_policy": "Preserve original initials, author-list elisions, titles, venue abbreviations, years, pages, volumes, issues, arXiv identifiers, pricing URLs and access dates; do not enrich unverified metadata.",
+  "science_text_changed": false,
+  "reference_metadata_reaudited": false,
+  "metadata_parity_checks": [
+    {
+      "key": "sun2025inot",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "ko2007",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "parnin2011",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "goncalves2011",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "wei2022cot",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "yao2022react",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "madaan2023selfrefine",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "shinn2023reflexion",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "turpin2023unfaithful",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "weiss1999",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "wooldridge2009",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "hong2023metagpt",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "qian2023chatdev",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "guo2024survey",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "qian2024scaling",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "jimenez2023swebench",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "yang2024sweagent",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "chen2021humaneval",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "austin2021mbpp",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "jiang2023longllmlingua",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "pan2024llmlingua2",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "jia2026compression",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "bi2024cocogen",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "su2025static",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "sepidband2025complexity",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "iso25010",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "mccabe1976",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "inotresearch2026",
+      "status": "anonymous_exception"
+    },
+    {
+      "key": "openrouterpro2026",
+      "status": "source_metadata_preserved"
+    },
+    {
+      "key": "openrouterflash2026",
+      "status": "source_metadata_preserved"
+    }
+  ],
+  "entries": [
+    {
+      "key": "sun2025inot",
+      "type": "misc",
+      "fields": {
+        "author": "Sun, H. and Zeng, S.",
+        "title": "Introspection of Thought Helps AI Agents",
+        "howpublished": "arXiv preprint",
+        "note": "arXiv:2507.08664",
+        "year": "2025"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "ko2007",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Ko, A. J. and DeLine, R. and Venolia, G.",
+        "title": "Information Needs in Collocated Software Development Teams",
+        "booktitle": "Proc.\\ 29th Int.\\ Conf.\\ Software Engineering",
+        "year": "2007",
+        "pages": "344--353"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "parnin2011",
+      "type": "article",
+      "fields": {
+        "author": "Parnin, C. and Rugaber, S.",
+        "title": "Resumption Strategies for Interrupted Programming Tasks",
+        "journal": "Software Quality Journal",
+        "volume": "19",
+        "number": "1",
+        "pages": "5--34",
+        "year": "2011"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "goncalves2011",
+      "type": "article",
+      "fields": {
+        "author": "Goncalves, M. K. and de Souza, C. R. B. and Gonzalez, V. M.",
+        "title": "Collaboration, Information Seeking and Communication",
+        "journal": "J.\\ Universal Computer Science",
+        "volume": "17",
+        "number": "11",
+        "pages": "1529--1550",
+        "year": "2011"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "wei2022cot",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Wei, J. and others",
+        "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+        "booktitle": "NeurIPS",
+        "volume": "35",
+        "year": "2022",
+        "pages": "24824--24837"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "yao2022react",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Yao, S. and others",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "booktitle": "ICLR",
+        "year": "2023"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "madaan2023selfrefine",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Madaan, A. and others",
+        "title": "Self-Refine: Iterative Refinement with Self-Feedback",
+        "booktitle": "NeurIPS",
+        "year": "2023"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "shinn2023reflexion",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Shinn, N. and others",
+        "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+        "booktitle": "NeurIPS",
+        "year": "2023"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "turpin2023unfaithful",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Turpin, M. and Michael, J. and Perez, E. and Bowman, S. R.",
+        "title": "Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting",
+        "booktitle": "NeurIPS",
+        "year": "2023"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "weiss1999",
+      "type": "book",
+      "fields": {
+        "author": "Weiss, G.",
+        "title": "Multiagent Systems",
+        "publisher": "MIT Press",
+        "year": "1999"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "wooldridge2009",
+      "type": "book",
+      "fields": {
+        "author": "Wooldridge, M.",
+        "title": "An Introduction to MultiAgent Systems",
+        "edition": "2",
+        "publisher": "Wiley",
+        "year": "2009"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "hong2023metagpt",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Hong, S. and others",
+        "title": "MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework",
+        "booktitle": "ICLR",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "qian2023chatdev",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Qian, C. and others",
+        "title": "ChatDev: Communicative Agents for Software Development",
+        "booktitle": "ACL",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "guo2024survey",
+      "type": "misc",
+      "fields": {
+        "author": "Guo, T. and others",
+        "title": "Large Language Model based Multi-Agents: A Survey of Progress and Challenges",
+        "note": "arXiv:2402.01680",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "qian2024scaling",
+      "type": "misc",
+      "fields": {
+        "author": "Qian, C. and others",
+        "title": "Scaling Large Language Model-based Multi-Agent Collaboration",
+        "note": "arXiv:2406.07155",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "jimenez2023swebench",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Jimenez, C. E. and others",
+        "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+        "booktitle": "ICLR",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "yang2024sweagent",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Yang, J. and others",
+        "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+        "booktitle": "NeurIPS",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "chen2021humaneval",
+      "type": "misc",
+      "fields": {
+        "author": "Chen, M. and others",
+        "title": "Evaluating Large Language Models Trained on Code",
+        "note": "arXiv:2107.03374",
+        "year": "2021"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "austin2021mbpp",
+      "type": "misc",
+      "fields": {
+        "author": "Austin, J. and others",
+        "title": "Program Synthesis with Large Language Models",
+        "note": "arXiv:2108.07732",
+        "year": "2021"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "jiang2023longllmlingua",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Jiang, H. and others",
+        "title": "LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression",
+        "booktitle": "ACL",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "pan2024llmlingua2",
+      "type": "inproceedings",
+      "fields": {
+        "author": "Pan, Z. and others",
+        "title": "LLMLingua-2: Data Distillation for Efficient and Faithful Task-Agnostic Prompt Compression",
+        "booktitle": "ACL Findings",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "jia2026compression",
+      "type": "misc",
+      "fields": {
+        "author": "Jia, H. and Barr, E. T. and Mechtaev, S.",
+        "title": "Compressing Code Context for LLM-based Issue Resolution",
+        "note": "arXiv:2603.28119",
+        "year": "2026"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "bi2024cocogen",
+      "type": "misc",
+      "fields": {
+        "author": "Bi, Z. and others",
+        "title": "Iterative Refinement of Project-Level Code Context for Precise Code Generation with Compiler Feedback",
+        "note": "arXiv:2403.16792",
+        "year": "2024"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "su2025static",
+      "type": "misc",
+      "fields": {
+        "author": "Su, C.-Y. and McMillan, C.",
+        "title": "Do Code LLMs Do Static Analysis?",
+        "note": "arXiv:2505.12118",
+        "year": "2025"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "sepidband2025complexity",
+      "type": "misc",
+      "fields": {
+        "author": "Sepidband, M. and Taherkhani, H. and Wang, S. and Hemmati, H.",
+        "title": "Enhancing LLM-Based Code Generation with Complexity Metrics",
+        "note": "arXiv:2505.23953",
+        "year": "2025"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "iso25010",
+      "type": "techreport",
+      "fields": {
+        "author": "{ISO/IEC}",
+        "title": "Systems and software engineering~--- SQuaRE~--- Product quality model",
+        "type": "Standard",
+        "number": "ISO/IEC 25010:2023",
+        "institution": "ISO",
+        "year": "2023"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "mccabe1976",
+      "type": "article",
+      "fields": {
+        "author": "McCabe, T. J.",
+        "title": "A Complexity Measure",
+        "journal": "IEEE Trans.\\ Software Engineering",
+        "volume": "SE-2",
+        "number": "4",
+        "pages": "308--320",
+        "year": "1976"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "inotresearch2026",
+      "type": "misc",
+      "fields": {
+        "author": "{Anonymous authors}",
+        "title": "Hybrid-INoT replication package",
+        "year": "2026",
+        "note": "Anonymous review artifact supplied with this manuscript"
+      },
+      "change": "anonymization"
+    },
+    {
+      "key": "openrouterpro2026",
+      "type": "misc",
+      "fields": {
+        "author": "{OpenRouter}",
+        "title": "Gemini 3.1 Pro Preview~--- pricing",
+        "year": "2026",
+        "url": "https://openrouter.ai/google/gemini-3.1-pro-preview/pricing",
+        "note": "Accessed: 26 July 2026"
+      },
+      "change": "format_conversion"
+    },
+    {
+      "key": "openrouterflash2026",
+      "type": "misc",
+      "fields": {
+        "author": "{OpenRouter}",
+        "title": "Gemini 3.1 Flash Lite Preview~--- pricing",
+        "year": "2026",
+        "url": "https://openrouter.ai/google/gemini-3.1-flash-lite/pricing",
+        "note": "Accessed: 26 July 2026"
+      },
+      "change": "format_conversion"
+    }
+  ]
+}

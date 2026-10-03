@@ -1,0 +1,37 @@
+[
+  {
+    "task_id": "synthetic/0000",
+    "mode": "serial",
+    "parallelism": 4,
+    "expected_latency_ms": 464.0,
+    "measured_latency_ms": 465.4663000110304
+  },
+  {
+    "task_id": "synthetic/0001",
+    "mode": "serial",
+    "parallelism": 2,
+    "expected_latency_ms": 256.0,
+    "measured_latency_ms": 256.4678000053391
+  },
+  {
+    "task_id": "synthetic/0002",
+    "mode": "serial",
+    "parallelism": 4,
+    "expected_latency_ms": 541.0,
+    "measured_latency_ms": 542.5064000010025
+  },
+  {
+    "task_id": "synthetic/0003",
+    "mode": "serial",
+    "parallelism": 2,
+    "expected_latency_ms": 217.0,
+    "measured_latency_ms": 218.57739999541081
+  },
+  {
+    "task_id": "synthetic/0004",
+    "mode": "serial",
+    "parallelism": 3,
+    "expected_latency_ms": 427.0,
+    "measured_latency_ms": 427.5383000058355
+  }
+]

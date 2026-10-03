@@ -1,0 +1,251 @@
+[
+  {
+    "task_id": "HumanEval/0@ctx512",
+    "architecture": "B0_SingleLarge",
+    "seed": 42,
+    "passed": false,
+    "tests_passed": false,
+    "static_passed": false,
+    "security_passed": false,
+    "maintainability": 0.605,
+    "total_tokens": 1861,
+    "input_tokens": 841,
+    "output_tokens": 1020,
+    "cost_usd": 0.013922,
+    "cost_rub": 1.3922,
+    "wall_clock_seconds": 9.210951600005501,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 841,
+        "output_tokens": 1020,
+        "cost_usd": 0.013922,
+        "cost_rub": 1.3922,
+        "role": "solver",
+        "architecture": "B0_SingleLarge",
+        "iteration": 1,
+        "latency_seconds": 9.20961210000678
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "HumanEval/1@ctx512",
+    "architecture": "B0_SingleLarge",
+    "seed": 42,
+    "passed": false,
+    "tests_passed": false,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.5743750000000001,
+    "total_tokens": 1953,
+    "input_tokens": 933,
+    "output_tokens": 1020,
+    "cost_usd": 0.014106,
+    "cost_rub": 1.4106,
+    "wall_clock_seconds": 9.347853899991605,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 933,
+        "output_tokens": 1020,
+        "cost_usd": 0.014106,
+        "cost_rub": 1.4106,
+        "role": "solver",
+        "architecture": "B0_SingleLarge",
+        "iteration": 1,
+        "latency_seconds": 9.293564800012973
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "HumanEval/2@ctx512",
+    "architecture": "B0_SingleLarge",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9649999999999999,
+    "total_tokens": 1328,
+    "input_tokens": 732,
+    "output_tokens": 596,
+    "cost_usd": 0.008615999999999999,
+    "cost_rub": 0.8615999999999999,
+    "wall_clock_seconds": 7.394803100003628,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 732,
+        "output_tokens": 596,
+        "cost_usd": 0.008615999999999999,
+        "cost_rub": 0.8615999999999999,
+        "role": "solver",
+        "architecture": "B0_SingleLarge",
+        "iteration": 1,
+        "latency_seconds": 7.342936000000918
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "HumanEval/3@ctx512",
+    "architecture": "B0_SingleLarge",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.895,
+    "total_tokens": 1590,
+    "input_tokens": 873,
+    "output_tokens": 717,
+    "cost_usd": 0.01035,
+    "cost_rub": 1.035,
+    "wall_clock_seconds": 7.609381900008884,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 873,
+        "output_tokens": 717,
+        "cost_usd": 0.01035,
+        "cost_rub": 1.035,
+        "role": "solver",
+        "architecture": "B0_SingleLarge",
+        "iteration": 1,
+        "latency_seconds": 7.558200200001011
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "HumanEval/4@ctx512",
+    "architecture": "B0_SingleLarge",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.9299999999999999,
+    "total_tokens": 1715,
+    "input_tokens": 786,
+    "output_tokens": 929,
+    "cost_usd": 0.01272,
+    "cost_rub": 1.272,
+    "wall_clock_seconds": 9.434904699999606,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 786,
+        "output_tokens": 929,
+        "cost_usd": 0.01272,
+        "cost_rub": 1.272,
+        "role": "solver",
+        "architecture": "B0_SingleLarge",
+        "iteration": 1,
+        "latency_seconds": 9.380955100001302
+      }
+    ],
+    "extra": {}
+  },
+  {
+    "task_id": "HumanEval/0@ctx512",
+    "architecture": "B3_HybridINoT",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.6950000000000001,
+    "total_tokens": 2423,
+    "input_tokens": 943,
+    "output_tokens": 1480,
+    "cost_usd": 0.019645999999999997,
+    "cost_rub": 1.9645999999999997,
+    "wall_clock_seconds": 14.488603499994497,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 943,
+        "output_tokens": 1480,
+        "cost_usd": 0.019645999999999997,
+        "cost_rub": 1.9645999999999997,
+        "role": "inot_combined",
+        "architecture": "B3_HybridINoT",
+        "iteration": 1,
+        "latency_seconds": 14.43596480000997
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 550,
+      "original_context_tokens": 550,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  },
+  {
+    "task_id": "HumanEval/1@ctx512",
+    "architecture": "B3_HybridINoT",
+    "seed": 42,
+    "passed": true,
+    "tests_passed": true,
+    "static_passed": true,
+    "security_passed": true,
+    "maintainability": 0.625,
+    "total_tokens": 2535,
+    "input_tokens": 1035,
+    "output_tokens": 1500,
+    "cost_usd": 0.02007,
+    "cost_rub": 2.007,
+    "wall_clock_seconds": 13.592163699999219,
+    "iterations_used": 1,
+    "rerun_count": 0,
+    "routed_external": false,
+    "usages": [
+      {
+        "model": "google/gemini-3.1-pro-preview",
+        "input_tokens": 1035,
+        "output_tokens": 1500,
+        "cost_usd": 0.02007,
+        "cost_rub": 2.007,
+        "role": "inot_combined",
+        "architecture": "B3_HybridINoT",
+        "iteration": 1,
+        "latency_seconds": 13.53579229999741
+      }
+    ],
+    "extra": {
+      "compression_ratio": 1.0,
+      "compressed_tokens": 639,
+      "original_context_tokens": 639,
+      "ablate": {
+        "compression": true,
+        "critic": true,
+        "self_check": true
+      }
+    }
+  }
+]

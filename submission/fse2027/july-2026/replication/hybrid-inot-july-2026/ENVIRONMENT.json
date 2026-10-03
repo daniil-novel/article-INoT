@@ -1,0 +1,16 @@
+{
+  "python": "3.11.5",
+  "offline_validation_packages": {
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "matplotlib": "3.10.9",
+    "Pillow": "12.2.0"
+  },
+  "original_generation_environment": "not fully locked in the historical source; declared constraints are preserved in research/pyproject.toml",
+  "dependencies_for_offline_replay": [
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "Pillow"
+  ]
+}

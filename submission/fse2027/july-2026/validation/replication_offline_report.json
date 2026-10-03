@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "network_disabled_by_builder": true,
+  "new_model_calls": 0,
+  "manifest_files_verified": 110,
+  "evidence_comparison": {
+    "float_tolerance_relative": 1e-12,
+    "float_tolerance_absolute": 1e-14,
+    "differences": []
+  },
+  "table_byte_checks": {
+    "e2_aggregates.json": true,
+    "e3_measurements.csv": true,
+    "e3_paired_statistics.csv": true,
+    "e4_profitability.csv": true,
+    "e5_price_sensitivity.csv": true,
+    "e6_model_comparisons.csv": true
+  },
+  "figures": {
+    "e3_humaneval_replication.png": {
+      "archived_size": [
+        2261,
+        917
+      ],
+      "regenerated_size": [
+        2261,
+        917
+      ],
+      "pixel_identical": true,
+      "regenerated_exists": true
+    },
+    "e3_humaneval_replication_en.png": {
+      "archived_size": [
+        2261,
+        917
+      ],
+      "regenerated_size": [
+        2261,
+        917
+      ],
+      "pixel_identical": true,
+      "regenerated_exists": true
+    },
+    "e5_inference_cost_sensitivity.png": {
+      "archived_size": [
+        1692,
+        962
+      ],
+      "regenerated_size": [
+        1692,
+        962
+      ],
+      "pixel_identical": true,
+      "regenerated_exists": true
+    },
+    "e5_inference_cost_sensitivity_en.png": {
+      "archived_size": [
+        1692,
+        962
+      ],
+      "regenerated_size": [
+        1692,
+        962
+      ],
+      "pixel_identical": true,
+      "regenerated_exists": true
+    },
+    "e6_model_cost_ratio.png": {
+      "archived_size": [
+        1824,
+        984
+      ],
+      "regenerated_size": [
+        1824,
+        984
+      ],
+      "pixel_identical": true,
+      "regenerated_exists": true
+    },
+    "e6_model_cost_ratio_en.png": {
+      "archived_size": [
+        1824,
+        984
+      ],
+      "regenerated_size": [
+        1824,
+        984
+      ],
+      "pixel_identical": true,
+      "regenerated_exists": true
+    }
+  },
+  "input_profile": "archived profile retained; benchmark/tokenizer caches are not bundled",
+  "environment": {
+    "python": "3.11.5",
+    "packages": {
+      "numpy": "2.4.4",
+      "scipy": "1.17.1",
+      "matplotlib": "3.10.9",
+      "Pillow": "12.2.0"
+    }
+  }
+}
