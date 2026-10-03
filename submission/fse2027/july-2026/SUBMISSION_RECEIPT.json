@@ -4,10 +4,10 @@
   "submission_url": "https://fse2027.hotcrp.com/paper/2886",
   "title": "Hybrid-INoT: a hybrid agent architecture with internal role segregation for engineering tasks under long shared context",
   "status_message": "The submission is ready for review.",
-  "update_message": "Updated submission (changed Title, Submission, and Abstract)",
-  "uploaded_at_displayed_AoE": "2026-10-02 22:59:14",
-  "uploaded_at_Moscow": "2026-10-03 13:59:14+03:00",
-  "pdf_path": "paper/main.pdf",
+  "update_message": "Updated submission (changed Submission)",
+  "uploaded_at_displayed_AoE": "2026-10-02 23:05:51",
+  "uploaded_at_Moscow": "2026-10-03 14:05:51+03:00",
+  "pdf_path": "paper/Hybrid-INoT.pdf",
   "pdf_pages": 16,
   "pdf_bytes": 983934,
   "local_pdf_sha256": "058b76af30825e465ce26f214d927d10056c5a0a54032b68f1ecdf7c200754d1",
@@ -23,5 +23,13 @@
   ],
   "scientific_text_shortened": false,
   "acceptance_decision": null,
-  "verification": "Live HotCRP success notice, ready-for-review status and displayed checksum prefix; screenshot retained locally."
+  "verification": "Live HotCRP success notice, ready-for-review status and displayed checksum prefix; screenshot retained locally.",
+  "initial_upload": {
+    "filename": "main.pdf",
+    "uploaded_at_displayed_AoE": "2026-10-02 22:59:14",
+    "uploaded_at_Moscow": "2026-10-03 13:59:14+03:00",
+    "update_message": "Updated submission (changed Title, Submission, and Abstract)"
+  },
+  "submitted_filename": "Hybrid-INoT.pdf",
+  "filename_only_update": true
 }

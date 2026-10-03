@@ -2,7 +2,7 @@
 
 ## Current live submission — 3 October 2026
 
-Following the author's explicit authorization, HotCRP #2886 now contains the full July Hybrid-INoT manuscript, not the Role Labels manuscript described below. The final PDF is `july-2026/paper/main.pdf` (16 pages, SHA-256 `058b76af30825e465ce26f214d927d10056c5a0a54032b68f1ecdf7c200754d1`). Title and abstract were updated to match that PDF. HotCRP confirmed "The submission is ready for review". See `july-2026/SUBMISSION_RECEIPT.md` for the verified record and anonymous replication URL.
+Following the author's explicit authorization, HotCRP #2886 now contains the full July Hybrid-INoT manuscript, not the Role Labels manuscript described below. The final PDF is `july-2026/paper/Hybrid-INoT.pdf` (16 pages, SHA-256 `058b76af30825e465ce26f214d927d10056c5a0a54032b68f1ecdf7c200754d1`). Title and abstract were updated to match that PDF. HotCRP confirmed "The submission is ready for review". See `july-2026/SUBMISSION_RECEIPT.md` for the verified record and anonymous replication URL.
 
 ## Historical Role Labels package
 
