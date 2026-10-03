@@ -12,6 +12,7 @@ This package reproduces the numerical claims and tables in the paper from retain
 - `reproduce_full_analysis.py`: reruns the primary and SCC statistical analyses from the anonymous assignment ledgers and compares the numerical summaries.
 - `reproduce_source_sensitivity.py`: exactly regenerates all 16 source-component bootstrap draw vectors and their intervals.
 - `verify_native_evidence.py`: verifies every primary candidate byte-for-byte against the staged evaluator input, every native status against the outcome ledger, all report hashes, and the control-gate hashes.
+- `revision_diagnostics.py`: reproduces all four retrospective simultaneous intervals, both generation-phase diagnostics and absolute resource scales; run `python revision_diagnostics.py --expected primary/revision_diagnostics.json`. The phase mapping and analysis plan are included. These analyses add no model outputs.
 - `MANIFEST.json`: SHA-256 and byte count for every other file.
 
 Run with Python 3.11 or later:
@@ -37,4 +38,4 @@ This reruns the 10,000-draw task bootstrap for the primary, mini, and SCC studie
 
 The anonymous submission artifact includes assignment-level outcomes, resource counters, hashes, protocols, task selections, all primary candidate programs and native reports, control records, pinned evaluator source and data, statistical summaries, source-dependence partitions, and analysis code. Full conversational response bodies, candidate source text from the SCC study, and operational transport traces are omitted because they are unnecessary for the checks above and can contain incidental generated identifiers or machine-local metadata. The complete research archive is retained and will be released after the double-anonymous review period, subject to benchmark and provider terms.
 
-The package reruns the table-level audit and verifies the entire primary candidate-to-report chain without making model calls or executing generated code. A reviewer may also rebuild the included container and rerun the native tests; that optional operation executes untrusted generated programs and therefore remains separate from the safe default checks.
+The package reruns the table-level audit and verifies the entire primary candidate-to-report chain without making model calls or executing generated code. An archive-local reconstructed container recipe, complete historical Python freeze, NLTK hashes and isolated replay helper are supplied under `primary/evaluation/portable/`. See its README for build/control commands and strict resource checks. A fresh build/native rerun was not performed because the Docker engine was unavailable; native equivalence and historical dependency availability remain unverified.

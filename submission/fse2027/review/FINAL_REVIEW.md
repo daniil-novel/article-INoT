@@ -1,116 +1,122 @@
-# Final FSE 2027 gate review
-
-Review date: 2026-09-30. This report supersedes the 20 September gate.
+# FSE 2027 — повторный научный аудит, 3 октября 2026
 
 ## 1. Executive Verdict
 
-**CONDITIONALLY READY for external submission; the paper and upload package pass the technical release checks.** Five separate AI critics read the complete current manuscript, with additional English editorial and compliance passes. The reports are internal quality control, not human peer review or an acceptance prediction. No newly identified scientific or formatting blocker remains after the recorded fixes. Author identity/order, conflicts, originality and simultaneous-review declarations, and author approval remain unverified administrative gates.
+**Узкий основной вывод поддержан данными; гарантии принятия нет.** Семь отдельных ИИ-контекстов получили независимые критические роли: методология, численные результаты, новизна, журнальный стандарт, английский текст/ссылки, воспроизводимость и русская версия/измеряемые величины. Максимальная одновременная группа — три критика плюс координатор; семь рецензий выполнены волнами. Это внутренний контроль качества, а не внешнее рецензирование и не работа приглашенных носителей языка.
 
-The demonstrated contribution is a lexical-label × call-topology factorial study with fixed operation sentences, task-paired executable outcomes, three repeats, multiplicity handling, explicit missingness bounds, and resource accounting. Strengths are component isolation, replayable evidence, the direct baseline, and honest handling of null results. Risks remain one public function benchmark, mutable closed model aliases, bundled topology/computation intervention, and severe SCC infrastructure missingness.
+Сильная сторона — факторное сравнение названий ролей и распределения неизменных операций между вызовами, с парными задачами и отдельными знаменателями качества/ресурсов. Основные остаточные риски: ограниченная важность узкого сценария, зависимость от одного семейства провайдера и публичного бенчмарка, отсутствие равного вычислительного бюджета и механистического разделения истории/длины рассуждения, существенные пропуски SCC, непроверенная заново сборка контейнера. Статья не объявлена универсальным результатом о многоагентных системах.
 
 ## 2. Compliance Matrix
 
-| Requirement | Status | Evidence | Risk | Required action |
-|---|---|---|---|---|
-| Research scope | PASS | AI/code-generation empirical SE | Contribution may be judged narrow | Retain precise scope |
-| Page limit | PASS | 15 pages total, conclusion p13, references p14–15 | None found | Use released PDF |
-| ACM template | PASS | acmsmall, screen, review, anonymous; no layout hacks | None found | Preserve class |
-| Anonymity | PASS in inspected files | PDF has no Author; archive scan and manifest pass | Full hosted-provider traces withheld | Submit only allowlisted files |
-| Title/authorship | UNVERIFIED | Anonymous title is stable; form not filled | Author list cannot be inferred | Authors supply/order/freeze |
-| Originality | UNVERIFIED | No external-submission state accessible | Prior overlapping publication unknown | Author declaration |
-| Simultaneous review | UNVERIFIED | No authoritative account evidence | Policy violation if overlapping review | Author declaration |
-| Data Availability | PASS | After conclusion, supplementary archive identified | SCC conversations withheld | Retain disclosure |
-| Replication package | PASS for supplied replays | 325 entries, manifest, controller source, native chain | New hosted-model generation not reproducible offline | Distinguish replay from new generation |
-| Human participants | Not indicated by this design | Benchmark/model executions only | Undisclosed human study would change assessment | Confirm actual design |
-| AI disclosure | PASS under inspected CFP | Models, dates, parameters, assistant contribution, limitations | Full ACM pages inaccessible live | Author accepts responsibility |
-| References | PASS for compilation; bounded source audit | No undefined citations; recent content checks recorded | Not all 30 records re-opened today | Retain audit scope |
+Официальный CFP проверен 3 октября: https://conf.researchr.org/track/fse-2027/fse-2027-papers. Его требования отделены от пожеланий критиков. Доступ к некоторым самостоятельным страницам ACM ограничен; полная независимая проверка всех политик ACM не заявляется.
+
+| Требование | Статус | Доказательство/риск | Действие |
+|---|---|---|---|
+| Research Track / предметная область | PASS | AI для разработки ПО, эмпирическая генерация кода | Сохранить узкие RQ |
+| 18 страниц текста + 4 библиографии | Проверить финальные байты | Рабочая EN сборка 16 страниц, текст до заключения на 14-й; отдельная Data Availability после заключения | FINAL_VALIDATION.json |
+| ACM acmsmall / review / anonymous | PASS по исходнику и рабочей сборке | Стандартный класс acmart v2.20 | Не менять поля/шрифты ради объема |
+| Анонимность PDF/материалов | Повторный финальный скан | Пустое Author, нет автора в тексте; ссылка ведет на анонимный архив | Проверить новый ZIP и метаданные |
+| Название и авторство | PASS по предыдущей авторской декларации | Название неизменно; персональные данные только в HotCRP | Не переносить их в анонимный PDF |
+| Оригинальность / параллельная подача | По декларации автора | Автор ранее подтвердил отсутствие иной рецензируемой подачи/публикации | Не выдавать декларацию за внешний аудит |
+| Data Availability | PASS по размещению | После Conclusion, стабильная анонимная ссылка | Синхронизировать новую версию архива |
+| Репликационный пакет | Исправлены отсутствующие входы | В старом Dockerfile отсутствовали локальные зависимости FROM/COPY | COPY/полный freeze/выбранные данные проверены; fresh build/native UNVERIFIED |
+| Исследование людей | Не выявлено | Генерация моделей и тестирование программ; опросов/участников нет в описанном дизайне | Пересмотреть, если дизайн изменится |
+| ИИ / ответственность автора | PASS по исследованному CFP | Подробное описание генерации и ИИ-помощи; внутренние ИИ-проверки не названы человеческими | Ответственность остается у автора |
+| Ссылки | 35/35 попыток проверки | Существование подтверждено первичными страницами; глубина проверки неодинакова | Ограничения доступа раскрыты в R5 |
+| Текущая HotCRP версия | Отдельный административный факт | Заявка #2886 ранее готова к рецензированию, но новая локальная версия не равна загруженной | Конкретное согласование перед заменой |
 
 ## 3. Desk-Reject Audit
 
-The released files meet the inspected format, length and anonymity requirements. The previously stale upload PDF and table copies are replaced. The remaining real pre-submission risks concern author declarations and HotCRP state, which this file audit cannot certify. Official deadline now reads 2 October 2026, 23:59 AoE, corresponding to 3 October 2026, 14:59 Moscow time; the older 12 AM wording is superseded.
+В проверенных исходниках и рабочем PDF не найдено подтвержденного нарушения длины, шаблона или анонимности. Реальный административный риск — рассогласование обновленного PDF, аннотации и анонимного пакета с ранее отправленной версией. Финальная компиляция, контрольные суммы, визуальные страницы и локальный архив проверены после всех изменений; состояние публичной копии и live-подачи фиксируется отдельно. Новые эксперименты или «Q1-уровень» не являются придуманными формальными требованиями CFP.
 
 ## 4. Scientific Contribution
 
-The study tests labels and distribution of operations across call boundaries, not machine introspection. Role nulls are not rejected after Holm correction; this does not establish equivalence. Three-call quality contrasts are negative on complete eligible pairs, and full-assignment extreme bounds remain negative. Resource estimates use their own complete-counter subsets. The SCC comparison establishes conditional results only; its population bounds admit either quality ranking.
+Показан эффект конкретного изменения протокола: одинаковые операции в одном ответе либо в трех свежих вызовах с полным контекстом. Лексические ролевые метки варьируются отдельно. Измеряется прохождение исходных тестов, не «интроспекция», сознание, общая корректность программы или качество промышленного проекта.
+
+На полных допустимых парах три вызова снижают долю успеха на 4,17/2,13 процентного пункта. Это соответствует примерно 42/21 меньшему числу прошедших тесты программ на тысячу генераций **при оцененных частотах**, а не еще одному проведенному эксперименту. Стоимостные отношения 2,67/2,78 рассчитываются на собственных полных ресурсных парах. Абсолютная прибавка около $1,60 на тысячу и 8,5 тыс. токенов на генерацию предотвращает преувеличение денежного масштаба.
 
 ## 5. Novelty Map
 
-| Closest work | Existing contribution | Current difference | Demonstrated? | Remaining limit |
-|---|---|---|---|---|
-| SCC | Role-removal/configuration/interaction ablations and token cost | Unchanged operation sentences crossed with call topology and repeated pairs | Yes | Different controller and benchmark |
-| MapCoder | Retrieval/planning/code/debug pipeline with execution feedback and resource accounting | Labels/call boundaries with feedback withheld | Yes | No superiority claim |
-| ACL-2026 PairCoder | Two-agent verbal navigator review and token accounting | Fixed operations and repeated factorial design | Yes | Different model/task scope |
-| OneFlow/DATS | Whole workflow emulation or adaptive routing and cost trade-offs | Smaller component intervention | Yes | Both remain preprints |
+| Близкая работа | Что уже было | Проверенное отличие | Оставшаяся граница |
+|---|---|---|---|
+| SCC | Роли, их удаление, число взаимодействий, токены | Неизменные операции при отдельном изменении названий/вызовов | Адаптированный SCC — другой полный контроллер |
+| AdaCoder v1 | Шесть моделей; отрицательное сочетание качества и токенов SCC уже наблюдалось | Контролируемое компонентное вмешательство | Сам негативный результат не заявлен новизной |
+| MapCoder / ASE PairCoder | Планирование/поиск/исправление с обратной связью | Первичный сценарий без инструментов и обратной связи | Не показано превосходство над их исходными постановками |
+| ACL PairCoder / OneFlow / DATS | Иные схемы взаимодействия, переключения и учета ресурсов | Малое факторное изменение при одинаковых операциях | OneFlow/DATS — препринты; не рецензируемые результаты |
+
+AdaCoder v1 проверен по полному HTML https://arxiv.org/html/2504.04220v1; отдельно указана журнальная публикация. Непроверенное по финальному первичному тексту число двенадцать убрано из описания и примечания, а не перенесено в сноску как якобы установленный факт.
 
 ## 6. Methodology Audit
 
-The source-dependence definition now includes exact instruction/AST edges and near-code token edges, with their thresholds and full-source connectivity convention. Its protocol was specified during generation after the original registration; this chronology is explicit. The primary four-test family is unchanged. The intervention couples repeated context, exposed intermediate outputs and induced computation; it does not identify a pure call-count mechanism. The supplement now includes the exact frozen SCC controller, vendor prompts/license, transport dependencies and dispatcher. This fixes intervention inspectability without launching provider calls.
+Фактическая основная генерация — 8–11 сентября UTC; терминальные записи выбранного SCC сравнения — 11–13 сентября UTC. Первоначальные ошибочные даты исправлены по сохраненным маркерам, а не названиям папок. Протокол Luna в локальной истории предшествует первому маркеру запуска; Git не является независимой внешней временной регистрацией. Аудит зависимости задач определен уже во время генерации и использует источники бенчмарка. Его 992 группы преимущественно одиночные: это проверка близких дубликатов, не доказательство семантической/провайдерской независимости.
+
+Повторы не превращены в новые независимые задачи. Контроль пригодности требует прохождения эталона и неуспеха неправильной программы. Состав контекста, длительность рассуждения и передача промежуточных ответов меняются вместе со структурой вызовов; чистый механизм числа вызовов не идентифицирован.
 
 ## 7. Statistical Audit
 
-Primary, mini and SCC numerical replays passed from anonymous assignment ledgers. All 16 source-component bootstrap distributions reproduced. Task means receive equal weights; repeat requests are not treated as independent task units. Four primary tests and two SCC tests use separate Holm families. Descriptive intervals are not simultaneous intervals. SCC extreme missingness bounds cross zero. Quality and resource paired subsets differ and are now distinguished in the abstract.
+Исходная семья четырех тестов с Holm сохранена. Обычные 95%-е бутстреп-интервалы остаются описательными. Дополнительно рассчитаны все четыре 98,75%-е t-интервала Bonferroni: SR–SN [−2,32;0,83], MR–MN [−0,20;2,90], MN–SN [−6,04;−2,29], MR–SR [−3,80;−0,46] пункта. Совместное покрытие приблизительно и зависит от исходных предположений о задачах; это не проверка эквивалентности.
+
+Новый разбор первого завершенного сеанса и поздних сеансов включает все четыре контраста, совпадающие пары повторов, равный вес задач и 10 000 бутстреп-выборок. Направление обеих разностей структуры сохраняется, но ранний MR–SR включает ноль. Наборы задач перекрываются; периоды не названы независимыми повторениями и не исключают дрейф провайдера. Новые анализы явно ретроспективные. R1 независимо реконструировал их по исходным строкам; подробности в R1-revision-verification.md.
 
 ## 8. Results and Claim-Evidence Matrix
 
-| Claim | Evidence | Strength | Problem/limit | Required fix |
-|---|---|---|---|---|
-| No reliable label gain | −0.75/+1.35 points; adjusted p .2357/.0599 | Scoped | Null result is not equivalence | Resolved wording retained |
-| Three-call quality lower | −4.17/−2.13 points; negative intervals/bounds | Strong in sampled setting | Public benchmark/model alias | Limit scope |
-| Higher resources | Valuation ratios 2.672/2.780 | Measured counters | API-equivalent, not subscription invoice | Explicit distinction retained |
-| SCC conditional quality lower | −2.68/−2.48 points | Conditional | Full bounds allow either sign | No population ranking |
-| Direct baseline | Four exploratory paired estimates | Exploratory | Outside original test family | Label retained |
+| Утверждение | Доказательство | Граница/исправление |
+|---|---|---|
+| Устойчивое ухудшение при трех вызовах в данном режиме | Основные пары, отрицательные крайние границы пропусков, 800 новых ID, периоды | Без обобщения на любые агенты/репозитории |
+| Выигрыш названий ролей не установлен | −0,75/+1,35; скорректированные проверки и совместные интервалы | Возможен небольшой полезный эффект; эквивалентность не доказана |
+| Рост измеренных ресурсов | Полные ресурсные пары, скидка/без скидки на кеш, абсолютная шкала | Токены поставщика и API-эквивалент, не счет или TCO |
+| SCC хуже на наблюдаемых парах | Собственная семья тестов и условные оценки | Полные границы для 941 пригодной задачи допускают оба порядка |
+| Прямой решатель — полезная база | Исследовательские парные сравнения и меньшие средние ресурсы | Не доказаны эквивалентность или экономическая оптимальность |
 
 ## 9. FSE Criterion Review
 
-Originality: PASS for the specific controlled measurement contribution, with no exhaustive novelty claim. Importance: WEAK/limited to fixed-context code generation, although the measured cost/quality trade-off is relevant. Soundness: PASS for scoped estimands. Evaluation: PASS within the disclosed domain; broader repository/general-agent claims are unsupported. Presentation: PASS after English editing and rendering. Related work: PASS for the corrected closest comparisons, subject to recorded source-access limits.
+**Originality — PASS/ограничена:** компонентный факторный дизайн, а не первое наблюдение затратного неэффективного SCC. **Importance — WEAK:** практический вопрос измерим, но область узкая. **Soundness — PASS в указанной постановке:** пары, контроль пригодности, пропуски и семейства тестов раскрыты. **Evaluation — PASS для узких RQ / WEAK для общего метода:** один публичный набор, родственные модельные алиасы, нет равного бюджета или независимого семейства. **Presentation — улучшена:** конкретные выводы, сокращенная аннотация, согласованные русские понятия. **Related Work — улучшена:** близкий отрицательный результат признан; доступ к финальным текстам не преувеличен.
 
 ## 10. Freshness Audit
 
-Targeted searches/readings checked SCC, MapCoder, both PairCoder distinctions, AdaCoder implementation, OneFlow and DATS. The latter two are correctly described as preprints. The earlier 30-reference metadata audit remains historical; today’s content re-audit does not claim to reverify every source. Direct ACM policy/template pages returned access errors; current official CFP clauses were inspected and source conflicts recorded rather than inferred away.
+R2 проверил близкие сравнения и новизну; R4 сопоставил дизайн с актуальными работами сильных журналов; R5 попытался проверить все 35 записей. Исправлены порядок/имя автора BigCodeBench, точное название LDB и версия ссылки AdaCoder. Авторская страница AdaCoder и программа FSE 2026 Journal-First подтвердили существование журнальной публикации, но не заменяют ее полный текст.
+
+Кандидаты для возможного последующего расширения — EMSE, JSS, TSE и TOSEM, с наилучшей тематической близостью первых двух. R4 не подтверждает полный текущий набор JCR/SJR/CiteScore и категорий всех четырех; исторический Q1 не представлен как свежая проверка. Не предлагается одновременно отправлять текущую работу в журнал и FSE.
 
 ## 11. Section-by-Section Review
 
-| Section/material | Status/strength | Weakness or missing evidence | Required/optional change |
-|---|---|---|---|
-| Title | PASS: concrete measured choices | Broader INoT architecture not evaluated | Retain |
-| Abstract | PASS: effects/uncertainty | Quality/resource subsets differ | Corrected |
-| Introduction/RQs | PASS: causal question scoped | General importance limited | Timing wording corrected |
-| Background/related work | PASS: closest comparisons | Prior ablations/resources understated | Corrected from full texts |
-| Workflow | PASS: prompts/output contract | Hidden reasoning unavailable | Explicit limit retained |
-| Methods/setup | PASS: selections/models/failures | Mutable aliases/provider seeds unavailable | No values invented |
-| Baselines | PASS: direct/factorial/SCC | No equal-budget search baseline | No optimality claim |
-| Results/statistics | PASS: ledgers/replay | Missingness and domain limits | Main text sufficient |
-| Discussion | PASS: qualified interpretation | Repeated caveats | Consolidated |
-| Limitations | PASS: benchmark/model/controller limits | Broader generalization untested | Retain |
-| Conclusion | PASS: follows measured estimands | Acceptance remains discretionary | No guarantee |
-| Data Availability | PASS: after conclusion | SCC full responses withheld | Controller source added |
-| References | PASS: build and targeted source checks | Some live records unavailable | Scope documented |
-| Supplement | PASS: exact tables, hashes, replays | No new hosted-model reproduction | README distinguishes capabilities |
+Название/RQ: сохранены, соответствуют измеренному вмешательству. Аннотация: сокращена с сохранением знаменателей, результатов и неопределенности. Related Work: исправлено представление новизны и версии близкой работы. Методы: даты, хронология и смыслы контролей уточнены. Статистика: добавлены совместные интервалы и разбор периодов без изменения исходных решений. Ресурсы: $23,07 относится к завершенным кандидатам; еще около $0,03 относится к известным этапам незавершенных процессов, всего около $23,10; 32 этапа без счетчиков не оценены нулями. Обсуждение/заключение: выделены величина потери качества, рост токенов, неопределенность ролей и границы обобщения. Русская расширенная версия сохранена; исправлены marginal rates, non-inferiority, assertions и разные оцениваемые совокупности SCC. Data Availability/README: должны точно соответствовать обновленному содержимому пакета.
 
 ## 12. Missing Experiments
 
-No mandatory new experiment is justified for the stated component-isolation claims by the five current reports. A budget-matched repeated-sampling baseline would answer whether the extra compute is better spent on independent search; repository tasks and fresh benchmarks would test external validity. Neither is needed to assert the existing narrowly scoped result, and neither is claimed completed. They remain potential reviewer requests, not cosmetic replacements for evidence.
+| Вопрос | Зачем | Минимальный дизайн | Критерий доказательства | Приоритет |
+|---|---|---|---|---|
+| История промежуточных ответов или дополнительное вычисление? | Установить механизм | Сохраненные одинаковые первые этапы, случайное ветвление собственного/длино-сопоставимого нерелевантного контекста, фиксированный финальный бюджет | Парное изменение финального прохождения тестов, все назначения/пропуски | P1 для механистического расширения |
+| Равный бюджет: лучше ли независимый поиск? | Сравнить распределение вычисления | Direct sampling/search против трех этапов при заранее заданном числе токенов/стоимости и одинаковой проверке | Качество при одинаковом бюджете, ресурсы и неопределенность | P1 для claims об оптимальном расходовании |
+| Другие модельные семьи и новая область задач | Внешняя валидность | Независимое семейство, новые задачи и заранее зафиксированный размер/анализ | Репликация эффектов, без объединения разных исследований задним числом | P1 для сильного журнального расширения |
+| SCC на полной надежной инфраструктуре | Ранжирование всей совокупности | Новое проспективное парное исследование с рабочими generated checks и заранее заданными пропусками | Полные назначенные исходы/узкие границы, а не замена только неудач | P1 для общего SCC ranking |
+| Новая сборка контейнера и повтор native-тестов | Проверка переносимости | Сборка локального рецепта, контрольные программы, затем кандидаты без сети | Среда, журналы и статус каждого кандидата; отклонения не переписывают историю | P1 воспроизводимости |
+
+Эти эксперименты не объявлены выполненными и не заменены увеличением числа повторов ради объема. Для нынешних узких RQ критики не обосновали обязательную новую генерацию как условие формальной подачи. Для перечисленных более сильных утверждений нужны именно новые данные; в текущую статью они не включены.
 
 ## 13. Replication and Open Science Audit
 
-All 14,961 primary candidate programs match native reports and outcome statuses; control hashes pass. The new archive contains 325 files, its 324 payload hashes validate, table bytes equal paper sources, and upstream SCC hashes match pinned commit b471e12051190dbae2c71b429a3c87466df4b336. Numerical replay needs no provider credentials; new generation requires the disclosed runtime/provider/environment. Full model conversations and SCC generated candidate source remain withheld as disclosed.
+Старый ZIP: 325 файлов, 324 payload-хеша; его отсутствие локальной базы контейнера — подтвержденный дефект, а не форматная придирка. Новые диагнозы, фазы, план ретроспективного анализа, контрольные численные результаты и таблица включаются в новый архив. Версия среды, полный freeze и данные NLTK должны различать исторический образ и новый рецепт. Численное переигрывание, связь кандидатов/отчетов и новое выполнение сгенерированного кода — три разные проверки. Финальные фактические результаты и хеши фиксируются отдельно; незапущенная Docker сборка остается UNVERIFIED.
 
 ## 14. Required Changes
 
-P0 file gates: all resolved (stale upload, build, manifest, matching tables). P0 administrative gates: author approval/list/order, conflicts, originality and simultaneous-submission declarations, live HotCRP readiness. P1 scientific corrections: all resolved (related-work resource/feedback cells, SCC role-removal control, source grouping/chronology, SCC controller access, distinct quality/resource subsets, accurate AI verification attribution). P2 language: implemented SCC two-level averaging, token-difference referent, agreement, repeated-caveat reduction and concise software note.
+**P0:** закончить сборки/визуальный и анонимный аудит, синхронизацию новых байтов и live-состояния. **P1 исправлено:** хронология, разбор неопределенности/периодов, абсолютная ресурсная шкала, раскрытие предшествующего результата, точные условные выводы. **P1 остается для расширения:** новые механизм/бюджет/семейство/SCC данные; независимый native rebuild. **P2 исправлено:** сокращение аннотации, библиографические транскрипции, русские семантические и грамматические ошибки.
 
-## 15. Concrete Revision Plan and Verification
+## 15. Concrete Revision Plan
 
-The revised descriptions were matched against frozen protocols or primary full texts. The existing analyses were independently replayed rather than replaced. Both PDFs were rebuilt and visually checked. The concurrent September22 author-comment revisions to the expanded Russian reading version were preserved, and September30 scientific fixes were applied. Exact structural parity is not intended for that reading version; all seven original quantitative table sequences match the English version. Only the allowlisted PDF/ZIP are intended for HotCRP. Final hashes are recorded in FINAL_VALIDATION.json and upload/SHA256SUMS.txt.
+Хронология → оба body.tex → исходные UTC-маркеры и локальное расположение протокола → доверие к моменту фиксации дизайна → независимый R1. Неопределенность/периоды → revision_diagnostics.py и новые таблицы → все четыре контраста/8 строк → измеренная точность и прозрачность → независимая реконструкция R1 и checkpoint. Стоимость → Discussion/учет → парная абсолютная шкала и отдельно незавершенные этапы → соразмерная практическая интерпретация → исходные ресурсные поля R3/R1. Репликация → artifact builder/recipe/README → недостающие зависимости и provenance → реальная проверяемость вместо обещания → пакетный аудит; новый native запуск отдельно. Финальные файлы → upload/и публичная копия → соответствующие SHA-256 → целостность подачи → FINAL_VALIDATION.json и отдельное подтверждение HotCRP.
 
 ## 16. Reviewer Simulation
 
-Methodology-focused: supports scoped task-paired inference, may request stronger handling or evidence for SCC missingness; population ranking is withheld. LLM expert: recognizes the fixed-operation factorial delta, may request budget-matched search or a fresh benchmark; this remains a domain limit. Empirical-SE reader: may question practical breadth of function generation and the narrow contribution; current manuscript makes the executable cost/quality trade-off and limitations explicit. These are simulated positions, not external committee reviews.
+**A — методология:** сильны парный дизайн и явные неизвестные исходы; спросит об IID задач/дрейфе и моменте фиксации протокола. Ответ: новый разбор периодов, честная локальная хронология и ограничения зависимости; не обещать независимость.
+
+**B — LLM/code generation:** оценит малое компонентное вмешательство, но возразит против новизны просто отрицательного SCC и спросит об equal-budget search. Ответ: новая литература и узкая формулировка; равный бюджет — отдельный будущий эксперимент.
+
+**C — эмпирическая SE:** сочтет данные проверяемыми, но может оценить важность как недостаточную для FSE/TSE. Спросит, переносится ли эффект на реальные репозитории и стоит ли экономия $1,60 усилий. Ответ: основной практический эффект — качество и токены в данной постановке; деньги не преувеличены, промышленное применение не заявлено. Это реальные возможные возражения, не прогноз решения комитета.
 
 ## 17. Final Pre-Submission Checklist
 
-YES: current ACM review class; 15-page English PDF; embedded fonts; no undefined references/overfull boxes/missing glyphs; anonymous inspected release; post-conclusion Data Availability; exact table/supplement alignment; all supplied replays; source-controller availability; Russian quantitative-table parity and preserved author-comment explanations; disclosed AI assistance.
+YES: неизменные RQ/название; оригинальная семья тестов; явные условные знаменатели; отсутствие доказанной эквивалентности; исходные и новые числа проверены; сохраненные русские пояснения; ИИ-проверки раскрыты как внутренние. PASS в финальном release record: сборка 16/27 страниц, шрифты, анонимность, все визуальные страницы, численное совпадение восьми таблиц, 336 payload-хешей нового ZIP, полный статистический replay и 14 961 основная цепочка программ/отчетов. Публичная копия и замена PDF/аннотации в HotCRP имеют отдельные статусы, пока не подтверждены live. NO: новые поколения независимого семейства, равный вычислительный бюджет, причинный механизм истории, полное SCC ranking, новая выполненная Docker репликация, гарантия принятия. Окончательный статус этих пунктов — в FINAL_VALIDATION.json и отдельной записи live-подачи; исторические результаты не считаются свежими автоматически.
 
-UNVERIFIED: human author approval, author identities/order, conflicts, originality/overlap, no concurrent refereed review, HotCRP form readiness and final submission receipt. No conference submission occurred during this task.
 
-Review loop: two bounded observe/fix/verify iterations; five separate critic contexts plus follow-up editorial/compliance gates. Historical graph nodes were read and treated as stale; the fresh evidence is retained locally in these reports. Final state: **CONDITIONALLY READY**, with only the listed administrative gates remaining before external submission.
+Финальный пересчет выполнен из нового извлеченного архива: исходные основные, mini- и SCC-анализы, все 16 компонентных bootstrap-векторов, новый диагностический JSON, первичная цепочка кандидатов и контрольные хеши прошли. Рецепт среды дополнен полным freeze (186 версий), ресурсами NLTK (83 хеша), точным выбранным evaluator dataset, локальными COPY и изолированными командами; исправлены права новых выходных каталогов и внешний deadline. Это не новая проверка выполнения программ.

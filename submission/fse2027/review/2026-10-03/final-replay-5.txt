@@ -1,0 +1,170 @@
+{
+  "draws": 10000,
+  "interval_family": "four Bonferroni98.75percent Student t intervals; conditional approximate simultaneous95percent",
+  "ledger_sha256": "a2a8b8045f1c32dd76c783dc00f20bf5bef49ec63c58d11139e7187a61963ad6",
+  "phase_sha256": "d9fad504bdcfedd8aa3b26f31888feb1c07eb45fa89048d4c5cc0090e52d96c3",
+  "phases": {
+    "MN--SN": {
+      "first_completed_session": {
+        "bootstrap95": [
+          -0.06558118498417007,
+          -0.019900497512437814
+        ],
+        "matched_repeat_pairs": 1092,
+        "mean": -0.042740841248303935,
+        "tasks": 737
+      },
+      "later_sessions": {
+        "bootstrap95": [
+          -0.06370449678800856,
+          -0.026052819414703783
+        ],
+        "matched_repeat_pairs": 1846,
+        "mean": -0.04461099214846538,
+        "tasks": 934
+      }
+    },
+    "MR--MN": {
+      "first_completed_session": {
+        "bootstrap95": [
+          -0.014039855072463766,
+          0.029891304347826088
+        ],
+        "matched_repeat_pairs": 1090,
+        "mean": 0.00792572463768116,
+        "tasks": 736
+      },
+      "later_sessions": {
+        "bootstrap95": [
+          -0.0010706638115631705,
+          0.02926481084939329
+        ],
+        "matched_repeat_pairs": 1844,
+        "mean": 0.014097073518915058,
+        "tasks": 934
+      }
+    },
+    "MR--SR": {
+      "first_completed_session": {
+        "bootstrap95": [
+          -0.04268857271906052,
+          0.0013606594399276518
+        ],
+        "matched_repeat_pairs": 1092,
+        "mean": -0.02055103884372177,
+        "tasks": 738
+      },
+      "later_sessions": {
+        "bootstrap95": [
+          -0.039971448965024976,
+          -0.007673090649536046
+        ],
+        "matched_repeat_pairs": 1849,
+        "mean": -0.02373304782298358,
+        "tasks": 934
+      }
+    },
+    "SR--SN": {
+      "first_completed_session": {
+        "bootstrap95": [
+          -0.03536036036036036,
+          0.007432432432432433
+        ],
+        "matched_repeat_pairs": 1096,
+        "mean": -0.01418918918918919,
+        "tasks": 740
+      },
+      "later_sessions": {
+        "bootstrap95": [
+          -0.02225783475783476,
+          0.009081196581196582
+        ],
+        "matched_repeat_pairs": 1855,
+        "mean": -0.00658831908831909,
+        "tasks": 936
+      }
+    }
+  },
+  "precision": {
+    "MN--SN": {
+      "bonferroni_interval": [
+        -0.06039486294622534,
+        -0.02293847038710799
+      ],
+      "mean": -0.041666666666666664,
+      "standard_error": 0.007484129852559579,
+      "tasks": 968
+    },
+    "MR--MN": {
+      "bonferroni_interval": [
+        -0.0020356421770928845,
+        0.02900659653393936
+      ],
+      "mean": 0.013485477178423237,
+      "standard_error": 0.006202474948755745,
+      "tasks": 964
+    },
+    "MR--SR": {
+      "bonferroni_interval": [
+        -0.03799499625899218,
+        -0.0045728032604036295
+      ],
+      "mean": -0.021283899759697904,
+      "standard_error": 0.006678098594785068,
+      "tasks": 971
+    },
+    "SR--SN": {
+      "bonferroni_interval": [
+        -0.023218436030542605,
+        0.008282930260006288
+      ],
+      "mean": -0.007467752885268159,
+      "standard_error": 0.006294429513639133,
+      "tasks": 982
+    }
+  },
+  "resource_scale": {
+    "MN--SN": {
+      "api_equivalent_usd": {
+        "mean_difference": 0.001596240542556799,
+        "tasks": 983
+      },
+      "total_tokens": {
+        "mean_difference": 8581.76941336046,
+        "tasks": 983
+      }
+    },
+    "MR--MN": {
+      "api_equivalent_usd": {
+        "mean_difference": -5.71359210078311e-05,
+        "tasks": 979
+      },
+      "total_tokens": {
+        "mean_difference": -130.81001021450462,
+        "tasks": 979
+      }
+    },
+    "MR--SR": {
+      "api_equivalent_usd": {
+        "mean_difference": 0.0015985877484787018,
+        "tasks": 986
+      },
+      "total_tokens": {
+        "mean_difference": 8510.412440838405,
+        "tasks": 986
+      }
+    },
+    "SR--SN": {
+      "api_equivalent_usd": {
+        "mean_difference": -5.817227683049148e-05,
+        "tasks": 997
+      },
+      "total_tokens": {
+        "mean_difference": -58.02407221664995,
+        "tasks": 997
+      }
+    }
+  },
+  "seed": 20261003,
+  "status": "retrospective_descriptive"
+}

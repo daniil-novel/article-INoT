@@ -1,0 +1,54 @@
+[
+  {
+    "command": [
+      "reproduce_tables.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.062,
+    "log": "final-replay-1.txt"
+  },
+  {
+    "command": [
+      "verify_native_evidence.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.656,
+    "log": "final-replay-2.txt"
+  },
+  {
+    "command": [
+      "reproduce_full_analysis.py"
+    ],
+    "exit_code": 0,
+    "seconds": 8.813,
+    "log": "final-replay-3.txt"
+  },
+  {
+    "command": [
+      "reproduce_source_sensitivity.py"
+    ],
+    "exit_code": 0,
+    "seconds": 2.312,
+    "log": "final-replay-4.txt"
+  },
+  {
+    "command": [
+      "revision_diagnostics.py",
+      "--expected",
+      "primary/revision_diagnostics.json"
+    ],
+    "exit_code": 0,
+    "seconds": 1.719,
+    "log": "final-replay-5.txt"
+  },
+  {
+    "command": [
+      "primary/evaluation/portable/run_native.py",
+      "--run-dir",
+      "primary/evaluation/controls/gold"
+    ],
+    "exit_code": 0,
+    "seconds": 0.078,
+    "log": "final-replay-6.txt"
+  }
+]

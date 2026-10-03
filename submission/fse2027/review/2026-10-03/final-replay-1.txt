@@ -1,0 +1,12 @@
+# Reproduced table checkpoint
+
+- Primary assignments: 15,000
+- Completed candidates: 14,961
+- Task clusters: 1,000
+- Primary effects (percentage points): single_roles_minus_single_neutral=-0.75, multi_roles_minus_multi_neutral=+1.35, multi_neutral_minus_single_neutral=-4.17, multi_roles_minus_single_roles=-2.13
+- Direct effects (percentage points): direct_minus_single_neutral=+0.27, direct_minus_single_roles=+0.95, direct_minus_multi_neutral=+4.59, direct_minus_multi_roles=+3.20
+- Mini corroboration (percentage points): roles_minus_neutral_single=-1.05, roles_minus_neutral_multi=+1.04, multi_minus_single_neutral=-4.71, multi_minus_single_roles=-2.07
+- SCC selected rows: 6,000 across 956 tasks
+- SCC effects (percentage points): scc_author_2024_codex_transport-minus-single_roles=-2.68, scc_author_2024_codex_transport-minus-single_neutral=-2.48
+
+All registered checks passed.

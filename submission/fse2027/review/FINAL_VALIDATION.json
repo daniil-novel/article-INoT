@@ -1,51 +1,55 @@
 {
+  "checked_at": "2026-10-03",
   "paper": {
-    "pages": 15,
-    "sha256": "1c37bf6a816df3bd19689b031659410154c9bdecc81b2a384c22b82dbfb6194b",
-    "clean_build": true,
-    "references_start": 14,
-    "data_availability_start": 13,
-    "conclusion_start": 13,
+    "pages": 16,
+    "sha256": "e4d4098d8cb25bb74ca7cf73787977c539ef5b7f406ed195f921104aa9e94faf",
+    "build_exit_code": 0,
+    "compiler": "pdfLaTeX",
     "embedded_font_count": 15,
-    "clean_build_checked_at": "2026-09-30",
-    "rebuilt_at": "2026-10-02",
+    "metadata_author_empty": true,
+    "identity_scan": "PASS",
     "anonymous_hyperlink_verified": true,
-    "changed_page_visual_check": "PASS"
+    "all_pages_rendered_and_visually_checked": true,
+    "build_checked_at": "2026-10-03",
+    "references_start": 15,
+    "data_availability_start": 15,
+    "conclusion_start": 14,
+    "content_ends": 14,
+    "reference_pages": 2,
+    "FSE_page_gate": "PASS: 14 content pages plus exempt Data Availability and 2 reference pages"
   },
   "translation-ru": {
-    "pages": 26,
-    "sha256": "b50b9143828ac898b3e49197483782fd13554a73af60dafaf2bc0a5ab6459e86",
-    "clean_build": true,
-    "embedded_font_count": 12,
-    "role": "expanded Russian reading version; not official submission",
-    "author_comment_expansions_preserved": true,
-    "clean_build_checked_at": "2026-09-30",
-    "rebuilt_at": "2026-10-02",
+    "pages": 27,
+    "sha256": "d32ff8b10fd17253aa44a039f64d75bac7cde0baaeb95ad090f3d17e038134e8",
+    "build_exit_code": 0,
+    "compiler": "XeLaTeX",
+    "embedded_font_count": 8,
+    "metadata_author_empty": true,
+    "identity_scan": "PASS",
     "anonymous_hyperlink_verified": true,
-    "changed_page_visual_check": "PASS"
+    "all_pages_rendered_and_visually_checked": true,
+    "build_checked_at": "2026-10-03",
+    "role": "expanded Russian reading version; not official submission",
+    "author_comment_expansions_preserved": true
   },
   "supplement": {
-    "files": 325,
-    "sha256": "a6979a5304985f95640e13add84466f785684471c7fd042146e497f351cdf856",
+    "files": 337,
+    "manifest_payload_entries": 336,
+    "sha256": "693c088ac83b9f78ea48f786393cd8b7fddea4a77206a6e6d386fbd2626b9d71",
     "manifest": "PASS",
-    "paper_table_bytes": "PASS",
-    "scc_upstream_hashes": "PASS",
-    "scc_commit": "b471e12051190dbae2c71b429a3c87466df4b336"
+    "anonymity_scan": "PASS",
+    "portable_COPY_sources": "PASS",
+    "native_rebuild": "UNVERIFIED: Docker engine unavailable"
   },
-  "checked_at": "2026-09-30",
-  "translation_numeric_tables": "PASS: all seven original quantitative table sequences match after decimal normalization",
-  "remote_author_comment_integration": "149f5f8c: expanded September22 reading version preserved; September30 scientific fixes applied",
-  "anonymous_access_checkpoint": {
-    "checked_at": "2026-10-02",
-    "url": "https://anonymous.4open.science/r/role-calls-replication-2026/",
-    "source_commit": "5498b5378d4167083eeca40fe0c930b322af362e",
-    "file_count": 326,
-    "public_viewer": "PASS",
-    "source_member_byte_comparison": "PASS: 325 exact supplement members",
-    "downloaded_service_zip_checksum": "NOT VERIFIED: browser download attempts timed out",
-    "scientific_results_changed": false,
-    "original_zip_changed": false
+  "translation_numeric_tables": "PASS: all eight quantitative table sequences match after decimal normalization",
+  "bibliography_byte_parity": true,
+  "reviewers": {
+    "independent_initial_contexts": 7,
+    "type": "AI internal quality review",
+    "human_native_review_claimed": false
   },
+  "new_model_generations": 0,
+  "new_analysis": "Retrospective simultaneous precision, execution-phase and absolute-resource diagnostics on retained records",
   "submission_checkpoint": {
     "confirmed_at_utc": "2026-10-02 11:42:36 UTC",
     "track": "FSE 2027 Research Track",
@@ -59,6 +63,81 @@
     "further_required_hotcrp_action": false,
     "server_pdf_checksum_prefix": "1c37bf6a",
     "submitted_release_commit": "c30c677767c9ed9575c668e56db9f7bb3c255d15",
-    "paper_bytes_changed_at_finalization": false
-  }
+    "paper_bytes_changed_at_finalization": false,
+    "live_checked_at": "2026-10-03",
+    "live_status": "ready for review; original checksum 1c37bf6a; changes still allowed",
+    "deadline_local": "2026-10-03 14:59 Europe/Moscow"
+  },
+  "anonymous_access_checkpoint": {
+    "checked_at": "2026-10-03",
+    "url": "https://anonymous.4open.science/r/role-calls-replication-2026/",
+    "source_commit": "44cccb83e5ffa6ad7034095270b255824a8eb685",
+    "file_count": 338,
+    "public_viewer": "PASS: READY status and new README/diagnostic file visible",
+    "source_member_byte_comparison": "PASS: all 337 supplement members and archive match committed Git blobs",
+    "downloaded_service_zip_checksum": "NOT VERIFIED: prior browser download timed out",
+    "auto_update": false,
+    "expiry": "2027-09-30 Remove, no author-repository redirect"
+  },
+  "revision_publication": {
+    "github": "PENDING",
+    "anonymous_mirror": "PASS: updated snapshot READY, 338 files, new diagnostic documentation visible",
+    "HotCRP_replacement": "NOT PERFORMED; author approval required for materially revised version",
+    "artifact_branch_commit": "44cccb83e5ffa6ad7034095270b255824a8eb685",
+    "artifact_branch_push": "PASS"
+  },
+  "statistical_replay": [
+    {
+      "command": [
+        "reproduce_tables.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.062,
+      "log": "final-replay-1.txt"
+    },
+    {
+      "command": [
+        "verify_native_evidence.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.656,
+      "log": "final-replay-2.txt"
+    },
+    {
+      "command": [
+        "reproduce_full_analysis.py"
+      ],
+      "exit_code": 0,
+      "seconds": 8.813,
+      "log": "final-replay-3.txt"
+    },
+    {
+      "command": [
+        "reproduce_source_sensitivity.py"
+      ],
+      "exit_code": 0,
+      "seconds": 2.312,
+      "log": "final-replay-4.txt"
+    },
+    {
+      "command": [
+        "revision_diagnostics.py",
+        "--expected",
+        "primary/revision_diagnostics.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.719,
+      "log": "final-replay-5.txt"
+    },
+    {
+      "command": [
+        "primary/evaluation/portable/run_native.py",
+        "--run-dir",
+        "primary/evaluation/controls/gold"
+      ],
+      "exit_code": 0,
+      "seconds": 0.078,
+      "log": "final-replay-6.txt"
+    }
+  ]
 }

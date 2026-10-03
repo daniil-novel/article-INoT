@@ -5,7 +5,7 @@ This directory contains the anonymous Research Track paper and its reviewer arti
 ## Deliverables
 
 - `paper/main.pdf`: submission-ready anonymous PDF.
-- `translation-ru/main.pdf`: expanded Russian reading version, preserving the September22 author-comment revisions; not the official submission.
+- `translation-ru/main.pdf`: expanded Russian reading version, preserving the September 22 author-comment revisions; not the official submission.
 - `paper/main.tex`, `paper/body.tex`, `paper/workflow.tex`, table inputs, and `paper/references.bib`: paper sources.
 - `artifact/fse2027-anonymous-analysis-artifact.zip`: anonymous supplementary archive.
 - `upload/`: allowlisted final upload copies and their SHA-256 checksums; build logs and local path metadata are excluded.
@@ -42,24 +42,24 @@ python reproduce_full_analysis.py
 python reproduce_source_sensitivity.py
 ```
 
-## Submission state
+## Revision audit, 3 October 2026
 
-The PDF is 15 pages in total. The conclusion ends on page 13, Data Availability spans pages 13--14, and references occupy pages 14--15, so it remains below the 18-page content and 4-page reference limits. The review class, anonymity switch, embedded fonts, detailed AI-use disclosure, and post-conclusion Data Availability statement are present. The archive has an internal SHA-256 manifest and is scanned for author names, local user paths, and institution names during every build. Benchmark code examples are allowed to contain synthetic addresses and generic filesystem literals.
+Seven independent AI review contexts covered methods, numerical results, novelty, journal-level scope, academic English/reference integrity, reproducibility, and Russian concepts. These are internal reviews, not human native-speaker or external peer reviews. Initial reports and bounded follow-up verifications are in `review/2026-10-03/`; the 17-part synthesis is `review/FINAL_REVIEW.md`.
 
-Before uploading, the authors must complete the HotCRP-only items: freeze the author list and order, enter conflicts, confirm no simultaneous refereed submission, and check the live deadline countdown.
+The English revision contains 16 pages: content ends on page 14; exempt Data Availability and references begin on page 15; references span two pages. The expanded Russian reading version contains 27 pages and preserves the September 22 author-comment explanations. Both PDF builds completed without unresolved references or overfull boxes; all pages were rendered and visually checked, fonts are embedded, and author metadata is empty. All eight quantitative table sequences match after decimal normalization. Exact bytes are recorded in `review/FINAL_VALIDATION.json` and `upload/SHA256SUMS.txt`.
 
-## Final audit, 30 September 2026
+New analyses use retained data only: four retrospective simultaneous precision intervals, first-session/later-session diagnostics, and absolute resource-scale differences. They are marked retrospective and do not replace the original Holm tests. The manuscript corrects actual execution dates, cost-subtotal scope, local prespecification versus external preregistration, and prior negative multi-agent results. No new model generations, independent-family experiment, equal-compute comparison or mechanistic ablation was conducted.
 
-Five independent AI review contexts covered methodology, novelty, numerical consistency, FSE compliance, and academic English. Their reports and the resolution ledger are in `review/`; the final gate is `review/FINAL_REVIEW.md`. The English PDF remains 15 pages and the expanded Russian reading version 26 pages. The supplement now contains 325 files, including the frozen SCC controller, upstream prompts/license, adapter and dispatcher. All principal numerical replays and 16 source-component bootstrap distributions passed. `review/FINAL_VALIDATION.json` records the release checks and exact file hashes.
+The revised artifact contains 337 files, including 336 manifested payloads. Its native environment recipe now uses archive-local inputs, the complete historical freeze, exact selected evaluator dataset and strict NLTK hash verification. The retained historical Dockerfile remains evidence. The reconstructed recipe is not a byte-identical historical-image export; a fresh build/native rerun remains unverified because the Docker engine was unavailable. The replay helper prints a command by default and requires `--execute` to launch isolated generated-code tests.
 
-The scientific claim remains specific to the tested fixed-context workflows. Acceptance is not guaranteed. Author details, conflicts, originality/simultaneous-review declarations and final author approval must be completed before external submission.
+The final archive passed the table checkpoint, full primary/mini/SCC statistical replay, all 16 source-component draw distributions, retrospective-diagnostic checkpoint and verification of all 14,961 primary candidate-to-report records/control hashes. Run the new diagnostic after extracting:
 
-The concurrent GitHub commit `149f5f8c` was integrated without discarding its author-comment revisions. The Russian version now has extra definitions and formula explanations, so exact structural parity with English is not intended; the numerical sequences in all seven original experimental tables match (`review/RU_NUMERICAL_PARITY.json`). The official English PDF and supplementary upload bytes are unchanged by this integration.
+```text
+python revision_diagnostics.py --expected primary/revision_diagnostics.json
+```
 
-## Anonymous reviewer access, 2 October 2026
+## Public package and live submission
 
-The replication package is published at <https://anonymous.4open.science/r/role-calls-replication-2026/>. The mirror freezes commit `5498b5378d4167083eeca40fe0c930b322af362e` of the artifact-only branch `codex/fse2027-review-artifact`, with automatic updates disabled. It contains the 325 extracted supplement files plus the original archive. The mirror expires on 30 September 2027 and then removes the material without redirecting reviewers to the author's repository.
+Reviewer materials are available at <https://anonymous.4open.science/r/role-calls-replication-2026/>. The source is the artifact-only branch `codex/fse2027-review-artifact`; auto-update is disabled, and expiry on 30 September 2027 removes content without redirecting to the author repository. The current frozen commit and access-verification boundary are recorded in `review/FINAL_VALIDATION.json`.
 
-The live HotCRP form has only a paper upload field, so the English PDF and Russian reading version now include this link in Data Availability. Both PDFs were rebuilt and visually checked; the scientific content and supplement archive are unchanged. See `review/ANONYMOUS_ACCESS_2026-10-02.md` for the access checks and their limitations.
-
-The sole author's ORCID was registered, its email was verified, and the identifier was saved in HotCRP. After explicit author approval, submission **#2886** was finalized on 2 October 2026. HotCRP confirms that the paper is **ready for review** and no further action is required. The uploaded PDF checksum prefix remains `1c37bf6a`; see `review/SUBMISSION_STATUS_2026-10-02.md`.
+HotCRP paper **#2886** was finalized after author approval on 2 October 2026 with the original 15-page PDF (checksum prefix `1c37bf6a`). A newly built local PDF or GitHub publication does not replace that submission. A materially revised PDF/abstract requires concrete author approval and live confirmation. The release record distinguishes local revision, public artifact and HotCRP state.
