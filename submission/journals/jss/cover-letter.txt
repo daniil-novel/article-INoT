@@ -1,0 +1,24 @@
+21 October 2026
+
+Editors
+Journal of Systems and Software
+
+Dear Editors,
+
+Please consider "Configuring LLM Code-Generation Workflows: Role Labels, Call Structure, and Resource Use" as a regular research article for the Journal of Systems and Software.
+
+The paper examines an engineering choice in LLM-based software development: whether analysis, implementation, and review should be described inside one prompt or distributed across separate model calls. Role-based workflows often change labels, responsibilities, feedback, and computation together. Our crossed study instead holds the requested operations and full supplied task context fixed while varying role labels and one versus three fresh calls. A direct solver provides an additional baseline.
+
+The primary experiment assigns 15,000 generations across 1,000 BigCodeBench tasks and retains 14,961 completed candidates. On complete eligible task pairs, three-call workflows reduce executable success by 2.13-4.17 percentage points and increase API-equivalent valuation by factors of 2.67-2.78 on complete resource pairs. Neither role-label null is rejected after Holm correction; the manuscript explicitly avoids an equivalence claim. An earlier-model study and an adapted Self-Collaboration comparison are reported with their distinct task histories, denominators, and missingness limitations.
+
+The contribution fits the journal's interest in artificial intelligence applied to software engineering, evaluation of development resources, empirical methods, and evidence-backed negative results. It supplies a controlled workflow configuration comparison and practical baseline guidance. It does not claim evaluation of independent agents, repository-scale development, a matched-compute design, or the full Hybrid-INoT prototype.
+
+The manuscript includes an explicit data-availability statement, a version-pinned replication-archive citation, detailed exclusions and unverified reproduction boundaries, and disclosure of generative AI assistance in both the research workflow and manuscript preparation. All quantitative tables from the source study are retained. The source files and separate highlights accompany this version.
+
+Thank you for considering the manuscript.
+
+Sincerely,
+Daniil Privezentsev
+National Research University Higher School of Economics
+20 Myasnitskaya Ulitsa, Moscow 101000, Russia
+daprivezentsev@edu.hse.ru

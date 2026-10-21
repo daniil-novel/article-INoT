@@ -1,0 +1,36 @@
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\tikzset{every picture/.append style={font=\fontsize{8.5}{10}\selectfont\hyphenpenalty10000}}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\biboptions{round,authoryear}
+\providecommand{\Description}[1]{}
+\journal{Journal of Systems and Software}
+\hypersetup{pdftitle={Configuring LLM Code-Generation Workflows: Role Labels, Call Structure, and Resource Use},pdfauthor={Daniil Privezentsev},pdfsubject={Controlled empirical evaluation of LLM code-generation workflow configuration}}
+\begin{document}
+\begin{frontmatter}
+\title{Configuring LLM Code-Generation Workflows: Role Labels, Call Structure, and Resource Use}
+\author[hse]{Daniil Privezentsev\corref{cor1}}
+\ead{daprivezentsev@edu.hse.ru}
+\cortext[cor1]{Corresponding author.}
+\affiliation[hse]{organization={National Research University Higher School of Economics},addressline={20 Myasnitskaya Ulitsa},city={Moscow},postcode={101000},country={Russia}}
+\begin{abstract}
+Designing a code-generation pipeline requires decisions about both the responsibilities described in prompts and the boundaries between model calls. Existing workflows often change these decisions together, making their engineering value difficult to assess. We isolate role labels and call structure in a crossed study of neutral versus planner--implementer--reviewer labels and one versus three fresh calls, keeping operation sentences and full supplied context fixed. A direct solver supplies a simpler baseline. GPT-5.6 Luna received 15,000 assignments across 1,000 BigCodeBench tasks with three requests per condition; 14,961 candidates completed, and 985 tasks passed the evaluator control gate. Role labels change paired executable success by $-0.75$ percentage points in one call and $+1.35$ points in three calls. Neither label null is rejected after Holm correction, which does not establish equivalence. Three-call workflows reduce success by 4.17 and 2.13 points under neutral and role labels, respectively, while API-equivalent valuation rises by factors of 2.67 and 2.78 on complete resource pairs. The negative quality direction persists in the source-dependence audit and 800 newly sampled task IDs. An earlier-model study corroborates directions on reused task IDs. An adapted Self-Collaboration comparison shows lower success on observed pairs, but missingness bounds allow either population-level direction. For these full-context, function-generation workflows without executable feedback, call structure is a consequential configuration choice; role names alone provide no established quality gain. The evidence supports direct and single-call staged baselines before adopting a longer pipeline.
+\end{abstract}
+\begin{keyword}
+Code generation \sep Large language models \sep Workflow configuration \sep Empirical software engineering \sep Executable evaluation \sep Resource accounting
+\end{keyword}
+\end{frontmatter}
+\input{body}
+\bibliographystyle{elsarticle-harv}
+\bibliography{references}
+\end{document}
