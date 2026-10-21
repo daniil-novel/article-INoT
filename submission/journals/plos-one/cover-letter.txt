@@ -1,0 +1,11 @@
+Dear Editors of PLOS One,
+
+Please consider “Role labels and repeated calls in large language model code generation: a task-paired experimental study” as a Research Article. The study separates role labels from repeated model calls in a controlled, task-paired evaluation of executable code generation. Its contribution is the unchanged-operation factorial design and explicit accounting of task dependence, missing outcomes and measured resources.
+
+The primary experiment comprises 1,000 programming tasks and 15,000 assigned generations. Repeated calls lower executable success on observed eligible pairs and increase API-equivalent resource valuation. Role-label tests do not reject after multiple-comparison correction; the manuscript does not interpret those results as equivalence. We report the external-controller comparison conditionally because missing outcomes permit either full-population ordering.
+
+The work fits PLOS One's evaluation of technically sound research irrespective of the direction of results. Protocols, assignment outcomes, primary programs, evaluator records and analysis software are supplied in a frozen replication archive. The data statement identifies omitted materials and the unverified status of a fresh native rebuild. The manuscript documents substantive AI assistance and author responsibility.
+
+Corresponding author: Daniil Privezentsev
+National Research University Higher School of Economics, 20 Myasnitskaya Ulitsa, Moscow 101000, Russia
+daprivezentsev@edu.hse.ru

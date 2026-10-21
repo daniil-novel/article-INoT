@@ -1,0 +1,5 @@
+# Adaptation from Hybrid-INoT research to PLOS One
+
+The canonical source is the expanded Role Labels or Extra Calls study at commit 008b730a905277079710092ecf3881770eb100fc. It evaluates the staged core that motivated Hybrid-INoT; it is not the historical July architecture pilot. No data from the separate Swarm-INoT study were introduced.
+
+The title and abstract now emphasize a testable intervention and paired empirical evidence. The introduction explains executable correctness for readers outside the field. Materials and methods absorb the workflow and experimental design without dropping operational details. Results retain all nine tables, controls, missingness bounds and earlier-model/controller qualifications. The scientific claims are bounded in the same way as the source. The PLOS layout is implemented in one source file, with a separate figure and Vancouver references. Source-conference front matter and future promises tied to double-anonymous review were removed. The data archive's historical filename is retained as provenance. Funding, conflicts and submission eligibility remain author-confirmed items rather than fabricated declarations.

@@ -1,0 +1,80 @@
+{
+  "source_commit": "008b730a905277079710092ecf3881770eb100fc",
+  "archive_sha256": "693c088ac83b9f78ea48f786393cd8b7fddea4a77206a6e6d386fbd2626b9d71",
+  "manifest_files_checked": 336,
+  "hash_failures": [],
+  "table_comparisons": [
+    {
+      "file": "direct_contrasts.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "primary_contrasts.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "primary_quality.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "primary_resources.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "related_comparison.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "scc_comparison.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "secondary_model.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "subgroup_sensitivity.tex",
+      "normalized_match": true
+    },
+    {
+      "file": "temporal_diagnostics.tex",
+      "normalized_match": true
+    }
+  ],
+  "primary_assignments": 15000,
+  "candidate_execution": false,
+  "numerical_source_program_execution": false,
+  "fresh_native_rebuild_verified": false,
+  "public_download_sha256": "693c088ac83b9f78ea48f786393cd8b7fddea4a77206a6e6d386fbd2626b9d71",
+  "public_download_bytes": 18935120,
+  "independent_custom_arithmetic_checks": [
+    {
+      "a": "single_roles",
+      "b": "single_neutral",
+      "n": 982,
+      "difference_pp": -0.7467752885268161,
+      "matches_published_rounding": true
+    },
+    {
+      "a": "multi_roles",
+      "b": "multi_neutral",
+      "n": 964,
+      "difference_pp": 1.3485477178423237,
+      "matches_published_rounding": true
+    },
+    {
+      "a": "multi_neutral",
+      "b": "single_neutral",
+      "n": 968,
+      "difference_pp": -4.166666666666667,
+      "matches_published_rounding": true
+    },
+    {
+      "a": "multi_roles",
+      "b": "single_roles",
+      "n": 971,
+      "difference_pp": -2.1283899759697906,
+      "matches_published_rounding": true
+    }
+  ]
+}
