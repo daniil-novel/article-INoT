@@ -1,0 +1,115 @@
+\documentclass[pdflatex,sn-nature]{scientificreports}
+\usepackage{amsmath,amssymb,booktabs,tabularx,placeins}
+\renewcommand{\thetable}{S\arabic{table}}
+\begin{document}
+\title{Supplementary information for Repeated full-context calls lowered executable success in a controlled study of language model code generation}
+\author*[1]{\fnm{Daniil}\sur{Privezentsev}}\email{daprivezentsev@edu.hse.ru}
+\affil*[1]{\orgname{National Research University Higher School of Economics}, \orgaddress{\street{20 Myasnitskaya Ulitsa}, \city{Moscow}, \postcode{101000}, \country{Russia}}}
+\maketitle
+\section*{Supplementary comparisons and sensitivity analyses}
+This file preserves the source manuscript's closest-workflow comparison, execution-phase diagnostics, exploratory direct-solver contrasts, old/new task sensitivity and earlier-model corroboration. These tables do not expand the prespecified testing family. Their estimands and uncertainty are described in the main article.
+
+\begin{table}[!ht]
+\caption{Closest code-generation workflow studies. Execution feedback means runtime test or trace outcomes returned during generation. Resource reporting includes token or call accounting. SCC feedback varies by configuration: its published compiler variant and our adapted author controller execute checks. SCC also studies role removal; our factorial intervention keeps operation sentences unchanged.}
+\label{tab:related-designs}
+\centering\scriptsize
+\begin{tabularx}{\linewidth}{@{}lXccc@{}}
+\toprule
+Work & Primary variation & \shortstack{Execution\\feedback} & Resources & \shortstack{Direct\\baseline}\\
+\midrule
+SCC~\cite{dong2023selfcollaboration} & Role configurations and turns & Varies & Yes & Yes\\
+MapCoder~\cite{islam2024mapcoder} & Four-role repair pipeline & Yes & Yes & Yes\\
+AdaCoder~\cite{zhu2026adacoder} & Adaptive planning across models & Yes & Yes & Yes\\
+PairCoder~\cite{chen2026paircoder} & Two-agent switching across models & No & Yes & Yes\\
+OneFlow~\cite{xu2026oneflow} & Multi- versus single-model execution & Varies & Yes & Yes\\
+DATS~\cite{hong2026dats} & Five task-adaptive topologies & Varies & Yes & Yes\\
+This work & Labels $\times$ one/three calls & No & Yes & Yes\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\FloatBarrier
+
+\begin{table}[!ht]
+\caption{Retrospective execution-phase quality differences (percentage points). Intervals are descriptive task-bootstrap 95\% intervals.}
+\label{tab:temporal-diagnostics}
+\centering\small
+\begin{tabular}{@{}llrrl@{}}\toprule
+Contrast & Phase & Tasks & Repeat pairs & Difference [95\% interval]\\
+\midrule
+SR--SN & first & 740 & 1096 & $-1.42\;[-3.54, +0.74]$\\
+SR--SN & later & 936 & 1855 & $-0.66\;[-2.23, +0.91]$\\
+MR--MN & first & 736 & 1090 & $+0.79\;[-1.40, +2.99]$\\
+MR--MN & later & 934 & 1844 & $+1.41\;[-0.11, +2.93]$\\
+MN--SN & first & 737 & 1092 & $-4.27\;[-6.56, -1.99]$\\
+MN--SN & later & 934 & 1846 & $-4.46\;[-6.37, -2.61]$\\
+MR--SR & first & 738 & 1092 & $-2.06\;[-4.27, +0.14]$\\
+MR--SR & later & 934 & 1849 & $-2.37\;[-4.00, -0.77]$\\
+\bottomrule\end{tabular}
+\par\smallskip\noindent A task contributes the mean of its observed matching repeats in that phase. Task sets overlap; these estimates are not independent replications and do not change the primary Holm family.
+\end{table}
+
+\FloatBarrier
+
+\begin{table}[!ht]
+\caption{Exploratory direct-solver quality contrasts. Differences and intervals are percentage points; positive values favor D.}
+\label{tab:direct-contrasts}
+\centering\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Contrast & Tasks & Difference & 95\% interval\\
+\midrule
+D -- SN & 980 & $+0.27$ & $[-0.88, 1.43]$\\
+D -- SR & 979 & $+0.95$ & $[-0.17, 2.11]$\\
+D -- MN & 966 & $+4.59$ & $[2.97, 6.18]$\\
+D -- MR & 970 & $+3.20$ & $[1.82, 4.64]$\\
+\bottomrule
+\end{tabular}
+\par\smallskip\noindent Intervals resample tasks. These post hoc contrasts are outside the four-test Holm family and support estimation, not a new confirmatory family.
+\end{table}
+
+\FloatBarrier
+
+\begin{table}[!ht]
+\caption{Old/new task sensitivity for the four primary contrasts. Values are percentage points with task-bootstrap 95\% intervals.}
+\label{tab:subgroup-sensitivity}
+\centering\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Contrast & Subset & Tasks & Difference [95\% interval]\\
+\midrule
+SR--SN & reused 200 & 194 & $-1.03\;[-3.78,1.72]$\\
+       & new 800    & 788 & $-0.68\;[-2.07,0.72]$\\
+MR--MN & reused 200 & 190 & $+1.93\;[-0.70,4.56]$\\
+       & new 800    & 774 & $+1.21\;[-0.13,2.58]$\\
+MN--SN & reused 200 & 192 & $-4.17\;[-7.64,-0.87]$\\
+       & new 800    & 776 & $-4.17\;[-5.84,-2.58]$\\
+MR--SR & reused 200 & 190 & $-1.23\;[-3.68,1.23]$\\
+       & new 800    & 781 & $-2.35\;[-3.88,-0.81]$\\
+\bottomrule
+\end{tabular}
+\par\smallskip\noindent Every response was generated afresh. ``Reused'' means that the task ID had appeared in the earlier 200-task study; it is not reused output.
+\end{table}
+
+\FloatBarrier
+
+\begin{table}[!ht]
+\caption{Earlier GPT-5.4-mini corroboration on the 200 reused task IDs. Differences and descriptive intervals are percentage points; $n$ counts complete task pairs. The four exact McNemar tests form a Holm family.}
+\label{tab:mini-validation}
+\centering\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Contrast & $n$ & $\Delta$ & 95\% interval & Holm $p$\\
+\midrule
+SR--SN & 191 & $-1.05$ & $[-4.71,+2.62]$ & 1.000\\
+MR--MN & 193 & $+1.04$ & $[-3.11,+5.70]$ & 1.000\\
+MN--SN & 191 & $-4.71$ & $[-9.42,0.00]$ & .313\\
+MR--SR & 193 & $-2.07$ & $[-6.22,+2.07]$ & 1.000\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
+
+\bibliography{references}
+\end{document}
