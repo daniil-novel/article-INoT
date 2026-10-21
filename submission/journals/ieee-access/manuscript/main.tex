@@ -1,0 +1,68 @@
+% Preserve TeX's primitive year register: the official class shadows it with a setter.
+\let\accessprimitiveyear\year
+\documentclass[nolineno]{ieeeaccess}
+\let\year\accessprimitiveyear
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx,textcomp}
+\usepackage{booktabs,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+% Match the official spot ink CMYK values when TikZ loads xcolor.
+\definecolor{accessblue}{cmyk}{1,0.3,0,0.2}
+\definecolor{black}{cmyk}{0,0,0,1}
+\definecolor{grey}{cmyk}{0,0,0,0.1}
+\definecolor{greycolor}{cmyk}{0,0,0,0.8}
+\usepackage{etoolbox}
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+\AtBeginDocument{\color{black}}
+\hypersetup{pdftitle={Quality and Resource Costs of Role Labels and Call Structure in Large Language Model Code Generation},pdfauthor={Daniil Privezentsev},pdfsubject={IEEE Access Research Article review copy}}
+\newcommand{\aieditnote}{\par\noindent{\footnotesize\textit{Text preparation with artificial intelligence: see Acknowledgment and~\cite{openaicodex2026,openaigpt62026}.}}\par\smallskip}
+% Keep the official class unchanged; remove publisher-assigned fields from this review copy.
+\makeatletter
+\input{t1pcr.fd}
+\DeclareFontShape{T1}{pcr}{n}{n}{<->ssub*pcr/m/n}{}
+% Prevent a minimal biography from creating a stretched blank area.
+\patchcmd{\IEEEbiographynophoto}{\vskip 4\baselineskip plus 1fil minus 0\baselineskip}{\vskip 4\baselineskip}{}{\errmessage{Biography spacing adjustment failed}}
+\patchcmd{\@maketitle}{Digital Object Identifier\space\@doi}{}{}{\errmessage{IEEE Access DOI suppression failed}}
+\let\accessoriginaltitlepagestyle\ps@titlepage
+\def\ps@titlepage{\accessoriginaltitlepagestyle
+  \def\@oddfoot{{\footervolfont Manuscript prepared for review}\hfill{\footerpagefont\thepage}}
+  \let\@evenfoot\@oddfoot}
+\let\accessoriginalheadingstyle\ps@headings
+\def\ps@headings{\accessoriginalheadingstyle
+  \def\@oddfoot{{\footervolfont Manuscript prepared for review}\hfill{\footerpagefont\thepage}}
+  \let\@evenfoot\@oddfoot}
+\makeatother
+\begin{document}
+\history{Manuscript prepared for IEEE Access, October 2026.}
+\doi{}
+\title{Quality and Resource Costs of Role Labels and Call Structure in Large Language Model Code Generation}
+\author{\uppercase{Daniil Privezentsev}}
+\address{National Research University Higher School of Economics, 20 Myasnitskaya Ulitsa, Moscow 101000, Russia (e-mail: daprivezentsev@edu.hse.ru)}
+\corresp{Corresponding author: Daniil Privezentsev (e-mail: daprivezentsev@edu.hse.ru).}
+\tfootnote{Preparation of the front matter with artificial intelligence is disclosed in the Acknowledgment~\cite{openaicodex2026,openaigpt62026}.}
+\markboth{Privezentsev: Role Labels and Call Structure in Code Generation}{Privezentsev: Role Labels and Call Structure in Code Generation}
+\begin{abstract}
+Engineering a code-generation pipeline requires separating inexpensive prompt changes from additional model execution. We study role labels and call structure in a crossed design with unchanged operation sentences and complete supplied task context. The structured conditions request analysis, implementation, and review, using either neutral or planner--implementer--reviewer labels in one or three fresh calls; a direct solver provides a fifth condition. GPT-5.6 Luna receives 15,000 assignments on 1,000 BigCodeBench tasks with three requests per task and condition. Generation completes for 14,961 assignments, and 985 tasks pass reference controls. Role labels change paired executable success by -0.75 percentage points in one call and +1.35 points in three calls; neither null hypothesis is rejected after Holm correction, which does not establish equivalence. Three-call execution reduces paired success by 4.17 and 2.13 points under neutral and role labels, respectively, while token-based monetary valuation at disclosed reference rates increases by factors of 2.67 and 2.78 on complete resource pairs. The quality direction persists in 800 newly sampled task identifiers and a source-dependence audit. An earlier model study corroborates effect directions on 200 reused tasks. A separate adapted Self-Collaboration comparison has lower success on observed pairs and higher valuation, but infrastructure missingness prevents a full-population quality ranking. These results establish a bounded engineering case for evaluating direct and single-call staged baselines before adding full-context calls.
+\end{abstract}
+\begin{keywords}
+Automatic programming, code generation, executable evaluation, factorial experiment, large language models, resource accounting, role prompting.
+\end{keywords}
+\titlepgskip=-15pt
+\maketitle
+\pagestyle{headings}
+\input{body}
+% Balance the final reference columns in this reviewed version.
+\IEEEtriggeratref{27}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\raggedbottom
+\phantomsection
+\begin{IEEEbiographynophoto}{Daniil Privezentsev}
+is with the National Research University Higher School of Economics, 20 Myasnitskaya Ulitsa, Moscow 101000, Russia. His research concerns the evaluation of large language model workflows for code generation.
+\aieditnote
+\end{IEEEbiographynophoto}
+\EOD
+\end{document}

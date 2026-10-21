@@ -1,0 +1,20 @@
+Dear Editors of IEEE Access,
+
+Please consider the manuscript “Quality and Resource Costs of Role Labels and Call Structure in Large Language Model Code Generation” as a Research Article.
+
+The paper addresses a practical engineering decision: whether naming stages or introducing additional model calls changes executable success enough to justify the measured resource use. Existing code-generation workflows often combine these interventions with changes in operations, feedback, or tools. Our factorial design preserves the operation sentences and complete task context while crossing neutral versus role labels with one versus three fresh calls. A direct solver provides a simpler baseline.
+
+The primary study allocates 15,000 generations across 1,000 BigCodeBench tasks and five conditions, with three fresh requests per task and condition. Tasks, rather than individual repeated requests, are the paired analysis units. Neither role-label null hypothesis is rejected after Holm correction; equivalence is not established. Three full-context calls reduce success by 2.13–4.17 percentage points on complete eligible task pairs and increase API-equivalent valuation by factors of 2.67–2.78 on complete resource pairs. Assignment-denominator bounds, a source-dependence audit, sampling-history sensitivity, and execution-phase diagnostics make the interpretation auditable.
+
+The contribution is the controlled separation of labels and call structure, not the first unfavorable quality–resource observation for a multi-stage workflow. The article also reports an earlier model study and a separate adapted Self-Collaboration comparison. Substantial infrastructure missingness in the latter allows either sign in full-population quality bounds, and the manuscript explicitly preserves that restriction.
+
+For IEEE Access readers, the engineering implication is a concrete baseline evaluation: measure a direct request and a single-call staged prompt before adding repeated full-context execution. The findings concern fixed-context function generation under the tested model and protocol; they do not establish a generic penalty for independent agents, tool-using systems, repository development, or equal-compute alternatives.
+
+The manuscript includes an explicit artificial-intelligence-use disclosure and a commit-pinned replication-archive link. The source package and compiled PDF use the official IEEE Access template.
+
+Thank you for considering the manuscript.
+
+Daniil Privezentsev
+National Research University Higher School of Economics
+20 Myasnitskaya Ulitsa, Moscow 101000, Russia
+daprivezentsev@edu.hse.ru
