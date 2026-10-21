@@ -1,0 +1,41 @@
+\documentclass[preprint,12pt,nopreprintline]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,booktabs,tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\tikzset{every picture/.style={font=\footnotesize}}
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\setlength{\emergencystretch}{2em}
+\providecommand{\Description}[1]{}
+\journal{Information and Software Technology}
+
+\begin{document}
+\begin{frontmatter}
+\title{Separating Role Labels from Call Structure in LLM Code Generation: An Empirical Quality--Resource Study}
+\author[hse]{Daniil Privezentsev\corref{cor1}}
+\ead{daprivezentsev@edu.hse.ru}
+\cortext[cor1]{Corresponding author.}
+\address[hse]{National Research University Higher School of Economics, 20 Myasnitskaya Ulitsa, Moscow 101000, Russia}
+
+\begin{abstract}
+\textbf{Context:} Software teams choosing LLM code-generation workflows need evidence on executable quality and resource use. Named roles and extra calls are often introduced together, obscuring their separate effects.
+
+\textbf{Objectives:} We distinguish lexical role labels from one- versus three-call execution while keeping requested operations and full task context unchanged.
+
+\textbf{Methods:} A crossed experiment compares neutral and planner--implementer--reviewer labels in one or three calls, alongside a direct solver. GPT-5.6 Luna receives three fresh requests per condition on 1,000 BigCodeBench tasks: 15,000 assignments, 14,961 completed generations, and 985 control-eligible tasks. Task-paired analyses separate quality, provider-observed resources, and missingness. An earlier GPT-5.4-mini study and an adapted Self-Collaboration comparison provide bounded corroboration.
+
+\textbf{Results:} Role-label differences are $-0.75$ percentage points in one call and $+1.35$ points in three calls; neither null is rejected after Holm correction. This does not establish equivalence. Three calls reduce paired success by 4.17 and 2.13 points under neutral and role labels, respectively, while API-equivalent valuation increases by factors of 2.67 and 2.78 on complete resource pairs. The topology direction persists in the 800 newly sampled task IDs and the source-dependence audit. Adapted Self-Collaboration has lower success on observed pairs and approximately three times the valuation, but its missing-outcome bounds permit either quality ranking.
+
+\textbf{Conclusion:} For these full-context function-generation workflows, additional calls require empirical justification. Direct and single-call staged prompts provide useful low-resource baselines; neither a general multi-agent penalty nor a universal deployment optimum follows.
+\end{abstract}
+\begin{keyword}
+LLM code generation \sep empirical software engineering \sep role prompting \sep factorial experiment \sep executable evaluation \sep resource accounting
+\end{keyword}
+\end{frontmatter}
+\input{body}
+\bibliographystyle{elsarticle-num}
+\bibliography{references}
+\end{document}

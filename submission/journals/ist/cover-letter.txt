@@ -1,0 +1,19 @@
+21 October 2026
+
+Dear Editors of Information and Software Technology,
+
+Please consider the Research Paper entitled “Separating Role Labels from Call Structure in LLM Code Generation: An Empirical Quality–Resource Study.”
+
+The manuscript addresses a practical software-engineering decision: when a code-generation workflow changes both role instructions and the number of calls, which intervention is supported by executable-quality and resource evidence? A crossed experiment holds the operation sentences and supplied task context fixed while varying neutral versus planner–implementer–reviewer labels and one versus three calls. A direct solver provides a simpler baseline.
+
+The primary allocation covers 1,000 BigCodeBench tasks with three fresh requests per condition; it does not treat 15,000 assignments as independent tasks. The study reports task-paired outcomes, external native tests with controls, provider-counter accounting, separate quality and resource denominators, source-dependence diagnostics, and extreme missing-outcome bounds. Neither role-label null is rejected after Holm correction, which does not establish equivalence. The three-call conditions have lower success on complete eligible quality pairs and higher API-equivalent valuation on complete resource pairs. A separate adapted Self-Collaboration comparison retains the important limit that its unavailable outcomes prevent a full-population quality ranking.
+
+The IST version develops the implications for evidence-based workflow selection and distinguishes this restricted intervention from complete multi-agent frameworks, including consensus planning. It provides the original nine tables and workflow, a structured abstract, a data-availability statement and frozen-archive citation, and separate disclosure of AI use in the research and manuscript preparation. It contains no new experiments or invented findings.
+
+The contribution is a controlled empirical account of a software-development workflow choice. Its scope is fixed-context function generation; it does not claim an improvement in developer productivity, a universal multi-agent penalty, independent model-family replication, or a production cost optimum.
+
+Correspondence:
+Daniil Privezentsev
+National Research University Higher School of Economics
+20 Myasnitskaya Ulitsa, Moscow 101000, Russia
+daprivezentsev@edu.hse.ru
