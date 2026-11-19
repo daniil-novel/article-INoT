@@ -1,0 +1,278 @@
+{
+  "start_utc": "2026-11-19T23:08:37.387489+00:00",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "ollama": {
+    "version": "0.40.16"
+  },
+  "model": {
+    "name": "llama3.2:3b",
+    "model": "llama3.2:3b",
+    "modified_at": "2026-07-11T11:28:04.7770452+03:00",
+    "size": 2019393189,
+    "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "llama",
+      "families": [
+        "llama"
+      ],
+      "parameter_size": "3.2B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 131072,
+      "embedding_length": 3072,
+      "runner": "ggml"
+    },
+    "capabilities": [
+      "completion",
+      "tools"
+    ]
+  },
+  "sha256": {
+    "protocol.json": "e4088d55bac8193ea336080245c13608cc842886e8129e38aa8c0fd8b3ae5b86",
+    "tasks.json": "2200f2269aa7aa22b94e88ef2880d0c6bfb4fc877f08615580b94cd86428c029",
+    "run.py": "a39035affced2d0ad35a1aeffefb777fe948160b77bcda3e07f7611a43448ef5"
+  },
+  "schedule": [
+    [
+      "page_offset",
+      "MAS"
+    ],
+    [
+      "page_offset",
+      "RouteMode"
+    ],
+    [
+      "page_offset",
+      "MN"
+    ],
+    [
+      "page_offset",
+      "SN"
+    ],
+    [
+      "page_offset",
+      "SR"
+    ],
+    [
+      "page_count",
+      "RouteMode"
+    ],
+    [
+      "page_count",
+      "MN"
+    ],
+    [
+      "page_count",
+      "SN"
+    ],
+    [
+      "page_count",
+      "SR"
+    ],
+    [
+      "page_count",
+      "MAS"
+    ],
+    [
+      "interval_overlap",
+      "MN"
+    ],
+    [
+      "interval_overlap",
+      "SN"
+    ],
+    [
+      "interval_overlap",
+      "SR"
+    ],
+    [
+      "interval_overlap",
+      "MAS"
+    ],
+    [
+      "interval_overlap",
+      "RouteMode"
+    ],
+    [
+      "signed_minutes",
+      "SN"
+    ],
+    [
+      "signed_minutes",
+      "SR"
+    ],
+    [
+      "signed_minutes",
+      "MAS"
+    ],
+    [
+      "signed_minutes",
+      "RouteMode"
+    ],
+    [
+      "signed_minutes",
+      "MN"
+    ],
+    [
+      "free_allowance",
+      "SR"
+    ],
+    [
+      "free_allowance",
+      "MAS"
+    ],
+    [
+      "free_allowance",
+      "RouteMode"
+    ],
+    [
+      "free_allowance",
+      "MN"
+    ],
+    [
+      "free_allowance",
+      "SN"
+    ],
+    [
+      "clip_index",
+      "MAS"
+    ],
+    [
+      "clip_index",
+      "RouteMode"
+    ],
+    [
+      "clip_index",
+      "MN"
+    ],
+    [
+      "clip_index",
+      "SN"
+    ],
+    [
+      "clip_index",
+      "SR"
+    ],
+    [
+      "next_slot",
+      "RouteMode"
+    ],
+    [
+      "next_slot",
+      "MN"
+    ],
+    [
+      "next_slot",
+      "SN"
+    ],
+    [
+      "next_slot",
+      "SR"
+    ],
+    [
+      "next_slot",
+      "MAS"
+    ],
+    [
+      "rotate_bin",
+      "MN"
+    ],
+    [
+      "rotate_bin",
+      "SN"
+    ],
+    [
+      "rotate_bin",
+      "SR"
+    ],
+    [
+      "rotate_bin",
+      "MAS"
+    ],
+    [
+      "rotate_bin",
+      "RouteMode"
+    ],
+    [
+      "reserve_packs",
+      "SN"
+    ],
+    [
+      "reserve_packs",
+      "SR"
+    ],
+    [
+      "reserve_packs",
+      "MAS"
+    ],
+    [
+      "reserve_packs",
+      "RouteMode"
+    ],
+    [
+      "reserve_packs",
+      "MN"
+    ],
+    [
+      "range_high",
+      "SR"
+    ],
+    [
+      "range_high",
+      "MAS"
+    ],
+    [
+      "range_high",
+      "RouteMode"
+    ],
+    [
+      "range_high",
+      "MN"
+    ],
+    [
+      "range_high",
+      "SN"
+    ],
+    [
+      "billing_blocks",
+      "MAS"
+    ],
+    [
+      "billing_blocks",
+      "RouteMode"
+    ],
+    [
+      "billing_blocks",
+      "MN"
+    ],
+    [
+      "billing_blocks",
+      "SN"
+    ],
+    [
+      "billing_blocks",
+      "SR"
+    ],
+    [
+      "retry_delay",
+      "RouteMode"
+    ],
+    [
+      "retry_delay",
+      "MN"
+    ],
+    [
+      "retry_delay",
+      "SN"
+    ],
+    [
+      "retry_delay",
+      "SR"
+    ],
+    [
+      "retry_delay",
+      "MAS"
+    ]
+  ]
+}

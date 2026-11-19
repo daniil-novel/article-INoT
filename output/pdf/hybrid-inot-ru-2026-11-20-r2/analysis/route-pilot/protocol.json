@@ -1,0 +1,34 @@
+{
+  "study": "Prospective paired RouteMode pilot",
+  "dataset": "12 newly specified Python integer utilities; the same 12 specifications and grading grids in every arm",
+  "model": "llama3.2:3b",
+  "engine": "Ollama, local HTTP, no tools",
+  "arms": [
+    "SR",
+    "MAS",
+    "RouteMode",
+    "SN",
+    "MN"
+  ],
+  "separate_session_task_ids": [
+    "page_offset",
+    "retry_delay",
+    "interval_overlap",
+    "reserve_packs",
+    "signed_minutes",
+    "free_allowance"
+  ],
+  "parallel_task_ids": [],
+  "assignment": "Six fixed task IDs are assigned a separate review session as an administrative condition; no classifier, labels or execution results used to dispatch. This flag is not a semantic difficulty score. In the RouteMode arm, dispatch to MAS if separate_session or parallel, otherwise SR. The pilot only exercises separate_session. Fixed arms ignore flags; report code correctness independently of satisfying the administrative preference.",
+  "order": "One generation per task and arm. Stateful warm server, separate stateless requests; deterministic shuffled task order and cyclic permutation of condition order, seed 38521. All three named arms run afresh. No model session imported between arms.",
+  "options": {
+    "temperature": 0,
+    "seed": 38521,
+    "num_ctx": 2048,
+    "num_predict": 112
+  },
+  "plan_limit": 40,
+  "warmup": "Before study send an unrelated request and discard it. No cache flush between measured procedures.",
+  "metrics": "A run passes if it satisfies output contract and every independent input/output case. Record wall seconds from before dispatch to after grading, locally reported prompt/output tokens and reference dollars (0.20/input Mtok, 1.20/output Mtok; no cache discount, equal rates across arms, no API invoice). All runs, including failures, enter averages.",
+  "interpretation": "Descriptive pilot, one replicate, no stopping on results, no threshold tuning or superiority claim; paired wins/losses for labels. Connection errors are recorded and not silently counted as functional failures."
+}

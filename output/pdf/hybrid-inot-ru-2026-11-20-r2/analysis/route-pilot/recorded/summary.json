@@ -1,0 +1,96 @@
+{
+  "per_arm": {
+    "SR": {
+      "n": 12,
+      "successes": 5,
+      "successes_allowing_guard_return": 5,
+      "calls": 12,
+      "input": 1955,
+      "output": 286,
+      "tokens_per_run": 186.75,
+      "reference_usd_per_1000_runs": 0.06118333333333334,
+      "total_reference_usd": 0.0007342000000000001,
+      "mean_wall_s": 0.6592194166660192,
+      "median_wall_s": 0.662971749999997
+    },
+    "MAS": {
+      "n": 12,
+      "successes": 5,
+      "successes_allowing_guard_return": 5,
+      "calls": 36,
+      "input": 5999,
+      "output": 876,
+      "tokens_per_run": 572.9166666666666,
+      "reference_usd_per_1000_runs": 0.18758333333333332,
+      "total_reference_usd": 0.002251,
+      "mean_wall_s": 1.93486093333316,
+      "median_wall_s": 1.9150917999995727
+    },
+    "RouteMode": {
+      "n": 12,
+      "successes": 5,
+      "successes_allowing_guard_return": 5,
+      "calls": 24,
+      "input": 4017,
+      "output": 602,
+      "tokens_per_run": 384.9166666666667,
+      "reference_usd_per_1000_runs": 0.12715,
+      "total_reference_usd": 0.0015258000000000001,
+      "mean_wall_s": 1.3546062500005671,
+      "median_wall_s": 1.0315970499996183
+    },
+    "SN": {
+      "n": 12,
+      "successes": 4,
+      "successes_allowing_guard_return": 5,
+      "calls": 12,
+      "input": 2015,
+      "output": 300,
+      "tokens_per_run": 192.91666666666666,
+      "reference_usd_per_1000_runs": 0.06358333333333334,
+      "total_reference_usd": 0.000763,
+      "mean_wall_s": 0.6808506166665514,
+      "median_wall_s": 0.6490365499994368
+    },
+    "MN": {
+      "n": 12,
+      "successes": 4,
+      "successes_allowing_guard_return": 4,
+      "calls": 36,
+      "input": 6300,
+      "output": 998,
+      "tokens_per_run": 608.1666666666666,
+      "reference_usd_per_1000_runs": 0.20479999999999998,
+      "total_reference_usd": 0.0024576,
+      "mean_wall_s": 2.199170358333504,
+      "median_wall_s": 2.0967285499991704
+    }
+  },
+  "paired": {
+    "RouteMode-SR": {
+      "wins": [],
+      "losses": [],
+      "ties": 12
+    },
+    "RouteMode-MAS": {
+      "wins": [],
+      "losses": [],
+      "ties": 12
+    },
+    "SR-SN": {
+      "wins": [
+        "rotate_bin"
+      ],
+      "losses": [],
+      "ties": 11
+    },
+    "MAS-MN": {
+      "wins": [
+        "rotate_bin"
+      ],
+      "losses": [],
+      "ties": 11
+    }
+  },
+  "record_sha256": "191874b9be0ddfb67f59756a64e96891f4fda3bc7e325224d44632c70d65a6f3"
+}
