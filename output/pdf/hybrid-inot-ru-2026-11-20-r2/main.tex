@@ -1,0 +1,74 @@
+\RequirePackage{float}
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{type1ec}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{graphicx,booktabs,tabularx,array}
+
+\usepackage{etoolbox,placeins,needspace}
+\usepackage{fvextra}
+\newcommand{\MultiCallRole}{\mbox{MultiCall-Role}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\len}[1]{\lvert#1\rvert_{\mathrm{tok}}}
+\theoremstyle{definition}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{definition}{Определение}
+\newtheorem{assumption}{Предположение}
+\renewcommand{\keywordname}{Ключевые слова}
+\newenvironment{formulakey}{\par\addvspace{.35\baselineskip}\noindent\begin{minipage}{\linewidth}
+\setlength{\abovedisplayskip}{4pt}\setlength{\belowdisplayskip}{4pt}}{\end{minipage}\par\addvspace{.3\baselineskip}}
+\newenvironment{symbols}{\par\nopagebreak\smallskip\small\noindent\textit{где:}\par\nopagebreak
+\begin{list}{}{\setlength{\leftmargin}{1.05em}\setlength{\rightmargin}{0pt}\setlength{\topsep}{2pt}\setlength{\itemsep}{1pt}\setlength{\parsep}{0pt}}}{\end{list}\smallskip}
+\newcommand{\sym}[2]{\item \(\displaystyle #1\) --- #2.}
+
+\makeatletter
+\patchcmd{\@maketitle}{Corresponding author(s). E-mail(s):}{Для корреспонденции:}{}{}
+% Compact front matter without reducing the abstract font.
+\patchcmd{\@maketitle}{\vskip21pt}{\vskip0pt}{}{}
+\patchcmd{\@maketitle}{\vskip20pt}{\vskip6pt}{}{}
+\patchcmd{\@maketitle}{\vskip20pt}{\vskip12pt}{}{}
+\patchcmd{\@maketitle}{\vskip24pt}{\vskip10pt}{}{}
+\patchcmd{\@maketitle}{\vskip24pt}{\vskip10pt}{}{}
+\patchcmd{\@maketitle}{\vskip36pt}{\vskip8pt}{}{}
+\renewcommand\abstracthead{\@startsection{section}{1}{\z@}{-12pt}{3pt}{\abstractheadfont}}
+\def\abstractfont{\reset@font\fontsize{9bp}{11bp}\selectfont\leftskip=12pt\rightskip=12pt\parfillskip=0pt plus 1fil}
+\makeatother
+\setlength{\emergencystretch}{2em}
+\begin{document}
+\selectlanguage{russian}
+\raggedbottom
+\allowdisplaybreaks[0]
+\title[Токенный бюджет при генерации кода]{Сравнение способов вызова языковых моделей для оптимизации токенного бюджета при генерации кода в~задачах программной инженерии}
+\author*[1]{\fnm{Даниил} \sur{Привезенцев}}\email{daprivezentsev@edu.hse.ru}
+\affil*[1]{\orgname{Национальный исследовательский университет <<Высшая школа экономики>>}, \orgaddress{\city{Москва}, \country{Россия}}}
+\abstract{Чтобы написать или исправить программу, большой языковой модели (LLM) передают запрос (описание того, что нужно сделать) и~контекст (исходный код, документацию и~другие необходимые сведения). При нескольких вызовах контекст может передаваться повторно, увеличивая расход входных токенов.
+
+В~статье сравниваются способы вызова одной и~той же LLM по расходу токенов, расчётной стоимости и~доле программ, успешно прошедших тесты. При \emph{интроспективном вызове} модели одним запросом поручают спланировать решение, написать и~проверить код. При \emph{последовательных вызовах} эти действия распределяют между тремя запросами. Каждый получает исходную задачу и~ответы предыдущих этапов, если они есть.
+
+Пять экспериментальных серий выполнены на BigCodeBench, наборе задач на написание функций Python с~автоматическими тестами. В~серии на 1\,000 задачах программной инженерии завершён 14\,961 прогон LLM GPT-5.6 Luna из 15\,000 запланированных. Для сравнения расхода использовали 986 задач этой серии, для которых были известны счётчики токенов всех трёх повторов в~обоих вариантах. Три последовательных вызова с~названиями ролей потребовали в~3,09 раза больше токенов, чем один интроспективный, а~их расчётная стоимость по тарифам API была выше в~2,78 раза.
+
+Для 971 задачи из этого набора известны также результаты тестирования всех трёх повторов каждого варианта. Из 2\,913 программ в~каждом варианте независимые тесты прошли 1\,562 (53,62\%) при одном интроспективном вызове и~1\,500 (51,49\%) при трёх последовательных вызовах с~названиями ролей. Разность составила 2,13 процентного пункта (95\%-й интервал от 0,82 до 3,43). На тех же задачах расчётная стоимость на одну программу, прошедшую тесты, при интроспективном вызове была ниже на 65,5\% с~учётом затрат на все прогоны. Тесты запускались отдельно после генерации итоговой программы.
+
+\input{pilot-abstract} Выведено достаточное условие экономии токенов с~учётом подготовки контекста, ответов модели и~возможных повторных вызовов для исправления кода.}
+
+\keywords{большие языковые модели, генерация кода, токенный бюджет, способы вызова, ролевые инструкции, расчётная стоимость}
+\newgeometry{top=18mm,bottom=20mm,left=38mm,right=38mm,headheight=0pt,headsep=0pt,footskip=20pt}
+\maketitle
+\restoregeometry
+\input{01-introduction}
+\input{02-method}
+\input{03-analysis}
+\input{04-evaluation}
+\input{05-results}
+\backmatter
+\selectlanguage{english}
+\renewcommand{\refname}{\foreignlanguage{russian}{Список литературы}}
+\input{references}
+\selectlanguage{russian}
+\input{appendix-prompts}
+\input{appendix-details}
+\end{document}

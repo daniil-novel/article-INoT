@@ -1,0 +1,30 @@
+\clearpage
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\newcommand{\PromptInput}[1]{\VerbatimInput[fontsize=\footnotesize,breaklines,breakanywhere=false]{#1}}
+
+\section{Инструкции на отдельных строках}\label{app:prompt-lines}
+
+Ниже приведены два архивных запроса для одной задачи, \texttt{BigCodeBench/735}. Оба содержат одинаковые формулировки действий, условие задачи и~исходный контекст. Различаются только метки перед действиями. Те же четыре варианта применялись к~каждой задаче этой серии. Перенос длинной строки на странице относится к~вёрстке.
+
+\medskip
+\noindent\textbf{Общая служебная инструкция для всех четырёх вариантов}
+\PromptInput{prompts/common-instructions.txt}
+
+\noindent\textbf{Запрос с~названиями ролей}
+\PromptInput{prompts/role-boundary.txt}
+
+\noindent\textbf{Запрос с~номерами этапов}
+\PromptInput{prompts/neutral-boundary.txt}
+
+\clearpage
+\section{Инструкции в~одном абзаце}\label{app:prompt-paragraph}
+
+Приведены ещё два архивных запроса для той же задачи. В~блоке действий между инструкциями стоят пробелы, после каждой метки~--- двоеточие. Общая служебная инструкция приведена в~приложении~\ref{app:prompt-lines}.
+
+\medskip
+\noindent\textbf{Запрос с~названиями ролей}
+\PromptInput{prompts/role-prose.txt}
+
+\noindent\textbf{Запрос с~номерами этапов}
+\PromptInput{prompts/neutral-prose.txt}
